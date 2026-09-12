@@ -1,0 +1,2 @@
+import{gp as e,pu as t}from"./InputText-NkPYi6qi.js";var n={root:`MenuSeparator-module__root`,thin:`MenuSeparator-module__thin`,thick:`MenuSeparator-module__thick`},r=({className:r,size:i=`thin`})=>e(`div`,{className:t(n.root,n[i],r)});export{r as t};
+//# sourceMappingURL=MenuSeparator-BBItlEkz.js.map
