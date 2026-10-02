@@ -218,7 +218,7 @@ test('An actual 1080p 1210-second local MP4 resolves losslessly through original
 });
 
 for (const alpn of ['http/1.1', 'h2']) {
-  test(`A ${alpn} declared original exceeding free disk budget reports disk space`, { timeout: 5000 }, async context => {
+  test(`A ${alpn} declared original exceeding free disk budget reports disk space`, { timeout: 5000, skip: !hasTlsFixture }, async context => {
     const directory = await createDirectory(context);
     const mocked = context.mock.method(fs, 'statfs', async () => ({ bavail: 64 * MIB + 16, bsize: 1 }));
     const port = await createServer(context, (request, response) => {

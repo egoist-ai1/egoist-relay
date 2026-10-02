@@ -40,3 +40,7 @@ Installer SHA256: 3f723548168e83278e80300a9e3876ef738590ef8c90f1a7d00dc78b099fcf
 Executable SHA256: c7489e92a84eb8c691e90f39d6b88b7fed0d5dec412c1f0f0a79d7d340cfe4ab
 
 Эти суммы идентифицируют проверенные локальные артефакты; бинарный upload в этой source publication не выполняется.
+
+## Уточнение публичного тестового harness
+
+В ветке codex/release-1.4.6 после первичной source публикации добавлены пропущенные skip markers для двух TLS disk-budget scenarios без локальной key/cert fixture. Runtime исходники версии1.4.6 не изменены. Полный stress harness требует локальные тестовые key/cert и точный media runtime; этот отдельный прогон не заявляется. Tag relay-v1.4.6 сохраняет первоначальный публичный snapshot; актуальная ветка содержит этот test-only correction.

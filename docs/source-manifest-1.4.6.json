@@ -42,7 +42,7 @@
     {
       "path": "scripts/relay-media-audit-file.test.mjs",
       "originalSha256": "0fe4b05831e7006d210b6ba8984958cc80ac30d963c000b634b36cecf3254dcf",
-      "publishedSha256": "d3ad3fdffb4661892dace4c8f3a646d203b3d485a034e76aeb5322e90d0d276c",
+      "publishedSha256": "1082153b4fafa354f225672312aeaf6019538945a0b11920b241736f931c36bd",
       "reason": "Remove embedded synthetic TLS fixture and use optional local test inputs"
     },
     {
@@ -229,8 +229,8 @@
     },
     {
       "path": "docs/VERIFICATION.md",
-      "bytes": 3979,
-      "sha256": "b6aaa36982668c62ca62a044413383b2025be294b082f05d5b353968bd75450d",
+      "bytes": 4713,
+      "sha256": "d0d775a35cf467dade897ac6bf80399cdce5c6d8e5200c5add6d98ee7ce6ca79",
       "category": "public_release_documentation"
     },
     {
@@ -1021,8 +1021,8 @@
     },
     {
       "path": "scripts/relay-media-audit-file.test.mjs",
-      "bytes": 14110,
-      "sha256": "d3ad3fdffb4661892dace4c8f3a646d203b3d485a034e76aeb5322e90d0d276c",
+      "bytes": 14132,
+      "sha256": "1082153b4fafa354f225672312aeaf6019538945a0b11920b241736f931c36bd",
       "category": "synthetic_test_or_harness"
     },
     {
