@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "scope": "Generic Relay runtime without internal network engines or private provisioning; intentional updates require reviewed hashes",
+  "files": [
+    {
+      "path": "runtime/licenses/NODE-LICENSE.txt",
+      "bytes": 160555,
+      "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9"
+    },
+    {
+      "path": "runtime/licenses/RELAY-GPL-LICENSE.txt",
+      "bytes": 35795,
+      "sha256": "37d2e5a629d31b79b3c0876a146c7d4c1f8d2cf70276dd4fac2d8d6abd3f0b32"
+    },
+    {
+      "path": "runtime/media/FFMPEG-BUILD-README.txt",
+      "bytes": 41577,
+      "sha256": "0342de6bb39dd421cbec2c00d89ad274b640d75ad3f2cab09ffd647ce2d8f949"
+    },
+    {
+      "path": "runtime/media/FFMPEG-LICENSE.txt",
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    {
+      "path": "runtime/media/ffmpeg.exe",
+      "bytes": 105423872,
+      "sha256": "3256173f3f8bffd7df12227c68adf68025edb1832273a9530688a7bb1ed8edec"
+    },
+    {
+      "path": "runtime/media/ffprobe.exe",
+      "bytes": 105221120,
+      "sha256": "f0d36ecbbdd3bcfac3efa078c96c7271c2e68b3810595552ac3b7f17e9a65c52"
+    },
+    {
+      "path": "runtime/NODE-LICENSE.txt",
+      "bytes": 160555,
+      "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9"
+    },
+    {
+      "path": "runtime/node.exe",
+      "bytes": 93580104,
+      "sha256": "ba4e6d110e8c1592a1ecd390f6b05f3da124b13871a5be62b341a07a853c6c32"
+    },
+    {
+      "path": "runtime/README.md",
+      "bytes": 3776,
+      "sha256": "d24c8e157c3ce56a60ec0600169edb4059389f5c4a03ee146c9290717d9607ea"
+    },
+    {
+      "path": "runtime/research/bridge-server.mjs",
+      "bytes": 21071,
+      "sha256": "25d511684b6ee756e8ef2f7537f438e6470171c2c1ee9f881beac50e7ebf1eea"
+    },
+    {
+      "path": "runtime/research/ensure-private-state.ps1",
+      "bytes": 7736,
+      "sha256": "bda59dbc764bca7019c876fc03eb0557ab2ee79eda5b359c3eaaf58432c7ce0e"
+    },
+    {
+      "path": "runtime/research/social-read.js",
+      "bytes": 36508,
+      "sha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e"
+    },
+    {
+      "path": "runtime/transcription/ggml-base.dll",
+      "bytes": 689664,
+      "sha256": "a5241b52206f61c9dfd6f0f53a8ef19076f9528ead2db1e039a66d7e03817bfc"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-alderlake.dll",
+      "bytes": 864256,
+      "sha256": "5a5b11dcd38e321b13f85c95414940db9eab1132be3da6342f03dfb1d8e51bd5"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-cannonlake.dll",
+      "bytes": 908288,
+      "sha256": "2c858781450b52eda95c381232cc65c9e19cbf621cc7b254d8c44fdbab77791e"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-cascadelake.dll",
+      "bytes": 904704,
+      "sha256": "ddf49bb749b34800afcb3d6224544966a05c5d00f1d0b6565bee9f3b010dd53c"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-haswell.dll",
+      "bytes": 866304,
+      "sha256": "6b772e094b8976e22b4c043be86a1a8deda4b50511dc803a693b652c51b24944"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-icelake.dll",
+      "bytes": 904704,
+      "sha256": "bbd87ea5920edc401054848071ad2ef8c96bbf8007c4e4cd0ea82ba9b9e3bd10"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-sandybridge.dll",
+      "bytes": 860672,
+      "sha256": "de2ad5f84c7dfa557d515b3678d6452ce0216590268b2ca79cc537fe87cf239d"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-skylakex.dll",
+      "bytes": 908288,
+      "sha256": "9fa3f9d984ca42d568181dd345072299db2978b328800343218c2c7f000b7152"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-sse42.dll",
+      "bytes": 846848,
+      "sha256": "740fc769ef433985dfdb24a609a42d5acf188abda52287a4d89b89b567507c19"
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-x64.dll",
+      "bytes": 850432,
+      "sha256": "43ccf32b9b70aa4c47d0a12ac2ed3c241e0045571acdad565ecd9d1f99ffc08b"
+    },
+    {
+      "path": "runtime/transcription/ggml-silero-v6.2.0.bin",
+      "bytes": 885098,
+      "sha256": "2aa269b785eeb53a82983a20501ddf7c1d9c48e33ab63a41391ac6c9f7fb6987"
+    },
+    {
+      "path": "runtime/transcription/ggml-small-q5_1.bin",
+      "bytes": 190085487,
+      "sha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb"
+    },
+    {
+      "path": "runtime/transcription/ggml.dll",
+      "bytes": 62464,
+      "sha256": "c6e88687d6aa0238f2e834a87958f38d2dc96075a6a7bf6fb8b9cd728a0faed2"
+    },
+    {
+      "path": "runtime/transcription/MODEL-LICENSE.txt",
+      "bytes": 1063,
+      "sha256": "b5d65a59060e68c4ff940e1eddfa6f94b2d68fdf58ed7f4dd57721c997e35e9d"
+    },
+    {
+      "path": "runtime/transcription/MSVC-BUILD-TOOLS-LICENSE.txt",
+      "bytes": 18381,
+      "sha256": "ec67643422c7f472298558f3a8660ec6c6e55dd3080040acf4c9bd250b5d4e93"
+    },
+    {
+      "path": "runtime/transcription/MSVC-RUNTIME-LICENSE.txt",
+      "bytes": 11945,
+      "sha256": "c15f0776c632b97bc3b01dbc3090ae347bb406235ae7132601bbaba91624e4fc"
+    },
+    {
+      "path": "runtime/transcription/msvcp140.dll",
+      "bytes": 643512,
+      "sha256": "7c26614e1d733892c2deac7e245ce115504b1d80592dd0a01b08e3e5a55f89ca"
+    },
+    {
+      "path": "runtime/transcription/provenance.json",
+      "bytes": 8958,
+      "sha256": "c3df157b4d69d62169f40f2f2c2bfd9b7541db41e4a4d9dfe92cb2cf4352b777"
+    },
+    {
+      "path": "runtime/transcription/VAD-LICENSE.txt",
+      "bytes": 1075,
+      "sha256": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b"
+    },
+    {
+      "path": "runtime/transcription/vcomp140.dll",
+      "bytes": 212920,
+      "sha256": "95d4ce4a6802d1e18b5e0e1722cc30ea72ca7e033f83828f05c0b7b993fe7cbf"
+    },
+    {
+      "path": "runtime/transcription/vcruntime140_1.dll",
+      "bytes": 50112,
+      "sha256": "a7146c08f89fe5b04541ab507cdb59ff7b44534d4ba3c668a426c6450a03434e"
+    },
+    {
+      "path": "runtime/transcription/vcruntime140.dll",
+      "bytes": 178616,
+      "sha256": "d1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7"
+    },
+    {
+      "path": "runtime/transcription/whisper-cli.exe",
+      "bytes": 479744,
+      "sha256": "89051fdd1284ba34083d604960f16fbb8ef8186368b1bad4a2cdfb439f6b96c6"
+    },
+    {
+      "path": "runtime/transcription/WHISPER-LICENSE.txt",
+      "bytes": 1078,
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d"
+    },
+    {
+      "path": "runtime/transcription/whisper.dll",
+      "bytes": 1368576,
+      "sha256": "b7bb4ba92bd36b8afe0c00059ca6a0f69c6767193bfb5f0761e9ed27b1087803"
+    },
+    {
+      "path": "runtime/YT-DLP-LICENSE.txt",
+      "bytes": 1211,
+      "sha256": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c"
+    },
+    {
+      "path": "runtime/YT-DLP-THIRD-PARTY-LICENSES.txt",
+      "bytes": 243550,
+      "sha256": "472aefe951c7db35e1657c1d13fd337140511ed6f2b329205105ad441c5a02b7"
+    },
+    {
+      "path": "runtime/yt-dlp.exe",
+      "bytes": 17840399,
+      "sha256": "66674953fe251b89f4d08c5f0e35e0728679bd67ab3d7d05c0562af101dd3e7a"
+    }
+  ]
+}

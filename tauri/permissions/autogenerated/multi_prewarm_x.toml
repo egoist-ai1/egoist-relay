@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-prewarm-x"
+description = "Enables the multi_prewarm_x command without any pre-configured scope."
+commands.allow = ["multi_prewarm_x"]
+
+[[permission]]
+identifier = "deny-multi-prewarm-x"
+description = "Denies the multi_prewarm_x command without any pre-configured scope."
+commands.deny = ["multi_prewarm_x"]

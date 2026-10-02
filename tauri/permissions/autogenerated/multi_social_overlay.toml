@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-social-overlay"
+description = "Enables the multi_social_overlay command without any pre-configured scope."
+commands.allow = ["multi_social_overlay"]
+
+[[permission]]
+identifier = "deny-multi-social-overlay"
+description = "Denies the multi_social_overlay command without any pre-configured scope."
+commands.deny = ["multi_social_overlay"]

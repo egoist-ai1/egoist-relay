@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-instagram-navigate"
+description = "Enables the multi_instagram_navigate command without any pre-configured scope."
+commands.allow = ["multi_instagram_navigate"]
+
+[[permission]]
+identifier = "deny-multi-instagram-navigate"
+description = "Denies the multi_instagram_navigate command without any pre-configured scope."
+commands.deny = ["multi_instagram_navigate"]

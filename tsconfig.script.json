@@ -1,0 +1,47 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "node",
+      "@testing-library/jest-dom",
+      "vite/client",
+      "dom-chromium-ai",
+      "dom-view-transitions",
+      "vitest"
+    ],
+    "tsBuildInfoFile": ".cache/.tsconfig.script.tsbuildinfo",
+    "paths": {
+      "@teact": [
+        "./src/lib/teact/teact.ts"
+      ],
+      "@teact/*": [
+        "./src/lib/teact/*"
+      ],
+      "@gili/*": [
+        "./src/components/gili/*"
+      ],
+      "buffer": [
+        "./src/@types/buffer"
+      ],
+      "qr-code-styling": [
+        "./src/@types/qr-code-styling"
+      ]
+    }
+  },
+  "include": [
+    "tests",
+    "dev",
+    "plugins",
+    "*.config.ts",
+    "*.config.js",
+    ".github/workflows/*.js",
+    "deploy/*.js",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/lib/gramjs/tl/generateModules.ts",
+    "src/lib/gramjs/tl/types-generator",
+    "src/@types/global.d.ts",
+    "src/@types/qr-code-styling/index.d.ts",
+    "src/types/tauri.ts"
+  ]
+}

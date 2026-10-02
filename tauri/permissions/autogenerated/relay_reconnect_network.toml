@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-reconnect-network"
+description = "Enables the relay_reconnect_network command without any pre-configured scope."
+commands.allow = ["relay_reconnect_network"]
+
+[[permission]]
+identifier = "deny-relay-reconnect-network"
+description = "Denies the relay_reconnect_network command without any pre-configured scope."
+commands.deny = ["relay_reconnect_network"]

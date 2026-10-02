@@ -1,0 +1,298 @@
+.titlebar {
+  pointer-events: auto;
+  user-select: none;
+
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  right: 0;
+  left: var(--relay-shell-rail-width);
+
+  display: flex;
+  align-items: center;
+
+  height: var(--relay-shell-caption-height);
+  border-bottom: 0.0625rem solid var(--relay-shell-border);
+
+  color: var(--relay-shell-muted);
+
+  background: var(--relay-shell-surface);
+
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.dragRegion {
+  pointer-events: auto;
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  min-width: 0;
+  height: 100%;
+}
+
+.appTitle {
+  overflow: hidden;
+
+  margin-left: 1rem;
+
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  color: var(--relay-shell-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notice {
+  overflow: hidden;
+  flex-shrink: 1;
+
+  min-width: 0;
+  max-width: 18rem;
+  margin-inline: 0.75rem;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 0.0625rem solid var(--relay-shell-border-strong);
+
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--relay-shell-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navigation {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.125rem;
+  align-items: center;
+
+  height: 100%;
+  margin-inline: 0.375rem;
+}
+
+.controls {
+  pointer-events: auto;
+
+  z-index: 1;
+
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+
+  height: 100%;
+  margin-left: auto;
+}
+
+.loginButton {
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  max-width: 12rem;
+  height: 1.75rem;
+  margin-inline-end: 0.75rem;
+  padding: 0 0.625rem;
+  border: 0.0625rem solid var(--relay-shell-border-strong);
+  border-radius: 0.5rem;
+
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--relay-shell-text);
+  white-space: nowrap;
+
+  background: var(--relay-shell-active);
+
+  &:hover {
+    background: var(--relay-shell-hover);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--relay-shell-focus);
+    outline-offset: 0.125rem;
+  }
+}
+
+.loginShortLabel {
+  display: none;
+}
+
+.button,
+.navigationButton {
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.875rem;
+  height: 100%;
+  padding: 0;
+  border: none;
+
+  color: var(--relay-shell-muted);
+
+  background: transparent;
+
+  transition: color 120ms ease, background-color 120ms ease;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--relay-shell-text);
+    background: var(--relay-shell-hover);
+  }
+
+  &:active {
+    background: var(--relay-shell-active);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--relay-shell-focus);
+    outline-offset: -0.1875rem;
+  }
+}
+
+.button.close:hover:not(:disabled) {
+  color: var(--relay-shell-background);
+  background: var(--relay-shell-text);
+}
+
+.button.close:active {
+  color: var(--relay-shell-background);
+  background: #d9d9de;
+}
+
+.navigationButton {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: calc(100% - 0.5rem);
+  border-radius: 0.5rem;
+}
+
+.navigationIcon {
+  font-size: 1.125rem;
+}
+
+.homeIcon {
+  width: 1rem;
+  height: 1rem;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+@media (max-width: 56rem) {
+  .notice {
+    max-width: 10rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  .appTitle {
+    margin-left: 0.625rem;
+  }
+
+  .navigation {
+    margin-inline: 0.125rem;
+  }
+
+  .button {
+    width: 2rem;
+  }
+
+  .navigationButton {
+    width: 1.875rem;
+  }
+
+  .loginButton {
+    overflow: hidden;
+    max-width: 5rem;
+    margin-inline-end: 0.25rem;
+    text-overflow: ellipsis;
+  }
+
+  .notice {
+    max-width: 5rem;
+    margin-inline: 0.25rem;
+  }
+}
+
+@container relayWorkspace (max-width: 46rem) {
+  .notice {
+    max-width: 8rem;
+  }
+}
+
+@container relayWorkspace (max-width: 34rem) {
+  .dragRegion {
+    min-width: 1.5rem;
+  }
+
+  .appTitle {
+    margin-left: 0.5rem;
+  }
+
+  .notice {
+    max-width: 4rem;
+    margin-inline: 0.25rem;
+    padding-inline-start: 0.25rem;
+  }
+
+  .navigation {
+    margin-inline: 0.125rem;
+  }
+
+  .button {
+    width: 2rem;
+  }
+
+  .navigationButton {
+    width: 1.5rem;
+  }
+
+  .loginButton {
+    overflow: hidden;
+
+    max-width: 3.5rem;
+    margin-inline-end: 0.25rem;
+    padding-inline: 0.375rem;
+
+    text-overflow: ellipsis;
+  }
+
+  .loginLabel {
+    display: none;
+  }
+
+  .loginShortLabel {
+    display: inline;
+  }
+}
+
+.buttonIcon {
+  display: block;
+
+  width: 0.6875rem;
+  height: 0.6875rem;
+
+  fill: none;
+  stroke: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .titlebar,
+  .appTitle,
+  .navigationButton,
+  .loginButton,
+  .button {
+    transition: none;
+  }
+}

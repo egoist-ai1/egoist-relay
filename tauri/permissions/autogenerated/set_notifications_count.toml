@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-set-notifications-count"
+description = "Enables the set_notifications_count command without any pre-configured scope."
+commands.allow = ["set_notifications_count"]
+
+[[permission]]
+identifier = "deny-set-notifications-count"
+description = "Denies the set_notifications_count command without any pre-configured scope."
+commands.deny = ["set_notifications_count"]

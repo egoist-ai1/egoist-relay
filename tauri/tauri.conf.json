@@ -1,0 +1,148 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Egoist Relay",
+        "visible": true,
+        "width": 1652,
+        "height": 1160,
+        "minWidth": 800,
+        "minHeight": 560,
+        "maximized": false,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": false,
+        "shadow": true,
+        "url": "index.html"
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "connect-src": "'self' ipc: http://ipc.localhost ws: wss: blob: http: https:",
+        "script-src": "'self' 'wasm-unsafe-eval' https://t.me/_websync_ https://telegram.me/_websync_ https://telegram.dog/_websync_",
+        "worker-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
+        "font-src": "'self' data:",
+        "img-src": "'self' data: blob: https://ss3.4sqi.net/img/categories_v2/",
+        "media-src": "'self' blob: data:",
+        "object-src": "'none'",
+        "frame-src": "http: https: bitkeep: bnc: bybitapp: echooo: imtokenv2: mytonwallet-tc: nicegram-tc: safepal-tc: tonkeeper-pro-tc: tonkeeper-tc:",
+        "base-uri": "'none'",
+        "form-action": "'none'"
+      }
+    }
+  },
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "frontendDist": "../dist",
+    "beforeBuildCommand": "npm run build:desktop",
+    "removeUnusedCommands": false
+  },
+  "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": [
+          "tg"
+        ]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "createUpdaterArtifacts": false,
+    "category": "SocialNetworking",
+    "copyright": "Egoist Relay",
+    "externalBin": [],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "longDescription": "Telegram, X and Instagram desktop hub using the Windows network configuration",
+    "macOS": {
+      "entitlements": "entitlements.mac.plist",
+      "exceptionDomain": "",
+      "frameworks": [],
+      "providerShortName": null,
+      "signingIdentity": null
+    },
+    "resources": {
+      "../runtime/licenses/NODE-LICENSE.txt": "runtime/licenses/NODE-LICENSE.txt",
+      "../runtime/licenses/RELAY-GPL-LICENSE.txt": "runtime/licenses/RELAY-GPL-LICENSE.txt",
+      "../runtime/media/FFMPEG-BUILD-README.txt": "runtime/media/FFMPEG-BUILD-README.txt",
+      "../runtime/media/FFMPEG-LICENSE.txt": "runtime/media/FFMPEG-LICENSE.txt",
+      "../runtime/media/ffmpeg.exe": "runtime/media/ffmpeg.exe",
+      "../runtime/media/ffprobe.exe": "runtime/media/ffprobe.exe",
+      "../runtime/NODE-LICENSE.txt": "runtime/NODE-LICENSE.txt",
+      "../runtime/node.exe": "runtime/node.exe",
+      "../runtime/README.md": "runtime/README.md",
+      "../runtime/research/bridge-server.mjs": "runtime/research/bridge-server.mjs",
+      "../runtime/research/ensure-private-state.ps1": "runtime/research/ensure-private-state.ps1",
+      "../runtime/research/social-read.js": "runtime/research/social-read.js",
+      "../runtime/transcription/ggml-base.dll": "runtime/transcription/ggml-base.dll",
+      "../runtime/transcription/ggml-cpu-alderlake.dll": "runtime/transcription/ggml-cpu-alderlake.dll",
+      "../runtime/transcription/ggml-cpu-cannonlake.dll": "runtime/transcription/ggml-cpu-cannonlake.dll",
+      "../runtime/transcription/ggml-cpu-cascadelake.dll": "runtime/transcription/ggml-cpu-cascadelake.dll",
+      "../runtime/transcription/ggml-cpu-haswell.dll": "runtime/transcription/ggml-cpu-haswell.dll",
+      "../runtime/transcription/ggml-cpu-icelake.dll": "runtime/transcription/ggml-cpu-icelake.dll",
+      "../runtime/transcription/ggml-cpu-sandybridge.dll": "runtime/transcription/ggml-cpu-sandybridge.dll",
+      "../runtime/transcription/ggml-cpu-skylakex.dll": "runtime/transcription/ggml-cpu-skylakex.dll",
+      "../runtime/transcription/ggml-cpu-sse42.dll": "runtime/transcription/ggml-cpu-sse42.dll",
+      "../runtime/transcription/ggml-cpu-x64.dll": "runtime/transcription/ggml-cpu-x64.dll",
+      "../runtime/transcription/ggml-silero-v6.2.0.bin": "runtime/transcription/ggml-silero-v6.2.0.bin",
+      "../runtime/transcription/ggml-small-q5_1.bin": "runtime/transcription/ggml-small-q5_1.bin",
+      "../runtime/transcription/ggml.dll": "runtime/transcription/ggml.dll",
+      "../runtime/transcription/MODEL-LICENSE.txt": "runtime/transcription/MODEL-LICENSE.txt",
+      "../runtime/transcription/MSVC-BUILD-TOOLS-LICENSE.txt": "runtime/transcription/MSVC-BUILD-TOOLS-LICENSE.txt",
+      "../runtime/transcription/MSVC-RUNTIME-LICENSE.txt": "runtime/transcription/MSVC-RUNTIME-LICENSE.txt",
+      "../runtime/transcription/msvcp140.dll": "runtime/transcription/msvcp140.dll",
+      "../runtime/transcription/provenance.json": "runtime/transcription/provenance.json",
+      "../runtime/transcription/VAD-LICENSE.txt": "runtime/transcription/VAD-LICENSE.txt",
+      "../runtime/transcription/vcomp140.dll": "runtime/transcription/vcomp140.dll",
+      "../runtime/transcription/vcruntime140_1.dll": "runtime/transcription/vcruntime140_1.dll",
+      "../runtime/transcription/vcruntime140.dll": "runtime/transcription/vcruntime140.dll",
+      "../runtime/transcription/whisper-cli.exe": "runtime/transcription/whisper-cli.exe",
+      "../runtime/transcription/WHISPER-LICENSE.txt": "runtime/transcription/WHISPER-LICENSE.txt",
+      "../runtime/transcription/whisper.dll": "runtime/transcription/whisper.dll",
+      "../runtime/YT-DLP-LICENSE.txt": "runtime/YT-DLP-LICENSE.txt",
+      "../runtime/YT-DLP-THIRD-PARTY-LICENSES.txt": "runtime/YT-DLP-THIRD-PARTY-LICENSES.txt",
+      "../runtime/yt-dlp.exe": "runtime/yt-dlp.exe"
+    },
+    "shortDescription": "Egoist Relay Desktop",
+    "targets": [
+      "nsis"
+    ],
+    "windows": {
+      "allowDowngrades": false,
+      "minimumWebview2Version": "143.0.0.0",
+      "digestAlgorithm": "sha256",
+      "webviewInstallMode": {
+        "type": "offlineInstaller",
+        "silent": true
+      },
+      "nsis": {
+        "installerIcon": "icons/icon.ico",
+        "headerImage": "icons/nsis-header.bmp",
+        "sidebarImage": "icons/nsis-sidebar.bmp",
+        "installMode": "currentUser",
+        "languages": [
+          "Russian"
+        ],
+        "displayLanguageSelector": false,
+        "compression": "lzma",
+        "startMenuFolder": "Egoist",
+        "installerHooks": "installer.nsh"
+      }
+    }
+  },
+  "identifier": "com.egoist.relay",
+  "productName": "Egoist Relay",
+  "mainBinaryName": "Egoist Relay"
+}

@@ -1,0 +1,21 @@
+.root {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0.25rem;
+}
+
+.withLeftGap {
+  padding-left: 0.25rem;
+}
+
+.withTopGap {
+  padding-top: 0.25rem;
+}
+
+.withRightGap {
+  padding-right: 0.25rem;
+}
+
+.withBottomGap {
+  padding-bottom: 0.25rem;
+}

@@ -1,0 +1,124 @@
+name: Validate and package Egoist Relay
+
+on:
+  workflow_dispatch:
+    inputs:
+      createDraft:
+        description: 'Create a reviewed GitHub draft after validation (never publishes it)'
+        type: boolean
+        default: false
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: relay-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate-package:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    env:
+      RELAY_PUBLIC_RUNTIME_URL: ${{ vars.RELAY_PUBLIC_RUNTIME_URL }}
+      RELAY_PUBLIC_RUNTIME_SHA256: ${{ vars.RELAY_PUBLIC_RUNTIME_SHA256 }}
+      APP_ENV: production
+      WITH_UPDATER: 'false'
+    steps:
+      - name: Select isolated CI work directory
+        run: '"EGOIST_RELAY_AUDIT_WORK=$env:RUNNER_TEMP" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8'
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.97.0'
+      - name: Install locked JavaScript dependencies
+        run: npm ci
+      - name: Stage only reviewed public runtime
+        run: node scripts/release-fetch-runtime.mjs
+      - name: Verify identity, runtime, privacy and release policy
+        run: |
+          node scripts/release-preflight.mjs --report "$env:RUNNER_TEMP/release-preflight.json"
+          npm run release:test
+      - name: Audit JavaScript dependencies
+        run: npm audit --audit-level=moderate
+      - name: Audit locked Rust dependencies and preserve warnings
+        run: |
+          cargo install cargo-audit --version 0.22.2 --locked
+          cargo audit --file tauri/Cargo.lock --json | Out-File -FilePath "$env:RUNNER_TEMP/cargo-audit.json" -Encoding utf8
+          $auditExit = $LASTEXITCODE
+          $auditReport = Get-Content -LiteralPath "$env:RUNNER_TEMP/cargo-audit.json" -Raw | ConvertFrom-Json
+          if ($auditReport.vulnerabilities.PSObject.Properties.Name -notcontains 'count') { throw 'Invalid Cargo audit report' }
+          if ($auditExit -ne 0 -or $auditReport.vulnerabilities.count -gt 0) { throw 'Rust dependency vulnerability gate failed' }
+      - name: Check TypeScript, styles and unit behavior
+        run: |
+          npm run check
+          npm test
+          node --test scripts/release-installer.test.mjs scripts/media-proxy.test.mjs scripts/social-media-fetch.test.mjs scripts/tauri-frame-init.test.mjs scripts/regression/*.test.mjs
+      - name: Test native behavior
+        run: |
+          cargo test --locked --manifest-path tauri/Cargo.toml
+      - name: Build embedded desktop and unsigned installer
+        env:
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+        run: npm run tauri:build -- --ci --no-sign -- --locked
+      - name: Prepare sanitized project sources and exact dependency source inventory
+        run: node scripts/release-sources.mjs --output "$env:GITHUB_WORKSPACE/release/ci"
+      - name: Verify package output and record version
+        id: version
+        run: |
+          $releaseVersion = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ($releaseVersion -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid release version' }
+          "version=$releaseVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          $relayInstallers = @(Get-ChildItem -LiteralPath tauri/target/release/bundle/nsis -Filter '*-setup.exe')
+          if ($relayInstallers.Count -ne 1) { throw 'Expected one generic Relay installer' }
+          Copy-Item -LiteralPath $relayInstallers[0].FullName -Destination "release/ci/Egoist-Relay-$releaseVersion-x64-unsigned-setup.exe"
+          Copy-Item -LiteralPath "$env:RUNNER_TEMP/release-preflight.json" -Destination release/ci/release-preflight.json
+          Copy-Item -LiteralPath "$env:RUNNER_TEMP/cargo-audit.json" -Destination release/ci/cargo-audit.json
+          Get-ChildItem -LiteralPath release/ci -File | ForEach-Object { Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256 } | ConvertTo-Json | Set-Content release/ci/checksums.json
+      - name: Save review artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: Egoist-Relay-${{ steps.version.outputs.version }}-unsigned-review
+          path: release/ci/*
+          if-no-files-found: error
+          retention-days: 14
+
+  draft:
+    needs: validate-package
+    if: inputs.createDraft && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: windows-latest
+    environment: release-review
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: Egoist-Relay-${{ needs.validate-package.outputs.version }}-unsigned-review
+          path: reviewed-artifacts
+      - name: Require corresponding source completeness before any draft upload
+        run: |
+          $sourceGate = Get-Content reviewed-artifacts/dependency-sources.json -Raw | ConvertFrom-Json
+          if ($sourceGate.correspondingSourceComplete -ne $true -or $sourceGate.publicationBlocked -ne $false) {
+            throw 'Corresponding source delivery is incomplete. Review missingSource; no GitHub draft or asset uploaded.'
+          }
+      - name: Create draft for human review only
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELAY_VERSION: ${{ needs.validate-package.outputs.version }}
+          RELAY_TARGET: ${{ github.sha }}
+        run: |
+          $notes = 'Unsigned Windows x64 review build. Updater disabled. Publication requires independent device verification and resolved source/licensing gates. This workflow never publishes a release.'
+          $notes | Set-Content -LiteralPath draft-notes.md -Encoding utf8
+          $draftAssets = @(Get-ChildItem -LiteralPath reviewed-artifacts -File | ForEach-Object { $_.FullName })
+          gh release create "relay-v$env:RELAY_VERSION" @draftAssets --draft --target "$env:RELAY_TARGET" --title "Egoist Relay $env:RELAY_VERSION — unsigned review" --notes-file draft-notes.md

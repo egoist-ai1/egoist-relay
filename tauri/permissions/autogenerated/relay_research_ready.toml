@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-research-ready"
+description = "Enables the relay_research_ready command without any pre-configured scope."
+commands.allow = ["relay_research_ready"]
+
+[[permission]]
+identifier = "deny-relay-research-ready"
+description = "Denies the relay_research_ready command without any pre-configured scope."
+commands.deny = ["relay_research_ready"]

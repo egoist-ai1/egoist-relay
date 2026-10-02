@@ -1,0 +1,239 @@
+.sidebar {
+  user-select: none;
+
+  position: relative;
+  z-index: 10;
+
+  container: relayRail / size;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+
+  width: var(--relay-shell-rail-width);
+  min-width: var(--relay-shell-rail-width);
+  height: 100%;
+  border-right: 0.0625rem solid var(--relay-shell-border);
+
+  background: var(--relay-shell-background);
+}
+
+.dragHeader {
+  flex-shrink: 0;
+  width: 100%;
+  height: var(--relay-shell-caption-height);
+}
+
+.appList {
+  overflow-y: auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+
+  width: 100%;
+  min-height: 0;
+  padding: 0.75rem 0;
+}
+
+.appItem {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 4.75rem;
+}
+
+.appLabel {
+  min-width: 0;
+  max-width: 100%;
+
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+  color: inherit;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.activeLabel {
+  color: var(--relay-shell-text);
+}
+
+.appButton {
+  cursor: pointer;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 0.375rem;
+  align-items: center;
+  justify-content: center;
+
+  width: calc(100% - 0.75rem);
+  min-height: 4.75rem;
+  padding: 0.5rem 0.125rem;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.875rem;
+
+  color: var(--relay-shell-muted);
+
+  background: transparent;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    color: var(--relay-shell-text);
+    opacity: 1;
+    background: var(--relay-shell-hover);
+
+    .circleBg {
+      stroke: #62626a;
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--relay-shell-focus);
+    outline-offset: -0.0625rem;
+  }
+
+  &.active {
+    border-color: var(--relay-shell-border-strong);
+    color: var(--relay-shell-text);
+    opacity: 1;
+    background: var(--relay-shell-active);
+
+    .circleBg {
+      stroke: #8d8d96;
+    }
+  }
+
+  &.hasError:not(.active) {
+    opacity: 1;
+  }
+}
+
+.activeIndicator {
+  position: absolute;
+  top: 50%;
+  left: -0.375rem;
+  transform: translateY(-50%) scaleY(0.5);
+
+  width: 0.1875rem;
+  height: 1.5rem;
+  border-radius: 0 0.25rem 0.25rem 0;
+
+  opacity: 0;
+  background: var(--relay-shell-text);
+
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.active .activeIndicator {
+  transform: translateY(-50%) scaleY(1);
+  opacity: 1;
+}
+
+.telegramIcon {
+  display: block;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.circleBg {
+  fill: var(--relay-shell-surface);
+  stroke: var(--relay-shell-border-strong);
+  stroke-width: 2.5;
+  transition: stroke 160ms ease;
+}
+
+.xIcon,
+.instagramIcon {
+  display: block;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+}
+
+.stateDot {
+  position: absolute;
+  top: 2.125rem;
+  right: 0.75rem;
+
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.125rem solid var(--relay-shell-border-strong);
+  border-top-color: var(--relay-shell-text);
+  border-radius: 50%;
+
+  background: var(--relay-shell-background);
+
+  animation: stateSpin 900ms linear infinite;
+}
+
+.stateDotError {
+  border-color: var(--relay-shell-muted);
+  border-radius: 0.125rem;
+  background: var(--relay-shell-background);
+  animation: none;
+}
+
+@keyframes stateSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@container relayRail (max-height: 20rem) {
+  .appList {
+    gap: 0.5rem;
+    padding-block: 0.5rem;
+  }
+
+  .appItem,
+  .appButton {
+    min-height: 4rem;
+  }
+
+  .appButton {
+    padding-block: 0.375rem;
+  }
+
+  .telegramIcon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .stateDot {
+    top: 1.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appButton,
+  .activeIndicator,
+  .circleBg {
+    transition: none;
+  }
+
+  .stateDot {
+    animation: none;
+  }
+}

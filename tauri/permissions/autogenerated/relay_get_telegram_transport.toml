@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-get-telegram-transport"
+description = "Enables the relay_get_telegram_transport command without any pre-configured scope."
+commands.allow = ["relay_get_telegram_transport"]
+
+[[permission]]
+identifier = "deny-relay-get-telegram-transport"
+description = "Denies the relay_get_telegram_transport command without any pre-configured scope."
+commands.deny = ["relay_get_telegram_transport"]

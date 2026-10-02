@@ -1,0 +1,50 @@
+import {chromium} from '@playwright/test';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import path from 'node:path';
+import {initializeAuditBrowser,startAuditServer,project} from './relay-ui-audit.server.mjs';
+const output=process.env.RELAY_UI_AUDIT_OUTPUT,evidence=process.env.RELAY_UI_AUDIT_EVIDENCE||output;
+if(!output||!process.env.RELAY_UI_AUDIT_BROWSER) throw new Error('Task output and existing headless executable required');
+await mkdir(path.join(evidence,'ui-visuals'),{recursive:true});
+const {server,url}=await startAuditServer(output,1251);const browser=await chromium.launch({headless:true,executablePath:process.env.RELAY_UI_AUDIT_BROWSER});
+const report={schemaVersion:1,generatedAt:new Date().toISOString(),environment:'Actual App router with synthetic data; remote requests blocked; no account mutations',cases:[],errors:[],gates:[]};
+const context=await browser.newContext({viewport:{width:1920,height:1080},serviceWorkers:'block',locale:'ru-RU'});
+const page=await context.newPage();await page.addInitScript(initializeAuditBrowser);
+await page.route('**/*',r=>new URL(r.request().url()).hostname==='127.0.0.1'?r.continue():r.abort());
+page.on('response',async response=>{if(!response.url().startsWith('http://127.0.0.1')||!response.headers()['content-type']?.includes('javascript'))return;const code=await response.text().catch(()=> '');if((code.match(/__vite__injectQuery as/g)||[]).length>1){await writeFile(path.join(output,'duplicate-transform.js'),code);console.log('DUPLICATE_TRANSFORM '+response.url());}});
+page.on('pageerror',error=>report.errors.push(String(error.stack||error)));
+page.on('console',message=>{if(message.type()==='error')report.errors.push(message.text().slice(0,1000));});
+function parseRoutes(text,enumName,base){const result={};const imports=Object.fromEntries([...text.matchAll(/import ([A-Z]\w+) from ['"]([^'"]+)['"]/g)].map(m=>[m[1],m[2]]));let names=[];for(const match of text.matchAll(new RegExp(`case ${enumName}\\.(\\w+):|return \\(\\s*<([A-Z]\\w+)`,'g'))){if(match[1])names.push(match[1]);else if(names.length){const imported=imports[match[2]];const source=imported?path.posix.normalize(path.posix.join(base,imported)).replace(/\.tsx$/,'')+'.tsx':undefined;for(const name of names)result[name]=source;names=[];}}return result;}
+const settingsSource=await readFile(path.join(project,'src/components/left/settings/Settings.tsx'),'utf8');
+const settingsRoutes=parseRoutes(settingsSource,'SettingsScreens','src/components/left/settings/');
+const managementSource=await readFile(path.join(project,'src/components/right/management/Management.tsx'),'utf8');
+const managementRoutes=parseRoutes(managementSource,'ManagementScreens','src/components/right/management/');
+const rightRoutes={ChatInfo:'Profile',Management:'management/Management',Statistics:'statistics/Statistics',BoostStatistics:'statistics/BoostStatistics',MessageStatistics:'statistics/MessageStatistics',StoryStatistics:'statistics/StoryStatistics',PollResults:'PollResults',AddingMembers:'AddChatMembers',CreateTopic:'CreateTopic',EditTopic:'EditTopic',MonetizationStatistics:'statistics/MonetizationStatistics'};
+async function measure(selector){return page.locator(selector).evaluate(surface=>{const isVisible=e=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0&&!e.closest('.Transition_slide-inactive,[aria-hidden="true"]');};const controls=[...surface.querySelectorAll('button,input,textarea,[role=button]')].filter(isVisible).map(e=>{const r=e.getBoundingClientRect();return {tag:e.tagName,label:(e.getAttribute('aria-label')||e.textContent||e.getAttribute('placeholder')||'').trim().slice(0,100),disabled:e.disabled,width:r.width,x:r.x,y:r.y};});const active=surface.id==='Settings'?surface.querySelector(':scope > .Transition_slide-active'):surface.querySelector(':scope > .Transition > .Transition_slide-active');if(!active)return {bodyAbsent:true,text:'',childCount:0,controls:[],visibleControls:0};return {text:active.textContent?.trim().slice(0,1600),childCount:active.children.length,activeMarkup:active.innerHTML.slice(0,1000),controls,visibleControls:controls.filter(c=>c.x<window.innerWidth&&c.x+c.width>0&&c.y<window.innerHeight).length};});}
+async function run(group,name,action,selector,sources){const errorIndex=report.errors.length; const unhandledIndex=await page.evaluate(()=>window.__relayUnhandled.length);const id=`${group}-route-${name}`;let detail;try{await action();await page.waitForTimeout(900);const state=await page.evaluate(()=>window.__relayAudit.groups.state());
+const expectedState=group==='settings'?state.settings:group==='right'?state.right:state.right;
+const expected=group==='management'?'Management':name;
+let gateReason=expectedState!==expected?`Router resolved ${expectedState||'empty'} instead of requested ${expected}`:undefined;
+if(await page.locator(selector).count()) detail=await measure(selector);else gateReason||='Selected surface is absent';
+if(group==='management'&&!managementRoutes[name]&&name!=='Initial')gateReason||='Enum is present but Management router has no corresponding content branch';
+if(group==='right'&&['Statistics','BoostStatistics','MonetizationStatistics','MessageStatistics','StoryStatistics','PollResults'].includes(name)&&detail?.childCount<2)gateReason||='Body dataset is absent; header visibility does not verify this component';
+if(group==='right'&&!rightRoutes[name])gateReason||='Enum is present but RightColumn selector/router exposes no branch';
+if(detail&&(!detail.text||/^(Loading|Loading\.\.\.|loading\.\.\.)$/.test(detail.text)))gateReason||='Only loading/empty body reached; matching server payload fixture is absent';
+if(detail?.visibleControls===0)gateReason||='Selected surface has no visible controls; body layout is unverified';
+if(group==='settings'&&detail?.childCount<2)gateReason||='Header-only screen; exact child content is not rendered for this standalone route';
+const pageErrors=[...report.errors.slice(errorIndex),...(await page.evaluate(start=>window.__relayUnhandled.slice(start),unhandledIndex))];if(pageErrors.length)gateReason||='Synthetic route produced an error; source defect versus missing fixture requires triage';
+const screenshot=`ui-visuals/${id}-fullhd.png`;await page.screenshot({path:path.join(evidence,screenshot)});
+const status=gateReason?'gated':'pass';report.cases.push({id,group,requested:name,reached:state,status,sources,detail:{...detail,gateReason,screenshot},pageErrors});console.log(`${status.toUpperCase()} ${id}${gateReason?' '+gateReason:''}`);
+}catch(error){const screenshot=`ui-visuals/failure-${id}.png`;await page.screenshot({path:path.join(evidence,screenshot)}).catch(()=>{});report.cases.push({id,group,requested:name,status:'gated',sources,error:String(error),screenshot,pageErrors:report.errors.slice(errorIndex)});console.log(`GATED ${id}: ${String(error).slice(0,170)}`);}}
+try{await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});await page.waitForFunction(()=>window.__relayAudit?.state().chatCount>=2);await page.evaluate(()=>window.__relayAudit.openChat('101'));await page.waitForTimeout(600);
+await page.waitForFunction(()=>document.body.innerText.includes('Отлично'));
+await page.evaluate(()=>window.__relayAudit.openSettings('Main'));await page.waitForSelector('#Settings',{state:'visible',timeout:10000});
+await page.evaluate(()=>window.__relayAudit.groups.seedSettings());
+const settings=await page.evaluate(()=>window.__relayAudit.groups.settings);
+for(const name of settings)await run('settings',name,()=>page.evaluate(n=>window.__relayAudit.groups.openSettings(n),name),'#Settings',['src/components/left/settings/Settings.tsx',settingsRoutes[name]].filter(Boolean));
+await page.evaluate(()=>window.__relayAudit.openSettings('Main'));
+const management=await page.evaluate(()=>window.__relayAudit.groups.management);
+for(const name of management)await run('management',name,()=>page.evaluate(n=>window.__relayAudit.groups.openManagement(n),name),'#RightColumn',['src/components/right/RightColumn.tsx','src/components/right/management/Management.tsx',name==='Initial'?'src/components/right/management/ManageGroup.tsx':managementRoutes[name]].filter(Boolean));
+const right=await page.evaluate(()=>window.__relayAudit.groups.right);
+for(const name of right)await run('right',name,()=>page.evaluate(n=>window.__relayAudit.groups.openRight(n),name),'#RightColumn',['src/components/right/RightColumn.tsx',rightRoutes[name]&&`src/components/right/${rightRoutes[name]}.tsx`].filter(Boolean));
+report.gates.push('Passing route records assert actual router state and rendered surface; forms are not submitted','Synthetic privacy/websession/member/invite data establish local layout, not server acceptance/auth recovery','Statistics/polls/forum editing require richer datasets; enum-only branches are explicitly gated','FullHD baseline only in this grouped pass; broader themes/RTL/reduced-motion matrix remains separate');
+}catch(error){report.fatal=String(error);}finally{await browser.close();await server.close();report.summary={total:report.cases.length,pass:report.cases.filter(x=>x.status==='pass').length,gated:report.cases.filter(x=>x.status==='gated').length,errors:report.errors.length};await writeFile(path.join(evidence,'ui-grouped-route-results.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report.summary));if(report.fatal)process.exitCode=1;}

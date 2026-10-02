@@ -1,0 +1,26 @@
+# Personal and generated data
+.env
+.env.*
+!.env.example
+**/node_modules/
+/dist/
+/tauri/target/
+/release/
+/.cache/
+*.log
+*.dpapi
+*.session
+*.sqlite
+*.sqlite3
+*.db
+*.pfx
+*.p12
+*.pem
+*.key
+/account-data/
+/profiles/
+/exports/
+/.agent-brain.json
+/runtime/**/*.exe
+/runtime/**/*.dll
+/runtime/**/*.bin

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-update-x-bounds"
+description = "Enables the multi_update_x_bounds command without any pre-configured scope."
+commands.allow = ["multi_update_x_bounds"]
+
+[[permission]]
+identifier = "deny-multi-update-x-bounds"
+description = "Denies the multi_update_x_bounds command without any pre-configured scope."
+commands.deny = ["multi_update_x_bounds"]

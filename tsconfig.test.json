@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["dom-chromium-ai", "dom-view-transitions", "vite/client", "node", "vitest"],
+    "tsBuildInfoFile": ".cache/.tsconfig.test.tsbuildinfo"
+  },
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/testSetup.ts", "src/@types/global.d.ts", "src/types/tauri.ts"],
+  "exclude": ["src/lib/gramjs/tl/generateModules.ts", "src/lib/gramjs/tl/types-generator"]
+}

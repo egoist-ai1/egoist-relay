@@ -1,0 +1,13 @@
+{
+  "name": "egoist-social-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Account-owned Telegram, X and Instagram research, export and media jobs",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "node src/research/mcp.mjs",
+    "status": "node scripts/research-service.mjs status",
+    "test": "node --test src/research/*.test.mjs"
+  }
+}

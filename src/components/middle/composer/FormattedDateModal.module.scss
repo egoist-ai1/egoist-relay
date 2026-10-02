@@ -1,0 +1,122 @@
+.root {
+  border: 1px solid #222226 !important;
+  border-radius: 16px !important;
+  background-color: #0c0c0e !important;
+
+  :global(.modal-title) {
+    font-family: 'Unbounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 1.125rem !important;
+    font-weight: var(--font-weight-semibold) !important;
+    color: #FFFFFF !important;
+    letter-spacing: 0.02em !important;
+  }
+}
+
+.island {
+  padding: 0.875rem 1.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+
+  background-color: #131316;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.previewInput {
+  margin-bottom: 0;
+
+  &:global(.disabled) {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  :global(.form-control) {
+    cursor: var(--custom-cursor, pointer);
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 0.9375rem !important;
+    font-weight: var(--font-weight-medium) !important;
+    color: #FFFFFF !important;
+    text-align: center;
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  margin-top: 1.125rem;
+}
+
+.checkboxRow,
+.tabGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupLabel {
+  margin-bottom: 0.4375rem;
+
+  font-family: 'Unbounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tabList {
+  align-self: flex-start;
+}
+
+.modeTabList {
+  align-self: center;
+}
+
+.tabListDisabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.dialogButtons {
+  display: flex !important;
+  gap: 0.625rem !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+
+  margin-top: 1.5rem !important;
+
+  :global(.Button.confirm-dialog-button) {
+    height: 2.25rem !important;
+    padding: 0 1.25rem !important;
+    border-radius: 999px !important;
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 0.8125rem !important;
+    font-weight: var(--font-weight-semibold) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+
+    transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease !important;
+
+    &:not(:global(.btn-link)) {
+      color: #000000 !important;
+      background-color: #FFFFFF !important;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15) !important;
+
+      &:hover {
+        transform: translateY(-1px);
+        background-color: rgba(255, 255, 255, 0.88) !important;
+      }
+    }
+
+    &:global(.btn-link) {
+      color: rgba(255, 255, 255, 0.9) !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+
+      &:hover {
+        color: #FFFFFF !important;
+        background-color: rgba(255, 255, 255, 0.14) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "verificationScope": "Reviewed Windows x64 source and local installed build; finite tests, not universal service access or throughput",
+  "productionFiles": 3304,
+  "reviewedSourceFreezeFiles": 3307,
+  "sourceFreezeSha256": "dab2c58d728c0836315ceae8465d21548a16b2ac6df23e9598a6f3025889e12b",
+  "typescript": {
+    "configurations": 3,
+    "passed": 3
+  },
+  "unit": {
+    "suites": 26,
+    "passed": 322,
+    "failed": 0
+  },
+  "focusedUi": {
+    "shareHelper": 30,
+    "reelRail": 4,
+    "recipientPicker": 20,
+    "passed": 54
+  },
+  "native": {
+    "passed": 11
+  },
+  "releaseChecksTotal": 387,
+  "isolatedInstallerSmoke": {
+    "install": true,
+    "launch": true,
+    "uninstall": true
+  },
+  "installedExecutableSha256": "c7489e92a84eb8c691e90f39d6b88b7fed0d5dec412c1f0f0a79d7d340cfe4ab",
+  "installerSha256": "3f723548168e83278e80300a9e3876ef738590ef8c90f1a7d00dc78b099fcfdd",
+  "runtimeAllowlistFiles": 40,
+  "providerProof": {
+    "telegram": "confirmed",
+    "x": "confirmed",
+    "instagram": "confirmed",
+    "method": "Bounded status observations within periodic native warmup"
+  },
+  "network": {
+    "dnsSettingsPreserved": true,
+    "proxySettingsPreserved": true,
+    "protectedConfigurationHashesPreserved": true,
+    "servicesRunning": 4,
+    "basePrioritiesPreserved": true,
+    "noNetworkMutations": true
+  },
+  "privacy": {
+    "accountSessionsIncluded": false,
+    "apiCredentialsIncluded": false,
+    "privateExportsIncluded": false,
+    "hostConfigurationIncluded": false
+  },
+  "distribution": {
+    "sourceSnapshot": true,
+    "binaryRedistributionGate": "Pending complete corresponding third-party build/dependency sources; existing local installer is not uploaded by this source publication"
+  }
+}

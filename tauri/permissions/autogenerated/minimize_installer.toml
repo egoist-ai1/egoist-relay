@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-minimize-installer"
+description = "Enables the minimize_installer command without any pre-configured scope."
+commands.allow = ["minimize_installer"]
+
+[[permission]]
+identifier = "deny-minimize-installer"
+description = "Denies the minimize_installer command without any pre-configured scope."
+commands.deny = ["minimize_installer"]

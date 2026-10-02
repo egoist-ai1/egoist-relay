@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-open-new-window-cmd"
+description = "Enables the open_new_window_cmd command without any pre-configured scope."
+commands.allow = ["open_new_window_cmd"]
+
+[[permission]]
+identifier = "deny-open-new-window-cmd"
+description = "Denies the open_new_window_cmd command without any pre-configured scope."
+commands.deny = ["open_new_window_cmd"]

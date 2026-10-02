@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-get-network-status"
+description = "Enables the relay_get_network_status command without any pre-configured scope."
+commands.allow = ["relay_get_network_status"]
+
+[[permission]]
+identifier = "deny-relay-get-network-status"
+description = "Denies the relay_get_network_status command without any pre-configured scope."
+commands.deny = ["relay_get_network_status"]

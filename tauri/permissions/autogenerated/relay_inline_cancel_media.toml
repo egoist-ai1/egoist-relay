@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-inline-cancel-media"
+description = "Enables the relay_inline_cancel_media command without any pre-configured scope."
+commands.allow = ["relay_inline_cancel_media"]
+
+[[permission]]
+identifier = "deny-relay-inline-cancel-media"
+description = "Denies the relay_inline_cancel_media command without any pre-configured scope."
+commands.deny = ["relay_inline_cancel_media"]

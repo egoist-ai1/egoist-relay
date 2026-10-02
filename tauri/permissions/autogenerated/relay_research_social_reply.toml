@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-research-social-reply"
+description = "Enables the relay_research_social_reply command without any pre-configured scope."
+commands.allow = ["relay_research_social_reply"]
+
+[[permission]]
+identifier = "deny-relay-research-social-reply"
+description = "Denies the relay_research_social_reply command without any pre-configured scope."
+commands.deny = ["relay_research_social_reply"]
