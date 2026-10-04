@@ -127,6 +127,7 @@ pub(crate) fn is_research_headless() -> bool {
 
 pub(crate) fn should_avoid_foreground() -> bool {
   is_background_control() || is_research_headless()
+    || std::env::args().any(|argument| argument == "--start-hidden")
 }
 
 #[tauri::command]
@@ -181,7 +182,7 @@ pub fn run() {
   }
   let app = tauri::Builder::default()
     .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
-      if is_background_control() {
+      if is_background_control() || args.iter().any(|argument| argument == "--start-hidden") {
         return;
       }
       if args.iter().any(|argument| argument == "--research-recover-existing")

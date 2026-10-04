@@ -4,6 +4,10 @@
     z-index: var(--z-modal);
     color: var(--color-text);
 
+    body.no-page-transitions & {
+      transition: none !important;
+    }
+
     &[open] {
       display: block;
     }
@@ -98,7 +102,7 @@
       flex-direction: column;
 
       width: 100%;
-      min-width: 17.5rem;
+      min-width: min(17.5rem, calc(100vw - 3rem));
       max-width: 35rem;
       margin: 2rem auto;
       border-radius: var(--border-radius-modal);
@@ -175,6 +179,7 @@
       font-size: 1.25rem;
       font-weight: var(--font-weight-medium);
       text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:not(:only-child) {
         margin: 0 1rem;
@@ -329,6 +334,17 @@
 
     &::backdrop {
       background: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .Modal {
+      transition: none !important;
+
+      .modal-dialog {
+        transform: none !important;
+        transition: none !important;
+      }
     }
   }
 }

@@ -81,6 +81,7 @@ const TRANSITION_RENDER_COUNT = Object.keys(AppScreens).length / 2;
 const ACTIVE_PAGE_TITLE = IS_TAURI ? PAGE_TITLE_TAURI : PAGE_TITLE;
 const INACTIVE_PAGE_TITLE = `${ACTIVE_PAGE_TITLE} ${INACTIVE_MARKER}`;
 const NOTICE_DURATION = 6000;
+const PREWARM_COMMANDS = ['multi_prewarm_x', 'multi_prewarm_instagram'] as const;
 
 type XStatusPayload = {
   state: Exclude<XAppState, 'idle'>;
@@ -144,6 +145,7 @@ const App = ({
   const isNavigatingRef = useRef(false);
   const nativeStatusListenersReadyRef = useRef<Promise<void>>();
   const nativeStatusListenersRef = useRef<NoneToVoidFunction[]>([]);
+  const areServicesPrewarmedRef = useRef(false);
   const nativeViewportRef = useRef<HTMLDivElement>();
   const nativeBoundsRequestRef = useRef(0);
   const lang = useLang();
@@ -523,6 +525,25 @@ const App = ({
       nativeStatusListenersRef.current = [];
     };
   }, []);
+
+  useEffect(() => {
+    if (!IS_TAURI || isScreenLocked || inactiveReason || areServicesPrewarmedRef.current) return;
+    areServicesPrewarmedRef.current = true;
+    void prepareNativeStatusListeners().then(async () => {
+      const { invoke } = await import('@tauri-apps/api/core');
+      for (const command of PREWARM_COMMANDS) {
+        if (!isMountedRef.current) return;
+        try {
+          await invoke(command);
+        } catch (err) {
+          handleError(new Error('Failed to prewarm a social view', { cause: err }));
+        }
+      }
+    }).catch((err) => {
+      areServicesPrewarmedRef.current = false;
+      handleError(new Error('Failed to prepare social view observers', { cause: err }));
+    });
+  }, [isScreenLocked, inactiveReason]);
 
   const handleNavigation = useLastCallback(async (action: SocialNavigationAction | 'login') => {
     if (!IS_TAURI || socialShareRef.current || activeApp === 'telegram'

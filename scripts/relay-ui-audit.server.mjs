@@ -40,7 +40,8 @@ export async function startAuditServer(output, port = 1251) {
           try {
             const html = await instance.transformIndexHtml('/relay-ui-audit',
               '<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-              + '<title>Relay isolated UI audit</title><style>@layer reset, variables, ui, components;</style></head>'
+              + '<title>Relay isolated UI audit</title><style>@layer reset, variables, ui, components;</style>'
+              + '<script>if (!location.hash) history.replaceState(history.state, "", location.pathname + location.search + "#mockScenario=relay-ui");</script></head>'
               + '<body id="root"><div id="portals"></div><script type="module" src="/scripts/relay-ui-audit.fixture.tsx"></script></body></html>');
             response.setHeader('content-type', 'text/html; charset=utf-8'); response.end(html);
           } catch (error) { next(error); }

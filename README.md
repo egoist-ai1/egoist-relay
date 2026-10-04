@@ -1,64 +1,37 @@
-<p align="center"><img src="tauri/icons/128x128.png" width="88" height="88" alt="Egoist Relay"></p>
-<h1 align="center">Egoist Relay</h1>
-<p align="center">Telegram · X · Instagram — единое приложение для Windows</p>
-<p align="center"><img alt="Version" src="https://img.shields.io/badge/version-1.4.6-8B9DFF"><img alt="Platform" src="https://img.shields.io/badge/platform-Windows_x64-24292f"><img alt="License" src="https://img.shields.io/badge/license-GPL--3.0--or--later-2ea44f"></p>
+# Egoist Relay
 
-Egoist Relay объединяет Telegram, X и Instagram в одном настольном окне. Ветка **codex/release-1.4.6** содержит проверенный снимок исходников версии 1.4.6, тесты и компонент Egoist Social MCP.
+**Egoist Relay 1.4.7** — неофициальный Windows-хаб Telegram, X и Instagram.
 
-[Изменения 1.4.6](docs/RELEASE-1.4.6.md) · [Сборка](BUILDING.md) · [Проверки](docs/VERIFICATION.md) · [Приватность](SECURITY.md) · [Архитектура](docs/ARCHITECTURE.md)
+Оболочка сохраняет отдельные WebView2 и профили сервисов между переключениями. Скрытые медиа приостанавливаются. Telegram использует локальный MTProxy Egoist Lagom при доступной службе; адрес и secret читаются из защищённой конфигурации и передаются только внутри локального процесса. X и Instagram наследуют текущую сетевую конфигурацию Windows. Relay не перенастраивает DNS, Zapret или другие службы.
 
-## Возможности
+Диалоги используют общий учёт открытых окон, корректно закрываются при вложении и учитывают уменьшение анимации. Размеры ограничены viewport при увеличении текста; заголовки имеют доступное имя и подсказку. Отложенное открытие отменяется при закрытии и размонтировании. Панель Reels сохраняет нативные счётчики, а пересылка выбирает однозначный permalink поста; ссылка в подписи не скрывает действие Telegram. Поиск существующих кнопок в каждом проходе выполняется через общий индекс.
 
-| Компонент | Возможности |
-| --- | --- |
-| Telegram | Чаты и аккаунты в существующем клиенте, файлы, медиа и получатели пересылки |
-| X и Instagram | Отдельные сессии, встроенные страницы и отправка выбранного источника в Telegram |
-| Reels → Telegram | Кнопка в панели действий, выбор адресата, ссылки и поддерживаемые медиа |
-| Social MCP | Поиск, чтение выбранных источников, экспорт, проверенные курсоры и локальный индекс |
-| Локальные медиа | Загрузка поддерживаемых источников и распознавание наблюдаемого аудио/видео доступным локальным runtime |
+Подготовка медиа учитывает общий дедлайн и отмену до запуска worker. Проверка Node ограничена двумя секундами на кандидата. Синхронный WinHTTP PAC сохраняет фазовые ограничения Windows: немедленная отмена внутри этого вызова не гарантируется; после его возврата просроченная операция не запускает загрузчик.
 
-## Что входит в 1.4.6
+## Сборка и проверки
 
-- Выровненная панель действий Reels с областью нажатия 44 px.
-- Короткая подпись **«Нравятся»** с сохранением обычных числовых счётчиков.
-- Окно пересылки в формате Telegram: поиск, недавние контакты, папки и выбранный получатель.
-- Копирование ссылки до выбора адресата и отправка после выбора.
-- Адаптация коротких окон, RTL, светлой/тёмной темы и reduced motion в проверенных сценариях.
+```sh
+npm run release:preflight
+npm run check
+npm test
+npm run tauri:build
+```
 
-## Проверенная версия
+Требуются locked зависимости, Node.js 24, Rust/MSVC, Windows SDK и NSIS; Telegram API credentials находятся в локальном `.env`. Runtime включает только ресурсы из `scripts/release-runtime-manifest.json`. Обновление сохраняет пользовательские профили и неизвестные файлы.
 
-Для исходников версии выполнены **387 проверок**: 322 unit tests, 54 focused UI/helper scenarios и 11 native checks. Дополнительно прошли три конфигурации TypeScript и изолированная установка → запуск → удаление. Telegram, X и Instagram подтвердили готовность MCP в ограниченной live проверке.
+Результаты версии: [docs/RELEASE-1.4.7.md](docs/RELEASE-1.4.7.md). Исходники публикуются в egoist-ai1/egoist-relay. Установщик не публикуется: соответствующие исходники сторонних бинарных зависимостей остаются неполными.
 
-Полный состав и границы проверки указаны в [VERIFICATION.md](docs/VERIFICATION.md). Готовность сессии не подтверждает доступ к любому источнику, универсальную скорость CDN или все возможные действия в аккаунте.
+## Фоновая диагностика
 
-## Сеть и аккаунты
+Поддерживается привязанный к экземпляру Egoist Relay Control API. Исследовательский Social MCP использует authenticated Windows named pipes. Диагностические данные и аккаунты не входят в публичный исходный архив.
 
-Приложение использует существующую сетевую конфигурацию Windows. Этот выпуск не меняет системные DNS/DoH, маршруты, proxy, службы Zapret/Lagom или их приоритеты. Текущий доступный MTProxy Lagom читается локальным адаптером приложения; секрет не является частью репозитория. MCP работает через аутентифицированные Windows named pipes.
 
-Репозиторий содержит код и синтетические тесты. Сессий Telegram/X/Instagram, cookies, профилей WebView, API credentials, личных сообщений, выгрузок и пользовательских DNS-конфигураций в публикации нет. Для собственной сборки используются собственные Telegram API ID/hash в локальном .env.
+## Публичный пакет исходников
 
-## Быстрый старт для разработчика
+Этот пакет содержит исходники 1.4.7, проверенные публичные тесты и дополнительные исходники Egoist Social MCP.
 
-~~~powershell
-git clone --branch codex/release-1.4.6 https://github.com/egoist-ai1/egoist-relay.git
-cd egoist-relay
-npm ci
-Copy-Item .env.example .env
-~~~
+[Изменения](docs/RELEASE-1.4.7.md) · [Сборка](BUILDING.md) · [Проверки](docs/VERIFICATION.md) · [Приватность](SECURITY.md) · [Архитектура](docs/ARCHITECTURE.md) · [Сторонние зависимости](THIRD-PARTY.md).
 
-Далее заполните собственные Telegram API credentials и подготовьте публичный runtime по [BUILDING.md](BUILDING.md). Бинарные runtime зависимости не хранятся в Git. Установщик этой проверенной локальной сборки пока не опубликован: комплект corresponding source для всех сторонних бинарных зависимостей требует завершения.
+Проверены три конфигурации TypeScript, 26 Vitest suites / 322 tests и 43 native tests. Подробный статус других проверок и оставшихся ограничений указан в VERIFICATION.md. Проверки реальных авторизованных сервисов в текущем выпуске не приняты; полная квалификация выпуска приложения не заявляется.
 
-## Структура
-
-~~~text
-src/                         интерфейс, Telegram и действия приложения
-tauri/                       native Windows оболочка и разрешения
-scripts/                     сборка, release policy и synthetic сценарии
-runtime/research/            app-owned bridge и DOM collection helper
-scripts/integrations/egoist-social-mcp/  MCP сервис, экспорт и локальный индекс
-docs/                        выпуск, проверка и архитектура
-~~~
-
-## Лицензия и происхождение
-
-Исходники распространяются по **GPL-3.0-or-later**. Сохранены оригинальный LICENSE, заголовки авторства и notices vendored компонентов. Telegram UI использует Teact/GramJS; оболочка приложения — Tauri. Сторонние компоненты имеют собственные лицензии и source provenance. Подробнее: [THIRD-PARTY.md](THIRD-PARTY.md).
+Runtime binaries, models, credentials, cookies, account profiles and developer machine reports are excluded. Vendored Tauri source and license notices remain included. The binary corresponding-source gate remains unresolved; this publication does not clear it.

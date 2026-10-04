@@ -28,6 +28,9 @@
   function getPostUrl(post) {
     const links = Array.from(post.querySelectorAll('a[href]'));
     if (service === 'instagram') {
+      const timestampUrls = new Set(links.filter(link => link.querySelector('time'))
+        .map(link => instagramPostUrl(link.href)).filter(Boolean));
+      if (timestampUrls.size) return timestampUrls.size === 1 ? timestampUrls.values().next().value : undefined;
       const urls = new Set(links.map(link => instagramPostUrl(link.href)).filter(Boolean));
       return urls.size === 1 ? urls.values().next().value : undefined;
     }
@@ -247,11 +250,15 @@
         if (context) contexts.set(video, context);
       });
     }
+    const buttonsByOwner = new Map();
+    activeButtons.forEach((saved, button) => {
+      if (button.isConnected) buttonsByOwner.set(saved.video || saved.owner, button);
+    });
     const used = new Set();
     const usedPresentation = new Set();
     contexts.forEach((context, key) => {
       if (service === 'x' && !actionRow(context)) return;
-      let button = Array.from(activeButtons).find(([candidate, saved]) => candidate.isConnected && (saved.video || saved.owner) === key)?.[0];
+      let button = buttonsByOwner.get(key);
       if (!button) button = makeButton(context);
       activeButtons.set(button, context); used.add(button);
       const reelRail = service === 'instagram' && context.video ? getReelActionRail(context) : undefined;

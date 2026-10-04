@@ -9,6 +9,7 @@ import { requestMeasure } from '../../lib/fasterdom/fasterdom';
 import buildClassName from '../../util/buildClassName';
 import captureKeyboardListeners, { ALLOW_KEYBOARD_EVENT_PROPAGATION } from '../../util/captureKeyboardListeners';
 import { disableDirectTextInput, enableDirectTextInput } from '../../util/directInputManager';
+import acquireOpenModal from '../../util/openModalState';
 import trapFocus from '../../util/trapFocus';
 
 import useContextMenuHandlers from '../../hooks/useContextMenuHandlers';
@@ -29,9 +30,11 @@ import Portal from './Portal';
 import './Modal.scss';
 
 export const ANIMATION_DURATION = 200;
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export type OwnProps = {
   title?: string | TextPart[];
+  ariaLabel?: string;
   className?: string;
   contentClassName?: string;
   headerClassName?: string;
@@ -77,18 +80,23 @@ const Modal = (props: OwnProps) => {
     onEnter,
   } = props;
 
+  const shouldDisableAnimation = reducedMotionQuery.matches || document.body.classList.contains('no-page-transitions');
+
   const {
     ref: modalRef,
     shouldRender,
   } = useShowTransition<HTMLElement>({
     isOpen,
     withShouldRender: true,
+    noOpenTransition: shouldDisableAnimation,
+    closeDuration: shouldDisableAnimation ? 0 : ANIMATION_DURATION,
     onCloseAnimationEnd,
   });
 
   const shouldFreeze = !noFreezeOnClose && !isOpen;
   const {
     title,
+    ariaLabel,
     isLowStackPriority,
     header,
     children,
@@ -116,7 +124,9 @@ const Modal = (props: OwnProps) => {
   const previousFocusRef = useRef<HTMLElement>();
   const moreButtonRef = useRef<HTMLButtonElement>();
   const menuRef = useRef<HTMLDivElement>();
-  const menuPortalId = `modal-menu-${useUniqueId()}`;
+  const modalId = useUniqueId();
+  const menuPortalId = `modal-menu-${modalId}`;
+  const titleId = `modal-title-${modalId}`;
 
   const {
     isContextMenuOpen,
@@ -270,17 +280,13 @@ const Modal = (props: OwnProps) => {
     onBack: onClose,
   });
 
-  useLayoutEffectWithPrevDeps(([prevIsOpen]) => {
-    document.body.classList.toggle('has-open-dialog', Boolean(isOpen));
+  useLayoutEffect(() => (shouldRender ? acquireOpenModal() : undefined), [shouldRender]);
 
-    if (isOpen || (!isOpen && prevIsOpen !== undefined)) {
+  useLayoutEffectWithPrevDeps(([prevIsOpen]) => {
+    if (!shouldDisableAnimation && (isOpen || (!isOpen && prevIsOpen !== undefined))) {
       beginHeavyAnimation(ANIMATION_DURATION);
     }
-
-    return () => {
-      document.body.classList.remove('has-open-dialog');
-    };
-  }, [isOpen]);
+  }, [isOpen, shouldDisableAnimation]);
 
   const lang = useOldLang();
 
@@ -314,7 +320,14 @@ const Modal = (props: OwnProps) => {
     return title ? (
       <div className={buildClassName('modal-header', headerClassName, isCondensedHeader && 'modal-header-condensed')}>
         {closeButton}
-        <div className="modal-title" autoFocus={!noTitleAutoFocus}>{title}</div>
+        <div
+          id={titleId}
+          className="modal-title"
+          title={typeof title === 'string' ? title : undefined}
+          autoFocus={!noTitleAutoFocus}
+        >
+          {title}
+        </div>
       </div>
     ) : closeButton;
   }
@@ -398,6 +411,8 @@ const Modal = (props: OwnProps) => {
           ref={nativeDialogRef}
           className={fullClassName}
           aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={title && !header ? titleId : undefined}
         >
           {renderContent()}
         </dialog>
@@ -407,6 +422,9 @@ const Modal = (props: OwnProps) => {
           className={fullClassName}
           tabIndex={-1}
           role="dialog"
+          aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={title && !header ? titleId : undefined}
         >
           {renderContent()}
         </div>

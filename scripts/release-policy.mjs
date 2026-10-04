@@ -36,6 +36,7 @@ export function isSafeSourcePath(file) {
   assertSafeRelative(file);
   return !file.split('/').some((part) => BLOCKED_PARTS.test(part)) && !BLOCKED_FILE.test(path.posix.basename(file))
     && !/(?:^|\/)(?:accounts?|sessions?|enrollment)\/.*\.(?:json|txt|log|bin)$/i.test(file)
+    && !/^public\/(?:build-stats\.json|statoscope-report\.html|installer\.html)$/.test(file)
     && !/\.(?:test|spec|fixture)\./i.test(file);
 }
 

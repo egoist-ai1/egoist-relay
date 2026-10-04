@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.7",
+  "state": "reviewed_source_snapshot",
+  "verificationScope": "Finite source and synthetic/native checks; no current accepted authenticated live-service qualification or independent-device release certification",
+  "typescript": {
+    "configurations": 3,
+    "passed": 3
+  },
+  "vitest": {
+    "suites": 26,
+    "passed": 322,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "native": {
+    "passed": 43,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "focusedUi": {
+    "passed": 7,
+    "total": 7
+  },
+  "focusedUiEdges": {
+    "passed": 7,
+    "total": 7
+  },
+  "enhancer": {
+    "passed": 7,
+    "total": 7
+  },
+  "uiMatrix": {
+    "total": 64,
+    "passed": 63,
+    "failed": 0,
+    "gated": 1,
+    "state": "ActiveWebsites requires authenticated service state"
+  },
+  "release": {
+    "passed": 17,
+    "failed": 0,
+    "exitCode": 0,
+    "includesFrameInitChecks": 2,
+    "state": "Full 17-check rerun passed after final pipeline fix"
+  },
+  "eslint": {
+    "errors": 0,
+    "warnings": 1,
+    "warningScope": "existing"
+  },
+  "stylelint": {
+    "errors": 0,
+    "warnings": 509
+  },
+  "preflight": {
+    "version": "1.4.7",
+    "runtimeFiles": 40,
+    "updater": false,
+    "embeddedUi": true
+  },
+  "optimizedNativeBuild": {
+    "state": "Final Vite/native/NSIS build, package extraction and isolated packaging smoke passed",
+    "exitCode": 0,
+    "packagedExeSha256": "68ce83b8e12162a56fcfa2a801e0551ba3ff653b63ad829fbce657cbccc7baf7",
+    "exeBytes": 77798912,
+    "version": "1.4.7",
+    "signature": "NotSigned",
+    "preliminaryExeBytes": 82075648,
+    "exeReductionBytes": 4276736,
+    "exeReductionPercent": 5.21,
+    "installerBytes": 567280908,
+    "installerSha256": "df28147ec2293d56f0139131df013f0b44ed29723151b0c39cb96e779e66de1f",
+    "packagedRuntimeFilesVerified": 40,
+    "offlineWebViewBytes": 212272848,
+    "offlineWebViewSignature": "Valid Microsoft signature",
+    "isolatedPackagingSmoke": {
+      "state": "passed",
+      "installExitCode": 0,
+      "packagedExeVerified": true,
+      "runtimeFilesVerified": 40,
+      "hiddenLaunchAliveSeconds": 10,
+      "uninstallExitCode": 0,
+      "userFacingVisibleWindows": 0,
+      "noOwnedResidualProcesses": true,
+      "noOutsideTestProfileDirectories": true,
+      "productionExeRegistryProtocolProcessIdentitiesUnchanged": true,
+      "productionProfileMetadataUnchanged": false,
+      "independentControlInterval": {
+        "seconds": 5,
+        "ownedProcessPresent": false,
+        "metadataChanges": 2
+      },
+      "profileContentsRead": false,
+      "profileBytePreservationClaim": false,
+      "scope": "Isolated test profile; no current authenticated live-account acceptance; metadata-only observation does not establish whole-profile preservation"
+    }
+  },
+  "performance": {
+    "passed": 3,
+    "total": 3,
+    "serviceSwitches": 48,
+    "modalCycles": 24,
+    "openModalsRemaining": 0,
+    "scope": "Existing scenarios on a shared headless host; no frame-rate claim"
+  },
+  "frontendBuild": {
+    "exitCode": 0,
+    "bytes": 98948717,
+    "files": 11677,
+    "sourceMapsIncluded": false,
+    "diagnosticReportsIncluded": false,
+    "priorBytes": 203202121,
+    "diagnosticPluginReductionBytes": 100540813,
+    "scope": "Fresh output also removes stale previous chunks; frontend raw savings are separate from installer compression and other release changes"
+  },
+  "authenticatedLiveServices": {
+    "state": "not accepted in this verification scope"
+  },
+  "binaryPublication": {
+    "held": true,
+    "correspondingSourceComplete": false,
+    "missingSource": [
+      "FFmpeg exact build dependency sources and recipe",
+      "Delivered npm/Cargo and standalone yt-dlp dependency archives"
+    ]
+  }
+}

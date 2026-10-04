@@ -1,7 +1,11 @@
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
+use std::time::{Duration, Instant};
 
 use tauri::Manager;
+
+const NODE_PROBE_TIMEOUT: Duration = Duration::from_secs(2);
+const NODE_PROBE_POLL_INTERVAL: Duration = Duration::from_millis(25);
 
 pub(crate) fn find_node_binary(app: &tauri::AppHandle) -> Result<PathBuf, String> {
   let mut candidates = Vec::new();
@@ -16,13 +20,33 @@ pub(crate) fn find_node_binary(app: &tauri::AppHandle) -> Result<PathBuf, String
   }
   #[cfg(debug_assertions)]
   candidates.push(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../runtime/node.exe"));
+  let mut checked = Vec::new();
   candidates.into_iter().find(|candidate| {
-    if !candidate.is_file() { return false; }
-    let mut command = Command::new(candidate);
-    command.arg("--version").stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null());
-    hide_command_window(&mut command);
-    command.status().is_ok_and(|status| status.success())
+    if checked.contains(candidate) { return false; }
+    checked.push(candidate.clone());
+    candidate.is_file() && probe_node_binary(candidate)
   }).ok_or_else(|| "Bundled Node runtime is unavailable".to_string())
+}
+
+fn probe_node_binary(candidate: &std::path::Path) -> bool {
+  let mut command = Command::new(candidate);
+  command.arg("--version").stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null());
+  hide_command_window(&mut command);
+  let deadline = Instant::now() + NODE_PROBE_TIMEOUT;
+  let Ok(mut child) = command.spawn() else { return false; };
+  loop {
+    match child.try_wait() {
+      Ok(Some(status)) => return status.success(),
+      Ok(None) if Instant::now() < deadline => {
+        std::thread::sleep(NODE_PROBE_POLL_INTERVAL.min(deadline.saturating_duration_since(Instant::now())));
+      },
+      _ => {
+        let _ = child.kill();
+        let _ = child.wait();
+        return false;
+      },
+    }
+  }
 }
 
 #[cfg(windows)]

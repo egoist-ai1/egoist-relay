@@ -1,6 +1,6 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 import { constants as fsConstants } from 'node:fs';
-import { open, realpath } from 'node:fs/promises';
+import { lstat, open, realpath } from 'node:fs/promises';
 import http from 'node:http';
 import net from 'node:net';
 import path from 'node:path';
@@ -9,6 +9,9 @@ import { WebSocket, WebSocketServer } from 'ws';
 
 const STARTUP_TIMEOUT_MS = 5000;
 const CONNECT_TIMEOUT_MS = 1200;
+const CONNECT_RETRY_MS = 250;
+const MAX_CONNECT_ATTEMPTS = 10;
+const MAX_HANDOFF_BYTES = 4096;
 const HANDSHAKE_TIMEOUT_MS = 12000;
 const FIRST_RESPONSE_TIMEOUT_MS = 30000;
 const HEARTBEAT_INTERVAL_MS = 20000;
@@ -35,9 +38,14 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
   }
   const allowedOrigins = new Set(origins);
   const tokenBytes = Buffer.from(token, 'ascii');
-  const initialConfig = await readLagomConfig();
-  initialConfig.secret.fill(0);
-  await checkListener(initialConfig);
+  let reason;
+  try {
+    const initialConfig = await readLagomConfig();
+    initialConfig.secret.fill(0);
+    await checkListener(initialConfig);
+  } catch (error) {
+    reason = classifyLagomFailure(error);
+  }
 
   const server = http.createServer((_request, response) => {
     response.writeHead(404, { Connection: 'close', 'Content-Length': '0' });
@@ -85,7 +93,7 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
     for (const connection of connections) connection.ping();
   }, HEARTBEAT_INTERVAL_MS);
   const address = server.address();
-  return { url: `ws://127.0.0.1:${address.port}/apiws?token=${token}`, close };
+  return { url: `ws://127.0.0.1:${address.port}/apiws?token=${token}`, close, reason };
 
   function close() {
     if (isClosing) return;
@@ -184,37 +192,67 @@ function createConnection(webSocket, route, onClosed) {
   return { close, ping };
 
   async function connectProxy() {
-    const config = await readLagomConfig();
-    if (isClosed) {
-      config.secret.fill(0);
-      return;
+    for (let attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
+      if (isClosed) return;
+      let config;
+      try {
+        config = await readLagomConfig();
+        if (isClosed) return;
+        tcp = await connectProxySocket(config);
+        if (isClosed) { tcp.destroy(); return; }
+        const proxyHeader = createProxyHeader(route.dc, config.secret);
+        proxyEncrypt = proxyHeader.encrypt;
+        proxyDecrypt = proxyHeader.decrypt;
+        attachProxySocket();
+        tcp.write(proxyHeader.bytes);
+        isConnected = true;
+        clearTimeout(handshakeDeadline);
+        firstResponseDeadline = setTimeout(close, FIRST_RESPONSE_TIMEOUT_MS);
+        for (const chunk of queue) sendToProxy(chunk);
+        queue = [];
+        queuedBytes = 0;
+        return;
+      } catch (error) {
+        tcp?.destroy();
+        if (isClosed) return;
+        if (!isRetryableLagomFailure(error) || attempt + 1 >= MAX_CONNECT_ATTEMPTS) throw error;
+        await new Promise((resolve) => setTimeout(resolve, CONNECT_RETRY_MS));
+      } finally {
+        config?.secret.fill(0);
+      }
     }
-    let proxyHeader;
-    try {
-      proxyHeader = createProxyHeader(route.dc, config.secret);
-      proxyEncrypt = proxyHeader.encrypt;
-      proxyDecrypt = proxyHeader.decrypt;
-    } finally {
-      config.secret.fill(0);
-    }
-    tcp = net.createConnection({ host: config.host, port: config.port });
-    tcp.setNoDelay(true);
-    tcp.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
-    tcp.setTimeout(CONNECT_TIMEOUT_MS, close);
+  }
+
+  function connectProxySocket({ host, port }) {
+    return new Promise((resolve, reject) => {
+      const candidate = net.createConnection({ host, port });
+      tcp = candidate;
+      candidate.setNoDelay(true);
+      candidate.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
+      const deadline = setTimeout(() => finish(false), CONNECT_TIMEOUT_MS);
+      candidate.once('connect', onConnected);
+      candidate.once('error', onFailed);
+      candidate.once('close', onFailed);
+      function onConnected() { finish(true); }
+      function onFailed() { finish(false); }
+      function finish(isAvailable) {
+        clearTimeout(deadline);
+        candidate.removeListener('connect', onConnected);
+        candidate.removeListener('error', onFailed);
+        candidate.removeListener('close', onFailed);
+        if (isAvailable) resolve(candidate);
+        else {
+          candidate.destroy();
+          reject(new Error('LAGOM_LISTENER_UNAVAILABLE'));
+        }
+      }
+    });
+  }
+
+  function attachProxySocket() {
     tcp.on('error', close);
     tcp.on('end', close);
     tcp.on('close', close);
-    tcp.on('connect', () => {
-      if (isClosed) return;
-      tcp.setTimeout(0);
-      tcp.write(proxyHeader.bytes);
-      isConnected = true;
-      clearTimeout(handshakeDeadline);
-      firstResponseDeadline = setTimeout(close, FIRST_RESPONSE_TIMEOUT_MS);
-      for (const chunk of queue) sendToProxy(chunk);
-      queue = [];
-      queuedBytes = 0;
-    });
     tcp.on('drain', () => {
       clearTimeout(pressureDeadline);
       pressureDeadline = undefined;
@@ -293,35 +331,83 @@ function createProxyHeader(dc, secret) {
 
 async function readLagomConfig() {
   const programData = process.env.ProgramData;
-  if (!programData || !path.isAbsolute(programData)) throw new Error('LAGOM_UNAVAILABLE');
-  const configPath = path.join(programData, 'EgoistShield', 'Runtime', 'TelegramProxy', 'config.json');
+  let primaryFailure;
+  if (programData && path.isAbsolute(programData)) {
+    const configPath = path.join(programData, 'EgoistShield', 'Runtime', 'TelegramProxy', 'config.json');
+    try {
+      return await readLagomFile(configPath, false);
+    } catch (error) {
+      if (!isUnreadableLagomFile(error)) throw new Error('LAGOM_INVALID_CONFIG', { cause: error });
+      primaryFailure = error;
+    }
+  }
+  const localData = process.env.LOCALAPPDATA;
+  if (!localData || !path.isAbsolute(localData)) throw new Error('LAGOM_CONFIG_UNAVAILABLE');
+  const handoffPath = path.join(localData, 'EgoistRelay', 'interop', 'lagom-telegram.json');
+  try {
+    return await readLagomFile(handoffPath, true);
+  } catch (error) {
+    if (!isUnreadableLagomFile(error)) throw new Error('LAGOM_INVALID_CONFIG', { cause: error });
+    const isDenied = [error?.code, primaryFailure?.code].some((code) => code === 'EACCES' || code === 'EPERM');
+    throw new Error(isDenied ? 'LAGOM_CONFIG_ACCESS_DENIED' : 'LAGOM_CONFIG_UNAVAILABLE', { cause: error });
+  }
+}
+
+async function readLagomFile(configPath, isHandoff) {
   let file;
   let bytes;
   try {
     const resolvedPath = await realpath(configPath);
     if (resolvedPath.toLowerCase() !== path.resolve(configPath).toLowerCase()) throw new Error('INVALID_CONFIG_PATH');
+    for (let current = configPath; current;) {
+      if ((await lstat(current)).isSymbolicLink()) throw new Error('INVALID_CONFIG_PATH');
+      const parent = path.dirname(current);
+      if (parent === current) break;
+      current = parent;
+    }
     file = await open(configPath, fsConstants.O_RDONLY);
     const stat = await file.stat();
-    if (!stat.isFile() || stat.size > MAX_CONFIG_BYTES) throw new Error('INVALID_CONFIG_SIZE');
-    bytes = Buffer.alloc(MAX_CONFIG_BYTES + 1);
+    const maximum = isHandoff ? MAX_HANDOFF_BYTES : MAX_CONFIG_BYTES;
+    if (!stat.isFile() || stat.size > maximum || stat.nlink !== 1) throw new Error('INVALID_CONFIG_SIZE');
+    bytes = Buffer.alloc(maximum + 1);
     let bytesRead = 0;
     while (bytesRead < bytes.length) {
       const result = await file.read(bytes, bytesRead, bytes.length - bytesRead, bytesRead);
       if (!result.bytesRead) break;
       bytesRead += result.bytesRead;
     }
-    if (bytesRead > MAX_CONFIG_BYTES) throw new Error('INVALID_CONFIG_SIZE');
+    if (bytesRead > maximum) throw new Error('INVALID_CONFIG_SIZE');
+    const after = await file.stat();
+    if (after.size !== stat.size || after.mtimeMs !== stat.mtimeMs || after.nlink !== 1) throw new Error('INVALID_CONFIG_CHANGED');
     const config = JSON.parse(bytes.toString('utf8', 0, bytesRead));
-    if (!['127.0.0.1', '::1', 'localhost'].includes(config.host) || !Number.isInteger(config.port)
-      || config.port < 1024 || config.port > 65535 || typeof config.secret !== 'string'
+    if (!config || Array.isArray(config) || typeof config !== 'object') throw new Error('INVALID_CONFIG');
+    if (isHandoff && (config.schemaVersion !== 1 || Object.keys(config).sort().join(',') !== 'host,port,schemaVersion,secret')) {
+      throw new Error('INVALID_CONFIG');
+    }
+    const hosts = isHandoff ? ['127.0.0.1'] : ['127.0.0.1', '::1', 'localhost'];
+    if (!hosts.includes(config.host) || !Number.isInteger(config.port)
+      || config.port < (isHandoff ? 1 : 1024) || config.port > 65535 || typeof config.secret !== 'string'
       || !/^[a-f0-9]{32}$/i.test(config.secret)) throw new Error('INVALID_CONFIG');
-    return { host: config.host === 'localhost' ? '127.0.0.1' : config.host, port: config.port, secret: Buffer.from(config.secret, 'hex') };
-  } catch {
-    throw new Error('LAGOM_UNAVAILABLE');
+    const secret = Buffer.from(config.secret, 'hex');
+    config.secret = '';
+    return { host: config.host === 'localhost' ? '127.0.0.1' : config.host, port: config.port, secret };
   } finally {
     bytes?.fill(0);
     await file?.close();
   }
+}
+
+function isUnreadableLagomFile(error) {
+  return ['EACCES', 'EPERM', 'ENOENT', 'ENOTDIR'].includes(error?.code);
+}
+
+function classifyLagomFailure(error) {
+  return ['LAGOM_CONFIG_ACCESS_DENIED', 'LAGOM_CONFIG_UNAVAILABLE', 'LAGOM_LISTENER_UNAVAILABLE', 'LAGOM_INVALID_CONFIG']
+    .includes(error?.message) ? error.message : 'LAGOM_INVALID_CONFIG';
+}
+
+function isRetryableLagomFailure(error) {
+  return ['LAGOM_CONFIG_ACCESS_DENIED', 'LAGOM_CONFIG_UNAVAILABLE', 'LAGOM_LISTENER_UNAVAILABLE'].includes(error?.message);
 }
 
 async function checkListener({ host, port }) {
@@ -337,7 +423,7 @@ async function checkListener({ host, port }) {
       clearTimeout(deadline);
       socket.destroy();
       if (isAvailable) resolve();
-      else reject(new Error('LAGOM_UNAVAILABLE'));
+      else reject(new Error('LAGOM_LISTENER_UNAVAILABLE'));
     }
   });
 }
@@ -367,7 +453,7 @@ export function runTelegramTransportChild() {
       transport = result;
       if (isStopping) return transport.close();
       clearTimeout(deadline);
-      process.stdout.write(`${JSON.stringify({ status: 'ready', url: transport.url })}\n`);
+      process.stdout.write(`${JSON.stringify({ status: 'ready', url: transport.url, reason: transport.reason })}\n`);
     }).catch(stop);
   });
   process.stdin.on('end', stop);

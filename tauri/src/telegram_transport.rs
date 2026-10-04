@@ -1,8 +1,10 @@
 use serde::Serialize;
 use std::sync::{Arc, LazyLock, Mutex, atomic::{AtomicBool, Ordering}, mpsc};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 const START_TIMEOUT: Duration = Duration::from_secs(6);
+const STABLE_WORKER_TIME: Duration = Duration::from_secs(30);
+const MAX_RECOVERY_DELAY: u64 = 8;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 
 struct ActiveTransport {
@@ -94,29 +96,36 @@ fn supervise_transport(
     let _ = ready.send(Err("TELEGRAM_TRANSPORT_UNAVAILABLE".into()));
     return;
   };
+  if let Some(reason) = message.as_ref().and_then(|value| value["reason"].as_str())
+    .filter(|reason| matches!(*reason, "LAGOM_CONFIG_ACCESS_DENIED" | "LAGOM_CONFIG_UNAVAILABLE"
+      | "LAGOM_LISTENER_UNAVAILABLE" | "LAGOM_INVALID_CONFIG")) {
+    log::warn!("[TelegramTransport] Local bridge ready; Lagom route pending: {reason}");
+  }
   alive.store(true, Ordering::Release);
   let port = url::Url::parse(&url).ok().and_then(|url| url.port()).unwrap();
   if ready.send(Ok(Some(url.clone()))).is_err() { return; }
 
-  let mut recoveries = 0;
+  let mut recovery_delay = 1;
+  let mut started = Instant::now();
   loop {
     if !matches!(worker.child.try_wait(), Ok(None)) {
+      if started.elapsed() >= STABLE_WORKER_TIME { recovery_delay = 1; }
+      log::warn!("[TelegramTransport] Owned bridge worker exited; recovering its local endpoint");
       drop(worker);
-      let mut replacement = None;
-      while recoveries < 3 {
-        let delay = Duration::from_secs(1 << recoveries);
-        recoveries += 1;
+      loop {
+        let delay = Duration::from_secs(recovery_delay);
+        recovery_delay = (recovery_delay * 2).min(MAX_RECOVERY_DELAY);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
         if let Ok(mut next) = launch_transport(&app, &token, port) {
           let message = read_status(&mut next);
           if message.as_ref().is_some_and(|value| value["status"] == "ready" && value["url"] == url) {
-            replacement = Some(next);
+            worker = next;
+            started = Instant::now();
+            log::info!("[TelegramTransport] Owned local bridge endpoint restored");
             break;
           }
         }
       }
-      let Some(next) = replacement else { return; };
-      worker = next;
     }
     match stop.recv_timeout(Duration::from_millis(100)) {
       Err(mpsc::RecvTimeoutError::Timeout) => {},

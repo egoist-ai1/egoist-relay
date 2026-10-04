@@ -367,7 +367,7 @@ pub async fn multi_social_read_media(
   index: usize,
 ) -> Result<tauri::ipc::Response, String> {
   require_main(&webview)?;
-  let (request, media, cancel, maximum, timeout) = {
+  let (request, media, cancel, maximum, deadline) = {
     let mut state = PENDING.lock().map_err(|_| "SHARE_UNAVAILABLE")?;
     let pending = state.as_mut().ok_or("SHARE_EXPIRED")?;
     if pending.request.request_id != request_id || pending.created_at.elapsed() >= SHARE_TTL {
@@ -422,7 +422,7 @@ pub async fn multi_social_read_media(
       media,
       pending.cancel.clone(),
       maximum,
-      timeout,
+      Instant::now() + timeout,
     )
   };
   let fetching_app = app_handle.clone();
@@ -434,7 +434,7 @@ pub async fn multi_social_read_media(
         &media,
         index,
         maximum,
-        timeout,
+        deadline,
         &cancel,
         false,
       )
@@ -445,7 +445,7 @@ pub async fn multi_social_read_media(
         &request.url,
         index,
         maximum,
-        timeout,
+        deadline.saturating_duration_since(Instant::now()),
         cancel,
       )
     }
@@ -491,10 +491,11 @@ pub async fn multi_social_save_media(
     pending.is_fetching = true;
     (pending.request.clone(), media, pending.cancel.clone())
   };
+  let deadline = Instant::now() + Duration::from_secs(900);
   let fetching_app = app_handle.clone();
   let result = tauri::async_runtime::spawn_blocking(move || {
     if let Some(media) = media {
-      let output = read_media(&fetching_app, &request, &media, index, MAX_FILE_BYTES, Duration::from_secs(900), &cancel, true)?;
+      let output = read_media(&fetching_app, &request, &media, index, MAX_FILE_BYTES, deadline, &cancel, true)?;
       serde_json::from_slice(&output).map_err(|_| "MEDIA_PARTIAL_BODY".into())
     } else {
       crate::inline_media::save_public_media(&fetching_app, &request.request_id, &request.url, index, cancel)
@@ -513,13 +514,16 @@ fn read_media(
   media: &ShareMedia,
   index: usize,
   maximum: usize,
-  timeout: Duration,
+  deadline: Instant,
   cancel: &AtomicBool,
   is_file_output: bool,
 ) -> Result<Vec<u8>, String> {
+  check_media_deadline(cancel, deadline)?;
   let node = crate::runtime::find_node_binary(app)?;
+  check_media_deadline(cancel, deadline)?;
   let proxy = crate::system_proxy::proxy_for_url(&media.url)
     .map_err(|_| "MEDIA_PROXY_FAILED")?;
+  check_media_deadline(cancel, deadline)?;
   let _ = app.emit_to("main", "multi-social-media-progress", serde_json::json!({ "requestId": request.request_id, "index": index, "state": "fetching", "loaded": 0 }));
   let mut command = Command::new(node);
   sanitize_media_worker_environment(&mut command);
@@ -532,6 +536,7 @@ fn read_media(
     .stderr(Stdio::piped())
     .env("EGOIST_RELAY_MEDIA_PROXY", proxy.as_ref().map_or("direct", Url::as_str));
   crate::runtime::hide_command_window(&mut command);
+  check_media_deadline(cancel, deadline)?;
   let mut child = command.spawn().map_err(|_| "MEDIA_RUNTIME_UNAVAILABLE")?;
   let job = match crate::worker_job::WorkerJob::attach(&child) {
     Ok(job) => job,
@@ -546,16 +551,18 @@ fn read_media(
   let write_result = child
     .stdin
     .take()
-    .ok_or("MEDIA_FETCH_FAILED")
+    .ok_or_else(|| "MEDIA_FETCH_FAILED".to_string())
     .and_then(|mut stdin| {
+      check_media_deadline(cancel, deadline)?;
       stdin
         .write_all(input.to_string().as_bytes())
-        .map_err(|_| "MEDIA_FETCH_FAILED")
+        .map_err(|_| "MEDIA_FETCH_FAILED".to_string())
     });
-  if write_result.is_err() {
+  if let Err(error) = write_result {
+    job.terminate();
     let _ = child.kill();
     let _ = child.wait();
-    return Err("MEDIA_FETCH_FAILED".into());
+    return Err(error);
   }
   let stdout = child.stdout.take().ok_or("MEDIA_FETCH_FAILED")?;
   let stderr = child.stderr.take().ok_or("MEDIA_FETCH_FAILED")?;
@@ -571,9 +578,8 @@ fn read_media(
     let mut bytes = Vec::new();
     stderr.take(1024).read_to_end(&mut bytes).map(|_| bytes)
   });
-  let started = Instant::now();
   let status = loop {
-    if cancel.load(Ordering::Acquire) || started.elapsed() > timeout {
+    if cancel.load(Ordering::Acquire) || Instant::now() >= deadline {
       job.terminate();
       let _ = child.kill();
       break child.wait().map_err(|_| "MEDIA_FETCH_FAILED");
@@ -582,12 +588,14 @@ fn read_media(
       Ok(Some(status)) => break Ok(status),
       Ok(None) => std::thread::sleep(Duration::from_millis(30)),
       Err(_) => {
+        job.terminate();
         let _ = child.kill();
         let _ = child.wait();
         break Err("MEDIA_FETCH_FAILED");
       }
     }
   };
+  job.terminate();
   let output = output_reader
     .join()
     .map_err(|_| "MEDIA_FETCH_FAILED")?
@@ -596,12 +604,7 @@ fn read_media(
     .join()
     .map_err(|_| "MEDIA_FETCH_FAILED")?
     .map_err(|_| "MEDIA_FETCH_FAILED")?;
-  if cancel.load(Ordering::Acquire) {
-    return Err("MEDIA_CANCELLED".into());
-  }
-  if started.elapsed() > timeout {
-    return Err("MEDIA_TIMEOUT".into());
-  }
+  check_media_deadline(cancel, deadline)?;
   if !status.map_err(str::to_string)?.success() {
     let code = String::from_utf8_lossy(&error);
     if code.starts_with("MEDIA_")
@@ -620,6 +623,16 @@ fn read_media(
   validate_media_packet(&output, index, maximum)?;
   directory.cleanup()?;
   Ok(output)
+}
+
+fn check_media_deadline(cancel: &AtomicBool, deadline: Instant) -> Result<(), String> {
+  if cancel.load(Ordering::Acquire) {
+    return Err("MEDIA_CANCELLED".into());
+  }
+  if Instant::now() >= deadline {
+    return Err("MEDIA_TIMEOUT".into());
+  }
+  Ok(())
 }
 
 pub(crate) fn validate_media_packet(
