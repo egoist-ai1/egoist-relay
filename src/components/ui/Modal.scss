@@ -2,6 +2,9 @@
   .Modal {
     position: relative;
     z-index: var(--z-modal);
+
+    font-family: var(--font-family-body);
+    font-size: 1rem;
     color: var(--color-text);
 
     body.no-page-transitions & {
@@ -96,23 +99,22 @@
 
     .modal-dialog {
       position: relative;
-      transform: translate3d(0, -1rem, 0);
+      transform: none;
 
       display: inline-flex;
       flex-direction: column;
 
-      width: 100%;
-      min-width: min(17.5rem, calc(100vw - 3rem));
+      width: calc(100% - 2rem);
+      min-width: min(17.5rem, calc(100vw - 2rem));
       max-width: 35rem;
       margin: 2rem auto;
+      border: 0.0625rem solid var(--color-borders);
       border-radius: var(--border-radius-modal);
 
       background-color: var(--color-background);
       box-shadow: 0 0.25rem 0.5rem 0.125rem var(--color-default-shadow);
 
-      transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
+      transition: opacity 140ms ease;
 
       body.no-page-transitions & {
         transform: none !important;
@@ -157,11 +159,11 @@
     }
 
     &.open .modal-dialog {
-      transform: translate3d(0, 0, 0);
+      transform: none;
     }
 
     &.closing .modal-dialog {
-      transform: translate3d(0, 1rem, 0);
+      transform: none;
     }
 
     .modal-header,
@@ -178,8 +180,8 @@
 
       font-size: 1.25rem;
       font-weight: var(--font-weight-medium);
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
 
       &:not(:only-child) {
         margin: 0 1rem;
@@ -195,8 +197,9 @@
       .modal-action-button {
         width: auto;
         min-width: 5rem;
-        height: 2.25rem;
-        margin-left: auto;
+        height: auto;
+        min-height: 2.25rem;
+        margin-inline-start: auto;
         padding-right: 1.25rem;
         padding-left: 1.25rem;
 
@@ -295,7 +298,7 @@
       height: auto;
 
       font-weight: var(--font-weight-semibold);
-      text-align: right;
+      text-align: end;
       white-space: pre-wrap;
     }
 
@@ -327,6 +330,8 @@
     padding: 0;
     border: 0;
 
+    font-family: var(--font-family-body);
+    font-size: 1rem;
     color: var(--color-text);
 
     background: transparent;

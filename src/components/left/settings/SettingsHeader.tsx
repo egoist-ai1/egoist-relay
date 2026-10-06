@@ -265,7 +265,7 @@ const SettingsHeader: FC<OwnProps> = ({
         return (
           <div className="settings-main-header">
             <h3 onClick={handleMultiClick}>
-              {oldLang('SETTINGS')}
+              {lang('Settings')}
             </h3>
 
             <Button

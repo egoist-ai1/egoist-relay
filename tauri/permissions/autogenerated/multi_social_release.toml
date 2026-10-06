@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-social-release"
+description = "Enables the multi_social_release command without any pre-configured scope."
+commands.allow = ["multi_social_release"]
+
+[[permission]]
+identifier = "deny-multi-social-release"
+description = "Denies the multi_social_release command without any pre-configured scope."
+commands.deny = ["multi_social_release"]

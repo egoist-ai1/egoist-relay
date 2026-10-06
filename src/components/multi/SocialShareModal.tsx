@@ -1,10 +1,10 @@
 import { memo, useEffect, useRef, useState } from '../../lib/teact/teact';
 import { getActions, getGlobal, withGlobal } from '../../global';
 
-import type { ApiAttachment } from '../../api/types';
 import type { ThreadId } from '../../types';
+import type { MediaOperation } from './mediaOperations.types';
 import type {
-  ShareSendJob, SocialMediaProgress, SocialShareMode, SocialShareRequest, SocialShareSuccess, SocialShareTarget,
+  SocialShareMode, SocialShareRequest, SocialShareSuccess, SocialShareTarget,
 } from './socialShare';
 import type { SocialShareError } from './socialShareErrors';
 
@@ -14,9 +14,9 @@ import { selectPeer, selectTabState } from '../../global/selectors';
 import buildClassName from '../../util/buildClassName';
 import { copyTextToClipboard } from '../../util/clipboard';
 import { buildChatSelectionKey } from '../../util/keys/chatSelectionKey';
+import { enqueueMediaOperation, getMediaOperationErrorCode, resumeMediaOperation } from './mediaOperations';
 import {
-  assertSocialShareTarget, createSocialShareJob, getSocialShareMediaCount, getSocialSharePrice, getSocialShareTextParts,
-  releaseSocialShareMedia, resolveSocialShareMedia, saveSocialShareMedia, sendSocialShareJob,
+  getSocialShareMediaCount, getSocialSharePrice, getSocialShareTextParts,
 } from './socialShare';
 import { classifySocialShareMediaError } from './socialShareErrors';
 
@@ -35,36 +35,34 @@ import styles from './SocialShareModal.module.scss';
 type OwnProps = {
   request: SocialShareRequest;
   canSend: boolean;
-  onClose: (requestId: string, wasSent?: boolean, summary?: SocialShareSuccess) => Promise<void>;
+  recoverOperation?: MediaOperation;
+  onClose: (requestId: string, wasSent?: boolean, summary?: SocialShareSuccess, isQueued?: boolean) => Promise<void>;
 };
 type StateProps = {
   starsBalance: number;
   isStarsBalanceModalOpen: boolean;
 };
-type Phase = 'idle' | 'downloading' | 'preparing' | 'sending' | 'error' | 'closing';
-type CloseIntent = { wasSent: boolean; summary?: SocialShareSuccess };
+type Phase = 'idle' | 'preparing' | 'error' | 'closing';
+type CloseIntent = { wasSent: boolean; summary?: SocialShareSuccess; isQueued?: boolean };
 
 const SocialShareModal = ({
-  request, canSend, onClose, starsBalance, isStarsBalanceModalOpen,
+  request, canSend, recoverOperation, onClose, starsBalance, isStarsBalanceModalOpen,
 }: OwnProps & StateProps) => {
   const lang = useLang();
   const oldLang = useOldLang();
-  const [target, setTarget] = useState<SocialShareTarget>();
-  const [mode, setMode] = useState<SocialShareMode>('link');
+  const [target, setTarget] = useState<SocialShareTarget | undefined>(recoverOperation?.send ? {
+    peerId: recoverOperation.send.peerId, threadId: recoverOperation.send.threadId as ThreadId | undefined,
+  } : undefined);
+  const [mode, setMode] = useState<SocialShareMode>(
+    recoverOperation?.kind === 'send' ? recoverOperation.mode || 'link' : 'link',
+  );
   const [phase, setPhase] = useState<Phase>('idle');
   const [error, setError] = useState<SocialShareError>();
-  const [hasSavedMedia, setHasSavedMedia] = useState(false);
   const [price, setPrice] = useState(0);
-  const [isTargetLoading, setIsTargetLoading] = useState(false);
-  const [mediaIndex, setMediaIndex] = useState(0);
-  const [transferPercent, setTransferPercent] = useState<number>();
-  const [confirmed, setConfirmed] = useState(0);
+  const [isTargetLoading, setIsTargetLoading] = useState(Boolean(recoverOperation?.send));
   const [isPaymentConfirmOpen, setIsPaymentConfirmOpen] = useState(false);
   const [isSourceExpanded, setIsSourceExpanded] = useState(false);
-  const attachmentsRef = useRef<ApiAttachment[]>([]);
-  const jobRef = useRef<ShareSendJob>();
   const operationRef = useRef(false);
-  const operationTokenRef = useRef<{ canceled: boolean }>();
   const canceledRef = useRef(false);
   const selectionRef = useRef(0);
   const paymentRef = useRef(false);
@@ -72,10 +70,9 @@ const SocialShareModal = ({
   const detailsRef = useRef<HTMLDivElement>();
   const mediaCount = getSocialShareMediaCount(request);
   const hasMedia = mediaCount > 0;
-  const isBusy = phase === 'downloading' || phase === 'preparing' || phase === 'sending' || phase === 'closing';
+  const isBusy = phase === 'preparing' || phase === 'closing';
   const hasCloseIntent = Boolean(closeIntentRef.current);
-  const total = closeIntentRef.current?.summary?.count || jobRef.current?.items.length
-    || getSocialShareTextParts(request).length + (mode === 'media' ? mediaCount : 0);
+  const total = getSocialShareTextParts(request).length + (mode !== 'link' ? mediaCount : 0);
   const peer = target ? selectPeer(getGlobal(), target.peerId) : undefined;
   const peerName = peer ? getPeerTitle(oldLang, peer) : undefined;
   const handlePaymentVisibilityChange = useLastCallback((isOpen: boolean) => {
@@ -86,11 +83,12 @@ const SocialShareModal = ({
   const {
     closeConfirmDialog, handleWithConfirmation, dialogHandler, shouldAutoApprove, setAutoApprove,
   } = usePaidMessageConfirmation(
-    price * (total - confirmed), isStarsBalanceModalOpen, starsBalance, undefined, handlePaymentVisibilityChange,
+    price * (total - (recoverOperation?.send?.confirmed || 0)), isStarsBalanceModalOpen, starsBalance,
+    undefined, handlePaymentVisibilityChange,
   );
 
   useEffect(() => {
-    if (!error && phase !== 'preparing' && phase !== 'sending') return;
+    if (!error && phase !== 'preparing') return;
     requestMeasure(() => {
       const details = detailsRef.current;
       if (!details) return;
@@ -105,33 +103,14 @@ const SocialShareModal = ({
     canceledRef.current = false;
     return () => {
       canceledRef.current = true;
-      if (operationTokenRef.current) operationTokenRef.current.canceled = true;
-      releaseSocialShareMedia(attachmentsRef.current);
       closeConfirmDialog();
     };
   }, [closeConfirmDialog]);
 
-  useEffect(() => {
-    let release: NoneToVoidFunction | undefined;
-    let mounted = true;
-    void import('@tauri-apps/api/event').then(({ listen }) => listen<SocialMediaProgress>(
-      'multi-social-media-progress', ({ payload }) => {
-        if (!mounted || payload.requestId !== request.requestId || phase !== 'preparing') return;
-        setMediaIndex(payload.index);
-        setTransferPercent(payload.total ? Math.round(payload.loaded / payload.total * 100) : undefined);
-      },
-    )).then((unlisten) => {
-      if (mounted) release = unlisten;
-      else unlisten();
-    }).catch(() => undefined);
-    return () => {
-      mounted = false;
-      release?.();
-    };
-  }, [phase, request.requestId]);
-
   const handleSelectRecipient = useLastCallback(async (peerId: string, threadId?: ThreadId) => {
-    if (operationRef.current || jobRef.current || paymentRef.current || closeIntentRef.current) return;
+    if (operationRef.current || paymentRef.current || closeIntentRef.current) return;
+    if (recoverOperation?.send && (peerId !== recoverOperation.send.peerId
+      || String(threadId || '') !== String(recoverOperation.send.threadId || ''))) return;
     const selection = ++selectionRef.current;
     const selected = { peerId, threadId };
     setTarget(selected);
@@ -147,16 +126,19 @@ const SocialShareModal = ({
     }
   });
 
+  useEffect(() => {
+    if (recoverOperation?.send) {
+      void handleSelectRecipient(recoverOperation.send.peerId,
+        recoverOperation.send.threadId);
+    }
+  }, [recoverOperation]);
+
   const completeClose = useLastCallback(async (intent: CloseIntent) => {
     closeIntentRef.current = intent;
     canceledRef.current = true;
-    if (operationTokenRef.current) operationTokenRef.current.canceled = true;
-    releaseSocialShareMedia(attachmentsRef.current);
-    jobRef.current = undefined;
-    setTransferPercent(undefined);
     setPhase('closing');
     try {
-      await onClose(request.requestId, intent.wasSent, intent.summary);
+      await onClose(request.requestId, intent.wasSent, intent.summary, intent.isQueued);
     } catch {
       setError('close');
       setPhase('error');
@@ -165,74 +147,48 @@ const SocialShareModal = ({
 
   const handleSaveOriginal = useLastCallback(async () => {
     if (operationRef.current || paymentRef.current || hasCloseIntent || canceledRef.current) return;
-    const operation = { canceled: false };
-    operationTokenRef.current = operation;
     operationRef.current = true;
     setError(undefined);
-    setHasSavedMedia(false);
-    setPhase('downloading');
+    setPhase('preparing');
     try {
-      await saveSocialShareMedia(request, () => operation.canceled, setMediaIndex);
-      if (!operation.canceled) {
-        setHasSavedMedia(true);
-        setPhase('idle');
-      }
+      const input = { request, kind: 'save' as const };
+      if (recoverOperation?.kind === 'save') await resumeMediaOperation(recoverOperation.id, input);
+      else await enqueueMediaOperation(input);
+      await completeClose({ wasSent: false, isQueued: true });
     } catch (err) {
-      if (!operation.canceled) {
-        setError(classifySocialShareMediaError(err));
-        setPhase('error');
-      }
+      const code = getMediaOperationErrorCode(err);
+      setError(code === 'MEDIA_QUEUE_FULL' ? 'queue' : code.includes('JOURNAL') ? 'journal'
+        : classifySocialShareMediaError(err));
+      setPhase('error');
     } finally {
-      if (operationTokenRef.current === operation) operationRef.current = false;
+      operationRef.current = false;
     }
   });
 
   const performSend = useLastCallback(async () => {
     paymentRef.current = false;
     if (operationRef.current || !target || !canSend || canceledRef.current) return;
-    const operation = { canceled: false };
-    operationTokenRef.current = operation;
     operationRef.current = true;
     setError(undefined);
+    setPhase('preparing');
     try {
-      if (!jobRef.current) {
-        if (mode === 'media' && !attachmentsRef.current.length) {
-          setPhase('preparing');
-          setTransferPercent(undefined);
-          try {
-            attachmentsRef.current = await resolveSocialShareMedia(request, () => operation.canceled, setMediaIndex);
-          } catch (err) {
-            if (!operation.canceled) setError(classifySocialShareMediaError(err));
-            throw err;
-          }
-        }
-        if (operation.canceled) return;
-        assertSocialShareTarget(target, mode === 'media' ? attachmentsRef.current : []);
-        jobRef.current = createSocialShareJob(request, target, mode === 'media' ? attachmentsRef.current : []);
-      }
-      const currentPrice = await getSocialSharePrice(jobRef.current.target);
-      if (operation.canceled) return;
+      const currentPrice = await getSocialSharePrice(target);
       if (currentPrice !== price) {
         setPrice(currentPrice);
         throw new Error('SOCIAL_SHARE_PRICE_CHANGED');
       }
-      setPhase('sending');
-      await sendSocialShareJob(jobRef.current, price, (count, progress) => {
-        if (operation.canceled) return;
-        setConfirmed(count);
-        setTransferPercent(progress === undefined ? undefined : Math.round(progress * 100));
-      });
-      if (operation.canceled) return;
-      const summary = {
-        recipientName: peerName || lang('RelayShareChooseRecipient'), count: jobRef.current.items.length,
-      };
-      await completeClose({ wasSent: true, summary });
+      const input = { request, kind: 'send' as const, mode, target, price,
+        recipientName: peerName || lang('RelayShareChooseRecipient') };
+      if (recoverOperation?.kind === 'send') await resumeMediaOperation(recoverOperation.id, input);
+      else await enqueueMediaOperation(input);
+      await completeClose({ wasSent: false, isQueued: true });
     } catch (err) {
-      if (operation.canceled) return;
-      setError((previous) => previous || (String(err).includes('RESTRICTED') ? 'restricted' : 'send'));
+      const code = getMediaOperationErrorCode(err);
+      setError(code === 'MEDIA_QUEUE_FULL' ? 'queue' : code.includes('JOURNAL') ? 'journal'
+        : code.includes('RESTRICTED') ? 'restricted' : 'send');
       setPhase('error');
     } finally {
-      if (operationTokenRef.current === operation) operationRef.current = false;
+      operationRef.current = false;
     }
   });
 
@@ -255,12 +211,12 @@ const SocialShareModal = ({
   });
 
   const handleClose = useLastCallback(async () => {
-    if (phase === 'sending' || phase === 'closing' || paymentRef.current || isStarsBalanceModalOpen) return;
+    if (operationRef.current || phase === 'closing' || paymentRef.current || isStarsBalanceModalOpen) return;
     await completeClose(closeIntentRef.current || { wasSent: false });
   });
 
   const handleModeChange = useLastCallback((nextMode: SocialShareMode) => {
-    if (isBusy || jobRef.current || paymentRef.current || closeIntentRef.current) return;
+    if (isBusy || recoverOperation?.kind === 'send' || paymentRef.current || closeIntentRef.current) return;
     setMode(nextMode);
     setError(undefined);
     setPhase('idle');
@@ -302,8 +258,24 @@ const SocialShareModal = ({
             </div>
           )}
         </div>
+        {recoverOperation && (
+          <p className={styles.warning}>
+            {lang(recoverOperation.kind === 'save'
+              ? 'RelayOperationSaveRecovery' : 'RelayOperationRecoveryHelp')}
+            {recoverOperation.send && (
+              <span>
+                {' '}
+                {lang('RelayOperationConfirmed')}
+                {' '}
+                {recoverOperation.send.confirmed}
+                {' / '}
+                {recoverOperation.send.total}
+              </span>
+            )}
+          </p>
+        )}
         {hasMedia && (
-          <fieldset className={styles.modes} disabled={isBusy || Boolean(jobRef.current) || hasCloseIntent}>
+          <fieldset className={styles.modes} disabled={isBusy || hasCloseIntent || recoverOperation?.kind === 'send'}>
             <label className={buildClassName(styles.mode, mode === 'link' && styles.modeSelected)}>
               <input
                 className={styles.modeInput}
@@ -313,7 +285,7 @@ const SocialShareModal = ({
                 onChange={() => handleModeChange('link')}
               />
               <Icon name="link" className={styles.modeIcon} />
-              {lang('RelayShareLinkOnly')}
+              {lang('RelayOperationModeLink')}
             </label>
             <label className={buildClassName(styles.mode, mode === 'media' && styles.modeSelected)}>
               <input
@@ -324,52 +296,45 @@ const SocialShareModal = ({
                 onChange={() => handleModeChange('media')}
               />
               <Icon name="attach" className={styles.modeIcon} />
-              {lang(request.unavailableMedia ? 'RelayShareVideo' : 'RelayShareAttachments')}
+              {lang('RelayOperationModeMedia')}
               {!request.unavailableMedia && <span className={styles.mediaCount}>{mediaCount}</span>}
+            </label>
+            <label className={buildClassName(styles.mode, mode === 'file' && styles.modeSelected)}>
+              <input
+                className={styles.modeInput}
+                type="radio"
+                name={`share-mode-${request.requestId}`}
+                checked={mode === 'file'}
+                onChange={() => handleModeChange('file')}
+              />
+              <Icon name="document" className={styles.modeIcon} />
+              {lang('RelayOperationModeFile')}
             </label>
           </fieldset>
         )}
+        {hasMedia && (
+          <p className={styles.warning}>
+            {lang(mode === 'file' ? 'RelayOperationFileHelp'
+              : mode === 'media' ? 'RelayOperationMediaHelp' : 'RelayOperationLinkHelp')}
+          </p>
+        )}
         {request.unavailableMedia && <p className={styles.warning}>{lang('RelaySharePublicVideoWarning')}</p>}
         {!canSend && <p role="status">{lang('RelayShareLoginRequired')}</p>}
-        {phase === 'downloading' && (
-          <p role="status" aria-live="polite" className={styles.status}>
-            {lang('RelayDownloadStarted')}
-            {' '}
-            {lang('RelayShareProgress', { index: mediaIndex + 1, total: mediaCount })}
-          </p>
-        )}
-        {hasSavedMedia && <p role="status" className={styles.status}>{lang('RelayDownloadSaved')}</p>}
         {phase === 'preparing' && (
-          <p role="status" aria-live="polite" className={styles.status}>
-            {lang('RelaySharePreparing')}
-            {' '}
-            {lang('RelayShareProgress', { index: mediaIndex + 1, total: mediaCount })}
-            {transferPercent !== undefined && ` · ${transferPercent}%`}
-          </p>
-        )}
-        {phase === 'sending' && (
-          <p role="status" aria-live="polite" className={styles.status}>
-            {lang('RelayShareSending')}
-            {' '}
-            {transferPercent !== undefined && `${transferPercent}%`}
-          </p>
-        )}
-        {confirmed > 0 && !closeIntentRef.current?.wasSent && (
-          <p className={styles.status}>
-            {lang('RelaySharePartial', { confirmed, total })}
-          </p>
+          <p role="status" aria-live="polite" className={styles.status}>{lang('RelayOperationAccepting')}</p>
         )}
         {error && (
           <p role="alert" className={styles.error}>
-            {lang(error === 'mediaDiskFull' ? 'RelayMediaDiskFull' : error === 'media' ? 'RelayShareMediaError'
-              : error === 'mediaAuth' ? 'RelayShareMediaAuth'
-                : error === 'mediaForbidden' ? 'RelayInlineMediaForbidden'
-                  : error === 'mediaUnavailable' ? 'RelayInlineMediaUnavailable'
-                    : error === 'mediaRateLimited' ? 'RelayInlineMediaRateLimited'
-                      : error === 'mediaConnection' ? 'RelayInlineMediaConnection'
-                        : error === 'mediaLimit' ? 'RelayInlineMediaLimit'
-                          : error === 'restricted' ? 'RelayShareRestricted'
-                            : error === 'close' ? 'RelayShareCloseError' : 'RelayShareError')}
+            {lang(error === 'queue' ? 'RelayOperationQueueFull' : error === 'journal' ? 'RelayOperationJournalError'
+              : error === 'mediaDiskFull' ? 'RelayMediaDiskFull' : error === 'media' ? 'RelayShareMediaError'
+                : error === 'mediaAuth' ? 'RelayShareMediaAuth'
+                  : error === 'mediaForbidden' ? 'RelayInlineMediaForbidden'
+                    : error === 'mediaUnavailable' ? 'RelayInlineMediaUnavailable'
+                      : error === 'mediaRateLimited' ? 'RelayInlineMediaRateLimited'
+                        : error === 'mediaConnection' ? 'RelayInlineMediaConnection'
+                          : error === 'mediaLimit' ? 'RelayInlineMediaLimit'
+                            : error === 'restricted' ? 'RelayShareRestricted'
+                              : error === 'close' ? 'RelayShareCloseError' : 'RelayShareError')}
           </p>
         )}
       </div>
@@ -424,7 +389,7 @@ const SocialShareModal = ({
           isOpen
           title={lang('ShareWith')}
           searchPlaceholder={lang('Search')}
-          className={buildClassName(styles.modal, (isBusy || Boolean(jobRef.current) || hasCloseIntent) && styles.busy)}
+          className={buildClassName(styles.modal, (isBusy || hasCloseIntent) && styles.busy)}
           footer={footer}
           selectedRecipient={target && buildChatSelectionKey(target.peerId, target.threadId
             ? Number(target.threadId) : undefined)}
@@ -451,7 +416,7 @@ const SocialShareModal = ({
         onClose={handlePaymentClose}
         userName={peerName}
         messagePriceInStars={price}
-        messagesCount={total - confirmed}
+        messagesCount={total - (recoverOperation?.send?.confirmed || 0)}
         shouldAutoApprove={shouldAutoApprove}
         setAutoApprove={setAutoApprove}
         confirmHandler={dialogHandler}

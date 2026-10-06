@@ -3,13 +3,16 @@ import { getActions, getGlobal, withGlobal } from '../../global';
 
 import type { ApiOnProgress } from '../../api/types';
 import type { TabState } from '../../global/types';
+import type { NativeMediaDownload } from '../../util/tauri/mediaDownload';
 import { ApiMediaFormat } from '../../api/types';
 
 import { selectTabState } from '../../global/selectors';
+import { IS_TAURI } from '../../util/browser/globalEnvironment';
 import { IS_OPFS_SUPPORTED, IS_SERVICE_WORKER_SUPPORTED, MAX_BUFFER_SIZE } from '../../util/browser/windowEnvironment';
 import download from '../../util/download';
 import generateUniqueId from '../../util/generateUniqueId';
 import * as mediaLoader from '../../util/mediaLoader';
+import { normalizeNativeDownloadFileName, prepareNativeMediaDownload } from '../../util/tauri/mediaDownload';
 
 import useLastCallback from '../../hooks/useLastCallback';
 import useRunDebounced from '../../hooks/useRunDebounced';
@@ -19,7 +22,12 @@ type StateProps = {
 };
 
 type DownloadMetadata = StateProps['activeDownloads'][string];
-type DownloadJob = { metadata: DownloadMetadata; release: NoneToVoidFunction; progress?: ApiOnProgress };
+type DownloadJob = {
+  metadata: DownloadMetadata;
+  release: NoneToVoidFunction;
+  progress?: ApiOnProgress;
+  native?: NativeMediaDownload;
+};
 
 const GLOBAL_UPDATE_DEBOUNCE = 1000;
 
@@ -44,6 +52,7 @@ const DownloadManager = ({ activeDownloads }: StateProps) => {
   useUnmountCleanup(() => {
     jobsRef.current.forEach((job) => {
       job.release();
+      void job.native?.cancel().catch(() => undefined);
       if (job.progress) mediaLoader.cancelProgress(job.progress);
     });
     jobsRef.current.clear();
@@ -55,6 +64,7 @@ const DownloadManager = ({ activeDownloads }: StateProps) => {
     jobs.forEach((job, hash) => {
       if (activeDownloads[hash] === job.metadata) return;
       job.release();
+      void job.native?.cancel().catch(() => undefined);
       if (job.progress) mediaLoader.cancelProgress(job.progress);
       jobs.delete(hash);
     });
@@ -92,9 +102,16 @@ const DownloadManager = ({ activeDownloads }: StateProps) => {
           handleFailure();
           return;
         }
+        const destinationName = IS_TAURI ? await normalizeNativeDownloadFileName(filename) : filename;
+        if (!isCurrent()) return;
         if (mediaFormat === ApiMediaFormat.DownloadUrl && !result.startsWith('blob:')) {
           const url = new URL(result, window.document.baseURI);
-          url.searchParams.set('filename', encodeURIComponent(filename));
+          url.searchParams.set('filename', encodeURIComponent(destinationName));
+          if (IS_TAURI) job.native = await prepareNativeMediaDownload(url.toString(), destinationName);
+          if (!isCurrent()) {
+            await job.native?.cancel();
+            return;
+          }
           const downloadWindow = window.open(url.toString());
           if (!downloadWindow) {
             handleFailure();
@@ -104,9 +121,19 @@ const DownloadManager = ({ activeDownloads }: StateProps) => {
             showNotification({ message: { key: 'RelayDownloadStarted' } });
           }, { once: true });
         } else {
-          const didStart = await download(result, filename, () => !isCurrent());
+          if (IS_TAURI) job.native = await prepareNativeMediaDownload(result, destinationName);
+          const didStart = await download(result, destinationName, () => !isCurrent());
           if (!isCurrent()) return;
           if (!didStart) {
+            await job.native?.cancel();
+            handleFailure();
+            return;
+          }
+        }
+        if (job.native) {
+          const nativeResult = await job.native.completed;
+          if (!isCurrent()) return;
+          if (!nativeResult.success && !nativeResult.error?.includes('CANCEL')) {
             handleFailure();
             return;
           }

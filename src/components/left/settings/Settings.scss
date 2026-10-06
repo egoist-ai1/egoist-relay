@@ -2,6 +2,7 @@
 
 #Settings {
   height: 100%;
+  font-family: var(--font-family-body);
 
   .multiline-item .title-with-date {
     display: flex;
@@ -13,7 +14,7 @@
       margin-inline-start: 1rem;
 
       font-size: 0.75rem;
-      font-weight: normal;
+      font-weight: var(--font-weight-normal);
       color: var(--color-text-secondary);
     }
   }
@@ -71,7 +72,7 @@
   padding: 1rem;
   padding-top: 0;
 
-  background-color: var(--color-background-secondary);
+  background-color: var(--color-background);
 
   @include mixins.adapt-padding-to-scrollbar(1rem);
 
@@ -152,11 +153,20 @@
 
 .settings-item-simple,
 .settings-item {
+  margin-bottom: 1rem;
   padding: 0.5rem 0.5rem 1rem;
+  border-bottom: 0.0625rem solid var(--color-borders);
+
   text-align: initial;
 
   @include mixins.adapt-padding-to-scrollbar(0.5rem);
-  @include mixins.side-panel-section;
+
+  background-color: var(--color-background);
+
+  &:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+  }
 }
 
 .settings-unlock-button {
@@ -189,7 +199,8 @@
 
     padding-inline-start: 1rem;
 
-    font-size: 1rem;
+    font-family: var(--font-family-body);
+    font-size: 0.875rem;
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-secondary);
   }
@@ -247,7 +258,7 @@
 
     .multiline-item {
       .subtitle.tight {
-        line-height: 1rem;
+        line-height: 1.4;
       }
     }
 
@@ -272,7 +283,7 @@
     }
 
     .Checkbox {
-      margin-left: 0;
+      margin-inline-start: 0;
     }
   }
 
@@ -285,7 +296,7 @@
     padding-inline-start: 0.5rem;
 
     font-size: 0.9375rem;
-    line-height: 1rem;
+    line-height: 1.4;
     color: var(--color-text-secondary);
   }
 }
@@ -301,7 +312,7 @@
 
 .settings-picker-islands {
   padding: 1rem;
-  background-color: var(--color-background-secondary);
+  background-color: var(--color-background);
 }
 
 .settings-input {
@@ -314,6 +325,9 @@
 
 .settings-group {
   padding: 1rem 1.5rem;
+  font-family: var(--font-family-body);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .ListItem.blocked-list-item {
@@ -342,7 +356,7 @@
 
   .contact-phone {
     font-size: 0.875rem;
-    line-height: 1rem;
+    line-height: 1.4;
     color: var(--color-text-secondary);
   }
 }

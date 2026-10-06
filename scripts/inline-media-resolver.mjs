@@ -7,6 +7,7 @@ import { connectMediaProxy, createSocketReader, parseMediaProxy } from './media-
 
 const MAX_BYTES = 64 * 1024 * 1024;
 const MAX_METADATA = 2 * 1024 * 1024;
+const MAX_MEDIA_DIMENSION = 1_000_000;
 const TIMEOUT_MS = 120000;
 const FILE_TIMEOUT_MS = 900000;
 const DISK_RESERVE_BYTES = 64 * 1024 * 1024;
@@ -87,7 +88,7 @@ export function createEngineArgs(input, phase) {
   if (input.cookies) common.push('--cookies', path.join(input.tempDir, 'session-cookies.txt'));
   const sourceMetadata = '%(.{extractor_key,duration,is_live,live_status})j';
   if (phase === 'metadata') return [...common, '--skip-download', '--print', sourceMetadata];
-  const maximum = input.outputMode === 'file' ? [] : ['--max-filesize', String(input.maxBytes || MAX_BYTES)];
+  const maximum = ['--max-filesize', String(input.maxBytes || MAX_BYTES)];
   const selectedFormat = input.ffmpegPath ? 'bestvideo*+bestaudio/best/bestvideo' : 'best/bestvideo';
   return [...common, '--no-simulate', ...maximum, '--abort-on-unavailable-fragments', '--match-filters', '!is_live', '--print', `before_dl:${sourceMetadata}`, '--format', selectedFormat, '--ffmpeg-location', input.ffmpegPath || input.tempDir, '--postprocessor-args', 'ffmpeg_i:-protocol_whitelist file,pipe', '--fixup', input.ffmpegPath ? 'detect_or_warn' : 'never', '--merge-output-format', 'mp4/webm', '--no-write-info-json', '--no-write-thumbnail', '--no-write-subs', '--no-write-auto-subs', '--no-mtime', '--restrict-filenames', '--output', path.join(input.tempDir, 'media.%(ext)s')];
 }
@@ -157,7 +158,7 @@ async function inspectLocalVideo(input, filename, signal, expectedDuration) {
   if (!input.ffmpegPath) throw new Error('MEDIA_RUNTIME_UNAVAILABLE');
   const executable = path.join(path.dirname(input.ffmpegPath), 'ffprobe.exe');
   const bytes = await new Promise((resolve, reject) => {
-    const child = spawn(executable, ['-v', 'error', '-protocol_whitelist', 'file,pipe', '-show_entries', 'format=duration,size:stream=codec_type,codec_name', '-of', 'json', '-i', filename], { windowsHide: true, cwd: input.tempDir, env: createEngineEnvironment(input.tempDir), stdio: ['ignore', 'pipe', 'ignore'] });
+    const child = spawn(executable, ['-v', 'error', '-protocol_whitelist', 'file,pipe', '-show_entries', 'format=duration,size:stream=codec_type,codec_name,width,height', '-of', 'json', '-i', filename], { windowsHide: true, cwd: input.tempDir, env: createEngineEnvironment(input.tempDir), stdio: ['ignore', 'pipe', 'ignore'] });
     let output = Buffer.alloc(0); let failure;
     const abort = () => { failure = new Error('MEDIA_CANCELLED'); child.kill(); };
     signal.addEventListener('abort', abort, { once: true });
@@ -171,6 +172,20 @@ async function inspectLocalVideo(input, filename, signal, expectedDuration) {
   if (!Number.isFinite(duration) || duration <= 0) throw new Error('MEDIA_FORMAT_UNAVAILABLE');
   if (expectedDuration !== undefined && Math.abs(duration - expectedDuration) > Math.max(2, expectedDuration * 0.02)) throw new Error('MEDIA_PARTIAL_BODY');
   if (!Array.isArray(metadata.streams) || !metadata.streams.some(stream => stream.codec_type === 'video')) throw new Error('MEDIA_FORMAT_UNAVAILABLE');
+  const video = metadata.streams.find(stream => stream.codec_type === 'video');
+  if (Number.isInteger(video.width) && Number.isInteger(video.height) && video.width > 0 && video.height > 0
+    && video.width <= MAX_MEDIA_DIMENSION && video.height <= MAX_MEDIA_DIMENSION) return { width: video.width, height: video.height };
+  return undefined;
+}
+
+function createMediaMetadata(index, provider, format, size, dimensions) {
+  const metadata = { index, name: `relay-${provider}-${index + 1}.${format.extension}`, mimeType: format.mimeType, size };
+  if (Number.isInteger(dimensions?.width) && Number.isInteger(dimensions?.height)
+    && dimensions.width > 0 && dimensions.height > 0 && dimensions.width <= MAX_MEDIA_DIMENSION && dimensions.height <= MAX_MEDIA_DIMENSION) {
+    metadata.width = dimensions.width;
+    metadata.height = dimensions.height;
+  }
+  return metadata;
 }
 
 export async function resolveMedia(input, overrides = {}) {
@@ -188,7 +203,8 @@ export async function resolveMedia(input, overrides = {}) {
   if (realTemp.replace(/^\\\\\?\\/, '').toLowerCase() !== expectedTemp.toLowerCase() || (await fs.lstat(realTemp)).isSymbolicLink()) throw new Error('MEDIA_PATH_DENIED');
   const isFileOutput = input.outputMode === 'file';
   const disk = isFileOutput ? await fs.statfs(realTemp) : undefined;
-  const maximum = isFileOutput ? Math.floor((Number(disk.bavail) * Number(disk.bsize) - DISK_RESERVE_BYTES) / 2) : input.maxBytes || MAX_BYTES;
+  const requestedMaximum = input.maxBytes || MAX_BYTES;
+  const maximum = isFileOutput ? Math.min(requestedMaximum, Math.floor((Number(disk.bavail) * Number(disk.bsize) - DISK_RESERVE_BYTES) / 2)) : requestedMaximum;
   if (!Number.isSafeInteger(maximum) || maximum <= 0) throw new Error('MEDIA_DISK_FULL');
   const controller = new globalThis.AbortController();
   const timeout = setTimeout(() => controller.abort(), isFileOutput ? FILE_TIMEOUT_MS : TIMEOUT_MS);
@@ -231,15 +247,15 @@ export async function resolveMedia(input, overrides = {}) {
       const prefix = Buffer.alloc(16);
       try { await file.read(prefix, 0, prefix.length, 0); } finally { await file.close(); }
       const format = identifyVideo(prefix);
-      await (overrides.inspectLocalVideo || inspectLocalVideo)(input, filename, controller.signal, source.duration);
+      const dimensions = await (overrides.inspectLocalVideo || inspectLocalVideo)(input, filename, controller.signal, source.duration);
       retainedFile = filename;
-      return { filePath: filename, metadata: { index: input.index, name: `relay-${canonical.provider}-${input.index + 1}.${format.extension}`, mimeType: format.mimeType, size: stat.size } };
+      return { filePath: filename, metadata: createMediaMetadata(input.index, canonical.provider, format, stat.size, dimensions) };
     }
     const body = await fs.readFile(filename);
     if (body.length !== stat.size) throw new Error('MEDIA_PARTIAL_BODY');
     const format = identifyVideo(body);
-    await (overrides.inspectLocalVideo || inspectLocalVideo)(input, filename, controller.signal, source.duration);
-    return { body, metadata: { index: input.index, name: `relay-${canonical.provider}-${input.index + 1}.${format.extension}`, mimeType: format.mimeType, size: body.length } };
+    const dimensions = await (overrides.inspectLocalVideo || inspectLocalVideo)(input, filename, controller.signal, source.duration);
+    return { body, metadata: createMediaMetadata(input.index, canonical.provider, format, body.length, dimensions) };
   } catch (error) {
     if (isSizeExceeded) throw new Error(isFileOutput ? 'MEDIA_DISK_FULL' : 'MEDIA_TOO_LARGE', { cause: error });
     if (controller.signal.aborted) throw new Error('MEDIA_TIMEOUT', { cause: error });

@@ -1,5 +1,6 @@
 fn main() {
   println!("cargo:rerun-if-changed=../scripts/telegram-transport.mjs");
+  println!("cargo:rerun-if-changed=../scripts/mini-app-bridge.js");
   println!("cargo:rerun-if-changed=../scripts/build-telegram-transport.mjs");
   println!("cargo:rerun-if-changed=../package-lock.json");
   let project = std::path::PathBuf::from(std::env::var_os("CARGO_MANIFEST_DIR").unwrap()).join("..");
@@ -74,6 +75,22 @@ fn main() {
           "multi_social_cancel_media",
           "multi_social_read_media",
           "multi_social_set_labels",
+          "relay_mini_app_open",
+          "relay_mini_app_update",
+          "relay_mini_app_reload",
+          "relay_mini_app_send",
+          "relay_mini_app_close",
+          "relay_media_operations_list",
+          "relay_media_operation_action",
+          "relay_media_operation_revision",
+          "relay_media_download_prepare",
+          "relay_media_download_file_name",
+          "relay_media_operation_source",
+          "multi_set_content_visible",
+          "multi_social_save_media",
+          "multi_social_detach",
+          "multi_social_release",
+          "multi_social_restore",
           "relay_inline_resolve_media",
           "relay_inline_cancel_media",
           "transcribe_voice",

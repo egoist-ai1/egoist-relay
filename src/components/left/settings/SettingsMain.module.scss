@@ -3,7 +3,8 @@
 .root {
   overflow-y: scroll;
   height: calc(100% - var(--column-header-height));
-  background-color: var(--color-background-secondary);
+  font-family: var(--font-family-body);
+  background-color: var(--color-background);
 }
 
 .menuSection,
@@ -28,4 +29,29 @@
 
 .balanceGem.balanceGem {
   font-size: 1em;
+}
+
+.menuSection {
+  :global(.ListItem-button) {
+    padding-block: 0.25rem;
+    border-radius: var(--border-radius-default);
+  }
+
+  :global(.ListItem + .ListItem) {
+    border-top: 0.0625rem solid var(--color-borders);
+  }
+
+  :global(.ListItem .title) {
+    font-family: var(--font-family-body);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+  }
+}
+
+:global(.theme-variant-egoist-dark) .menuSection {
+  :global(.ListItem-main-icon) {
+    --color-icon-backdrop: var(--color-background-secondary);
+
+    background-image: none;
+  }
 }

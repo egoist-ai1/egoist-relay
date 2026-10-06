@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
 export const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export async function startAuditServer(output, port = 1251) {
+export async function startAuditServer(output, port = 1251, { baselineDirectory } = {}) {
   await mkdir(output, { recursive: true });
   const packageJson = JSON.parse(await readFile(path.join(project, 'package.json'), 'utf8'));
   const tg = { TG_APP_ENV: 'development', TG_APP_MOCKED_CLIENT: '1', TG_APP_TITLE: 'Egoist Relay UI audit',
@@ -34,7 +34,20 @@ export async function startAuditServer(output, port = 1251) {
     server: { host: '127.0.0.1', port, strictPort: true, watch: null, headers: { 'Service-Worker-Allowed': '/' } },
     plugins: [{ name: 'relay-ui-audit-isolated-transport', enforce: 'pre',
       resolveId(id) { return mockModules.has(id) ? `\0relay-audit:${id}` : undefined; },
-      load(id) { return id.startsWith('\0relay-audit:') ? mockModules.get(id.slice('\0relay-audit:'.length)) : undefined; },
+      async load(id) {
+        if (id.startsWith('\0relay-audit:')) return mockModules.get(id.slice('\0relay-audit:'.length));
+        if (!baselineDirectory || id.startsWith('\0')) return undefined;
+        // Let Vite generate worker/asset wrappers; their actual source is loaded separately.
+        if (/[?&](?:worker|url|raw)(?:[=&]|$)/.test(id)) return undefined;
+        const sourcePath = id.split('?')[0];
+        if (!path.isAbsolute(sourcePath)) return undefined;
+        const relative = path.relative(project, sourcePath);
+        if (relative.startsWith('..') || path.isAbsolute(relative)
+          || relative.split(path.sep)[0] === 'scripts' || relative.split(path.sep)[0] === 'node_modules'
+          || !/\.(?:ts|tsx|scss|css|json)$/.test(relative)) return undefined;
+        try { return await readFile(path.join(baselineDirectory, relative), 'utf8'); }
+        catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
+      },
       configureServer(instance) {
         instance.middlewares.use('/relay-ui-audit', async (_request, response, next) => {
           try {
@@ -58,17 +71,121 @@ export function initializeAuditBrowser() {
   const listeners = new Map();
   const calls = [];
   const switches = [];
-  const native = window.__relayNativeMock = { calls, switches, external: [], failNext: undefined, delay: 15,
+  const activeStages = new Set(['queued', 'resolving', 'downloading', 'writing', 'preparing', 'sending', 'cancelling']);
+  const clone = (value) => JSON.parse(JSON.stringify(value));
+  const media = {
+    epoch: 0, operations: [], isLocked: true, savedFiles: new Map(), missingFiles: new Set(),
+    fileActions: [], sourceActions: [],
+    snapshot() {
+      return clone({ epoch: media.epoch, operations: media.isLocked ? [] : media.operations, isLocked: media.isLocked });
+    },
+    publish() { native.emit('relay-media-operation', media.snapshot()); },
+    seed(operations, isLocked = false) {
+      media.operations = clone(operations); media.isLocked = isLocked; media.epoch += 1;
+      for (const operation of operations) {
+        for (const file of operation.files || []) media.savedFiles.set(file.path, clone(file));
+      }
+      media.publish(); return media.snapshot();
+    },
+    patch(id, patch) {
+      const operation = media.operations.find((value) => value.id === id);
+      if (!operation) throw new Error('MEDIA_OPERATION_MISSING');
+      Object.assign(operation, clone(patch), { revision: operation.revision + 1, updatedAt: Date.now() });
+      media.epoch += 1; media.publish(); return media.snapshot();
+    },
+    emitSnapshot(snapshot) { native.emit('relay-media-operation', clone(snapshot)); },
+    get(id) {
+      const operation = media.operations.find((value) => value.id === id);
+      if (!operation) throw new Error('MEDIA_OPERATION_MISSING');
+      return operation;
+    },
+    action(action) {
+      if (action.type === 'lock') {
+        media.isLocked = action.isLocked; media.epoch += 1; media.publish(); return media.snapshot();
+      }
+      if (media.isLocked) throw new Error('MEDIA_JOURNAL_LOCKED');
+      if (action.type === 'clear') {
+        media.operations = media.operations.filter((operation) => activeStages.has(operation.stage));
+      } else if (action.type === 'register') {
+        if (media.operations.some((operation) => operation.id === action.operation.id)) throw new Error('MEDIA_OPERATION_EXISTS');
+        const now = Date.now();
+        media.operations.push({ ...clone(action.operation), attempt: 1, revision: 1, stage: 'queued',
+          createdAt: now, updatedAt: now, files: [] });
+      } else {
+        const operation = media.get(action.id);
+        if (action.type === 'open' || action.type === 'reveal') {
+          const index = action.index || 0;
+          const file = operation.files[index];
+          if (!file || !media.savedFiles.has(file.path) || media.missingFiles.has(file.path)) throw new Error('MEDIA_FILE_MISSING');
+          media.fileActions.push({ type: action.type, id: operation.id, index, path: file.path });
+          return media.snapshot();
+        }
+        if (action.type === 'remove') {
+          if (activeStages.has(operation.stage)) throw new Error('MEDIA_OPERATION_ACTIVE');
+          media.operations = media.operations.filter((value) => value.id !== action.id);
+        } else if (action.type === 'update') {
+          if (action.attempt !== operation.attempt) throw new Error('MEDIA_STALE_ATTEMPT');
+          if (action.revision !== operation.revision) throw new Error('MEDIA_STALE_REVISION');
+          const patch = clone(action.patch);
+          for (const key of ['confirmed', 'total', 'randomIds', 'fingerprints']) {
+            if (key in patch && operation.send) { operation.send[key] = patch[key]; delete patch[key]; }
+          }
+          Object.assign(operation, patch); operation.revision += 1; operation.updatedAt = Date.now();
+        } else if (action.type === 'cancel') {
+          if (activeStages.has(operation.stage)) {
+            operation.stage = 'cancelling'; operation.revision += 1;
+            setTimeout(() => {
+              const current = media.operations.find((value) => value.id === action.id);
+              if (current?.stage === 'cancelling') media.patch(action.id, { stage: 'cancelled', completedAt: Date.now() });
+            }, 40);
+          }
+        } else if (action.type === 'retry') {
+          if (!['failed', 'interrupted', 'cancelled'].includes(operation.stage)) throw new Error('MEDIA_OPERATION_TERMINAL');
+          operation.attempt += 1; operation.revision += 1; operation.stage = 'queued';
+        } else throw new Error('MEDIA_ACTION_UNKNOWN');
+      }
+      media.epoch += 1; media.publish(); return media.snapshot();
+    },
+  };
+  const windowCallbacks = { resized: new Set(), moved: new Set() };
+  const native = window.__relayNativeMock = {
+    calls, switches, external: [], failNext: undefined, delay: 15,
+    media, contentVisible: true, currentApp: 'telegram', windowCallbacks,
     listen(name, callback) { const set = listeners.get(name) || new Set(); set.add(callback); listeners.set(name, set);
       return () => set.delete(callback); },
     emit(name, payload) { for (const callback of listeners.get(name) || []) callback({ payload }); },
     async invoke(command, args) {
-      calls.push({ command, args });
+      calls.push({ command, args: args === undefined ? undefined : clone(args), contentVisible: native.contentVisible,
+        currentApp: native.currentApp, time: performance.now() });
       if (command === native.failNext) { native.failNext = undefined; throw new Error('Synthetic native operation failure'); }
+      if (command === 'relay_media_operations_list') return media.snapshot();
+      if (command === 'relay_media_operation_action') return media.action(args.action);
+      if (command === 'relay_media_operation_revision') {
+        const operation = media.get(args.id);
+        return { attempt: operation.attempt, revision: operation.revision, stage: operation.stage };
+      }
+      if (command === 'multi_set_content_visible') { native.contentVisible = args.visible; return undefined; }
       if (command === 'multi_set_active_app') {
-        await new Promise((resolve) => setTimeout(resolve, native.delay)); switches.push(args.app);
+        if (!native.contentVisible) throw new Error('MEDIA_OPERATIONS_OPEN');
+        await new Promise((resolve) => setTimeout(resolve, native.delay));
+        switches.push(args.app); native.currentApp = args.app;
         if (args.app !== 'telegram') native.emit(args.app === 'x' ? 'multi-x-status' : 'multi-instagram-status', { state: 'ready' });
       }
+      if (command === 'relay_media_operation_source') {
+        if (media.isLocked) throw new Error('MEDIA_JOURNAL_LOCKED');
+        const operation = media.get(args.id);
+        if (!native.contentVisible) throw new Error('MEDIA_OPERATIONS_OPEN');
+        if (native.currentApp !== operation.service) throw new Error('MEDIA_SOURCE_SERVICE_INACTIVE');
+        const patterns = { x: /^https:\/\/(?:x|twitter)\.com\/[^/]+\/status\/\d+$/,
+          instagram: /^https:\/\/www\.instagram\.com\/(?:p|reel)\/[^/]+\/$/,
+          telegram: /^https:\/\/t\.me\/[^/]+\/\d+$/ };
+        if (!patterns[operation.service]?.test(operation.sourceUrl || '')) throw new Error('MEDIA_SOURCE_INVALID');
+        media.sourceActions.push({ id: operation.id, service: operation.service, url: operation.sourceUrl });
+        return undefined;
+      }
+      if (command === 'multi_social_download_media' || command === 'multi_social_save_media'
+        || command === 'relay_media_download_prepare') throw new Error('MEDIA_AUDIT_RUNTIME_UNAVAILABLE');
+      if (command === 'relay_get_telegram_transport') return {};
       if (command === 'relay_research_bridge_ready') return true;
       if (command === 'multi_x_begin_direct_login') return true;
       return undefined;
@@ -79,15 +196,15 @@ export function initializeAuditBrowser() {
       minimize: async () => calls.push({ command: 'window:minimize' }),
       toggleMaximize: async () => calls.push({ command: 'window:toggleMaximize' }),
       close: async () => calls.push({ command: 'window:close' }),
-      onResized: async () => () => {}, onMoved: async () => () => {},
+      onResized: async (callback) => { windowCallbacks.resized.add(callback); return () => windowCallbacks.resized.delete(callback); },
+      onMoved: async (callback) => { windowCallbacks.moved.add(callback); return () => windowCallbacks.moved.delete(callback); },
       startDragging: async () => calls.push({ command: 'window:startDragging' }),
     },
   };
+  window.addEventListener('resize', () => {
+    for (const callback of windowCallbacks.resized) callback({ payload: { width: window.innerWidth, height: window.innerHeight } });
+  });
   window.isTauri = true; window.isCompatTestPassed = true;
   window.__relayUnhandled = [];
   window.addEventListener('unhandledrejection', (event) => window.__relayUnhandled.push(String(event.reason)));
 }
-
-
-
-

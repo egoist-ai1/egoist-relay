@@ -29,19 +29,23 @@
     left: 1rem;
     transform-origin: left center;
 
+    overflow: hidden;
     display: block;
 
+    max-width: calc(100% - 2rem);
     padding: 0 0.5rem;
     border-radius: 1rem;
 
+    font-family: var(--font-family-body);
     font-size: 1rem;
     font-weight: var(--font-weight-normal);
     color: var(--color-placeholders);
+    text-overflow: ellipsis;
     white-space: nowrap;
 
     background-color: var(--color-background);
 
-    transition: transform 0.15s ease-out, color 0.15s ease-out;
+    transition: color 140ms ease;
   }
 
   &.with-arrow {
@@ -98,6 +102,7 @@
     label {
       right: 0.75rem;
       left: auto;
+      transform-origin: right center;
     }
 
     &.with-arrow {
@@ -114,24 +119,26 @@
     &.success label,
     .form-control:focus + label,
     .form-control.focus + label {
-      transform: scale(0.75) translate(1.5rem, -2.25rem);
+      transform: scale(0.75) translateY(-1.45rem);
     }
   }
 }
 
 .form-control {
-  --border-width: 1px;
+  --border-width: 0.0625rem;
 
   display: block;
 
   width: 100%;
+  min-width: 0;
   height: 3rem;
   padding: calc(0.75rem - var(--border-width)) calc(1.1875rem - var(--border-width)) 0.6875rem;
   border: var(--border-width) solid var(--color-borders-input);
   border-radius: var(--border-radius-default);
 
+  font-family: var(--font-family-body);
   font-size: 1rem;
-  line-height: 1.25rem;
+  line-height: 1.4;
   color: var(--color-text);
   overflow-wrap: anywhere;
 
@@ -139,7 +146,7 @@
   background-color: var(--color-background);
   outline: none;
 
-  transition: border-color 0.15s ease;
+  transition: border-color 140ms ease;
 
   // Hide hint for Safari password strength meter
   &::-webkit-strong-password-auto-fill-button {
@@ -164,7 +171,7 @@
     text-align: initial;
   }
 
-  &:hover {
+  &:not(:disabled):not([readonly]):hover {
     border-color: var(--color-primary);
 
     & + label {
@@ -183,8 +190,15 @@
     }
   }
 
-  &:disabled {
-    background: none !important;
+  &:disabled,
+  &[readonly] {
+    color: var(--color-text-secondary);
+    background-color: var(--color-background-secondary);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: 0.125rem;
   }
 
   .error & {
@@ -252,11 +266,17 @@ textarea.form-control {
     color: var(--color-text-secondary);
 
     opacity: 0.7;
-    outline: none !important;
+    outline: none;
 
     &:hover,
     &:focus {
       opacity: 1;
+    }
+
+    &:focus-visible {
+      border-radius: var(--border-radius-default);
+      outline: 0.125rem solid var(--color-primary);
+      outline-offset: -0.125rem;
     }
   }
 
@@ -270,5 +290,12 @@ textarea.form-control {
       right: auto;
       left: 0;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input-group label,
+  .form-control {
+    transition: none;
   }
 }

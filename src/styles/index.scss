@@ -57,13 +57,13 @@
 html,
 body {
   --font-family-display: "Unbounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-heading: "Unbounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading: var(--font-family-body);
   --font-family-body: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family: var(--font-family-body);
   --font-family-monospace: "Consolas", "SF Mono", "Menlo", "Roboto Mono", monospace;
-  --font-family-numbers-rounded: "Unbounded", sans-serif;
-  --font-family-rounded: "Unbounded", -apple-system, sans-serif;
-  --font-family-condensed: "Unbounded", sans-serif;
+  --font-family-numbers-rounded: var(--font-family-body);
+  --font-family-rounded: var(--font-family-body);
+  --font-family-condensed: var(--font-family-body);
   --font-weight-light: 300;
   --font-weight-book: 350;
   --font-weight-normal: 400;
@@ -100,9 +100,8 @@ body {
   }
 }
 
-/* Default UI text elements use Inter */
-*:not(i):not([class*="icon"]):not(code):not(pre):not(kbd):not(samp) {
-  font-family: var(--font-family-body);
+body {
+  font-size: 1rem;
 }
 
 input, select, textarea, optgroup {
@@ -191,7 +190,7 @@ span.text,
 
 .text-entity-link,
 .message-content a {
-  color: #1D9BF0 !important;
+  color: var(--color-links) !important;
   text-decoration: none !important;
   word-break: break-all;
   transition: opacity 0.15s ease;
@@ -240,7 +239,7 @@ html.theme-dark,
 html.theme-dark body,
 html.theme-dark #root {
   color-scheme: dark;
-  background-color: #000000 !important;
+  background-color: var(--color-background);
 }
 
 html[lang="fa"],
@@ -688,7 +687,8 @@ body:not(.is-ios) {
 
 .component-theme-dark {
   --color-primary: #FFFFFF;
-  --color-background: #0C0C0E;
+  --color-primary-text: #000000;
+  --color-background: #0D0D0D;
   --color-background-compact-menu: rgba(12, 12, 14, 0.9);
   --color-background-compact-menu-reactions: rgba(12, 12, 14, 0.9);
   --color-background-compact-menu-hover: rgba(255, 255, 255, 0.08);
@@ -697,65 +697,65 @@ body:not(.is-ios) {
   --color-background-secondary-accent: #121212;
   --color-background-own: #1A1A1A;
   --color-background-own-apple: #1A1A1A;
-  --color-background-selected: #1F1F23;
-  --color-background-own-selected: #2A2A2E;
-  --color-chat-hover: #141416;
-  --color-chat-active: #1E1E22;
-  --color-chat-active-greyed: #18181A;
-  --color-item-hover: #141416;
-  --color-item-active: #1C1C20;
+  --color-background-selected: #202020;
+  --color-background-own-selected: #2B2B2B;
+  --color-chat-hover: #151515;
+  --color-chat-active: #1F1F1F;
+  --color-chat-active-greyed: #191919;
+  --color-item-hover: #151515;
+  --color-item-active: #1D1D1D;
   --color-text: #FFFFFF;
   --color-text-rgb: 255, 255, 255;
-  --color-text-secondary: #8E8E93;
-  --color-text-secondary-rgb: 142, 142, 147;
-  --color-icon-secondary: #8E8E93;
-  --color-text-secondary-apple: #8E8E93;
-  --color-borders: #1C1C1E;
-  --color-borders-input: #2C2C2E;
-  --color-placeholders: #636366;
-  --color-dividers: #161618;
-  --color-dividers-android: #121214;
+  --color-text-secondary: #909090;
+  --color-text-secondary-rgb: 160, 160, 160;
+  --color-icon-secondary: #909090;
+  --color-text-secondary-apple: #909090;
+  --color-borders: #1D1D1D;
+  --color-borders-input: #2D2D2D;
+  --color-placeholders: #646464;
+  --color-dividers: #171717;
+  --color-dividers-android: #131313;
   --color-links: #FFFFFF;
-  --color-gray: #636366;
-  --color-list-icon: #8E8E93;
+  --color-gray: #646464;
+  --color-list-icon: #909090;
   --color-default-shadow: rgba(0, 0, 0, 0.8);
   --color-light-shadow: rgba(0, 0, 0, 0.4);
   --color-active: #FFFFFF;
   --color-success: #00C73E;
-  --color-text-meta-colored: #8E8E93;
-  --color-reply-hover: #161618;
-  --color-reply-active: #1E1E20;
-  --color-reply-own-hover: #222224;
-  --color-reply-own-hover-apple: #222224;
-  --color-reply-own-active: #2A2A2D;
-  --color-reply-own-active-apple: #2A2A2D;
+  --color-text-meta-colored: #909090;
+  --color-reply-hover: #171717;
+  --color-reply-active: #1F1F1F;
+  --color-reply-own-hover: #232323;
+  --color-reply-own-hover-apple: #232323;
+  --color-reply-own-active: #2B2B2B;
+  --color-reply-own-active-apple: #2B2B2B;
   --color-accent-own: #FFFFFF;
   --color-accent-own-rgb: 255, 255, 255;
   --color-message-meta-own: rgba(255, 255, 255, 0.6);
   --color-own-links: #FFFFFF;
-  --color-code: #E5E5EA;
+  --color-code: #E7E7E7;
   --color-code-own: #FFFFFF;
-  --color-code-bg: #121214;
-  --color-code-own-bg: #121214;
-  --color-composer-button: #AEAEB2;
-  --color-message-reaction: #141416;
-  --color-message-reaction-hover: #1E1E20;
-  --color-message-reaction-own: #222226;
-  --color-message-reaction-hover-own: #2A2A2E;
+  --color-code-bg: #131313;
+  --color-code-own-bg: #131313;
+  --color-composer-button: #AFAFAF;
+  --color-message-reaction: #151515;
+  --color-message-reaction-hover: #1F1F1F;
+  --color-message-reaction-own: var(--color-borders);
+  --color-message-reaction-hover-own: #2B2B2B;
   --color-message-reaction-chosen-hover: #FFFFFF;
   --color-message-reaction-chosen-hover-own: #FFFFFF;
-  --color-message-non-contact: #8E8E93;
-  --color-voice-transcribe-button: #1C1C1E;
-  --color-voice-transcribe-button-own: #28282A;
-  --color-topic-blue: #E5E5EA;
-  --color-topic-yellow: #D1D1D6;
-  --color-topic-violet: #C7C7CC;
-  --color-topic-green: #AEAEB2;
-  --color-topic-rose: #8E8E93;
-  --color-topic-red: #636366;
-  --color-topic-grey: #48484A;
-  --color-forum-unread-topic-hover: #1C1C1E;
-  --color-forum-hover-unread-topic-hover: #242426;
+  --color-message-non-contact: #909090;
+  --color-voice-transcribe-button: #1D1D1D;
+  --color-voice-transcribe-button-own: #292929;
+  --color-topic-blue: #E7E7E7;
+  --color-topic-yellow: #D3D3D3;
+  --color-topic-violet: #C9C9C9;
+  --color-topic-green: #AFAFAF;
+  --color-topic-rose: #909090;
+  --color-topic-red: #646464;
+  --color-topic-grey: #494949;
+  --color-forum-unread-topic-hover: #1D1D1D;
+  --color-forum-hover-unread-topic-hover: #252525;
   --color-chat-username: #FFFFFF;
 }
 
@@ -766,23 +766,23 @@ html.theme-dark {
   --standard-post-width: 30rem;
   --channel-post-width: 43rem;
   .Modal .modal-dialog {
-    border: 1px solid #222226;
+    border: 1px solid var(--color-borders);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
   }
 
   .Menu .bubble {
-    border: 1px solid #222226;
+    border: 1px solid var(--color-borders);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
   }
 
   .Notification {
-    border: 1px solid #28282C;
+    border: 1px solid var(--color-borders);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.75);
   }
 
   .ReactionSelector__items-wrapper,
   .MessageContextMenu_items {
-    border: 1px solid #222226;
+    border: 1px solid var(--color-borders);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
   }
 
@@ -840,15 +840,12 @@ html.theme-dark {
     opacity: 0 !important;
     clip-path: inset(50%) !important;
   }
-
-  /* Pure deep black chat background with tactical micro-grid pattern (zero blue tint)*/
-  /* Refined deep matte obsidian chat background (zero blue/purple tint, calm ambient foundation)*/
   .MessageList,
   #MiddleColumn,
   .chat-background,
   .messages-layout {
-    background-color: #0A0B0E !important;
-    background-image: radial-gradient(ellipse at 50% 40%, #14161c73 0%, #0a0b0ef2 100%) !important;
+    background-color: var(--color-background) !important;
+    background-image: none !important;
   }
 
   .gradientCanvas,
@@ -894,14 +891,6 @@ html.theme-dark {
 
   .ActionMessage {
     align-self: center !important;
-    margin-right: auto !important;
-    margin-left: auto !important;
-  }
-
-  .MiddleHeader {
-    width: 100% !important;
-    max-width: calc(var(--messages-container-width, 48rem) - 2rem) !important;
-    margin-top: calc(var(--middle-panel-inline-padding, 1rem) + var(--middle-header-player-height, 0px)) !important;
     margin-right: auto !important;
     margin-left: auto !important;
   }
@@ -1423,17 +1412,16 @@ html.theme-dark {
   }
 
   /* INCOMING MESSAGES (Полученные сообщения & посты каналов):*/
-  /* X dark card (#16181C), crisp soft text (#E7E9EA), 0 eye fatigue, perfectly balanced contrast*/
   .Message:not(.own) {
-    --background-color: #16181C !important;
+    --background-color: var(--color-background-secondary) !important;
 
     .message-content:not(.custom-shape):not(.emoji-only) {
-      border: 1px solid #2F3336 !important;
+      border: 1px solid var(--color-borders) !important;
       border-radius: 18px !important;
 
-      color: #E7E9EA !important;
+      color: var(--color-text) !important;
 
-      background-color: #16181C !important;
+      background-color: var(--color-background-secondary) !important;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
 
       &.media:not(.text):not(.has-solid-background),
@@ -1450,13 +1438,13 @@ html.theme-dark {
       &.audio,
       &.document,
       &.has-solid-background {
-        background-color: #16181C !important;
+        background-color: var(--color-background-secondary) !important;
       }
 
       .text-content {
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.48 !important;
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
         letter-spacing: -0.01em !important;
       }
 
@@ -1473,17 +1461,17 @@ html.theme-dark {
       .site-title,
       .site-name {
         font-weight: var(--font-weight-semibold) !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
       }
 
       .file-subtitle,
       .admin-title-plain {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
       }
 
       .text-entity-link,
       a {
-        color: #1D9BF0 !important;
+        color: var(--color-links) !important;
         text-decoration: none !important;
 
         &:hover {
@@ -1505,7 +1493,7 @@ html.theme-dark {
         font-size: 0.84em !important;
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.35 !important;
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
         letter-spacing: 0 !important;
         overflow-wrap: anywhere !important;
         vertical-align: baseline !important;
@@ -1518,10 +1506,10 @@ html.theme-dark {
 
       pre {
         padding: 0.75rem 0.875rem !important;
-        border: 1px solid #2F3336 !important;
+        border: 1px solid var(--color-borders) !important;
         border-radius: 12px !important;
 
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
 
         background: #000000 !important;
 
@@ -1537,60 +1525,60 @@ html.theme-dark {
       }
 
       .MessageMeta {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
 
         .message-time,
         .message-views {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
       }
 
       .EmbeddedMessage {
-        border-left: 2px solid #1D9BF0 !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 6px !important;
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
         background-color: rgba(255, 255, 255, 0.03) !important;
 
         .message-title,
         .embedded-text-wrapper {
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
       }
 
       .WebPage {
         max-width: 100% !important;
-        border: 1px solid #2F3336 !important;
-        border-left: 2px solid #1D9BF0 !important;
+        border: 1px solid var(--color-borders) !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 12px !important;
 
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
 
         background-color: rgba(255, 255, 255, 0.03) !important;
 
         .site-name,
         .site-title {
           font-weight: var(--font-weight-semibold) !important;
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
 
         .site-description {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
 
         a, .text-entity-link {
-          color: #1D9BF0 !important;
+          color: var(--color-links) !important;
         }
       }
 
       [class*="withBar"]::before {
-        background: #1D9BF0 !important;
+        background: var(--color-links) !important;
       }
 
       .Audio {
         .toogle-play-wrapper .toggle-play {
           border: none !important;
           color: #0F1419 !important;
-          background-color: #EFF3F4 !important;
+          background-color: var(--color-text) !important;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
 
           .icon {
@@ -1613,10 +1601,10 @@ html.theme-dark {
             margin-inline-start: 0.625rem !important;
             margin-inline-end: 0.25rem !important;
             padding: 0 !important;
-            border: 1px solid #2F3336 !important;
+            border: 1px solid var(--color-borders) !important;
             border-radius: 9999px !important;
 
-            color: #71767B !important;
+            color: var(--color-text-secondary) !important;
 
             background: rgba(255, 255, 255, 0.08) !important;
 
@@ -1625,7 +1613,7 @@ html.theme-dark {
             &:hover {
               transform: scale(1.05);
               border-color: rgba(255, 255, 255, 0.25) !important;
-              color: #EFF3F4 !important;
+              color: var(--color-text) !important;
               background: rgba(255, 255, 255, 0.16) !important;
             }
 
@@ -1636,7 +1624,7 @@ html.theme-dark {
         }
 
         .voice-duration {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
       }
 
@@ -1683,17 +1671,16 @@ html.theme-dark {
   }
 
   /* OUTGOING MESSAGES (Мои отправленные сообщения):*/
-  /* Elevated slate titanium card (#252733), crisp pure white text (#FFFFFF), white checkmarks, sleek & premium*/
   .Message.own {
-    --background-color: #252733 !important;
+    --background-color: var(--color-background-own) !important;
 
     .message-content:not(.custom-shape):not(.emoji-only) {
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
       border-radius: 18px !important;
 
-      color: #EFF3F4 !important;
+      color: var(--color-text) !important;
 
-      background-color: #202327 !important;
+      background-color: var(--color-background-own) !important;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
 
       &.media:not(.text):not(.has-solid-background),
@@ -1710,13 +1697,13 @@ html.theme-dark {
       &.audio,
       &.document,
       &.has-solid-background {
-        background-color: #202327 !important;
+        background-color: var(--color-background-own) !important;
       }
 
       .text-content {
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.48 !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
         letter-spacing: -0.01em !important;
       }
 
@@ -1733,17 +1720,17 @@ html.theme-dark {
       .site-title,
       .site-name {
         font-weight: var(--font-weight-semibold) !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
       }
 
       .file-subtitle,
       .admin-title-plain {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
       }
 
       .text-entity-link,
       a {
-        color: #1D9BF0 !important;
+        color: var(--color-links) !important;
         text-decoration: none !important;
 
         &:hover {
@@ -1765,7 +1752,7 @@ html.theme-dark {
         font-size: 0.84em !important;
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.35 !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
         letter-spacing: 0 !important;
         overflow-wrap: anywhere !important;
         vertical-align: baseline !important;
@@ -1778,10 +1765,10 @@ html.theme-dark {
 
       pre {
         padding: 0.75rem 0.875rem !important;
-        border: 1px solid #2F3336 !important;
+        border: 1px solid var(--color-borders) !important;
         border-radius: 12px !important;
 
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
 
         background: #000000 !important;
 
@@ -1797,66 +1784,66 @@ html.theme-dark {
       }
 
       .MessageMeta {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
 
         .message-time,
         .message-views {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
 
         .MessageOutgoingStatus,
         .MessageOutgoingStatus * {
-          color: #1D9BF0 !important;
-          fill: #1D9BF0 !important;
+          color: var(--color-links) !important;
+          fill: var(--color-links) !important;
         }
       }
 
       .EmbeddedMessage {
-        border-left: 2px solid #1D9BF0 !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 6px !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
         background-color: rgba(255, 255, 255, 0.04) !important;
 
         .message-title,
         .embedded-text-wrapper {
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
       }
 
       .WebPage {
         max-width: 100% !important;
-        border: 1px solid #2F3336 !important;
-        border-left: 2px solid #1D9BF0 !important;
+        border: 1px solid var(--color-borders) !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 12px !important;
 
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
 
         background-color: rgba(255, 255, 255, 0.03) !important;
 
         .site-name,
         .site-title {
           font-weight: var(--font-weight-semibold) !important;
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
 
         .site-description {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
 
         a, .text-entity-link {
-          color: #1D9BF0 !important;
+          color: var(--color-links) !important;
         }
       }
 
       [class*="withBar"]::before {
-        background: #1D9BF0 !important;
+        background: var(--color-links) !important;
       }
 
       .Audio {
         .toogle-play-wrapper .toggle-play {
           border: none !important;
           color: #0F1419 !important;
-          background-color: #EFF3F4 !important;
+          background-color: var(--color-text) !important;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
 
           .icon {
@@ -1882,7 +1869,7 @@ html.theme-dark {
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             border-radius: 9999px !important;
 
-            color: #EFF3F4 !important;
+            color: var(--color-text) !important;
 
             background: rgba(255, 255, 255, 0.1) !important;
 
@@ -1902,7 +1889,7 @@ html.theme-dark {
         }
 
         .voice-duration {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
       }
 
@@ -1950,9 +1937,9 @@ html.theme-dark {
 
   /* Checkmarks: Distinct double checkmarks for read status*/
   .icon-message-read {
-    color: #38BDF8 !important;
+    color: var(--color-accent-own) !important;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
-    fill: #38BDF8 !important;
+    fill: var(--color-accent-own) !important;
   }
   .icon-message-succeeded {
     color: rgba(255, 255, 255, 0.85) !important;
@@ -2031,7 +2018,7 @@ html.theme-dark {
 
   /* Composer reply / forward boxes*/
   .ComposerEmbeddedMessage {
-    border: 1px solid #222226 !important;
+    border: 1px solid var(--color-borders) !important;
     border-left: 3px solid #FFFFFF !important;
     border-radius: 0.375rem;
     background-color: #101014 !important;
@@ -2185,15 +2172,12 @@ html.theme-dark {
     }
   }
 
-  /* Universal Egoist Shield Monochrome Palette: eliminate all blues, greens, purples, oranges*/
   @for $i from 0 through 25 {
     .peer-color-#{$i} {
       --accent-color: #FFFFFF !important;
       --bar-gradient: #FFFFFF !important;
       --accent-background-color: rgba(255, 255, 255, 0.08) !important;
       --accent-background-active-color: rgba(255, 255, 255, 0.14) !important;
-
-      color: #FFFFFF !important;
     }
   }
 }
@@ -2215,15 +2199,6 @@ html.theme-dark {
   }
 }
 
-/* Global Dark Mode Portals & Menu Bubble Guarantee*/
-:root,
-body,
-#portals {
-  --color-background-compact-menu: rgba(22, 24, 29, 0.96) !important;
-  --color-background-compact-menu-reactions: rgba(22, 24, 29, 0.96) !important;
-  --color-background-compact-menu-hover: rgba(255, 255, 255, 0.1) !important;
-}
-
 #portals {
   /* ReactionSelector root container and MessageContextMenu bubble must NEVER have background or border*/
   .ReactionSelector {
@@ -2242,12 +2217,12 @@ body,
   .Menu:not(.ReactionSelector) > .bubble,
   .MessageContextMenu_items,
   .dropdown-menu .bubble {
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 0.0625rem solid var(--color-borders);
     border-radius: 14px !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text);
 
-    background: rgba(22, 24, 29, 0.98) !important;
+    background: var(--color-background-compact-menu) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
   }
 
@@ -2261,27 +2236,27 @@ body,
 
   /* The reaction bubble capsule*/
   .ReactionSelector__items-wrapper {
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border: 0.0625rem solid var(--color-borders);
     border-radius: 20px !important;
-    background: rgba(22, 24, 29, 0.98) !important;
+    background: var(--color-background-compact-menu) !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
   }
 
   .ReactionSelector__bubble-big,
   .ReactionSelector__bubble-small {
     border: none !important;
-    background: rgba(22, 24, 29, 0.98) !important;
+    background: var(--color-background-compact-menu) !important;
   }
 
   .MenuItem {
-    color: #FFFFFF !important;
+    color: var(--color-text);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1) !important;
+      background-color: var(--color-item-hover);
     }
 
     .icon {
-      color: rgba(255, 255, 255, 0.75) !important;
+      color: var(--color-text-secondary);
     }
   }
 }
@@ -2363,14 +2338,14 @@ body,
   [class*="otherColumn"],
   [class*="main-column"],
   [class*="other-column"] {
-    color: #FFFFFF !important;
+    color: var(--color-text);
 
     span,
     [class*="title"],
     [class*="otherColumnTitle"],
     [class*="other-column-title"] {
       font-weight: var(--font-weight-medium) !important;
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
   }
 
@@ -2378,32 +2353,32 @@ body,
   [class*="lastMessage"],
   [class*="last-message"],
   .last-message {
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: var(--color-text);
 
     .sender-name,
     [class*="senderName"],
     [class*="sender-name"] {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
 
     .colon {
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
 
     .last-message-summary,
     .message-text,
     [class*="last-message-summary"],
     span {
-      color: rgba(255, 255, 255, 0.9) !important;
+      color: var(--color-text);
     }
   }
 
   /* When unread*/
   .unread,
   [class*="unread"] {
-    color: #FFFFFF !important;
-    background: rgba(255, 255, 255, 0.16) !important;
+    color: var(--color-text);
+    background: var(--color-item-active);
 
     *,
     span,
@@ -2411,7 +2386,7 @@ body,
     .message-text,
     .last-message {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
   }
 }
@@ -2421,13 +2396,13 @@ body,
   opacity: 1 !important;
 
   .tab {
-    color: rgba(255, 255, 255, 0.65) !important;
+    color: var(--color-text-secondary);
 
     &[class*="tabActive"],
     &.active {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
-      background: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text);
+      background: var(--color-item-active);
     }
   }
 

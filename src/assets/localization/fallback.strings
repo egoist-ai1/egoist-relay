@@ -3214,6 +3214,7 @@
 "RelayAppSwitcher" = "Приложения";
 "RelaySwitchTelegram" = "Переключиться на Telegram";
 "RelaySwitchX" = "Переключиться на X";
+"RelayBrand" = "Relay";
 "RelayTelegramTitle" = "Telegram";
 "RelayXTitle" = "X";
 "RelayXLoadingTitle" = "Открываем X";
@@ -3330,3 +3331,79 @@
 "RelayShareMediaAuth" = "Для доступа к медиа требуется вход в исходный сервис. Можно отправить ссылку.";
 
 "RelayMediaDiskFull" = "Недостаточно свободного места для скачивания оригинала.";
+
+
+"RelayOperationTitle" = "Загрузки и пересылки";
+"RelayOperationCurrent" = "Текущие";
+"RelayOperationHistory" = "История";
+"RelayOperationClose" = "Закрыть панель";
+"RelayOperationBack" = "Вернуться к сервису";
+"RelayOperationEmptyCurrent" = "Сейчас нет активных операций. Завершённые файлы и пересылки доступны в истории.";
+"RelayOperationEmptyHistory" = "Здесь появятся сохранённые файлы и результаты пересылок. Журнал хранится на этом компьютере 30 дней.";
+"RelayOperationLocked" = "Разблокируйте Telegram, чтобы посмотреть журнал. Следующая пересылка начнётся после разблокировки.";
+"RelayOperationPrivacy" = "Локальный журнал · 30 дней · до 500 завершённых операций";
+"RelayOperationClear" = "Очистить историю";
+"RelayOperationClearHelp" = "Очистка удаляет записи журнала. Сохранённые файлы остаются в папке загрузок.";
+"RelayOperationClearConfirm" = "Очистить записи";
+"RelayOperationQueued" = "В очереди";
+"RelayOperationResolving" = "Определяем источник и маршрут";
+"RelayOperationDownloading" = "Скачиваем";
+"RelayOperationWriting" = "Проверяем и сохраняем";
+"RelayOperationPreparing" = "Готовим вложения";
+"RelayOperationSending" = "Ожидаем подтверждения Telegram";
+"RelayOperationCancelling" = "Останавливаем оставшиеся шаги";
+"RelayOperationCompleted" = "Готово";
+"RelayOperationFailed" = "Не удалось завершить";
+"RelayOperationCancelled" = "Отменено";
+"RelayOperationInterrupted" = "Прервано. Можно проверить источник и повторить.";
+"RelayOperationUncertain" = "Исход неизвестен";
+"RelayOperationUncertainHelp" = "Проверьте чат в Telegram. Автоматического повтора нет. Уже подтверждённые сообщения остаются у адресата.";
+"RelayOperationSave" = "Сохранение";
+"RelayOperationSend" = "Пересылка";
+"RelayOperationDownload" = "Загрузка";
+"RelayOperationUnknownFile" = "Медиа из публикации";
+"RelayOperationUnknownSource" = "Исходное сообщение не определено";
+"RelayOperationOpen" = "Открыть файл";
+"RelayOperationReveal" = "Показать в папке";
+"RelayOperationSource" = "К источнику";
+"RelayOperationChat" = "Проверить чат";
+"RelayOperationRetry" = "Повторить";
+"RelayOperationCancel" = "Отменить";
+"RelayOperationMissingFile" = "Файл перемещён или удалён. Запись в журнале не восстанавливает файл.";
+"RelayOperationCancelHelp" = "Остановим оставшиеся элементы. Уже подтверждённые сообщения не отзываются.";
+"RelayOperationConfirmed" = "Подтверждено";
+"RelayOperationItem" = "Элемент";
+"RelayOperationAttempt" = "Попытка";
+"RelayOperationModeLink" = "Ссылка";
+"RelayOperationModeMedia" = "Медиа";
+"RelayOperationModeFile" = "Файл";
+"RelayOperationLinkHelp" = "Адресат получит ссылку и доступный текст публикации.";
+"RelayOperationMediaHelp" = "Обычные фото и видео Telegram. Полученная версия может отличаться от оригинала исходной платформы.";
+"RelayOperationFileHelp" = "Передадим полученные байты файлом без своей перекодировки. Это версия, доступная у исходной платформы.";
+"RelayOperationAccepting" = "Добавляем операцию в очередь…";
+"RelayOperationQueueFull" = "Очередь заполнена: одна операция выполняется, восемь ожидают. Дождитесь результата или отмените лишнюю.";
+"RelayOperationJournalError" = "Журнал недоступен. Исходный повреждённый файл сохранён для восстановления. Новую операцию можно начать после устранения ошибки.";
+"RelayOperationAccountChanged" = "Эта пересылка относится к другому аккаунту Telegram. Повтор в текущем аккаунте заблокирован.";
+"RelayOperationSourceChanged" = "Источник или набор вложений изменился. Откройте публикацию и подготовьте новую пересылку с проверкой адресата.";
+"RelayOperationRecapture" = "Для этого набора откройте источник и выберите медиа заново. Старые подтверждённые сообщения не повторяются автоматически.";
+"RelayOperationPriceChanged" = "Стоимость сообщения изменилась. Для платной отправки откройте источник и подтвердите её в диалоге.";
+"RelayOperationLimit" = "Пересылка: до 64 МиБ на файл, 128 МиБ на набор и 10 вложений.";
+"RelayOperationDiskFull" = "На диске недостаточно места. Освободите место и повторите.";
+"RelayOperationTimeout" = "Истёк срок операции. Проверьте соединение и источник перед повтором.";
+"RelayOperationProxy" = "Не удалось определить маршрут прокси. Проверьте действующие настройки Windows.";
+"RelayOperationUnavailable" = "Источник недоступен или ссылка истекла. Откройте публикацию для получения свежих данных.";
+"RelayOperationError" = "Не удалось выполнить действие. Повторите после проверки источника и соединения.";
+"RelayOperationJournalWarning" = "Не удалось записать результат в защищённую историю. Он доступен, пока приложение открыто. После перезапуска проверьте файл или чат.";
+"RelayOperationQueuedNotice" = "Задача добавлена. Ход и результат доступны в «Загрузках и пересылках».";
+"RelayOperationMore" = "Показать ещё";
+"RelayOperationRecoveryHelp" = "Продолжение прежней операции. Получатель и формат сохраняются. Новый набор проверим до отправки. Подтверждённые сообщения пропустим.";
+"RelayOperationRecaptureHelp" = "В публикации снова выберите «Поделиться в Telegram». Проверим свежий набор перед повтором.";
+
+"RelayOperationSaveAgain" = "Сохранить набор заново";
+"RelayOperationSaveRecovery" = "Сохраним свежий набор отдельной операцией. Ранее сохранённые файлы останутся в истории.";
+
+"RelayThemeVariants" = "Темы";
+"RelayThemeDark" = "Тёмные темы";
+"RelayThemeLight" = "Светлые темы";
+
+"RelayMiniAppLoadFailed" = "The mini app could not load. Refresh the tab and check the connection and current Windows proxy.";

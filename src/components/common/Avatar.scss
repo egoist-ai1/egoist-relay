@@ -47,6 +47,12 @@
     text-box: trim-both cap alphabetic;
   }
 
+  &.saved-messages,
+  &.replies-bot-account,
+  &.anonymous-forwards {
+    color: var(--color-primary-text);
+  }
+
   &__icon {
     font-size: calc(var(--_size) / 2);
   }

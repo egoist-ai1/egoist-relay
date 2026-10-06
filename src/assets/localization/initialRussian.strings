@@ -45,6 +45,7 @@
 "RelayAppSwitcher" = "Приложения";
 "RelaySwitchTelegram" = "Переключиться на Telegram";
 "RelaySwitchX" = "Переключиться на X";
+"RelayBrand" = "Relay";
 "RelayTelegramTitle" = "Telegram";
 "RelayXTitle" = "X";
 "RelayXLoadingTitle" = "Открываем X";
@@ -81,3 +82,11 @@
 "RelayDownloadFailed" = "Не удалось скачать файл. Попробуйте ещё раз.";
 "RelayAppSwitchError" = "Не удалось переключить приложение. Попробуйте ещё раз.";
 "RelayNavigation" = "Навигация по странице";
+
+"RelayThemeVariants" = "Темы";
+"RelayThemeDark" = "Тёмные темы";
+"RelayThemeLight" = "Светлые темы";
+
+"Settings" = "Настройки";
+
+"RelayMiniAppLoadFailed" = "Мини-приложение не загрузилось. Обновите вкладку и проверьте соединение и текущий прокси Windows.";

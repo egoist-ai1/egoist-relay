@@ -12,6 +12,7 @@ import { selectSharedSettings } from '../../../global/selectors/sharedState';
 import {
   ANTIGRAVITY_THEMES, applyAntigravityTheme, getActiveThemeVariantId,
 } from '../../../util/antigravityThemes';
+import applyMessageTextSize from '../../../util/applyMessageTextSize';
 import {
   IS_ANDROID, IS_IOS, IS_MAC_OS,
 } from '../../../util/browser/windowEnvironment';
@@ -26,6 +27,8 @@ import Checkbox from '../../ui/Checkbox';
 import ListItem from '../../ui/ListItem';
 import RadioGroup from '../../ui/RadioGroup';
 import RangeSlider from '../../ui/RangeSlider';
+
+import styles from './SettingsGeneral.module.scss';
 
 type OwnProps = {
   isActive?: boolean;
@@ -105,12 +108,7 @@ const SettingsGeneral = ({
   ] : undefined;
 
   const handleMessageTextSizeChange = useCallback((newSize: number) => {
-    document.documentElement.style.setProperty(
-      '--composer-text-size', `${Math.max(newSize, IS_IOS ? 16 : 15)}px`,
-    );
-    document.documentElement.style.setProperty('--message-meta-height', `${Math.floor(newSize * 1.25)}px`);
-    document.documentElement.style.setProperty('--message-text-size', `${newSize}px`);
-    document.documentElement.setAttribute('data-message-text-size', newSize.toString());
+    applyMessageTextSize(newSize);
 
     setSharedSettingOption({ messageTextSize: newSize });
   }, []);
@@ -153,13 +151,10 @@ const SettingsGeneral = ({
         </ListItem>
       </Island>
 
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>Темы Antigravity</IslandTitle>
+      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayThemeVariants')}</IslandTitle>
       <Island>
-        <div style={`font-size: 0.8125rem; font-weight: var(--font-weight-semibold);
-          color: var(--color-text-secondary); margin-bottom: 0.5rem; padding: 0 0.5rem;
-          text-transform: uppercase; letter-spacing: 0.5px;`}
-        >
-          Тёмные темы
+        <div className={styles.themeGroupTitle}>
+          {lang('RelayThemeDark')}
         </div>
         <RadioGroup
           name="antigravityDark"
@@ -167,11 +162,8 @@ const SettingsGeneral = ({
           selected={activeVariant}
           onChange={handleThemeVariantChange}
         />
-        <div style={`font-size: 0.8125rem; font-weight: var(--font-weight-semibold);
-          color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem; padding: 0 0.5rem;
-          text-transform: uppercase; letter-spacing: 0.5px;`}
-        >
-          Светлые темы
+        <div className={styles.themeGroupTitle}>
+          {lang('RelayThemeLight')}
         </div>
         <RadioGroup
           name="antigravityLight"

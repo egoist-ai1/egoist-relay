@@ -13,7 +13,9 @@
   margin-bottom: 0;
   padding-inline-start: 4rem;
 
-  text-align: left;
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  text-align: initial;
 
   &:hover,
   &:focus-visible {
@@ -30,6 +32,12 @@
     }
   }
 
+  &:has(:focus-visible) {
+    border-radius: var(--border-radius-default);
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: -0.125rem;
+  }
+
   .user-avatar {
     position: absolute;
     top: 0;
@@ -37,7 +45,7 @@
 
     opacity: 0;
 
-    transition: opacity 0.15s ease;
+    transition: opacity 140ms ease;
   }
 
   &.round {
@@ -48,7 +56,7 @@
 
       &::before {
         background-color: transparent;
-        transition: border-color 0.15s ease, background-color 0.15s ease;
+        transition: border-color 140ms ease, background-color 140ms ease;
       }
 
       &::after {
@@ -115,8 +123,15 @@
 
   input {
     position: absolute;
-    z-index: var(--z-below);
+
+    overflow: hidden;
+
+    width: 0.0625rem;
+    height: 0.0625rem;
+    margin: 0;
+
     opacity: 0;
+    clip-path: inset(50%);
   }
 
   .Checkbox-main {
@@ -125,6 +140,8 @@
     grid-template-rows: auto auto;
     flex-grow: 1;
     align-items: center;
+
+    min-width: 0;
 
     &::before,
     &::after {
@@ -141,7 +158,7 @@
       border: 0.125rem solid var(--color-borders-input);
       border-radius: 0.25rem;
       background-color: var(--color-background);
-      transition: border-color 0.1s ease, background-color 0.1s ease;
+      transition: border-color 140ms ease, background-color 140ms ease;
     }
 
     &::after {
@@ -152,11 +169,11 @@
       position: absolute;
 
       font-size: 1.25rem;
-      color: var(--color-white);
+      color: var(--color-primary-text);
 
       opacity: 0;
 
-      transition: opacity 0.1s ease;
+      transition: opacity 140ms ease;
     }
 
     .user-avatar,
@@ -170,8 +187,8 @@
 
     .label {
       unicode-bidi: plaintext;
-      line-height: 1.25rem;
-      text-align: left;
+      line-height: 1.4;
+      text-align: initial;
       overflow-wrap: anywhere;
     }
 
@@ -195,8 +212,9 @@
       margin-top: 0.25rem;
 
       font-size: 0.875rem;
-      line-height: 1rem;
+      line-height: 1.4;
       color: var(--color-text-secondary);
+      overflow-wrap: anywhere;
     }
   }
 
@@ -242,10 +260,6 @@
 
     &::after {
       opacity: 1;
-
-      :global(.theme-dark) & {
-        color: #000000 !important;
-      }
     }
     .user-avatar {
       &.user-avatar-visible {
@@ -360,8 +374,6 @@
   overflow: hidden;
   max-height: 0;
   padding-inline-start: 2rem;
-  /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-  transition: max-height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .nestedButton {
@@ -377,6 +389,19 @@
 
 .nested-checkbox-group-open {
   max-height: 100vh;
-  /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-  transition: max-height 0.6s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Checkbox {
+    .user-avatar,
+    .Checkbox-main::before,
+    .Checkbox-main::after {
+      transition: none !important;
+    }
+
+    .Spinner {
+      opacity: 1;
+      animation: none;
+    }
+  }
 }

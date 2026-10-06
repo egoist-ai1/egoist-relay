@@ -109,6 +109,8 @@
     --color-voice-transcribe-button-own: #cceebf;
 
     --color-primary: #{$color-primary};
+    --color-primary-text: #{$color-white};
+    --spinner-primary-data: var(--spinner-white-data);
     --color-primary-shade: #{color.mix($color-primary, $color-black, 92%)};
     --color-primary-shade-darker: #{color.mix($color-primary, $color-black, 84%)};
     --color-primary-shade-rgb: #{toRGB(color.mix($color-primary, $color-black, 92%))};
@@ -183,6 +185,7 @@
     --color-chat-username: #3C7EB0;
     --color-chat-hover: #{$color-chat-hover};
     --color-chat-active: #{$color-chat-active};
+    --color-chat-active-text: #{$color-white};
     --color-item-hover: #{$color-item-hover};
     --color-item-active: #{$color-item-active};
 

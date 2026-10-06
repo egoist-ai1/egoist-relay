@@ -21,6 +21,9 @@ type OwnProps = {
   canNavigate?: boolean;
   isNavigating?: boolean;
   notice?: string;
+  isOperationsOpen?: boolean;
+  operationCount?: number;
+  onToggleOperations?: NoneToVoidFunction;
   onLoginX: NoneToVoidFunction;
   onNavigate: (action: SocialNavigationAction) => void;
 };
@@ -31,6 +34,9 @@ const Titlebar = ({
   canNavigate,
   isNavigating,
   notice,
+  isOperationsOpen,
+  operationCount,
+  onToggleOperations,
   onLoginX,
   onNavigate,
 }: OwnProps) => {
@@ -120,7 +126,8 @@ const Titlebar = ({
       role="banner"
     >
       <div className={styles.dragRegion} data-tauri-drag-region>
-        <span className={styles.appTitle}>
+        <span className={styles.brand} data-tauri-drag-region>{lang('RelayBrand')}</span>
+        <span className={styles.appTitle} data-tauri-drag-region>
           {activeApp === 'x'
             ? lang('RelayXTitle')
             : activeApp === 'instagram'
@@ -191,6 +198,22 @@ const Titlebar = ({
         </button>
       )}
 
+      {onToggleOperations && (
+        <button
+          type="button"
+          className={buildClassName(styles.operationsButton, isOperationsOpen && styles.operationsOpen)}
+          onClick={onToggleOperations}
+          aria-label={lang('RelayOperationTitle')}
+          aria-expanded={Boolean(isOperationsOpen)}
+          aria-controls="relay-media-operations"
+          aria-keyshortcuts="Control+J"
+          title={`${lang('RelayOperationTitle')} (Ctrl+J)`}
+          data-relay-operations-toggle="true"
+        >
+          <Icon name="download" className={styles.navigationIcon} />
+          {Boolean(operationCount) && <span className={styles.operationCount}>{operationCount}</span>}
+        </button>
+      )}
       <div className={styles.controls}>
         <button
           type="button"

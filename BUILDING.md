@@ -1,16 +1,11 @@
-# Building Egoist Relay 1.4.7
+# Egoist Relay 1.6.1 source preparation
 
-Target: Windows x64, Windows 10 version 1903 or newer. Required tools: Node.js 24, npm 11, Rust 1.97 or newer with MSVC, Windows SDK, NSIS and WebView2. Lockfiles are included. The reviewed host currently uses Rust 1.98.1; this package does not certify a clean independent rebuild on a new machine.
+Windows x64 10 version 1903 or newer; Node.js 24, npm 11; Rust 1.97 MSVC; Windows SDK and NSIS.
 
-1. Run npm ci in the repository root.
-2. Copy .env.example to .env and provide your own TELEGRAM_API_ID and TELEGRAM_API_HASH from https://my.telegram.org. Never include TEST_SESSION in a production build.
-3. Provide the exact runtime files in scripts/release-runtime-manifest.json. Their executables and models are excluded from this Git/source ZIP; public helper source and license notices remain included.
-4. If you have a separately verified runtime archive, set RELAY_PUBLIC_RUNTIME_URL and RELAY_PUBLIC_RUNTIME_SHA256 and run node scripts/release-fetch-runtime.mjs. No arbitrary runtime download is provided.
-5. Run npm run release:preflight, npm run release:test, npm run check, npm test and cargo test --locked --manifest-path tauri/Cargo.toml.
-6. Run npm run tauri:build -- --ci --no-sign -- --locked. The updater remains disabled until a reviewed signed update channel exists.
+The installed application directory is limited to 208 UTF-16 units by bundled notice paths and classic Win32 limits. The installer rejects longer paths before dependency/payload installation; it does not change the system long-path policy.
 
-The full UI harness may require exact local media runtime and synthetic TLS fixtures. Public adaptations of existing tests are preserved; skipped or gated checks remain distinct from successful checks.
+Run npm ci, provide your own TELEGRAM_API_ID and TELEGRAM_API_HASH in a local .env, and place the exact public runtime files described in scripts/release-runtime-manifest.json into runtime/. Run npm run release:preflight, npm run check, and npm run tauri:build. TEST_SESSION and personal profile files must never be included. This version builds one generic installer and inherits the host network configuration; it does not import network profiles or bundle proxy/VPN engines.
 
-The Egoist Social MCP supplemental source remains under scripts/integrations/egoist-social-mcp. It uses Node.js 24 and built-in libraries; consult its README and BRIDGE-CONTRACT before connecting your own installed Relay and private local state.
+Standalone unit tests and fixtures are excluded from this source preparation archive. The full test commands and CI require the original reviewed repository; npm test is not a verification gate for this partial archive. The published production input hashes are checked against the archived 1.6.1 candidate. Publication does not rebuild the installer or certify a clean-host rebuild. Historical synthetic test sources retained from the preceding public release are not re-certified for this version.
 
-Binary publication remains held by the incomplete exact FFmpeg dependency sources/build recipe and undelivered npm/Cargo/standalone yt-dlp dependency archives. See THIRD-PARTY.md.
+This archive prepares project source and notices. It does not claim complete corresponding source delivery for every bundled executable. See dependency-sources.json for blocking missing inputs. The original GPL license is in LICENSE. No user accounts, DNS/tunnel enrollment, private keys, build logs or installed profiles are included.

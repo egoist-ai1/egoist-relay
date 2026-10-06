@@ -1,17 +1,34 @@
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::time::{Duration, Instant};
 use url::Url;
 
 const MAX_TARGET_BYTES: usize = 16 * 1024;
+#[cfg(test)]
+const DEFAULT_PROXY_TIMEOUT: Duration = Duration::from_secs(125);
 
-/// Reads the active Windows user proxy for this operation. Call off the UI thread:
-/// PAC discovery is synchronous and WinHTTP phase timeouts are not a total deadline.
-pub fn proxy_for_url(target: &str) -> Result<Option<Url>, String> {
-  let target = validated_target(target)?;
-  #[cfg(windows)]
-  { windows::proxy_for_target(&target) }
-  #[cfg(not(windows))]
-  { let _ = target; Ok(None) }
+/// Reads the active Windows user proxy off the UI thread, with a bounded wait
+#[cfg(test)]
+fn proxy_for_url(target: &str) -> Result<Option<Url>, String> {
+  proxy_for_url_cancellable(target, &AtomicBool::new(false), Instant::now() + DEFAULT_PROXY_TIMEOUT)
 }
 
+/// Resolves the Windows route within the caller's operation deadline
+pub fn proxy_for_url_cancellable(target: &str, cancel: &AtomicBool, deadline: Instant) -> Result<Option<Url>, String> {
+  check_control(cancel, deadline)?;
+  let target = validated_target(target)?;
+  #[cfg(windows)]
+  { windows::proxy_for_target(&target, cancel, deadline) }
+  #[cfg(not(windows))]
+  { let _ = target; check_control(cancel, deadline)?; Ok(None) }
+}
+
+fn check_control(cancel: &AtomicBool, deadline: Instant) -> Result<(), String> {
+  if cancel.load(Ordering::Acquire) {
+    Err("Windows proxy resolution cancelled".to_string())
+  } else if Instant::now() >= deadline {
+    Err("Windows proxy resolution timed out".to_string())
+  } else { Ok(()) }
+}
 fn validated_target(value: &str) -> Result<Url, String> {
   if value.len() > MAX_TARGET_BYTES || value.chars().any(char::is_control) {
     return Err("Invalid media URL for Windows proxy resolution".to_string());
@@ -158,6 +175,23 @@ mod parsing {
     Ok(matched)
   }
 
+  pub(super) fn pac_route(is_proxy: bool, scheme: u32, host: Option<&str>, port: u16) -> Result<Option<Url>, String> {
+    if !is_proxy { return Ok(None); }
+    let protocol = match scheme {
+      1 => "http",
+      2 => "https",
+      // WinHTTP's SOCKS result does not distinguish SOCKS4 from SOCKS5
+      4 => return Err("Windows PAC selected an ambiguous SOCKS protocol; use an explicit socks5:// manual proxy".to_string()),
+      _ => return Err("Windows PAC selected an unsupported proxy protocol".to_string()),
+    };
+    let host = host.ok_or("Windows PAC selected an empty proxy endpoint")?;
+    if port == 0 { return Err("Windows PAC selected an invalid proxy port".to_string()); }
+    let host = if host.contains(':') && !host.starts_with('[') {
+      host.parse::<std::net::Ipv6Addr>().map_err(|_| "Invalid Windows PAC proxy hostname")?;
+      format!("[{host}]")
+    } else { host.to_string() };
+    endpoint(&format!("{protocol}://{host}:{port}"), false).map(Some)
+  }
   pub(super) fn after_auto_error(target: &Url, code: u32, explicit_pac: bool, proxy: Option<&str>, bypass: Option<&str>) -> Result<Option<Url>, String> {
     if code == AUTODETECTION_FAILED && !explicit_pac {
       // No WPAD configuration was discovered. The active manual policy, or its
@@ -173,24 +207,47 @@ mod parsing {
 mod windows {
   use std::ffi::c_void;
   use std::ptr;
+  use std::sync::{Arc, Condvar, Mutex};
+  use super::{AtomicBool, Duration, Instant, check_control, parsing};
   use url::Url;
-  use super::parsing;
+
+  const WINHTTP_FLAG_ASYNC: u32 = 0x10000000;
+  const WINHTTP_OPTION_CONTEXT_VALUE: u32 = 45;
+  const REQUEST_ERROR: u32 = 0x00200000;
+  const PROXY_COMPLETE: u32 = 0x01000000;
+  const HANDLE_CLOSING: u32 = 0x00000800;
+  const CALLBACK_FLAGS: u32 = REQUEST_ERROR | PROXY_COMPLETE | 0x00000c00;
+  const ERROR_IO_PENDING: u32 = 997;
+  const ERROR_CANCELLED: u32 = 12017;
+  const MAX_PROXY_RESULTS: u32 = 256;
+  const CANCEL_POLL: Duration = Duration::from_millis(20);
+  const PHASE_TIMEOUT_MS: i32 = 2000;
 
   #[repr(C)]
   #[derive(Default)]
   struct CurrentUserConfig { auto_detect: i32, auto_config_url: *mut u16, proxy: *mut u16, bypass: *mut u16 }
   #[repr(C)]
-  #[derive(Default)]
-  struct ProxyInfo { access_type: u32, proxy: *mut u16, bypass: *mut u16 }
-  #[repr(C)]
   struct AutoProxyOptions { flags: u32, detect_flags: u32, config_url: *const u16, reserved: *mut c_void, reserved_value: u32, auto_logon: i32 }
+  #[repr(C)]
+  #[derive(Default)]
+  struct ProxyResult { count: u32, entries: *mut ProxyEntry }
+  #[repr(C)]
+  struct ProxyEntry { is_proxy: i32, is_bypass: i32, scheme: u32, host: *mut u16, port: u16 }
+  #[repr(C)]
+  struct AsyncResult { operation: usize, error: u32 }
+  type StatusCallback = unsafe extern "system" fn(*mut c_void, usize, u32, *mut c_void, u32);
 
   #[link(name = "winhttp")]
   unsafe extern "system" {
     fn WinHttpGetIEProxyConfigForCurrentUser(config: *mut CurrentUserConfig) -> i32;
     fn WinHttpOpen(agent: *const u16, access: u32, proxy: *const u16, bypass: *const u16, flags: u32) -> *mut c_void;
     fn WinHttpSetTimeouts(session: *mut c_void, resolve: i32, connect: i32, send: i32, receive: i32) -> i32;
-    fn WinHttpGetProxyForUrl(session: *mut c_void, url: *const u16, options: *mut AutoProxyOptions, info: *mut ProxyInfo) -> i32;
+    fn WinHttpSetStatusCallback(handle: *mut c_void, callback: Option<StatusCallback>, flags: u32, reserved: usize) -> usize;
+    fn WinHttpSetOption(handle: *mut c_void, option: u32, value: *mut c_void, size: u32) -> i32;
+    fn WinHttpCreateProxyResolver(session: *mut c_void, resolver: *mut *mut c_void) -> u32;
+    fn WinHttpGetProxyForUrlEx(resolver: *mut c_void, url: *const u16, options: *mut AutoProxyOptions, context: usize) -> u32;
+    fn WinHttpGetProxyResult(resolver: *mut c_void, result: *mut ProxyResult) -> u32;
+    fn WinHttpFreeProxyResult(result: *mut ProxyResult);
     fn WinHttpCloseHandle(handle: *mut c_void) -> i32;
   }
   #[link(name = "kernel32")]
@@ -198,14 +255,78 @@ mod windows {
 
   fn free_string(pointer: *mut u16) { if !pointer.is_null() { unsafe { GlobalFree(pointer.cast()); } } }
   impl Drop for CurrentUserConfig { fn drop(&mut self) { free_string(self.auto_config_url); free_string(self.proxy); free_string(self.bypass); } }
-  impl Drop for ProxyInfo { fn drop(&mut self) { free_string(self.proxy); free_string(self.bypass); } }
-  struct Session(*mut c_void);
-  impl Drop for Session { fn drop(&mut self) { unsafe { WinHttpCloseHandle(self.0); } } }
+  impl Drop for ProxyResult { fn drop(&mut self) { if !self.entries.is_null() { unsafe { WinHttpFreeProxyResult(self); } } } }
+  struct Handle(*mut c_void);
+  impl Drop for Handle { fn drop(&mut self) { unsafe { WinHttpCloseHandle(self.0); } } }
+
+  struct ProxyContext {
+    completion: Mutex<Option<Result<(), u32>>>,
+    wake: Condvar,
+    target: Vec<u16>,
+    _pac: Option<Vec<u16>>,
+    options: AutoProxyOptions,
+  }
+
+  // The FFI options are read-only inputs. Their pointers refer to immutable
+  // allocations owned by this context until the final HANDLE_CLOSING callback.
+  unsafe impl Send for ProxyContext {}
+  unsafe impl Sync for ProxyContext {}
+
+  impl ProxyContext {
+    fn new(target: &Url, pac: Option<&str>) -> Self {
+      let target = target.as_str().encode_utf16().chain(Some(0)).collect();
+      let pac = pac.map(|value| value.encode_utf16().chain(Some(0)).collect::<Vec<u16>>());
+      let options = AutoProxyOptions {
+        flags: (if pac.is_some() { 2 } else { 1 }) | 0x00080000 | 0x00100000,
+        detect_flags: if pac.is_some() { 0 } else { 3 },
+        config_url: pac.as_ref().map_or(ptr::null(), |value| value.as_ptr()),
+        reserved: ptr::null_mut(), reserved_value: 0, auto_logon: 0,
+      };
+      Self { completion: Mutex::new(None), wake: Condvar::new(), target, _pac: pac, options }
+    }
+
+    fn complete(&self, result: Result<(), u32>) {
+      let mut completion = self.completion.lock().unwrap_or_else(|poison| poison.into_inner());
+      if completion.is_none() { *completion = Some(result); }
+      self.wake.notify_all();
+    }
+
+    fn wait(&self, cancel: &AtomicBool, deadline: Instant) -> Result<Result<(), u32>, String> {
+      let mut completion = self.completion.lock().unwrap_or_else(|poison| poison.into_inner());
+      loop {
+        check_control(cancel, deadline)?;
+        if let Some(result) = *completion { return Ok(result); }
+        let remaining = deadline.saturating_duration_since(Instant::now()).min(CANCEL_POLL);
+        let (next, _) = self.wake.wait_timeout(completion, remaining).unwrap_or_else(|poison| poison.into_inner());
+        completion = next;
+      }
+    }
+  }
+
+  unsafe extern "system" fn proxy_callback(_handle: *mut c_void, context: usize, status: u32, information: *mut c_void, length: u32) {
+    if context == 0 { return; }
+    let context = context as *const ProxyContext;
+    if status == HANDLE_CLOSING {
+      // HANDLE_CLOSING is the last callback, with no concurrent callbacks for
+      // this handle. It releases the strong reference transferred to WinHTTP.
+      let context = unsafe { Arc::from_raw(context) };
+      context.complete(Err(ERROR_CANCELLED));
+      return;
+    }
+    let context = unsafe { &*context };
+    if status == PROXY_COMPLETE {
+      context.complete(Ok(()));
+    } else if status == REQUEST_ERROR {
+      let error = if !information.is_null() && length as usize >= std::mem::size_of::<AsyncResult>() {
+        unsafe { ptr::read_unaligned(information.cast::<AsyncResult>()) }.error
+      } else { ERROR_CANCELLED };
+      context.complete(Err(error));
+    }
+  }
 
   fn read_string(pointer: *const u16) -> Result<Option<String>, String> {
     if pointer.is_null() { return Ok(None); }
-    // WinHTTP guarantees a terminated allocated UTF-16 string. Read only its
-    // bounded prefix; all API allocations are released by their owners above.
+    // WinHTTP supplies a terminated allocation, with a bounded prefix read
     for size in 0..=parsing::MAX_CONFIG_UNITS {
       if unsafe { *pointer.add(size) } == 0 {
         return String::from_utf16(unsafe { std::slice::from_raw_parts(pointer, size) })
@@ -215,50 +336,275 @@ mod windows {
     Err("Oversized Windows proxy configuration".to_string())
   }
 
-  pub(super) fn proxy_for_target(target: &Url) -> Result<Option<Url>, String> {
+  pub(super) fn proxy_for_target(target: &Url, cancel: &AtomicBool, deadline: Instant) -> Result<Option<Url>, String> {
+    check_control(cancel, deadline)?;
     let mut config = CurrentUserConfig::default();
     if unsafe { WinHttpGetIEProxyConfigForCurrentUser(&mut config) } == 0 {
       let code = unsafe { GetLastError() };
+      check_control(cancel, deadline)?;
       return if code == 2 { Ok(None) } else { Err(format!("Cannot read current Windows proxy settings (code {code})")) };
     }
     let proxy = read_string(config.proxy)?;
     let bypass = read_string(config.bypass)?;
     let pac = read_string(config.auto_config_url)?;
-    if pac.is_none() && config.auto_detect == 0 {
-      return parsing::manual_proxy(target, proxy.as_deref(), bypass.as_deref());
+    proxy_for_config(target, config.auto_detect != 0, pac.as_deref(), proxy.as_deref(), bypass.as_deref(), cancel, deadline)
+  }
+
+  fn proxy_for_config(target: &Url, auto_detect: bool, pac: Option<&str>, proxy: Option<&str>, bypass: Option<&str>, cancel: &AtomicBool, deadline: Instant) -> Result<Option<Url>, String> {
+    check_control(cancel, deadline)?;
+    if pac.is_none() && !auto_detect {
+      let route = parsing::manual_proxy(target, proxy, bypass)?;
+      check_control(cancel, deadline)?;
+      return Ok(route);
     }
-    if let Some(pac) = &pac {
+    if let Some(pac) = pac {
       let pac = Url::parse(pac).map_err(|_| "Invalid Windows PAC URL".to_string())?;
       if !matches!(pac.scheme(), "http" | "https") || pac.host_str().is_none()
         || !pac.username().is_empty() || pac.password().is_some() {
         return Err("Windows PAC must use HTTP(S) without embedded credentials".to_string());
       }
     }
+    match resolve_auto(target, pac, cancel, deadline)? {
+      Ok(route) => Ok(route),
+      Err(code) => {
+        check_control(cancel, deadline)?;
+        parsing::after_auto_error(target, code, pac.is_some(), proxy, bypass)
+      },
+    }
+  }
+
+  struct ProxyResolver { handle: Handle, _session: Handle, context: Arc<ProxyContext> }
+
+  fn open_resolver(target: &Url, pac: Option<&str>) -> Result<ProxyResolver, String> {
     let agent: Vec<u16> = "Egoist Relay\0".encode_utf16().collect();
-    let session = Session(unsafe { WinHttpOpen(agent.as_ptr(), 1, ptr::null(), ptr::null(), 0) });
+    let session = Handle(unsafe { WinHttpOpen(agent.as_ptr(), 1, ptr::null(), ptr::null(), WINHTTP_FLAG_ASYNC) });
     if session.0.is_null() { return Err(format!("Cannot open Windows proxy resolver (code {})", unsafe { GetLastError() })); }
-    if unsafe { WinHttpSetTimeouts(session.0, 2000, 2000, 2000, 2000) } == 0 {
+    if unsafe { WinHttpSetTimeouts(session.0, PHASE_TIMEOUT_MS, PHASE_TIMEOUT_MS, PHASE_TIMEOUT_MS, PHASE_TIMEOUT_MS) } == 0 {
       return Err(format!("Cannot set Windows proxy resolver timeouts (code {})", unsafe { GetLastError() }));
     }
-    let mut options = AutoProxyOptions {
-      flags: if pac.is_some() { 2 } else { 1 } | 0x00080000 | 0x00100000,
-      detect_flags: if pac.is_some() { 0 } else { 3 },
-      config_url: if pac.is_some() { config.auto_config_url } else { ptr::null() },
-      reserved: ptr::null_mut(), reserved_value: 0, auto_logon: 0,
-    };
-    let target_utf16: Vec<u16> = target.as_str().encode_utf16().chain(Some(0)).collect();
-    let mut result = ProxyInfo::default();
-    if unsafe { WinHttpGetProxyForUrl(session.0, target_utf16.as_ptr(), &mut options, &mut result) } == 0 {
-      return parsing::after_auto_error(target, unsafe { GetLastError() }, pac.is_some(), proxy.as_deref(), bypass.as_deref());
+    if unsafe { WinHttpSetStatusCallback(session.0, Some(proxy_callback), CALLBACK_FLAGS, 0) } == usize::MAX {
+      return Err(format!("Cannot observe Windows proxy resolver (code {})", unsafe { GetLastError() }));
     }
-    match result.access_type {
-      1 => Ok(None),
-      3 => {
-        let proxy = read_string(result.proxy)?.ok_or("Windows PAC selected an empty proxy endpoint")?;
-        let bypass = read_string(result.bypass)?;
-        parsing::manual_proxy(target, Some(&proxy), bypass.as_deref())
-      },
-      _ => Err("Windows PAC returned an unsupported access policy".to_string()),
+    let mut resolver = ptr::null_mut();
+    let code = unsafe { WinHttpCreateProxyResolver(session.0, &mut resolver) };
+    if code != 0 { return Err(format!("Cannot create Windows proxy resolver (code {code})")); }
+    if resolver.is_null() { return Err("Windows returned an empty proxy resolver".to_string()); }
+    let resolver = Handle(resolver);
+    let context = Arc::new(ProxyContext::new(target, pac));
+    let callback_context = Arc::into_raw(context.clone());
+    let mut context_value = callback_context as usize;
+    if unsafe { WinHttpSetOption(resolver.0, WINHTTP_OPTION_CONTEXT_VALUE, ptr::addr_of_mut!(context_value).cast(), std::mem::size_of::<usize>() as u32) } == 0 {
+      // The handle has no context, so there is no callback owner to release it
+      let code = unsafe { GetLastError() };
+      unsafe { drop(Arc::from_raw(callback_context)); }
+      return Err(format!("Cannot bind Windows proxy resolver (code {code})"));
+    }
+    Ok(ProxyResolver { handle: resolver, _session: session, context })
+  }
+
+  fn resolve_auto(target: &Url, pac: Option<&str>, cancel: &AtomicBool, deadline: Instant) -> Result<Result<Option<Url>, u32>, String> {
+    check_control(cancel, deadline)?;
+    let resolver = open_resolver(target, pac)?;
+    let context = &resolver.context;
+    check_control(cancel, deadline)?;
+    let code = unsafe { WinHttpGetProxyForUrlEx(resolver.handle.0, context.target.as_ptr(), ptr::addr_of!(context.options).cast_mut(), Arc::as_ptr(context) as usize) };
+    if code != ERROR_IO_PENDING {
+      check_control(cancel, deadline)?;
+      return Ok(Err(code));
+    }
+    if let Err(code) = context.wait(cancel, deadline)? { return Ok(Err(code)); }
+    check_control(cancel, deadline)?;
+    let mut result = ProxyResult::default();
+    let code = unsafe { WinHttpGetProxyResult(resolver.handle.0, &mut result) };
+    if code != 0 { return Ok(Err(code)); }
+    if result.count == 0 || result.count > MAX_PROXY_RESULTS || result.entries.is_null() {
+      return Err("Windows PAC returned an empty or oversized proxy list".to_string());
+    }
+    // Relay uses the first selected route; it does not silently fail over to
+    // later proxies or DIRECT when that route is unavailable.
+    let entry = unsafe { &*result.entries };
+    let host = read_string(entry.host)?;
+    let route = parsing::pac_route(entry.is_proxy != 0, entry.scheme, host.as_deref(), entry.port)?;
+    check_control(cancel, deadline)?;
+    Ok(Ok(route))
+  }
+
+  #[cfg(test)]
+  mod tests {
+    use super::*;
+    use std::io::{Read, Write};
+    use std::net::TcpListener;
+    use std::sync::atomic::Ordering;
+    use std::sync::mpsc;
+    use std::thread;
+
+    struct PacFixture {
+      url: String,
+      requested: mpsc::Receiver<()>,
+      stop: Arc<AtomicBool>,
+      worker: Option<thread::JoinHandle<()>>,
+    }
+
+    impl PacFixture {
+      fn new(response: Option<&'static str>) -> Self {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        listener.set_nonblocking(true).unwrap();
+        let url = format!("http://127.0.0.1:{}/relay.pac", listener.local_addr().unwrap().port());
+        let stop = Arc::new(AtomicBool::new(false));
+        let stopped = stop.clone();
+        let (sender, requested) = mpsc::channel();
+        let worker = thread::spawn(move || {
+          while !stopped.load(Ordering::Acquire) {
+            match listener.accept() {
+              Ok((mut socket, _)) => {
+                socket.set_read_timeout(Some(Duration::from_millis(100))).unwrap();
+                let mut request = Vec::new();
+                let mut buffer = [0u8; 1024];
+                while !request.windows(4).any(|window| window == b"\r\n\r\n") && request.len() < 8192 && !stopped.load(Ordering::Acquire) {
+                  match socket.read(&mut buffer) {
+                    Ok(0) => break,
+                    Ok(length) => request.extend_from_slice(&buffer[..length]),
+                    Err(error) if matches!(error.kind(), std::io::ErrorKind::WouldBlock | std::io::ErrorKind::TimedOut) => {},
+                    Err(_) => break,
+                  }
+                }
+                let _ = sender.send(());
+                if let Some(response) = response {
+                  let _ = socket.write_all(response.as_bytes());
+                } else {
+                  while !stopped.load(Ordering::Acquire) { thread::sleep(Duration::from_millis(5)); }
+                }
+              },
+              Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => thread::sleep(Duration::from_millis(5)),
+              Err(_) => break,
+            }
+          }
+        });
+        Self { url, requested, stop, worker: Some(worker) }
+      }
+    }
+
+    impl Drop for PacFixture {
+      fn drop(&mut self) {
+        self.stop.store(true, Ordering::Release);
+        if let Some(worker) = self.worker.take() { worker.join().unwrap(); }
+      }
+    }
+
+    fn target() -> Url { Url::parse("https://video.example/media").unwrap() }
+
+    #[test]
+    fn winhttp_closing_callback_releases_cancelled_request_inputs() {
+      let fixture = PacFixture::new(None);
+      let resolver = open_resolver(&target(), Some(&fixture.url)).unwrap();
+      let weak = Arc::downgrade(&resolver.context);
+      let code = unsafe { WinHttpGetProxyForUrlEx(resolver.handle.0, resolver.context.target.as_ptr(), ptr::addr_of!(resolver.context.options).cast_mut(), Arc::as_ptr(&resolver.context) as usize) };
+      assert_eq!(code, ERROR_IO_PENDING);
+      fixture.requested.recv_timeout(Duration::from_secs(3)).unwrap();
+      drop(resolver);
+      let deadline = Instant::now() + Duration::from_secs(1);
+      while weak.upgrade().is_some() && Instant::now() < deadline { thread::sleep(Duration::from_millis(1)); }
+      assert!(weak.upgrade().is_none(), "WinHTTP must release the transferred context after close");
+    }
+    #[test]
+    fn deadline_bounds_an_uncompleted_callback_wait() {
+      let context = ProxyContext::new(&target(), None);
+      let started = Instant::now();
+      let result = context.wait(&AtomicBool::new(false), started + Duration::from_millis(60));
+      assert!(result.unwrap_err().contains("timed out"));
+      assert!(started.elapsed() < Duration::from_secs(1));
+    }
+
+    #[test]
+    fn cancellation_interrupts_an_uncompleted_callback_wait() {
+      let context = ProxyContext::new(&target(), None);
+      let cancel = Arc::new(AtomicBool::new(false));
+      let cancelled = cancel.clone();
+      let worker = thread::spawn(move || { thread::sleep(Duration::from_millis(30)); cancelled.store(true, Ordering::Release); });
+      let started = Instant::now();
+      assert!(context.wait(&cancel, started + Duration::from_secs(5)).unwrap_err().contains("cancel"));
+      assert!(started.elapsed() < Duration::from_secs(1));
+      worker.join().unwrap();
+    }
+
+    #[test]
+    fn cancellation_and_deadline_win_over_a_racing_completion() {
+      let context = ProxyContext::new(&target(), None);
+      context.complete(Ok(()));
+      assert!(context.wait(&AtomicBool::new(true), Instant::now() + Duration::from_secs(5)).is_err());
+      assert!(context.wait(&AtomicBool::new(false), Instant::now()).is_err());
+    }
+
+    #[test]
+    fn callback_before_wait_is_not_lost_and_late_events_do_not_override_it() {
+      let context = ProxyContext::new(&target(), None);
+      context.complete(Err(12167));
+      context.complete(Ok(()));
+      context.complete(Err(ERROR_CANCELLED));
+      assert_eq!(context.wait(&AtomicBool::new(false), Instant::now() + Duration::from_secs(5)).unwrap(), Err(12167));
+    }
+
+    #[test]
+    fn closing_callback_releases_inputs_after_the_caller_returns() {
+      let context = Arc::new(ProxyContext::new(&target(), Some("http://127.0.0.1/relay.pac")));
+      let weak = Arc::downgrade(&context);
+      let callback_context = Arc::into_raw(context.clone()) as usize;
+      drop(context);
+      assert!(weak.upgrade().is_some());
+      unsafe { proxy_callback(ptr::null_mut(), callback_context, PROXY_COMPLETE, ptr::null_mut(), 0); }
+      assert!(weak.upgrade().is_some());
+      unsafe { proxy_callback(ptr::null_mut(), callback_context, HANDLE_CLOSING, ptr::null_mut(), 0); }
+      assert!(weak.upgrade().is_none());
+    }
+
+    #[test]
+    fn manual_route_and_bypass_are_unchanged_without_autoproxy() {
+      let cancel = AtomicBool::new(false);
+      let deadline = Instant::now() + Duration::from_secs(5);
+      assert_eq!(proxy_for_config(&target(), false, None, Some("https=127.0.0.1:10931"), None, &cancel, deadline).unwrap().unwrap().as_str(), "http://127.0.0.1:10931/");
+      assert!(proxy_for_config(&target(), false, None, Some("https=127.0.0.1:10931"), Some("*.example"), &cancel, deadline).unwrap().is_none());
+    }
+
+    #[test]
+    fn local_pac_selects_first_proxy_without_direct_failover() {
+      let fixture = PacFixture::new(Some("HTTP/1.1 200 OK\r\nContent-Type: application/x-ns-proxy-autoconfig\r\nConnection: close\r\n\r\nfunction FindProxyForURL(url, host) { return 'PROXY 127.0.0.1:18763; PROXY 127.0.0.1:18764; DIRECT'; }"));
+      let route = proxy_for_config(&target(), false, Some(&fixture.url), None, None, &AtomicBool::new(false), Instant::now() + Duration::from_secs(5)).unwrap().unwrap();
+      assert_eq!(route.as_str(), "http://127.0.0.1:18763/");
+      fixture.requested.recv_timeout(Duration::from_secs(1)).unwrap();
+    }
+
+    #[test]
+    fn failed_explicit_local_pac_does_not_use_manual_or_direct_route() {
+      let fixture = PacFixture::new(Some("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"));
+      let error = proxy_for_config(&target(), false, Some(&fixture.url), Some("127.0.0.1:10931"), Some("*"), &AtomicBool::new(false), Instant::now() + Duration::from_secs(5)).unwrap_err();
+      assert!(error.contains("auto-configuration failed"), "{error}");
+      fixture.requested.recv_timeout(Duration::from_secs(1)).unwrap();
+    }
+
+    #[test]
+    fn pending_local_pac_fetch_obeys_absolute_deadline() {
+      let fixture = PacFixture::new(None);
+      let started = Instant::now();
+      let error = proxy_for_config(&target(), false, Some(&fixture.url), None, None, &AtomicBool::new(false), started + Duration::from_millis(200)).unwrap_err();
+      assert!(error.contains("timed out"), "{error}");
+      assert!(started.elapsed() < Duration::from_secs(1));
+    }
+
+    #[test]
+    fn pending_local_pac_fetch_can_be_cancelled_after_it_starts() {
+      let fixture = PacFixture::new(None);
+      let target = target();
+      let cancel = Arc::new(AtomicBool::new(false));
+      let cancellation = cancel.clone();
+      let url = fixture.url.clone();
+      let worker = thread::spawn(move || proxy_for_config(&target, false, Some(&url), None, None, &cancellation, Instant::now() + Duration::from_secs(5)));
+      let received = fixture.requested.recv_timeout(Duration::from_secs(3));
+      let started = Instant::now();
+      cancel.store(true, Ordering::Release);
+      let result = worker.join().unwrap();
+      received.unwrap();
+      assert!(result.unwrap_err().contains("cancel"));
+      assert!(started.elapsed() < Duration::from_secs(1));
     }
   }
 }
@@ -269,6 +615,31 @@ mod tests {
   use super::parsing::*;
 
   fn target() -> Url { Url::parse("https://video.example/media").unwrap() }
+  #[test]
+  fn pac_route_preserves_http_https_ipv6_and_direct_without_guessing_socks() {
+    assert_eq!(pac_route(true, 1, Some("proxy.example"), 8080).unwrap().unwrap().as_str(), "http://proxy.example:8080/");
+    assert_eq!(pac_route(true, 2, Some("proxy.example"), 8443).unwrap().unwrap().as_str(), "https://proxy.example:8443/");
+    assert_eq!(pac_route(true, 1, Some("::1"), 8080).unwrap().unwrap().as_str(), "http://[::1]:8080/");
+    assert!(pac_route(false, 0, None, 0).unwrap().is_none());
+    assert!(pac_route(true, 4, Some("proxy.example"), 1080).is_err());
+    assert!(pac_route(true, 1, Some("proxy.example/path"), 80).is_err());
+    assert!(pac_route(true, 1, Some("proxy.example"), 0).is_err());
+    assert!(pac_route(true, 1, None, 80).is_err());
+  }
+  #[test]
+  fn cancellation_before_entry_does_not_resolve_a_route() {
+    let cancel = std::sync::atomic::AtomicBool::new(true);
+    let result = proxy_for_url_cancellable("https://video.example/media", &cancel,
+      std::time::Instant::now() + std::time::Duration::from_secs(5));
+    assert!(result.unwrap_err().to_ascii_lowercase().contains("cancel"));
+  }
+
+  #[test]
+  fn expired_deadline_does_not_resolve_a_route() {
+    let cancel = std::sync::atomic::AtomicBool::new(false);
+    let result = proxy_for_url_cancellable("https://video.example/media", &cancel, std::time::Instant::now());
+    assert!(result.unwrap_err().to_ascii_lowercase().contains("timed out"));
+  }
 
   #[test]
   fn current_manual_endpoint_is_not_a_fixed_lagom_default() {
