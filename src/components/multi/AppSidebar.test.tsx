@@ -84,7 +84,8 @@ describe('AppSidebar complete navigation tile', () => {
       for (const app of ['telegram', 'x', 'instagram']) {
         const button = getAppButton(app);
         expect(button.getAttribute('aria-controls')).toBe(`relay-${app}-pane`);
-        expect(button.getAttribute('aria-pressed')).toBe(String(app === activeApp));
+        expect(button.hasAttribute('aria-pressed')).toBe(false);
+        expect(button.tabIndex).toBe(app === activeApp ? 0 : -1);
         if (app === activeApp) expect(button.getAttribute('aria-current')).toBe('page');
         else expect(button.getAttribute('aria-current')).toBeNull();
       }

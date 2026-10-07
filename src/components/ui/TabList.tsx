@@ -148,6 +148,27 @@ const TabList = ({
     onSwitchTab(index);
   });
 
+  const handleTabKeyDown = useLastCallback((index: number, e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleTabClick(index);
+      return;
+    }
+
+    const isVertical = itemAlignment === 'vertical';
+    const lastIndex = tabs.length - 1;
+    let nextIndex: number | undefined;
+    if (e.key === (isVertical ? 'ArrowDown' : 'ArrowRight')) nextIndex = index >= lastIndex ? 0 : index + 1;
+    if (e.key === (isVertical ? 'ArrowUp' : 'ArrowLeft')) nextIndex = index <= 0 ? lastIndex : index - 1;
+    if (e.key === 'Home') nextIndex = 0;
+    if (e.key === 'End') nextIndex = lastIndex;
+    if (nextIndex === undefined) return;
+
+    e.preventDefault();
+    handleTabClick(nextIndex);
+    containerRef.current?.querySelectorAll<HTMLElement>('[role="tab"]')[nextIndex]?.focus();
+  });
+
   const handleFileHoverOpen = useLastCallback((index: number, e: Event) => {
     handleFileHoverOpenEvent(e, () => onFileHoverOpen!(index));
   });
@@ -198,7 +219,11 @@ const TabList = ({
           itemAlignment === 'vertical' && styles.vertical,
           stretched && styles.stretched,
         )}
+        role="tab"
+        aria-selected={isActive}
+        tabIndex={isActive || (activeTab < 0 && index === 0) ? 0 : -1}
         onClick={() => handleTabClick(index)}
+        onKeyDown={(e) => handleTabKeyDown(index, e)}
         data-file-hover-open={onFileHoverOpen ? true : undefined}
         onFileHoverOpen={onFileHoverOpen ? (e) => handleFileHoverOpen(index, e) : undefined}
         onContextMenu={hasContextActions ? (e) => handleContextMenu(index, e) : undefined}
@@ -227,6 +252,8 @@ const TabList = ({
   const tabListElement = (
     <div
       ref={containerRef}
+      role="tablist"
+      aria-orientation={itemAlignment === 'vertical' ? 'vertical' : 'horizontal'}
       className={buildClassName(
         'TabList',
         styles.container,

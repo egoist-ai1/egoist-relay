@@ -82,7 +82,7 @@ const AppSidebar = ({
             title={lang('RelaySwitchTelegram')}
             aria-label={lang('RelaySwitchTelegram')}
             aria-current={activeApp === 'telegram' ? 'page' : undefined}
-            aria-pressed={activeApp === 'telegram'}
+            tabIndex={activeApp === 'telegram' ? 0 : -1}
             aria-controls="relay-telegram-pane"
             data-relay-app="telegram"
             data-relay-service="main"
@@ -114,7 +114,7 @@ const AppSidebar = ({
             title={xStateLabel ? `${lang('RelaySwitchX')}\n${xStateLabel}` : lang('RelaySwitchX')}
             aria-label={xStateLabel ? `${lang('RelaySwitchX')}. ${xStateLabel}` : lang('RelaySwitchX')}
             aria-current={activeApp === 'x' ? 'page' : undefined}
-            aria-pressed={activeApp === 'x'}
+            tabIndex={activeApp === 'x' ? 0 : -1}
             aria-busy={xAppState === 'loading'}
             aria-controls="relay-x-pane"
             data-relay-app="x"
@@ -158,7 +158,7 @@ const AppSidebar = ({
             aria-label={instagramStateLabel
               ? `${lang('RelaySwitchInstagram')}. ${instagramStateLabel}` : lang('RelaySwitchInstagram')}
             aria-current={activeApp === 'instagram' ? 'page' : undefined}
-            aria-pressed={activeApp === 'instagram'}
+            tabIndex={activeApp === 'instagram' ? 0 : -1}
             aria-busy={instagramAppState === 'loading'}
             aria-controls="relay-instagram-pane"
             data-relay-app="instagram"
