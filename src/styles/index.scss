@@ -1,6 +1,7 @@
 /* stylelint-disable @stylistic/value-list-comma-newline-after */
 /* stylelint-disable @stylistic/declaration-colon-newline-after */
 @use "fonts";
+@use "lagom-tokens";
 @use "reboot";
 @use "variables";
 @use "mixins";
@@ -200,19 +201,31 @@ html.theme-dark #root {
   background-color: var(--color-background);
 }
 
+/* Тост на поверхности Lagom читается цветом текста темы; прежние варианты оставляют светлый текст на тёмном тосте */
+html:is(.theme-variant-lagom-dark, .theme-variant-lagom-light) {
+  --color-toast-text: var(--color-text);
+}
+
+/* Запасные значения для тёмных вариантов без собственных ролей; инлайн-переменные темы перекрывают их */
+html.theme-dark {
+  --color-text-rgb: 255, 255, 255;
+  --color-default-shadow: rgba(0, 0, 0, 0.8);
+  --color-light-shadow: rgba(0, 0, 0, 0.4);
+}
+
 html[lang="fa"],
 html[lang="fa"] body {
-  --font-family: "Vazirmatn", "Unbounded", sans-serif;
+  --font-family: "Vazirmatn", "Onest", sans-serif;
 
   &.is-ios,
   &.is-macos {
-    --font-family: "Vazirmatn", "Unbounded", sans-serif;
+    --font-family: "Vazirmatn", "Onest", sans-serif;
   }
 }
 
 body.is-ios {
-  --border-radius-messages: 1rem;
-  --border-radius-messages-small: 0.5rem;
+  --border-radius-messages: 0.75rem;
+  --border-radius-messages-small: 0.375rem;
 }
 
 body.is-tauri {
@@ -717,7 +730,7 @@ body:not(.is-ios) {
   --color-chat-username: #FFFFFF;
 }
 
-html.theme-dark {
+html:is(.theme-dark, .theme-light) {
 
   /* UNIFIED STANDARD POST & CARD DIMENSION ARCHITECTURE:*/
   /* Strict standard widths*/
@@ -725,28 +738,28 @@ html.theme-dark {
   --channel-post-width: 43rem;
   .Modal .modal-dialog {
     border: 1px solid var(--color-borders);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
+    box-shadow: 0 12px 36px var(--color-default-shadow);
   }
 
   .Menu .bubble {
     border: 1px solid var(--color-borders);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 8px 32px var(--color-default-shadow);
   }
 
   .Notification {
     border: 1px solid var(--color-borders);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 4px 24px var(--color-default-shadow);
   }
 
   .ReactionSelector__items-wrapper,
   .MessageContextMenu_items {
     border: 1px solid var(--color-borders);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 8px 32px var(--color-default-shadow);
   }
 
   .MenuItem {
     &:hover .icon {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
   }
 
@@ -758,27 +771,27 @@ html.theme-dark {
 
     > span {
       padding: 0.1875rem 0.5625rem !important;
-      border: 1px solid rgba(255, 255, 255, 0.09) !important;
+      border: 1px solid rgba(var(--color-text-rgb), 0.09) !important;
       border-radius: 10px !important;
 
       font-family: var(--font-family) !important;
       font-size: 0.6875rem !important;
       font-weight: var(--font-weight-medium) !important;
-      color: rgba(255, 255, 255, 0.85) !important;
+      color: var(--color-text) !important;
       text-shadow: none !important;
       text-transform: none !important;
       letter-spacing: normal !important;
 
-      background: rgba(20, 20, 24, 0.82) !important;
+      background: color-mix(in srgb, var(--color-background-secondary) 85%, transparent) !important;
       -webkit-backdrop-filter: blur(10px) !important;
       backdrop-filter: blur(10px) !important;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+      box-shadow: 0 1px 4px var(--color-light-shadow) !important;
     }
 
     &.interactive > span:hover {
       cursor: var(--custom-cursor, pointer);
-      color: #FFFFFF !important;
-      background: rgba(28, 28, 34, 0.95) !important;
+      color: var(--color-text) !important;
+      background: color-mix(in srgb, var(--color-background-secondary-accent) 95%, transparent) !important;
     }
   }
 
@@ -1335,7 +1348,7 @@ html.theme-dark {
 
     .media-inner {
       overflow: hidden;
-      border-radius: 14px;
+      border-radius: var(--border-radius-messages);
       background: transparent !important;
     }
   }
@@ -1375,12 +1388,12 @@ html.theme-dark {
 
     .message-content:not(.custom-shape):not(.emoji-only) {
       border: 1px solid var(--color-borders) !important;
-      border-radius: 18px !important;
+      border-radius: var(--border-radius-messages) !important;
 
       color: var(--color-text) !important;
 
       background-color: var(--color-background-secondary) !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
+      box-shadow: 0 2px 10px var(--color-light-shadow) !important;
 
       &.media:not(.text):not(.has-solid-background),
       &.no-text.media:not(.has-solid-background) {
@@ -1456,7 +1469,7 @@ html.theme-dark {
         overflow-wrap: anywhere !important;
         vertical-align: baseline !important;
 
-        background: rgba(255, 255, 255, 0.06) !important;
+        background: rgba(var(--color-text-rgb), 0.06) !important;
         -webkit-box-decoration-break: clone !important;
         box-decoration-break: clone !important;
         box-shadow: none !important;
@@ -1469,7 +1482,7 @@ html.theme-dark {
 
         color: var(--color-text) !important;
 
-        background: #000000 !important;
+        background: var(--color-background) !important;
 
         code {
           padding: 0 !important;
@@ -1495,7 +1508,7 @@ html.theme-dark {
         border-left: 2px solid var(--color-links) !important;
         border-radius: 6px !important;
         color: var(--color-text) !important;
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: rgba(var(--color-text-rgb), 0.03) !important;
 
         .message-title,
         .embedded-text-wrapper {
@@ -1511,7 +1524,7 @@ html.theme-dark {
 
         color: var(--color-text) !important;
 
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: rgba(var(--color-text-rgb), 0.03) !important;
 
         .site-name,
         .site-title {
@@ -1535,13 +1548,13 @@ html.theme-dark {
       .Audio {
         .toogle-play-wrapper .toggle-play {
           border: none !important;
-          color: #0F1419 !important;
+          color: var(--color-background) !important;
           background-color: var(--color-text) !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+          box-shadow: 0 2px 8px var(--color-light-shadow) !important;
 
           .icon {
-            color: #0F1419 !important;
-            fill: #0F1419 !important;
+            color: var(--color-background) !important;
+            fill: var(--color-background) !important;
           }
         }
 
@@ -1564,15 +1577,15 @@ html.theme-dark {
 
             color: var(--color-text-secondary) !important;
 
-            background: rgba(255, 255, 255, 0.08) !important;
+            background: rgba(var(--color-text-rgb), 0.08) !important;
 
             transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 
             &:hover {
               transform: scale(1.05);
-              border-color: rgba(255, 255, 255, 0.25) !important;
+              border-color: rgba(var(--color-text-rgb), 0.25) !important;
               color: var(--color-text) !important;
-              background: rgba(255, 255, 255, 0.16) !important;
+              background: rgba(var(--color-text-rgb), 0.16) !important;
             }
 
             &:active {
@@ -1595,12 +1608,12 @@ html.theme-dark {
           width: 3.375rem !important;
           height: 3.375rem !important;
           padding: 0 !important;
-          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          border: 1px solid rgba(var(--color-text-rgb), 0.15) !important;
           border-radius: 10px !important;
 
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
 
-          background: rgba(255, 255, 255, 0.1) !important;
+          background: rgba(var(--color-text-rgb), 0.1) !important;
           clip-path: none !important;
 
           &::after {
@@ -1618,11 +1631,11 @@ html.theme-dark {
         .file-title,
         .file-name {
           font-weight: var(--font-weight-semibold) !important;
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
         }
 
         .file-subtitle {
-          color: rgba(255, 255, 255, 0.6) !important;
+          color: var(--color-text-secondary) !important;
         }
       }
     }
@@ -1633,13 +1646,13 @@ html.theme-dark {
     --background-color: var(--color-background-own) !important;
 
     .message-content:not(.custom-shape):not(.emoji-only) {
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      border-radius: 18px !important;
+      border: 1px solid rgba(var(--color-text-rgb), 0.1) !important;
+      border-radius: var(--border-radius-messages) !important;
 
       color: var(--color-text) !important;
 
       background-color: var(--color-background-own) !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
+      box-shadow: 0 2px 10px var(--color-light-shadow) !important;
 
       &.media:not(.text):not(.has-solid-background),
       &.no-text.media:not(.has-solid-background) {
@@ -1715,7 +1728,7 @@ html.theme-dark {
         overflow-wrap: anywhere !important;
         vertical-align: baseline !important;
 
-        background: rgba(255, 255, 255, 0.08) !important;
+        background: rgba(var(--color-text-rgb), 0.08) !important;
         -webkit-box-decoration-break: clone !important;
         box-decoration-break: clone !important;
         box-shadow: none !important;
@@ -1728,7 +1741,7 @@ html.theme-dark {
 
         color: var(--color-text) !important;
 
-        background: #000000 !important;
+        background: var(--color-background) !important;
 
         code {
           padding: 0 !important;
@@ -1760,7 +1773,7 @@ html.theme-dark {
         border-left: 2px solid var(--color-links) !important;
         border-radius: 6px !important;
         color: var(--color-text) !important;
-        background-color: rgba(255, 255, 255, 0.04) !important;
+        background-color: rgba(var(--color-text-rgb), 0.04) !important;
 
         .message-title,
         .embedded-text-wrapper {
@@ -1776,7 +1789,7 @@ html.theme-dark {
 
         color: var(--color-text) !important;
 
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: rgba(var(--color-text-rgb), 0.03) !important;
 
         .site-name,
         .site-title {
@@ -1800,13 +1813,13 @@ html.theme-dark {
       .Audio {
         .toogle-play-wrapper .toggle-play {
           border: none !important;
-          color: #0F1419 !important;
+          color: var(--color-background) !important;
           background-color: var(--color-text) !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+          box-shadow: 0 2px 8px var(--color-light-shadow) !important;
 
           .icon {
-            color: #0F1419 !important;
-            fill: #0F1419 !important;
+            color: var(--color-background) !important;
+            fill: var(--color-background) !important;
           }
         }
 
@@ -1824,20 +1837,20 @@ html.theme-dark {
             margin-inline-start: 0.625rem !important;
             margin-inline-end: 0.25rem !important;
             padding: 0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(var(--color-text-rgb), 0.15) !important;
             border-radius: 9999px !important;
 
             color: var(--color-text) !important;
 
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: rgba(var(--color-text-rgb), 0.1) !important;
 
             transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 
             &:hover {
               transform: scale(1.05);
-              border-color: rgba(255, 255, 255, 0.3) !important;
-              color: #FFFFFF !important;
-              background: rgba(255, 255, 255, 0.18) !important;
+              border-color: rgba(var(--color-text-rgb), 0.3) !important;
+              color: var(--color-text) !important;
+              background: rgba(var(--color-text-rgb), 0.18) !important;
             }
 
             &:active {
@@ -1860,12 +1873,12 @@ html.theme-dark {
           width: 3.375rem !important;
           height: 3.375rem !important;
           padding: 0 !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border: 1px solid rgba(var(--color-text-rgb), 0.2) !important;
           border-radius: 10px !important;
 
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
 
-          background: rgba(255, 255, 255, 0.14) !important;
+          background: rgba(var(--color-text-rgb), 0.14) !important;
           clip-path: none !important;
 
           &::after {
@@ -1883,11 +1896,11 @@ html.theme-dark {
         .file-title,
         .file-name {
           font-weight: var(--font-weight-semibold) !important;
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
         }
 
         .file-subtitle {
-          color: rgba(255, 255, 255, 0.7) !important;
+          color: var(--color-text-secondary) !important;
         }
       }
     }
@@ -1896,25 +1909,25 @@ html.theme-dark {
   /* Checkmarks: Distinct double checkmarks for read status*/
   .icon-message-read {
     color: var(--color-accent-own) !important;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
+    filter: drop-shadow(0 1px 2px var(--color-default-shadow)) !important;
     fill: var(--color-accent-own) !important;
   }
   .icon-message-succeeded {
-    color: rgba(255, 255, 255, 0.85) !important;
-    fill: rgba(255, 255, 255, 0.85) !important;
+    color: var(--color-text-secondary) !important;
+    fill: var(--color-text-secondary) !important;
   }
 
   /* Audio Download Button: Crisp black arrow on white circular badge*/
   .download-button {
-    border-color: #000000 !important;
-    background-color: #FFFFFF !important;
+    border-color: var(--color-primary-text) !important;
+    background-color: var(--color-primary) !important;
 
     .icon,
     .icon-arrow-down,
     .icon-close {
-      color: #000000 !important;
+      color: var(--color-primary-text) !important;
       opacity: 1 !important;
-      fill: #000000 !important;
+      fill: var(--color-primary-text) !important;
     }
   }
 
@@ -1922,8 +1935,8 @@ html.theme-dark {
   .Button.bot-menu,
   .bot-menu-icon,
   .bot-menu-text {
-    color: #000000 !important;
-    fill: #000000 !important;
+    color: var(--color-primary-text) !important;
+    fill: var(--color-primary-text) !important;
   }
 
   /* Chat list action buttons ("Открыть"): ALWAYS black text on white pill*/
@@ -1931,8 +1944,8 @@ html.theme-dark {
   [class*="ChatBadge-module__miniapp"],
   .Chat [class*="miniapp"] {
     font-weight: var(--font-weight-bold) !important;
-    color: #000000 !important;
-    background-color: #FFFFFF !important;
+    color: var(--color-primary-text) !important;
+    background-color: var(--color-primary) !important;
   }
 
   /* Composer Input Blinking Cursor & Placeholder Artifact Fix*/
@@ -1951,49 +1964,49 @@ html.theme-dark {
 
   /* WebPage link preview cards inside messages - seamlessly merged with message background*/
   .WebPage {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-left: 3px solid #FFFFFF !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.15) !important;
+    border-left: 3px solid var(--color-text) !important;
     border-radius: 0.375rem !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
 
-    background-color: rgba(255, 255, 255, 0.04) !important;
+    background-color: rgba(var(--color-text-rgb), 0.04) !important;
 
     .site-name,
     .site-title {
       font-weight: var(--font-weight-semibold);
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
 
     .site-description {
-      color: #B0B0B8 !important;
+      color: var(--color-text-secondary) !important;
     }
 
     a, .text-entity-link {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
   }
 
   /* Composer reply / forward boxes*/
   .ComposerEmbeddedMessage {
     border: 1px solid var(--color-borders) !important;
-    border-left: 3px solid #FFFFFF !important;
+    border-left: 3px solid var(--color-text) !important;
     border-radius: 0.375rem;
-    background-color: #101014 !important;
+    background-color: var(--color-background-secondary) !important;
 
     .EmbeddedMessage {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
       background: transparent !important;
 
       .message-title,
       .embedded-text-wrapper {
-        color: #FFFFFF !important;
+        color: var(--color-text) !important;
       }
     }
 
     .embedded-left-icon,
     .embedded-cancel {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
   }
 
@@ -2007,7 +2020,7 @@ html.theme-dark {
 
     margin: 0 0.125rem 0 0 !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
 
     transition: opacity 0.2s ease;
 
@@ -2021,8 +2034,8 @@ html.theme-dark {
     }
 
     &:hover {
-      color: #FFFFFF !important;
-      background-color: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text) !important;
+      background-color: rgba(var(--color-text-rgb), 0.14) !important;
     }
   }
 
@@ -2034,7 +2047,7 @@ html.theme-dark {
 
     margin-inline-start: 0.25rem !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
 
     transition: opacity 0.2s ease;
 
@@ -2043,26 +2056,21 @@ html.theme-dark {
     }
 
     &:hover {
-      color: #FFFFFF !important;
-      background-color: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text) !important;
+      background-color: rgba(var(--color-text-rgb), 0.14) !important;
     }
-  }
-
-  [class*="peer-color-"] {
-    --accent-color: #FFFFFF !important;
-    --bar-gradient: #FFFFFF !important;
   }
 
   /* File icons in monochrome*/
   .File .file-icon,
   .File .file-progress {
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    color: #FFFFFF !important;
-    background-color: #1c1c20 !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.18) !important;
+    color: var(--color-text) !important;
+    background-color: var(--color-background-secondary-accent) !important;
 
     &.red {
-      border-color: #FF3B30 !important;
-      background-color: #FF3B30 !important;
+      border-color: var(--color-error) !important;
+      background-color: var(--color-error) !important;
     }
   }
 
@@ -2075,10 +2083,10 @@ html.theme-dark {
   .btn-danger,
   .delete-message,
   .ActionMessage.destructive {
-    color: #FF3B30 !important;
+    color: var(--color-error) !important;
 
     .icon {
-      color: #FF3B30 !important;
+      color: var(--color-error) !important;
     }
   }
 
@@ -2094,8 +2102,8 @@ html.theme-dark {
   .badge.mention,
   .badge.active {
     font-weight: var(--font-weight-bold) !important;
-    color: #000000 !important;
-    background: #FFFFFF !important;
+    color: var(--color-primary-text) !important;
+    background: var(--color-primary) !important;
   }
 
   /* Multi-item Album / Screenshot grid card separation*/
@@ -2117,9 +2125,9 @@ html.theme-dark {
 
       border-radius: 8px !important;
 
-      outline: 1px solid rgba(255, 255, 255, 0.14) !important;
+      outline: 1px solid rgba(var(--color-text-rgb), 0.14) !important;
       outline-offset: -1px !important;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5) !important;
+      box-shadow: 0 3px 12px var(--color-light-shadow) !important;
 
       &,
       & img,
@@ -2129,13 +2137,21 @@ html.theme-dark {
       }
     }
   }
+}
+
+/* Цвета пиров в тёмных темах нейтрализованы; в светлых остаются цветами платформы (решение F-18 за владельцем) */
+html.theme-dark {
+  [class*="peer-color-"] {
+    --accent-color: #FFFFFF !important;
+    --bar-gradient: #FFFFFF !important;
+  }
 
   @for $i from 0 through 25 {
     .peer-color-#{$i} {
       --accent-color: #FFFFFF !important;
       --bar-gradient: #FFFFFF !important;
-      --accent-background-color: rgba(255, 255, 255, 0.08) !important;
-      --accent-background-active-color: rgba(255, 255, 255, 0.14) !important;
+      --accent-background-color: rgba(var(--color-text-rgb), 0.08) !important;
+      --accent-background-active-color: rgba(var(--color-text-rgb), 0.14) !important;
     }
   }
 }
@@ -2176,12 +2192,12 @@ html.theme-dark {
   .MessageContextMenu_items,
   .dropdown-menu .bubble {
     border: 0.0625rem solid var(--color-borders);
-    border-radius: 14px !important;
+    border-radius: var(--radius-md) !important;
 
     color: var(--color-text);
 
     background: var(--color-background-compact-menu) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+    box-shadow: 0 4px 20px var(--color-default-shadow) !important;
   }
 
   .MessageContextMenu_items {
@@ -2197,7 +2213,7 @@ html.theme-dark {
     border: 0.0625rem solid var(--color-borders);
     border-radius: 20px !important;
     background: var(--color-background-compact-menu) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 4px 16px var(--color-default-shadow) !important;
   }
 
   .ReactionSelector__bubble-big,
@@ -2219,10 +2235,10 @@ html.theme-dark {
   }
 }
 
-/* Message Selection Mode: White background with black checkmark (Zero blue tint)*/
+/* Message Selection Mode: inverse fill (primary) with a contrasting checkmark*/
 .message-select-control {
-  border: 2px solid rgba(255, 255, 255, 0.5) !important;
-  background: rgba(0, 0, 0, 0.35) !important;
+  border: 2px solid rgba(var(--color-text-rgb), 0.5) !important;
+  background: color-mix(in srgb, var(--color-background) 35%, transparent) !important;
   backdrop-filter: blur(4px);
   transition: opacity 0.15s ease-in-out !important;
 
@@ -2230,16 +2246,16 @@ html.theme-dark {
   .Message.is-selected &,
   .album-item-select-wrapper.is-selected &,
   .File.file-is-selected & {
-    border-color: #FFFFFF !important;
-    color: #000000 !important;
-    background: #FFFFFF !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary-text) !important;
+    background: var(--color-primary) !important;
 
     .icon,
     .message-select-control-icon,
     svg {
-      color: #000000 !important;
-      fill: #000000 !important;
-      stroke: #000000 !important;
+      color: var(--color-primary-text) !important;
+      fill: var(--color-primary-text) !important;
+      stroke: var(--color-primary-text) !important;
     }
   }
 }
@@ -2382,7 +2398,7 @@ html.theme-dark {
       ) !important;
   }
 
-  html.theme-dark &.no-text > .content-inner > .Album {
+  html:is(.theme-dark, .theme-light) &.no-text > .content-inner > .Album {
     --message-media-breakout-left: 0rem;
     --message-media-breakout-right: 0rem;
   }

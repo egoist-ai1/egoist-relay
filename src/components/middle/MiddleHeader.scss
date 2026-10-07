@@ -69,20 +69,17 @@
 
       font-size: 0.75rem;
       font-weight: var(--font-weight-medium);
+      font-variant-numeric: tabular-nums;
       line-height: 1rem;
-      color: white;
+      color: var(--color-background);
       text-align: center;
 
       background: var(--color-gray);
 
       &.active {
+        font-weight: var(--font-weight-bold);
+        color: var(--color-primary-text);
         background: var(--color-primary);
-
-        :global(.theme-dark) & {
-          font-weight: var(--font-weight-bold);
-          color: #000000 !important;
-          background: #FFFFFF !important;
-        }
       }
     }
 
@@ -252,9 +249,9 @@
   }
 
   .status {
-    color: #A0A5AC !important;
+    color: var(--color-text-secondary) !important;
     &.online {
-      color: #38BDF8 !important;
+      color: var(--color-text) !important;
     }
   }
 
@@ -267,7 +264,7 @@
     font-size: 0.9375rem !important;
     font-weight: var(--font-weight-medium) !important;
     line-height: 1.25rem !important;
-    color: #A0A5AC !important;
+    color: var(--color-text-secondary) !important;
     text-overflow: ellipsis;
     letter-spacing: -0.01em;
     white-space: nowrap;
@@ -323,7 +320,7 @@
       font-size: 0.75rem;
       font-weight: var(--font-weight-medium);
       line-height: 1rem;
-      color: white;
+      color: var(--color-primary-text);
       text-align: center;
 
       background: var(--color-primary);

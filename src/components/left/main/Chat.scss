@@ -216,7 +216,7 @@
     border-radius: 50%;
 
     opacity: 0.5;
-    background-color: #0ac630;
+    background-color: var(--color-success);
 
     transition: opacity 200ms, transform 200ms;
 
@@ -422,12 +422,7 @@
 
       .VerifiedIcon, .StarIcon {
         --color-fill: var(--color-chat-active-text);
-        --color-checkmark: var(--color-primary);
-
-        :global(.theme-dark) & {
-          --color-fill: #FFFFFF;
-          --color-checkmark: #000000;
-        }
+        --color-checkmark: var(--color-chat-active);
       }
 
       .avatar-badge {
@@ -467,12 +462,12 @@
 
       .monoforum-badge {
         color: var(--color-chat-active);
-        background-color: #fff;
+        background-color: var(--color-chat-active-text);
       }
 
       .chat-tag {
         color: var(--color-chat-active);
-        background-color: #ffffffab;
+        background-color: color-mix(in srgb, var(--color-chat-active-text) 67%, transparent);
       }
     }
   }

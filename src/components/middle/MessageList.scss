@@ -194,7 +194,7 @@
       left: -50vw;
 
       opacity: 0;
-      background: black;
+      background: var(--color-text);
 
       transition: opacity var(--select-transition);
 
@@ -246,11 +246,7 @@
     &.is-selected,
     &.has-menu-open {
       &::before {
-        opacity: 0.1;
-
-        .theme-dark & {
-          opacity: 0.6;
-        }
+        opacity: 0.08;
       }
     }
   }

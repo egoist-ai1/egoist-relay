@@ -1,5 +1,5 @@
 .MenuItem {
-  --ripple-color: rgba(0, 0, 0, 0.08);
+  --ripple-color: rgba(var(--color-text-rgb), 0.08);
 
   cursor: var(--custom-cursor, pointer);
 
@@ -42,7 +42,7 @@
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
     line-height: 1.5rem;
-    color: white;
+    color: var(--color-background);
     text-align: center;
 
     background: var(--color-gray);

@@ -6,7 +6,7 @@
   --hover-opacity: 0;
   --hover-background-color: white;
 
-  --ripple-color: rgba(0, 0, 0, 0.08);
+  --ripple-color: rgba(var(--color-text-rgb), 0.08);
 
   cursor: var(--custom-cursor, pointer);
 

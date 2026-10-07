@@ -215,7 +215,7 @@
 }
 
 .tabs {
-  scrollbar-color: rgba(0, 0, 0, 0);
+  scrollbar-color: transparent;
   scrollbar-width: none;
 
   overflow-x: auto;
@@ -236,7 +236,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
   }
 }
 
@@ -353,7 +353,7 @@
   height: 1.5rem;
   border-radius: 50%;
 
-  color: var(--color-white);
+  color: var(--color-primary-text);
 
   background-color: var(--color-primary);
 }

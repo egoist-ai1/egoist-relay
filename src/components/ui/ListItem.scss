@@ -63,7 +63,7 @@
   }
 
   .ListItem-button {
-    --ripple-color: rgba(0, 0, 0, 0.08);
+    --ripple-color: rgba(var(--color-text-rgb), 0.08);
 
     position: relative;
 

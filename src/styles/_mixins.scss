@@ -200,8 +200,9 @@
 
 @mixin composer-pill {
   padding: var(--composer-pill-padding);
+  border: 1px solid var(--color-borders-input);
   border-radius: var(--composer-pill-radius);
-  background: var(--color-background);
+  background: var(--color-background-secondary);
 }
 
 @mixin composer-action-button-pill {
@@ -211,12 +212,7 @@
   height: var(--composer-main-button-height);
   border-radius: var(--composer-control-radius);
 
-  color: white;
+  color: var(--color-primary-text);
 
   background: var(--color-primary);
-
-  :global(.theme-dark) & {
-    color: #000000;
-    background: #FFFFFF;
-  }
 }

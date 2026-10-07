@@ -52,8 +52,8 @@
       linear-gradient(
         to right,
         var(--color-background) 0%,
-        rgba(0, 0, 0, 0) 40%,
-        rgba(0, 0, 0, 0) 60%,
+        transparent 40%,
+        transparent 60%,
         var(--color-background) 100%
       );
   }

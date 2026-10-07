@@ -104,6 +104,7 @@
     --color-interactive-element-hover: rgba(var(--color-text-secondary-rgb), 0.08);
     --color-composer-button: #{$color-text-secondary}CC;
     --color-toast-background: #202020CC;
+    --color-toast-text: #FFFFFF;
 
     --color-voice-transcribe-button: #e8f3ff;
     --color-voice-transcribe-button-own: #cceebf;
@@ -244,7 +245,7 @@
     --border-radius-default: 1rem;
     --border-radius-default-small: 0.625rem;
     --border-radius-default-tiny: 0.375rem;
-    --border-radius-messages: 0.9375rem;
+    --border-radius-messages: 0.75rem;
     --border-radius-messages-small: 0.375rem;
     --border-radius-forum-avatar: 33.3333%;
     --messages-container-width: 48rem;

@@ -1,24 +1,24 @@
 .root {
-  border: 1px solid #222226 !important;
+  border: 1px solid var(--color-borders) !important;
   border-radius: 16px !important;
-  background-color: #0c0c0e !important;
+  background-color: var(--color-background-secondary) !important;
 
   :global(.modal-title) {
     font-family: 'Unbounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     font-size: 1.125rem !important;
     font-weight: var(--font-weight-semibold) !important;
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
     letter-spacing: 0.02em !important;
   }
 }
 
 .island {
   padding: 0.875rem 1.125rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(var(--color-text-rgb), 0.1);
   border-radius: 12px;
 
-  background-color: #131316;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  background-color: var(--color-background-secondary-accent);
+  box-shadow: 0 2px 8px var(--color-light-shadow);
 }
 
 .previewInput {
@@ -35,7 +35,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     font-size: 0.9375rem !important;
     font-weight: var(--font-weight-medium) !important;
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
     text-align: center;
   }
 }
@@ -59,7 +59,7 @@
   font-family: 'Unbounded', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.6875rem;
   font-weight: var(--font-weight-semibold);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -99,23 +99,23 @@
     transition: transform 0.2s ease, color 0.2s ease, background-color 0.2s ease !important;
 
     &:not(:global(.btn-link)) {
-      color: #000000 !important;
-      background-color: #FFFFFF !important;
-      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15) !important;
+      color: var(--color-primary-text) !important;
+      background-color: var(--color-primary) !important;
+      box-shadow: 0 2px 8px var(--color-light-shadow) !important;
 
       &:hover {
         transform: translateY(-1px);
-        background-color: rgba(255, 255, 255, 0.88) !important;
+        background-color: var(--color-primary-shade) !important;
       }
     }
 
     &:global(.btn-link) {
-      color: rgba(255, 255, 255, 0.9) !important;
-      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: var(--color-text) !important;
+      background-color: rgba(var(--color-text-rgb), 0.08) !important;
 
       &:hover {
-        color: #FFFFFF !important;
-        background-color: rgba(255, 255, 255, 0.14) !important;
+        color: var(--color-text) !important;
+        background-color: rgba(var(--color-text-rgb), 0.14) !important;
       }
     }
   }

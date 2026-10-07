@@ -14,6 +14,9 @@ import Icon from './icons/Icon';
 
 import styles from './Titlebar.module.scss';
 
+// Порядок сервисов в rail: индекс разделов фирменной сетки (Egoist Grid) показывает реальное положение
+const SERVICE_ORDER: AppId[] = ['telegram', 'x', 'instagram'];
+
 export type SocialNavigationAction = 'back' | 'forward' | 'home' | 'reload';
 type OwnProps = {
   activeApp: AppId;
@@ -133,6 +136,9 @@ const Titlebar = ({
             : activeApp === 'instagram'
               ? lang('RelayInstagramTitle')
               : lang('RelayTelegramTitle')}
+        </span>
+        <span className={styles.gridIndex} aria-hidden="true" data-tauri-drag-region>
+          {String(SERVICE_ORDER.indexOf(activeApp) + 1).padStart(2, '0')}/{String(SERVICE_ORDER.length).padStart(2, '0')}
         </span>
       </div>
 

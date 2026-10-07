@@ -24,6 +24,11 @@ export interface LagomRoles {
   warning: string;
   shadow: string;
   shadowLight: string;
+  // Фирменная сетка (Egoist Grid): линии и подписи графитовые, акцента нет
+  gridInk: string;
+  gridLabel: string;
+  // Тень поднятых поверхностей (меню, окна)
+  elevation: string;
   // Цвет спиннера на кнопке primary: контрастен к inverse
   spinnerOnPrimary: 'black' | 'white';
 }
@@ -49,6 +54,9 @@ export const LAGOM_DARK: LagomRoles = {
   warning: '#EFB45B',
   shadow: '#000000CC',
   shadowLight: '#00000080',
+  gridInk: '#3A3A3D',
+  gridLabel: '#8C8A85',
+  elevation: '0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 16px 40px rgba(0, 0, 0, 0.55)',
   spinnerOnPrimary: 'black',
 };
 
@@ -73,6 +81,9 @@ export const LAGOM_LIGHT: LagomRoles = {
   warning: '#8A5A00',
   shadow: '#0A0A0B33',
   shadowLight: '#0A0A0B1F',
+  gridInk: '#B5B3AD',
+  gridLabel: '#646460',
+  elevation: '0 1px 2px rgba(10, 10, 11, 0.06), 0 12px 32px rgba(10, 10, 11, 0.1)',
   spinnerOnPrimary: 'white',
 };
 
@@ -92,7 +103,8 @@ function alpha(hex: string, opacity: number) {
 export function buildLagomVariables(roles: LagomRoles): Record<string, string> {
   const {
     bg, surface1, surface2, surface3, line, lineStrong, control, text, textSoft, textMuted, textMutedStrong,
-    inverse, onInverse, danger, dangerShade, success, successShade, warning, shadow, shadowLight, spinnerOnPrimary,
+    inverse, onInverse, danger, dangerShade, success, successShade, warning, shadow, shadowLight,
+    gridInk, gridLabel, elevation, spinnerOnPrimary,
   } = roles;
 
   return {
@@ -212,5 +224,8 @@ export function buildLagomVariables(roles: LagomRoles): Record<string, string> {
     '--color-scrollbar-code': alpha(textMuted, 0.3),
     '--color-hover-overlay': alpha(text, 0.04),
     '--color-toast-background': `${surface2}EE`,
+    '--shadow': elevation,
+    '--grid-ink': gridInk,
+    '--grid-label': gridLabel,
   };
 }

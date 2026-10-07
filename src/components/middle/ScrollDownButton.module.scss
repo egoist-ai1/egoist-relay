@@ -53,16 +53,10 @@
   font-size: 0.875rem;
   font-weight: var(--font-weight-medium);
   line-height: 1.5rem;
-  color: white;
+  color: var(--color-primary-text);
   text-align: center;
 
   background-color: var(--color-active);
-
-  :global(.theme-dark) & {
-    font-weight: var(--font-weight-bold);
-    color: #000000 !important;
-    background-color: #FFFFFF !important;
-  }
 
   @media (max-width: 600px) {
     top: -0.6875rem;

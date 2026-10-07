@@ -6,10 +6,10 @@
 }
 
 .blockquote {
-  border-left: 4px solid var(--accent-color, #60A5FA) !important;
-  color: #EFF3F4 !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-left: 4px solid var(--accent-color, var(--color-text)) !important;
+  color: var(--color-text) !important;
+  background: rgba(var(--color-text-rgb), 0.08) !important;
+  background-color: rgba(var(--color-text-rgb), 0.08) !important;
 }
 
 .collapsed .blockquote {

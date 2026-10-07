@@ -1,5 +1,5 @@
 :global(.MenuItem).item {
-  --color-skeleton-background: #2121211a;
+  --color-skeleton-background: rgba(var(--color-text-rgb), 0.1);
 
   pointer-events: none;
   cursor: var(--custom-cursor, default);

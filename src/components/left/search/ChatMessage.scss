@@ -28,11 +28,7 @@
 
         color: var(--color-text);
 
-        background: #cae3f7;
-
-        .theme-dark & {
-          --color-text: #000;
-        }
+        background: color-mix(in srgb, var(--color-text) 22%, transparent);
       }
     }
 

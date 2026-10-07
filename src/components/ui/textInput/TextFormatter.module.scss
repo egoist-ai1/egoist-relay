@@ -107,7 +107,7 @@
 }
 
 .root :global(.Button.active) {
-  color: white;
+  color: var(--color-primary-text);
   background-color: var(--color-primary) !important;
 }
 

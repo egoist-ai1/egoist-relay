@@ -327,7 +327,7 @@
   border-radius: var(--border-radius-messages);
   border-bottom-right-radius: 0;
 
-  background: var(--color-background);
+  background: var(--color-background-secondary);
   box-shadow: var(--shadow-footer);
 
   &.rich-input-expanded {
@@ -494,7 +494,7 @@
       width: var(--composer-main-button-height);
       height: var(--composer-main-button-height);
 
-      color: white !important;
+      color: var(--color-primary-text) !important;
 
       background: var(--color-primary) !important;
 
@@ -551,24 +551,7 @@
     box-shadow: none;
 
     .icon {
-      color: white;
-    }
-
-    :global(.theme-dark) & {
-      color: #000000 !important;
-      background: #FFFFFF !important;
-
-      .icon {
-        color: #000000 !important;
-      }
-
-      .paidStars {
-        color: #000000 !important;
-      }
-
-      &:hover {
-        background-color: #E2E2E2 !important;
-      }
+      color: var(--color-primary-text);
     }
 
     .icon-new-send {
@@ -594,7 +577,7 @@
       font-family: var(--font-family-monospace);
       font-size: 1rem;
       font-weight: var(--font-weight-semibold);
-      color: var(--color-white);
+      color: var(--color-primary-text);
 
       .icon {
         font-size: 1.25rem;
@@ -883,21 +866,21 @@
       max-width: clamp(0px, 12rem, 25vw);
       height: var(--height);
       padding: 0 var(--padding-sides);
-      border: 1px solid rgba(0, 0, 0, 0.12);
+      border: 1px solid var(--color-borders);
       border-radius: calc(var(--height) / 2);
 
-      color: #000000 !important;
+      color: var(--color-primary-text) !important;
       text-transform: none;
 
-      background: #FFFFFF !important;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+      background: var(--color-primary) !important;
+      box-shadow: 0 1px 4px var(--color-light-shadow);
       /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
       transition: 0.25s ease-out width, 0.15s background-color;
 
       .bot-menu-icon,
       .bot-menu-text {
-        color: #000000 !important;
-        fill: #000000 !important;
+        color: var(--color-primary-text) !important;
+        fill: var(--color-primary-text) !important;
       }
 
       &.open {
@@ -906,13 +889,13 @@
 
       @media (hover: hover) {
         &:hover {
-          color: #000000 !important;
-          background-color: #F0F0F2 !important;
+          color: var(--color-primary-text) !important;
+          background-color: var(--color-primary-shade) !important;
 
           .bot-menu-icon,
           .bot-menu-text {
-            color: #000000 !important;
-            fill: #000000 !important;
+            color: var(--color-primary-text) !important;
+            fill: var(--color-primary-text) !important;
           }
         }
       }
