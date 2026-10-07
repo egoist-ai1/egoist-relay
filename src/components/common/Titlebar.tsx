@@ -123,6 +123,8 @@ const Titlebar = ({
 
   if (IS_MAC_OS || !IS_TAURI) return undefined;
 
+  const sectionIndex = `${String(SERVICE_ORDER.indexOf(activeApp) + 1).padStart(2, '0')}/0${SERVICE_ORDER.length}`;
+
   return (
     <div
       className={styles.titlebar}
@@ -138,7 +140,7 @@ const Titlebar = ({
               : lang('RelayTelegramTitle')}
         </span>
         <span className={styles.gridIndex} aria-hidden="true" data-tauri-drag-region>
-          {String(SERVICE_ORDER.indexOf(activeApp) + 1).padStart(2, '0')}/{String(SERVICE_ORDER.length).padStart(2, '0')}
+          {sectionIndex}
         </span>
       </div>
 
