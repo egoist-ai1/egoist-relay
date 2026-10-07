@@ -1,0 +1,9 @@
+{
+  "identifier": "relay-native-theme",
+  "description": "Sync the native window theme and WebView backing colour with the bundled main renderer theme",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": [
+    "allow-relay-set-theme"
+  ]
+}

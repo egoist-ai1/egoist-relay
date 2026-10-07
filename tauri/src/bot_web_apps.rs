@@ -110,7 +110,7 @@ pub(crate) async fn relay_mini_app_open(webview: Webview, app_handle: AppHandle,
       let popup_app = app_handle.clone(); let popup_id = id.clone();
       let builder = WebviewBuilder::new(&label, WebviewUrl::External(Url::parse("about:blank").unwrap()))
         .focused(false).data_directory(data_dir).disable_drag_drop_handler()
-        .background_color(tauri::webview::Color(0, 0, 0, 255))
+        .background_color(crate::native_theme::background_color())
         .initialization_script(script)
         .on_navigation(|next| next.as_str() == "about:blank" || parse_app_url(next.as_str()).is_ok())
         .on_new_window(move |next, features| create_popup(&popup_app, &popup_id, next, features))
@@ -154,7 +154,7 @@ fn create_popup(app: &AppHandle, owner_id: &str, url: Url, features: tauri::webv
     let builder = tauri::WebviewWindowBuilder::new(app, &label, WebviewUrl::External(Url::parse("about:blank").unwrap()))
       .inner_size(960.0, 720.0).min_inner_size(480.0, 360.0).window_features(features)
       .title(format!("Relay · {}", url.host_str().unwrap_or("Mini App")))
-      .theme(Some(tauri::Theme::Dark)).visible(false).focused(false).disable_drag_drop_handler()
+      .theme(Some(crate::native_theme::window_theme())).background_color(crate::native_theme::background_color()).visible(false).focused(false).disable_drag_drop_handler()
       .on_navigation(|next| next.as_str() == "about:blank" || parse_app_url(next.as_str()).is_ok())
       .on_new_window(|_, _| NewWindowResponse::Deny)
       .on_download(|view, event| crate::multi_app::handle_download(&view, "telegram", event))

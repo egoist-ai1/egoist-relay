@@ -6,9 +6,9 @@ use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
 use tauri::{
-  AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Rect, Size, Theme,
+  AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Rect, Size,
   WebviewBuilder, WebviewUrl, WebviewWindowBuilder,
-  webview::{Color, DownloadEvent, NewWindowFeatures, NewWindowResponse},
+  webview::{DownloadEvent, NewWindowFeatures, NewWindowResponse},
 };
 #[cfg(not(windows))]
 use tauri::webview::PageLoadEvent;
@@ -514,8 +514,8 @@ fn activate_x(app_handle: &AppHandle, requested_bounds: Option<AppBounds>) -> Re
   let main_window = app_handle
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
-  if let Err(error) = main_window.set_theme(Some(Theme::Dark)) {
-    eprintln!("[MultiApp] Failed to set the native dark theme: {error}");
+  if let Err(error) = main_window.set_theme(Some(crate::native_theme::window_theme())) {
+    eprintln!("[MultiApp] Failed to set the native window theme: {error}");
   }
   let requested_bounds = requested_bounds
     .or_else(get_x_bounds)
@@ -576,8 +576,8 @@ fn activate_instagram(
   let main_window = app_handle
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
-  if let Err(error) = main_window.set_theme(Some(Theme::Dark)) {
-    eprintln!("[MultiApp] Failed to set the native dark theme: {error}");
+  if let Err(error) = main_window.set_theme(Some(crate::native_theme::window_theme())) {
+    eprintln!("[MultiApp] Failed to set the native window theme: {error}");
   }
   let requested_bounds = requested_bounds
     .or_else(get_x_bounds)
@@ -1021,7 +1021,7 @@ fn create_x_webview(
     WebviewBuilder::new(X_WEBVIEW_LABEL, WebviewUrl::External(parse_initial_service_url(X_APP)?))
       .focused(false)
       .data_directory(x_data_dir)
-      .background_color(Color(0, 0, 0, 255))
+      .background_color(crate::native_theme::background_color())
       .disable_drag_drop_handler()
       .on_download(|webview, event| handle_download(&webview, X_APP, event))
       .initialization_script(&crate::social_share::create_enhancer_script(X_ENHANCER_SCRIPT, &share_token, X_APP));
@@ -1171,7 +1171,8 @@ fn create_service_auth_window(
     .inner_size(X_AUTH_WINDOW_WIDTH, X_AUTH_WINDOW_HEIGHT)
     .min_inner_size(X_AUTH_WINDOW_MIN_WIDTH, X_AUTH_WINDOW_MIN_HEIGHT)
     .resizable(true)
-    .theme(Some(Theme::Dark))
+    .theme(Some(crate::native_theme::window_theme()))
+    .background_color(crate::native_theme::background_color())
     .visible(!crate::should_avoid_foreground())
     .focused(!crate::should_avoid_foreground())
     .window_features(features)
@@ -1636,7 +1637,7 @@ fn create_instagram_webview(
   )
   .focused(false)
   .data_directory(ig_data_dir)
-  .background_color(Color(0, 0, 0, 255))
+  .background_color(crate::native_theme::background_color())
   .disable_drag_drop_handler()
   .on_download(|webview, event| handle_download(&webview, INSTAGRAM_APP, event))
   .initialization_script(&crate::social_share::create_enhancer_script(INSTAGRAM_ENHANCER_SCRIPT, &share_token, INSTAGRAM_APP));

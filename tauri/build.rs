@@ -96,6 +96,7 @@ fn main() {
           "relay_inline_cancel_media",
           "transcribe_voice",
           "cancel_voice_transcription",
+          "relay_set_theme",
         ]),
       ),
   )

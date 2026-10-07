@@ -2487,6 +2487,12 @@
           "markdownDescription": "Enables the relay_research_social_reply command without any pre-configured scope."
         },
         {
+          "description": "Enables the relay_set_theme command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-set-theme",
+          "markdownDescription": "Enables the relay_set_theme command without any pre-configured scope."
+        },
+        {
           "description": "Enables the save_current_url command without any pre-configured scope.",
           "type": "string",
           "const": "allow-save-current-url",
@@ -2791,6 +2797,12 @@
           "type": "string",
           "const": "deny-relay-research-social-reply",
           "markdownDescription": "Denies the relay_research_social_reply command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_set_theme command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-set-theme",
+          "markdownDescription": "Denies the relay_set_theme command without any pre-configured scope."
         },
         {
           "description": "Denies the save_current_url command without any pre-configured scope.",

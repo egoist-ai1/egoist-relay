@@ -22,6 +22,7 @@ mod social_share;
 mod inline_media;
 mod youtube_player;
 mod bot_web_apps;
+mod native_theme;
 mod transcription;
 mod worker_job;
 mod telegram_transport;
@@ -348,6 +349,7 @@ pub fn run() {
     inline_media::relay_inline_cancel_media,
     transcription::transcribe_voice,
     transcription::cancel_voice_transcription,
+    native_theme::relay_set_theme,
   ]);
 
   app

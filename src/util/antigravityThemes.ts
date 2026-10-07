@@ -1,3 +1,4 @@
+import { syncNativeTheme } from './tauri/nativeTheme';
 import { buildLagomVariables, LAGOM_DARK, LAGOM_LIGHT } from './lagomTheme';
 
 export interface AntigravityThemeDefinition {
@@ -506,4 +507,6 @@ export function applyAntigravityTheme(variantId: string): void {
   if (themeColorTag) {
     themeColorTag.setAttribute('content', theme.variables['--color-background'] || '#000000');
   }
+
+  syncNativeTheme(theme.variables['--color-background'], theme.base === 'dark');
 }
