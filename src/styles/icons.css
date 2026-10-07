@@ -3,12 +3,12 @@
   font-weight: normal;
   font-style: normal;
   font-display: block;
-  src: url("./icons.woff2?050c3078b33cd07cd95b739685e0b980") format("woff2"),
-url("./icons.woff?050c3078b33cd07cd95b739685e0b980") format("woff");
+  src: url("./icons.woff2?e055a266b08a949238b56fc50e1596f6") format("woff2"),
+url("./icons.woff?e055a266b08a949238b56fc50e1596f6") format("woff");
 }
 
 .icon-char::before {
-  font-family: "Unbounded", sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   content: attr(data-char);
   width: 1em;
   text-align: center;

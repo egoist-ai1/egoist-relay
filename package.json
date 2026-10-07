@@ -34,6 +34,7 @@
     "lang:ts": "tsx ./dev/generateLangTypes.ts",
     "lang:initial": "tsx ./dev/generateInitialLangFallback.ts",
     "icons:build": "tsx ./dev/buildIcons.ts",
+    "icons:phosphor": "tsx ./dev/syncPhosphorIcons.ts",
     "test": "cross-env APP_ENV=test vitest run --silent=true",
     "test:playwright": "playwright test",
     "test:record": "playwright codegen localhost:1235",
