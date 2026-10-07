@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:59:42.108Z",
+  "mode": "before",
+  "sourceHashes": {
+    "src/components/ui/Switcher.tsx": "48f0458eab70e60f465b803320e5f9d8db4a29e074cc91d4c0e35faffc7c1f88",
+    "src/components/ui/Switcher.scss": "88bbe72fd16dd5d65778faaca357094b22ee52154f03ae24d249c43ddaabdf69",
+    "src/components/ui/ListItem.tsx": "8e9fe6fb421eeddac9056ae15308f1a5121f9c1efe7a6f8d3ef95088940ea63a",
+    "src/components/ui/Modal.tsx": "174c7f786ca0786bf8aa4f3ccf25ecc413a13fb83bc29c3e80a543d693a18c52"
+  },
+  "scope": "Actual Switcher and ListItem with local callbacks, rendered alongside isolated real App; before substitutes owned source subset, not the entire old application.",
+  "environment": {
+    "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "remoteRequests": "blocked",
+    "account": "existing synthetic MockClient user 1",
+    "physicalDpi": "unverified"
+  },
+  "cases": [
+    {
+      "id": "standalone-switcher-tab-space-callback-once",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Tab must reach the enabled standalone Switcher\n+ actual - expected\n\n+ ''\n- 'switcher-standalone'\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": []
+      }
+    },
+    {
+      "id": "owned-row-switcher-no-second-tab-target",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": []
+      }
+    },
+    {
+      "id": "switcher-reduced-motion",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(durations.every((pair) => pair.every((value) => value.split(',').every((duration) => Number.parseFloat(duration) === 0))))\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": []
+      }
+    },
+    {
+      "id": "listitem-enter-space-mouse-exactly-once",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Enter must activate the owner once\n\n0 !== 1\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": []
+      }
+    },
+    {
+      "id": "listitem-modal-owner-enter-not-modal-submit",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": []
+      }
+    },
+    {
+      "id": "listitem-disabled-static-inactive-noninteractive-skip",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(details.every((value) => value.tabIndex === -1))\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": [
+          {
+            "modalEnter": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "listitem-repeat-composition-modifiers-no-action",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Held Space must not scroll the owning surface\n\nfalse !== true\n",
+      "diagnostic": {
+        "activeId": "",
+        "callbacks": [
+          {
+            "modalEnter": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "listitem-nested-input-button-link-no-owner-action",
+      "status": "pass",
+      "detail": {
+        "childButtonCallbacks": 2,
+        "childLinkCallbacks": 1,
+        "ownerCallbacks": 0,
+        "modalCallbacks": 0,
+        "inputValue": " "
+      }
+    },
+    {
+      "id": "primary-loading-spinner-theme-alias",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n",
+      "diagnostic": {
+        "activeId": "switcher-nested-link",
+        "callbacks": [
+          {
+            "modalEnter": true
+          },
+          {
+            "nestedButton": true
+          },
+          {
+            "nestedButton": true
+          },
+          {
+            "nestedLink": true
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "total": 9,
+    "pass": 1,
+    "fail": 8
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "identifier": "relay-media-operations",
+  "description": "Registered media operations and journal access only in the bundled main renderer",
+  "local": true,
+  "webviews": [
+    "main"
+  ],
+  "permissions": [
+    "allow-relay-media-operations-list",
+    "allow-relay-media-operation-action",
+    "allow-relay-media-operation-revision",
+    "allow-relay-media-download-prepare",
+    "allow-relay-media-download-file-name",
+    "allow-relay-media-operation-source",
+    "allow-multi-set-content-visible",
+    "allow-multi-social-detach",
+    "allow-multi-social-release",
+    "allow-multi-social-restore"
+  ]
+}

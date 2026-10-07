@@ -142,9 +142,20 @@ export default function useAttachmentModal({
         handleSetAttachments([newAttachment]);
       }
     } else {
-      const newAttachments = await Promise.all(files.map((file) =>
-        buildAttachment(file.name, file, { shouldSendInHighQuality })));
-      handleSetAttachments(newAttachments);
+      const results = await Promise.all(files.map(async (file) => {
+        const objectUrls: string[] = [];
+        try {
+          return await buildAttachment(file.name, file, { shouldSendInHighQuality }, (url) => objectUrls.push(url));
+        } catch {
+          objectUrls.forEach((url) => URL.revokeObjectURL(url));
+          return undefined;
+        }
+      }));
+      const newAttachments = results.filter((attachment) => attachment !== undefined);
+      if (newAttachments.length !== files.length) {
+        showNotification({ message: lang('ErrorUnexpected') });
+      }
+      if (newAttachments.length) handleSetAttachments(newAttachments);
     }
   });
 

@@ -214,4 +214,9 @@
   color: white;
 
   background: var(--color-primary);
+
+  :global(.theme-dark) & {
+    color: #000000;
+    background: #FFFFFF;
+  }
 }

@@ -209,15 +209,15 @@ const ManageBot: FC<OwnProps & StateProps> = ({
           />
         </Island>
         <Island>
-          <div className="dialog-buttons">
-            <ListItem icon="bot-commands-filled" ripple onClick={handleChangeEditIntro}>
-              <span>{lang('BotEditIntro')}</span>
+          <div className="botManagementActions">
+            <ListItem icon="bot-commands-filled" multiline ripple onClick={handleChangeEditIntro}>
+              <span className="botManagementActionLabel">{lang('BotEditIntro')}</span>
             </ListItem>
-            <ListItem icon="bot-command" ripple onClick={handleChangeEditCommands}>
-              <span>{lang('BotEditCommands')}</span>
+            <ListItem icon="bot-command" multiline ripple onClick={handleChangeEditCommands}>
+              <span className="botManagementActionLabel">{lang('BotEditCommands')}</span>
             </ListItem>
-            <ListItem icon="bots" ripple onClick={handleChangeSettings}>
-              <span>{lang('BotChangeSettings')}</span>
+            <ListItem icon="bots" multiline ripple onClick={handleChangeSettings}>
+              <span className="botManagementActionLabel">{lang('BotChangeSettings')}</span>
             </ListItem>
             <IslandDescription>
               {renderText(lang('BotManageInfo'), ['links'])}

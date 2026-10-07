@@ -3,7 +3,8 @@ const IS_DEBUG = import.meta.env?.TG_APP_ENV !== 'production';
 export default function readStrings(data: string): Record<string, string> {
   const lines = data.split(/;\r?\n?/);
   const result: Record<string, string> = {};
-  for (const line of lines) {
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
     if (!line.startsWith('"')) continue;
     const [key, value] = parseLine(line) || [];
     if (!key || !value) {

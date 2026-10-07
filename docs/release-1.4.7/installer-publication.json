@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-04T15:22:22.082Z",
+  "repository": "egoist-ai1/egoist-relay",
+  "tag": "relay-v1.4.7",
+  "releaseId": 403073865,
+  "commit": "b646241472c5ddd305c3646d84ed240f424bd351",
+  "installer": {
+    "name": "Egoist-Relay-1.4.7-x64-setup.exe",
+    "bytes": 567280908,
+    "sha256": "df28147ec2293d56f0139131df013f0b44ed29723151b0c39cb96e779e66de1f",
+    "id": 610076154,
+    "url": "https://github.com/egoist-ai1/egoist-relay/releases/download/relay-v1.4.7/Egoist-Relay-1.4.7-x64-setup.exe"
+  },
+  "userExplicitlyRequestedInstallerPublication": true,
+  "correspondingSourceComplete": false,
+  "pending": null,
+  "releaseUrl": "https://github.com/egoist-ai1/egoist-relay/releases/tag/relay-v1.4.7",
+  "prerelease": true,
+  "draft": false,
+  "assetDigestMatched": true,
+  "sourceAssetPreserved": true,
+  "tagCommitMatched": true,
+  "credentialPrinted": false,
+  "credentialWritten": false
+}

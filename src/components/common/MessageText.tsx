@@ -13,7 +13,6 @@ import { extractMessageText, stripCustomEmoji } from '../../global/helpers';
 import trimText from '../../util/trimText';
 import { insertTextEntity, renderTextWithEntities } from './helpers/renderTextWithEntities';
 
-import useLang from '../../hooks/useLang';
 import useLastCallback from '../../hooks/useLastCallback';
 import useSyncEffect from '../../hooks/useSyncEffect';
 import useUniqueId from '../../hooks/useUniqueId';
@@ -78,8 +77,6 @@ function MessageText({
 
   const textCacheBusterRef = useRef(0);
 
-  const lang = useLang();
-
   const formattedText = forcedText || extractMessageText(messageOrStory, inChatList);
   const adaptedFormattedText = isForAnimation && formattedText ? stripCustomEmoji(formattedText) : formattedText;
   const { text, entities } = adaptedFormattedText || {};
@@ -143,7 +140,20 @@ function MessageText({
   });
 
   if (!text && !canBeEmpty) {
-    return <span className="content-unsupported">{lang('MessageUnsupported')}</span>;
+    const content = 'content' in messageOrStory ? (messageOrStory as any).content : undefined;
+    let fallbackText: string | undefined;
+
+    if (content) {
+      if (content.storyData) fallbackText = 'История';
+      else if (content.giveaway) fallbackText = 'Розыгрыш призов';
+      else if (content.giveawayResults) fallbackText = 'Итоги розыгрыша';
+      else if (content.paidMedia) fallbackText = 'Платный контент';
+      else if (content.invoice) fallbackText = 'Счёт на оплату';
+      else if (content.game) fallbackText = `🎮 ${content.game.title || 'Игра'}`;
+      else if (content.text?.text) fallbackText = content.text.text;
+    }
+
+    return <span>{fallbackText || 'Содержимое сообщения'}</span>;
   }
 
   const textToRender: ApiFormattedText = {

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "environment": "Actual TypeScript capture module imported by Node; existing jsdom DOM event propagation, no app/accounts",
+  "source": "src/util/captureKeyboardListeners.ts",
+  "cases": [
+    {
+      "id": "default-undefined-stops-dom-and-earlier",
+      "status": "pass",
+      "calls": [
+        "top"
+      ],
+      "targetEvents": 0,
+      "defaultPrevented": false
+    },
+    {
+      "id": "true-stops-dom-and-earlier",
+      "status": "pass",
+      "calls": [
+        "top"
+      ],
+      "targetEvents": 0,
+      "defaultPrevented": false
+    },
+    {
+      "id": "false-continues-earlier-handler",
+      "status": "pass",
+      "calls": [
+        "top",
+        "earlier"
+      ],
+      "targetEvents": 0,
+      "defaultPrevented": false
+    },
+    {
+      "id": "explicit-sentinel-blocks-earlier-allows-dom",
+      "status": "pass",
+      "calls": [
+        "top"
+      ],
+      "targetEvents": 1,
+      "defaultPrevented": false
+    },
+    {
+      "id": "composition-bypasses-capture",
+      "status": "pass",
+      "calls": [],
+      "targetEvents": 1,
+      "defaultPrevented": false
+    },
+    {
+      "id": "released-listener-does-not-handle",
+      "status": "pass"
+    },
+    {
+      "id": "sentinel-preserves-caller-prevent-default",
+      "status": "pass"
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "pass": 7
+  }
+}

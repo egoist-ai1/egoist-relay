@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T15:17:19.507Z",
+  "snapshotSha256": "005a9e89d341112c614bf7c6b5292a34dc78614e38ed00bf1f59d17adc4fcea6",
+  "htmlSha256": "9b983a8b5a59e540a903d3ed07bc307ebaebdbf17f4f388588cb2ca2cca6414f",
+  "sourceHashes": {
+    "installed-proof-identity.json": "769652659b74f2e5bf53dd6850340c076f72c3f02576c2e0fe0eaffd7b82fe09",
+    "instagram-status-window-1.4.6.json": "dbc49ef7bb1990ce90f3cfbbe9cc74a479ca0127684d0b4ba9f307c401215bc7",
+    "../release-1.4.6/source-qa.json": "20b94cae2f00728fea159fa0f4ebebc8a0f8cba17083e5fd7c8af9ed89362bc3",
+    "instagram-proof-diagnosis.json": "d91154fb0d97e5e764d06a6c3acfa42781f57d624fe0d62cc9045dc693a5a80e",
+    "instagram-proof-reproducer.mjs": "9ffb4d44fa4260e6b2fe862e101cf8e40704056b58026333703e5cc2781dbcab",
+    "README.md": "390043639b7af72335be4e471c3578052e8007a8e8cdbde3762983d4708e7b4a",
+    "network-proof-comparison.json": "6b53dd6ac16e439c616c3417edf7bb95ed7c38e7fc85e03ce22d5c18d61f639e",
+    "network-preservation-after-proof.json": "e04797aa6be1b5e52841bb38ae8a1cb870ebd72e5a7760b65bff56c8d6dcfcc9",
+    "review-feedback.js": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b"
+  },
+  "canonicalReleaseReceiptsModified": false,
+  "productionSourcesModified": false
+}

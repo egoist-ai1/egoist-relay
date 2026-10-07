@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "publicReplays": [
+    {
+      "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+      "records": 3,
+      "bodyValues": 2,
+      "visibleHtmlBodiesPreserved": true,
+      "visibleMarkdownBodiesPreserved": true,
+      "localFilesLinked": 3,
+      "jsonlUnchanged": true,
+      "jsonlSha256": "0b9a6bc1fae4a53dd5197e639a69f94e17f16977be005c299d0c07aedfd63ac0",
+      "beforeMarkdownBytes": 84,
+      "afterMarkdownBytes": 8873,
+      "afterHtmlBytes": 11672
+    },
+    {
+      "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+      "records": 3,
+      "bodyValues": 2,
+      "visibleHtmlBodiesPreserved": true,
+      "visibleMarkdownBodiesPreserved": true,
+      "localFilesLinked": 3,
+      "jsonlUnchanged": true,
+      "jsonlSha256": "9d8d03061b33389b922c4bdb46510a53455f1d18c682982dad173cf9a7904e50",
+      "beforeMarkdownBytes": 84,
+      "afterMarkdownBytes": 6358,
+      "afterHtmlBytes": 9175
+    }
+  ],
+  "browserCases": [
+    {
+      "width": 320,
+      "height": 1080,
+      "scroll": 320,
+      "viewport": 320,
+      "articles": 2,
+      "remoteEmbeds": 0,
+      "unsafeLinks": 0,
+      "state": "passed"
+    },
+    {
+      "width": 480,
+      "height": 1080,
+      "scroll": 480,
+      "viewport": 480,
+      "articles": 2,
+      "remoteEmbeds": 0,
+      "unsafeLinks": 0,
+      "state": "passed"
+    },
+    {
+      "width": 1280,
+      "height": 1080,
+      "scroll": 1280,
+      "viewport": 1280,
+      "articles": 2,
+      "remoteEmbeds": 0,
+      "unsafeLinks": 0,
+      "state": "passed"
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "scroll": 1920,
+      "viewport": 1920,
+      "articles": 2,
+      "remoteEmbeds": 0,
+      "unsafeLinks": 0,
+      "state": "passed"
+    },
+    {
+      "format": "html",
+      "unsafeSourceText": true,
+      "remoteEmbeds": 0,
+      "unsafeLinks": 0,
+      "state": "passed"
+    },
+    {
+      "format": "markdown",
+      "unsafeSourceText": true,
+      "remoteEmbeds": 0,
+      "unsafeLinks": 0,
+      "state": "passed"
+    }
+  ],
+  "networkRequests": 0,
+  "screenshot": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-html-fullhd.png"
+}

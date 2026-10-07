@@ -1,7 +1,9 @@
 .root {
+  --media-editor-caption-height: 0rem;
+
   position: fixed;
   z-index: var(--z-modal);
-  inset: 0;
+  inset: var(--media-editor-caption-height) 0 0;
   transform: scale(0.95);
 
   display: flex;
@@ -21,6 +23,10 @@
     opacity: 0;
   }
 
+  :global(body.is-tauri:not(.is-macos)) & {
+    --media-editor-caption-height: var(--relay-shell-caption-height, 2.5rem);
+  }
+
   :global(body.no-page-transitions) & {
     transform: none !important;
     transition: none;
@@ -35,7 +41,7 @@
     transform: none !important;
 
     width: 100%;
-    height: 100%;
+    height: calc(100% - var(--media-editor-caption-height));
     margin: 0;
     padding: 0;
     border: 0;

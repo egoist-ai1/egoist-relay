@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-social-network-fix-2026-10-02",
+  "createdAt": "2026-10-02T01:32:07.898Z",
+  "items": [
+    {
+      "id": "social-hostlist",
+      "name": "Обработка X и Instagram в действующем winws",
+      "version": 1,
+      "content": "Добавлены x.com, twitter.com, twimg.com, t.co, instagram.com, cdninstagram.com, fbcdn.net в list-general-user.txt. Список применяется по доменам во всех приложениях. Исходные 330 байт сохранены; стратегии, исключения и процесс службы сохранены.",
+      "action": "Принять выполненное добавление семи доменов.",
+      "link": "hostlist-receipt.json"
+    },
+    {
+      "id": "x-cdn-profile",
+      "name": "Обработка CDN внутри профиля X Relay",
+      "version": 1,
+      "content": "Для Windows-профиля X добавлены точные DNS alias abs.twimg.com и pbs.twimg.com на ton.twimg.com. Имена разрешает текущий DNS/DoH; IP не закреплён. URL, Host и TLS-проверка исходного сайта сохранены. Профили других сервисов не затронуты. Используется флаг Chromium; совместимость проверена с текущим WebView2 и требует проверки после обновления его runtime.",
+      "action": "Принять выполненную локальную правку профиля X.",
+      "link": "README.md"
+    },
+    {
+      "id": "service-readiness",
+      "name": "Готовность страницы и native bridge",
+      "version": 1,
+      "content": "DOMContentLoaded запускает существующую проверку видимых интерактивных элементов с token, NavigationId и проверкой origin/source. NavigationCompleted сохраняет обработку ошибок; предел загрузки 45 секунд. Bridge создаёт WebView вне блокирующего callback, исключает двойную начальную навигацию и проверяет nonce, документ, отмену и срок. Временные stage logs удалены; health logs содержат только сервис и фиксированное состояние.",
+      "action": "Принять выполненное исправление загрузки и bridge.",
+      "link": "README.md"
+    },
+    {
+      "id": "preserved-settings",
+      "name": "Сохранность DNS и Egoist Lagom",
+      "version": 1,
+      "content": "Проверены хеши DNS устройства, DoH-конфигурации, XML службы, обоих списков исключений и зашифрованных DNS/tunnel настроек Relay. Они совпадают с исходными. Winws и DoH не перезапускались. Приоритеты, proxy, routes и адаптеры не менялись.",
+      "action": "Принять результаты проверки сохранности.",
+      "link": "verification.json"
+    },
+    {
+      "id": "observed-result",
+      "name": "Фактически проверенный результат",
+      "version": 1,
+      "content": "X и Instagram загружаются в обновлённом Relay: подтверждены текущими native UI ready-состояниями и пользователем. Добавлена обработка семи доменов в действующем winws и узкая обработка CDN только в профиле X; настройки устройства и приоритеты Lagom сохранены.",
+      "action": "Подтвердить наблюдаемый результат либо описать оставшуюся ошибку в комментарии.",
+      "link": "verification.json"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-10-06T01:24:05.900Z",
+  "baselineDirectory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5f-32d1-7450-85ce-099fcc402471\\work\\baseline-loader-test",
+  "cases": [
+    {
+      "mode": "baseline",
+      "productSourceOverride": true,
+      "fixtureAlwaysCurrent": true
+    },
+    {
+      "mode": "default",
+      "productSourceOverride": false,
+      "fixtureAlwaysCurrent": true
+    }
+  ]
+}

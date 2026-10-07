@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "lastFullyVerifiedSnapshotVersion": "1.4.3",
+  "candidateFixes": {
+    "state": "canonical_ready_for_normal_user_exit",
+    "sourceQa": "types-final-1.4.4-acceptance.json",
+    "paymentChanges": "awaiting_explicit_human_permission_excluded",
+    "readinessFix": "bridge-readiness-fix-report.json",
+    "readinessDaemon": "activated40404",
+    "liveBrokerPilot": "80a28ec6-87e0-4973-b088-55961a036777_partial1_installedNative1.4.2",
+    "additionalUi": {
+      "total": 123,
+      "pass": 117,
+      "fail": 0,
+      "pageErrors": 0,
+      "gates": 6
+    },
+    "uniqueNativeHostTabGates": 3,
+    "gateReceiptEntries": 6,
+    "sourceSweep": "ui-modal-keyboard-source-sweep.json",
+    "readinessBefore": "bridge-account-readiness-audit.json"
+  },
+  "phase": "audit_in_progress",
+  "candidateVersion": "1.4.4",
+  "installedVersion": "1.4.2",
+  "candidateState": "canonical_ready_for_normal_user_exit",
+  "updatedAt": "2026-10-02T09:51:55.887Z",
+  "countsMustNotBeAddedAcrossOverlappingSuites": true,
+  "checks": {
+    "research": {
+      "passed": 151,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": "MCP full suite owned log"
+    },
+    "native": {
+      "passed": 36,
+      "failed": 0,
+      "ignored": 0,
+      "candidateVersionFixtureRerun": 4
+    },
+    "media": {
+      "vitest": 48,
+      "node": 64,
+      "newCases": 54
+    },
+    "types": {
+      "diagnosticsBefore": 55,
+      "diagnosticsAfter": 0,
+      "uniqueRuntimeCases": 101,
+      "emittedProductionFilesIdentical": 12
+    },
+    "index": {
+      "actualTools": 8,
+      "selectedPublicJobs": 8,
+      "records": 20,
+      "allLocatorsVerified": true,
+      "daemonPreserved": true,
+      "indexMs": 76.95820000000003
+    },
+    "ui": {
+      "total": 64,
+      "pass": 63,
+      "fail": 0,
+      "gated": 1,
+      "sourceComponents": 774,
+      "renderedEvidenceComponents": 40,
+      "routeAttempts": 125,
+      "checks": {
+        "main": {
+          "total": 64,
+          "pass": 63,
+          "fail": 0,
+          "gated": 1,
+          "sourceComponents": 774,
+          "renderedEvidenceComponents": 40
+        },
+        "groupedRouteRendering": {
+          "total": 125,
+          "pass": 109,
+          "gated": 16,
+          "errors": 0
+        },
+        "themeContrast": {
+          "totalThemes": 11,
+          "pass": 11,
+          "fail": 0,
+          "overlaySamples": 66,
+          "minimumContrast": 4.762049148867173
+        },
+        "keyboardCaptureCompatibility": {
+          "total": 7,
+          "pass": 7
+        },
+        "enhancers": {
+          "total": 7,
+          "pass": 7,
+          "fail": 0
+        },
+        "performance": {
+          "total": 3,
+          "pass": 3,
+          "errors": 0
+        },
+        "customModalSafety": {
+          "total": 31,
+          "pass": 31,
+          "fail": 0,
+          "errors": 0
+        },
+        "typeScript": {
+          "exitCode": 0,
+          "scope": "actual src + fixture + imported group-state"
+        },
+        "eslint": {
+          "exitCode": 0,
+          "scope": "9 owned production/test-only TS/TSX files;0 warnings/errors"
+        },
+        "scss": {
+          "exitCode": 0,
+          "errors": 0,
+          "warnings": 15,
+          "scope": "Message.scss andMessageMeta.scss; existing warnings"
+        },
+        "wholeProjectLint": {
+          "npm": "unavailable; direct Node equivalents used",
+          "typescriptExitCode": 0,
+          "defaultHeapAttempt": {
+            "exitCode": 134,
+            "reason": "V8 heap exhausted at4096MiB"
+          },
+          "completedBoundedAttempt": {
+            "receipt": "types-eslint-retry.json",
+            "heapMiB": 5120,
+            "exitCode": 1,
+            "errorCount": 27,
+            "warningCount": 1,
+            "filesEvaluated": 1862
+          },
+          "finalBoundedAttempt": {
+            "receipt": "types-eslint-final.json",
+            "exitCode": 0,
+            "errorCount": 0,
+            "warningCount": 1,
+            "filesEvaluated": 1862
+          },
+          "harnessCorrections": {
+            "command": "existing Node node_modules/eslint/bin/eslint.js scripts/relay-ui-audit.* scripts/relay-media-audit-file.test.mjs --format json --output-file own-runtime",
+            "filesEvaluated": 11,
+            "errors": 0,
+            "warnings": 0,
+            "exitCode": 0
+          },
+          "note": "Completed27-error bounded attempt is historical before namespace/unused corrections; current harness0errors. Root final full-project lint is a separate receipt; no configuration weakened."
+        },
+        "harnessNamespaceSmoke": {
+          "main": {
+            "total": 4,
+            "pass": 4,
+            "fail": 0,
+            "gated": 0
+          },
+          "groupCallback": {
+            "total": 2,
+            "pass": 2
+          },
+          "custom": {
+            "total": 1,
+            "pass": 1,
+            "fail": 0,
+            "errors": 0
+          },
+          "enhancers": {
+            "total": 7,
+            "pass": 7
+          },
+          "themes": {
+            "totalThemes": 11,
+            "pass": 11,
+            "fail": 0,
+            "overlaySamples": 66,
+            "minimumContrast": 4.762049148867173
+          },
+          "performance": {
+            "total": 3,
+            "pass": 3,
+            "errors": 0
+          }
+        },
+        "mediaNamespaceFixture": {
+          "total": 13,
+          "pass": 13,
+          "fail": 0,
+          "scope": "existing task-local synthetic http1/h2/disk/original MP4 fixtures; no device network edits",
+          "initialSetupGate": "First invocation omitted EGOIST_RELAY_AUDIT_WORK and failed setup; corrected task-local invocation passes13."
+        },
+        "sourceReferences": {
+          "validated": 83,
+          "missing": 0
+        }
+      },
+      "coverage": {
+        "components": 774,
+        "categories": {
+          "app-component": 393,
+          "authentication": 7,
+          "calls": 11,
+          "modal": 138,
+          "shared-ui": 67,
+          "settings": 51,
+          "media-viewer": 9,
+          "composer": 45,
+          "relay-social": 2,
+          "payment": 9,
+          "management": 21,
+          "stories": 18,
+          "first-party-enhancer": 3
+        },
+        "renderedEvidenceComponents": 46,
+        "routeRenderedComponents": 25,
+        "gatedComponents": 10,
+        "sourceOnlyComponents": 690,
+        "routeEnumCounts": {
+          "SettingsScreens": 91,
+          "LeftColumnContent": 9,
+          "GlobalSearchContent": 9,
+          "RightColumnContent": 12,
+          "ManagementScreens": 22
+        },
+        "modalReceipts": [
+          "src/components/common/CalendarModal.tsx",
+          "src/components/common/DeleteMessageModal.tsx",
+          "src/components/common/DeleteProfilePhotoModal.tsx",
+          "src/components/middle/composer/FormattedDateModal.tsx",
+          "src/components/right/management/GuardReplaceBotModal.tsx",
+          "src/components/ui/ConfirmDialog.tsx",
+          "src/components/ui/Modal.tsx"
+        ],
+        "levels": "Actual assertions, route-body rendering, enhancer-local fixtures and source-only entries remain separate. A route rendering PASS does not validate its submit/account operation."
+      },
+      "phase": "verified_available_synthetic_scenarios",
+      "modalCategoryEntriesAtCutoff": 138,
+      "directReceiptSourcePathsAtCutoff": 7,
+      "sharedPrimitiveSourcePathsAtCutoff": 2,
+      "partialSpecificModalBodyPathsAtCutoff": 5,
+      "sourceOnlyCategoryPathsAtCutoff": 131
+    }
+  },
+  "openGates": [
+    "New native/UI fixes are not yet in installed1.4.2; reviewed MCP broker/IPC already activated independently",
+    "PaymentModal/StarsPaymentModal draftv2 remains unapplied awaiting exact human permission",
+    "X continuation with actual new records remains unverified in new build",
+    "Instagram exact selected alias/reel read and original video must be verified in new build",
+    "125 route attempts are not all complete screen scenarios; the exact 138 filename-category inventory and prerequisite gates are explicit in ui-modal-coverage.json",
+    "Live upload needs exact human target authorization and a supported background operation or manual app action",
+    "Private thread tests need exact human-selected conversation URLs; no inventory scan",
+    "Synthetic ASR/audio/file throughput does not establish platform CDN speed or real-speech accuracy"
+  ],
+  "review": {
+    "snapshotSha256": "cb8c2d13890e72135ad47572188054ae756e9d37f5000ab4d18ebda3e9048b96",
+    "objects": 74,
+    "missingInputs": [],
+    "defaults": "unreviewed",
+    "responsesReceived": false
+  }
+}

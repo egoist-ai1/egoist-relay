@@ -12,7 +12,7 @@ const BADGE_BACKGROUND_COLOR: Rgba<u8> = Rgba([0xF2, 0x3C, 0x34, 0xFF]);
 const BADGE_BACKGROUND_COLOR_MUTED: Rgba<u8> = Rgba([0x88, 0x88, 0x88, 0xFF]);
 const BADGE_TEXT_COLOR: Rgba<u8> = Rgba([0xFF, 0xFF, 0xFF, 0xFF]);
 
-pub fn set_badge_count_icon(window: &tauri::WebviewWindow, amount: i32, is_muted: bool) {
+pub fn set_badge_count_icon(window: &tauri::Window, amount: i32, is_muted: bool) {
   if amount == 0 {
     window.set_overlay_icon(None).unwrap_or_default();
 

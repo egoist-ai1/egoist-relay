@@ -11,19 +11,6 @@ import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
-  eslint.configs.recommended,
-  tseslint.configs.recommendedTypeChecked,
-  tseslint.configs.stylistic,
-  eslintReact.configs['recommended-typescript'],
-  importX.flatConfigs.recommended,
-  importX.flatConfigs.typescript,
-  ttMultitabPlugin.configs.recommended,
-  stylisticJs.configs.customize({
-    semi: true,
-    arrowParens: 'always',
-    braceStyle: '1tbs',
-    quoteProps: 'as-needed',
-  }),
   globalIgnores([
     '.cache/',
     'src/lib/video-preview/polyfill',
@@ -37,10 +24,33 @@ export default defineConfig(
     'public/',
     'deploy/update_version.js',
     'tauri/target/',
+    'tauri/vendor/',
+    'runtime/',
+    'scratch/',
+    'release/',
+    'docs/**',
+    'releaseengine-source/',
+    'scripts/*.bundle.cjs',
   ]),
   {
     name: 'teact-config',
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
+    ignores: ['scripts/**'],
+    extends: [
+      eslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.stylistic,
+      eslintReact.configs['recommended-typescript'],
+      importX.flatConfigs.recommended,
+      importX.flatConfigs.typescript,
+      ttMultitabPlugin.configs.recommended,
+      stylisticJs.configs.customize({
+        semi: true,
+        arrowParens: 'always',
+        braceStyle: '1tbs',
+        quoteProps: 'as-needed',
+      }),
+    ],
     settings: {
       react: {
         version: '19',
@@ -223,8 +233,36 @@ export default defineConfig(
     },
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.script.json'],
+        project: ['./tsconfig.json', './tsconfig.script.json', './tsconfig.test.json'],
         tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    name: 'standalone-scripts',
+    files: ['scripts/**/*.{js,mjs,cjs}'],
+    extends: [eslint.configs.recommended],
+    languageOptions: {
+      globals: {
+        Buffer: 'readonly',
+        Element: 'readonly',
+        HTMLVideoElement: 'readonly',
+        IntersectionObserver: 'readonly',
+        MediaRecorder: 'readonly',
+        MutationObserver: 'readonly',
+        URL: 'readonly',
+        clearInterval: 'readonly',
+        clearTimeout: 'readonly',
+        console: 'readonly',
+        document: 'readonly',
+        fetch: 'readonly',
+        getComputedStyle: 'readonly',
+        navigator: 'readonly',
+        performance: 'readonly',
+        process: 'readonly',
+        setInterval: 'readonly',
+        setTimeout: 'readonly',
+        window: 'readonly',
       },
     },
   },

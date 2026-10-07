@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-display-scale-next-source",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T11:50:46.9400152+00:00",
+  "state": "source_verified_next_package_pending",
+  "source": {
+    "path": "src/components/ui/Modal.scss",
+    "beforeSha256": "ef53ea8c5eb115c5f8d6d50fd106c881fe58ace1704be42a5266dcce4275a4ac",
+    "afterSha256": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82"
+  },
+  "harness": {
+    "path": "scripts/relay-display-scale.test.mjs",
+    "sha256": "ce22e596b93860f2f979e923bc0daffc9722fa6a409f511dc85e8761e141026c"
+  },
+  "currentFocusedFinal": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "sourceHashesUnchanged": true
+  },
+  "verification": {
+    "earlierMainSourcePassed": 68,
+    "currentFinalPassed": 8,
+    "scopedSyntaxExitCode": 0,
+    "scopedEslintExitCode": 0,
+    "scopedStylelintExitCode": 0,
+    "preexistingStyleWarnings": 4,
+    "syntheticSeedUsed": false
+  },
+  "evidence": [
+    {
+      "file": "display-scale-audit-ready-before.json",
+      "sha256": "d549acdb3d47f5a07d68e0346e6efd23bc865c69fa09b9727118464fd13b6f7d"
+    },
+    {
+      "file": "display-scale-audit-settled-source-after.json",
+      "sha256": "0f291de613bacc55c7d32230ca52a7985fe01de6910a8a792168d3464e4bb657"
+    },
+    {
+      "file": "display-scale-audit-maintained-final-source-3.json",
+      "sha256": "23bc19144bccb5ec5e273fa1ad969d93a8097307fb82bfb8e13ee5f9c985a4a4"
+    },
+    {
+      "file": "display-scale-review.json",
+      "sha256": "feb158ef1e7e0cd40124df21f46d22a91776ed1831ae6fd4c61b261a768615eb"
+    },
+    {
+      "file": "ui-remaining-modal-source-after.json",
+      "sha256": "2cb3ff16946172f46e581cf6a10ae1da47dcc21f2677ef8d63e812fdf8c88398"
+    }
+  ],
+  "limits": [
+    "Headless DPR emulates physicalFullHD; nativeWindows DPI/text-only zoom unverified.",
+    "Earlier68/68 at63c source; final8/8 atd46 source. Overlapping suites are not summed.",
+    "Opening panel may reach4px into caption while header and close controls remain below it; closing all-frame containment not certified.",
+    "Actual App/body components and explicit synthetic fixture; no real sends, accounts or external network.",
+    "Installed1.4.2 and frozen1.4.4 do not contain next source."
+  ],
+  "reviewObjects": [
+    {
+      "id": "next-display-ordinary-dialog-height",
+      "name": "Высота окон и внутренний скролл",
+      "version": "1",
+      "content": "EditContact и ChatLanguage перестали терять нижние элементы при CSS960×540/DPR2. Проверены настоящие компоненты:68/68 на основном исправлении и8/8 на окончательных CSS; обе темы, внутренний скролл и активные кнопки доступны.",
+      "confirmationAction": "Принять проверенное исправление для следующей сборки. Подтверждение не запускает установку или аккаунтные действия."
+    },
+    {
+      "id": "next-display-caption-platform-scope",
+      "name": "Геометрия под заголовком Windows",
+      "version": "1",
+      "content": "Windows/Tauri caption offset20px; CSS probe Mac/nonTauri сохраняет top0px. Game/browser/premium специальные контейнеры исключены. Это CSS scope, не запуск на Mac или native DPI.",
+      "confirmationAction": "Принять проверенное исправление для следующей сборки. Подтверждение не запускает установку или аккаунтные действия."
+    },
+    {
+      "id": "next-display-test-maintenance",
+      "name": "Поддерживаемый тест масштаба",
+      "version": "1",
+      "content": "Тест actual App с явной синтетической сессией, проверкой реальных анимаций/геометрии/фокуса, собственным headless/cache, внешняя сеть заблокирована. На окончательных bytes8/8,0ошибок; ранние ошибки preconditions/driver сохранены.",
+      "confirmationAction": "Принять проверенное исправление для следующей сборки. Подтверждение не запускает установку или аккаунтные действия."
+    }
+  ]
+}

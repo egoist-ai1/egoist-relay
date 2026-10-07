@@ -1,0 +1,700 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T10:26:48.555Z",
+  "label": "scroll",
+  "scope": "12 exact imported production body paths, 17 synthetic branches; actual App and existing MockClient, no production edits",
+  "cases": [
+    {
+      "id": "report-avatar-root32-scroll-boundary",
+      "source": "src/components/common/ReportAvatarModal.tsx",
+      "renderer": "Actual imported body in task-owned Teact root beside real App",
+      "status": "pass",
+      "detail": {
+        "before": {
+          "box": {
+            "x": 640,
+            "y": -7.796875,
+            "width": 640,
+            "height": 1095.59375,
+            "top": -7.796875,
+            "right": 1280,
+            "bottom": 1087.796875,
+            "left": 640
+          },
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_otherlng_report_reason_descriptionlng_report_buttonCancel",
+          "controls": 11,
+          "outsideViewport": [
+            {
+              "text": "lng_report_button",
+              "tag": "BUTTON",
+              "box": {
+                "x": 1011.328125,
+                "y": 1057.203125,
+                "width": 219.671875,
+                "height": 51.1875,
+                "top": 1057.203125,
+                "right": 1231,
+                "bottom": 1108.390625,
+                "left": 1011.328125
+              }
+            },
+            {
+              "text": "Cancel",
+              "tag": "BUTTON",
+              "box": {
+                "x": 878.734375,
+                "y": 1057.203125,
+                "width": 100.59375,
+                "height": 51.1875,
+                "top": 1057.203125,
+                "right": 979.328125,
+                "bottom": 1108.390625,
+                "left": 878.734375
+              }
+            }
+          ],
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 641,
+                "y": -6.796875,
+                "width": 638,
+                "height": 100,
+                "top": -6.796875,
+                "right": 1279,
+                "bottom": 93.203125,
+                "left": 641
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 685,
+                "y": 35.203125,
+                "width": 550,
+                "height": 58,
+                "top": 35.203125,
+                "right": 1235,
+                "bottom": 93.203125,
+                "left": 685
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "className": "modal-dialog",
+              "box": {
+                "x": 640,
+                "y": -7.796875,
+                "width": 640,
+                "height": 1095.59375,
+                "top": -7.796875,
+                "right": 1280,
+                "bottom": 1087.796875,
+                "left": 640
+              },
+              "clientHeight": 1094,
+              "scrollHeight": 1094,
+              "scrollTop": 0,
+              "overflow": "visible"
+            },
+            {
+              "className": "modal-content custom-scroll",
+              "box": {
+                "x": 641,
+                "y": 93.203125,
+                "width": 638,
+                "height": 993.59375,
+                "top": 93.203125,
+                "right": 1279,
+                "bottom": 1086.796875,
+                "left": 641
+              },
+              "clientHeight": 994,
+              "scrollHeight": 1053,
+              "scrollTop": 0,
+              "overflow": "auto"
+            }
+          ],
+          "direction": "ltr",
+          "rootFont": "32px",
+          "bodyFont": "16px",
+          "themeClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri has-open-dialog",
+          "typography": [
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_spam",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_violence",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_pornography",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_child_abuse",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "ReportPeer.ReasonCopyright",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            }
+          ]
+        },
+        "after": {
+          "box": {
+            "x": 640,
+            "y": -7.796875,
+            "width": 640,
+            "height": 1095.59375,
+            "top": -7.796875,
+            "right": 1280,
+            "bottom": 1087.796875,
+            "left": 640
+          },
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_otherlng_report_reason_descriptionlng_report_buttonCancel",
+          "controls": 11,
+          "outsideViewport": [],
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 641,
+                "y": -6.796875,
+                "width": 638,
+                "height": 100,
+                "top": -6.796875,
+                "right": 1279,
+                "bottom": 93.203125,
+                "left": 641
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 685,
+                "y": 35.203125,
+                "width": 550,
+                "height": 58,
+                "top": 35.203125,
+                "right": 1235,
+                "bottom": 93.203125,
+                "left": 685
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "className": "modal-dialog",
+              "box": {
+                "x": 640,
+                "y": -7.796875,
+                "width": 640,
+                "height": 1095.59375,
+                "top": -7.796875,
+                "right": 1280,
+                "bottom": 1087.796875,
+                "left": 640
+              },
+              "clientHeight": 1094,
+              "scrollHeight": 1094,
+              "scrollTop": 0,
+              "overflow": "visible"
+            },
+            {
+              "className": "modal-content custom-scroll",
+              "box": {
+                "x": 641,
+                "y": 93.203125,
+                "width": 638,
+                "height": 993.59375,
+                "top": 93.203125,
+                "right": 1279,
+                "bottom": 1086.796875,
+                "left": 641
+              },
+              "clientHeight": 994,
+              "scrollHeight": 1053,
+              "scrollTop": 59,
+              "overflow": "auto"
+            }
+          ],
+          "direction": "ltr",
+          "rootFont": "32px",
+          "bodyFont": "16px",
+          "themeClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri has-open-dialog",
+          "typography": [
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_spam",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_violence",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_pornography",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "lng_report_reason_child_abuse",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "LABEL",
+              "text": "ReportPeer.ReasonCopyright",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "fontSize": "16px",
+              "lineHeight": "23.2px"
+            }
+          ]
+        },
+        "screenshot": "ui-remaining-modal-scroll-report-avatar-root32-after-scroll.png",
+        "actualScrollReachable": true
+      },
+      "newErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": 0,
+  "sourceHashes": {
+    "src/components/left/settings/BlockUserModal.tsx": "9c84ec19bd4d4b524153ea321e1c71c62d1d01aedde4a5a3cbdd654025aec6ae",
+    "src/components/common/PrivacySettingsNoticeModal.tsx": "5670a295466e01105e71170fc591851f1d8527d43f2db007186df31f7aa34e54",
+    "src/components/common/SensitiveContentConfirmModal.tsx": "e4552f7a59f9062f7e1391f8d636d9c8ebf6e8290c654aaab620188d0565c7f0",
+    "src/components/common/ReportAvatarModal.tsx": "612450d1a1f0b4a704c3717fb18746681c9224c892a0f76e5f722b66ca7939c2",
+    "src/components/common/UnpinAllMessagesModal.tsx": "853470cfbd385761e44c4ac84a717ad8aa6a1c2eb97387e7d7399eccc645f596",
+    "src/components/main/DeleteFolderDialog.tsx": "0b5db72437c6992af87d424a4b5f3270f9634780643c0c6f1d5d64a808029b01",
+    "src/components/main/BotTrustModal.tsx": "6aa6885abd735f72011290a2bbca5a4451dc25c14f2ba9948ebcbfcb237400b8",
+    "src/components/right/management/RemoveGroupUserModal.tsx": "1bf28e7cbc3d1c90c5be35dd600ba8a7251997699418a955cd2d53bbd04efd9e",
+    "src/components/modals/autoDeleteTimer/AutoDeleteTimerModal.tsx": "fc8307f0d093e499c4964a5d1032e5d1cbfedf6e051f4f084b0aad11d90aa453",
+    "src/components/modals/birthday/BirthdaySetupModal.tsx": "38fd1eeb3f005bcffd82c1742abe9124d07a0e77960741f903681352bb50883f",
+    "src/components/modals/prompt/PromptDialog.tsx": "32e71f9835f0a84d732ce91de10c913840d4a1a651de608b68708762188cafdd",
+    "src/components/modals/rank/EditRankModal.tsx": "1fd0729f390c45001a8cc0ec70d67e51dc55c77baabe03f5e81d9d415d40e1bf",
+    "src/components/modals/ModalContainer.tsx": "951464d5adfa397014c3fb5ee545511bf55c43fd229e0423e426feca531665d3"
+  },
+  "limits": [
+    "Every server action is intercepted locally; no backend acceptance or real account permission claim",
+    "RTL/reduced motion/root32 emulations are layout evidence, not certification of all locales/device DPI/uniform 200% typography",
+    "No gallery, complete application or remaining roster certification"
+  ],
+  "lastGeometry": {
+    "before": {
+      "box": {
+        "x": 640,
+        "y": -7.796875,
+        "width": 640,
+        "height": 1095.59375,
+        "top": -7.796875,
+        "right": 1280,
+        "bottom": 1087.796875,
+        "left": 640
+      },
+      "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_otherlng_report_reason_descriptionlng_report_buttonCancel",
+      "controls": 11,
+      "outsideViewport": [
+        {
+          "text": "lng_report_button",
+          "tag": "BUTTON",
+          "box": {
+            "x": 1011.328125,
+            "y": 1057.203125,
+            "width": 219.671875,
+            "height": 51.1875,
+            "top": 1057.203125,
+            "right": 1231,
+            "bottom": 1108.390625,
+            "left": 1011.328125
+          }
+        },
+        {
+          "text": "Cancel",
+          "tag": "BUTTON",
+          "box": {
+            "x": 878.734375,
+            "y": 1057.203125,
+            "width": 100.59375,
+            "height": 51.1875,
+            "top": 1057.203125,
+            "right": 979.328125,
+            "bottom": 1108.390625,
+            "left": 878.734375
+          }
+        }
+      ],
+      "headers": [
+        {
+          "className": "modal-header",
+          "text": "ReportPeer.Report",
+          "box": {
+            "x": 641,
+            "y": -6.796875,
+            "width": 638,
+            "height": 100,
+            "top": -6.796875,
+            "right": 1279,
+            "bottom": 93.203125,
+            "left": 641
+          }
+        },
+        {
+          "className": "modal-title",
+          "text": "ReportPeer.Report",
+          "box": {
+            "x": 685,
+            "y": 35.203125,
+            "width": 550,
+            "height": 58,
+            "top": 35.203125,
+            "right": 1235,
+            "bottom": 93.203125,
+            "left": 685
+          }
+        }
+      ],
+      "scrollSurfaces": [
+        {
+          "className": "modal-dialog",
+          "box": {
+            "x": 640,
+            "y": -7.796875,
+            "width": 640,
+            "height": 1095.59375,
+            "top": -7.796875,
+            "right": 1280,
+            "bottom": 1087.796875,
+            "left": 640
+          },
+          "clientHeight": 1094,
+          "scrollHeight": 1094,
+          "scrollTop": 0,
+          "overflow": "visible"
+        },
+        {
+          "className": "modal-content custom-scroll",
+          "box": {
+            "x": 641,
+            "y": 93.203125,
+            "width": 638,
+            "height": 993.59375,
+            "top": 93.203125,
+            "right": 1279,
+            "bottom": 1086.796875,
+            "left": 641
+          },
+          "clientHeight": 994,
+          "scrollHeight": 1053,
+          "scrollTop": 0,
+          "overflow": "auto"
+        }
+      ],
+      "direction": "ltr",
+      "rootFont": "32px",
+      "bodyFont": "16px",
+      "themeClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri has-open-dialog",
+      "typography": [
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_spam",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_violence",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_pornography",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_child_abuse",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "ReportPeer.ReasonCopyright",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        }
+      ]
+    },
+    "after": {
+      "box": {
+        "x": 640,
+        "y": -7.796875,
+        "width": 640,
+        "height": 1095.59375,
+        "top": -7.796875,
+        "right": 1280,
+        "bottom": 1087.796875,
+        "left": 640
+      },
+      "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_otherlng_report_reason_descriptionlng_report_buttonCancel",
+      "controls": 11,
+      "outsideViewport": [],
+      "headers": [
+        {
+          "className": "modal-header",
+          "text": "ReportPeer.Report",
+          "box": {
+            "x": 641,
+            "y": -6.796875,
+            "width": 638,
+            "height": 100,
+            "top": -6.796875,
+            "right": 1279,
+            "bottom": 93.203125,
+            "left": 641
+          }
+        },
+        {
+          "className": "modal-title",
+          "text": "ReportPeer.Report",
+          "box": {
+            "x": 685,
+            "y": 35.203125,
+            "width": 550,
+            "height": 58,
+            "top": 35.203125,
+            "right": 1235,
+            "bottom": 93.203125,
+            "left": 685
+          }
+        }
+      ],
+      "scrollSurfaces": [
+        {
+          "className": "modal-dialog",
+          "box": {
+            "x": 640,
+            "y": -7.796875,
+            "width": 640,
+            "height": 1095.59375,
+            "top": -7.796875,
+            "right": 1280,
+            "bottom": 1087.796875,
+            "left": 640
+          },
+          "clientHeight": 1094,
+          "scrollHeight": 1094,
+          "scrollTop": 0,
+          "overflow": "visible"
+        },
+        {
+          "className": "modal-content custom-scroll",
+          "box": {
+            "x": 641,
+            "y": 93.203125,
+            "width": 638,
+            "height": 993.59375,
+            "top": 93.203125,
+            "right": 1279,
+            "bottom": 1086.796875,
+            "left": 641
+          },
+          "clientHeight": 994,
+          "scrollHeight": 1053,
+          "scrollTop": 59,
+          "overflow": "auto"
+        }
+      ],
+      "direction": "ltr",
+      "rootFont": "32px",
+      "bodyFont": "16px",
+      "themeClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri has-open-dialog",
+      "typography": [
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_spam",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_violence",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_pornography",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "lng_report_reason_child_abuse",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "LABEL",
+          "text": "ReportPeer.ReasonCopyright",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "fontSize": "16px",
+          "lineHeight": "23.2px"
+        }
+      ]
+    },
+    "screenshot": "ui-remaining-modal-scroll-report-avatar-root32-after-scroll.png"
+  },
+  "unhandled": [],
+  "sourceUnchanged": true,
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "gate": 0,
+    "pageErrors": 0,
+    "sourceUnchanged": true
+  }
+}

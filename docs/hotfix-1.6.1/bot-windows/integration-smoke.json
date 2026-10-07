@@ -1,0 +1,815 @@
+{
+  "coverage": "real product JSX/hooks; isolated NativeMock; no native WebView2/no accounts",
+  "checks": [
+    {
+      "name": "actual WebAppTab renders about:blank and sends intact synthetic source to native",
+      "passed": true,
+      "details": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "url": "https://shop.example/#tgWebAppData=synthetic-599001&tgWebAppPlatform=weba",
+        "bounds": {
+          "x": 161,
+          "y": 41,
+          "width": 778,
+          "height": 758
+        }
+      }
+    },
+    {
+      "name": "loaded native tab receives measured active bounds",
+      "passed": true
+    },
+    {
+      "name": "existing WebApp hook routes theme and viewport protocol replies",
+      "passed": true
+    },
+    {
+      "name": "native load failure reaches localized product UI",
+      "passed": true
+    },
+    {
+      "name": "tab switch hides first native view without closing/recreating it",
+      "passed": true
+    },
+    {
+      "name": "native Ctrl+J opens the real operations panel and hides Mini App without disposal",
+      "passed": true
+    },
+    {
+      "name": "returning from operations restores the existing native Mini App session",
+      "passed": true
+    },
+    {
+      "name": "reload menu coverage",
+      "passed": null,
+      "details": "Header trigger unavailable in fixture; adapter reload covered independently."
+    },
+    {
+      "name": "native Escape reaches the actual Modal close path",
+      "passed": true
+    },
+    {
+      "name": "late disposed tab event produces no native command",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "unhandled": [],
+  "header": {
+    "dialogs": []
+  },
+  "externalRequestsAborted": [],
+  "calls": [
+    {
+      "command": "relay_mini_app_open",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "url": "https://shop.example/#tgWebAppData=synthetic-599001&tgWebAppPlatform=weba",
+        "bounds": {
+          "x": 161,
+          "y": 41,
+          "width": 778,
+          "height": 758
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8335.10000000894
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "visible": false
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8335.20000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 778,
+            "height": 758,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8352.40000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 778,
+            "height": 758,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8352.40000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8352.40000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "content_safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8352.40000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "fullscreen_changed",
+          "eventData": {
+            "is_fullscreen": false
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8352.40000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8415.70000000298
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "bounds": {
+          "x": 161,
+          "y": 41,
+          "width": 778,
+          "height": 758
+        },
+        "visible": true
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8416
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "theme_changed",
+          "eventData": {
+            "theme_params": {
+              "bg_color": "#000000",
+              "text_color": "#f5f5f5",
+              "hint_color": "#a0a0a0",
+              "link_color": "#f5f5f5",
+              "button_color": "#f5f5f5",
+              "button_text_color": "#000000",
+              "secondary_bg_color": "#101010",
+              "header_bg_color": "#000000",
+              "accent_text_color": "#f5f5f5",
+              "section_bg_color": "#000000",
+              "section_header_text_color": "#a0a0a0",
+              "subtitle_text_color": "#a0a0a0",
+              "destructive_text_color": "#ef5b5b",
+              "section_separator_color": "#292929"
+            }
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8417.90000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 778,
+            "height": 758,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8418.5
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": false
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8547
+    },
+    {
+      "command": "relay_mini_app_open",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "url": "https://shop.example/#tgWebAppData=synthetic-599002&tgWebAppPlatform=weba",
+        "bounds": {
+          "x": 161,
+          "y": 41,
+          "width": 778,
+          "height": 758
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8547.10000000894
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "visible": false
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8547.10000000894
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "visible": false
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8553.5
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 778,
+            "height": 758,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8555.29999999702
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 778,
+            "height": 758,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8555.29999999702
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8555.29999999702
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "content_safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8555.29999999702
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "fullscreen_changed",
+          "eventData": {
+            "is_fullscreen": false
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8555.29999999702
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "bounds": {
+          "x": 161,
+          "y": 41,
+          "width": 778,
+          "height": 758
+        },
+        "visible": true
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8562.90000000596
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8569.20000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": false
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8612.10000000894
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": false
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8612.10000000894
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "visible": false
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8612.20000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "theme_changed",
+          "eventData": {
+            "theme_params": {
+              "bg_color": "#000000",
+              "text_color": "#f5f5f5",
+              "hint_color": "#a0a0a0",
+              "link_color": "#f5f5f5",
+              "button_color": "#f5f5f5",
+              "button_text_color": "#000000",
+              "secondary_bg_color": "#101010",
+              "header_bg_color": "#000000",
+              "accent_text_color": "#f5f5f5",
+              "section_bg_color": "#000000",
+              "section_header_text_color": "#a0a0a0",
+              "subtitle_text_color": "#a0a0a0",
+              "destructive_text_color": "#ef5b5b",
+              "section_separator_color": "#292929"
+            }
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8717.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 0,
+            "height": 0,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8717.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8717.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "content_safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8717.70000000298
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "bounds": {
+          "x": 161,
+          "y": 41,
+          "width": 300,
+          "height": 1
+        },
+        "visible": true
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8837
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8839.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "visibility_changed",
+          "eventData": {
+            "is_visible": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8839.79999999702
+    },
+    {
+      "command": "relay_mini_app_update",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "visible": false
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8846.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "theme_changed",
+          "eventData": {
+            "theme_params": {
+              "bg_color": "#000000",
+              "text_color": "#f5f5f5",
+              "hint_color": "#a0a0a0",
+              "link_color": "#f5f5f5",
+              "button_color": "#f5f5f5",
+              "button_text_color": "#000000",
+              "secondary_bg_color": "#101010",
+              "header_bg_color": "#000000",
+              "accent_text_color": "#f5f5f5",
+              "section_bg_color": "#000000",
+              "section_header_text_color": "#a0a0a0",
+              "subtitle_text_color": "#a0a0a0",
+              "destructive_text_color": "#ef5b5b",
+              "section_separator_color": "#292929"
+            }
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8944.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 298,
+            "height": 0,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8944.70000000298
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8944.79999999702
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "content_safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 8944.79999999702
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 0,
+            "height": 0,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9017
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "viewport_changed",
+          "eventData": {
+            "width": 298,
+            "height": 0,
+            "is_expanded": true,
+            "is_state_stable": true
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9017.10000000894
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9017.10000000894
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9017.10000000894
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53",
+        "event": {
+          "eventType": "content_safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9017.10000000894
+    },
+    {
+      "command": "relay_mini_app_send",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642",
+        "event": {
+          "eventType": "content_safe_area_changed",
+          "eventData": {
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "bottom": 0
+          }
+        }
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9017.10000000894
+    },
+    {
+      "command": "relay_mini_app_close",
+      "args": {
+        "id": "64a2977e-5f4e-4b1a-b033-66eeb6f3be53"
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9051.5
+    },
+    {
+      "command": "relay_mini_app_close",
+      "args": {
+        "id": "de3ac659-3fb1-47f1-9e78-4b6d9b2ab642"
+      },
+      "contentVisible": true,
+      "currentApp": "telegram",
+      "time": 9051.5
+    }
+  ]
+}

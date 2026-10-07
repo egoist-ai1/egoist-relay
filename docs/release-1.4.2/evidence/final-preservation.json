@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-10-02T02:41:38.9296744+00:00",
+  "processes": [
+    {
+      "pid": 19928,
+      "present": true,
+      "startedAt": 1790901679477,
+      "priority": null
+    },
+    {
+      "pid": 20028,
+      "present": true,
+      "startedAt": 1790901679070,
+      "priority": null
+    },
+    {
+      "pid": 21536,
+      "present": true,
+      "startedAt": 1790893230557,
+      "priority": null
+    }
+  ],
+  "systemDnsSha256": "55A769128F13BD4F5A5470F20E0F73793286AC16AC9B6F5D3213B7E157520367",
+  "priorityComparison": "not measured: protected priority was unavailable at baseline; no priority write performed",
+  "noNetworkSettingsMutations": true,
+  "systemDnsUnchanged": true,
+  "files": [
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-exclude.txt",
+      "unchanged": true,
+      "sha256": "C5EAABB284D9E5C11340454C0D11776F8B62F519E4D71E41254F757DE7BBC0D0"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\relay-tunnel.dpapi",
+      "unchanged": true,
+      "sha256": "EFE091BCDE9DE71B2A769B4CEEB1B9A9413BA137491C1536C886A3497AE6FAF1"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\service-wrapper\\egoistshield-zapret-service.xml",
+      "unchanged": true,
+      "sha256": "A212246D1596B0C64D8840171E5B541D341D4F0E3702B97FCBE18FCA3040D31A"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-general-user.txt",
+      "unchanged": true,
+      "sha256": "5E0D3A8F5671782F9C742DFE80678E1ECF2BD2AC1A09D806F6C6082B6BBE800D"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\relay-dns.dpapi",
+      "unchanged": true,
+      "sha256": "E4EF37A6202A634157EF67F9539C891601DC770F3CE4176CDEB877EDF93AFE07"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-exclude-user.txt",
+      "unchanged": true,
+      "sha256": "A55959F2708D2A68C84ACEB2B0DE737850AEF9AFB0C5DFF55CC8DDC8318D171B"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\SystemDoH\\config.json",
+      "unchanged": true,
+      "sha256": "1D659D8398A9FB53D010D79C4E8ED062C1AA1403B3CAA45180BBE606A91265EB"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[[permission]]
+identifier = "relay-research-main"
+description = "Register and reply to addressed research requests in the local main Relay renderer."
+commands.allow = ["relay_research_ready", "relay_research_reply"]
+
+[[permission]]
+identifier = "relay-research-social"
+description = "Reply only from fixed owned research WebViews; native nonce/origin/scope validation remains mandatory."
+commands.allow = ["relay_research_social_reply"]

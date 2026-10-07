@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-media-quality-audit-2026-10-02",
+  "version": 1,
+  "createdAt": "2026-10-02T03:44:59.640Z",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "deliveryState": "Source fixes and tests are prepared and frozen. Parent owns final production build/install, aggregate review board and live selected account pilots.",
+  "userScope": "Explicit requested stress/scenario/visual tests and fastest/highest-quality media transfers; this delegated report covers the media boundary only.",
+  "sourceHashes": [
+    {
+      "path": "src/lib/gramjs/client/downloadFile.ts",
+      "sha256": "987a8c175f98683c7316c78c097cd9be6324fce0a3d20a21dccea981be50c697"
+    },
+    {
+      "path": "src/lib/gramjs/client/uploadFile.ts",
+      "sha256": "db95b7c6a26aeefeaf298d89b7f75a9dfecc2c902c605747b32b97b2a8dea066"
+    },
+    {
+      "path": "src/util/waitForMediaTransfer.ts",
+      "sha256": "bcfbd87a81b3a60035847eb0d6a5c6c55e18c457316c76cc0ecb526bb676cf7f"
+    },
+    {
+      "path": "src/util/dcBandwithManager.ts",
+      "sha256": "fc112d416d2f37b7d75448b09cf5b7938c609c12477d9404aec3d4d47c872bad"
+    },
+    {
+      "path": "src/lib/gramjs/network/MTProtoSender.ts",
+      "sha256": "514ec09f81cf1a198cd1032e54c8099108e561f2e378947eef89912352d8d90f"
+    },
+    {
+      "path": "src/lib/gramjs/extensions/MessagePacker.ts",
+      "sha256": "30615f74860a63683706dee0cf3ad58623a67d68c11a138180e750e5acbab0d3"
+    },
+    {
+      "path": "src/util/resolveInlineMedia.ts",
+      "sha256": "33394c9c7b206d46bc7842774961e67fe1a265eeb8e4cf1c7646495e0e78529b"
+    },
+    {
+      "path": "scripts/social-media-fetch.mjs",
+      "sha256": "7b1b91ed9ada51e895889ca101792a154d47f1e9f2337e2e341875f53622c36b"
+    },
+    {
+      "path": "scripts/inline-media-resolver.mjs",
+      "sha256": "8e86ae8afb5ba82f8c94f29ca9d68f265d463c0bd4792d93d27d964637c4b1dd"
+    },
+    {
+      "path": "src/lib/gramjs/client/relay-media-audit.test.ts",
+      "sha256": "2f71ee9c76733e3046b1876e9d865cd1b7f1411d98392f2bc9b6dac12b29390d"
+    },
+    {
+      "path": "src/lib/gramjs/client/relay-media-audit-opfs.test.ts",
+      "sha256": "8240bbb0d207e734f90b824749675d02d8ffce38b177cbb5c53d6a4cb973f25a"
+    },
+    {
+      "path": "src/lib/gramjs/client/relay-media-audit-sender.test.ts",
+      "sha256": "fd7faad38c48f0485409506544e0136b4c49d2cc5018671b6988a758e95e0d59"
+    },
+    {
+      "path": "src/util/relay-media-audit-inline.test.ts",
+      "sha256": "e9509b42a19300c3c955e4dca9cd9e4414e9307048b3d082311f149855cc9a58"
+    },
+    {
+      "path": "scripts/relay-media-audit-file.test.mjs",
+      "sha256": "41ca3b3a9a089f917ab8c687e05b981af99ef0cac7378482e5ab04efd37485b1"
+    },
+    {
+      "path": "runtime/media/ffmpeg.exe",
+      "sha256": "3256173f3f8bffd7df12227c68adf68025edb1832273a9530688a7bb1ed8edec"
+    },
+    {
+      "path": "runtime/media/ffprobe.exe",
+      "sha256": "f0d36ecbbdd3bcfac3efa078c96c7271c2e68b3810595552ac3b7f17e9a65c52"
+    }
+  ],
+  "reviewObjects": [
+    {
+      "id": "media-audit-transfer-integrity",
+      "name": "Целостность Telegram и дозапись крупных файлов",
+      "version": 1,
+      "content": "40 MiB normal/premium uploads, 128 seeded byte ranges, out-of-order responses and OPFS short writes pass. Valid partial writes finish byte-exactly; zero/invalid writes reject finitely and remove unfinished output. No false 100% after failed writes.",
+      "evidence": "media-report.md; media-evidence/media-vitest-final.json",
+      "confirmationAction": "Принять проверенное изменение исходников и результаты тестов; отправка сообщений не запускается."
+    },
+    {
+      "id": "media-audit-cancel-isolation",
+      "name": "Отмена, повторы и независимые запросы",
+      "version": 1,
+      "content": "1000 queued MTProto parts are canceled without retained media states. A sibling Ping in the same sent container remains resolvable; late replies do not resurrect canceled media. 100 mixed save/preview operations are serialized; 200 canceled queued saves do not enter native IPC.",
+      "evidence": "media-report.md; media-evidence/media-vitest-final.json",
+      "confirmationAction": "Принять результаты сценарных тестов; аккаунты и настройки не меняются."
+    },
+    {
+      "id": "media-audit-original-stream",
+      "name": "Потоковые оригиналы и Full HD без потери байтов",
+      "version": 1,
+      "content": "70 MiB synthetic originals stream byte-exactly with one GET over verified HTTP/1.1 and h2. An actual local H264 1920x1080 MP4 of 1210 seconds passes real bundled ffprobe and retains SHA256 through file output. CDN/engine download speed is not inferred from localhost fixtures.",
+      "evidence": "media-report.md; media-evidence/file-channel-metrics.json",
+      "confirmationAction": "Принять проверку файлового канала; это не подтверждение всех CDN или аккаунтов."
+    },
+    {
+      "id": "media-audit-disk-errors",
+      "name": "Точные сообщения об ошибках диска",
+      "version": 1,
+      "content": "Original CDN declared size and resolver file size above the dynamic free-disk budget produce MEDIA_DISK_FULL; buffered preview remains MEDIA_TOO_LARGE. Three original-mode regression cases fail before the patch and pass afterward; malformed length remains rejected without output.",
+      "evidence": "media-report.md; media-evidence/media-disk-before.json; media-evidence/media-file-final.log",
+      "confirmationAction": "Принять исправление классификации ошибки; лимиты сервисов и сетевые настройки не меняются."
+    }
+  ],
+  "checks": {
+    "vitest": {
+      "total": 48,
+      "passed": 48,
+      "failed": 0,
+      "new": 41,
+      "existing": 7,
+      "nestedSeededRanges": 128,
+      "queuedSenderCancelParts": 1000,
+      "corruptPackets": 1000,
+      "mixedInlineJobs": 100,
+      "canceledQueuedSaves": 200,
+      "evidence": "media-evidence/media-vitest-final.json"
+    },
+    "node": {
+      "total": 64,
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0,
+      "new": 13,
+      "existing": 51,
+      "evidence": "media-evidence/media-file-final.log"
+    },
+    "targetedEslint": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "files": 5,
+      "evidence": "media-evidence/media-eslint-final.json"
+    },
+    "productionTypeScript": {
+      "command": "node node_modules/typescript/bin/tsc --noEmit --incremental false",
+      "observedExitCode": 0,
+      "sourceHash": "987a8c175f98683c7316c78c097cd9be6324fce0a3d20a21dccea981be50c697",
+      "note": "Captured from this task actual tool completion; parent final release-wide verification is authoritative."
+    },
+    "aggregateTestTypeScript": {
+      "command": "node node_modules/typescript/bin/tsc --project tsconfig.test.json --noEmit --incremental false",
+      "exitCode": 2,
+      "ownMediaDiagnostics": 0,
+      "diagnosticsOutsideOwnedFiles": 55,
+      "evidence": "media-evidence/media-test-types-final.log",
+      "note": "Other-file diagnostics remain an aggregate test-config gate; this report does not claim that full tsconfig.test passes."
+    }
+  },
+  "reproducedFixedDefects": [
+    {
+      "id": "opfs-short-write",
+      "source": "src/lib/gramjs/client/downloadFile.ts:FileView.write",
+      "symptom": "A valid short sync-access write returned a partial byte count; it was ignored and damaged output could resolve as complete.",
+      "fix": "Write remaining subarray at offset+writtenTotal until complete; reject noninteger/zero/negative/oversized write counts; existing failure cleanup stays active.",
+      "officialContract": "https://fs.spec.whatwg.org/#api-filesystemsyncaccesshandle-write",
+      "evidenceBefore": "media-evidence/media-opfs-before.json",
+      "evidenceAfter": "media-evidence/media-vitest-final.json"
+    },
+    {
+      "id": "original-disk-space-message",
+      "source": "scripts/social-media-fetch.mjs:collectBody; scripts/inline-media-resolver.mjs:resolveMedia",
+      "symptom": "An original exceeding the free-disk-derived budget produced the preview-size warning instead of the disk-space warning.",
+      "fix": "Valid over-budget originals use MEDIA_DISK_FULL; buffered mode keeps MEDIA_TOO_LARGE; malformed length remains rejected.",
+      "evidenceBefore": "media-evidence/media-disk-before.json",
+      "evidenceAfter": "media-evidence/media-file-final.log"
+    }
+  ],
+  "measurements": {
+    "localFileChannel": [
+      {
+        "scenario": "stream-original",
+        "alpn": "http/1.1",
+        "bytes": 73400333,
+        "gets": 1,
+        "elapsedMs": 339.2295,
+        "rssDeltaBytes": 20840448,
+        "signature": "synthetic JPEG prefix; byte-stream fixture, not a playable photo"
+      },
+      {
+        "scenario": "stream-original",
+        "alpn": "h2",
+        "bytes": 73400333,
+        "gets": 1,
+        "elapsedMs": 472.26470000000006,
+        "rssDeltaBytes": 14389248,
+        "signature": "synthetic JPEG prefix; byte-stream fixture, not a playable photo"
+      },
+      {
+        "scenario": "actual-local-mp4-file-channel",
+        "width": 1920,
+        "height": 1080,
+        "durationSeconds": 1210,
+        "size": 9538,
+        "codec": "h264",
+        "engine": "synthetic observed metadata/copy; real bundled ffmpeg generation and real resolver ffprobe validation"
+      }
+    ],
+    "oneByteOpfsFixture": {
+      "bytes": 1048576,
+      "syncWriteCalls": 1048576,
+      "fullScenarioDurationMs": 103.59540000000015,
+      "warning": "Mock storage calls and test overhead are included; this is not a real disk IOPS or network benchmark. Positive writes are finite; actual synchronous disk calls can occupy the GramJS worker until a single part is fully written."
+    }
+  },
+  "limitations": [
+    "No user messages, uploads to real chats, posts, likes, follows or account-setting mutations were performed. Real service-account and CDN pilots are owned by parent.",
+    "OPFS handles and Telegram clients are synthetic boundaries around actual imported production JS. The actual local 1210 s Full HD MP4 is generated at 1 frame per 10 seconds, black, without audio; it validates resolution/duration/file integrity rather than playback perception or audio quality.",
+    "The 70 MiB stream is synthetic JPEG-prefixed bytes, not a decodable image. RSS sampling includes the test HTTPS server, TLS and client; localhost speed must not be used as provider/ISP speed evidence.",
+    "Preview 64MiB and selected share bounds, account/server file limits, FLOOD_WAIT, finite retry/timeout, dynamic disk budget and provider availability are preserved. Tests do not promise arbitrary restricted/private/DRM/live material.",
+    "The full test tsconfig still has 55 other-file diagnostics. Native WebView, all actual screens and real platform delivery are separate aggregate gates."
+  ],
+  "invariants": [
+    "No device-wide network writes",
+    "No DNS/DoH/Lagom/priority changes",
+    "No real profile/cookie/authkey access",
+    "No user process termination",
+    "No new dependencies",
+    "Only three agreed production branches are changed; all other edits are tests and evidence"
+  ]
+}

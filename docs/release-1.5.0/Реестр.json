@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-1.5.0-development-cycle",
+  "version": "1.5.0",
+  "createdAt": "2026-10-06T01:55:38.016303+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\release-1.5.0\\Реестр.json",
+  "verificationSummary": {
+    "windowsReleaseBuild": "ready_for_manual_acceptance",
+    "liveTelegramAcceptance": "pending_owner_saved_messages",
+    "physicalDpiGpu": "not_tested",
+    "publicPublication": "not_performed"
+  },
+  "items": [
+    {
+      "id": "result.persistence",
+      "name": "Доступный результат сохранения",
+      "version": "1.5.0",
+      "status": "verified",
+      "content": "Результат остаётся в истории после уведомления. Открытие файла и папки выполняется по зарегистрированному ID; неизвестный источник не превращается в выдуманную ссылку.",
+      "evidence": "20 UI-сценариев, native file/journal tests; установленное приложение после перезапуска проверяется вами.",
+      "confirmationAction": "Принять поведение и показанное покрытие доступного результата.",
+      "links": [
+        {
+          "name": "Отчёт",
+          "href": "README.md#до--после"
+        },
+        {
+          "name": "Снимки панели",
+          "href": "operations-ui-audit-2026-10-06T01-24-06-761Z.md"
+        }
+      ]
+    },
+    {
+      "id": "operations.ownership",
+      "name": "Владение, отмена и безопасный повтор",
+      "version": "1.5.0",
+      "status": "verified",
+      "content": "После подтверждения очередь приложения продолжает работу при закрытии панели и смене сервиса. Повтор требует свежего захвата и того же аккаунта; подтверждённые элементы сохраняются, неизвестный исход не повторяется автоматически. Отказ журнала на старте download завершает известный ID и освобождает квоту.",
+      "evidence": "Controller/queue + native restart/account/fs-fault tests; independent review исправил один подтверждённый error-path.",
+      "confirmationAction": "Принять реализованную схему операций и ограничения ручного повтора.",
+      "links": [
+        {
+          "name": "Архитектура",
+          "href": "ARCHITECTURE.md"
+        },
+        {
+          "name": "Diff",
+          "href": "changes-from-1.4.7.patch"
+        }
+      ]
+    },
+    {
+      "id": "media.formats",
+      "name": "Ссылка / Медиа / Файл",
+      "version": "1.5.0",
+      "status": "verified",
+      "content": "Каждый новый диалог начинается со «Ссылки». «Файл» передаёт полученный Blob без собственной перекодировки, «Медиа» сохраняет обычную обработку Telegram. Локальное сохранение публикует полученные байты; исходная платформа могла обработать оригинал раньше.",
+      "evidence": "SHA-256/forceFile/unit tests и реальный local media fixture. Реальная доставка и SHA документа из «Избранного» ещё не проверены.",
+      "confirmationAction": "Принять форматный контракт и показанное техническое покрытие.",
+      "links": [
+        {
+          "name": "Решения",
+          "href": "DECISIONS.md"
+        },
+        {
+          "name": "Живая проверка качества",
+          "href": "ACCEPTANCE.md#основной-сценарий-фото-и-видео"
+        }
+      ]
+    },
+    {
+      "id": "data.local-control",
+      "name": "Защищённый локальный журнал",
+      "version": "1.5.0",
+      "status": "verified",
+      "content": "DPAPI CurrentUser и отдельный ACL, 30 дней/500 завершённых записей. Нет cookies, токенов, временных CDN URL, медиа или текста переписки. Очистка сохраняет файлы; lock скрывает историю. Повреждённый журнал сохраняется с ошибкой.",
+      "evidence": "Настоящие Windows DPAPI/ACL и FS-тесты; registry rejects CDN/credentials/path/content, corruption/recovery/pruning tests.",
+      "confirmationAction": "Принять состав локальных данных, защиту и поведение очистки.",
+      "links": [
+        {
+          "name": "Хранение/IPC",
+          "href": "ARCHITECTURE.md#хранение-и-ipc"
+        },
+        {
+          "name": "Проверки",
+          "href": "verification.json"
+        }
+      ]
+    },
+    {
+      "id": "ui.interaction",
+      "name": "Панель, клавиатура и размеры",
+      "version": "1.5.0",
+      "status": "verified",
+      "content": "24rem справа; полный рабочий экран при оставшихся <40rem. WebView сохраняется. RU/EN, RTL, текст 200%, Ctrl+J/Tab/Escape, reduced motion. Контент 140 мс, native геометрия без покадровой анимации.",
+      "evidence": "20 новых и те же 15 исходных browser-сценариев проходят; просмотрены финальные снимки. Native COM focus/DPI/GPU ожидает вашей приёмки.",
+      "confirmationAction": "Принять показанные взаимодействия и browser-покрытие.",
+      "links": [
+        {
+          "name": "Новые UI-сценарии",
+          "href": "operations-ui-audit-2026-10-06T01-24-06-761Z.md"
+        },
+        {
+          "name": "Основной экран",
+          "href": "ui-visuals/operations-2026-10-06T01-24-06-761Z/adaptive-1920x1080.png"
+        },
+        {
+          "name": "Компактный экран",
+          "href": "ui-visuals/operations-2026-10-06T01-24-06-761Z/adaptive-640x448.png"
+        }
+      ]
+    },
+    {
+      "id": "verification.evidence",
+      "name": "Проверки, diff и измерения",
+      "version": "1.5.0",
+      "status": "verified",
+      "content": "366 Vitest, 111 Rust, 65 медиатестов, три TypeScript config; production Windows x64 кандидат. Линтеры без ошибок: ESLint 1 прежнее предупреждение, Stylelint 522. Сохранены исходные hashes и проверяемый patch из 44 source/test/config файлов.",
+      "evidence": "В трёх парах browser измерений регрессии >10% вне разброса не обнаружено; дерево установленного Relay не измерялось. Стиль панели добавляет 13 известных предупреждений.",
+      "confirmationAction": "Принять выводы проверки в явно указанном объёме и отметить нужные доработки.",
+      "links": [
+        {
+          "name": "Полный отчёт",
+          "href": "README.md"
+        },
+        {
+          "name": "Логи и команды",
+          "href": "verification.json"
+        },
+        {
+          "name": "Измерения",
+          "href": "PERFORMANCE.md"
+        },
+        {
+          "name": "Hashes и provenance",
+          "href": "source-diff.json"
+        }
+      ]
+    },
+    {
+      "id": "acceptance.remaining",
+      "name": "Живая приёмка и границы выпуска",
+      "version": "1.5.0",
+      "status": "pending",
+      "content": "Следующий шаг — ваш запуск локального кандидата и отправка только в своё «Избранное». Реальная доставка, второй Windows host, физические DPI/GPU остаются непроверенными. Установщик неподписан, полнота corresponding source зависимостей не закрыта; публичная публикация не выполнялась.",
+      "evidence": "Локальная сборка подтверждена, установку в рабочий профиль и живую отправку выполняете вы. Конкуренты изучены по официальным материалам/открытому коду, не запускались локально.",
+      "confirmationAction": "Подтвердить готовность выполнить предложенную ручную приёмку или уточнить её; это не отмечает её автоматически выполненной.",
+      "links": [
+        {
+          "name": "Инструкция приёмки",
+          "href": "ACCEPTANCE.md"
+        },
+        {
+          "name": "Установщик/hash",
+          "href": "installer.json"
+        },
+        {
+          "name": "Ограничения",
+          "href": "README.md#границы-готовности-и-следующие-приоритеты"
+        }
+      ]
+    }
+  ]
+}

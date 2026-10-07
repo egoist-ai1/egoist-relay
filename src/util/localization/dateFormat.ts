@@ -3,7 +3,7 @@ import type { LangFn } from './types';
 
 import LimitedMap from '../primitives/LimitedMap';
 
-const FALLBACK_LANG_CODE = 'en';
+const FALLBACK_LANG_CODE = 'ru';
 
 type DateStyle = 'short' | 'long' | 'numeric' | false;
 type TimeStyle = 'short' | 'long' | false;

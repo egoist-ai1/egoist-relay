@@ -47,6 +47,7 @@ import {
   SUPPORTED_VIDEO_CONTENT_TYPES,
   TON_CURRENCY_CODE,
 } from '../../../config';
+import { IS_TAURI } from '../../../util/browser/globalEnvironment';
 import { ensureProtocol, isSuspiciousUrl } from '../../../util/browser/url';
 import { IS_IOS } from '../../../util/browser/windowEnvironment';
 import { copyTextToClipboardFromPromise } from '../../../util/clipboard';
@@ -65,6 +66,7 @@ import { getMessageKey, isLocalMessageId } from '../../../util/keys/messageKey';
 import { parseTranslationCacheKey } from '../../../util/keys/translationKey';
 import { getTranslationFn, type RegularLangFnParameters } from '../../../util/localization';
 import { formatStarsAsText } from '../../../util/localization/format';
+import { getTranscriptionErrorKey, transcribeMessageLocally } from '../../../util/localTranscription';
 import { oldTranslate } from '../../../util/oldLangProvider';
 import { debounce, onTickEnd, rafPromise } from '../../../util/schedulers';
 import { getServerTime } from '../../../util/serverTime';
@@ -73,6 +75,7 @@ import {
   getIsSavedDialog,
   getUserFullName,
   groupMessageIdsByThreadId,
+  hasMessageTtl,
   isChatChannel,
   isChatSuperGroup,
   isDeletedUser,
@@ -86,7 +89,7 @@ import {
   splitMessagesForForwarding,
 } from '../../helpers';
 import { isChatAdmin } from '../../helpers/chats';
-import { isApiPeerChat, isApiPeerUser } from '../../helpers/peers';
+import { isApiPeerChat } from '../../helpers/peers';
 import {
   addActionHandler, getActions, getGlobal, getPromiseActions, setGlobal,
 } from '../../index';
@@ -118,7 +121,6 @@ import {
   updateRequestedMessageTranslation,
   updateScheduledMessage,
   updateScheduledMessages,
-  updateSponsoredMessage,
   updateTopicWithState,
   updateUnreadCounters,
   updateUploadByMessageKey,
@@ -150,7 +152,6 @@ import {
   selectFocusedMessageId,
   selectForwardsCanBeSentToChat,
   selectForwardsContainVoiceMessages,
-  selectIsChatBotNotStarted,
   selectIsChatRestricted,
   selectIsChatWithSelf,
   selectIsCurrentUserFrozen,
@@ -214,6 +215,8 @@ const TTL_CLEANUP_MAX_DELAY = 24 * 60 * 60 * SECOND_IN_MS;
 const TTL_CLEANUP_DELAY_BUFFER = SECOND_IN_MS;
 
 const uploadProgressCallbacks = new Map<MessageKey, ApiOnProgress>();
+
+const localTranscriptionControllers = new Map<string, AbortController>();
 
 const ttlCleanupTimersByChatId = new Map<string, { timer: number; expiresAt: number }>();
 
@@ -1943,27 +1946,125 @@ addActionHandler('rescheduleMessage', (global, actions, payload): ActionReturnTy
   });
 });
 
+addActionHandler('cancelAudioTranscription', (global, actions, { chatId, messageId }): ActionReturnType => {
+  localTranscriptionControllers.get(`local_${chatId}_${messageId}`)?.abort();
+});
+
 addActionHandler('transcribeAudio', async (global, actions, payload): Promise<void> => {
   const { messageId, chatId } = payload;
 
   const chat = selectChat(global, chatId);
-
   if (!chat) return;
 
+  const message = selectChatMessage(global, chatId, messageId);
+  if (!message) return;
+
+  const localTranscriptionId = `local_${chatId}_${messageId}`;
+  if (localTranscriptionControllers.has(localTranscriptionId)) return;
+  if (message.isEphemeral || hasMessageTtl(message)) return;
+
+  if (IS_TAURI) {
+    if (localTranscriptionControllers.size) {
+      actions.showNotification({ message: { key: 'RelayTranscribeBusy' }, tabId: getCurrentTabId() });
+      return;
+    }
+    const media = message.content.voice || message.content.video;
+    if (!media) return;
+    const currentUserId = global.currentUserId;
+    const controller = new AbortController();
+    localTranscriptionControllers.set(localTranscriptionId, controller);
+    global = updateChatMessage(global, chatId, messageId, {
+      transcriptionId: localTranscriptionId, isTranscriptionError: false,
+    });
+    global = {
+      ...global,
+      transcriptions: {
+        ...global.transcriptions,
+        [localTranscriptionId]: { transcriptionId: localTranscriptionId, text: '', isPending: true },
+      },
+    };
+    setGlobal(global);
+    try {
+      const result = await transcribeMessageLocally(media, controller.signal);
+      global = getGlobal();
+      if (global.currentUserId !== currentUserId
+        || selectChatMessage(global, chatId, messageId)?.transcriptionId !== localTranscriptionId) return;
+      global = updateChatMessage(global, chatId, messageId, { isTranscriptionError: false });
+      global = {
+        ...global,
+        transcriptions: {
+          ...global.transcriptions,
+          [localTranscriptionId]: { transcriptionId: localTranscriptionId, text: result.text, isPending: false },
+        },
+      };
+      setGlobal(global);
+    } catch (error) {
+      global = getGlobal();
+      if (global.currentUserId !== currentUserId
+        || selectChatMessage(global, chatId, messageId)?.transcriptionId !== localTranscriptionId) return;
+      global = updateChatMessage(global, chatId, messageId, { isTranscriptionError: true });
+      global = {
+        ...global,
+        transcriptions: {
+          ...global.transcriptions,
+          [localTranscriptionId]: {
+            transcriptionId: localTranscriptionId,
+            text: getTranslationFn()(getTranscriptionErrorKey(error)),
+            isPending: false,
+          },
+        },
+      };
+      setGlobal(global);
+    } finally {
+      localTranscriptionControllers.delete(localTranscriptionId);
+    }
+    return;
+  }
+
   global = updateChatMessage(global, chatId, messageId, {
-    transcriptionId: '',
+    transcriptionId: localTranscriptionId,
+    isTranscriptionError: false,
   });
+
+  global = {
+    ...global,
+    transcriptions: {
+      ...global.transcriptions,
+      [localTranscriptionId]: {
+        transcriptionId: localTranscriptionId,
+        text: '',
+        isPending: true,
+      },
+    },
+  };
 
   setGlobal(global);
 
-  const result = await callApi('transcribeAudio', { chat, messageId });
+  let result: string | undefined;
+  try {
+    result = await callApi('transcribeAudio', { chat, messageId });
+  } catch (err) {
+    result = undefined;
+  }
+
+  if (result) {
+    global = getGlobal();
+    global = updateChatMessage(global, chatId, messageId, {
+      transcriptionId: result,
+      isTranscriptionError: false,
+    });
+    setGlobal(global);
+    return;
+  }
 
   global = getGlobal();
   global = updateChatMessage(global, chatId, messageId, {
-    transcriptionId: result,
-    isTranscriptionError: !result,
+    transcriptionId: localTranscriptionId,
+    isTranscriptionError: true,
   });
-
+  if (global.transcriptions[localTranscriptionId]) {
+    global.transcriptions[localTranscriptionId].isPending = false;
+  }
   setGlobal(global);
 });
 
@@ -2666,28 +2767,7 @@ addActionHandler('loadSendPaidReactionsAs', async (global, actions, payload): Pr
   setGlobal(global);
 });
 
-addActionHandler('loadSponsoredMessages', async (global, actions, payload): Promise<void> => {
-  if (selectIsCurrentUserFrozen(global)) return;
-
-  const { peerId } = payload;
-  const peer = selectPeer(global, peerId);
-  if (!peer) {
-    return;
-  }
-
-  if (isApiPeerUser(peer) && selectIsChatBotNotStarted(global, peer.id)) {
-    return;
-  }
-
-  const result = await callApi('fetchSponsoredMessages', { peer });
-  if (!result) {
-    return;
-  }
-
-  global = getGlobal();
-  global = updateSponsoredMessage(global, peerId, result.messages[0]);
-  setGlobal(global);
-});
+addActionHandler('loadSponsoredMessages', async (): Promise<void> => {});
 
 addActionHandler('viewSponsored', (global, actions, payload): ActionReturnType => {
   const { randomId } = payload;
@@ -3351,7 +3431,10 @@ addActionHandler('forwardToMultipleChats', (global, actions, payload): ActionRet
   }
 
   for (const { chatId, topicId } of targets) {
-    const toChat = selectChat(global, chatId);
+    let toChat = selectChat(global, chatId);
+    if (!toChat && chatId === global.currentUserId) {
+      toChat = selectUser(global, chatId) as unknown as ApiChat;
+    }
     if (!toChat) continue;
 
     forwardMessagesToChat({

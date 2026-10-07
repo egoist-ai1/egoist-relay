@@ -481,6 +481,11 @@ addActionHandler('scrollMessageListToBottom', (global, actions, payload): Action
 
   const { chatId, threadId } = currentMessageList;
 
+  const container = document.querySelector<HTMLElement>('.MessageList.custom-scroll');
+  if (container) {
+    container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+  }
+
   global = updateFocusedMessage(global, {
     chatId,
     threadId,

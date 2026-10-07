@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "mode": "before",
+  "sourceHashes": {
+    "src/components/ui/Switcher.tsx": "48f0458eab70e60f465b803320e5f9d8db4a29e074cc91d4c0e35faffc7c1f88",
+    "src/components/ui/Switcher.scss": "88bbe72fd16dd5d65778faaca357094b22ee52154f03ae24d249c43ddaabdf69",
+    "src/components/ui/ListItem.tsx": "8e9fe6fb421eeddac9056ae15308f1a5121f9c1efe7a6f8d3ef95088940ea63a"
+  },
+  "scope": "Actual Switcher and ListItem with local callbacks, rendered alongside isolated real App; before substitutes owned source subset, not the entire old application.",
+  "environment": {
+    "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "remoteRequests": "blocked",
+    "account": "existing synthetic MockClient user 1",
+    "physicalDpi": "unverified"
+  },
+  "cases": [
+    {
+      "id": "standalone-switcher-tab-space-callback-once",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Tab must reach the enabled standalone Switcher\n+ actual - expected\n\n+ ''\n- 'switcher-standalone'\n"
+    },
+    {
+      "id": "owned-row-switcher-no-second-tab-target",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n"
+    },
+    {
+      "id": "switcher-reduced-motion",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(durations.every((pair) => pair.every((value) => value.split(',').every((duration) => Number.parseFloat(duration) === 0))))\n"
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "total": 3,
+    "pass": 0,
+    "fail": 3
+  }
+}

@@ -42,7 +42,7 @@ const EmojiInteractionAnimation: FC<OwnProps & StateProps> = ({
 
   const [isHiding, startHiding] = useFlag(false);
   const [isPlaying, startPlaying] = useFlag(false);
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const stop = useLastCallback(() => {
     startHiding();

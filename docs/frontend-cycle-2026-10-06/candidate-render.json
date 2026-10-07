@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T12:23:31.160Z",
+  "status": "Implemented candidate 1.6.0; actual App without CSS probes",
+  "data": "Same existing MockClient chats and synthetic operation set",
+  "externalRequests": "aborted",
+  "records": [
+    {
+      "name": "after-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-chat.png"
+    },
+    {
+      "name": "after-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-current.png"
+    },
+    {
+      "name": "after-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-history.png"
+    },
+    {
+      "name": "after-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-share.png"
+    },
+    {
+      "name": "after-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-settings.png"
+    },
+    {
+      "name": "after-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-settings-light.png"
+    },
+    {
+      "name": "after-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "candidate-screens/after-history-light.png"
+    },
+    {
+      "name": "after-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "candidate-screens/after-compact-light.png"
+    },
+    {
+      "variant": "after",
+      "compactGeometry": {
+        "panel": {
+          "x": 72,
+          "y": 40,
+          "width": 728,
+          "height": 520
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "2.5rem"
+      }
+    }
+  ],
+  "errors": []
+}

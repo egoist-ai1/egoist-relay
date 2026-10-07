@@ -1,0 +1,45 @@
+{
+    "generatedAt":  "2026-10-04T14:26:29.7131082Z",
+    "scenariosBefore":  7,
+    "scenariosAfter":  7,
+    "edgeChecksPassed":  7,
+    "enhancersBeforePassed":  4,
+    "enhancersBeforeFailed":  3,
+    "enhancersAfterPassed":  7,
+    "enhancersAfterFailed":  0,
+    "sourceHashesMatch":  {
+                              "src/components/gili/modal/Modal.tsx":  true,
+                              "src/hooks/useShowTransition.ts":  true,
+                              "src/components/ui/Modal.tsx":  true,
+                              "src/components/ui/Modal.scss":  true,
+                              "src/util/openModalState.ts":  true
+                          },
+    "eslintErrors":  0,
+    "stylelintErrors":  0,
+    "stylelintExistingWarnings":  4,
+    "remoteRequests":  "blocked",
+    "accountEffects":  "none",
+    "documents":  "sanitized mocked fixtures",
+    "fullAudit":  {
+                      "total":  64,
+                      "pass":  63,
+                      "fail":  0,
+                      "gated":  1,
+                      "sourceComponents":  774,
+                      "renderedEvidenceComponents":  37
+                  },
+    "performanceAudit":  {
+                             "total":  3,
+                             "pass":  3,
+                             "errors":  0
+                         },
+    "hydrationTarget":  {
+                            "fix":  "Only isolated audit HTML restores its relay-ui mock marker on reload",
+                            "pass":  1,
+                            "fail":  0,
+                            "total":  1,
+                            "cause":  "Cold Vite optimizer reload after hash cleanup selected default mock fixture"
+                        },
+    "timingContext":  "Shared headless host; parent native release build concurrent or recently active. Mock IPC only; no physical GPU/DPI/60fps claim.",
+    "auditServerSha256":  "7c3e04e3c93f10268ea52a316b8d0cb2c0f9ab5732eac88466a171477c894557"
+}

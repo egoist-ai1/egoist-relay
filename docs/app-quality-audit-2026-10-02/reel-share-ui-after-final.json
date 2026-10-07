@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "label": "after-final",
+  "generatedAt": "2026-10-02T11:36:24.126Z",
+  "helperSource": "scripts/social-share-enhancer.js",
+  "sourceSha256": "3a7fe3d7570aacabba3115f07331c498cbc4f852998cb7bbc92895e77985c3b2",
+  "injectedSha256": "2d6f472311cbfb6e20d75caac795da15011cfd97be4299710189bc365b4bc885",
+  "boundary": {
+    "original": "window.location.href = `egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`;",
+    "replacement": "window.__reelShareTransport.push(`egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`);",
+    "exactCount": 1,
+    "service": "instagram",
+    "token": "synthetic fixture token; no native token",
+    "label": "Отправить в Telegram"
+  },
+  "evidenceScope": "Actual helper bytes and DOM observer; trusted Playwright clicks. Only final native transport assignment mocked. HTTPS Instagram document fulfilled locally; all other network blocked. No account/session/native process.",
+  "blockedRequests": 30,
+  "errors": [],
+  "cases": [
+    {
+      "id": "reels-feed-no-article",
+      "status": "pass",
+      "detail": {
+        "payload": {
+          "requestId": "a5550d34-850a-4eca-a232-543b09928847",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelA123/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        },
+        "screenshot": "reel-share-ui-after-final-feed-fullhd.png",
+        "noArticle": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      }
+    },
+    {
+      "id": "single-reel-no-article",
+      "status": "pass",
+      "detail": {
+        "payload": {
+          "requestId": "d5bf867c-67f8-4098-87cd-ef74f7c7fbf3",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelA123/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        },
+        "screenshot": "reel-share-ui-after-final-single-fullhd.png",
+        "noArticle": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      }
+    },
+    {
+      "id": "handle-reel-no-article",
+      "status": "pass",
+      "detail": {
+        "payload": {
+          "requestId": "9b63fafe-18f1-4757-9723-597d2e7b4a06",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelA123/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        },
+        "screenshot": "reel-share-ui-after-final-handle-fullhd.png",
+        "noArticle": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      }
+    },
+    {
+      "id": "dm-dialog-own-reel-permalink",
+      "status": "pass",
+      "detail": {
+        "payload": {
+          "requestId": "b56cd801-fdb3-4a6f-8b87-92089d3b5592",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelA123/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        },
+        "screenshot": "reel-share-ui-after-final-dm-fullhd.png",
+        "previewNotSelected": true
+      }
+    },
+    {
+      "id": "dm-dialog-no-own-permalink-no-neighbor-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "native-action-sibling-group-preferred",
+      "status": "pass",
+      "detail": {
+        "nativeActionRow": {
+          "id": "native-actions",
+          "floating": false
+        },
+        "payloadCorrect": true
+      }
+    },
+    {
+      "id": "floating-fallback-without-action-row",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "x": 481,
+          "y": 541,
+          "width": 44,
+          "height": 44
+        },
+        "screenshot": "reel-share-ui-after-final-floating-fullhd.png"
+      }
+    },
+    {
+      "id": "existing-article-post",
+      "status": "pass",
+      "detail": {
+        "articlePreserved": true
+      }
+    },
+    {
+      "id": "single-reel-current-url-fallback",
+      "status": "pass",
+      "detail": {
+        "currentRouteFallback": true
+      }
+    },
+    {
+      "id": "feed-two-independent-reels",
+      "status": "pass",
+      "detail": {
+        "count": 2,
+        "distinctSelectedUrls": true
+      }
+    },
+    {
+      "id": "feed-no-permalink-no-fallback",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "ambiguous-multiple-videos-no-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "hidden-video-no-wrong-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "offscreen-video-no-wrong-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "removed-video-no-stale-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "malicious-permalink-origin-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "malicious-article-permalink-origin-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "invalid-internal-double-slash-path-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "forged-sibling-cannot-suppress-owned-button",
+      "status": "pass",
+      "detail": {
+        "authorizedButtons": 1,
+        "forgedOwnership": false
+      }
+    },
+    {
+      "id": "malicious-page-origin-not-initialized",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0
+      }
+    },
+    {
+      "id": "untrusted-click-rejected",
+      "status": "pass",
+      "detail": {
+        "transportCount": 0,
+        "isTrusted": false
+      }
+    },
+    {
+      "id": "forged-data-attribute-not-authorized",
+      "status": "pass",
+      "detail": {
+        "forgedOwnership": false,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "spa-current-video-and-permalink-change",
+      "status": "pass",
+      "detail": {
+        "latestSourceSelected": true,
+        "payload": {
+          "requestId": "1b6b0d48-4e9e-40fc-a946-854db48d1018",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelB456/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelB456.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        }
+      }
+    },
+    {
+      "id": "spa-action-row-replaced",
+      "status": "pass",
+      "detail": {
+        "actionRowRecovered": true,
+        "count": 1
+      }
+    },
+    {
+      "id": "mutation-no-duplicate-buttons",
+      "status": "pass",
+      "detail": {
+        "count": 1,
+        "transportCount": 1
+      }
+    },
+    {
+      "id": "label-update-registered-buttons",
+      "status": "pass",
+      "detail": {
+        "label": "Send to Telegram",
+        "geometry": {
+          "x": 157,
+          "y": 627,
+          "width": 44,
+          "height": 44
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 26,
+    "pass": 26,
+    "fail": 0,
+    "pageErrors": 0
+  }
+}

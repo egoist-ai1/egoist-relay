@@ -16,6 +16,7 @@ import MTProtoState from './MTProtoState';
 const MAX_PLAIN_MESSAGE_BODY_LENGTH = 64 * 1024;
 const PLAIN_MESSAGE_HEADER_LENGTH = 20;
 const TL_ALIGNMENT = 4;
+const AUTH_RESPONSE_TIMEOUT = 15000;
 
 /**
  * MTProto Mobile Protocol plain sender (https://core.telegram.org/mtproto/description#unencrypted-messages)
@@ -49,8 +50,21 @@ export default class MTProtoPlainSender {
 
     const res = concat(new Uint8Array(8), m, b, body);
 
-    await this._connection.send(res);
-    body = new Uint8Array(await this._connection.recv());
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const response = await Promise.race([
+        this._connection.send(res).then(() => this._connection.recv()),
+        new Promise<never>((_resolve, reject) => {
+          timeout = setTimeout(() => {
+            reject(new Error('MTProto authentication response timeout'));
+            this._connection.disconnect();
+          }, AUTH_RESPONSE_TIMEOUT);
+        }),
+      ]);
+      body = new Uint8Array(response);
+    } finally {
+      clearTimeout(timeout);
+    }
     if (
       body.length < PLAIN_MESSAGE_HEADER_LENGTH
       || body.length > PLAIN_MESSAGE_HEADER_LENGTH + MAX_PLAIN_MESSAGE_BODY_LENGTH

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-146-github-publication",
+  "version": "1.4.6-publication-2",
+  "items": [
+    {
+      "id": "relay-146-github-branch",
+      "name": "Публичная ветка Relay 1.4.6",
+      "version": "1.4.6-publication-2",
+      "finding": "Публичный egoist-ai1/egoist-relay опубликован с clean history из двух новых commits. Актуальная codex/release-1.4.6 указывает на ac3724ea7f3f67d6d5669872014335798e3c24ba. Тег relay-v1.4.6 сохраняет первоначальный snapshot 42da26d2ef76cf67901f09d8d39ee1a7b0b22e51. Все3422 удалённых Git blobs и текущий source manifest совпали с подготовленной копией.",
+      "action": "Принять результат уже выполненной публикации; подтверждение не запускает новую публикацию или изменение репозитория.",
+      "evidence": [
+        "https://github.com/egoist-ai1/egoist-relay/tree/codex/release-1.4.6",
+        "https://github.com/egoist-ai1/egoist-relay/releases/tag/relay-v1.4.6",
+        "final-verification.json"
+      ]
+    },
+    {
+      "id": "relay-146-github-docs",
+      "name": "Описание выпуска и документация",
+      "version": "1.4.6-publication-2",
+      "finding": "README и Release описывают функции, изменения, сборку, архитектуру и приватность. Исторические387release checks отделены от40passed/16skipped дополнительных проверок подготовки публикации. Отдельный test-only commit исправил missing TLS skip markers; runtime источники1.4.6 сохранились.",
+      "action": "Принять оформление либо оставить точечные замечания к документации; отсутствие ответа не разрешает новые изменения.",
+      "evidence": [
+        "https://github.com/egoist-ai1/egoist-relay/blob/codex/release-1.4.6/README.md",
+        "https://github.com/egoist-ai1/egoist-relay/blob/codex/release-1.4.6/docs/VERIFICATION.md"
+      ]
+    },
+    {
+      "id": "relay-146-github-privacy",
+      "name": "Приватность и границы дистрибутива",
+      "version": "1.4.6-publication-2",
+      "finding": "Проверка snapshot не обнаружила реальные account credentials, сессии, cookies, private exports или текущие host paths. Исключены3служебных metadata/preview файла и2localaudit harnesses;6synthetictests адаптированы.3304productionfiles SHA-exact. Сохраняются upstream toolchain paths в двух Lottie WASM. Установщик не загружен: corresponding-source gate сторонних binary dependencies остаётся pending.",
+      "action": "Принять описанные границы source publication; подтверждение не разрешает загрузку установщика, чтение аккаунтов или изменение DNS/Lagom/Zapret.",
+      "evidence": [
+        "privacy-review.json",
+        "final-verification.json",
+        "https://github.com/egoist-ai1/egoist-relay/blob/codex/release-1.4.6/SECURITY.md"
+      ]
+    }
+  ]
+}

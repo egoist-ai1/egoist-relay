@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "state": "static_package_inspection",
+  "recordedAt": "2026-10-03T13:21:57.371Z",
+  "embeddedUi": {
+    "expectedRepresentativeAssets": 2,
+    "matchedRepresentativeAssets": 2,
+    "allRepresentativeBytesEmbedded": true,
+    "representativeAssets": [
+      {
+        "frontendAsset": "assets/index-SuiUyXTV.js",
+        "frontendSha256": "eebc8b1a9caecdab2188e9a156e44fe8948be8ab69c091ee879cfe1ac527fb68",
+        "compressedBytes": 88948,
+        "compressedSha256": "ff27b88e89f8cf56d9400edc229a588ac8e0e6843518ac48df31ac28a8cf471d",
+        "embeddedOffset": 52265364,
+        "embedded": true
+      },
+      {
+        "frontendAsset": "assets/main-XA8FA0V4.js",
+        "frontendSha256": "344ed27b62a08f184c57b5688e2eb35c08eab78bc23a6057c5f51ebc5ac1ac42",
+        "compressedBytes": 107805,
+        "compressedSha256": "05cf50a56a7c2ef045ce36b792f50b831c86dc3f6d669dc2099845f5e0f0bf12",
+        "embeddedOffset": 29421304,
+        "embedded": true
+      }
+    ],
+    "scope": "Actual compiled App prewarm and main JS compressed byte spans; no live UI/account operation"
+  },
+  "embeddedTransport": {
+    "bytes": 58338,
+    "sha256": "6c9377f1992b3aa21061b25f523fd25c40b85cf4a24f0a3b20a84a053c6b8775",
+    "embeddedOffset": 78839496,
+    "scriptBytesEmbedded": true,
+    "privateHandoffMechanismPresent": true,
+    "containsOnlyGenericConfigurationReader": true
+  },
+  "sourceInputsUnchangedAfterBuild": true,
+  "sourceInputCount": 3307,
+  "sourceMismatches": [],
+  "examinedExeDuringPacking": {
+    "bytes": 80960000,
+    "sha256": "899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b"
+  },
+  "examinedExeEqualsExtractedPackedPayload": true
+}

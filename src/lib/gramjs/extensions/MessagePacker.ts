@@ -45,6 +45,14 @@ export default class MessagePacker {
     this.append(undefined);
   }
 
+  remove(state: RequestState) {
+    this._queue = this._queue.filter((queued) => queued !== state);
+    this._pendingStates = this._pendingStates.filter((pending) => pending !== state);
+    for (const queued of this._queue) {
+      if (queued?.after === state) queued.after = state.after;
+    }
+  }
+
   append(state?: RequestState, setReady = true, atStart = false) {
     // We need to check if there is already a `USE_INVOKE_AFTER_WITH` request
     if (state && USE_INVOKE_AFTER_WITH.has(state.request.className)) {

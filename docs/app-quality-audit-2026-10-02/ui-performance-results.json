@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T06:11:53.746Z",
+  "environment": {
+    "viewport": "1920x1080",
+    "transport": "existing MockClient/task-only native mocks",
+    "network": "all remote requests blocked",
+    "timingScope": "Headless browser observations on a shared host; no physical GPU/DPI/60fps claim"
+  },
+  "cases": [
+    {
+      "id": "fullhd-sequential-48-service-switches",
+      "status": "pass",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "detail": {
+        "switches": 48,
+        "elapsedMs": 4940,
+        "finalApp": "telegram"
+      }
+    },
+    {
+      "id": "fullhd-24-modal-lifecycle-cycles",
+      "status": "pass",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "detail": {
+        "cycles": 24,
+        "remainingOpenModals": 0,
+        "outsideFocusAfterClose": true
+      }
+    },
+    {
+      "id": "fullhd-reduced-motion-after-stress",
+      "status": "pass",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "detail": {
+        "animations": [
+          "none",
+          "none"
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "telemetry": {
+    "frameCount": 1096,
+    "frameIntervalMs": {
+      "median": 16.69999999999891,
+      "p95": 16.700000000000728,
+      "maximum": 16.80000000000291
+    },
+    "longTasks": [],
+    "memory": {
+      "usedJSHeapSize": 72200000,
+      "totalJSHeapSize": 76600000
+    },
+    "remainingModalDialogs": 0,
+    "portalChildCount": 1
+  },
+  "unhandled": [],
+  "screenshot": "ui-visuals/fullhd-stress-final.png",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "errors": 0
+  }
+}

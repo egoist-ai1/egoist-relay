@@ -1,0 +1,15 @@
+{
+  "sourcePath": "src/components/middle/composer/hooks/useAttachmentModal.ts",
+  "sourceSha256": "b580e52dea5cff87f30acaf74199e69162aa0598122bcccbf3c27b8ae9752806",
+  "sourceBytes": 5880,
+  "before": "      const newAttachments = await Promise.all(files.map((file) =>\n        buildAttachment(file.name, file, { shouldSendInHighQuality })));\n      handleSetAttachments(newAttachments);",
+  "after": "      const results = await Promise.all(files.map(async (file) => {\n        const objectUrls: string[] = [];\n        try {\n          return await buildAttachment(file.name, file, { shouldSendInHighQuality }, (url) => objectUrls.push(url));\n        } catch {\n          objectUrls.forEach((url) => URL.revokeObjectURL(url));\n          return undefined;\n        }\n      }));\n      const newAttachments = results.filter((attachment) => attachment !== undefined);\n      if (newAttachments.length !== files.length) {\n        showNotification({ message: lang('ErrorUnexpected') });\n      }\n      if (newAttachments.length) handleSetAttachments(newAttachments);",
+  "scope": "Only handleFileSelect non-editing media selection; production unchanged",
+  "verificationRequired": [
+    "invalid alone: handled notification/zero send and existing attachments preserved",
+    "mixed valid and invalid: valid siblings survive with exact bytes",
+    "next valid selection retry works",
+    "appending/editing/quality rejection branches remain untested"
+  ],
+  "reason": "Actual owned malformed PNG produces unhandled async Event; does not discard valid sibling files"
+}

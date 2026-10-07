@@ -28,6 +28,7 @@ import { getGeolocationStatus, IS_GEOLOCATION_SUPPORTED } from '../../../util/br
 import buildClassName from '../../../util/buildClassName';
 import buildStyle from '../../../util/buildStyle.ts';
 import download from '../../../util/download';
+import { shouldUseNativeWebApp } from '../../../util/tauri/botWebApps';
 import { extractCurrentThemeParams, FALLBACK_THEME_PARAMS, validateHexColor } from '../../../util/themeStyle';
 import { callApi } from '../../../api/gramjs';
 import { REM } from '../../common/helpers/mediaDimensions';
@@ -259,7 +260,8 @@ const WebAppTab = ({
 
   const {
     reloadFrame, sendEvent, sendFullScreenChanged, sendViewport, sendSafeArea, sendTheme,
-  } = useWebAppFrame(frameRef, isOpen, isFullscreen, isSimple, handleEvent, webApp, markLoaded);
+  } = useWebAppFrame(frameRef, isOpen, isFullscreen, isSimple, handleEvent, webApp, markLoaded,
+    isOpen && Boolean(isActive) && !isMinimizedState && !isTransforming);
 
   useEffect(() => {
     if (isActive) registerSendEventCallback(sendEvent);
@@ -965,11 +967,11 @@ const WebAppTab = ({
   const hideDirection = (isHorizontalLayout
     && (!shouldHideMainButton && !shouldHideSecondaryButton)) ? 'horizontal' : 'vertical';
 
-  const mainButtonChangeTimeoutRef = useRef<number>();
-  const mainButtonFastTimeoutRef = useRef<number>();
-  const secondaryButtonChangeTimeoutRef = useRef<number>();
-  const secondaryButtonFastTimeoutRef = useRef<number>();
-  const appNameDisplayTimeoutRef = useRef<number>();
+  const mainButtonChangeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const mainButtonFastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const secondaryButtonChangeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const secondaryButtonFastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const appNameDisplayTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     if (isFullscreen && isOpen && Boolean(appName)) {
@@ -1236,7 +1238,7 @@ const WebAppTab = ({
           !isLoaded && styles.hide,
         )}
         style={frameStyle}
-        src={url}
+        src={shouldUseNativeWebApp(url) ? 'about:blank' : url}
         title={lang('AriaMiniApp', { bot: bot?.firstName })}
         sandbox={IFRAME_SANDBOX_ATTRIBUTES}
         allow={IFRAME_ALLOW_ATTRIBUTES}

@@ -1,0 +1,46 @@
+{
+  "extends": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tsconfig.script.json",
+  "compilerOptions": {
+    "paths": {
+      "@teact": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/lib/teact/teact.ts"
+      ],
+      "@teact/*": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/lib/teact/*"
+      ],
+      "@gili/*": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/components/gili/*"
+      ],
+      "buffer": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/@types/buffer"
+      ],
+      "qr-code-styling": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/@types/qr-code-styling"
+      ]
+    },
+    "types": [
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/@types/node/index.d.ts",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/@testing-library/jest-dom/types/index.d.ts",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/vite/client.d.ts",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/@types/dom-chromium-ai/index.d.ts",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/@types/dom-view-transitions/index.d.ts",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/vitest/index.d.cts"
+    ],
+    "typeRoots": [
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/@types"
+    ],
+    "tsBuildInfoFile": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/fixture.tsbuildinfo"
+  },
+  "include": [
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-composer-media.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-payment-modal.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-social-share-reels.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-ui-additional-modals.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-ui-audit.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-ui-remaining-modals.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/ui-regression.fixture.tsx",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/@types/global.d.ts",
+    "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/types/tauri.ts"
+  ],
+  "exclude": []
+}

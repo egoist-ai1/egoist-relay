@@ -1,4 +1,4 @@
-import type { FC, VirtualElement } from '../../lib/teact/teact';
+import type { FC } from '../../lib/teact/teact';
 import Teact from '../../lib/teact/teact';
 import TeactDOM from '../../lib/teact/teact-dom';
 
@@ -37,7 +37,7 @@ export default class TeactRenderer<Props extends AnyLiteral = AnyLiteral> {
 
   private render() {
     TeactDOM.render(
-      Teact.createElement(this.Component, this.props) as VirtualElement,
+      Teact.createElement(this.Component, this.props),
       this.element,
     );
   }

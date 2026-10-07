@@ -1,0 +1,6812 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T11:06:19.779Z",
+  "label": "Actual parent-approved current Modal.scss source; no injection",
+  "historicalBefore": {
+    "receipt": "ui-remaining-modal-settled-before-and-css-proof.json",
+    "receiptSha256": "7bb4207b139b6db67a36268784398b37643483733584c98791e4998b4e495053",
+    "manifestSha256": "cd7d1c8fd12a14062450aa7bb099952340e8326b023e8aed3ad2da6b409c4b09",
+    "frozenInputReadbackFinishedAt": "2026-10-02T10:36:19.972Z",
+    "semantics": "3307/24 unchanged was a snapshot at that readback, prior to intentional parent Modal.scss edit; it is NOT an assertion that current tree still matches old canonical freeze"
+  },
+  "sourceBefore": {
+    "src/components/ui/Modal.scss": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+    "src/components/left/settings/BlockUserModal.tsx": "9c84ec19bd4d4b524153ea321e1c71c62d1d01aedde4a5a3cbdd654025aec6ae",
+    "src/components/common/PrivacySettingsNoticeModal.tsx": "5670a295466e01105e71170fc591851f1d8527d43f2db007186df31f7aa34e54",
+    "src/components/common/SensitiveContentConfirmModal.tsx": "e4552f7a59f9062f7e1391f8d636d9c8ebf6e8290c654aaab620188d0565c7f0",
+    "src/components/common/ReportAvatarModal.tsx": "612450d1a1f0b4a704c3717fb18746681c9224c892a0f76e5f722b66ca7939c2",
+    "src/components/common/UnpinAllMessagesModal.tsx": "853470cfbd385761e44c4ac84a717ad8aa6a1c2eb97387e7d7399eccc645f596",
+    "src/components/main/DeleteFolderDialog.tsx": "0b5db72437c6992af87d424a4b5f3270f9634780643c0c6f1d5d64a808029b01",
+    "src/components/main/BotTrustModal.tsx": "6aa6885abd735f72011290a2bbca5a4451dc25c14f2ba9948ebcbfcb237400b8",
+    "src/components/right/management/RemoveGroupUserModal.tsx": "1bf28e7cbc3d1c90c5be35dd600ba8a7251997699418a955cd2d53bbd04efd9e",
+    "src/components/modals/autoDeleteTimer/AutoDeleteTimerModal.tsx": "fc8307f0d093e499c4964a5d1032e5d1cbfedf6e051f4f084b0aad11d90aa453",
+    "src/components/modals/birthday/BirthdaySetupModal.tsx": "38fd1eeb3f005bcffd82c1742abe9124d07a0e77960741f903681352bb50883f",
+    "src/components/modals/prompt/PromptDialog.tsx": "32e71f9835f0a84d732ce91de10c913840d4a1a651de608b68708762188cafdd",
+    "src/components/modals/rank/EditRankModal.tsx": "1fd0729f390c45001a8cc0ec70d67e51dc55c77baabe03f5e81d9d415d40e1bf",
+    "src/components/modals/ModalContainer.tsx": "951464d5adfa397014c3fb5ee545511bf55c43fd229e0423e426feca531665d3",
+    "scripts/relay-ui-remaining-modals.fixture.tsx": "5d366bcfdeae051f5720c96685103c3d63417ba532a2c95d9f42364aa80126b3",
+    "scripts/relay-ui-remaining-modals.server.fixture.mjs": "5612f5b0a7d9bea85592709633ae29ea3ae689cafaf4b32e3b53b5c404c1c31e",
+    "scripts/relay-ui-remaining-modals.test.mjs": "e2e300fcb8a267daffe9e3f0f53ce2c0b0239aaab15d005238f4e5cf1bc0f379"
+  },
+  "sourceAfter": {
+    "src/components/ui/Modal.scss": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+    "src/components/left/settings/BlockUserModal.tsx": "9c84ec19bd4d4b524153ea321e1c71c62d1d01aedde4a5a3cbdd654025aec6ae",
+    "src/components/common/PrivacySettingsNoticeModal.tsx": "5670a295466e01105e71170fc591851f1d8527d43f2db007186df31f7aa34e54",
+    "src/components/common/SensitiveContentConfirmModal.tsx": "e4552f7a59f9062f7e1391f8d636d9c8ebf6e8290c654aaab620188d0565c7f0",
+    "src/components/common/ReportAvatarModal.tsx": "612450d1a1f0b4a704c3717fb18746681c9224c892a0f76e5f722b66ca7939c2",
+    "src/components/common/UnpinAllMessagesModal.tsx": "853470cfbd385761e44c4ac84a717ad8aa6a1c2eb97387e7d7399eccc645f596",
+    "src/components/main/DeleteFolderDialog.tsx": "0b5db72437c6992af87d424a4b5f3270f9634780643c0c6f1d5d64a808029b01",
+    "src/components/main/BotTrustModal.tsx": "6aa6885abd735f72011290a2bbca5a4451dc25c14f2ba9948ebcbfcb237400b8",
+    "src/components/right/management/RemoveGroupUserModal.tsx": "1bf28e7cbc3d1c90c5be35dd600ba8a7251997699418a955cd2d53bbd04efd9e",
+    "src/components/modals/autoDeleteTimer/AutoDeleteTimerModal.tsx": "fc8307f0d093e499c4964a5d1032e5d1cbfedf6e051f4f084b0aad11d90aa453",
+    "src/components/modals/birthday/BirthdaySetupModal.tsx": "38fd1eeb3f005bcffd82c1742abe9124d07a0e77960741f903681352bb50883f",
+    "src/components/modals/prompt/PromptDialog.tsx": "32e71f9835f0a84d732ce91de10c913840d4a1a651de608b68708762188cafdd",
+    "src/components/modals/rank/EditRankModal.tsx": "1fd0729f390c45001a8cc0ec70d67e51dc55c77baabe03f5e81d9d415d40e1bf",
+    "src/components/modals/ModalContainer.tsx": "951464d5adfa397014c3fb5ee545511bf55c43fd229e0423e426feca531665d3",
+    "scripts/relay-ui-remaining-modals.fixture.tsx": "5d366bcfdeae051f5720c96685103c3d63417ba532a2c95d9f42364aa80126b3",
+    "scripts/relay-ui-remaining-modals.server.fixture.mjs": "5612f5b0a7d9bea85592709633ae29ea3ae689cafaf4b32e3b53b5c404c1c31e",
+    "scripts/relay-ui-remaining-modals.test.mjs": "e2e300fcb8a267daffe9e3f0f53ce2c0b0239aaab15d005238f4e5cf1bc0f379"
+  },
+  "cases": [
+    {
+      "id": "report-avatar-root32-fullhd-dark-modern",
+      "source": "src/components/common/ReportAvatarModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "root32-fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 640,
+            "y": 104,
+            "width": 640,
+            "height": 952,
+            "top": 104,
+            "right": 1280,
+            "bottom": 1056,
+            "left": 640
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 641,
+                "y": 105,
+                "width": 638,
+                "height": 100,
+                "top": 105,
+                "right": 1279,
+                "bottom": 205,
+                "left": 641
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 685,
+                "y": 147,
+                "width": 550,
+                "height": 58,
+                "top": 147,
+                "right": 1235,
+                "bottom": 205,
+                "left": 685
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 278.5,
+                "width": 13,
+                "height": 13,
+                "top": 278.5,
+                "right": 802,
+                "bottom": 291.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 374.5,
+                "width": 13,
+                "height": 13,
+                "top": 374.5,
+                "right": 802,
+                "bottom": 387.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 470.5,
+                "width": 13,
+                "height": 13,
+                "top": 470.5,
+                "right": 802,
+                "bottom": 483.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 566.5,
+                "width": 13,
+                "height": 13,
+                "top": 566.5,
+                "right": 802,
+                "bottom": 579.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 662.5,
+                "width": 13,
+                "height": 13,
+                "top": 662.5,
+                "right": 802,
+                "bottom": 675.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 758.5,
+                "width": 13,
+                "height": 13,
+                "top": 758.5,
+                "right": 802,
+                "bottom": 771.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 854.5,
+                "width": 13,
+                "height": 13,
+                "top": 854.5,
+                "right": 802,
+                "bottom": 867.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 950.5,
+                "width": 13,
+                "height": 13,
+                "top": 950.5,
+                "right": 802,
+                "bottom": 963.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 689,
+                "y": 1037,
+                "width": 542,
+                "height": 96,
+                "top": 1037,
+                "right": 1231,
+                "bottom": 1133,
+                "left": 689
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 1011.328125,
+                "y": 1169,
+                "width": 219.671875,
+                "height": 51.1875,
+                "top": 1169,
+                "right": 1231,
+                "bottom": 1220.1875,
+                "left": 1011.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 878.734375,
+                "y": 1169,
+                "width": 100.59375,
+                "height": 51.1875,
+                "top": 1169,
+                "right": 979.328125,
+                "bottom": 1220.1875,
+                "left": 878.734375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 641,
+                "y": 205,
+                "width": 638,
+                "height": 850,
+                "top": 205,
+                "right": 1279,
+                "bottom": 1055,
+                "left": 641
+              },
+              "client": 850,
+              "height": 1053,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "32px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "settled": {
+          "box": {
+            "x": 640,
+            "y": 104,
+            "width": 640,
+            "height": 952,
+            "top": 104,
+            "right": 1280,
+            "bottom": 1056,
+            "left": 640
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 641,
+                "y": 105,
+                "width": 638,
+                "height": 100,
+                "top": 105,
+                "right": 1279,
+                "bottom": 205,
+                "left": 641
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 685,
+                "y": 147,
+                "width": 550,
+                "height": 58,
+                "top": 147,
+                "right": 1235,
+                "bottom": 205,
+                "left": 685
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 75.5,
+                "width": 13,
+                "height": 13,
+                "top": 75.5,
+                "right": 802,
+                "bottom": 88.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 171.5,
+                "width": 13,
+                "height": 13,
+                "top": 171.5,
+                "right": 802,
+                "bottom": 184.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 267.5,
+                "width": 13,
+                "height": 13,
+                "top": 267.5,
+                "right": 802,
+                "bottom": 280.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 363.5,
+                "width": 13,
+                "height": 13,
+                "top": 363.5,
+                "right": 802,
+                "bottom": 376.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 459.5,
+                "width": 13,
+                "height": 13,
+                "top": 459.5,
+                "right": 802,
+                "bottom": 472.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 555.5,
+                "width": 13,
+                "height": 13,
+                "top": 555.5,
+                "right": 802,
+                "bottom": 568.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 651.5,
+                "width": 13,
+                "height": 13,
+                "top": 651.5,
+                "right": 802,
+                "bottom": 664.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 789,
+                "y": 747.5,
+                "width": 13,
+                "height": 13,
+                "top": 747.5,
+                "right": 802,
+                "bottom": 760.5,
+                "left": 789
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 689,
+                "y": 834,
+                "width": 542,
+                "height": 96,
+                "top": 834,
+                "right": 1231,
+                "bottom": 930,
+                "left": 689
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 1011.328125,
+                "y": 966,
+                "width": 219.671875,
+                "height": 51.1875,
+                "top": 966,
+                "right": 1231,
+                "bottom": 1017.1875,
+                "left": 1011.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 878.734375,
+                "y": 966,
+                "width": 100.59375,
+                "height": 51.1875,
+                "top": 966,
+                "right": 979.328125,
+                "bottom": 1017.1875,
+                "left": 878.734375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 641,
+                "y": 205,
+                "width": 638,
+                "height": 850,
+                "top": 205,
+                "right": 1279,
+                "bottom": 1055,
+                "left": 641
+              },
+              "client": 850,
+              "height": 1053,
+              "scrollTop": 203
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "32px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "screenshot": "ui-remaining-modal-source-after-report-avatar-root32-fullhd-dark-modern.png",
+        "injectionUsed": false,
+        "functional": {
+          "actualCancelFocus": true,
+          "cancelProtectedDelta": 0,
+          "reopenedPointerConfirmMockDelta": 1,
+          "footerBoxes": [
+            {
+              "x": 1011.328125,
+              "y": 966,
+              "width": 219.671875,
+              "height": 51.1875,
+              "top": 966,
+              "right": 1231,
+              "bottom": 1017.1875,
+              "left": 1011.328125
+            },
+            {
+              "x": 878.734375,
+              "y": 966,
+              "width": 100.59375,
+              "height": 51.1875,
+              "top": 966,
+              "right": 979.328125,
+              "bottom": 1017.1875,
+              "left": 878.734375
+            }
+          ]
+        }
+      },
+      "newErrors": []
+    },
+    {
+      "id": "block-css960x540-dark-modern",
+      "source": "src/components/left/settings/BlockUserModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Block User...",
+              "box": {
+                "x": 271,
+                "y": 75,
+                "width": 418,
+                "height": 56,
+                "top": 75,
+                "right": 689,
+                "bottom": 131,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Block User...",
+              "box": {
+                "x": 343,
+                "y": 88.5,
+                "width": 302,
+                "height": 29,
+                "top": 88.5,
+                "right": 645,
+                "bottom": 117.5,
+                "left": 343
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 293,
+                "y": 89,
+                "width": 28,
+                "height": 28,
+                "top": 89,
+                "right": 321,
+                "bottom": 117,
+                "left": 293
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 287,
+                "y": 131,
+                "width": 386,
+                "height": 48,
+                "top": 131,
+                "right": 673,
+                "bottom": 179,
+                "left": 287
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 295,
+                "y": 201,
+                "width": 370,
+                "height": 56,
+                "top": 201,
+                "right": 665,
+                "bottom": 257,
+                "left": 295
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 355,
+                "y": 219,
+                "width": 179.390625,
+                "height": 20,
+                "top": 219,
+                "right": 534.390625,
+                "bottom": 239,
+                "left": 355
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 131,
+                "width": 418,
+                "height": 374,
+                "top": 131,
+                "right": 689,
+                "bottom": 505,
+                "left": 271
+              },
+              "client": 374,
+              "height": 374,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Block User...SMSynthetic Member"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Block User...",
+              "box": {
+                "x": 271,
+                "y": 75,
+                "width": 418,
+                "height": 56,
+                "top": 75,
+                "right": 689,
+                "bottom": 131,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Block User...",
+              "box": {
+                "x": 343,
+                "y": 88.5,
+                "width": 302,
+                "height": 29,
+                "top": 88.5,
+                "right": 645,
+                "bottom": 117.5,
+                "left": 343
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 293,
+                "y": 89,
+                "width": 28,
+                "height": 28,
+                "top": 89,
+                "right": 321,
+                "bottom": 117,
+                "left": 293
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 287,
+                "y": 131,
+                "width": 386,
+                "height": 48,
+                "top": 131,
+                "right": 673,
+                "bottom": 179,
+                "left": 287
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 295,
+                "y": 201,
+                "width": 370,
+                "height": 56,
+                "top": 201,
+                "right": 665,
+                "bottom": 257,
+                "left": 295
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 355,
+                "y": 219,
+                "width": 179.390625,
+                "height": 20,
+                "top": 219,
+                "right": 534.390625,
+                "bottom": 239,
+                "left": 355
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 131,
+                "width": 418,
+                "height": 374,
+                "top": 131,
+                "right": 689,
+                "bottom": 505,
+                "left": 271
+              },
+              "client": 374,
+              "height": 374,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Block User...SMSynthetic Member"
+        },
+        "screenshot": "ui-remaining-modal-source-after-block-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "privacy-read-css960x540-dark-modern",
+      "source": "src/components/common/PrivacySettingsNoticeModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 72.52375793457031,
+            "width": 420,
+            "height": 433.6875,
+            "top": 72.52375793457031,
+            "right": 690,
+            "bottom": 506.2112579345703,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 647,
+                "y": 87.52375793457031,
+                "width": 28,
+                "height": 28,
+                "top": 87.52375793457031,
+                "right": 675,
+                "bottom": 115.52375793457031,
+                "left": 647
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumReadButton1",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 260.27374267578125,
+                "width": 370,
+                "height": 48,
+                "top": 260.27374267578125,
+                "right": 665,
+                "bottom": 308.27374267578125,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumLastSeenButton2",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 438.21124267578125,
+                "width": 370,
+                "height": 48,
+                "top": 438.21124267578125,
+                "right": 665,
+                "bottom": 486.21124267578125,
+                "left": 295
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 73.52375793457031,
+                "width": 418,
+                "height": 431.6875,
+                "top": 73.52375793457031,
+                "right": 689,
+                "bottom": 505.2112579345703,
+                "left": 271
+              },
+              "client": 432,
+              "height": 432,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "PremiumReadHeader1PremiumReadText1PremiumReadButton1PremiumOrPremiumReadHeader2PremiumReadText2PremiumLastSeenButton2"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 73.15625,
+            "width": 420,
+            "height": 433.6875,
+            "top": 73.15625,
+            "right": 690,
+            "bottom": 506.84375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 647,
+                "y": 88.15625,
+                "width": 28,
+                "height": 28,
+                "top": 88.15625,
+                "right": 675,
+                "bottom": 116.15625,
+                "left": 647
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumReadButton1",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 260.90625,
+                "width": 370,
+                "height": 48,
+                "top": 260.90625,
+                "right": 665,
+                "bottom": 308.90625,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumLastSeenButton2",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 438.84375,
+                "width": 370,
+                "height": 48,
+                "top": 438.84375,
+                "right": 665,
+                "bottom": 486.84375,
+                "left": 295
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 74.15625,
+                "width": 418,
+                "height": 431.6875,
+                "top": 74.15625,
+                "right": 689,
+                "bottom": 505.84375,
+                "left": 271
+              },
+              "client": 432,
+              "height": 432,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "PremiumReadHeader1PremiumReadText1PremiumReadButton1PremiumOrPremiumReadHeader2PremiumReadText2PremiumLastSeenButton2"
+        },
+        "screenshot": "ui-remaining-modal-source-after-privacy-read-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "sensitive-css960x540-dark-modern",
+      "source": "src/components/common/SensitiveContentConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "18+ content",
+              "box": {
+                "x": 289,
+                "y": 159.125,
+                "width": 382,
+                "height": 50,
+                "top": 159.125,
+                "right": 671,
+                "bottom": 209.125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "18+ content",
+              "box": {
+                "x": 311,
+                "y": 180.125,
+                "width": 338,
+                "height": 29,
+                "top": 180.125,
+                "right": 649,
+                "bottom": 209.125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 359,
+                "y": 328.1875,
+                "width": 13,
+                "height": 13,
+                "top": 328.1875,
+                "right": 372,
+                "bottom": 341.1875,
+                "left": 359
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "View Anyway",
+              "disabled": false,
+              "box": {
+                "x": 507.328125,
+                "y": 366.6875,
+                "width": 139.671875,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 647,
+                "bottom": 401.875,
+                "left": 507.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 402.0625,
+                "y": 366.6875,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 491.328125,
+                "bottom": 401.875,
+                "left": 402.0625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 209.125,
+                "width": 382,
+                "height": 211.75,
+                "top": 209.125,
+                "right": 671,
+                "bottom": 420.875,
+                "left": 289
+              },
+              "client": 212,
+              "height": 212,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "18+ contentThis media may contain sensitive content suitable only for adults. Do you still want to view it?Always show 18+ mediaView AnywayОтмена"
+        },
+        "settled": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "18+ content",
+              "box": {
+                "x": 289,
+                "y": 159.125,
+                "width": 382,
+                "height": 50,
+                "top": 159.125,
+                "right": 671,
+                "bottom": 209.125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "18+ content",
+              "box": {
+                "x": 311,
+                "y": 180.125,
+                "width": 338,
+                "height": 29,
+                "top": 180.125,
+                "right": 649,
+                "bottom": 209.125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 359,
+                "y": 328.1875,
+                "width": 13,
+                "height": 13,
+                "top": 328.1875,
+                "right": 372,
+                "bottom": 341.1875,
+                "left": 359
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "View Anyway",
+              "disabled": false,
+              "box": {
+                "x": 507.328125,
+                "y": 366.6875,
+                "width": 139.671875,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 647,
+                "bottom": 401.875,
+                "left": 507.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 402.0625,
+                "y": 366.6875,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 491.328125,
+                "bottom": 401.875,
+                "left": 402.0625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 209.125,
+                "width": 382,
+                "height": 211.75,
+                "top": 209.125,
+                "right": 671,
+                "bottom": 420.875,
+                "left": 289
+              },
+              "client": 212,
+              "height": 212,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "18+ contentThis media may contain sensitive content suitable only for adults. Do you still want to view it?Always show 18+ mediaView AnywayОтмена"
+        },
+        "screenshot": "ui-remaining-modal-source-after-sensitive-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-avatar-css960x540-dark-modern",
+      "source": "src/components/common/ReportAvatarModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 320,
+            "y": 52,
+            "width": 320,
+            "height": 476,
+            "top": 52,
+            "right": 640,
+            "bottom": 528,
+            "left": 320
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 321,
+                "y": 53,
+                "width": 318,
+                "height": 50,
+                "top": 53,
+                "right": 639,
+                "bottom": 103,
+                "left": 321
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 343,
+                "y": 74,
+                "width": 274,
+                "height": 29,
+                "top": 74,
+                "right": 617,
+                "bottom": 103,
+                "left": 343
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 136.5,
+                "width": 13,
+                "height": 13,
+                "top": 136.5,
+                "right": 408,
+                "bottom": 149.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 184.5,
+                "width": 13,
+                "height": 13,
+                "top": 184.5,
+                "right": 408,
+                "bottom": 197.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 232.5,
+                "width": 13,
+                "height": 13,
+                "top": 232.5,
+                "right": 408,
+                "bottom": 245.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 280.5,
+                "width": 13,
+                "height": 13,
+                "top": 280.5,
+                "right": 408,
+                "bottom": 293.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 328.5,
+                "width": 13,
+                "height": 13,
+                "top": 328.5,
+                "right": 408,
+                "bottom": 341.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 376.5,
+                "width": 13,
+                "height": 13,
+                "top": 376.5,
+                "right": 408,
+                "bottom": 389.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 424.5,
+                "width": 13,
+                "height": 13,
+                "top": 424.5,
+                "right": 408,
+                "bottom": 437.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 472.5,
+                "width": 13,
+                "height": 13,
+                "top": 472.5,
+                "right": 408,
+                "bottom": 485.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 345,
+                "y": 519,
+                "width": 270,
+                "height": 48,
+                "top": 519,
+                "right": 615,
+                "bottom": 567,
+                "left": 345
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 411.328125,
+                "y": 585,
+                "width": 203.671875,
+                "height": 35.1875,
+                "top": 585,
+                "right": 615,
+                "bottom": 620.1875,
+                "left": 411.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 530.40625,
+                "y": 628.1875,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 628.1875,
+                "right": 615,
+                "bottom": 663.375,
+                "left": 530.40625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 321,
+                "y": 103,
+                "width": 318,
+                "height": 424,
+                "top": 103,
+                "right": 639,
+                "bottom": 527,
+                "left": 321
+              },
+              "client": 424,
+              "height": 579,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "settled": {
+          "box": {
+            "x": 320,
+            "y": 52,
+            "width": 320,
+            "height": 476,
+            "top": 52,
+            "right": 640,
+            "bottom": 528,
+            "left": 320
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 321,
+                "y": 53,
+                "width": 318,
+                "height": 50,
+                "top": 53,
+                "right": 639,
+                "bottom": 103,
+                "left": 321
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 343,
+                "y": 74,
+                "width": 274,
+                "height": 29,
+                "top": 74,
+                "right": 617,
+                "bottom": 103,
+                "left": 343
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": -18.5,
+                "width": 13,
+                "height": 13,
+                "top": -18.5,
+                "right": 408,
+                "bottom": -5.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 29.5,
+                "width": 13,
+                "height": 13,
+                "top": 29.5,
+                "right": 408,
+                "bottom": 42.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 77.5,
+                "width": 13,
+                "height": 13,
+                "top": 77.5,
+                "right": 408,
+                "bottom": 90.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 125.5,
+                "width": 13,
+                "height": 13,
+                "top": 125.5,
+                "right": 408,
+                "bottom": 138.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 173.5,
+                "width": 13,
+                "height": 13,
+                "top": 173.5,
+                "right": 408,
+                "bottom": 186.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 221.5,
+                "width": 13,
+                "height": 13,
+                "top": 221.5,
+                "right": 408,
+                "bottom": 234.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 269.5,
+                "width": 13,
+                "height": 13,
+                "top": 269.5,
+                "right": 408,
+                "bottom": 282.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 395,
+                "y": 317.5,
+                "width": 13,
+                "height": 13,
+                "top": 317.5,
+                "right": 408,
+                "bottom": 330.5,
+                "left": 395
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 345,
+                "y": 364,
+                "width": 270,
+                "height": 48,
+                "top": 364,
+                "right": 615,
+                "bottom": 412,
+                "left": 345
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 411.328125,
+                "y": 430,
+                "width": 203.671875,
+                "height": 35.1875,
+                "top": 430,
+                "right": 615,
+                "bottom": 465.1875,
+                "left": 411.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 530.40625,
+                "y": 473.1875,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 473.1875,
+                "right": 615,
+                "bottom": 508.375,
+                "left": 530.40625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 321,
+                "y": 103,
+                "width": 318,
+                "height": 424,
+                "top": 103,
+                "right": 639,
+                "bottom": 527,
+                "left": 321
+              },
+              "client": 424,
+              "height": 579,
+              "scrollTop": 155
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "screenshot": "ui-remaining-modal-source-after-report-avatar-css960x540-dark-modern.png",
+        "injectionUsed": false,
+        "functional": {
+          "actualCancelFocus": true,
+          "cancelProtectedDelta": 0,
+          "reopenedPointerConfirmMockDelta": 1,
+          "footerBoxes": [
+            {
+              "x": 411.328125,
+              "y": 430,
+              "width": 203.671875,
+              "height": 35.1875,
+              "top": 430,
+              "right": 615,
+              "bottom": 465.1875,
+              "left": 411.328125
+            },
+            {
+              "x": 530.40625,
+              "y": 473.1875,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 473.1875,
+              "right": 615,
+              "bottom": 508.375,
+              "left": 530.40625
+            }
+          ]
+        }
+      },
+      "newErrors": []
+    },
+    {
+      "id": "unpin-css960x540-dark-modern",
+      "source": "src/components/common/UnpinAllMessagesModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 288,
+            "y": 209.3125,
+            "width": 384,
+            "height": 161.375,
+            "top": 209.3125,
+            "right": 672,
+            "bottom": 370.6875,
+            "left": 288
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 289,
+                "y": 210.3125,
+                "width": 382,
+                "height": 50,
+                "top": 210.3125,
+                "right": 671,
+                "bottom": 260.3125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 311,
+                "y": 231.3125,
+                "width": 338,
+                "height": 29,
+                "top": 231.3125,
+                "right": 649,
+                "bottom": 260.3125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "DialogUnpin",
+              "disabled": false,
+              "box": {
+                "x": 514.390625,
+                "y": 315.5,
+                "width": 132.609375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 647,
+                "bottom": 350.6875,
+                "left": 514.390625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 413.796875,
+                "y": 315.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 498.390625,
+                "bottom": 350.6875,
+                "left": 413.796875
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 260.3125,
+                "width": 382,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 671,
+                "bottom": 369.6875,
+                "left": 289
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Chat.PanelUnpinAllMessagesChat.UnpinAllMessagesConfirmationDialogUnpinCancel"
+        },
+        "settled": {
+          "box": {
+            "x": 288,
+            "y": 209.3125,
+            "width": 384,
+            "height": 161.375,
+            "top": 209.3125,
+            "right": 672,
+            "bottom": 370.6875,
+            "left": 288
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 289,
+                "y": 210.3125,
+                "width": 382,
+                "height": 50,
+                "top": 210.3125,
+                "right": 671,
+                "bottom": 260.3125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 311,
+                "y": 231.3125,
+                "width": 338,
+                "height": 29,
+                "top": 231.3125,
+                "right": 649,
+                "bottom": 260.3125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "DialogUnpin",
+              "disabled": false,
+              "box": {
+                "x": 514.390625,
+                "y": 315.5,
+                "width": 132.609375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 647,
+                "bottom": 350.6875,
+                "left": 514.390625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 413.796875,
+                "y": 315.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 498.390625,
+                "bottom": 350.6875,
+                "left": 413.796875
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 260.3125,
+                "width": 382,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 671,
+                "bottom": 369.6875,
+                "left": 289
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Chat.PanelUnpinAllMessagesChat.UnpinAllMessagesConfirmationDialogUnpinCancel"
+        },
+        "screenshot": "ui-remaining-modal-source-after-unpin-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "folder-css960x540-dark-modern",
+      "source": "src/components/main/DeleteFolderDialog.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Telegram",
+              "box": {
+                "x": 289,
+                "y": 210.3125,
+                "width": 382,
+                "height": 50,
+                "top": 210.3125,
+                "right": 671,
+                "bottom": 260.3125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Telegram",
+              "box": {
+                "x": 311,
+                "y": 231.3125,
+                "width": 338,
+                "height": 29,
+                "top": 231.3125,
+                "right": 649,
+                "bottom": 260.3125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "Delete",
+              "disabled": false,
+              "box": {
+                "x": 567.890625,
+                "y": 315.5,
+                "width": 79.109375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 647,
+                "bottom": 350.6875,
+                "left": 567.890625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 462.625,
+                "y": 315.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 551.890625,
+                "bottom": 350.6875,
+                "left": 462.625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 260.3125,
+                "width": 382,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 671,
+                "bottom": 369.6875,
+                "left": 289
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "TelegramFilterDeleteAlertDeleteОтмена"
+        },
+        "settled": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Telegram",
+              "box": {
+                "x": 289,
+                "y": 210.3125,
+                "width": 382,
+                "height": 50,
+                "top": 210.3125,
+                "right": 671,
+                "bottom": 260.3125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Telegram",
+              "box": {
+                "x": 311,
+                "y": 231.3125,
+                "width": 338,
+                "height": 29,
+                "top": 231.3125,
+                "right": 649,
+                "bottom": 260.3125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "Delete",
+              "disabled": false,
+              "box": {
+                "x": 567.890625,
+                "y": 315.5,
+                "width": 79.109375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 647,
+                "bottom": 350.6875,
+                "left": 567.890625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 462.625,
+                "y": 315.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 551.890625,
+                "bottom": 350.6875,
+                "left": 462.625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 260.3125,
+                "width": 382,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 671,
+                "bottom": 369.6875,
+                "left": 289
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "TelegramFilterDeleteAlertDeleteОтмена"
+        },
+        "screenshot": "ui-remaining-modal-source-after-folder-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "bot-trust-css960x540-dark-modern",
+      "source": "src/components/main/BotTrustModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 289,
+                "y": 182.3125,
+                "width": 382,
+                "height": 50,
+                "top": 182.3125,
+                "right": 671,
+                "bottom": 232.3125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 311,
+                "y": 203.3125,
+                "width": 338,
+                "height": 29,
+                "top": 203.3125,
+                "right": 649,
+                "bottom": 232.3125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 359,
+                "y": 305,
+                "width": 13,
+                "height": 13,
+                "top": 305,
+                "right": 372,
+                "bottom": 318,
+                "left": 359
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Confirm",
+              "disabled": false,
+              "box": {
+                "x": 552.359375,
+                "y": 343.5,
+                "width": 94.640625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 647,
+                "bottom": 378.6875,
+                "left": 552.359375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 447.09375,
+                "y": 343.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 536.359375,
+                "bottom": 378.6875,
+                "left": 447.09375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 232.3125,
+                "width": 382,
+                "height": 165.375,
+                "top": 232.3125,
+                "right": 671,
+                "bottom": 397.6875,
+                "left": 289
+              },
+              "client": 165,
+              "height": 165,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "BotOpenPageTitleBotOpenPageMessageWebApp.AddToAttachmentAllowMessagesConfirmОтмена"
+        },
+        "settled": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 289,
+                "y": 182.3125,
+                "width": 382,
+                "height": 50,
+                "top": 182.3125,
+                "right": 671,
+                "bottom": 232.3125,
+                "left": 289
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 311,
+                "y": 203.3125,
+                "width": 338,
+                "height": 29,
+                "top": 203.3125,
+                "right": 649,
+                "bottom": 232.3125,
+                "left": 311
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 359,
+                "y": 305,
+                "width": 13,
+                "height": 13,
+                "top": 305,
+                "right": 372,
+                "bottom": 318,
+                "left": 359
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Confirm",
+              "disabled": false,
+              "box": {
+                "x": 552.359375,
+                "y": 343.5,
+                "width": 94.640625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 647,
+                "bottom": 378.6875,
+                "left": 552.359375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 447.09375,
+                "y": 343.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 536.359375,
+                "bottom": 378.6875,
+                "left": 447.09375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 289,
+                "y": 232.3125,
+                "width": 382,
+                "height": 165.375,
+                "top": 232.3125,
+                "right": 671,
+                "bottom": 397.6875,
+                "left": 289
+              },
+              "client": 165,
+              "height": 165,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "BotOpenPageTitleBotOpenPageMessageWebApp.AddToAttachmentAllowMessagesConfirmОтмена"
+        },
+        "screenshot": "ui-remaining-modal-source-after-bot-trust-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "remove-user-css960x540-dark-modern",
+      "source": "src/components/right/management/RemoveGroupUserModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Remove User",
+              "box": {
+                "x": 271,
+                "y": 75,
+                "width": 418,
+                "height": 56,
+                "top": 75,
+                "right": 689,
+                "bottom": 131,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Remove User",
+              "box": {
+                "x": 343,
+                "y": 88.5,
+                "width": 302,
+                "height": 29,
+                "top": 88.5,
+                "right": 645,
+                "bottom": 117.5,
+                "left": 343
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 293,
+                "y": 89,
+                "width": 28,
+                "height": 28,
+                "top": 89,
+                "right": 321,
+                "bottom": 117,
+                "left": 293
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 287,
+                "y": 131,
+                "width": 386,
+                "height": 48,
+                "top": 131,
+                "right": 673,
+                "bottom": 179,
+                "left": 287
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 295,
+                "y": 201,
+                "width": 370,
+                "height": 56,
+                "top": 201,
+                "right": 665,
+                "bottom": 257,
+                "left": 295
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 355,
+                "y": 219,
+                "width": 179.390625,
+                "height": 20,
+                "top": 219,
+                "right": 534.390625,
+                "bottom": 239,
+                "left": 355
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 131,
+                "width": 418,
+                "height": 374,
+                "top": 131,
+                "right": 689,
+                "bottom": 505,
+                "left": 271
+              },
+              "client": 374,
+              "height": 374,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Remove UserSMSynthetic Member"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Remove User",
+              "box": {
+                "x": 271,
+                "y": 75,
+                "width": 418,
+                "height": 56,
+                "top": 75,
+                "right": 689,
+                "bottom": 131,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Remove User",
+              "box": {
+                "x": 343,
+                "y": 88.5,
+                "width": 302,
+                "height": 29,
+                "top": 88.5,
+                "right": 645,
+                "bottom": 117.5,
+                "left": 343
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 293,
+                "y": 89,
+                "width": 28,
+                "height": 28,
+                "top": 89,
+                "right": 321,
+                "bottom": 117,
+                "left": 293
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 287,
+                "y": 131,
+                "width": 386,
+                "height": 48,
+                "top": 131,
+                "right": 673,
+                "bottom": 179,
+                "left": 287
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 295,
+                "y": 201,
+                "width": 370,
+                "height": 56,
+                "top": 201,
+                "right": 665,
+                "bottom": 257,
+                "left": 295
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 355,
+                "y": 219,
+                "width": 179.390625,
+                "height": 20,
+                "top": 219,
+                "right": 534.390625,
+                "bottom": 239,
+                "left": 355
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 131,
+                "width": 418,
+                "height": 374,
+                "top": 131,
+                "right": 689,
+                "bottom": 505,
+                "left": 271
+              },
+              "client": 374,
+              "height": 374,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Remove UserSMSynthetic Member"
+        },
+        "screenshot": "ui-remaining-modal-source-after-remove-user-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "birthday-css960x540-dark-modern",
+      "source": "src/components/modals/birthday/BirthdaySetupModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 66.5,
+            "width": 420,
+            "height": 446.984375,
+            "top": 66.5,
+            "right": 690,
+            "bottom": 513.484375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 285,
+                "y": 81.5,
+                "width": 28,
+                "height": 28,
+                "top": 81.5,
+                "right": 313,
+                "bottom": 109.5,
+                "left": 285
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 274.296875,
+                "width": 102.234375,
+                "height": 48,
+                "top": 274.296875,
+                "right": 397.234375,
+                "bottom": 322.296875,
+                "left": 295
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 405.234375,
+                "y": 274.296875,
+                "width": 149.53125,
+                "height": 48,
+                "top": 274.296875,
+                "right": 554.765625,
+                "bottom": 322.296875,
+                "left": 405.234375
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 562.765625,
+                "y": 274.296875,
+                "width": 102.234375,
+                "height": 48,
+                "top": 274.296875,
+                "right": 665,
+                "bottom": 322.296875,
+                "left": 562.765625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Remove from Profile",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 389.484375,
+                "width": 370,
+                "height": 48,
+                "top": 389.484375,
+                "right": 665,
+                "bottom": 437.484375,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 445.484375,
+                "width": 370,
+                "height": 48,
+                "top": 445.484375,
+                "right": 665,
+                "bottom": 493.484375,
+                "left": 295
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 67.5,
+                "width": 418,
+                "height": 444.984375,
+                "top": 67.5,
+                "right": 689,
+                "bottom": 512.484375,
+                "left": 271
+              },
+              "client": 445,
+              "height": 445,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Date of BirthDayMonthJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberYearChoose who can see your birthday in Settings Remove from ProfileSave"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 66.5,
+            "width": 420,
+            "height": 446.984375,
+            "top": 66.5,
+            "right": 690,
+            "bottom": 513.484375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 285,
+                "y": 81.5,
+                "width": 28,
+                "height": 28,
+                "top": 81.5,
+                "right": 313,
+                "bottom": 109.5,
+                "left": 285
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 274.296875,
+                "width": 102.234375,
+                "height": 48,
+                "top": 274.296875,
+                "right": 397.234375,
+                "bottom": 322.296875,
+                "left": 295
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 405.234375,
+                "y": 274.296875,
+                "width": 149.53125,
+                "height": 48,
+                "top": 274.296875,
+                "right": 554.765625,
+                "bottom": 322.296875,
+                "left": 405.234375
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 562.765625,
+                "y": 274.296875,
+                "width": 102.234375,
+                "height": 48,
+                "top": 274.296875,
+                "right": 665,
+                "bottom": 322.296875,
+                "left": 562.765625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Remove from Profile",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 389.484375,
+                "width": 370,
+                "height": 48,
+                "top": 389.484375,
+                "right": 665,
+                "bottom": 437.484375,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 445.484375,
+                "width": 370,
+                "height": 48,
+                "top": 445.484375,
+                "right": 665,
+                "bottom": 493.484375,
+                "left": 295
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 67.5,
+                "width": 418,
+                "height": 444.984375,
+                "top": 67.5,
+                "right": 689,
+                "bottom": 512.484375,
+                "left": 271
+              },
+              "client": 445,
+              "height": 445,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Date of BirthDayMonthJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberYearChoose who can see your birthday in Settings Remove from ProfileSave"
+        },
+        "screenshot": "ui-remaining-modal-source-after-birthday-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "prompt-css960x540-dark-modern",
+      "source": "src/components/modals/prompt/PromptDialog.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 176.3125,
+            "width": 420,
+            "height": 227.375,
+            "top": 176.3125,
+            "right": 690,
+            "bottom": 403.6875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 271,
+                "y": 177.3125,
+                "width": 418,
+                "height": 50,
+                "top": 177.3125,
+                "right": 689,
+                "bottom": 227.3125,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 293,
+                "y": 198.3125,
+                "width": 374,
+                "height": 29,
+                "top": 198.3125,
+                "right": 667,
+                "bottom": 227.3125,
+                "left": 293
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 282.5,
+                "width": 370,
+                "height": 48,
+                "top": 282.5,
+                "right": 665,
+                "bottom": 330.5,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 604.5,
+                "y": 348.5,
+                "width": 60.5,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 665,
+                "bottom": 383.6875,
+                "left": 604.5
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 503.90625,
+                "y": 348.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 588.5,
+                "bottom": 383.6875,
+                "left": 503.90625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 227.3125,
+                "width": 418,
+                "height": 175.375,
+                "top": 227.3125,
+                "right": 689,
+                "bottom": 402.6875,
+                "left": 271
+              },
+              "client": 175,
+              "height": 175,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Synthetic editable promptLocal body fixture with length constraintSaveCancel"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 176.3125,
+            "width": 420,
+            "height": 227.375,
+            "top": 176.3125,
+            "right": 690,
+            "bottom": 403.6875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 271,
+                "y": 177.3125,
+                "width": 418,
+                "height": 50,
+                "top": 177.3125,
+                "right": 689,
+                "bottom": 227.3125,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 293,
+                "y": 198.3125,
+                "width": 374,
+                "height": 29,
+                "top": 198.3125,
+                "right": 667,
+                "bottom": 227.3125,
+                "left": 293
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 282.5,
+                "width": 370,
+                "height": 48,
+                "top": 282.5,
+                "right": 665,
+                "bottom": 330.5,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 604.5,
+                "y": 348.5,
+                "width": 60.5,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 665,
+                "bottom": 383.6875,
+                "left": 604.5
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 503.90625,
+                "y": 348.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 588.5,
+                "bottom": 383.6875,
+                "left": 503.90625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 227.3125,
+                "width": 418,
+                "height": 175.375,
+                "top": 227.3125,
+                "right": 689,
+                "bottom": 402.6875,
+                "left": 271
+              },
+              "client": 175,
+              "height": 175,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Synthetic editable promptLocal body fixture with length constraintSaveCancel"
+        },
+        "screenshot": "ui-remaining-modal-source-after-prompt-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "rank-css960x540-dark-modern",
+      "source": "src/components/modals/rank/EditRankModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "dark-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 102.703125,
+            "width": 420,
+            "height": 374.59375,
+            "top": 102.703125,
+            "right": 690,
+            "bottom": 477.296875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 271,
+                "y": 103.703125,
+                "width": 418,
+                "height": 50,
+                "top": 103.703125,
+                "right": 689,
+                "bottom": 153.703125,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 337,
+                "y": 124.703125,
+                "width": 314,
+                "height": 29,
+                "top": 124.703125,
+                "right": 651,
+                "bottom": 153.703125,
+                "left": 337
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 293,
+                "y": 125.203125,
+                "width": 28,
+                "height": 28,
+                "top": 125.203125,
+                "right": 321,
+                "bottom": 153.203125,
+                "left": 293
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 300.703125,
+                "width": 370,
+                "height": 48,
+                "top": 300.703125,
+                "right": 665,
+                "bottom": 348.703125,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Edit Tag",
+              "disabled": true,
+              "box": {
+                "x": 295,
+                "y": 409.296875,
+                "width": 370,
+                "height": 48,
+                "top": 409.296875,
+                "right": 665,
+                "bottom": 457.296875,
+                "left": 295
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 153.703125,
+                "width": 418,
+                "height": 322.59375,
+                "top": 153.703125,
+                "right": 689,
+                "bottom": 476.296875,
+                "left": 271
+              },
+              "client": 323,
+              "height": 323,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Edit My TagJDJohnResearch  9:37Member tagShare your role, title or how you're known in this group. Your tag is visible to all members.Edit Tag"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 102.703125,
+            "width": 420,
+            "height": 374.59375,
+            "top": 102.703125,
+            "right": 690,
+            "bottom": 477.296875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 271,
+                "y": 103.703125,
+                "width": 418,
+                "height": 50,
+                "top": 103.703125,
+                "right": 689,
+                "bottom": 153.703125,
+                "left": 271
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 337,
+                "y": 124.703125,
+                "width": 314,
+                "height": 29,
+                "top": 124.703125,
+                "right": 651,
+                "bottom": 153.703125,
+                "left": 337
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 293,
+                "y": 125.203125,
+                "width": 28,
+                "height": 28,
+                "top": 125.203125,
+                "right": 321,
+                "bottom": 153.203125,
+                "left": 293
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 295,
+                "y": 300.703125,
+                "width": 370,
+                "height": 48,
+                "top": 300.703125,
+                "right": 665,
+                "bottom": 348.703125,
+                "left": 295
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Edit Tag",
+              "disabled": true,
+              "box": {
+                "x": 295,
+                "y": 409.296875,
+                "width": 370,
+                "height": 48,
+                "top": 409.296875,
+                "right": 665,
+                "bottom": 457.296875,
+                "left": 295
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 271,
+                "y": 153.703125,
+                "width": 418,
+                "height": 322.59375,
+                "top": 153.703125,
+                "right": 689,
+                "bottom": 476.296875,
+                "left": 271
+              },
+              "client": 323,
+              "height": 323,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-dark theme-variant-dark-modern",
+          "themeBase": "dark",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Edit My TagJDJohnResearch  9:37Member tagShare your role, title or how you're known in this group. Your tag is visible to all members.Edit Tag"
+        },
+        "screenshot": "ui-remaining-modal-source-after-rank-css960x540-dark-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-avatar-root32-fullhd-light-modern",
+      "source": "src/components/common/ReportAvatarModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "root32-fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 640,
+            "y": 104,
+            "width": 640,
+            "height": 952,
+            "top": 104,
+            "right": 1280,
+            "bottom": 1056,
+            "left": 640
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 640,
+                "y": 104,
+                "width": 640,
+                "height": 100,
+                "top": 104,
+                "right": 1280,
+                "bottom": 204,
+                "left": 640
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 684,
+                "y": 146,
+                "width": 552,
+                "height": 58,
+                "top": 146,
+                "right": 1236,
+                "bottom": 204,
+                "left": 684
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 277.5,
+                "width": 13,
+                "height": 13,
+                "top": 277.5,
+                "right": 801,
+                "bottom": 290.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 373.5,
+                "width": 13,
+                "height": 13,
+                "top": 373.5,
+                "right": 801,
+                "bottom": 386.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 469.5,
+                "width": 13,
+                "height": 13,
+                "top": 469.5,
+                "right": 801,
+                "bottom": 482.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 565.5,
+                "width": 13,
+                "height": 13,
+                "top": 565.5,
+                "right": 801,
+                "bottom": 578.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 661.5,
+                "width": 13,
+                "height": 13,
+                "top": 661.5,
+                "right": 801,
+                "bottom": 674.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 757.5,
+                "width": 13,
+                "height": 13,
+                "top": 757.5,
+                "right": 801,
+                "bottom": 770.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 853.5,
+                "width": 13,
+                "height": 13,
+                "top": 853.5,
+                "right": 801,
+                "bottom": 866.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 949.5,
+                "width": 13,
+                "height": 13,
+                "top": 949.5,
+                "right": 801,
+                "bottom": 962.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 688,
+                "y": 1036,
+                "width": 544,
+                "height": 96,
+                "top": 1036,
+                "right": 1232,
+                "bottom": 1132,
+                "left": 688
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 1012.328125,
+                "y": 1168,
+                "width": 219.671875,
+                "height": 51.1875,
+                "top": 1168,
+                "right": 1232,
+                "bottom": 1219.1875,
+                "left": 1012.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 879.734375,
+                "y": 1168,
+                "width": 100.59375,
+                "height": 51.1875,
+                "top": 1168,
+                "right": 980.328125,
+                "bottom": 1219.1875,
+                "left": 879.734375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 640,
+                "y": 204,
+                "width": 640,
+                "height": 852,
+                "top": 204,
+                "right": 1280,
+                "bottom": 1056,
+                "left": 640
+              },
+              "client": 852,
+              "height": 1053,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "32px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "settled": {
+          "box": {
+            "x": 640,
+            "y": 104,
+            "width": 640,
+            "height": 952,
+            "top": 104,
+            "right": 1280,
+            "bottom": 1056,
+            "left": 640
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 640,
+                "y": 104,
+                "width": 640,
+                "height": 100,
+                "top": 104,
+                "right": 1280,
+                "bottom": 204,
+                "left": 640
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 684,
+                "y": 146,
+                "width": 552,
+                "height": 58,
+                "top": 146,
+                "right": 1236,
+                "bottom": 204,
+                "left": 684
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 76.5,
+                "width": 13,
+                "height": 13,
+                "top": 76.5,
+                "right": 801,
+                "bottom": 89.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 172.5,
+                "width": 13,
+                "height": 13,
+                "top": 172.5,
+                "right": 801,
+                "bottom": 185.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 268.5,
+                "width": 13,
+                "height": 13,
+                "top": 268.5,
+                "right": 801,
+                "bottom": 281.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 364.5,
+                "width": 13,
+                "height": 13,
+                "top": 364.5,
+                "right": 801,
+                "bottom": 377.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 460.5,
+                "width": 13,
+                "height": 13,
+                "top": 460.5,
+                "right": 801,
+                "bottom": 473.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 556.5,
+                "width": 13,
+                "height": 13,
+                "top": 556.5,
+                "right": 801,
+                "bottom": 569.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 652.5,
+                "width": 13,
+                "height": 13,
+                "top": 652.5,
+                "right": 801,
+                "bottom": 665.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 788,
+                "y": 748.5,
+                "width": 13,
+                "height": 13,
+                "top": 748.5,
+                "right": 801,
+                "bottom": 761.5,
+                "left": 788
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 688,
+                "y": 835,
+                "width": 544,
+                "height": 96,
+                "top": 835,
+                "right": 1232,
+                "bottom": 931,
+                "left": 688
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 1012.328125,
+                "y": 967,
+                "width": 219.671875,
+                "height": 51.1875,
+                "top": 967,
+                "right": 1232,
+                "bottom": 1018.1875,
+                "left": 1012.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 879.734375,
+                "y": 967,
+                "width": 100.59375,
+                "height": 51.1875,
+                "top": 967,
+                "right": 980.328125,
+                "bottom": 1018.1875,
+                "left": 879.734375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 640,
+                "y": 204,
+                "width": 640,
+                "height": 852,
+                "top": 204,
+                "right": 1280,
+                "bottom": 1056,
+                "left": 640
+              },
+              "client": 852,
+              "height": 1053,
+              "scrollTop": 201
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "32px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "screenshot": "ui-remaining-modal-source-after-report-avatar-root32-fullhd-light-modern.png",
+        "injectionUsed": false,
+        "functional": {
+          "actualCancelFocus": true,
+          "cancelProtectedDelta": 0,
+          "reopenedPointerConfirmMockDelta": 1,
+          "footerBoxes": [
+            {
+              "x": 1012.328125,
+              "y": 967,
+              "width": 219.671875,
+              "height": 51.1875,
+              "top": 967,
+              "right": 1232,
+              "bottom": 1018.1875,
+              "left": 1012.328125
+            },
+            {
+              "x": 879.734375,
+              "y": 967,
+              "width": 100.59375,
+              "height": 51.1875,
+              "top": 967,
+              "right": 980.328125,
+              "bottom": 1018.1875,
+              "left": 879.734375
+            }
+          ]
+        }
+      },
+      "newErrors": []
+    },
+    {
+      "id": "block-css960x540-light-modern",
+      "source": "src/components/left/settings/BlockUserModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Block User...",
+              "box": {
+                "x": 270,
+                "y": 74,
+                "width": 420,
+                "height": 56,
+                "top": 74,
+                "right": 690,
+                "bottom": 130,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Block User...",
+              "box": {
+                "x": 342,
+                "y": 87.5,
+                "width": 304,
+                "height": 29,
+                "top": 87.5,
+                "right": 646,
+                "bottom": 116.5,
+                "left": 342
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 292,
+                "y": 88,
+                "width": 28,
+                "height": 28,
+                "top": 88,
+                "right": 320,
+                "bottom": 116,
+                "left": 292
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 286,
+                "y": 130,
+                "width": 388,
+                "height": 48,
+                "top": 130,
+                "right": 674,
+                "bottom": 178,
+                "left": 286
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 294,
+                "y": 200,
+                "width": 372,
+                "height": 56,
+                "top": 200,
+                "right": 666,
+                "bottom": 256,
+                "left": 294
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 354,
+                "y": 218,
+                "width": 179.390625,
+                "height": 20,
+                "top": 218,
+                "right": 533.390625,
+                "bottom": 238,
+                "left": 354
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 130,
+                "width": 420,
+                "height": 376,
+                "top": 130,
+                "right": 690,
+                "bottom": 506,
+                "left": 270
+              },
+              "client": 376,
+              "height": 376,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Block User...SMSynthetic Member"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Block User...",
+              "box": {
+                "x": 270,
+                "y": 74,
+                "width": 420,
+                "height": 56,
+                "top": 74,
+                "right": 690,
+                "bottom": 130,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Block User...",
+              "box": {
+                "x": 342,
+                "y": 87.5,
+                "width": 304,
+                "height": 29,
+                "top": 87.5,
+                "right": 646,
+                "bottom": 116.5,
+                "left": 342
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 292,
+                "y": 88,
+                "width": 28,
+                "height": 28,
+                "top": 88,
+                "right": 320,
+                "bottom": 116,
+                "left": 292
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 286,
+                "y": 130,
+                "width": 388,
+                "height": 48,
+                "top": 130,
+                "right": 674,
+                "bottom": 178,
+                "left": 286
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 294,
+                "y": 200,
+                "width": 372,
+                "height": 56,
+                "top": 200,
+                "right": 666,
+                "bottom": 256,
+                "left": 294
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 354,
+                "y": 218,
+                "width": 179.390625,
+                "height": 20,
+                "top": 218,
+                "right": 533.390625,
+                "bottom": 238,
+                "left": 354
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 130,
+                "width": 420,
+                "height": 376,
+                "top": 130,
+                "right": 690,
+                "bottom": 506,
+                "left": 270
+              },
+              "client": 376,
+              "height": 376,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Block User...SMSynthetic Member"
+        },
+        "screenshot": "ui-remaining-modal-source-after-block-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "privacy-read-css960x540-light-modern",
+      "source": "src/components/common/PrivacySettingsNoticeModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 74.15625,
+            "width": 420,
+            "height": 431.6875,
+            "top": 74.15625,
+            "right": 690,
+            "bottom": 505.84375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 648,
+                "y": 88.15625,
+                "width": 28,
+                "height": 28,
+                "top": 88.15625,
+                "right": 676,
+                "bottom": 116.15625,
+                "left": 648
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumReadButton1",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 260.90625,
+                "width": 372,
+                "height": 48,
+                "top": 260.90625,
+                "right": 666,
+                "bottom": 308.90625,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumLastSeenButton2",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 438.84375,
+                "width": 372,
+                "height": 48,
+                "top": 438.84375,
+                "right": 666,
+                "bottom": 486.84375,
+                "left": 294
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 74.15625,
+                "width": 420,
+                "height": 431.6875,
+                "top": 74.15625,
+                "right": 690,
+                "bottom": 505.84375,
+                "left": 270
+              },
+              "client": 432,
+              "height": 432,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "PremiumReadHeader1PremiumReadText1PremiumReadButton1PremiumOrPremiumReadHeader2PremiumReadText2PremiumLastSeenButton2"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 74.15625,
+            "width": 420,
+            "height": 431.6875,
+            "top": 74.15625,
+            "right": 690,
+            "bottom": 505.84375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 648,
+                "y": 88.15625,
+                "width": 28,
+                "height": 28,
+                "top": 88.15625,
+                "right": 676,
+                "bottom": 116.15625,
+                "left": 648
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumReadButton1",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 260.90625,
+                "width": 372,
+                "height": 48,
+                "top": 260.90625,
+                "right": 666,
+                "bottom": 308.90625,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "PremiumLastSeenButton2",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 438.84375,
+                "width": 372,
+                "height": 48,
+                "top": 438.84375,
+                "right": 666,
+                "bottom": 486.84375,
+                "left": 294
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 74.15625,
+                "width": 420,
+                "height": 431.6875,
+                "top": 74.15625,
+                "right": 690,
+                "bottom": 505.84375,
+                "left": 270
+              },
+              "client": 432,
+              "height": 432,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "PremiumReadHeader1PremiumReadText1PremiumReadButton1PremiumOrPremiumReadHeader2PremiumReadText2PremiumLastSeenButton2"
+        },
+        "screenshot": "ui-remaining-modal-source-after-privacy-read-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "sensitive-css960x540-light-modern",
+      "source": "src/components/common/SensitiveContentConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "18+ content",
+              "box": {
+                "x": 288,
+                "y": 159.125,
+                "width": 384,
+                "height": 50,
+                "top": 159.125,
+                "right": 672,
+                "bottom": 209.125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "18+ content",
+              "box": {
+                "x": 310,
+                "y": 180.125,
+                "width": 340,
+                "height": 29,
+                "top": 180.125,
+                "right": 650,
+                "bottom": 209.125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 358,
+                "y": 328.1875,
+                "width": 13,
+                "height": 13,
+                "top": 328.1875,
+                "right": 371,
+                "bottom": 341.1875,
+                "left": 358
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "View Anyway",
+              "disabled": false,
+              "box": {
+                "x": 508.328125,
+                "y": 366.6875,
+                "width": 139.671875,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 648,
+                "bottom": 401.875,
+                "left": 508.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 403.0625,
+                "y": 366.6875,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 492.328125,
+                "bottom": 401.875,
+                "left": 403.0625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 209.125,
+                "width": 384,
+                "height": 211.75,
+                "top": 209.125,
+                "right": 672,
+                "bottom": 420.875,
+                "left": 288
+              },
+              "client": 212,
+              "height": 212,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "18+ contentThis media may contain sensitive content suitable only for adults. Do you still want to view it?Always show 18+ mediaView AnywayОтмена"
+        },
+        "settled": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "18+ content",
+              "box": {
+                "x": 288,
+                "y": 159.125,
+                "width": 384,
+                "height": 50,
+                "top": 159.125,
+                "right": 672,
+                "bottom": 209.125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "18+ content",
+              "box": {
+                "x": 310,
+                "y": 180.125,
+                "width": 340,
+                "height": 29,
+                "top": 180.125,
+                "right": 650,
+                "bottom": 209.125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 358,
+                "y": 328.1875,
+                "width": 13,
+                "height": 13,
+                "top": 328.1875,
+                "right": 371,
+                "bottom": 341.1875,
+                "left": 358
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "View Anyway",
+              "disabled": false,
+              "box": {
+                "x": 508.328125,
+                "y": 366.6875,
+                "width": 139.671875,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 648,
+                "bottom": 401.875,
+                "left": 508.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 403.0625,
+                "y": 366.6875,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 366.6875,
+                "right": 492.328125,
+                "bottom": 401.875,
+                "left": 403.0625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 209.125,
+                "width": 384,
+                "height": 211.75,
+                "top": 209.125,
+                "right": 672,
+                "bottom": 420.875,
+                "left": 288
+              },
+              "client": 212,
+              "height": 212,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "18+ contentThis media may contain sensitive content suitable only for adults. Do you still want to view it?Always show 18+ mediaView AnywayОтмена"
+        },
+        "screenshot": "ui-remaining-modal-source-after-sensitive-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-avatar-css960x540-light-modern",
+      "source": "src/components/common/ReportAvatarModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 320,
+            "y": 52,
+            "width": 320,
+            "height": 476,
+            "top": 52,
+            "right": 640,
+            "bottom": 528,
+            "left": 320
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 320,
+                "y": 52,
+                "width": 320,
+                "height": 50,
+                "top": 52,
+                "right": 640,
+                "bottom": 102,
+                "left": 320
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 342,
+                "y": 73,
+                "width": 276,
+                "height": 29,
+                "top": 73,
+                "right": 618,
+                "bottom": 102,
+                "left": 342
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 135.5,
+                "width": 13,
+                "height": 13,
+                "top": 135.5,
+                "right": 407,
+                "bottom": 148.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 183.5,
+                "width": 13,
+                "height": 13,
+                "top": 183.5,
+                "right": 407,
+                "bottom": 196.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 231.5,
+                "width": 13,
+                "height": 13,
+                "top": 231.5,
+                "right": 407,
+                "bottom": 244.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 279.5,
+                "width": 13,
+                "height": 13,
+                "top": 279.5,
+                "right": 407,
+                "bottom": 292.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 327.5,
+                "width": 13,
+                "height": 13,
+                "top": 327.5,
+                "right": 407,
+                "bottom": 340.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 375.5,
+                "width": 13,
+                "height": 13,
+                "top": 375.5,
+                "right": 407,
+                "bottom": 388.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 423.5,
+                "width": 13,
+                "height": 13,
+                "top": 423.5,
+                "right": 407,
+                "bottom": 436.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 471.5,
+                "width": 13,
+                "height": 13,
+                "top": 471.5,
+                "right": 407,
+                "bottom": 484.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 344,
+                "y": 518,
+                "width": 272,
+                "height": 48,
+                "top": 518,
+                "right": 616,
+                "bottom": 566,
+                "left": 344
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 412.328125,
+                "y": 584,
+                "width": 203.671875,
+                "height": 35.1875,
+                "top": 584,
+                "right": 616,
+                "bottom": 619.1875,
+                "left": 412.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 531.40625,
+                "y": 627.1875,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 627.1875,
+                "right": 616,
+                "bottom": 662.375,
+                "left": 531.40625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 320,
+                "y": 102,
+                "width": 320,
+                "height": 426,
+                "top": 102,
+                "right": 640,
+                "bottom": 528,
+                "left": 320
+              },
+              "client": 426,
+              "height": 579,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "settled": {
+          "box": {
+            "x": 320,
+            "y": 52,
+            "width": 320,
+            "height": 476,
+            "top": 52,
+            "right": 640,
+            "bottom": 528,
+            "left": 320
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 320,
+                "y": 52,
+                "width": 320,
+                "height": 50,
+                "top": 52,
+                "right": 640,
+                "bottom": 102,
+                "left": 320
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "ReportPeer.Report",
+              "box": {
+                "x": 342,
+                "y": 73,
+                "width": 276,
+                "height": 29,
+                "top": 73,
+                "right": 618,
+                "bottom": 102,
+                "left": 342
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": -17.5,
+                "width": 13,
+                "height": 13,
+                "top": -17.5,
+                "right": 407,
+                "bottom": -4.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 30.5,
+                "width": 13,
+                "height": 13,
+                "top": 30.5,
+                "right": 407,
+                "bottom": 43.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 78.5,
+                "width": 13,
+                "height": 13,
+                "top": 78.5,
+                "right": 407,
+                "bottom": 91.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 126.5,
+                "width": 13,
+                "height": 13,
+                "top": 126.5,
+                "right": 407,
+                "bottom": 139.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 174.5,
+                "width": 13,
+                "height": 13,
+                "top": 174.5,
+                "right": 407,
+                "bottom": 187.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 222.5,
+                "width": 13,
+                "height": 13,
+                "top": 222.5,
+                "right": 407,
+                "bottom": 235.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 270.5,
+                "width": 13,
+                "height": 13,
+                "top": 270.5,
+                "right": 407,
+                "bottom": 283.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 394,
+                "y": 318.5,
+                "width": 13,
+                "height": 13,
+                "top": 318.5,
+                "right": 407,
+                "bottom": 331.5,
+                "left": 394
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 344,
+                "y": 365,
+                "width": 272,
+                "height": 48,
+                "top": 365,
+                "right": 616,
+                "bottom": 413,
+                "left": 344
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "lng_report_button",
+              "disabled": false,
+              "box": {
+                "x": 412.328125,
+                "y": 431,
+                "width": 203.671875,
+                "height": 35.1875,
+                "top": 431,
+                "right": 616,
+                "bottom": 466.1875,
+                "left": 412.328125
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 531.40625,
+                "y": 474.1875,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 474.1875,
+                "right": 616,
+                "bottom": 509.375,
+                "left": 531.40625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 320,
+                "y": 102,
+                "width": 320,
+                "height": 426,
+                "top": 102,
+                "right": 640,
+                "bottom": 528,
+                "left": 320
+              },
+              "client": 426,
+              "height": 579,
+              "scrollTop": 153
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "ReportPeer.Reportlng_report_reason_spamlng_report_reason_violencelng_report_reason_pornographylng_report_reason_child_abuseReportPeer.ReasonCopyrightIllegal DrugsPersonal Detailslng_report_reason_othe"
+        },
+        "screenshot": "ui-remaining-modal-source-after-report-avatar-css960x540-light-modern.png",
+        "injectionUsed": false,
+        "functional": {
+          "actualCancelFocus": true,
+          "cancelProtectedDelta": 0,
+          "reopenedPointerConfirmMockDelta": 1,
+          "footerBoxes": [
+            {
+              "x": 412.328125,
+              "y": 431,
+              "width": 203.671875,
+              "height": 35.1875,
+              "top": 431,
+              "right": 616,
+              "bottom": 466.1875,
+              "left": 412.328125
+            },
+            {
+              "x": 531.40625,
+              "y": 474.1875,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 474.1875,
+              "right": 616,
+              "bottom": 509.375,
+              "left": 531.40625
+            }
+          ]
+        }
+      },
+      "newErrors": []
+    },
+    {
+      "id": "unpin-css960x540-light-modern",
+      "source": "src/components/common/UnpinAllMessagesModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 288,
+            "y": 210.3125,
+            "width": 384,
+            "height": 159.375,
+            "top": 210.3125,
+            "right": 672,
+            "bottom": 369.6875,
+            "left": 288
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 288,
+                "y": 210.3125,
+                "width": 384,
+                "height": 50,
+                "top": 210.3125,
+                "right": 672,
+                "bottom": 260.3125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 310,
+                "y": 231.3125,
+                "width": 340,
+                "height": 29,
+                "top": 231.3125,
+                "right": 650,
+                "bottom": 260.3125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "DialogUnpin",
+              "disabled": false,
+              "box": {
+                "x": 515.390625,
+                "y": 315.5,
+                "width": 132.609375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 648,
+                "bottom": 350.6875,
+                "left": 515.390625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 414.796875,
+                "y": 315.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 499.390625,
+                "bottom": 350.6875,
+                "left": 414.796875
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 260.3125,
+                "width": 384,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 672,
+                "bottom": 369.6875,
+                "left": 288
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Chat.PanelUnpinAllMessagesChat.UnpinAllMessagesConfirmationDialogUnpinCancel"
+        },
+        "settled": {
+          "box": {
+            "x": 288,
+            "y": 210.3125,
+            "width": 384,
+            "height": 159.375,
+            "top": 210.3125,
+            "right": 672,
+            "bottom": 369.6875,
+            "left": 288
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 288,
+                "y": 210.3125,
+                "width": 384,
+                "height": 50,
+                "top": 210.3125,
+                "right": 672,
+                "bottom": 260.3125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Chat.PanelUnpinAllMessages",
+              "box": {
+                "x": 310,
+                "y": 231.3125,
+                "width": 340,
+                "height": 29,
+                "top": 231.3125,
+                "right": 650,
+                "bottom": 260.3125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "DialogUnpin",
+              "disabled": false,
+              "box": {
+                "x": 515.390625,
+                "y": 315.5,
+                "width": 132.609375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 648,
+                "bottom": 350.6875,
+                "left": 515.390625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 414.796875,
+                "y": 315.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 499.390625,
+                "bottom": 350.6875,
+                "left": 414.796875
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 260.3125,
+                "width": 384,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 672,
+                "bottom": 369.6875,
+                "left": 288
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Chat.PanelUnpinAllMessagesChat.UnpinAllMessagesConfirmationDialogUnpinCancel"
+        },
+        "screenshot": "ui-remaining-modal-source-after-unpin-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "folder-css960x540-light-modern",
+      "source": "src/components/main/DeleteFolderDialog.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Telegram",
+              "box": {
+                "x": 288,
+                "y": 210.3125,
+                "width": 384,
+                "height": 50,
+                "top": 210.3125,
+                "right": 672,
+                "bottom": 260.3125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Telegram",
+              "box": {
+                "x": 310,
+                "y": 231.3125,
+                "width": 340,
+                "height": 29,
+                "top": 231.3125,
+                "right": 650,
+                "bottom": 260.3125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "Delete",
+              "disabled": false,
+              "box": {
+                "x": 568.890625,
+                "y": 315.5,
+                "width": 79.109375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 648,
+                "bottom": 350.6875,
+                "left": 568.890625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 463.625,
+                "y": 315.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 552.890625,
+                "bottom": 350.6875,
+                "left": 463.625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 260.3125,
+                "width": 384,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 672,
+                "bottom": 369.6875,
+                "left": 288
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "TelegramFilterDeleteAlertDeleteОтмена"
+        },
+        "settled": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Telegram",
+              "box": {
+                "x": 288,
+                "y": 210.3125,
+                "width": 384,
+                "height": 50,
+                "top": 210.3125,
+                "right": 672,
+                "bottom": 260.3125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Telegram",
+              "box": {
+                "x": 310,
+                "y": 231.3125,
+                "width": 340,
+                "height": 29,
+                "top": 231.3125,
+                "right": 650,
+                "bottom": 260.3125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "Delete",
+              "disabled": false,
+              "box": {
+                "x": 568.890625,
+                "y": 315.5,
+                "width": 79.109375,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 648,
+                "bottom": 350.6875,
+                "left": 568.890625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 463.625,
+                "y": 315.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 315.5,
+                "right": 552.890625,
+                "bottom": 350.6875,
+                "left": 463.625
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 260.3125,
+                "width": 384,
+                "height": 109.375,
+                "top": 260.3125,
+                "right": 672,
+                "bottom": 369.6875,
+                "left": 288
+              },
+              "client": 109,
+              "height": 109,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "TelegramFilterDeleteAlertDeleteОтмена"
+        },
+        "screenshot": "ui-remaining-modal-source-after-folder-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "bot-trust-css960x540-light-modern",
+      "source": "src/components/main/BotTrustModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 288,
+                "y": 182.3125,
+                "width": 384,
+                "height": 50,
+                "top": 182.3125,
+                "right": 672,
+                "bottom": 232.3125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 310,
+                "y": 203.3125,
+                "width": 340,
+                "height": 29,
+                "top": 203.3125,
+                "right": 650,
+                "bottom": 232.3125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 358,
+                "y": 305,
+                "width": 13,
+                "height": 13,
+                "top": 305,
+                "right": 371,
+                "bottom": 318,
+                "left": 358
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Confirm",
+              "disabled": false,
+              "box": {
+                "x": 553.359375,
+                "y": 343.5,
+                "width": 94.640625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 648,
+                "bottom": 378.6875,
+                "left": 553.359375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 448.09375,
+                "y": 343.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 537.359375,
+                "bottom": 378.6875,
+                "left": 448.09375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 232.3125,
+                "width": 384,
+                "height": 165.375,
+                "top": 232.3125,
+                "right": 672,
+                "bottom": 397.6875,
+                "left": 288
+              },
+              "client": 165,
+              "height": 165,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "BotOpenPageTitleBotOpenPageMessageWebApp.AddToAttachmentAllowMessagesConfirmОтмена"
+        },
+        "settled": {
+          "box": {
+            "x": 0,
+            "y": 0,
+            "width": 960,
+            "height": 540,
+            "top": 0,
+            "right": 960,
+            "bottom": 540,
+            "left": 0
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 288,
+                "y": 182.3125,
+                "width": 384,
+                "height": 50,
+                "top": 182.3125,
+                "right": 672,
+                "bottom": 232.3125,
+                "left": 288
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "BotOpenPageTitle",
+              "box": {
+                "x": 310,
+                "y": 203.3125,
+                "width": 340,
+                "height": 29,
+                "top": 203.3125,
+                "right": 650,
+                "bottom": 232.3125,
+                "left": 310
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 358,
+                "y": 305,
+                "width": 13,
+                "height": 13,
+                "top": 305,
+                "right": 371,
+                "bottom": 318,
+                "left": 358
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Confirm",
+              "disabled": false,
+              "box": {
+                "x": 553.359375,
+                "y": 343.5,
+                "width": 94.640625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 648,
+                "bottom": 378.6875,
+                "left": 553.359375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Отмена",
+              "disabled": false,
+              "box": {
+                "x": 448.09375,
+                "y": 343.5,
+                "width": 89.265625,
+                "height": 35.1875,
+                "top": 343.5,
+                "right": 537.359375,
+                "bottom": 378.6875,
+                "left": 448.09375
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 288,
+                "y": 232.3125,
+                "width": 384,
+                "height": 165.375,
+                "top": 232.3125,
+                "right": 672,
+                "bottom": 397.6875,
+                "left": 288
+              },
+              "client": 165,
+              "height": 165,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "BotOpenPageTitleBotOpenPageMessageWebApp.AddToAttachmentAllowMessagesConfirmОтмена"
+        },
+        "screenshot": "ui-remaining-modal-source-after-bot-trust-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "remove-user-css960x540-light-modern",
+      "source": "src/components/right/management/RemoveGroupUserModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Remove User",
+              "box": {
+                "x": 270,
+                "y": 74,
+                "width": 420,
+                "height": 56,
+                "top": 74,
+                "right": 690,
+                "bottom": 130,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Remove User",
+              "box": {
+                "x": 342,
+                "y": 87.5,
+                "width": 304,
+                "height": 29,
+                "top": 87.5,
+                "right": 646,
+                "bottom": 116.5,
+                "left": 342
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 292,
+                "y": 88,
+                "width": 28,
+                "height": 28,
+                "top": 88,
+                "right": 320,
+                "bottom": 116,
+                "left": 292
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 286,
+                "y": 130,
+                "width": 388,
+                "height": 48,
+                "top": 130,
+                "right": 674,
+                "bottom": 178,
+                "left": 286
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 294,
+                "y": 200,
+                "width": 372,
+                "height": 56,
+                "top": 200,
+                "right": 666,
+                "bottom": 256,
+                "left": 294
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 354,
+                "y": 218,
+                "width": 179.390625,
+                "height": 20,
+                "top": 218,
+                "right": 533.390625,
+                "bottom": 238,
+                "left": 354
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 130,
+                "width": 420,
+                "height": 376,
+                "top": 130,
+                "right": 690,
+                "bottom": 506,
+                "left": 270
+              },
+              "client": 376,
+              "height": 376,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Remove UserSMSynthetic Member"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 74,
+            "width": 420,
+            "height": 432,
+            "top": 74,
+            "right": 690,
+            "bottom": 506,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header modal-header-condensed-wide",
+              "text": "Remove User",
+              "box": {
+                "x": 270,
+                "y": 74,
+                "width": 420,
+                "height": 56,
+                "top": 74,
+                "right": 690,
+                "bottom": 130,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Remove User",
+              "box": {
+                "x": 342,
+                "y": 87.5,
+                "width": 304,
+                "height": 29,
+                "top": 87.5,
+                "right": 646,
+                "bottom": 116.5,
+                "left": 342
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 292,
+                "y": 88,
+                "width": 28,
+                "height": 28,
+                "top": 88,
+                "right": 320,
+                "bottom": 116,
+                "left": 292
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 286,
+                "y": 130,
+                "width": 388,
+                "height": 48,
+                "top": 130,
+                "right": 674,
+                "bottom": 178,
+                "left": 286
+              }
+            },
+            {
+              "tag": "DIV",
+              "text": "SMSynthetic Member",
+              "box": {
+                "x": 294,
+                "y": 200,
+                "width": 372,
+                "height": 56,
+                "top": 200,
+                "right": 666,
+                "bottom": 256,
+                "left": 294
+              }
+            },
+            {
+              "tag": "H3",
+              "text": "Synthetic Member",
+              "box": {
+                "x": 354,
+                "y": 218,
+                "width": 179.390625,
+                "height": 20,
+                "top": 218,
+                "right": 533.390625,
+                "bottom": 238,
+                "left": 354
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 130,
+                "width": 420,
+                "height": 376,
+                "top": 130,
+                "right": 690,
+                "bottom": 506,
+                "left": 270
+              },
+              "client": 376,
+              "height": 376,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Remove UserSMSynthetic Member"
+        },
+        "screenshot": "ui-remaining-modal-source-after-remove-user-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "birthday-css960x540-light-modern",
+      "source": "src/components/modals/birthday/BirthdaySetupModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 67.5,
+            "width": 420,
+            "height": 444.984375,
+            "top": 67.5,
+            "right": 690,
+            "bottom": 512.484375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 284,
+                "y": 81.5,
+                "width": 28,
+                "height": 28,
+                "top": 81.5,
+                "right": 312,
+                "bottom": 109.5,
+                "left": 284
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 274.296875,
+                "width": 102.578125,
+                "height": 48,
+                "top": 274.296875,
+                "right": 396.578125,
+                "bottom": 322.296875,
+                "left": 294
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 404.578125,
+                "y": 274.296875,
+                "width": 150.84375,
+                "height": 48,
+                "top": 274.296875,
+                "right": 555.421875,
+                "bottom": 322.296875,
+                "left": 404.578125
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 563.421875,
+                "y": 274.296875,
+                "width": 102.578125,
+                "height": 48,
+                "top": 274.296875,
+                "right": 666,
+                "bottom": 322.296875,
+                "left": 563.421875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Remove from Profile",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 389.484375,
+                "width": 372,
+                "height": 48,
+                "top": 389.484375,
+                "right": 666,
+                "bottom": 437.484375,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 445.484375,
+                "width": 372,
+                "height": 48,
+                "top": 445.484375,
+                "right": 666,
+                "bottom": 493.484375,
+                "left": 294
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 67.5,
+                "width": 420,
+                "height": 444.984375,
+                "top": 67.5,
+                "right": 690,
+                "bottom": 512.484375,
+                "left": 270
+              },
+              "client": 445,
+              "height": 445,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Date of BirthDayMonthJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberYearChoose who can see your birthday in Settings Remove from ProfileSave"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 67.5,
+            "width": 420,
+            "height": 444.984375,
+            "top": 67.5,
+            "right": 690,
+            "bottom": 512.484375,
+            "left": 270
+          },
+          "headers": [],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 284,
+                "y": 81.5,
+                "width": 28,
+                "height": 28,
+                "top": 81.5,
+                "right": 312,
+                "bottom": 109.5,
+                "left": 284
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 274.296875,
+                "width": 102.578125,
+                "height": 48,
+                "top": 274.296875,
+                "right": 396.578125,
+                "bottom": 322.296875,
+                "left": 294
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 404.578125,
+                "y": 274.296875,
+                "width": 150.84375,
+                "height": 48,
+                "top": 274.296875,
+                "right": 555.421875,
+                "bottom": 322.296875,
+                "left": 404.578125
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 563.421875,
+                "y": 274.296875,
+                "width": 102.578125,
+                "height": 48,
+                "top": 274.296875,
+                "right": 666,
+                "bottom": 322.296875,
+                "left": 563.421875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Remove from Profile",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 389.484375,
+                "width": 372,
+                "height": 48,
+                "top": 389.484375,
+                "right": 666,
+                "bottom": 437.484375,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 445.484375,
+                "width": 372,
+                "height": 48,
+                "top": 445.484375,
+                "right": 666,
+                "bottom": 493.484375,
+                "left": 294
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 67.5,
+                "width": 420,
+                "height": 444.984375,
+                "top": 67.5,
+                "right": 690,
+                "bottom": 512.484375,
+                "left": 270
+              },
+              "client": 445,
+              "height": 445,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Date of BirthDayMonthJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberYearChoose who can see your birthday in Settings Remove from ProfileSave"
+        },
+        "screenshot": "ui-remaining-modal-source-after-birthday-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "prompt-css960x540-light-modern",
+      "source": "src/components/modals/prompt/PromptDialog.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 177.3125,
+            "width": 420,
+            "height": 225.375,
+            "top": 177.3125,
+            "right": 690,
+            "bottom": 402.6875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 270,
+                "y": 177.3125,
+                "width": 420,
+                "height": 50,
+                "top": 177.3125,
+                "right": 690,
+                "bottom": 227.3125,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 292,
+                "y": 198.3125,
+                "width": 376,
+                "height": 29,
+                "top": 198.3125,
+                "right": 668,
+                "bottom": 227.3125,
+                "left": 292
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 282.5,
+                "width": 372,
+                "height": 48,
+                "top": 282.5,
+                "right": 666,
+                "bottom": 330.5,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 606.0625,
+                "y": 348.5,
+                "width": 59.9375,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 666,
+                "bottom": 383.6875,
+                "left": 606.0625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 505.46875,
+                "y": 348.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 590.0625,
+                "bottom": 383.6875,
+                "left": 505.46875
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 227.3125,
+                "width": 420,
+                "height": 175.375,
+                "top": 227.3125,
+                "right": 690,
+                "bottom": 402.6875,
+                "left": 270
+              },
+              "client": 175,
+              "height": 175,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Synthetic editable promptLocal body fixture with length constraintSaveCancel"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 177.3125,
+            "width": 420,
+            "height": 225.375,
+            "top": 177.3125,
+            "right": 690,
+            "bottom": 402.6875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 270,
+                "y": 177.3125,
+                "width": 420,
+                "height": 50,
+                "top": 177.3125,
+                "right": 690,
+                "bottom": 227.3125,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Synthetic editable prompt",
+              "box": {
+                "x": 292,
+                "y": 198.3125,
+                "width": 376,
+                "height": 29,
+                "top": 198.3125,
+                "right": 668,
+                "bottom": 227.3125,
+                "left": 292
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 282.5,
+                "width": 372,
+                "height": 48,
+                "top": 282.5,
+                "right": 666,
+                "bottom": 330.5,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Save",
+              "disabled": false,
+              "box": {
+                "x": 606.0625,
+                "y": 348.5,
+                "width": 59.9375,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 666,
+                "bottom": 383.6875,
+                "left": 606.0625
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Cancel",
+              "disabled": false,
+              "box": {
+                "x": 505.46875,
+                "y": 348.5,
+                "width": 84.59375,
+                "height": 35.1875,
+                "top": 348.5,
+                "right": 590.0625,
+                "bottom": 383.6875,
+                "left": 505.46875
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 227.3125,
+                "width": 420,
+                "height": 175.375,
+                "top": 227.3125,
+                "right": 690,
+                "bottom": 402.6875,
+                "left": 270
+              },
+              "client": 175,
+              "height": 175,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Synthetic editable promptLocal body fixture with length constraintSaveCancel"
+        },
+        "screenshot": "ui-remaining-modal-source-after-prompt-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "rank-css960x540-light-modern",
+      "source": "src/components/modals/rank/EditRankModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "css960x540",
+          "width": 960,
+          "height": 540,
+          "font": "16px",
+          "theme": "light-modern"
+        },
+        "initial": {
+          "box": {
+            "x": 270,
+            "y": 103.703125,
+            "width": 420,
+            "height": 372.59375,
+            "top": 103.703125,
+            "right": 690,
+            "bottom": 476.296875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 270,
+                "y": 103.703125,
+                "width": 420,
+                "height": 50,
+                "top": 103.703125,
+                "right": 690,
+                "bottom": 153.703125,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 336,
+                "y": 124.703125,
+                "width": 316,
+                "height": 29,
+                "top": 124.703125,
+                "right": 652,
+                "bottom": 153.703125,
+                "left": 336
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 292,
+                "y": 125.203125,
+                "width": 28,
+                "height": 28,
+                "top": 125.203125,
+                "right": 320,
+                "bottom": 153.203125,
+                "left": 292
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 300.703125,
+                "width": 372,
+                "height": 48,
+                "top": 300.703125,
+                "right": 666,
+                "bottom": 348.703125,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Edit Tag",
+              "disabled": true,
+              "box": {
+                "x": 294,
+                "y": 409.296875,
+                "width": 372,
+                "height": 48,
+                "top": 409.296875,
+                "right": 666,
+                "bottom": 457.296875,
+                "left": 294
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 153.703125,
+                "width": 420,
+                "height": 322.59375,
+                "top": 153.703125,
+                "right": 690,
+                "bottom": 476.296875,
+                "left": 270
+              },
+              "client": 323,
+              "height": 323,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Edit My TagJDJohnResearch  9:37Member tagShare your role, title or how you're known in this group. Your tag is visible to all members.Edit Tag"
+        },
+        "settled": {
+          "box": {
+            "x": 270,
+            "y": 103.703125,
+            "width": 420,
+            "height": 372.59375,
+            "top": 103.703125,
+            "right": 690,
+            "bottom": 476.296875,
+            "left": 270
+          },
+          "headers": [
+            {
+              "className": "modal-header",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 270,
+                "y": 103.703125,
+                "width": 420,
+                "height": 50,
+                "top": 103.703125,
+                "right": 690,
+                "bottom": 153.703125,
+                "left": 270
+              }
+            },
+            {
+              "className": "modal-title",
+              "text": "Edit My Tag",
+              "box": {
+                "x": 336,
+                "y": 124.703125,
+                "width": 316,
+                "height": 29,
+                "top": 124.703125,
+                "right": 652,
+                "bottom": 153.703125,
+                "left": 336
+              }
+            }
+          ],
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 292,
+                "y": 125.203125,
+                "width": 28,
+                "height": 28,
+                "top": 125.203125,
+                "right": 320,
+                "bottom": 153.203125,
+                "left": 292
+              }
+            },
+            {
+              "tag": "INPUT",
+              "text": "",
+              "disabled": false,
+              "box": {
+                "x": 294,
+                "y": 300.703125,
+                "width": 372,
+                "height": 48,
+                "top": 300.703125,
+                "right": 666,
+                "bottom": 348.703125,
+                "left": 294
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "text": "Edit Tag",
+              "disabled": true,
+              "box": {
+                "x": 294,
+                "y": 409.296875,
+                "width": 372,
+                "height": 48,
+                "top": 409.296875,
+                "right": 666,
+                "bottom": 457.296875,
+                "left": 294
+              }
+            }
+          ],
+          "scrollSurfaces": [
+            {
+              "box": {
+                "x": 270,
+                "y": 153.703125,
+                "width": 420,
+                "height": 322.59375,
+                "top": 153.703125,
+                "right": 690,
+                "bottom": 476.296875,
+                "left": 270
+              },
+              "client": 323,
+              "height": 323,
+              "scrollTop": 0
+            }
+          ],
+          "rootClass": "theme-light theme-variant-light-modern",
+          "themeBase": "light",
+          "rootFont": "16px",
+          "bodyFont": "16px",
+          "bodyText": "Edit My TagJDJohnResearch  9:37Member tagShare your role, title or how you're known in this group. Your tag is visible to all members.Edit Tag"
+        },
+        "screenshot": "ui-remaining-modal-source-after-rank-css960x540-light-modern.png",
+        "injectionUsed": false
+      },
+      "newErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": 0,
+  "limits": [
+    "No production edits by this subagent; parent Modal.scss change is tested live from current tree, not installed1.4.4 or canonical old freeze",
+    "Root32 rem emulation is not uniform200% text, actualDPI or browserzoom",
+    "11 ordinary modal body paths sampled under current cap; unchanged Gili AutoDelete is outside this old-Modal CSS after scope, previous12-path receipts remain",
+    "No server/account/Tab-host/locales/gallery/fullapp certification"
+  ],
+  "injectionUsed": false,
+  "unhandled": [],
+  "sourceStableDuringRun": true,
+  "summary": {
+    "total": 24,
+    "pass": 24,
+    "fail": 0,
+    "pageErrors": 0,
+    "unhandled": 0,
+    "reportAvatarCallbackProofs": 4,
+    "sourceStableDuringRun": true,
+    "injectionUsed": false
+  },
+  "helperSha256": "560aea12b41e00a77525adeeaf204806729e8e39edb7d3712954794d829742b8",
+  "helperLocation": "Own runtime only; no new project harness/source writes",
+  "processesClosed": true
+}

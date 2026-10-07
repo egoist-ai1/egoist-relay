@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T07:58:55.299Z",
+  "label": "additional-four-after",
+  "environment": "Actual custom components; destructive/delete/AI callbacks replaced only in fresh test browser; remote requests blocked; no account transport",
+  "cases": [
+    {
+      "id": "default-button-enter",
+      "sources": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "delta": 1
+      }
+    },
+    {
+      "id": "default-button-space",
+      "sources": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "delta": 1
+      }
+    },
+    {
+      "id": "default-button-pointer-once",
+      "sources": [
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": 1
+      }
+    },
+    {
+      "id": "default-button-disabled-zero",
+      "sources": [
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": 0
+      }
+    },
+    {
+      "id": "delete-photo-cancel-enter",
+      "sources": [
+        "src/components/common/DeleteProfilePhotoModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": {
+          "confirm": 0,
+          "deleted": 0,
+          "closed": 1
+        }
+      }
+    },
+    {
+      "id": "guard-bot-keep-enter",
+      "sources": [
+        "src/components/right/management/GuardReplaceBotModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": {
+          "confirmed": 0,
+          "closed": 1
+        }
+      }
+    },
+    {
+      "id": "calendar-repeat-item-enter",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "calendarSubmitDelta": 0,
+        "selectedRepeatLabel": "Daily"
+      }
+    },
+    {
+      "id": "calendar-repeat-escape-child-only",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "parentRemainsOpen": true,
+        "menuClosed": true
+      }
+    },
+    {
+      "id": "ai-portal-div-focus",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "owned": true,
+          "ancestor": "<div><div class=\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\" style=\"left: 753.688px; top: 6"
+        },
+        "focused": true
+      }
+    },
+    {
+      "id": "ai-portal-native-focus",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "owned": true,
+          "ancestor": "<div><div class=\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\" style=\"left: 753.688px; top: 6"
+        },
+        "focused": true
+      }
+    },
+    {
+      "id": "standard-confirm-confirm-enter",
+      "sources": [
+        "src/components/ui/ConfirmDialog.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": {
+          "confirmed": 1,
+          "closed": 1
+        }
+      }
+    },
+    {
+      "id": "standard-confirm-cancel-enter",
+      "sources": [
+        "src/components/ui/ConfirmDialog.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": {
+          "confirmed": 0,
+          "closed": 1
+        }
+      }
+    },
+    {
+      "id": "delete-message-checkbox-enter",
+      "sources": [
+        "src/components/common/DeleteMessageModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Checkbox.tsx"
+      ],
+      "status": "fail",
+      "error": "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'byId')\n    at AuditOverlays.window.__relayAudit.openDeleteFixture (http://127.0.0.1:1251/scripts/relay-ui-audit.fixture.tsx:79:70)\n    at eval (eval at evaluate (:303:30), <anonymous>:1:25)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "stack": "page.evaluate: TypeError: Cannot read properties of undefined (reading 'byId')\n    at AuditOverlays.window.__relayAudit.openDeleteFixture (http://127.0.0.1:1251/scripts/relay-ui-audit.fixture.tsx:79:70)\n    at eval (eval at evaluate (:303:30), <anonymous>:1:25)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-ui-audit.custom-modals.mjs:28:299\n    at async run (C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-ui-audit.custom-modals.mjs:14:154)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:28:2",
+      "screenshot": "ui-visuals/additional-four-after-delete-message-checkbox-enter.png",
+      "events": [
+        {
+          "defaultButton": true
+        },
+        {
+          "defaultButton": true
+        },
+        {
+          "defaultButton": true
+        },
+        {
+          "close": "delete-photo"
+        },
+        {
+          "close": "guard-bot"
+        },
+        {
+          "confirmed": true
+        },
+        {
+          "close": "confirm-standard"
+        },
+        {
+          "close": "confirm-standard"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBreak\"></p></div>"
+    },
+    {
+      "id": "delete-photo-safe-space",
+      "sources": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "dangerDelta": 0,
+        "closeDelta": 1
+      }
+    },
+    {
+      "id": "guard-bot-safe-space",
+      "sources": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "dangerDelta": 0,
+        "closeDelta": 1
+      }
+    },
+    {
+      "id": "calendar-repeat-item-space",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "submitDelta": 0,
+        "label": "Daily"
+      }
+    },
+    {
+      "id": "calendar-repeat-escape-restores-trigger",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "firstChildOnly": true,
+        "restoredExactTrigger": true,
+        "secondParentClosed": true
+      }
+    },
+    {
+      "id": "calendar-time-input-enter-baseline",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "submitDelta": 1
+      }
+    },
+    {
+      "id": "ai-portal-div-keyboard-enter",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "geometry": {
+          "bubble": {
+            "left": 721.6875,
+            "top": 633.796875,
+            "right": 891.078125,
+            "bottom": 891.796875,
+            "width": 169.390625,
+            "height": 258
+          },
+          "trigger": {
+            "left": 737.6875,
+            "top": 601.5,
+            "bottom": 625.796875
+          },
+          "owner": "modal-menu-muqo9x0v2fy7cmj5mo2"
+        },
+        "itemCallbackOnce": true,
+        "modalEnterDelta": 0,
+        "closingOwned": true,
+        "exactFocusReturn": true,
+        "secondEscapeParentClose": true
+      }
+    },
+    {
+      "id": "ai-portal-div-keyboard-space",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "geometry": {
+          "bubble": {
+            "left": 721.6875,
+            "top": 633.796875,
+            "right": 891.078125,
+            "bottom": 891.796875,
+            "width": 169.390625,
+            "height": 258
+          },
+          "trigger": {
+            "left": 737.6875,
+            "top": 601.5,
+            "bottom": 625.796875
+          },
+          "owner": "modal-menu-muqo9zb9dac9w5665"
+        },
+        "itemCallbackOnce": true,
+        "modalEnterDelta": 0,
+        "closingOwned": true,
+        "exactFocusReturn": true,
+        "secondEscapeParentClose": true
+      }
+    },
+    {
+      "id": "ai-portal-native-keyboard-enter",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "geometry": {
+          "bubble": {
+            "left": 721.6875,
+            "top": 633.796875,
+            "right": 891.078125,
+            "bottom": 891.796875,
+            "width": 169.390625,
+            "height": 258
+          },
+          "trigger": {
+            "left": 737.6875,
+            "top": 601.5,
+            "bottom": 625.796875
+          },
+          "owner": "modal-menu-muqoa1l7103hievgcvm"
+        },
+        "itemCallbackOnce": true,
+        "modalEnterDelta": 0,
+        "closingOwned": true,
+        "exactFocusReturn": true,
+        "secondEscapeParentClose": true
+      }
+    },
+    {
+      "id": "ai-portal-native-keyboard-space",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "geometry": {
+          "bubble": {
+            "left": 721.6875,
+            "top": 633.796875,
+            "right": 891.078125,
+            "bottom": 891.796875,
+            "width": 169.390625,
+            "height": 258
+          },
+          "trigger": {
+            "left": 737.6875,
+            "top": 601.5,
+            "bottom": 625.796875
+          },
+          "owner": "modal-menu-muqoa3v5wgarg3lv9p"
+        },
+        "itemCallbackOnce": true,
+        "modalEnterDelta": 0,
+        "closingOwned": true,
+        "exactFocusReturn": true,
+        "secondEscapeParentClose": true
+      }
+    },
+    {
+      "id": "ai-two-modal-owner-geometry",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "ids": [
+          "modal-menu-muqoa65l1hxhsv0j2wp",
+          "modal-menu-muqoa65k2le9j18710r"
+        ],
+        "secondRect": {
+          "x": 721.6875,
+          "y": 633.796875,
+          "width": 169.390625,
+          "height": 258
+        },
+        "firstRect": {
+          "x": 721.6875,
+          "y": 633.796875,
+          "width": 169.390625,
+          "height": 258
+        },
+        "distinctOwners": true,
+        "spaceAndPointerCallbacksOnce": true,
+        "bothModalEnterDelta": 0,
+        "exactOwnerCleanup": true
+      }
+    },
+    {
+      "id": "ai-nonmodal-default-portal",
+      "sources": [
+        "src/components/ui/Menu.tsx",
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "inDefaultPortals": true,
+          "inModal": false
+        },
+        "defaultEscape": true
+      }
+    },
+    {
+      "id": "contained-textarea-enter",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/TextArea.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "modalSubmitDelta": 0
+      }
+    },
+    {
+      "id": "contained-contenteditable-enter",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/TextArea.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "modalSubmitDelta": 0
+      }
+    },
+    {
+      "id": "contained-select-enter",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/TextArea.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "modalSubmitDelta": 0
+      }
+    },
+    {
+      "id": "contained-radio-enter",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/TextArea.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "modalSubmitDelta": 0
+      }
+    },
+    {
+      "id": "contained-native-link-enter",
+      "sources": [
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "linkDelta": 1,
+        "modalDelta": 0
+      }
+    },
+    {
+      "id": "contained-single-line-input-baseline",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/InputText.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "nativeSpace": true,
+        "modalEnterDelta": 1
+      }
+    },
+    {
+      "id": "unowned-outside-enter-blocked",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/util/captureKeyboardListeners.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "result": {
+          "prevented": true,
+          "targetHandler": 0
+        },
+        "modalEnterDelta": 0
+      }
+    }
+  ],
+  "errors": [],
+  "unhandled": [],
+  "summary": {
+    "total": 31,
+    "pass": 30,
+    "fail": 1,
+    "errors": 0
+  }
+}

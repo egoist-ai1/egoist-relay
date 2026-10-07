@@ -70,8 +70,10 @@ class TelegramClient {
     } catch (e) {
       // Ignore and use the default logic
     }
-    return import(`./__mocks__/${scenario}.json`).then(async (mockData) => {
-      this.mockData = mockData as MockTypes;
+    return import(`./__mocks__/${scenario}.json`).then(async (scenarioModule) => {
+      // Vite exposes JSON imported at runtime as an ES module. Older bundlers
+      // returned the JSON object directly, so support both shapes here.
+      this.mockData = ('default' in scenarioModule ? scenarioModule.default : scenarioModule) as MockTypes;
       await Promise.all(this.mockData.documents.map(async (l, i) => {
         const response = await import(/* @vite-ignore */ `./__data__/${l.url}`).then((module) => fetch(module.default));
         const bytes = await response.arrayBuffer();
@@ -101,8 +103,8 @@ class TelegramClient {
     mockScenario,
   }: {
     mockScenario: string;
-  }) {
-    return this.loadScenario(mockScenario);
+  }, onConnected?: () => void) {
+    return this.loadScenario(mockScenario).then(() => onConnected?.());
   }
 
   async invoke<A, R>(request: Api.Request<A, R>) {
@@ -115,6 +117,16 @@ class TelegramClient {
 
     if (this.mockData.appConfig && request instanceof Api.help.GetAppConfig) {
       return createMockedJSON(this.mockData.appConfig);
+    }
+
+    if (request instanceof Api.updates.GetState) {
+      return new Api.updates.State({
+        pts: 0, qts: 0, date: Math.floor(Date.now() / 1000), seq: 0, unreadCount: 0,
+      });
+    }
+
+    if (request instanceof Api.updates.GetDifference) {
+      return new Api.updates.DifferenceEmpty({ date: Math.floor(Date.now() / 1000), seq: 0 });
     }
 
     if (request instanceof Api.messages.GetDiscussionMessage) {
@@ -195,17 +207,31 @@ class TelegramClient {
       });
     }
 
+    if (request instanceof Api.users.GetUsers) {
+      const requestedIds = new Set(request.id.map((user) => (
+        user instanceof Api.InputUserSelf
+          ? this.mockData.users.find((candidate) => candidate.self)?.id
+          : 'userId' in user ? user.userId.toString() : undefined
+      )));
+      return this.mockData.users
+        .filter((user) => requestedIds.has(user.id))
+        .map((user) => createMockedUser(user.id, this.mockData));
+    }
+
     if (request instanceof Api.users.GetFullUser) {
+      const userId = request.id instanceof Api.InputUserSelf
+        ? this.mockData.users.find((user) => user.self)!.id
+        : 'userId' in request.id ? request.id.userId.toString() : '1';
       return new Api.users.UserFull({
         fullUser: new Api.UserFull({
           about: 'lol',
           settings: new Api.PeerSettings({}),
           notifySettings: new Api.PeerNotifySettings({}),
-          id: 1n,
+          id: BigInt(userId),
           commonChatsCount: 0,
         }),
         chats: [],
-        users: [],
+        users: [createMockedUser(userId, this.mockData)],
       });
     }
 
@@ -242,11 +268,19 @@ class TelegramClient {
     }
 
     if (request instanceof Api.messages.GetDialogFilters) {
-      return [
-        new Api.DialogFilterDefault(),
-        ...this.mockData.dialogFilters
-          .map((dialogFilter) => createMockedDialogFilter(dialogFilter.id, this.mockData)),
-      ];
+      return new Api.messages.DialogFilters({
+        filters: [
+          new Api.DialogFilterDefault(),
+          ...this.mockData.dialogFilters
+            .map((dialogFilter) => {
+              const filter = createMockedDialogFilter(dialogFilter.id, this.mockData);
+              if (typeof dialogFilter.title === 'string') {
+                filter.title = new Api.TextWithEntities({ text: dialogFilter.title, entities: [] });
+              }
+              return filter;
+            }),
+        ],
+      });
     }
 
     if (request instanceof Api.messages.GetPinnedDialogs) {
@@ -414,6 +448,8 @@ class TelegramClient {
   }
 
   public setPingCallback() {}
+
+  public setIsPremium() {}
 
   public setShouldDebugExportedSenders() {}
 

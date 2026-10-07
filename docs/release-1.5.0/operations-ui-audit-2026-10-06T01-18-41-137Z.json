@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-1.5.0-operations-ui-acceptance",
+  "runId": "2026-10-06T01-18-41-137Z",
+  "generatedAt": "2026-10-06T01:18:41.139Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourceHashes": {
+    "src/components/App.tsx": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "4247b02b25ea4046ae5400d7abe204be35d1ca0b35bc8b60544d5c935d472ac4",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "226d2ac5bb72b2b6b2e07e8636b26b8d421ccfea52117adb14a225e950a59407",
+    "scripts/relay-operations-ui-audit.mjs": "7ccf00a6f9e5bd89c9afe0de800de4cb59c61ad58a99c5d03149e07388eb17d3"
+  },
+  "environment": {
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "transport": "Real App/Panel + existing MockClient + terminal native journal mocks",
+    "remoteRequests": "blocked",
+    "account": "Synthetic fixture user 1, chat 101",
+    "physicalDpi": "Not tested",
+    "limitations": [
+      "WebView2 COM transport, actual disk files and live Telegram delivery are outside this browser audit"
+    ]
+  },
+  "cases": [],
+  "errors": [],
+  "blockedRequests": [],
+  "fatal": {
+    "error": "TimeoutError: page.waitForFunction: Timeout 8000ms exceeded.",
+    "stack": "page.waitForFunction: Timeout 8000ms exceeded.\n    at boot (C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-operations-ui-audit.mjs:69:14)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:156:3",
+    "diagnostic": {
+      "state": {
+        "auth": "authorizationStateReady",
+        "chatCount": 0,
+        "settingsScreen": 0,
+        "leftContent": 0
+      },
+      "native": {
+        "contentVisible": true,
+        "currentApp": "telegram",
+        "calls": [
+          {
+            "command": "relay_research_ready",
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2439.699999999255
+          },
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": true
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2514.39999999851
+          },
+          {
+            "command": "multi_social_set_labels",
+            "args": {
+              "shareLabel": "Поделиться в Telegram"
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2522.89999999851
+          },
+          {
+            "command": "relay_media_operation_action",
+            "args": {
+              "action": {
+                "type": "lock",
+                "isLocked": false
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2523.39999999851
+          },
+          {
+            "command": "multi_prewarm_x",
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2523.5
+          },
+          {
+            "command": "multi_prewarm_instagram",
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2523.5
+          },
+          {
+            "command": "relay_media_operations_list",
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2525.300000000745
+          },
+          {
+            "command": "multi_set_active_app",
+            "args": {
+              "app": "telegram",
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 1848,
+                "height": 1040
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2525.599999997765
+          },
+          {
+            "command": "multi_social_set_labels",
+            "args": {
+              "shareLabel": "Поделиться в Telegram"
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2535.5
+          },
+          {
+            "command": "relay_get_telegram_transport",
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 2542.099999997765
+          }
+        ],
+        "snapshot": {
+          "epoch": 1,
+          "operations": [],
+          "isLocked": false
+        }
+      },
+      "activeElement": {
+        "tag": "BODY",
+        "id": "root",
+        "label": null
+      },
+      "unhandled": []
+    },
+    "screenshot": "ui-visuals/operations-2026-10-06T01-18-41-137Z/fatal.png"
+  },
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "4247b02b25ea4046ae5400d7abe204be35d1ca0b35bc8b60544d5c935d472ac4",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "226d2ac5bb72b2b6b2e07e8636b26b8d421ccfea52117adb14a225e950a59407",
+    "scripts/relay-operations-ui-audit.mjs": "7ccf00a6f9e5bd89c9afe0de800de4cb59c61ad58a99c5d03149e07388eb17d3"
+  },
+  "sourcesChangedDuringRun": [],
+  "unhandled": [],
+  "summary": {
+    "passed": 0,
+    "failed": 0,
+    "total": 0
+  }
+}

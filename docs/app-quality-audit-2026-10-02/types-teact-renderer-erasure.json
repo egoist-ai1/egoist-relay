@@ -1,0 +1,12 @@
+{
+  "file": "src/util/tiptap/TeactRenderer.ts",
+  "scope": "Root granted assertion/type-import cleanup only; no runtime-body changes.",
+  "beforeSourceSha256": "88752efb17c48522a36d97696c225fc1c943ec24869614aecbf6c8afc7723c75",
+  "afterSourceSha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+  "identicalEmittedJavaScript": true,
+  "beforeJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+  "afterJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+  "typescriptVersion": "6.0.3",
+  "compilerOptionsSource": "tsconfig.json production, noEmit/sourceMaps/declarations/incremental disabled only for isolated emit comparison",
+  "createdAt": "2026-10-02T06:22:16.278Z"
+}

@@ -5,6 +5,13 @@
   width: 100%;
 }
 
+.blockquote {
+  border-left: 4px solid var(--accent-color, #60A5FA) !important;
+  color: #EFF3F4 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
 .collapsed .blockquote {
   max-height: 4lh;
 }

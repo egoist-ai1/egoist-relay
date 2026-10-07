@@ -6,13 +6,14 @@ import { getActions } from '../../global';
 
 import type { ApiCountry } from '../../api/types';
 
-import captureKeyboardListeners from '../../util/captureKeyboardListeners';
+import captureKeyboardListeners, { ALLOW_KEYBOARD_EVENT_PROPAGATION } from '../../util/captureKeyboardListeners';
 import { isoToEmoji } from '../../util/emoji/emoji';
 import renderText from './helpers/renderText';
 
 import useLang from '../../hooks/useLang';
 import useLastCallback from '../../hooks/useLastCallback';
 import usePreviousDeprecated from '../../hooks/usePreviousDeprecated';
+import useUniqueId from '../../hooks/useUniqueId';
 
 import Button from '../ui/Button';
 import ItemPicker from './pickers/ItemPicker';
@@ -51,6 +52,7 @@ const CountryPickerModal = ({
   const { showNotification } = getActions();
 
   const lang = useLang();
+  const searchInputId = useUniqueId();
 
   const [selectedCountryIds, setSelectedCountryIds] = useState<string[]>([]);
   const [filterValue, setFilterValue] = useState('');
@@ -114,8 +116,16 @@ const CountryPickerModal = ({
   });
 
   const handleEnter = useLastCallback((event: KeyboardEvent) => {
+    const target = event.target instanceof HTMLElement ? event.target : undefined;
+    const dialog = document.getElementById(searchInputId)?.closest('dialog');
+    if (!target || !dialog?.contains(target)) return false;
+    if (target.closest('button, a[href], input[type=checkbox], input[type=radio], select, '
+      + '[role=button], [role=checkbox], [role=radio], [role=option], .MenuItem')) {
+      return ALLOW_KEYBOARD_EVENT_PROPAGATION;
+    }
     event.preventDefault();
-    handleSubmit();
+    if (!event.repeat) handleSubmit();
+    return true;
   });
 
   const handleEsc = useLastCallback((event: KeyboardEvent) => {
@@ -144,6 +154,7 @@ const CountryPickerModal = ({
     >
       <ItemPicker
         className={styles.picker}
+        searchInputId={searchInputId}
         items={displayedIds}
         selectedValues={selectedCountryIds}
         onSelectedValuesChange={handleSelectedIdsChange}

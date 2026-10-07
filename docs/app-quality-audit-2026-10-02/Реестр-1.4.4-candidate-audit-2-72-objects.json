@@ -1,0 +1,681 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-app-quality-audit-2026-10-02",
+  "version": "1.4.4-candidate-audit-2",
+  "createdAt": "2026-10-02T09:12:51.354Z",
+  "phase": "audit_in_progress",
+  "installedVersion": "1.4.2",
+  "candidateState": "scoped_fixes_in_progress",
+  "items": [
+    {
+      "id": "bridge-readiness-fix-settled-proof",
+      "name": "Подтверждённый proof до account pin",
+      "version": 1,
+      "content": "Только явные dom_account_proof_pending и app_initializing ожидаются до 20 секунд включая serialized tail. Окончательные auth/challenge/rate/transport ошибки не создают новый job. На dequeue ready должен точно совпасть с исходным account pin; pending identity не сохраняется.",
+      "action": "Принять bounded readiness semantics и сохранить genuine account rejection.",
+      "link": "bridge-readiness-fix-report.md"
+    },
+    {
+      "id": "bridge-readiness-fix-ipc-commit",
+      "name": "Разрыв IPC и граница durable commit",
+      "version": 1,
+      "content": "Authenticated submit/submit_join передают внутренний AbortSignal только до commit. Close во время tail/proof оставляет 0 durable jobs и 0 source runs. Начатый atomic save может дать unknown completion; durable поручение сохраняется с exact idempotency. Прерванная allocation может оставить только собственный пустой output directory, без удаления соседних данных.",
+      "action": "Принять commit/recovery semantics; не включать автоматическую отмену принятого задания.",
+      "link": "bridge-readiness-fix-report.md"
+    },
+    {
+      "id": "bridge-readiness-fix-one-budget",
+      "name": "Один срок выполнения без скрытого удвоения",
+      "version": 1,
+      "content": "Один абсолютный deadline после dequeue включает readiness/busy wait, source, checkpoints и completion persistence; adapter получает остаток. Время в очереди до dequeue отделено. Поздняя source/save completion не переписывает interruption.",
+      "action": "Принять remaining deadline при неизменных persisted finite job limits.",
+      "link": "bridge-readiness-fix-report.md"
+    },
+    {
+      "id": "bridge-readiness-fix-native-init",
+      "name": "Native dispatch после initialization",
+      "version": 1,
+      "content": "Windows сначала создаёт about:blank, затем подтверждает регистрацию SDK observers через bounded 2s ack и выполняет одну target navigation. DOMContentLoaded запускает только Probe; NavigationCompleted с текущим ID сохраняет collection gate и fallback. Повтор dispatch в том же document epoch подавляется.",
+      "action": "Принять Windows SDK lifecycle при отдельном actual COM/live gate.",
+      "link": "bridge-readiness-fix-report.md"
+    },
+    {
+      "id": "bridge-readiness-fix-native-owner",
+      "name": "Владелец навигации и строгие guards",
+      "version": 1,
+      "content": "NavigationOwner фиксируется при новом NavigationStarting. Guard и failure path требуют тот же request/nonce/phase/accountEpoch/target/page context, generation, NavigationId, documentEpoch и exact first-party source. Поздний redirect старого ID отклоняется; redirect того же ID не меняет owner. Fresh guard после replacement до его собственной navigation запрещён.",
+      "action": "Принять owner-binding correction без ослабления account/origin/source guards.",
+      "link": "bridge-readiness-fix-report.md"
+    },
+    {
+      "id": "bridge-readiness-fix-live-gate",
+      "name": "Source проверки и новая сборка остаются разными evidence",
+      "version": 1,
+      "content": "SocialMCP 178/178, final native 40/40 и независимые 26 broker/IPC + 5 Rust synthetic checks не доказывают поведение установленной версии 1.4.2. Новые sources не активированы этим worker. Live idle >15s → submit/dequeue и slow-navigation/account negatives остаются root acceptance после обычного owner transition.",
+      "action": "Сохранить live gate и не заявлять installed repair до actual новой сборки.",
+      "link": "bridge-readiness-fix-report.md"
+    },
+    {
+      "id": "readiness-independent-broker-ipc",
+      "name": "Bounded broker/IPC readiness and disconnect semantics",
+      "version": 1,
+      "content": "26 targeted cases passed; three real-clock pending submissions expired without durable jobs or source calls. Exact frozen broker/ipc SHA recorded.",
+      "action": "Accept this source-level validation receipt for final broker/IPC changes.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/bridge-readiness-independent-review.md"
+    },
+    {
+      "id": "readiness-independent-native-owner",
+      "name": "Native navigation owner correction",
+      "version": 1,
+      "content": "Material stale callback A→B race reproduced before fix; corrected c10f source passed five extracted-function ownership fixtures and static SDK dispatch review.",
+      "action": "Accept the resolved owner-race finding at this exact native source; retain separate parent build/install/live gates.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/bridge-readiness-independent-review.md"
+    },
+    {
+      "id": "mcp-readiness-daemon-activation",
+      "name": "Активирован исправленный исследовательский MCP",
+      "version": "1",
+      "content": "Простаивающий daemon9116 завершён штатной командой; запущен40404 с новым sourceHash. До и после queued/running0. Relay1.4.2 PID46312 и его время запуска сохранены. DNS и файлы/процессы Lagom совпадают с baseline. Новый native Relay ещё не установлен.",
+      "action": "Принять измеренную активацию MCP; не запускает оплату, сообщения, установку или новые исследования.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/bridge-readiness-activation.md"
+    },
+    {
+      "id": "stars-local-loading-guard",
+      "name": "src/components/modals/stars/StarsPaymentModal.tsx",
+      "version": 2,
+      "content": "Local loading/closed/pending guard; native disabled while loading; synchronous pending latch and markLoading before local dispatch; reset latch on close. Actual native keyboard during loading duplicates callback; two native synthetic activations in one task also duplicate before RAF.",
+      "action": "Apply exactly the proposed source diff after explicit human permission, then actual local callback acceptance checks; never send real payments.",
+      "link": "ui-payment-modal-proposed.md"
+    },
+    {
+      "id": "regular-scoped-password-enter",
+      "name": "src/components/payment/PaymentModal.tsx",
+      "version": 2,
+      "content": "Remove own redundant global Enter listener; own Modal onEnter only open ConfirmPassword; local loading/closed guard; ConfirmPassword-only synchronous pending latch reset on existing result/step/error and close lifecycles. Actual owned input Enter invokes validation0 while footer Enter/Space1; same-task footer synthetic clicks validate2. Preserve literal password, other steps and native Back/Confirm behavior.",
+      "action": "Apply exactly the proposed source diff after explicit human permission, then actual local callback acceptance checks; never send real payments.",
+      "link": "ui-payment-modal-proposed.md"
+    },
+    {
+      "id": "quality-held-143-candidate",
+      "name": "Сохранённая сборка1.4.3 и следующий кандидат1.4.4",
+      "version": "1",
+      "content": "1.4.3 прошла упаковку и отдельную тестовую установку, но дополнительная проверка выявила4ошибки диалогов и риски очередиMCP. Пакет сохранён и не устанавливается. Исправления готовятся для1.4.4; установлена1.4.2.",
+      "action": "Принять точный текущий статус; не запускает установку или действия с аккаунтами.",
+      "link": "release-candidate-held.md"
+    },
+    {
+      "id": "modal-source-global-owner",
+      "name": "Payment global Enter target/owner/loading candidate",
+      "version": 1,
+      "content": "ConfirmPassword global Enter is forwarded directly to handleButtonClick without event target/owner/open/repeat check. Handler checks nonempty password but not loading. Footer disabled during loading does not protect this direct entry path.",
+      "action": "Review isolated actual-component callback proof before narrow source changes.",
+      "link": "ui-modal-keyboard-source-sweep.md"
+    },
+    {
+      "id": "modal-source-native-loading",
+      "name": "Stars native keyboard loading candidate",
+      "version": 1,
+      "content": "Local payment handler has amount/balance checks but no loading guard. Button receives isLoading without disabled; shared Button native interactive guard excludes loading. CSS pointer-events:none mitigates pointer clicks but does not disable keyboard activation. Downstream action marks pending without prior pending guard.",
+      "action": "Review exact focused-button callback proof without real payment.",
+      "link": "ui-modal-keyboard-source-sweep.md"
+    },
+    {
+      "id": "modal-source-boundaries",
+      "name": "Static sweep and four-file review boundaries",
+      "version": 1,
+      "content": "131 exact source paths retained, two static candidates, four narrow source fixes reviewed. No functional PASS inferred.",
+      "action": "Keep static, actual-runtime and source-review evidence distinct.",
+      "link": "ui-modal-keyboard-source-sweep.md"
+    },
+    {
+      "id": "ui-additional-browser-close",
+      "name": "BrowserCloseConfirmationModal",
+      "version": 1,
+      "content": "Actual Cancel Enter/Space and default focused Cancel call zero protected actions; Confirm Enter/pointer call once; existing ConfirmDialog and checkbox/callbacks reused",
+      "action": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта.",
+      "link": "ui-additional-modal-report.md"
+    },
+    {
+      "id": "ui-additional-country-enter",
+      "name": "CountryPickerModal",
+      "version": 1,
+      "content": "Exact search-input-owned dialog delegates interactive controls via existing keyboard sentinel; Close Enter/Space0, checkbox Enter0/Space selects, filter Enter1, OK Enter1",
+      "action": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта.",
+      "link": "ui-additional-modal-report.md"
+    },
+    {
+      "id": "ui-additional-password-guard",
+      "name": "PasswordConfirmModal",
+      "version": 1,
+      "content": "Native disabled and handler guard block loading or empty value; nonempty loading0, empty0, existing synthetic password with surrounding spaces preserved and submits once; no new minLength or trim",
+      "action": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта.",
+      "link": "ui-additional-modal-report.md"
+    },
+    {
+      "id": "ui-additional-password-visibility",
+      "name": "PasswordForm",
+      "version": 1,
+      "content": "Direct existing useLastCallback handles Enter/Space once, prevents default scroll and ignores held-key repeat; pointer and keyboard activate real toggle without simulated click",
+      "action": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта.",
+      "link": "ui-additional-modal-report.md"
+    },
+    {
+      "id": "ui-additional-coverage-scope",
+      "name": "Покрытие14 source-path targets /17 состояний",
+      "version": 1,
+      "content": "68geometry assertions;117PASS0FAIL и6gate receipts=три distinctnativeTabflows;31primitivePASS. Render/body assertion is bounded, AttachmentModalItem and PasswordForm are children, older7 overlaps atDeleteMessage.",
+      "action": "Принять точный объём evidence и сохранить перечисленные gates; не подтверждать все функции/окна.",
+      "link": "ui-additional-modal-report.md"
+    },
+    {
+      "id": "ui-additional-native-host-gates",
+      "name": "Три нативных Tab-flow gates",
+      "version": 1,
+      "content": "Native Chromium Tab can leave document focus to host browser UI (activeElement body, document.hasFocus false, dialog.open true). Inertness prevents background composer focus. Three boundary-proof entries support the same three Tab gates; they are not six independent prerequisites.",
+      "action": "Сохранить platform gate для отдельной приёмки nativehost; не выполнять CSS/keyboard изменения автоматически.",
+      "link": "ui-additional-modal-report.md"
+    },
+    {
+      "id": "bridge-readiness-ttl-live",
+      "name": "Повторный TTL proof является переходным состоянием",
+      "version": 1,
+      "content": "После15 секунд native очищает ready→initializing перед новой скрытой proof; adapter показывает unavailable/dom_account_proof_pending.13 parent live samples на1.4.2 подтверждают обе платформы ready спустя≈2.5 секунды, включая повторный TTL refresh. Pending не является доказательством logout.",
+      "action": "Принять ограниченный вывод о переходном TTL состоянии и сохранить live status отдельно от login/account доказательств.",
+      "link": "bridge-account-readiness-audit.md"
+    },
+    {
+      "id": "bridge-readiness-queued-ttl",
+      "name": "Queued job преждевременно завершается во время proof refresh",
+      "version": 1,
+      "content": "Готовая bound submission сдвинута на16s перед dequeue. Actual native TTL contract в synthetic provider возвращает initializing; actual adapter и broker завершают PROVIDER_UNAVAILABLE,0source executions. Execute ждёт только provider_busy.",
+      "action": "Принять воспроизведение как основание для отдельного bounded settled-proof fix, сохраняя binding и один source run.",
+      "link": "bridge-account-readiness-audit.md"
+    },
+    {
+      "id": "bridge-readiness-submit-pin",
+      "name": "Submission pending→ready не получает account pin",
+      "version": 1,
+      "content": "Actual submit во время pending сохраняет accountScope undefined. Если dequeue уже ready под той же synthetic epoch, actual binding guard завершает STALE_ACCOUNT до source run. Это отсутствующий pin, а не подтверждённая смена аккаунта.",
+      "action": "Принять необходимость получить settled proof до pin; genuine changed account/epoch остаётся STALE_ACCOUNT.",
+      "link": "bridge-account-readiness-audit.md"
+    },
+    {
+      "id": "bridge-readiness-started-init",
+      "name": "Early ContentLoading dispatch может стать silent noop",
+      "version": 1,
+      "content": "Wry Started=ContentLoading. SDK допускает ContentLoading до document-created scripts, ExecuteScript асинхронен около этого этапа. Exact native optional wrapper выполненный до init возвращает undefined; actual script init сам не повторяет dispatch; только delayed Finished повтор запускает proof. Windows ordering текущего владельца не наблюдался этим fixture, поэтому это воспроизводимый source hazard, не доказанная причина каждого live pending.",
+      "action": "Рассмотреть отдельный current-navigation/epoch/origin-bound DOMContentLoaded proof dispatch с Finished fallback; не считать installed1.4.2 исправленной.",
+      "link": "bridge-account-readiness-audit.md"
+    },
+    {
+      "id": "bridge-readiness-hidden-and-guards",
+      "name": "Скрытый DOM и строгие границы аккаунта",
+      "version": 1,
+      "content": "Оба actual scripts подтверждают скрытые/loading X/IG документы при valid own nav. Missing/ambiguous IG nav, login/challenge и storage invalidation остаются отдельными результатами. Нативные nonce/origin/documentEpoch/expectedAccount guards сохраняются. Hidden WebView способен throttle tasks по SDK, но реальный scheduler/selector причины текущего владельца не наблюдались.",
+      "action": "Сохранить строгие account/origin/epoch guards; не выводить потерю сессии из missing DOM/pending и не добавлять focus/cookie обход.",
+      "link": "bridge-account-readiness-audit.md"
+    },
+    {
+      "id": "bridge-readiness-candidate-gate",
+      "name": "1.4.3 не меняет proof lifecycle и остаётся отдельным live gate",
+      "version": 1,
+      "content": "authProof/waitAuth и storage regex идентичны после LF/CRLF normalization.1.4.3 изменяет pause abort taxonomy, original-photo selection, checked cursor retry и native selected IG routes; текущая proof TTL/dispatch/broker transient handling не исправляется. Live1.4.3 account readiness/collection в данном этапе не запускались.",
+      "action": "Сохранить candidate source evidence отдельно от installed/live evidence; дальнейшая приёмка только после разрешённого normal owner transition.",
+      "link": "bridge-account-readiness-audit.md"
+    },
+    {
+      "id": "media-audit-transfer-integrity",
+      "name": "Целостность Telegram и дозапись крупных файлов",
+      "version": 1,
+      "content": "40 MiB normal/premium uploads, 128 seeded byte ranges, out-of-order responses and OPFS short writes pass. Valid partial writes finish byte-exactly; zero/invalid writes reject finitely and remove unfinished output. No false 100% after failed writes.",
+      "action": "Принять проверенное изменение исходников и результаты тестов; отправка сообщений не запускается.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "media-audit-cancel-isolation",
+      "name": "Отмена, повторы и независимые запросы",
+      "version": 1,
+      "content": "1000 queued MTProto parts are canceled without retained media states. A sibling Ping in the same sent container remains resolvable; late replies do not resurrect canceled media. 100 mixed save/preview operations are serialized; 200 canceled queued saves do not enter native IPC.",
+      "action": "Принять результаты сценарных тестов; аккаунты и настройки не меняются.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "media-audit-original-stream",
+      "name": "Потоковые оригиналы и Full HD без потери байтов",
+      "version": 1,
+      "content": "70 MiB synthetic originals stream byte-exactly with one GET over verified HTTP/1.1 and h2. An actual local H264 1920x1080 MP4 of 1210 seconds passes real bundled ffprobe and retains SHA256 through file output. CDN/engine download speed is not inferred from localhost fixtures.",
+      "action": "Принять проверку файлового канала; это не подтверждение всех CDN или аккаунтов.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "media-audit-disk-errors",
+      "name": "Точные сообщения об ошибках диска",
+      "version": 1,
+      "content": "Original CDN declared size and resolver file size above the dynamic free-disk budget produce MEDIA_DISK_FULL; buffered preview remains MEDIA_TOO_LARGE. Three original-mode regression cases fail before the patch and pass afterward; malformed length remains rejected without output.",
+      "action": "Принять исправление классификации ошибки; лимиты сервисов и сетевые настройки не меняются.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "export-observed-content",
+      "name": "Сохранение наблюдаемого текста в экспорте",
+      "version": "1",
+      "content": "Markdown/HTML показывают уникальные text, caption, description, observedText и описания изображений. Описание страницы отмечено отдельно; JSONL сохраняется.",
+      "action": "Принять исправление форматирования в составе финального Relay/MCP.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-provenance-media",
+      "name": "Ссылки на источники и скачанные файлы",
+      "version": "1",
+      "content": "Показаны автор/время при наличии, номер строки JSONL, ссылки на источник/наблюдаемое медиа. Локальные файлы отмечены размером, MIME и SHA-256.",
+      "action": "Принять ссылки на точные источники и локальные принятые файлы.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-safe-layout",
+      "name": "Читаемые и безопасные производные документы",
+      "version": "1",
+      "content": "HTML экранирует текст и не загружает удалённое медиа. Опасные схемы URL не интерактивны. На 320, 480, 1280 и 1920 px нет горизонтального переполнения.",
+      "action": "Принять проверенный шаблон Markdown/HTML.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-honest-coverage",
+      "name": "Честное описание полноты результата",
+      "version": "1",
+      "content": "Частичный результат и отсутствие принятого текста видимы. Успех задания не объявляет полной выгрузки сервиса; ошибки сохраняют прежний JSONL/partial-manifest.",
+      "action": "Принять явное отображение частичности и отсутствующих полей.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-fresh-instagram-live",
+      "name": "Свежий экспорт Instagram через обновлённый daemon",
+      "version": "1",
+      "content": "Три выбранные публичные записи; поля JSONL сохранены в Markdown/HTML, источники доступны как ссылки, частичность указана. Это проверка конкретного профиля и задания, а не полноты Instagram.",
+      "action": "Принять доказательство подключения нового форматтера к действующей сессии.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "types-test-context",
+      "name": "Полная проверка типов тестов",
+      "version": "1",
+      "content": "tsconfig.test сохраняет браузерные декларации production и добавляет реальные Node/Vitest types и существующую Tauri augmentation. Все 26 тестов и 1720 исходных файлов зависимостей остаются в проверке; diagnostics 55→0.",
+      "action": "Принять уточнённое окружение типов и использовать scripts/relay-type-audit.mjs как воспроизводимый gate.",
+      "link": "types-report.md"
+    },
+    {
+      "id": "types-production-annotations",
+      "name": "Точные типы без изменения поведения",
+      "version": "2",
+      "content": "10 timer-handle annotation files, accurate Teact VirtualElementParent return and one unnecessary receiver assertion/type-import cleanup. Emitted JavaScript is byte-identical for all12productionfiles; fresh wholeproductionTSC0,wholetestcontext0 retains26tests/1721projectinputs,cleanup targetlint0.",
+      "action": "Принять точные аннотации типов, сохраняя runtime-реализацию.",
+      "link": "types-report.md"
+    },
+    {
+      "id": "types-test-fixtures",
+      "name": "Типизированные fixtures и сценарная проверка",
+      "version": "1",
+      "content": "Telegram union проверяется реальным instanceof, canvas fixture ограничена drawImage contract, progress-mock имеет ApiOnProgress, timer-spy использует реальный globalThis Node таймер.101 уникальный сценарий в 7 файлах проходит; 54 из них повторно проверены после финального уточнения fixtures. Адресный lint 16 файлов: 0 ошибок/ 0 предупреждений.",
+      "action": "Принять типизированные fixtures и результаты адресной проверки.",
+      "link": "types-report.md"
+    },
+    {
+      "id": "full-eslint-attempt",
+      "name": "Bounded full project ESLint result",
+      "version": 1,
+      "content": "Observed single full-scope no-fix ESLint attempt with own heap limit and task-local cache/output.",
+      "action": "Accept observed result and explicit remaining diagnostic/resource gates; no unrelated changes implied.",
+      "link": "types-eslint-final.md"
+    },
+    {
+      "id": "ui-triage-method",
+      "name": "Route-body evidence and existing PASS limits",
+      "version": 1,
+      "content": "Separate requested state/header/body/source-only inventory/missing fixture/protected submission; no pass promotion.",
+      "action": "Include this evidence rule in final audit and corrected rerun.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "ui-triage-fixtures",
+      "name": "Minimal synthetic fixture prerequisites",
+      "version": 1,
+      "content": "Folder/session/passkey/reaction/emoji/topic seeds and actual member row selection.",
+      "action": "Use synthetic preconditions within already authorized isolated audit.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "ui-triage-gaps",
+      "name": "Embedded, disabled and data-dependent route limits",
+      "version": 1,
+      "content": "5 enums cannot be standalone routes;7 right payload routes require data; auth/native/server submission separate.",
+      "action": "Retain and describe unresolved full-server coverage gates accurately.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "ui-triage-contract-errors",
+      "name": "Corrected-run mock response and topic picker prerequisites",
+      "version": 1,
+      "content": "Normalize mock DialogFilter title to current TextWithEntities; seed selected default topic icon pack. Preserve global bootstrap errors as gates until clean rerun.",
+      "action": "Use these minimal fixture contract repairs and require clean UI harness rerun within authorized isolated audit.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "modal-coverage-boundaries",
+      "name": "Exact component/checked-branch coverage",
+      "version": 3,
+      "content": "138 filename-category entries; 7 exact paths with direct receipts = 2 shared components + 5 partial bodies; 131 without direct receipts. Source taxonomy: 123 modal bodies, one media overlay, seven reusable shells/templates, seven auxiliary entries. No independent-window count.",
+      "action": "Use explicit release scope limits, no route/primitive promotion.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "modal-keyboard-source-risks",
+      "name": "Historical risks and bounded resolution",
+      "version": 3,
+      "content": "Original custom/Calendar dispatch risks are historical. Final 31 actual cases pass with exact receipt/source hashes retained; only named branches resolved.",
+      "action": "Accept named branch resolution, retain variants/account gates.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "modal-next-fixtures",
+      "name": "Remaining source-only/partial forms",
+      "version": 3,
+      "content": "Poll, todo, link, contact, report and attachment remain without exact receipts in this cutoff. Calendar/photo/guard fixture plans are partial.",
+      "action": "Synthetic preconditions only; consume later receipts independently.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "modal-owned-body-portals",
+      "name": "Child versus parent evidence",
+      "version": 3,
+      "content": "Actual translation child has eight menu receipts; parent editor and Attachment portal remain unproved. Calendar repeat is inline and directly tested.",
+      "action": "Keep child/shell/body scopes separate.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "keyboard-review-findings",
+      "name": "Contained-control and ConfirmDialog Enter dispatch",
+      "version": 2,
+      "content": "Previous Enter dispatch findings are resolved in final reviewed source and actual31/31 synthetic component receipt; bounded source hashes and original failures retained.",
+      "action": "Accept these bounded code-review conclusions as release evidence while preserving stated full-suite and live account/body coverage limits.",
+      "link": "ui-keyboard-code-review.md"
+    },
+    {
+      "id": "portal-closing-review",
+      "name": "Modal-owned body portal closing lifecycle",
+      "version": 2,
+      "content": "Exact modal-owned portal open/closing/reopen/cleanup and native Escape are supported by latest synthetic cases; intermediate failed probe retained separately.",
+      "action": "Accept these bounded code-review conclusions as release evidence while preserving stated full-suite and live account/body coverage limits.",
+      "link": "ui-keyboard-code-review.md"
+    },
+    {
+      "id": "public-operation-selected-live-evidence",
+      "name": "Пять выбранных публичных live операций",
+      "version": 1,
+      "content": "Daemon 9116 и точный source hash подтверждены. Пять уникальных заданий завершены partial; сохранены девять записей, точные курсоры, файлы и SHA256. Ошибок и повторов нет.",
+      "action": "Принять ограниченные live receipts как доказательство именно этих пяти операций, сохранив частичность и ограничения.",
+      "link": "public-operation-pilots.md"
+    },
+    {
+      "id": "public-operation-instagram-source-association",
+      "name": "Связь Instagram openai и найденных reel источников",
+      "version": 1,
+      "content": "История выбранного openai содержит ссылки /chatgpt/reel с пустым author и без наблюдённых captions/timestamps. Ассоциация источников или совместная публикация этим пилотом не установлена.",
+      "action": "Сохранить связь выбранного профиля и авторов reel как непроверенный пункт финальной приёмки.",
+      "link": "public-operation-pilots.md"
+    },
+    {
+      "id": "asr-local-known-answer",
+      "name": "Локальная проверка распознавания речи с известным текстом",
+      "version": "1",
+      "content": "Две синтетические фразы установленными голосами Windows: английская и русская. В отчёте есть фактический текст, сегменты, WER/CER, длительность, версии и SHA. Результат не утверждает точности на всех реальных видео.",
+      "action": "Принять измеренные результаты локального теста как ограниченное доказательство работы ASR.",
+      "link": "asr-known-answer.md"
+    },
+    {
+      "id": "local-index-selected-corpus",
+      "name": "Локальный поиск по выбранным выгрузкам",
+      "version": "3",
+      "content": "Принять явную индексацию принятых records.jsonl выбранных заданий и буквальный Unicode-поиск с AND, фразами и курсорами. Поиск не читает аккаунты, профили или посторонние каталоги.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "local-index-grounded-evidence",
+      "name": "Точные источники и честная полнота",
+      "version": "3",
+      "content": "Принять ссылки на физическую строку и байты JSONL, SHA-256 строки/файла, явные отсутствующие поля и отличие частичного, пустого, недоступного и изменённого источника. Объём найденного не заменяет анализ всей коллекции. observedText Instagram включён; отдельно показаны записи только с метаданными и отсутствие наблюдаемого текста.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "local-index-atomic-recovery",
+      "name": "Атомарность, отмена и восстановление",
+      "version": "3",
+      "content": "Принять проверенную транзакционную индексацию, повтор без дублей, явную замену изменённой версии, сохранение прежних записей при отмене/сбое и восстановление после реального завершения тестового процесса. Отмена и срок ожидания в очереди завершают ответ своевременно, не нарушая порядок и ограничение очереди.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "local-index-measured-performance",
+      "name": "Измеренная скорость и границы",
+      "version": "3",
+      "content": "Принять результаты стресс-теста 100 тысяч записей: индексация 4,00 с, поиски с SHA-проверкой исходников 0,55–0,75 с; ограниченные страницы продолжаются без потери через курсор. Это измерение на текущем ПК, не гарантия любой нагрузки.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "mcp-local-index-identity",
+      "name": "Точный выбор источников MCP",
+      "version": "1",
+      "content": "Принять проверку совпадения ID каждого ответа get с выбранным ID до индексации; чужая возвращённая выгрузка отклоняется. Реальные запросы и активация сервера проверяются отдельно.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-integration-review.md"
+    },
+    {
+      "id": "mcp-local-index-flow",
+      "name": "Поток MCP и своевременная отмена",
+      "version": "1",
+      "content": "Принять ожидание callback/drain, конечную обработку закрытого/ошибочного канала и своевременное завершение отменённых запросов в очереди с сохранением порядка. Закрытие stdio не завершает общий daemon.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-integration-review.md"
+    },
+    {
+      "id": "social-source-readiness",
+      "name": "Bounded source readiness and strict Instagram account proof",
+      "version": "Relay1.4.3",
+      "content": "Accept strict own-account DOM proof, bounded source readiness and precise pending-pause STALE_ACCOUNT versus explicit CANCELLED. Actual1.4.2 public source evidence is separate from new candidate live gates.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "research-stream-flow",
+      "name": "Bounded streaming backpressure with responsive native commands",
+      "version": "Relay1.4.3",
+      "content": "Accept await-drain/finite-close helper delivery, off-main validated native reply wrappers, existing directory stat reuse and a consistent finite 500 media-ID task bound; wire protocol, byte budgets and safety checks remain.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "research-live-gates",
+      "name": "Per-operation coverage and live acceptance gates",
+      "version": "Relay1.4.3",
+      "content": "Accept all28 provider operation rows with separate source, actual, synthetic and remaining gates; no universal access/completeness/throughput claim.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "media-request-ownership",
+      "name": "Exact ownership of cancelled media requests",
+      "version": "Relay1.4.3",
+      "content": "Accept sender-owned queue/pending/recent cleanup only for signaled GetFile/SaveFilePart/SaveBigFilePart; preserve unrelated RPCs, shared connection, queue order and original wrapper errors.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "social-photo-original-source",
+      "name": "Original photo source and honest observed dimensions",
+      "version": "Relay1.4.3",
+      "content": "Use exact Xpbs media path/format with name=orig or highest validated observed IG srcset preserving signed bytes. observedSourceUrl and dimensions evidence separate rendered metadata from requested media; actual pixels/hash remain a gate.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "social-cursor-recovery",
+      "name": "Strict no-progress cursor without confirmed-empty claims",
+      "version": "Relay1.4.3",
+      "content": "Keep unchanged source/account/operation/target/anchor/offset cursor after bounded observed anchor proof and explicit partial cursor_no_progress; all mutated/missing proof rejects. Actual next records remain a live gate.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "social-selected-reel-route",
+      "name": "Validated observed Instagram post/reel aliases",
+      "version": "Relay1.4.3",
+      "content": "Normalize validated same-origin optional handle+p/reel/reels/shortcode to exact case-sensitive canonical public post identity; keep source/account/epoch/DM boundaries.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "ui-audit-range",
+      "name": "Недоступные настройки и точный прогресс ползунка",
+      "version": 1,
+      "content": "3 reproduced failures corrected; disabled/readOnly cannot change via keyboard, fill honors min/max and finite0/1-option bounds.",
+      "action": "Принять проверенное изменение RangeSlider; настройки аккаунтов не выполняются.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "ui-audit-dialog-keyboard",
+      "name": "Фокус, безопасное подтверждение и меню диалога",
+      "version": 2,
+      "content": "31 actual custom safety cases pass: Cancel/Keep/checkbox never call protected destructive handler; default native Button and Confirm activate once. Two active Modal owners retain exact Enter/Escape routing; AI keyboard language trigger and owned body portal work. Native/div menu keyboard callbacks execute once without modal callback; owned portal remains focusable, Escape closes menu first and returns focus. Disabled/hidden controls skipped and destructive default is Cancel/neutral.",
+      "action": "Принять проверенные UI-исправления; это не запуск удаления или действия аккаунта.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "ui-audit-theme-contrast",
+      "name": "Читаемые сообщения во всех11 темах",
+      "version": 1,
+      "content": "Actual RadioGroup selection/readback, solid body/reply/time and66 actual-component dark media overlays pass4.5 contrast; minimum4.762. Existing palette/layout/media kept.",
+      "action": "Принять проверенное изменение локальных стилей сообщений.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "ui-audit-coverage",
+      "name": "Покрытие и оставшиеся экраны",
+      "version": 1,
+      "content": "64 scenarios:63PASS/0FAIL/1fixturegate;125 route requests:109bodyrendered/16gates/0errors. 774 source entries are catalogued, not all functionally certified. Live accounts/uploads/auth/calls/physicalGPU remain separate gates.",
+      "action": "Принять отчёт как проверенный объём и сохранить перечисленные gates для дальнейшего аудита; это не подтверждение полной готовности всех функций.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "mcp-real-selected-corpus",
+      "name": "Настоящий MCP: поиск по выгрузкам трёх сервисов",
+      "version": "1",
+      "content": "Через stdio зарегистрированы 8 tools; индексированы 20 записей восьми точно выбранных публичных jobs. Telegram и OpenAI дают по 7 совпадений, четыре страницы без дублей. Все строки, байты и хеши проверены по исходникам. Индексация 77 мс, поиски 130–144 мс на этой небольшой коллекции. Это локальная проверка выбранных частичных снимков.",
+      "action": "Принять результат проверки реального MCP и точных источников.",
+      "link": "index-live-acceptance.json"
+    },
+    {
+      "id": "quality-candidate-installation",
+      "name": "Сборка и установка Relay 1.4.4",
+      "version": "2",
+      "content": "Установлена1.4.2. Для1.4.4 исправлены4ошибки диалогов; готовится обработка ожидания аккаунтаMCP. Финальные проверки, build/payload/smoke остаются отдельными gates. Сохранённый1.4.3 не устанавливается.",
+      "action": "Принять фактическую проверку указанного пакета; установка уже поручена и ждёт отдельного штатного выхода из работающего Relay.",
+      "link": "README.md"
+    }
+  ],
+  "inputEvidence": [
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.json",
+      "sha256": "28eae23fbf1ea99e9bde3021a6874a6520d1e2295dfe9bd7e429dd9748d6b844"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-independent-review.json",
+      "sha256": "387816178327f42c22b2432794262c304344d1a882aca69c16df27a69c05dbda"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-activation.json",
+      "sha256": "6746c06202e216743eefd976e00efd5b1688083fa4bf74e8451f6c0fb6495ae4"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-proposed.json",
+      "sha256": "51b2ccd4218bd47ee3fbc2b7da8f1ac83e4dc875e56aefcafeb05bc15cb7388f"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\release-candidate-held.json",
+      "sha256": "d74e3ab828a45b581774ac770f54266ae3bd2a56a007267cabb3a19471619010"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-modal-keyboard-source-sweep.json",
+      "sha256": "dc0ac8d7e4a4c8c2d91f6b1793b4104206d56639316b624515801dc16b4cbc68"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-additional-modal-review-objects.json",
+      "sha256": "c1ce3767a7d1a187562cbcf591171433f90e58ce39394dc5b9f7dbb64ae32554"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.json",
+      "sha256": "9d6404bf1c64c0c64e4c149c09e8ee196c9218bcb2b0ae6765750534b55fa22a"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\media-review-objects.json",
+      "sha256": "6880c1e78fe7b5e5f1d9e44ff4f24c10b4017b4b375dd915d7e20e784c5e2ba9"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-fidelity-audit.json",
+      "sha256": "aaf3e52e12d94b77bf527367145ce2b2192e13d02ce2cd04e5e6be6ca1abd167"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-report.json",
+      "sha256": "a1a7a2c3bd023c49ee77cdbe004f71907372d1ce309bbd828b942de28193a357"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-eslint-retry.json",
+      "sha256": "4773d792a2b8f78dd37325c369c0a07dd4aa1c4e52cf33d4ec79bf472d1c560d"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-eslint-final.json",
+      "sha256": "efb08da7d32310d708742f6323469b4b0b31924ab9b6e5d30daef83b16d29040"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-gate-triage.json",
+      "sha256": "0db4c658e2014011747b3a123ff9b01ee863887de909ef34b272027c30812402"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-modal-coverage.json",
+      "sha256": "98e0ea23b9b128751e3c4a340ca035cbb84c8083cf57bd03c47cf335d89399eb"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-keyboard-code-review.json",
+      "sha256": "ad3e917490091481a30ab2e9b918a94c8116aed9ce21eed40fafd8b906e3413d"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-live-instagram.json",
+      "sha256": "405ecc6ab842829b298f0ff623559a86eae7f0636cd56916222f05ee6d85e732"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "sha256": "3ef04476dc880519e6db456e44a0b636eeda719dcd033185bfe9ccf63033f723"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\asr-known-answer.json",
+      "sha256": "8a283904480f42d769be3f4bf8d9443b530c2594d2e79799d2e9d6c6354220f1"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\index-review.json",
+      "sha256": "53c2647412e2f589f3b9edb81f3d9740ea40afa8f2db2d1a35218ee5db116867"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\index-integration-review.json",
+      "sha256": "f7ba63895d6ce60d29c306d2e1628db3633444f54d5bd12b7f1825dd4c86d82e"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\account-research-review.json",
+      "sha256": "89eae56e5ecbb927f444e43dd23d18f6ee91f1706795bad572354ac5cc159956"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-review-objects.json",
+      "sha256": "5ecf3ba8cb961cb3b7d6af97fd99de94bce4cce9e6f2e7be6a1a8f94e66903b9"
+    }
+  ]
+}

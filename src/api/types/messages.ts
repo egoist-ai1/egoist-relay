@@ -780,6 +780,7 @@ export interface ApiMessage {
   sendingState?: 'messageSendingStatePending' | 'messageSendingStateFailed';
   forwardInfo?: ApiMessageForwardInfo;
   isDeleting?: boolean;
+  isDeletedByPeer?: boolean;
   previousLocalId?: number;
   viewsCount?: number;
   forwardsCount?: number;

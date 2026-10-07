@@ -1,0 +1,2410 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a10e5c-490e-7401-ab0c-09ec3a0b60b1",
+  "createdAt": "2026-10-06T19:33:57.826753+03:00",
+  "state": "paused-cleanup-completed",
+  "authorization": {
+    "sourceThread": "01a11123-7fde-7de1-91a2-10f84cb72276",
+    "verifiedHumanAnswer": "Да, приостановить эти чаты и очистить временную работу"
+  },
+  "root": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "publicationPerformed": false,
+  "writerCheck": "Own work path/Relay Cargo/Vite/NSIS process query returned no writer; all five live child agents completed.",
+  "preserved": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.6.1\\Egoist Relay_1.6.1_x64-setup.exe",
+      "bytes": 567488354,
+      "sha256": "3066963d99430ffa83a3b62c1f1c29e4db8b6040846932fd1bd9bfae8d121751"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\hotfix-1.6.1\\candidate-source-hashes.json",
+      "bytes": 441997,
+      "sha256": "835e57c427eb1f326060fe0b55d27a6543c6f4d54938f3596464d582318bead4"
+    }
+  ],
+  "candidates": [
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\implementation-eslintcache",
+      "recipe": "Completed ESLint/Stylelint cache; reproducible lint commands"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\implementation-stylelintcache",
+      "recipe": "Completed ESLint/Stylelint cache; reproducible lint commands"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-008f82f5-868d-4ebe-a784-d02610e4fdc5",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-036d0270-3306-4136-9f5f-00534a70b77f",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-04084e37-d16b-4ff7-9225-46c5cd1e9cb6",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-063120a6-7b19-42b1-b644-66c5bd1f69e3",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-0be4f283-57f5-4b1d-a510-1896b43d4b18",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-112a85b8-a1e9-42a0-98c7-a7d28eb774a5",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-140b8a80-7309-4acf-b049-820bd7c75ecf",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-1ac332d0-7c20-4bf3-8247-bb2b96b358cc",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-1b5f68bd-1b4f-496f-aa7a-94ae11c5fbaf",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-24908faf-d06c-42d2-a134-fdda1a901cba",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-257b0bc9-9ca7-4fd0-826d-84a0ab0eca28",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-26c2496d-1be5-41a7-b8cb-84015d413e7e",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-2c32b52f-6a39-4d95-b268-65e97cf4e3fc",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-307ead89-c338-4e36-bb89-b69d9828f3e4",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-32ff2098-ffaa-44a9-b759-f5679ea5dbc0",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-342abaf0-2d82-4689-ad9f-778cd1923027",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-3c2ab4cd-5dd1-4ae0-ace1-6aec22bb2a6a",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-3d83f159-b99e-4c6d-b241-77e271615fc4",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-41b503c0-0df4-472a-9142-082678f0582c",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-52603656-530b-43be-b575-a690e60ef92f",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-5551b7aa-be7d-4816-bb2b-d57ce9411b11",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-5962574b-8200-4df4-9586-13555f3cc0df",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-5c8a64ca-84fb-45d0-bded-172ebf550c87",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-6089ebea-9a96-4542-9fc2-5fd9b994be57",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-6915edea-fab7-46aa-b371-7377ae0d9d74",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-6e9308ad-b8e5-4506-a033-058cef408e34",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-748352c5-4ee0-4340-8d36-05d8dc885637",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-7a48ac8b-8bac-4189-bcfc-1e819614cf36",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-7fdbd67c-e1d7-46a9-b102-c14d27589196",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-815ef90e-e1b8-434b-af05-5245ff30a325",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-8b298399-0d77-4d12-8044-1d835429fdb0",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-8df1ba65-2c22-404b-b886-5606fc92071b",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-956397fd-a65d-4097-affd-cc016ce67d6d",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-963947a6-ce69-4e07-ba5e-3792f93c496f",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-996c2799-3488-4e59-b732-e8bed3028746",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-9c107b2f-750a-4903-b706-2304563307a8",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-a2ed4b14-ccc4-4746-96be-504162e0290f",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-a9863ed0-1876-48d5-a959-8e3f9516894b",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-aecf1c05-a557-4c3e-b943-24c69625ed90",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-b53398be-2cd8-4b94-a1a9-44d8a087489e",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-b9ed2c9e-d201-4b63-95d8-93f2f1e97d71",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-ba78e684-574e-4e59-9569-1f37c87964b0",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-bb7307f0-d20b-4f7f-ba81-4ac3e1c67710",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-bb916ea8-eb4f-47c8-983d-d9658bc9cecf",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-c0d112dc-f729-4bff-9b7c-753f39a4b6c1",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-c2fef3d9-fdca-4490-91aa-9096d31eb05f",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-c5500243-1d31-47a2-b1be-0dd4a119c27e",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-c9625fed-4839-4ac1-a981-27f62613ef53",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-ca5a497f-7aa8-4515-80c6-d79b4c55963d",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-d041f358-aec8-47d5-8072-a0cd686c95d0",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-d0a81be5-1312-4f96-88a3-3ca8d54c0891",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-dc7f5aa3-a64e-45a5-8c97-4d1875a7bd18",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-e16fd7b9-4515-46cc-95f1-7a7200ce8ae2",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-e1a0d9c9-012a-4f3b-9885-98bcad8322d4",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-e4dbf1b1-f9a6-4f2c-9f9d-6ce406caa738",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-e68407ea-7e40-43eb-a632-b0ee36ce3490",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-f307bb8c-eb11-4677-aa2e-ad9d920496b3",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-f442aa29-b8d5-4222-aea9-e1d373195127",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-fa990073-1d4f-4518-ae4a-89ef7fbc5eea",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-fe989631-9cea-468c-a9ad-10f0c8b8e864",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\media-journal-ff1f22bf-1c2f-460a-8dea-4948e7730a3e",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-eslintcache",
+      "recipe": "Completed ESLint/Stylelint cache; reproducible lint commands"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-rust-target",
+      "recipe": "Cargo release compilation and packaged runtime; recipe: existing Tauri build with CARGO_TARGET_DIR in own work"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-stylelintcache",
+      "recipe": "Completed ESLint/Stylelint cache; reproducible lint commands"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-ui-layout-states\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-ui-baseline\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\performance-comparison\\1.5.0\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\performance-comparison\\1.4.7\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\operations-existing-ui\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\hotfix-1.6.1\\ui-server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\hotfix-1.6.1\\temp\\node-compile-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\candidate-operations-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\candidate-shell-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\caption-probe-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\detail-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\direction-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\focus-after-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\focus-before-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\focus-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\inspect-integrated-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\playwright-video-runtime",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\vitest-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\vitest-temp",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\ui-release\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\resize-focus-before\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\resize-focus-after\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\render-release\\candidate-render-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\render-release\\playwright-video-runtime",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\operations-release\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-04987674-efa7-49d2-8aca-aa174c965a3c",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-0634f4d4-c0c1-4062-8c96-71d9e7b96332",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-279835a3-d9f8-4be9-a51c-58590468d370",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-312610da-2a41-4fcd-a3dc-aa8429d82e21",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-37672322-f0d7-405f-853c-8fd52501a98b",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-4132d291-baa7-45a9-bb48-88d1d2910dcb",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-43541ef1-94e5-400f-94de-ecc2a311500e",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-633b2b30-564d-4ab7-a731-815974182025",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-63d4392b-e3ed-46c6-896c-c7d6d4ddda28",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-77e3dfa0-1819-4c51-9bea-7f748046c4c7",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-8584533d-b948-44ae-99c6-9b8c0cb76832",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-8b0e98e5-0dc6-42c0-8595-ed6853c5a914",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-a2e61362-7a22-4bf6-ab94-45a9e636a5f4",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-ae36d4b4-4a5a-49be-98f7-902b6cefaff8",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-bb1e5579-ef6b-4370-8db4-668e4f669d56",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-f1da8d9f-6799-47ad-a80a-08d351c36ac7",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\native-tests\\media-journal-f87a9228-5495-4c7e-b43c-b7fea9be5714",
+      "recipe": "Synthetic Windows native test fixture; tauri/src/media_operations.rs native_directory and EGOIST_RELAY_TEST_WORK"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-release\\candidate-render-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-release\\playwright-video-runtime",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-final\\candidate-render-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-final\\playwright-video-runtime",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-delivery\\candidate-render-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-delivery\\playwright-video-runtime",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-baseline\\candidate-render-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\gallery-baseline\\playwright-video-runtime",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\contrast-trace\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\contrast-rule-trace\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\contrast-correct-selector\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\contrast-before-verified\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\contrast-before\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\3-candidate\\browser-profile",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\3-candidate\\server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\3-baseline\\browser-profile",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\3-baseline\\server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\2-candidate\\browser-profile",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\2-candidate\\server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\2-baseline\\browser-profile",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\2-baseline\\server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\1-candidate\\browser-profile",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\1-candidate\\server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\1-baseline\\browser-profile",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\1-baseline\\server\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\baseline-shell\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-verified\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-release-final\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-release\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-initial\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-final\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-complete\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-candidate\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\acceptance-after\\vite-cache",
+      "recipe": "Completed synthetic UI/Vitest cache or isolated browser/runtime download; recipes in existing project scripts and reports"
+    }
+  ],
+  "plannedSingleLinkFiles": 61426,
+  "plannedLogicalBytes": 8174173958,
+  "retained": [
+    {
+      "path": "planning-rust-target\\release\\egoist_relay.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 4214784
+    },
+    {
+      "path": "planning-rust-target\\release\\Egoist Relay.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 78161408
+    },
+    {
+      "path": "planning-rust-target\\release\\deps\\egoist_relay.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 4214784
+    },
+    {
+      "path": "planning-rust-target\\release\\deps\\egoist_relay.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 78161408
+    },
+    {
+      "path": "planning-rust-target\\release\\deps\\app_lib.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2822144
+    },
+    {
+      "path": "planning-rust-target\\release\\deps\\app_lib.dll.lib",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1536
+    },
+    {
+      "path": "planning-rust-target\\release\\deps\\app_lib.dll.exp",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 886
+    },
+    {
+      "path": "planning-rust-target\\release\\deps\\app_lib.dll",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 474112
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build_script_build-b9dd2a9a3fa20d18.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build_script_build-b9dd2a9a3fa20d18.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 263168
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 263168
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1650688
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build_script_build-70646ff1a9117c76.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1650688
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build_script_build-70646ff1a9117c76.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 314880
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 314880
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1396736
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build_script_build-f922c03dacc23ac8.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1396736
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build_script_build-f922c03dacc23ac8.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 218112
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 218112
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1323008
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build_script_build-af39c05d7f0be121.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1323008
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build_script_build-af39c05d7f0be121.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 145408
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 145408
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1323008
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build_script_build-a61a7451178c88c8.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1323008
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build_script_build-a61a7451178c88c8.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 145408
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 145408
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2142208
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build_script_build-266976a6c0eb989b.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2142208
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build_script_build-266976a6c0eb989b.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 748032
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 748032
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1372160
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build_script_build-5b9af5c3f4cca1a8.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1372160
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build_script_build-5b9af5c3f4cca1a8.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 177152
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 177152
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2576384
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build_script_build-8d5358d46b1cbf48.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2576384
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build_script_build-8d5358d46b1cbf48.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1118720
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1118720
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\vswhom-sys-26415f49dafb6628\\out\\vswhom.lib",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 49922
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\vswhom-sys-26415f49dafb6628\\out\\libvswhom.a",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 49922
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build_script_build-ad5c6c44fb382619.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build_script_build-ad5c6c44fb382619.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build_script_build-0f6944fd75305fb8.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build_script_build-0f6944fd75305fb8.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1683456
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build_script_build-f80e56cb391cd9fe.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1683456
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build_script_build-f80e56cb391cd9fe.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 321024
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 321024
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build_script_build-86439d20fd048c77.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build_script_build-86439d20fd048c77.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 138752
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 138752
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build_script_build-26c084d992b9fe2d.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build_script_build-26c084d992b9fe2d.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 138752
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 138752
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build_script_build-9935197a80d16f80.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build_script_build-9935197a80d16f80.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6433792
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6433792
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8220672
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build_script_build-7c3406270e6fdc95.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8220672
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build_script_build-7c3406270e6fdc95.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6474752
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6474752
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build_script_build-23871d653ab701b2.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build_script_build-23871d653ab701b2.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6432256
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6432256
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build_script_build-080f5408adc2e6fb.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build_script_build-080f5408adc2e6fb.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6432256
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6432256
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8204288
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build_script_build-14e27225a41848e3.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8204288
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build_script_build-14e27225a41848e3.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6431744
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6431744
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build_script_build-4e8beb7f29748ce9.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8212480
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build_script_build-4e8beb7f29748ce9.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6432768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6432768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8376320
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build_script_build-77666b6683c161c6.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8376320
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build_script_build-77666b6683c161c6.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6647296
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6647296
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8310784
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build_script_build-619d0e59b82bd25b.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 8310784
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build_script_build-619d0e59b82bd25b.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6580224
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 6580224
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 7483392
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build_script_build-f0b7de5c1c5f2e7e.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 7483392
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build_script_build-f0b7de5c1c5f2e7e.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 5830144
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 5830144
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 7483392
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build_script_build-e69bf350957f6f5e.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 7483392
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build_script_build-e69bf350957f6f5e.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 5830144
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 5830144
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build_script_build-fe8631563c993db4.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build_script_build-fe8631563c993db4.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137216
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137216
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build_script_build-ebb3b37999d5dd5d.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build_script_build-ebb3b37999d5dd5d.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137216
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137216
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build_script_build-a336aad7934d0c99.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build_script_build-a336aad7934d0c99.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 281600
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 281600
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build_script_build-2d452306ea092f7a.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build_script_build-2d452306ea092f7a.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 281600
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 281600
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build_script_build-8356c1567c59ff3d.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build_script_build-8356c1567c59ff3d.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 279552
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 279552
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build_script_build-56ecb3a955b9def1.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build_script_build-56ecb3a955b9def1.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 279552
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 279552
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1429504
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build_script_build-7acac82c28b9a915.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1429504
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build_script_build-7acac82c28b9a915.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 256000
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 256000
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build_script_build-4b3b93379a563f3c.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build_script_build-4b3b93379a563f3c.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 139264
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 139264
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1265664
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build_script_build-3c3b2705413eb919.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1265664
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build_script_build-3c3b2705413eb919.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 126976
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 126976
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\ring_core_0_17_14__test.lib",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2998
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\ring_core_0_17_14_.lib",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 756426
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\libring_core_0_17_14__test.a",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2998
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\libring_core_0_17_14_.a",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 756426
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2641920
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build_script_build-97de40d4a40896de.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2641920
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build_script_build-97de40d4a40896de.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1221120
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1221120
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build_script_build-de8be9c830913c71.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build_script_build-de8be9c830913c71.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 134656
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 134656
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1830912
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build_script_build-df64e0fbe64bcd42.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1830912
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build_script_build-df64e0fbe64bcd42.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 438784
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 438784
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build_script_build-d6aa19daf81deccf.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build_script_build-d6aa19daf81deccf.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1658880
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build_script_build-552247d21cf6707a.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1658880
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build_script_build-552247d21cf6707a.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 324608
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 324608
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1683456
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build_script_build-0d958e697e658c6e.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1683456
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build_script_build-0d958e697e658c6e.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 307200
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 307200
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build_script_build-e91b9d136535b68b.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build_script_build-e91b9d136535b68b.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260608
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260608
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build_script_build-9cff5de236d7dfd0.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build_script_build-9cff5de236d7dfd0.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 151040
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 151040
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1740800
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build_script_build-97d1c2f773421c73.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1740800
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build_script_build-97d1c2f773421c73.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 357888
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 357888
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build_script_build-af4ffeb2775d7dba.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build_script_build-af4ffeb2775d7dba.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 137728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1740800
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build_script_build-4f75ee2f1d1950c9.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1740800
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build_script_build-4f75ee2f1d1950c9.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 357376
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 357376
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1331200
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build_script_build-2202e971eded8f79.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1331200
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build_script_build-2202e971eded8f79.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 187904
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 187904
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1634304
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build_script_build-6989923ad5227ecc.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1634304
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build_script_build-6989923ad5227ecc.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 312320
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 312320
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1748992
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build_script_build-27a5c46f1a48d25b.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1748992
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build_script_build-27a5c46f1a48d25b.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 361472
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 361472
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build_script_build-a6c6b78307b008fe.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build_script_build-a6c6b78307b008fe.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 136704
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 136704
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build_script_build-701d2b74e00e4387.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build_script_build-701d2b74e00e4387.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 136704
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 136704
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1617920
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build_script_build-e7bb4e13fc7755d0.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1617920
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build_script_build-e7bb4e13fc7755d0.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 289792
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 289792
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build_script_build-9c89fc0433ce9cf6.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build_script_build-9c89fc0433ce9cf6.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 150528
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 150528
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build_script_build-7009629acd97e0e4.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build_script_build-7009629acd97e0e4.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 280576
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 280576
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build_script_build-5de0ab7048e3abbd.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build_script_build-5de0ab7048e3abbd.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 150528
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 150528
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1650688
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build_script_build-ba9d1bb016973615.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1650688
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build_script_build-ba9d1bb016973615.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 291328
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 291328
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build_script_build-11f7ce59998ef217.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build_script_build-11f7ce59998ef217.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 11808768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build_script_build-701ccda0aff426cb.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 11808768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build_script_build-701ccda0aff426cb.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 10009088
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 10009088
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5dfd3fd6a3761baa\\out\\tauri-codegen-assets\\c125e3f1e83e0b78160f8d3870a774db829ce11af49e9a74422c711123dec351.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5dfd3fd6a3761baa\\out\\tauri-codegen-assets\\a2496ff70b0eec6f77c317238a2e0b0fc1c45121403bd49ebae403520606d7e0.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5dfd3fd6a3761baa\\out\\tauri-codegen-assets\\4cf009116fa12d125c2ac1d31596157c6c673863424a52fb948701ffe9162e68.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5dfd3fd6a3761baa\\out\\tauri-codegen-assets\\449f2890d7b749a6c81028384acc3bf45a04e88ea8ee7f31a604c940cdde5369.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 11808768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build_script_build-5759ed8478acd0cd.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 11808768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build_script_build-5759ed8478acd0cd.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 10009088
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 10009088
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-440fe4d314263792\\out\\tauri-codegen-assets\\c125e3f1e83e0b78160f8d3870a774db829ce11af49e9a74422c711123dec351.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-440fe4d314263792\\out\\tauri-codegen-assets\\a2496ff70b0eec6f77c317238a2e0b0fc1c45121403bd49ebae403520606d7e0.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-440fe4d314263792\\out\\tauri-codegen-assets\\4cf009116fa12d125c2ac1d31596157c6c673863424a52fb948701ffe9162e68.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-440fe4d314263792\\out\\tauri-codegen-assets\\449f2890d7b749a6c81028384acc3bf45a04e88ea8ee7f31a604c940cdde5369.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-3d87b3bf5b9e6a43\\out\\tauri-codegen-assets\\c125e3f1e83e0b78160f8d3870a774db829ce11af49e9a74422c711123dec351.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-3d87b3bf5b9e6a43\\out\\tauri-codegen-assets\\a2496ff70b0eec6f77c317238a2e0b0fc1c45121403bd49ebae403520606d7e0.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-3d87b3bf5b9e6a43\\out\\tauri-codegen-assets\\4cf009116fa12d125c2ac1d31596157c6c673863424a52fb948701ffe9162e68.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-3d87b3bf5b9e6a43\\out\\tauri-codegen-assets\\449f2890d7b749a6c81028384acc3bf45a04e88ea8ee7f31a604c940cdde5369.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 11808768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build_script_build-224218549b6bc477.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 11808768
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build_script_build-224218549b6bc477.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 10009088
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 10009088
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-0dfa99c3c06aaffb\\out\\tauri-codegen-assets\\c125e3f1e83e0b78160f8d3870a774db829ce11af49e9a74422c711123dec351.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-0dfa99c3c06aaffb\\out\\tauri-codegen-assets\\a2496ff70b0eec6f77c317238a2e0b0fc1c45121403bd49ebae403520606d7e0.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-0dfa99c3c06aaffb\\out\\tauri-codegen-assets\\4cf009116fa12d125c2ac1d31596157c6c673863424a52fb948701ffe9162e68.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\egoist_relay-0dfa99c3c06aaffb\\out\\tauri-codegen-assets\\449f2890d7b749a6c81028384acc3bf45a04e88ea8ee7f31a604c940cdde5369.webmanifest",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build_script_build-bef4bc938d67d4a5.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build_script_build-bef4bc938d67d4a5.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 171008
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 171008
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build_script_build-19991bae26d6e6f0.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build_script_build-19991bae26d6e6f0.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 151040
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 151040
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build_script_build-e57a5ca16a90307b.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1290240
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build_script_build-e57a5ca16a90307b.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 151040
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 151040
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build_script_build-f175bcc66393fbd3.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1601536
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build_script_build-f175bcc66393fbd3.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 260096
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1667072
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build_script_build-6d563f85e56639ae.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1667072
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build_script_build-6d563f85e56639ae.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 302080
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 302080
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build_script_build-cbe48091a68328af.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1609728
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build_script_build-cbe48091a68328af.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 274432
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 274432
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build_script_build-139ffc705ef27db4.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1306624
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build_script_build-139ffc705ef27db4.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 140288
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 140288
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build_script_build.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1675264
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build_script_build-8bf9f33592b4c05d.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1675264
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build_script_build-8bf9f33592b4c05d.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 304128
+    },
+    {
+      "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build-script-build.exe",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 304128
+    },
+    {
+      "path": "planning-rust-target\\release\\app_lib.pdb",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 2822144
+    },
+    {
+      "path": "planning-rust-target\\release\\app_lib.dll.lib",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 1536
+    },
+    {
+      "path": "planning-rust-target\\release\\app_lib.dll.exp",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 886
+    },
+    {
+      "path": "planning-rust-target\\release\\app_lib.dll",
+      "reason": "hardlink",
+      "links": 2,
+      "bytes": 474112
+    },
+    {
+      "path": "frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\3-candidate\\browser-profile\\Default\\Service Worker\\CacheStorage\\53bd5604cd418d854daf578528ba6623995cc986",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\3-baseline\\browser-profile\\Default\\Service Worker\\CacheStorage\\53bd5604cd418d854daf578528ba6623995cc986",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\2-candidate\\browser-profile\\Default\\Service Worker\\CacheStorage\\53bd5604cd418d854daf578528ba6623995cc986",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\2-baseline\\browser-profile\\Default\\Service Worker\\CacheStorage\\53bd5604cd418d854daf578528ba6623995cc986",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\1-candidate\\browser-profile\\Default\\Service Worker\\CacheStorage\\53bd5604cd418d854daf578528ba6623995cc986",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    },
+    {
+      "path": "frontend-cycle-2026-10-06\\benchmark\\2026-10-06T12-27-37-098Z-ea6a13ef\\1-baseline\\browser-profile\\Default\\Service Worker\\CacheStorage\\53bd5604cd418d854daf578528ba6623995cc986",
+      "reason": "FileNotFoundError",
+      "winerror": 3
+    }
+  ],
+  "discoveryErrors": [],
+  "otherRetained": "All unique source baselines, raw logs, screenshots/videos, generators, checkpoint/events and native history; accepted reports and installers remain in canonical project.",
+  "completedAt": "2026-10-06T19:34:11.626099+03:00",
+  "removedFiles": 61426,
+  "removedDirectories": 1570,
+  "removedLogicalBytes": 8174173958,
+  "freeBefore": 190363164672,
+  "freeAfter": 198644858880,
+  "deleteErrors": [],
+  "documentedCompletedChildIds": [
+    {
+      "taskId": "01a110b9-e0fb-7b32-b25c-cd096182eb93",
+      "name": "controls_settings",
+      "source": "docs/frontend-cycle-2026-10-06/controls-settings/verification.json",
+      "state": "completed",
+      "runtimeAccessed": false
+    },
+    {
+      "taskId": "01a110b9-5458-76a1-9b33-3b6385bde868",
+      "name": "neutral_theme",
+      "source": "docs/frontend-cycle-2026-10-06/theme/verification-neutral-theme.json",
+      "state": "completed",
+      "runtimeAccessed": false
+    },
+    {
+      "taskId": "01a110b9-92a2-79f2-a809-498c13becc2d",
+      "name": "shell_redesign",
+      "source": "docs/hotfix-1.6.1/bot-windows/verification.json",
+      "state": "completed",
+      "runtimeAccessed": false
+    }
+  ]
+}

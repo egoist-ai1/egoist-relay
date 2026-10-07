@@ -1,0 +1,17 @@
+# Проверка изолированной установки 1.4.7
+
+Состояние: `passed` для репрезентативного локального сценария. Установка завершилась с кодом 0, приложение работало скрыто 10 секунд, собственный процесс остановлен по точным PID/пути/времени создания, удаление завершилось с кодом 0. Все 40 файлов runtime совпали с release-манифестом; фактический установленный EXE имел ProductVersion 1.4.7 и SHA256 `68ce83b8e12162a56fcfa2a801e0551ba3ff653b63ad829fbce657cbccc7baf7`.
+
+Тест использовал фактический EXE из финального канонического установщика. У Tauri standalone output после bundling изменился; он не принят за источник опубликованного payload. Канонический installer SHA256 `df28147ec2293d56f0139131df013f0b44ed29723151b0c39cb96e779e66de1f`. Тестовый installer SHA256 `c9dc68e20d44e2ea17fd1eb4b3a54a59406293e7b33c46329045426df46046ce`, NSI SHA256 `0781a340983dd103e9c949edea43f958c7b49722b19b8a0573bc3549f01e6951`.
+
+Тестовый пакет имеет отдельные product/manufacturer/registry identity и zlib; протокол, shortcuts, WebView bootstrap, auto-launch и удаление OS appdata отключены. Сохранены точные project hooks для выбранной own-directory установки. `installer.nsh:127–132` удаляет basename-wide Tauri macro и заменяет его проверкой выбранного InstallDirectory. Установленная рабочая версия не переустанавливалась.
+
+Основное Tauri Window оставалось скрытым; приложение не получало фокус. Два окна, видимые только по WS_VISIBLE, оказались документированными прозрачными layered event targets single-instance/Tao: exact class,0×0 position,16×16 geometry, exStyle0x080800a0. Только эти два класса с точными стилями и геометрией исключены; любое другое видимое окно вызывает fail. Первоначальная широкая проверка и ошибка гонки MainModule сохранены как diagnostics; тестовая установка после диагностики удалена. Исправленный capture проверяет fresh PID/image/birth перед остановкой.
+
+Рабочий EXE, registry keys, `tg` association и process identity до/после совпали. Все test keys, EXE и runtime удалены, собственных процессов не осталось; `.smoke` directories вне own work отсутствовали. WebView, logs/cache/service roots направлены в own profile. Private research bridge отключён штатным smoke guard; ProgramData/LOCALAPPDATA процесса были пустыми own-profile directories, поэтому конфиг Lagom и credentials рабочего приложения не читались. WebView HTTP ограничен process-only flags; настройки сети пользователя не менялись.
+
+**Ограничение профиля:** `productionProfileMetadataUnchanged=false`. Активный рабочий Relay самостоятельно обновлял профиль: отдельный read-only контрольный интервал 5 секунд после полного удаления теста и при отсутствии его процессов также показал 2 изменения metadata в IndexedDB/ServiceWorker cache. Содержимое профиля не читалось; byte-unchanged или строгая noninterference proof не заявляются.
+
+Это проверка локального isolated variant, а не приёмка канонического public wizard/upgrade/protocol/shortcuts/WebView installation/signing. Живые аккаунты и сетевые интеграции не проверялись. NSIS preprocessing был недоступен из-за plugin resolution; он не отмечен как успешный.
+
+Использованы [NSIS reference](https://nsis.sourceforge.io/Docs/Chapter4.html) и [официальные WebView2 flags](https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/webview-features-flags). Точные counts, source hashes, runtime hashes, process identities и native-window samples находятся в `installer-smoke.json`. Release review board: `review.html` / `Реестр.json`; решения пользователя остаются unreviewed до явного review.

@@ -1,0 +1,73 @@
+[
+  {
+    "label": "info",
+    "operation": "chat_info",
+    "id": "82ceb6cb-457d-4aa8-95c4-9419afaf4509",
+    "state": "completed",
+    "count": 1,
+    "hasCursor": false,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\82ceb6cb-457d-4aa8-95c4-9419afaf4509"
+  },
+  {
+    "label": "search",
+    "operation": "search",
+    "id": "2d299443-66a9-408c-9a67-9d1bd4ac860a",
+    "state": "partial",
+    "count": 2,
+    "hasCursor": true,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\2d299443-66a9-408c-9a67-9d1bd4ac860a"
+  },
+  {
+    "label": "export",
+    "operation": "chat_export",
+    "id": "13340970-23a3-4abc-b738-2b7070c4679f",
+    "state": "partial",
+    "count": 3,
+    "hasCursor": true,
+    "files": [
+      "records.jsonl",
+      "export.md",
+      "export.html",
+      "export-manifest.json"
+    ],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\13340970-23a3-4abc-b738-2b7070c4679f"
+  },
+  {
+    "label": "resume",
+    "operation": "chat_export",
+    "id": "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+    "state": "partial",
+    "count": 3,
+    "hasCursor": true,
+    "files": [
+      "records.jsonl",
+      "export.md",
+      "export.html",
+      "export-manifest.json"
+    ],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\1f9eb2cf-f299-4e84-ac33-9b89cc0f2609"
+  },
+  {
+    "label": "media",
+    "operation": "download",
+    "id": "a4dafeb1-26de-4706-abd3-3abff003ea9d",
+    "state": "completed",
+    "count": 1,
+    "hasCursor": false,
+    "files": [
+      "records.jsonl",
+      "media-001-933e849e37f61985.mp4",
+      "media-manifest.json",
+      "export-manifest.json"
+    ],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\a4dafeb1-26de-4706-abd3-3abff003ea9d"
+  }
+]

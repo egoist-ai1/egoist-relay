@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T02:05:03.708916+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "candidateVersion": "1.5.0",
+  "environment": {
+    "os": "Windows x64",
+    "node": "v24.19.0",
+    "rust": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "browser": "Microsoft Edge 154.0.4258.53",
+    "liveAccounts": "not used",
+    "temporaryData": "Own active task work; no other task runtime read",
+    "windows": {
+      "Caption": "Майкрософт Windows 11 Pro",
+      "Version": "10.0.26200",
+      "BuildNumber": "26200",
+      "OSArchitecture": "64-разрядная"
+    },
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor"
+  },
+  "commands": [
+    {
+      "id": "typescript-main",
+      "command": "node node_modules/typescript/bin/tsc --project tsconfig.json --tsBuildInfoFile <TASK_WORK>/tsc-main.tsbuildinfo",
+      "exitCode": 0,
+      "evidence": "verification/typescript-main.log"
+    },
+    {
+      "id": "typescript-script",
+      "command": "node node_modules/typescript/bin/tsc --project tsconfig.script.json --tsBuildInfoFile <TASK_WORK>/tsc-script.tsbuildinfo",
+      "exitCode": 0,
+      "evidence": "verification/typescript-script.log"
+    },
+    {
+      "id": "typescript-test",
+      "command": "node node_modules/typescript/bin/tsc --project tsconfig.test.json --tsBuildInfoFile <TASK_WORK>/tsc-test.tsbuildinfo",
+      "exitCode": 0,
+      "evidence": "verification/typescript-test.log"
+    },
+    {
+      "id": "eslint",
+      "command": "node --max-old-space-size=5120 node_modules/eslint/bin/eslint.js",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 1,
+      "evidence": "verification/eslint.log"
+    },
+    {
+      "id": "eslint-late-loader-change",
+      "command": "node --max-old-space-size=5120 node_modules/eslint/bin/eslint.js scripts/relay-ui-audit.server.mjs",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "evidence": "verification/eslint-loader.log"
+    },
+    {
+      "id": "stylelint",
+      "command": "node node_modules/stylelint/bin/stylelint.mjs \"src/**/*.{css,scss}\" --cache --cache-location <TASK_WORK>/implementation-stylelintcache",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 522,
+      "evidence": "verification/stylelint.log"
+    },
+    {
+      "id": "vitest",
+      "command": "node node_modules/vitest/vitest.mjs run --silent=true",
+      "exitCode": 0,
+      "tests": 366,
+      "suites": 29,
+      "evidence": "verification/vitest.log"
+    },
+    {
+      "id": "native",
+      "command": "cargo test --manifest-path tauri/Cargo.toml --lib -- --test-threads=1",
+      "environment": {
+        "CARGO_TARGET_DIR": "<TASK_WORK>/planning-rust-target",
+        "EGOIST_RELAY_TEST_WORK": "<TASK_WORK>"
+      },
+      "exitCode": 0,
+      "tests": 111,
+      "evidence": "verification/native.log"
+    },
+    {
+      "id": "media",
+      "command": "node --test scripts/media-proxy.test.mjs scripts/social-media-fetch.test.mjs scripts/relay-media-audit-file.test.mjs",
+      "environment": {
+        "EGOIST_RELAY_AUDIT_WORK": "<TASK_WORK>"
+      },
+      "exitCode": 0,
+      "tests": 65,
+      "evidence": "verification/media.log"
+    },
+    {
+      "id": "release-policy",
+      "command": "node --test scripts/release-policy.test.mjs",
+      "environment": {
+        "EGOIST_RELAY_AUDIT_WORK": "<TASK_WORK>"
+      },
+      "exitCode": 0,
+      "tests": 12,
+      "evidence": "verification/release-policy.log"
+    },
+    {
+      "id": "preflight",
+      "command": "node scripts/release-preflight.mjs --report <TASK_WORK>/operations-preflight.json",
+      "exitCode": 0,
+      "runtimeFiles": 40,
+      "evidence": "verification/preflight.json"
+    },
+    {
+      "id": "frontend-production",
+      "command": "node node_modules/vite/bin/vite.js build",
+      "environment": {
+        "APP_ENV": "production",
+        "NODE_ENV": "production"
+      },
+      "exitCode": 0,
+      "evidence": "verification/frontend-build.log"
+    },
+    {
+      "id": "windows-nsis",
+      "command": "node node_modules/@tauri-apps/cli/tauri.js build --config <TASK_WORK>/tauri-local-build.json --bundles nsis --ci",
+      "environment": {
+        "CARGO_TARGET_DIR": "<TASK_WORK>/planning-rust-target"
+      },
+      "taskLocalConfig": {
+        "build": {
+          "beforeBuildCommand": ""
+        }
+      },
+      "reason": "npm is unavailable on this host; preflight and production Vite ran separately; standard project hook unchanged",
+      "exitCode": 0,
+      "evidence": "verification/installer-build.log"
+    },
+    {
+      "id": "media-reproducibility",
+      "command": "node --test scripts/media-proxy.test.mjs scripts/social-media-fetch.test.mjs scripts/relay-media-audit-file.test.mjs",
+      "exitCode": 0,
+      "tests": 65,
+      "evidence": "verification/media-command-proof.log"
+    }
+  ],
+  "commandsNote": "Commands are reproducible forms of the executed checks. TASK_WORK denotes your own task cache/fixture directory. Full stdout is retained separately; normal package scripts also set all three TS configs and ESLint heap.",
+  "ui": {
+    "operations": {
+      "tests": 20,
+      "evidence": "operations-ui-audit-2026-10-06T01-24-06-761Z.json"
+    },
+    "existingBaselineCases": {
+      "tests": 15,
+      "evidence": "existing-ui/ui-focused-results.json"
+    },
+    "additionalCompatibility": {
+      "tests": 4,
+      "evidence": "operations-compatibility/ui-focused-results.json"
+    },
+    "scope": "Real App/Panel + MockClient + isolated terminal native mocks, all remote requests blocked"
+  },
+  "reviewAndPatch": {
+    "tests": 11,
+    "evidence": "review-verification.json"
+  },
+  "sourceIdentity": {
+    "files": 2534,
+    "allCurrentHashesMatched": true,
+    "changedNonGenerated": 44,
+    "generatedChanges": 15,
+    "evidence": "source-diff.json",
+    "lateTestLoaderChange": "Vite worker/url wrappers bypass baseline loader; only test harness changed after 20-panel run. Product source hashes still match that run; 15 existing scenarios and performance comparison used corrected loader."
+  },
+  "installer": {
+    "schemaVersion": 1,
+    "version": "1.5.0",
+    "createdAt": "2026-10-06T02:01:37.9132277Z",
+    "installerPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.5.0\\Egoist Relay_1.5.0_x64-setup.exe",
+    "installerSha256": "ed14132386be8025bfb34b664f14fde77f210777758baf536fd6b162f20af6ca",
+    "installerBytes": 567451859,
+    "installerSignature": "NotSigned",
+    "applicationSha256": "2b726942d5c8c5903dd415bbe78a889860eacb523ce83a54beffb0f9a5f5dda0",
+    "applicationBytes": 78096896,
+    "applicationVersion": "1.5.0",
+    "applicationSignature": "NotSigned",
+    "buildExitCode": 0,
+    "nativeTests": 111,
+    "installPerformed": false,
+    "publicPublicationPerformed": false,
+    "buildHook": "Preflight and production Vite completed separately; task-local Tauri config sets beforeBuildCommand empty because npm is absent on host."
+  },
+  "performance": "performance-comparison.json",
+  "faultCoverage": {
+    "real": "DPAPI/ACL, local WinHTTP PAC, FS corruption/blocked journal, owned child crash, publication/name collisions, local media SHA-256",
+    "simulatedOrModel": "Send ack/unknown/retry/account; IO failure/full-disk behavior in controlled fixture; physical live WebView transport not covered"
+  },
+  "unverified": [
+    "Live Telegram delivery/quality/file hash after Telegram download",
+    "Installed profile restart and native Ctrl+J/focus/COM callbacks",
+    "Physical DPI/GPU and second Windows device",
+    "Whole installed Relay process-tree performance and prolonged live run",
+    "Competitor native hands-on"
+  ],
+  "retainedWarnings": [
+    "1 pre-existing ESLint dangerouslySetInnerHTML warning",
+    "522 Stylelint warnings vs 509 baseline: scoped type selectors plus overscroll/accent-color",
+    "Existing static VCRUNTIME deprecation and Windows linker informational warning",
+    "Production Vite chunk size/plugin timing warnings"
+  ],
+  "constraintsPreserved": [
+    "No new product dependencies",
+    "No Relay registration/monetization/subscription/telemetry/new cloud services",
+    "Windows/Lagom configuration unchanged",
+    "Existing dirty source changes preserved",
+    "No publication, user profile install, or real send"
+  ],
+  "lateFix": "Queued download ID now has an owner before start_download; both Request paths have common failure completion. Added four regressions; full111 tests and final NSIS rebuilt."
+}

@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a110b9-e0fb-7b32-b25c-cd096182eb93",
+  "startedAt": "2026-10-06T19:03:45.597667+00:00",
+  "finishedAt": "2026-10-06T19:03:46.384999+00:00",
+  "scope": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-e0fb-7b32-b25c-cd096182eb93\\work",
+  "nativeObservation": {
+    "id": "01a110b9-e0fb-7b32-b25c-cd096182eb93",
+    "archived": 0,
+    "mode": "read-only SQLite; rechecked before each deletion"
+  },
+  "writerCheck": "Escalated read-only Win32_Process query found no matching own probe/audit/compiler/linter writer",
+  "status": "complete",
+  "filesRemoved": 719,
+  "directoriesRemoved": 24,
+  "logicalBytesRemoved": 54642058,
+  "allocatedFileBytesRemoved": 56041968,
+  "allocationMethod": "FILE_STANDARD_INFO.AllocationSize from exclusive delete handle; file data allocation only, excludes directory/MFT overhead",
+  "driveCFreeBytes": {
+    "before": 367061413888,
+    "after": 368092590080,
+    "delta": 1031176192,
+    "attribution": "Whole-volume change; other concurrent cleanup/writes may contribute, not attributed to this task"
+  },
+  "groups": {
+    "vite-cache": {
+      "files": 685,
+      "logicalBytes": 49168965,
+      "allocatedFileBytes": 50514600
+    },
+    "compiler-linter-cache": {
+      "files": 9,
+      "logicalBytes": 5369746,
+      "allocatedFileBytes": 5387216
+    },
+    "verified-evidence-duplicate": {
+      "files": 25,
+      "logicalBytes": 103347,
+      "allocatedFileBytes": 140152
+    }
+  },
+  "cacheDirectories": [
+    "controls-keyboard-after/vite-cache",
+    "controls-keyboard-before/vite-cache",
+    "final-ui/vite-cache",
+    "switcher-before/vite-cache",
+    "ui-audit/vite-cache"
+  ],
+  "individualCacheFiles": [
+    "eslint-controls.cache",
+    "eslint-switcher.cache",
+    "stylelint-controls.cache",
+    "tsc-final-main.tsbuildinfo",
+    "tsc-final-scripts.tsbuildinfo",
+    "tsc-final-tests.tsbuildinfo",
+    "tsc-main.tsbuildinfo",
+    "tsc-scripts.tsbuildinfo",
+    "tsc-tests.tsbuildinfo"
+  ],
+  "durableDuplicateEvidence": {
+    "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\frontend-cycle-2026-10-06\\controls-settings",
+    "filesConfirmed": 25,
+    "sha256Verified": true,
+    "baselineFilesPreservedInProject": "baseline-src/src/** from source-hashes.json",
+    "probePreservedInProject": "verify-controls-keyboard.mjs"
+  },
+  "deletionPlanSha256": "eaa83c83bed2034ecb0e3aac24e8b042e2ae251629878afb14ea637067892b6e",
+  "remainingFiles": [
+    {
+      "path": "apply-controls.py",
+      "bytes": 20832,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "checkpoint-controls-final.json",
+      "bytes": 2404,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "checkpoint-controls.json",
+      "bytes": 1206,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "controls-keyboard-after.log",
+      "bytes": 709,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "controls-keyboard-diagnostic.log",
+      "bytes": 773,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "controls-rendered.log",
+      "bytes": 337,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "eslint-controls.log",
+      "bytes": 0,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "eslint-switcher.log",
+      "bytes": 0,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "stylelint-controls-fix.log",
+      "bytes": 6671,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "switcher-before.log",
+      "bytes": 731,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "tsc-main-KeyboardEventDiv-failed.log",
+      "bytes": 812,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "tsc-main.log",
+      "bytes": 0,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "tsc-scripts-KeyboardEventDiv-failed.log",
+      "bytes": 812,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "tsc-scripts.log",
+      "bytes": 0,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "tsc-tests-KeyboardEventDiv-failed.log",
+      "bytes": 812,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    },
+    {
+      "path": "tsc-tests.log",
+      "bytes": 0,
+      "reason": "Unique source, semantic checkpoint patch or historical log retained; not an approved cache/duplicate"
+    }
+  ],
+  "exclusions": [],
+  "untouched": [
+    "Project sources/data/releases/installers",
+    "Runtime/checkpoint/events outside own work",
+    "Foreign runtimes and native store",
+    "Versions 1.6.1,1.6.0,1.5.0,1.4.7,1.4.6 (retention verified by coordinator)"
+  ],
+  "followUp": "No builds, product tests, publications, messages to other chats or delegation performed.",
+  "ntfsPhysicalFileDataBounds": {
+    "filesystem": "NTFS",
+    "clusterBytes": 4096,
+    "lowerBoundBytes": 53096944,
+    "upperBoundBytes": 56041968,
+    "method": "Conservative resident adjustment: subtract at most one 4096-byte cluster per removed file from native AllocationSize sum. Bounds cover file data allocation, excluding directory/MFT overhead.",
+    "perFileAllocationClassificationRetained": false,
+    "limitation": "Exact resident/nonresident split was not retained; this is a conservative bound, not a measurement of whole-volume free space."
+  },
+  "checkpointPatch": {
+    "goal": "Завершить ограниченную очистку собственного work после сохранённого UI-участка Relay",
+    "constraints": [
+      "Только собственный work ID 01a110b9-e0fb-7b32-b25c-cd096182eb93; native read-only row archived=0 проверена.",
+      "Удалять лишь подтверждённые reproduсible кэши и точные SHA-256 дубликаты project evidence; holds/reparse/hardlinks не обходить.",
+      "Источники, реальные данные, уникальные baselines/results, чужие runtime и все project releases сохранять.",
+      "Без разработки, сборок, проверок продукта, публикации, сообщений в другие чаты или делегирования."
+    ],
+    "facts": [
+      "Удалены 719 файлов и 24 пустых каталога; logical bytes 54 642 058.",
+      "Native FILE_STANDARD_INFO allocation удалённых файлов 56 041 968 B; консервативный NTFS file-data range 53 096 944–56 041 968 B.",
+      "Общий C free delta +1 031 176 192 B включает concurrent changes и не приписывается этой задаче.",
+      "Остались 16 уникальных или невыбранных исторических файлов, 36 099 B; точные пути сохранены в receipt.",
+      "Protected/link/hold/failed-delete exceptions отсутствуют; 25 duplicates проверены по SHA-256 durable project copies.",
+      "Источники и release directories не изменялись; версии 1.6.1/1.6.0/1.5.0/1.4.7/1.4.6 вне области удаления."
+    ],
+    "next_steps": [],
+    "pending_actions": [],
+    "artifacts": [
+      "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\task-cleanup-2026-10-06\\children\\controls-settings.json",
+      "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\frontend-cycle-2026-10-06\\controls-settings\\README.md"
+    ],
+    "status": "active"
+  },
+  "checkpointRevision": 4,
+  "auxiliaryCheckpointInput": {
+    "createdAndRemoved": true,
+    "countedInHistoricalCleanupTotals": false
+  }
+}

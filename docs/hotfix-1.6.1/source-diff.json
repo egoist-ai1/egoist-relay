@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "baselineVersion": "1.6.0",
+  "candidateVersion": "1.6.1",
+  "baselineCount": 2540,
+  "comparison": "Exact working source bytes against frozen1.6.0; Git HEAD remains earlier development history. Patch normalizes CRLF, exact changed baseline copies accompany SHA-256. Generated Tauri ACL schemas included. Build dist and unrelated historical working changes excluded.",
+  "changes": [
+    {
+      "path": "README.md",
+      "status": "modified",
+      "baselineSha256": "6a5af6f815de8d8b9b442dd0b784d66992286baed82ddb681721f7edb73d179a",
+      "candidateSha256": "b7d94f920c1253d07475f3c023396edabab930ed7b59ebb73b0b01352f3567df",
+      "baselineBytes": 7113,
+      "candidateBytes": 7306,
+      "baselineValidated": true
+    },
+    {
+      "path": "package-lock.json",
+      "status": "modified",
+      "baselineSha256": "6e52e6064bd5bbf7fe0585b6b297e2c510701c7ac6fc36da0cd3107b38c0dce8",
+      "candidateSha256": "6681e45f4a21c7f03579d51886e1b941d3de51e3aa93197a513579e18e9f6711",
+      "baselineBytes": 525166,
+      "candidateBytes": 525166,
+      "baselineValidated": true
+    },
+    {
+      "path": "package.json",
+      "status": "modified",
+      "baselineSha256": "eea63c49d132404e6ca8e3cab8856f1864f2cc6dd1461fc3c071302ac3032a3b",
+      "candidateSha256": "617926dedb7dd95652bac260d48cc818e3ba16c344585902d25fe1eff452c1d0",
+      "baselineBytes": 7267,
+      "candidateBytes": 7267,
+      "baselineValidated": true
+    },
+    {
+      "path": "public/version.txt",
+      "status": "modified",
+      "baselineSha256": "cb1d9a30bc4ab8a397f39b7d786bb82aca0b816077eefc35d7c822017d75f6a5",
+      "candidateSha256": "6430a242e9486093ef6f71d9086d48f61ba102f0d2fb0f5b95334c6007a46db3",
+      "baselineBytes": 6,
+      "candidateBytes": 6,
+      "baselineValidated": true
+    },
+    {
+      "path": "scripts/mini-app-bridge.js",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "a9048d4d528d4dd893066aa6d538d7ab0bb2ba7779a603d0f8c17f25dccf4f58",
+      "baselineBytes": 0,
+      "candidateBytes": 2236,
+      "baselineValidated": false
+    },
+    {
+      "path": "scripts/mini-app-bridge.test.mjs",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "fabd63aa63eb8ace710222610619aaf707b049fc49fe1b83ea4b16129a777008",
+      "baselineBytes": 0,
+      "candidateBytes": 3930,
+      "baselineValidated": false
+    },
+    {
+      "path": "src/assets/localization/fallback.strings",
+      "status": "modified",
+      "baselineSha256": "c44e483cb65d477d6ca80a29a3f7035fc908139ca49eb5f6b7d3d90112f5a164",
+      "candidateSha256": "67452d3d8bd5761c8fd11f53586374269a7e629a9050618942e56594e8a58fa3",
+      "baselineBytes": 203713,
+      "candidateBytes": 203841,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/assets/localization/initialRussian.strings",
+      "status": "modified",
+      "baselineSha256": "603318ac119c66cde252ae1b6339cb0deb0691cfc2c43988fc87da5a2f7743b9",
+      "candidateSha256": "7bc640b9ce2e8f20d46d7ec8ad45fae566b11fb0e72c1dddbd4fe7f84fc429f6",
+      "baselineBytes": 6550,
+      "candidateBytes": 6755,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/components/common/ChatForumLastMessage.module.scss",
+      "status": "modified",
+      "baselineSha256": "44ab013ea326fe0d3d7820f0dd00f6511c45a8e703c4da527473ee9aaf0831de",
+      "candidateSha256": "288e2051a66365c323b7a117c62b7bd87c87300aa0eef2ed94970a07aa245246",
+      "baselineBytes": 3417,
+      "candidateBytes": 3456,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/components/left/main/ChatBadge.module.scss",
+      "status": "modified",
+      "baselineSha256": "6c4ab8409bd2b7b26881956c23c36d6c14b40ce6dee7676c7a77d8bfdda91126",
+      "candidateSha256": "4571540f6051b0a4cdb8353fc2f61f96b24dd552594accabbd3098b534f3730c",
+      "baselineBytes": 2392,
+      "candidateBytes": 2483,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/components/modals/browser/WebAppTab.tsx",
+      "status": "modified",
+      "baselineSha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb",
+      "candidateSha256": "32376a21b7636a84438d532219ae911b1f38598fdcaab887fc5e8b69bc43762e",
+      "baselineBytes": 45438,
+      "candidateBytes": 45628,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/components/modals/browser/hooks/useWebAppFrame.ts",
+      "status": "modified",
+      "baselineSha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a",
+      "candidateSha256": "16a33cba328c18162ece55f5651fa36f24f5a35d24452478adc9d3561d58eb06",
+      "baselineBytes": 12023,
+      "candidateBytes": 14389,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/styles/index.scss",
+      "status": "modified",
+      "baselineSha256": "4bbf4913645699ec7d65d8c1ae75c332f6d6b1fc95d76e67956064c151c9cfde",
+      "candidateSha256": "919b3a96c06d604ad10c6b365d10051a8775cfc74ff3dfb34c57a39c8bc16b35",
+      "baselineBytes": 62766,
+      "candidateBytes": 62490,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/types/language.d.ts",
+      "status": "modified",
+      "baselineSha256": "7913ac63f3549118a7b35beb606c6137e82e1442584bbe64567daafb41636729",
+      "candidateSha256": "b879da1a36e454a5d8b9712e5918085efbc54e8a7f778b029ff8de555b100f9c",
+      "baselineBytes": 134255,
+      "candidateBytes": 134294,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/util/localization/relayOperationsStrings.ts",
+      "status": "modified",
+      "baselineSha256": "5a3e9e11d6adfc867162fb60ddaed5417dbb6038cc11c94b3ea848b3e30dc8f3",
+      "candidateSha256": "f169c047839c48156634b98ae3a4eb0e0a208d2d2fbac0e77fc8c84495cc5fca",
+      "baselineBytes": 13553,
+      "candidateBytes": 13900,
+      "baselineValidated": true
+    },
+    {
+      "path": "src/util/tauri/botWebApps.test.ts",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "7d38c25c1030e0d67b514969b7313a9985f3f92b4f076d3bd2cbc662aa0ae7c5",
+      "baselineBytes": 0,
+      "candidateBytes": 8735,
+      "baselineValidated": false
+    },
+    {
+      "path": "src/util/tauri/botWebApps.ts",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "808a47786db2e9f6038fba4430f1cebf491c4321572ddfded4dc442c21e7973e",
+      "baselineBytes": 0,
+      "candidateBytes": 7991,
+      "baselineValidated": false
+    },
+    {
+      "path": "tauri/Cargo.lock",
+      "status": "modified",
+      "baselineSha256": "9e23616e64ec6a8809ba8a4844fc6ae39eba1501f92275e2344e98a9f063fe76",
+      "candidateSha256": "2ef7ee9e213b7d441343a2902c06b93df404a30eeea8e288eec3a74adb027630",
+      "baselineBytes": 167419,
+      "candidateBytes": 167419,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/Cargo.toml",
+      "status": "modified",
+      "baselineSha256": "5b51e4985ea6964ed3aea521138babbd1d06f0a7a569e1e0a0f9cecb20078eaf",
+      "candidateSha256": "958814917e78a6f015a7908886a15226bac2daf4042ed207fe88f8aa03f40729",
+      "baselineBytes": 1497,
+      "candidateBytes": 1497,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/build.rs",
+      "status": "modified",
+      "baselineSha256": "1ae0a50bc2913380b757a4db68130063332d3bdca4a674abc6ac279d6e770493",
+      "candidateSha256": "eacb4749164205903559694cc14dac6766f1514c1bc5c7fd8e03b2ac8d7e1876",
+      "baselineBytes": 3880,
+      "candidateBytes": 4022,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/capabilities/bot-web-apps.json",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "6429d58dcf09fbc3dc703e380b306f9cc23978df0bd5441f7d29eb0528090945",
+      "baselineBytes": 0,
+      "candidateBytes": 218,
+      "baselineValidated": false
+    },
+    {
+      "path": "tauri/gen/schemas/acl-manifests.json",
+      "status": "modified",
+      "baselineSha256": "e9d77d2788c784744b262bfe26baa4850f598c38129b5666349a1aeedcbc8079",
+      "candidateSha256": "084bd86f8f09473f2f5ed65b2a10558368b7c28b809d5d49fead5df95dc8e756",
+      "baselineBytes": 177089,
+      "candidateBytes": 179617,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/gen/schemas/capabilities.json",
+      "status": "modified",
+      "baselineSha256": "ad9b8410d1b1864273da0f9e86269bd71a01f8c15439c3ec8b69ada16612138a",
+      "candidateSha256": "99c47157dce8cd2108144ea854d24ec523938d156b9a91a5d89827d464b7ac92",
+      "baselineBytes": 3004,
+      "candidateBytes": 3218,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/gen/schemas/desktop-schema.json",
+      "status": "modified",
+      "baselineSha256": "a1bab71da16aec04df25e8b03b5e215ce55799e9bc79080396134927311b5b0e",
+      "candidateSha256": "8803c7c78167ad3d57f9e157fd7a4f422e173c4b5c5ee13ed582679af055103e",
+      "baselineBytes": 465128,
+      "candidateBytes": 468617,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/gen/schemas/windows-schema.json",
+      "status": "modified",
+      "baselineSha256": "a1bab71da16aec04df25e8b03b5e215ce55799e9bc79080396134927311b5b0e",
+      "candidateSha256": "8803c7c78167ad3d57f9e157fd7a4f422e173c4b5c5ee13ed582679af055103e",
+      "baselineBytes": 465128,
+      "candidateBytes": 468617,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/permissions/bot-web-apps.toml",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "b5bf5778086d883299a1a05181cb8f7b468e7d51ed6504252795f54194e5aa4a",
+      "baselineBytes": 0,
+      "candidateBytes": 325,
+      "baselineValidated": false
+    },
+    {
+      "path": "tauri/src/bot_web_apps.rs",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "f371f213eb57069efc908129554c8bdebde61e214f50f915b970625ba1954159",
+      "baselineBytes": 0,
+      "candidateBytes": 20753,
+      "baselineValidated": false
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "status": "modified",
+      "baselineSha256": "da46ddf9b0276fc703b65fd23cfd9fe50492cd1191fe8e9458dcfa9bbe8a86da",
+      "candidateSha256": "35aec0799577d5d9e55bf9d084d935bacf4b84e0ec7ea24e566a4bec3f3bee68",
+      "baselineBytes": 20374,
+      "candidateBytes": 20592,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/src/multi_app.rs",
+      "status": "modified",
+      "baselineSha256": "9fc172db4a62b0e04642626b2e59335cd8cb9648a01a7e88e84f70f59f6d7c3b",
+      "candidateSha256": "dd269ce0a6eac9c05fcda54192e50ff484bfc238e49a2af5104dc0984c9639f0",
+      "baselineBytes": 63421,
+      "candidateBytes": 63925,
+      "baselineValidated": true
+    },
+    {
+      "path": "tauri/src/multi_app_downloads.rs",
+      "status": "modified",
+      "baselineSha256": "f0542f24be4e232dbf955edb1e1b3652a345ab62e670ec25552e3026e74d7a5a",
+      "candidateSha256": "05600828e2322b895b9d4d5932f3be6b16bc5d88d6a2d00d23dbe2106f62c856",
+      "baselineBytes": 38121,
+      "candidateBytes": 38253,
+      "baselineValidated": true
+    }
+  ]
+}

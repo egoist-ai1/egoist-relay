@@ -1,0 +1,26 @@
+[
+  {
+    "status": "resolved",
+    "answerRecordCount": 1,
+    "domain": "www.microsoft.com",
+    "durationMs": 13
+  },
+  {
+    "status": "resolved",
+    "answerRecordCount": 1,
+    "domain": "web.telegram.org",
+    "durationMs": 75
+  },
+  {
+    "status": "resolved",
+    "answerRecordCount": 1,
+    "domain": "www.instagram.com",
+    "durationMs": 75
+  },
+  {
+    "status": "resolved",
+    "answerRecordCount": 1,
+    "domain": "x.com",
+    "durationMs": 190
+  }
+]

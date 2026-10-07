@@ -37,26 +37,38 @@ import { omit, unique } from '../iteratees';
 import { replaceInStringsWithTeact } from '../replaceWithTeact';
 import { fastRaf } from '../schedulers';
 import { resetDateFormatCache } from './dateFormat';
+import { getRelayOperationString } from './relayOperationsStrings';
 
 import Deferred from '../Deferred';
 import LimitedMap from '../primitives/LimitedMap';
 
 import initialStrings from '../../assets/localization/initialStrings';
 
-const FALLBACK_LANG_CODE = 'en';
+const FALLBACK_LANG_CODE = 'ru';
 const LANGPACK_STORE_PREFIX = 'langpack-';
 const FORMATTERS_FALLBACK_LANG = FALLBACK_LANG_CODE;
 
 const STRING_CACHE_LIMIT = 400;
 const TRANSLATION_CACHE = new LimitedMap<string, string>(STRING_CACHE_LIMIT);
 
-let language: ApiLanguage | undefined;
+const DEFAULT_INITIAL_LANGUAGE: ApiLanguage = {
+  langCode: 'ru',
+  name: 'Russian',
+  nativeName: 'Русский',
+  pluralCode: 'ru',
+  stringsCount: 0,
+  translatedCount: 0,
+  translationsUrl: 'https://translations.telegram.org/ru/weba',
+};
+
+let language: ApiLanguage | undefined = DEFAULT_INITIAL_LANGUAGE;
 let formatters: LangFormatters | undefined;
 
 let langPack: LangPack | undefined;
 let fallbackLangPack: LangPack | undefined;
 let currentTimeFormat: TimeFormat = '24h';
 
+createFormatters();
 let translationFn = createTranslationFn();
 
 const {
@@ -83,7 +95,10 @@ function loadCachedLangData(langCode: string) {
 
 function cacheLangData(data: CachedLangData) {
   notifyLangpackUpdate(data.language.langCode);
-  return MAIN_IDB_STORE.set(`${LANGPACK_STORE_PREFIX}${data.language.langCode}`, data);
+  return MAIN_IDB_STORE.set(`${LANGPACK_STORE_PREFIX}${data.language.langCode}`, data).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.warn('[Localization] Failed to cache language pack', err);
+  });
 }
 
 let fallbackLoadPromise: Promise<CachedLangData> | undefined;
@@ -206,7 +221,7 @@ function updateLangPack(newLangPack: LangPack) {
 }
 
 export async function initLocalization(langCode: string, canLoadFromServer?: boolean) {
-  if (language) return;
+  if (langPack && language?.langCode === langCode) return;
 
   const cachedData = await loadCachedLangData(langCode);
   if (cachedData) {
@@ -367,14 +382,15 @@ function getIntlLocale(languageInfo = language) {
 
 function getString(langKey: LangKey, count: number) {
   const shouldForceFallback = FORCE_FALLBACK_LANG && language?.langCode === FALLBACK_LANG_CODE;
-  let langPackStringValue = !shouldForceFallback ? langPack?.strings[langKey] : undefined;
+  let langPackStringValue = getRelayOperationString(langKey, language?.langCode)
+    || (!shouldForceFallback ? langPack?.strings[langKey] : undefined);
 
   if (!langPackStringValue && !fallbackLangPack) {
     loadFallbackPack();
   }
 
-  langPackStringValue ||= fallbackLangPack?.strings[langKey];
   langPackStringValue ||= initialStrings[langKey];
+  langPackStringValue ||= fallbackLangPack?.strings[langKey];
 
   if (!langPackStringValue || isDeletedLangString(langPackStringValue)) return undefined;
 

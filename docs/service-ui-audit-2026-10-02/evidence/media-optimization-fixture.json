@@ -1,0 +1,37 @@
+{
+  "evidence": "Local first-party HTTPS fixture with existing synthetic test certificate; 70MiB streamed source, SHA256 byte equality; resolver synthetic sparse file and mocked ffprobe only; no live account/media or real quality benchmark",
+  "measurements": [
+    {
+      "protocol": "http/1.1",
+      "size": 73400320,
+      "bytesUnchanged": true,
+      "bodyInMemory": false,
+      "durationMs": 302,
+      "peakRssIncreaseMiB": 17
+    },
+    {
+      "protocol": "h2",
+      "size": 73400320,
+      "bytesUnchanged": true,
+      "bodyInMemory": false,
+      "durationMs": 441,
+      "peakRssIncreaseMiB": 4
+    }
+  ],
+  "requests": [
+    "GET",
+    "GET"
+  ],
+  "resolver": {
+    "size": 73400320,
+    "duration": 1344,
+    "phases": [
+      "download"
+    ],
+    "bodyInMemory": false,
+    "no720pCap": true,
+    "no10MinuteCap": true,
+    "fileModeNoMaxFilesize": true,
+    "format": "bestvideo*+bestaudio/best/bestvideo"
+  }
+}

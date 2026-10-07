@@ -69,12 +69,14 @@ const TabList = ({
   useHorizontalScroll(containerRef, !tabs.length, true);
 
   const updateClipPath = useLastCallback(() => {
-    const clipPathContainer = clipPathContainerRef.current;
-    const activeTabEl = activeTab >= 0 && clipPathContainer?.childNodes[activeTab] as HTMLElement | undefined;
+    const container = containerRef.current;
+    if (!container) return;
+    const tabEls = container.querySelectorAll<HTMLElement>(`.${styles.tab}`);
+    const activeTabEl = activeTab >= 0 ? tabEls[activeTab] : undefined;
 
-    if (clipPathContainer && activeTabEl && clipPathContainer.offsetWidth > 0) {
+    if (activeTabEl && container.offsetWidth > 0) {
       const { offsetLeft, offsetWidth } = activeTabEl;
-      const containerWidth = clipPathContainer.offsetWidth;
+      const containerWidth = container.offsetWidth;
       const left = (offsetLeft / containerWidth * 100).toFixed(1);
       const right = ((containerWidth - (offsetLeft + offsetWidth)) / containerWidth * 100).toFixed(1);
 
@@ -88,11 +90,61 @@ const TabList = ({
     updateClipPath();
   }, [activeTab, tabs]);
 
-  useResizeObserver(clipPathContainerRef, updateClipPath);
+  useResizeObserver(containerRef, updateClipPath);
 
   useScrollToActiveTab(containerRef, activeTab);
 
+  const isMouseDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const isDraggingRef = useRef(false);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return undefined;
+
+    const onMouseDown = (e: MouseEvent) => {
+      if (e.button !== 0) return;
+      isMouseDownRef.current = true;
+      isDraggingRef.current = false;
+      startXRef.current = e.pageX;
+      scrollLeftRef.current = container.scrollLeft;
+      container.style.cursor = 'grabbing';
+      container.style.userSelect = 'none';
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isMouseDownRef.current) return;
+      const walk = e.pageX - startXRef.current;
+      if (Math.abs(walk) > 4) {
+        isDraggingRef.current = true;
+      }
+      container.scrollLeft = scrollLeftRef.current - walk;
+    };
+
+    const onMouseUp = () => {
+      if (!isMouseDownRef.current) return;
+      isMouseDownRef.current = false;
+      container.style.cursor = '';
+      container.style.userSelect = '';
+      setTimeout(() => {
+        isDraggingRef.current = false;
+      }, 50);
+    };
+
+    container.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      container.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, []);
+
   const handleTabClick = useLastCallback((index: number) => {
+    if (isDraggingRef.current) return;
     onSwitchTab(index);
   });
 
@@ -134,6 +186,7 @@ const TabList = ({
     const customEmojiId = tab.customEmojiDocumentId
       || (typeof tab.emoticon === 'object' ? tab.emoticon.documentId : undefined);
     const stringEmoticon = typeof tab.emoticon === 'string' ? tab.emoticon : undefined;
+    const isActive = index === activeTab;
 
     return (
       <div
@@ -141,6 +194,7 @@ const TabList = ({
         className={buildClassName(
           styles.tab,
           tabClassName,
+          isActive && styles.tabActive,
           itemAlignment === 'vertical' && styles.vertical,
           stretched && styles.stretched,
         )}
@@ -159,7 +213,9 @@ const TabList = ({
           />
         )}
         {tab.icon && <Icon name={tab.icon} className={styles.tabIcon} />}
-        {typeof tab.title === 'string' ? renderText(tab.title) : tab.title}
+        <span className={styles.tabTitle}>
+          {typeof tab.title === 'string' ? renderText(tab.title) : tab.title}
+        </span>
         {renderExtra?.(tab, index)}
         {tab.isBlocked && <Icon name="lock-badge" className={styles.lockIcon} />}
       </div>
@@ -181,8 +237,6 @@ const TabList = ({
         clipPath && styles.ready,
       )}
     >
-      {tabs.map(renderTab)}
-
       <div
         ref={clipPathContainerRef}
         className={buildClassName(styles.activeIndicator,
@@ -191,9 +245,8 @@ const TabList = ({
           indicatorClassName)}
         style={clipPath ? `clip-path: ${clipPath}` : undefined}
         aria-hidden
-      >
-        {tabs.map(renderTab)}
-      </div>
+      />
+      {tabs.map(renderTab)}
     </div>
   );
 

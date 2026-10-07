@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-controls-settings-2026-10-06",
+  "version": "controls-settings-v1",
+  "createdAt": "2026-10-06T11:06:48.908200+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\frontend-cycle-2026-10-06\\controls-settings\\review-objects.json",
+  "items": [
+    {
+      "id": "controls-settings.style",
+      "name": "Нейтральные контролы и плоские разделы настроек",
+      "version": "controls-settings-v1",
+      "status": "implemented",
+      "content": "Общие Button, ListItem, Menu, Modal, Checkbox, Radio, Switcher, SearchInput и формы используют Inter и semantic tokens. Убраны общие hardcoded dark-оттенки, секции настроек разделены тонкими линиями; белая primary-кнопка получает чёрный текст и spinner через aliases темы. Другие темы сохраняют свои tokens.",
+      "evidence": "final-ui/ui-focused-results.json; final-ui/ui-visuals/settings-Main-fullhd.png; source.patch",
+      "confirmationAction": "Принять реализованный результат стиля; комментарий уточняет нужную доработку. Это не подтверждает непроверенные native/live сценарии."
+    },
+    {
+      "id": "controls-settings.keyboard",
+      "name": "Клавиатурное действие строки и самостоятельного переключателя",
+      "version": "controls-settings-v1",
+      "status": "implemented",
+      "content": "Standalone Switcher доступен через Tab и имеет aria-label. Switcher внутри owner-строки не создаёт второй Tab target. Enter/Space активируют ListItem один раз через существующий click-action, mouse mousedown остаётся прежним. Действия вложенных input/button/link не активируют owner; disabled/static/inactive/nonInteractive, repeat, IME и modifiers проверены.",
+      "evidence": "controls-keyboard-before.json; controls-keyboard-after.json; verify-controls-keyboard.mjs",
+      "confirmationAction": "Принять исправление проверенного keyboard-поведения; комментарий задаёт отдельный непокрытый сценарий для следующей проверки."
+    },
+    {
+      "id": "controls-settings.motion-layout",
+      "name": "Reduced motion, длинные подписи и масштаб текста",
+      "version": "controls-settings-v1",
+      "status": "implemented",
+      "content": "Переходы контролов сведены к color/opacity 140ms и отключаются при reduced motion; геометрия Menu/Modal/Switcher не анимируется. Реальный App проверен при 640×448, 800×560, FullHD/root32 и RTL. Floating input-label остаётся однострочным с ellipsis; текст введённого значения прокручивается обычным input.",
+      "evidence": "final-ui/ui-focused-results.json; final-ui/ui-visuals/layout-fullhd-200pct-text.png; controls-keyboard-after.json",
+      "confirmationAction": "Принять наблюдаемое поведение доступности и motion в браузерной проверке; замечания не превращают DPI/GPU emulation в native-проверку."
+    }
+  ]
+}

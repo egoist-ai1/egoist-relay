@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "metrics": [
+    {
+      "scenario": "stream-original",
+      "alpn": "http/1.1",
+      "bytes": 73400333,
+      "gets": 1,
+      "elapsedMs": 339.2295,
+      "rssDeltaBytes": 20840448,
+      "signature": "synthetic JPEG prefix; byte-stream fixture, not a playable photo"
+    },
+    {
+      "scenario": "stream-original",
+      "alpn": "h2",
+      "bytes": 73400333,
+      "gets": 1,
+      "elapsedMs": 472.26470000000006,
+      "rssDeltaBytes": 14389248,
+      "signature": "synthetic JPEG prefix; byte-stream fixture, not a playable photo"
+    },
+    {
+      "scenario": "actual-local-mp4-file-channel",
+      "width": 1920,
+      "height": 1080,
+      "durationSeconds": 1210,
+      "size": 9538,
+      "codec": "h264",
+      "engine": "synthetic observed metadata/copy; real bundled ffmpeg generation and real resolver ffprobe validation"
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-bridge-readiness-fix-2026-10-02",
+  "createdAt": "2026-10-02T09:02:45.677620+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.json",
+  "taskId": "01a0f9d0-40af-7032-b182-4902e7517e9b",
+  "intendedRelease": "1.4.4 candidate; root owns metadata/build/install/activation",
+  "scope": "authorized broker+tiny IPC forwarding; native Windows dispatch lifecycle; new regression fixtures and necessary contract paragraph",
+  "workerPlatformJobs": 0,
+  "workerProductionProcessMutations": 0,
+  "networkDeviceLagomMutations": 0,
+  "accountProofScriptMutations": 0,
+  "preimage": {
+    "brokerSha256": "e795c2b76929a2acf220c9e63c4855afc4e217212c6f0192ec5674d7ba7aec03",
+    "ipcSha256": "0c1fc28a3577eed0adcd0506f1d439e17df4a21d3a1b8b6e80b65ff5bab8e8f2",
+    "nativeSha256": "b4f41ae73fdd9406887815deec2c945603b03ff952395f16ca80960e1c49dbca"
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker.mjs",
+      "sha256": "f5e06381547f042777cc05e48a006ee971451110e2d20eaf3bd3821d5a0807fb",
+      "bytes": 39704
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\ipc.mjs",
+      "sha256": "4db64742af2a2c7d02e404a7877ff5f1e5ebb85e0e4dc2adacc13063f4bc9e96",
+      "bytes": 10735
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker-readiness-fix.test.mjs",
+      "sha256": "a3d889f6a06467227163bd3af47c13bc9ea0522513e68602a0c2fd2a7e3152ac",
+      "bytes": 13801
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\ipc-readiness-fix.test.mjs",
+      "sha256": "b559d1e8da9d28de80c5265fc1667beae782d7614b05c72073d6cef067737389",
+      "bytes": 7235
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker.test.mjs",
+      "sha256": "360395dd96a2061f3f42a1b45a6ca071e3845504272ff2817060814080983c98",
+      "bytes": 31344
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\BRIDGE-CONTRACT.md",
+      "sha256": "cc1878eb7f0c153e54986128b93cdab0e708145154b84697550f0b76aec38abb",
+      "bytes": 14269
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+      "sha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+      "bytes": 88662
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+      "sha256": "162335eccc2d6ff1676cd6fc069ce9b62bef077d89a4857ace392ade9450ddd8",
+      "bytes": 34188
+    }
+  ],
+  "checks": {
+    "initialBrokerRegression": {
+      "tests": 14,
+      "passed": 2,
+      "failed": 12,
+      "kind": "actual broker/JobStore synthetic baseline; expected original defects"
+    },
+    "fullSocialMcp": {
+      "tests": 178,
+      "passed": 178,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 23921.7737,
+      "logSha256": "cf9a6ba812e58c6830025e4019983f58dba281e608f86b61fd3be50ecdc47cbc",
+      "command": "Node24 --test src/research/*.test.mjs; explicit own task work",
+      "logFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-tests.txt",
+      "nativeFixDoesNotChangeNodeInputs": "No SocialMCP *.test.mjs reads native Rust; JS/runtime inputs remain exact frozen hashes after owner fix; no redundant rerun"
+    },
+    "newBrokerCases": {
+      "tests": 18,
+      "kind": "actual broker/status/JobStore synthetic ready/transient/epoch/auth/cancel/FIFO/idempotency/deadline/allocate/final-write scenarios"
+    },
+    "newIpcCases": {
+      "tests": 5,
+      "kind": "authenticated real own named pipes, synthetic statuses/stores; close during proof/tail/save/submit_join; invalid MAC isolation"
+    },
+    "independentBrokerIpc": {
+      "provenance": "parent-team independent reviewer receipt, not own rerun",
+      "passed": 26,
+      "failed": 0,
+      "durationMs": 4657.3674,
+      "inputs": "brokerf5e063/ipc4db647 unchanged; own23 cases + reviewer3 adversarial boundaries",
+      "projectReceipt": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-independent-review.json"
+    },
+    "nodeParse": {
+      "broker": "PASS",
+      "ipc": "PASS"
+    },
+    "nativeIntermediate": {
+      "provenance": "parent actual Cargo receipt",
+      "tests": 40,
+      "passed": 40,
+      "sha256": "857de1f39c34880071a0df2a3bb21b6ff6f77f05f228ad2333bb5192fc1e416b",
+      "status": "superseded by owner-binding correction"
+    },
+    "nativeFinal": {
+      "provenance": "parent actual final Cargo library receipt; sourceBefore/sourceAfter exact stable; metadata still1.4.3",
+      "tests": 40,
+      "passed": 40,
+      "failed": 0,
+      "newTests": 4,
+      "sha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+      "status": "PASS source QA; release-version fixture and installed/live acceptance remain root gates"
+    },
+    "independentNative": {
+      "provenance": "parent-team independent reviewer receipt",
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "kind": "extracted exact actual Rust lifecycle functions; replacement freshguard, late redirect, duplicate/read/source/epoch/cancel bindings",
+      "sha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+      "projectReceipt": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-independent-review.json"
+    },
+    "independentRealDeadline": {
+      "provenance": "verified independent project receipt",
+      "submissions": 3,
+      "observedMilliseconds": [
+        20013.54,
+        20013.64
+      ],
+      "durableJobs": 0,
+      "outputs": 0,
+      "sourceRuns": 0,
+      "kind": "actual clock and serialized tail; no accelerated timers"
+    }
+  },
+  "preservedBeforeAudit": {
+    "json": "9d6404bf1c64c0c64e4c149c09e8ee196c9218bcb2b0ae6765750534b55fa22a",
+    "md": "835f1a5c7228d9bd49ec5274c2d290127a93865e99f9683f72b4288712c8cd54",
+    "fixture": "f6f5156739145884f0e53d75a21692dcaa2a00505e6c31f54585e5ad927a5d11",
+    "status": "immutable22/22 before evidence preserved; not rerun against changed production"
+  },
+  "installedLiveReceipt": {
+    "provenance": "root readonly parent receipt; not a worker probe",
+    "version": "1.4.2",
+    "appPid": 46312,
+    "daemonPid": 9116,
+    "daemonSha256": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+    "samples": 13,
+    "behavior": "bothX/IG pending532ms->ready3086ms; ready15684ms; pending18173ms->ready20666ms; TG ready throughout; no source jobs/mutations"
+  },
+  "semantics": {
+    "submitProofTotalMs": 20000,
+    "providerStatusBoundMs": 5000,
+    "serverSocketIdleMs": 30000,
+    "defaultClientTimeoutMs": 35000,
+    "pollMs": 100,
+    "observerRegistrationAckMs": 2000,
+    "accountPin": "trusted settled ready or explicit ownedbusy identity only; no pending/undefined",
+    "executionClock": "absolute deadline from dequeue; one budget through persistence",
+    "sourceRun": "at most once, no readiness retry of source",
+    "commit": "before atomic JobStore.save invocation; concurrent disconnect/save can mean unknown durable completion; no postacceptance auto-cancel",
+    "abortedAllocation": "owned empty output may remain; no deletion of neighboring data",
+    "windowsDispatch": "Probe after SDKDOMContentLoaded; Read only current-ID NavigationCompleted; generation/current nav/doc epoch/source/navigation owner checks + dedup"
+  },
+  "limitations": [
+    "No worker live platform job/status/process transition during this remediation",
+    "Final candidate is not running installed1.4.2; fresh owner transition and live proof/source gates remain root responsibility",
+    "Native pure lifecycle tests do not execute WindowsCOM scheduler or platform hydration",
+    "Non-Windows retains previous Tauri page-load dispatch behavior; this remediation targets Windows installed host",
+    "Neither ready nor declared operations prove universal/private source access; selector/account proof policy is unchanged",
+    "Actual client disconnect receipt has delivery latency; a concurrent save handoff is unknown completion, not guaranteed no job",
+    "Without an original idempotency key, an uncertain response may lack exact job-ID recovery; no blind retry is promised"
+  ],
+  "liveGates": [
+    "New installed exact EXE/helper/runtime identity verified after human normal exit and root activation",
+    "Idle >15s proof renewal: submit settles before pin and dequeue stays FIFO without false PROVIDER_UNAVAILABLE/STALE_ACCOUNT",
+    "Slow Finished: current DOMContentLoaded probe replies within existing bound; old/redirect/cancel/epoch replies still rejected",
+    "Public X/IG bounded read/export/resume/media acceptance on new actual compiled script; no source operation automatically repeated"
+  ],
+  "reviewObjects": [
+    {
+      "id": "bridge-readiness-fix-settled-proof",
+      "name": "Подтверждённый proof до account pin",
+      "version": 1,
+      "content": "Только явные dom_account_proof_pending и app_initializing ожидаются до 20 секунд включая serialized tail. Окончательные auth/challenge/rate/transport ошибки не создают новый job. На dequeue ready должен точно совпасть с исходным account pin; pending identity не сохраняется.",
+      "confirmationAction": "Принять bounded readiness semantics и сохранить genuine account rejection.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.md#settled-proof"
+    },
+    {
+      "id": "bridge-readiness-fix-ipc-commit",
+      "name": "Разрыв IPC и граница durable commit",
+      "version": 1,
+      "content": "Authenticated submit/submit_join передают внутренний AbortSignal только до commit. Close во время tail/proof оставляет 0 durable jobs и 0 source runs. Начатый atomic save может дать unknown completion; durable поручение сохраняется с exact idempotency. Прерванная allocation может оставить только собственный пустой output directory, без удаления соседних данных.",
+      "confirmationAction": "Принять commit/recovery semantics; не включать автоматическую отмену принятого задания.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.md#ipc-commit"
+    },
+    {
+      "id": "bridge-readiness-fix-one-budget",
+      "name": "Один срок выполнения без скрытого удвоения",
+      "version": 1,
+      "content": "Один абсолютный deadline после dequeue включает readiness/busy wait, source, checkpoints и completion persistence; adapter получает остаток. Время в очереди до dequeue отделено. Поздняя source/save completion не переписывает interruption.",
+      "confirmationAction": "Принять remaining deadline при неизменных persisted finite job limits.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.md#one-budget"
+    },
+    {
+      "id": "bridge-readiness-fix-native-init",
+      "name": "Native dispatch после initialization",
+      "version": 1,
+      "content": "Windows сначала создаёт about:blank, затем подтверждает регистрацию SDK observers через bounded 2s ack и выполняет одну target navigation. DOMContentLoaded запускает только Probe; NavigationCompleted с текущим ID сохраняет collection gate и fallback. Повтор dispatch в том же document epoch подавляется.",
+      "confirmationAction": "Принять Windows SDK lifecycle при отдельном actual COM/live gate.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.md#native-init"
+    },
+    {
+      "id": "bridge-readiness-fix-native-owner",
+      "name": "Владелец навигации и строгие guards",
+      "version": 1,
+      "content": "NavigationOwner фиксируется при новом NavigationStarting. Guard и failure path требуют тот же request/nonce/phase/accountEpoch/target/page context, generation, NavigationId, documentEpoch и exact first-party source. Поздний redirect старого ID отклоняется; redirect того же ID не меняет owner. Fresh guard после replacement до его собственной navigation запрещён.",
+      "confirmationAction": "Принять owner-binding correction без ослабления account/origin/source guards.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.md#native-owner"
+    },
+    {
+      "id": "bridge-readiness-fix-live-gate",
+      "name": "Source проверки и новая сборка остаются разными evidence",
+      "version": 1,
+      "content": "SocialMCP 178/178, final native 40/40 и независимые 26 broker/IPC + 5 Rust synthetic checks не доказывают поведение установленной версии 1.4.2. Новые sources не активированы этим worker. Live idle >15s → submit/dequeue и slow-navigation/account negatives остаются root acceptance после обычного owner transition.",
+      "confirmationAction": "Сохранить live gate и не заявлять installed repair до actual новой сборки.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-fix-report.md#live-gate"
+    }
+  ],
+  "reviewContract": {
+    "choices": [
+      "approve",
+      "reject",
+      "question",
+      "unreviewed"
+    ],
+    "defaultDecision": "unreviewed",
+    "perObjectComment": true,
+    "generalComment": true,
+    "responsesStoredSeparately": true,
+    "applyMeans": "return exact decisions/comments to parent companion board; accept scoped semantics/evidence, no automatic install/account/platform action"
+  },
+  "independentReceipts": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-independent-review.json",
+      "sha256": "387816178327f42c22b2432794262c304344d1a882aca69c16df27a69c05dbda"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\bridge-readiness-independent-review.md",
+      "sha256": "f7058f01d8fc5dc63641fdb828514f33f436a88f4935689a2fdce1fbfd2717ee"
+    }
+  ],
+  "independentDocumentationDelta": "BRIDGE-CONTRACT English spaces only: to20/socket30/client35 -> to 20/socket 30/client 35; no behavior/protocol change; production inputs exact."
+}

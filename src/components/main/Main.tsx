@@ -39,6 +39,7 @@ import { waitForTransitionEnd } from '../../util/cssAnimationEndListeners';
 import { processDeepLink } from '../../util/deeplink';
 import { Bundles, loadBundle } from '../../util/moduleLoader';
 import { parseInitialLocationHash, parseLocationHash } from '../../util/routing';
+import { normalizeNativeDeepLinks } from '../../util/tauri/deepLinks';
 import updateIcon from '../../util/updateIcon';
 import { REM } from '../common/helpers/mediaDimensions';
 import { updateTopReserveWithScrollCompensation } from '../middle/helpers/messageListReserves';
@@ -64,6 +65,7 @@ import PhoneCall from '../calls/phone/PhoneCall.async';
 import RatePhoneCallModal from '../calls/phone/RatePhoneCallModal.async';
 import CustomEmojiSetsModal from '../common/CustomEmojiSetsModal.async';
 import DeleteMessageModal from '../common/DeleteMessageModal.async';
+import DocumentReaderModal from '../common/DocumentReaderModal';
 import StickerSetModal from '../common/StickerSetModal.async';
 import UnreadCount from '../common/UnreadCounter';
 import Wallpaper from '../common/Wallpaper';
@@ -438,15 +440,15 @@ const Main = ({
     }
   }, [isSynced]);
 
-  useTauriEvent<string>('deeplink', (event) => {
-    try {
-      const url = event.payload || '';
-      const decodedUrl = decodeURIComponent(url);
-      processDeepLink(decodedUrl, { type: 'inner' });
-    } catch (e) {
-      if (DEBUG) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to process deep link', e);
+  useTauriEvent<unknown>('deeplink', (event) => {
+    for (const url of normalizeNativeDeepLinks(event.payload)) {
+      try {
+        processDeepLink(url, { type: 'inner' });
+      } catch (e) {
+        if (DEBUG) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to process deep link', e);
+        }
       }
     }
   });
@@ -615,7 +617,7 @@ const Main = ({
       className={className}
       bgClassName={bgClassName}
     >
-      {IS_TAURI && IS_MAC_OS && (
+      {IS_TAURI && (
         <div className="tauri-drag-region" data-tauri-drag-region />
       )}
       <FoldersSidebar isMobile={isMobile} isActive={isFoldersSidebarShown} />
@@ -677,6 +679,7 @@ const Main = ({
       <DeleteFolderDialog folder={deleteFolderDialog} />
       <ReactionPicker isOpen={isReactionPickerOpen} />
       <DeleteMessageModal isOpen={isDeleteMessageModalOpen} />
+      <DocumentReaderModal />
     </Wallpaper>
   );
 };

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-frontend-benchmark-preflight-2026-10-06",
+  "createdAt": "2026-10-06T11:15:04.935076+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "script": "scripts/relay-frontend-benchmark.mjs",
+  "scriptSha256": "252688e20d7968066289749f1d3f8e0866f630b3c8d0b58867f506da4bf797cd",
+  "isPairedBenchmark": false,
+  "pairedRunPerformed": false,
+  "baselineReadDuringPreparation": false,
+  "productSourcesChangedByThisTask": false,
+  "checks": [
+    {
+      "id": "benchmark-syntax-final",
+      "status": "pass",
+      "exitCode": 0,
+      "receipt": {
+        "command": "node --check scripts/relay-frontend-benchmark.mjs",
+        "checkedAt": "2026-10-06T11:16:02.8385540Z",
+        "exitCode": 0
+      },
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptSha256": "306d9784b610e6c774a2385c04312a2f45b7f61dc318a35939e1ed8fb6bcdc8f"
+    },
+    {
+      "id": "benchmark-eslint-final",
+      "status": "pass",
+      "exitCode": 0,
+      "receipt": {
+        "command": "eslint scripts/relay-frontend-benchmark.mjs --cache --cache-location own-work --max-warnings 0",
+        "checkedAt": "2026-10-06T11:16:05.6849434Z",
+        "exitCode": 0
+      },
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptSha256": "e605d24b9b054df778434b69fe73f6dfc7b432eb546a8fe142de26bdd06d4fa3"
+    },
+    {
+      "id": "benchmark-api-smoke",
+      "status": "pass",
+      "exitCode": 0,
+      "receipt": {
+        "stage": "benchmark-api-smoke",
+        "exitCode": 0
+      },
+      "logSha256": "d0524aeb74e2dde42079c99d336fc47db3f5e6ff77289e4f5d4b71fd78536332",
+      "receiptSha256": "84c36b5fd1ebb8a4786fdd9dae014d18cd7a6f594cdf6ceb127eeebd0552419e"
+    }
+  ],
+  "apiSmoke": {
+    "schemaVersion": 1,
+    "artifactId": "relay-frontend-benchmark-api-smoke",
+    "generatedAt": "2026-10-06T11:06:06.310Z",
+    "isBenchmark": false,
+    "scope": "about:blank API/collector and statistics contracts only; Relay and frozen baseline are not loaded",
+    "sources": [
+      {
+        "name": "Chrome DevTools Protocol: SystemInfo/ProcessInfo",
+        "checkedOn": "2026-10-06",
+        "url": "https://raw.githubusercontent.com/ChromeDevTools/devtools-protocol/master/json/browser_protocol.json"
+      },
+      {
+        "name": "Playwright: browser.newBrowserCDPSession",
+        "checkedOn": "2026-10-06",
+        "url": "https://playwright.dev/docs/api/class-browser#browser-new-browser-cdp-session"
+      },
+      {
+        "name": "Microsoft: Get-CimInstance",
+        "checkedOn": "2026-10-06",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.5"
+      },
+      {
+        "name": "Microsoft: Get-Process",
+        "checkedOn": "2026-10-06",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-7.5"
+      },
+      {
+        "name": "Microsoft: Process.PrivateMemorySize64",
+        "checkedOn": "2026-10-06",
+        "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.privatememorysize64?view=net-10.0"
+      }
+    ],
+    "checks": [
+      {
+        "id": "statistics-overlap-separation-incomplete-zero",
+        "status": "pass"
+      },
+      {
+        "id": "cdp-browser-pid-and-windows-descendants",
+        "status": "pass",
+        "browserPid": 23252,
+        "processCount": 7,
+        "cdpProcessCount": 6,
+        "fields": [
+          "pid",
+          "parentPid",
+          "cpuSeconds",
+          "privateBytes"
+        ],
+        "commandLinesRead": false,
+        "profilePathsReported": false
+      }
+    ],
+    "browserVersion": "154.0.4258.53"
+  },
+  "apiSmokeScriptSha256": "6ddec658c824aad1ad8a1b634f80cf812c75041d937ebaf73d46c3f9aa3723e1",
+  "postSmokeChanges": [
+    "Visible chat/header selectors",
+    "RAF callback uses performance.now()",
+    "TEMP/TMP/TMPDIR placed in own work",
+    "Shared APP_VERSION limitation and report metadata",
+    "Normalized line endings",
+    "Optional support config identity with explicit missingSupportSources; shared isolated Vite configFile:false limitation"
+  ],
+  "scope": "Final syntax/lint plus earlier unchanged collector/statistics contracts on about:blank; no Relay latency, actual account, transfer, native Tauri or GPU claim",
+  "pending": [
+    "Root runs paired benchmark only after stable sources and quiet checks",
+    "Actual product goals and geometry require the paired run; about:blank smoke does not verify them"
+  ],
+  "reviewSnapshot": "review-objects.json",
+  "updatedAt": "2026-10-06T11:16:49.274484+00:00"
+}

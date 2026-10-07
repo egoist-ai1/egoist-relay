@@ -19,7 +19,7 @@ import * as langProvider from '../../../util/oldLangProvider';
 import updateIcon from '../../../util/updateIcon';
 import { setPageTitle, setPageTitleInstant } from '../../../util/updatePageTitle';
 import {
-  canEditMediaInEditor, getAllowedAttachmentOptions, getChatTitle, runForFocusedTabs,
+  canEditMediaInEditor, getAllowedAttachmentOptions, getChatTitle,
 } from '../../helpers';
 import { addTabStateResetterAction } from '../../helpers/meta';
 import {
@@ -47,7 +47,6 @@ import { selectSharedSettings } from '../../selectors/sharedState';
 import { getIsMobile, getIsTablet } from '../../../hooks/useAppLayout';
 
 export const APP_VERSION_URL = 'version.txt';
-const FLOOD_PREMIUM_WAIT_NOTIFICATION_DURATION = 6000;
 const MAX_STORED_EMOJIS = 8 * 4; // Represents four rows of recent emojis
 
 addActionHandler('toggleChatInfo', (global, actions, payload): ActionReturnType => {
@@ -904,39 +903,8 @@ addActionHandler('refreshLangPackFromCache', (global, actions, payload): ActionR
   refreshFromCache(payload.langCode);
 });
 
-addActionHandler('processPremiumFloodWait', (global, actions, payload): ActionReturnType => {
-  const { isUpload } = payload;
-  const {
-    bandwidthPremiumDownloadSpeedup,
-    bandwidthPremiumUploadSpeedup,
-    bandwidthPremiumNotifyPeriod,
-  } = global.appConfig;
-  const { lastPremiumBandwithNotificationDate: lastNotifiedAt } = global.settings;
-
-  if (!bandwidthPremiumDownloadSpeedup || !bandwidthPremiumUploadSpeedup || !bandwidthPremiumNotifyPeriod) {
-    return undefined;
-  }
-  if (lastNotifiedAt && Date.now() < lastNotifiedAt + bandwidthPremiumNotifyPeriod * 1000) return undefined;
-
-  runForFocusedTabs(global, (tabId) => {
-    actions.showNotification({
-      title: langProvider.oldTranslate(isUpload ? 'UploadSpeedLimited' : 'DownloadSpeedLimited'),
-      message: langProvider.oldTranslate(
-        isUpload ? 'UploadSpeedLimitedMessage' : 'DownloadSpeedLimitedMessage',
-        isUpload ? bandwidthPremiumUploadSpeedup : bandwidthPremiumDownloadSpeedup,
-      ),
-      duration: FLOOD_PREMIUM_WAIT_NOTIFICATION_DURATION,
-      tabId,
-    });
-  });
-
-  return {
-    ...global,
-    settings: {
-      ...global.settings,
-      lastPremiumBandwithNotificationDate: Date.now(),
-    },
-  };
+addActionHandler('processPremiumFloodWait', (): ActionReturnType => {
+  return undefined;
 });
 
 let prevIsScreenLocked: boolean | undefined;

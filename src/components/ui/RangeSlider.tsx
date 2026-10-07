@@ -14,6 +14,7 @@ type OwnProps = {
   max?: number;
   step?: number;
   label?: string;
+  ariaLabel?: string;
   value: number;
   disabled?: boolean;
   readOnly?: boolean;
@@ -30,6 +31,7 @@ const RangeSlider: FC<OwnProps> = ({
   max = options ? options.length - 1 : 100,
   step = 1,
   label,
+  ariaLabel,
   value,
   disabled,
   readOnly,
@@ -41,8 +43,8 @@ const RangeSlider: FC<OwnProps> = ({
 }) => {
   const lang = useLang();
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    onChange(Number(event.currentTarget.value));
-  }, [onChange]);
+    if (!disabled && !readOnly) onChange(Number(event.currentTarget.value));
+  }, [onChange, disabled, readOnly]);
 
   const mainClassName = buildClassName(
     className,
@@ -53,13 +55,11 @@ const RangeSlider: FC<OwnProps> = ({
   );
 
   const trackWidth = useMemo(() => {
-    if (options) {
-      return (value / (options.length - 1)) * 100;
-    } else {
-      const possibleValuesLength = (max - min) / step;
-      return ((value - min) / possibleValuesLength) * 100;
-    }
-  }, [options, value, max, min, step]);
+    const span = options ? options.length - 1 : max - min;
+    if (span <= 0 || !Number.isFinite(span) || !Number.isFinite(value)) return 0;
+    const percentage = ((value - (options ? 0 : min)) / span) * 100;
+    return Math.max(0, Math.min(100, percentage));
+  }, [options, value, max, min]);
 
   function renderTopRow() {
     if (isCenteredLayout) {
@@ -104,6 +104,8 @@ const RangeSlider: FC<OwnProps> = ({
           value={value}
           step={step}
           type="range"
+          disabled={disabled || readOnly}
+          aria-label={ariaLabel || label}
           className="RangeSlider__input"
           onChange={handleChange}
         />
@@ -112,7 +114,7 @@ const RangeSlider: FC<OwnProps> = ({
             {options.map((option, index) => (
               <div
                 className={buildClassName('slider-option', index === value && 'active')}
-                onClick={() => onChange(index)}
+                onClick={() => { if (!disabled && !readOnly) onChange(index); }}
               >
                 {option}
               </div>

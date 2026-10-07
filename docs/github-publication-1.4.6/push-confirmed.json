@@ -1,0 +1,15 @@
+{
+  "recordedAt": "2026-10-02T15:57:19.862Z",
+  "repo": "egoist-ai1/egoist-relay",
+  "branch": "codex/release-1.4.6",
+  "tag": "relay-v1.4.6",
+  "commit": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51",
+  "refs": {
+    "refs/heads/codex/release-1.4.6": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51",
+    "refs/heads/main": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51",
+    "refs/tags/relay-v1.4.6": "37182ec83a91f163d1eba71e5fb5bf952a6d276a",
+    "refs/tags/relay-v1.4.6^{}": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51"
+  },
+  "manifestHash": "877c3cc7fb33426c3a701cc8e90a89cf024d683305d5295e4838e334d66fcba8",
+  "fileCount": 3422
+}

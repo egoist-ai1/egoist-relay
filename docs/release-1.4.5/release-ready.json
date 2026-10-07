@@ -1,0 +1,42 @@
+{
+  "liveNewBuildVerification": "three_account_bridges_ready",
+  "freshInstallPermission": "received_and_applied",
+  "installer": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/release/1.4.5/Egoist Relay_1.4.5_x64-setup.exe",
+  "nativeBuildFixtureTests": 11,
+  "schemaVersion": 1,
+  "exeSha256": "cb44500c65985e6946c0deb21033300cddb5b4ce08396e51891a9a2d4bd691a7",
+  "installerSha256": "c04202d8ad49d6f9379f8c64a3b9b7de01f1b8b9fa7d163fc9b04847e2d4897c",
+  "autoReview": {
+    "reason": "Weakens an explicit safety control; preparing update does not approve bypassing it",
+    "rejectedAction": "Remove fresh user exit confirmation gate from production installation helper",
+    "applied": false
+  },
+  "productionDeltaCount": 14,
+  "composerMediaTests": 32,
+  "productionHelperApprovalGateUnchanged": true,
+  "isolatedInstallerSmoke": "passed",
+  "productionInputCount": 3307,
+  "reelsHelperTests": 30,
+  "state": "installed_all_three_bridges_ready_mcp_current",
+  "modalFinalScopedTests": 8,
+  "recordedAt": "2026-10-02T15:37:52.0536303+03:00",
+  "version": "1.4.5",
+  "reviewObjects": [
+    {
+      "content": "Relay1.4.5 установлен по свежему разрешению пользователя. EXE/40runtime/3307inputs и отдельная установка→запуск→удаление проверены. Telegram, X и Instagram подтвердили готовность существующих аккаунтов; актуальный MCPsourceHash совпал. DNS/Lagom/priority writes0. Визуальная проверка кнопки в nativeReels пока ожидает ответа пользователя; настоящие сообщения не отправлялись.",
+      "id": "relay-release-1.4.5-current",
+      "version": "release-1.4.5-ready-v1",
+      "action": "Принять установленную версию1.4.5 и проверенные результаты; установка повторно не запускается.",
+      "name": "Проверенный установщик Egoist Relay 1.4.5",
+      "decision": "unreviewed"
+    }
+  ],
+  "sourceQa": "source_qa_passed",
+  "mcpLiveActivation": "current_source_hash_confirmed",
+  "recipientFlowTests": 13,
+  "vitestTests": 322,
+  "runtimeCount": 40,
+  "installedVersion": "1.4.5",
+  "mcpFinalSuiteTests": 179,
+  "liveVerificationSha256": "4ecf99ac16c92000c396f61abfe83161dfb08c2a7e5f5a43e50366bdd5630abb"
+}

@@ -19,12 +19,18 @@
   border-radius: var(--radius);
 
   font-size: var(--_font-size);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: white;
   white-space: nowrap;
 
   &.no-photo {
     font-family: var(--font-family-rounded);
+    color: var(--color-text);
+
+    > .inner {
+      border: 0.0625rem solid var(--color-borders);
+      background: var(--color-background-secondary);
+    }
   }
 
   &.size-mini {
@@ -39,6 +45,12 @@
   .letters {
     /* stylelint-disable-next-line plugin/use-baseline */
     text-box: trim-both cap alphabetic;
+  }
+
+  &.saved-messages,
+  &.replies-bot-account,
+  &.anonymous-forwards {
+    color: var(--color-primary-text);
   }
 
   &__icon {

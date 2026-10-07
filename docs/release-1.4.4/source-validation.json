@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.4",
+  "state": "source_qa_passed_candidate_not_built",
+  "recordedAt": "2026-10-02T09:33:55.609Z",
+  "installedVersion": "1.4.2",
+  "vitest": {
+    "files": 26,
+    "passed": 322,
+    "failed": 0
+  },
+  "native": {
+    "passed": 40,
+    "failed": 0,
+    "sourceStable": true,
+    "metadataAtRun": "1.4.3"
+  },
+  "mcp": {
+    "fullPassed": 178,
+    "independentJsPassed": 26,
+    "independentPureNativePassed": 5,
+    "liveOneRecordBrokerPassed": true,
+    "installedNativeAtLivePilot": "1.4.2"
+  },
+  "types": {
+    "schemaVersion": 1,
+    "artifactId": "relay-source-qa-acceptance-1.4.4",
+    "version": 1,
+    "state": "source_qa_passed",
+    "currentPackageVersion": "1.4.3",
+    "plannedCandidateVersion": "1.4.4",
+    "canonicalMainExitCode": 0,
+    "canonicalTestExitCode": 0,
+    "canonicalScriptExitCode": 0,
+    "browserFixtureExitCode": 0,
+    "lintExitCode": 0,
+    "errorCount": 0,
+    "warningCount": 1,
+    "actualCanonicalScriptRootCount": 47,
+    "testFiles": 26,
+    "browserFixtureFiles": 4,
+    "finalSourceHashes": {
+      "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+      "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+      "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+      "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4",
+      "vitest.config.ts": "2d4bd2da22557c32056f9b6105c51b93f9fc83bd779e4a1396ec28b935c435a4",
+      "eslint.config.js": "10925e4ff5bebde5cda5a415758c8c0b8f6b3e0e14de58dbc7eeed1da7a93470",
+      "tsconfig.script.json": "9fa6a22b293fd63e0d6b4405b7780369d9129557d178ce83e49d550083320917",
+      "tsconfig.json": "03c5354d06c88e18ad43756d735d071c4df87e26c5c231c1e46735bb539bd043",
+      "tsconfig.test.json": "e7575315dabfc85c5b5e9e7eb42899bb909274725a25e0e2c448df609620a354",
+      "tsconfig.base.json": "f517839f6d2b85f0df1b4496b1f0a3ba19be6e6506787e6cd611ea9f8ad9e5be",
+      "scripts/relay-payment-modal.fixture.tsx": "f2c60a42b6bb7998f312bfc26052ca4b5efb309f5c9393aa3b1fa52d4b6f1f03",
+      "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+      "scripts/relay-ui-audit.fixture.tsx": "d8965827b3188b2c25ee1ba22ba0e4ed1f68e49c577021a86c050ea0e21ae8cd",
+      "scripts/ui-regression.fixture.tsx": "3e8a86e26dfae580ac2f08a6cf250d58ec54235a63a3b7ab55e20851fc85c9ca",
+      "src/components/payment/PaymentModal.tsx": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+      "src/components/modals/stars/StarsPaymentModal.tsx": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85"
+    },
+    "paymentSourcesUnchanged": true,
+    "checkedInputsChanged": [],
+    "parentReportFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-final-1.4.4-source.json",
+    "parentReportSha256": "c86ddb79cab3a7f640e0a2d5da11f37989e5ad54631dab14f6e5893829288ff7",
+    "parentMarkdownFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-final-1.4.4-source.md",
+    "parentMarkdownSha256": "06e0a240fc35ec98ff51cee7ff67a4553ff9c99d93b5f29bd72f33dadd4acafa",
+    "scope": "Source QA only; no installed/build/account/payment certification. Historical failed contexts retained in parent report; current canonical fourcontexts/wholelint authoritative.",
+    "canonicalScriptConfigurationSha256": "9fa6a22b293fd63e0d6b4405b7780369d9129557d178ce83e49d550083320917",
+    "eslintConfigurationSha256": "10925e4ff5bebde5cda5a415758c8c0b8f6b3e0e14de58dbc7eeed1da7a93470",
+    "reviewObjects": [
+      {
+        "id": "final-source-qa-acceptance",
+        "name": "Финальная проверка исходников planned1.4.4",
+        "version": 1,
+        "decision": "unreviewed",
+        "comment": "",
+        "confirmationAction": "Accept observed type/lint source QA and one retained warning; no payment or installation permission implied."
+      }
+    ]
+  },
+  "payment": {
+    "state": "awaiting_explicit_human_permission",
+    "included": false,
+    "unchangedSources": [
+      {
+        "path": "src/components/payment/PaymentModal.tsx",
+        "sha256": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9"
+      },
+      {
+        "path": "src/components/modals/stars/StarsPaymentModal.tsx",
+        "sha256": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85"
+      }
+    ]
+  },
+  "remaining": [
+    "Compiled native SDK/live acceptance after installation",
+    "Native-host focus and uniform200% text/DPI",
+    "Specific private thread/upload requires chosen target",
+    "Platform CDN/limits are external"
+  ]
+}

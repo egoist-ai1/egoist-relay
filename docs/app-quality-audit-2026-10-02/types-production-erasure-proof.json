@@ -1,0 +1,77 @@
+[
+  {
+    "file": "src/api/gramjs/updates/updateManager.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "f37af3248d7116ce12d06b7dc59d74ed794d7521f0e653d2398d2ee48d7b1d2e",
+    "afterJavaScriptSha256": "f37af3248d7116ce12d06b7dc59d74ed794d7521f0e653d2398d2ee48d7b1d2e"
+  },
+  {
+    "file": "src/components/main/visualEffects/ConfettiContainer.tsx",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "46ef1187c5378d3c9a3b4314b8ab6b14937e4f4e4ce841f80c3712c742aa0fea",
+    "afterJavaScriptSha256": "46ef1187c5378d3c9a3b4314b8ab6b14937e4f4e4ce841f80c3712c742aa0fea"
+  },
+  {
+    "file": "src/components/middle/EmojiInteractionAnimation.tsx",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "bbbbff3c4892bb2a8ddb27326005497dfc8496a485542d79e529ca14290691c0",
+    "afterJavaScriptSha256": "bbbbff3c4892bb2a8ddb27326005497dfc8496a485542d79e529ca14290691c0"
+  },
+  {
+    "file": "src/components/middle/message/hooks/useOuterHandlers.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "006d59242f4d8d89e2b8a859415874f32ea651cd795f6c8100c237e9a704f9bb",
+    "afterJavaScriptSha256": "006d59242f4d8d89e2b8a859415874f32ea651cd795f6c8100c237e9a704f9bb"
+  },
+  {
+    "file": "src/components/modals/browser/hooks/useWebAppFrame.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "5c2c72f84b936815b1bfc15237fdb7af802a2777da4c77486c61a30400e507d9",
+    "afterJavaScriptSha256": "5c2c72f84b936815b1bfc15237fdb7af802a2777da4c77486c61a30400e507d9"
+  },
+  {
+    "file": "src/components/modals/browser/WebAppTab.tsx",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "09065e948b56b928143593298f368cb56bc77f291fd5bd9c040d1b11fcb63af2",
+    "afterJavaScriptSha256": "09065e948b56b928143593298f368cb56bc77f291fd5bd9c040d1b11fcb63af2"
+  },
+  {
+    "file": "src/components/right/Profile.tsx",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "edf6808b45b469be349fe130dbfd46c984ce08928ca74d3d5d9f591e958efba0",
+    "afterJavaScriptSha256": "edf6808b45b469be349fe130dbfd46c984ce08928ca74d3d5d9f591e958efba0"
+  },
+  {
+    "file": "src/hooks/useMultiClick.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "589e6af5ee47065b808d0ac689e54ad95a6001684c700e733a217cf88f3c5efb",
+    "afterJavaScriptSha256": "589e6af5ee47065b808d0ac689e54ad95a6001684c700e733a217cf88f3c5efb"
+  },
+  {
+    "file": "src/lib/gramjs/client/TelegramClient.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "b7bd79bc42f392cffc25924850b3d39d411bed2f490855869b55e4e268351bea",
+    "afterJavaScriptSha256": "b7bd79bc42f392cffc25924850b3d39d411bed2f490855869b55e4e268351bea"
+  },
+  {
+    "file": "src/util/websync.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "2d227b7a657f1b4c510099ecc9cfee0cc1712f49ac2a5eeb5b33671eff9952a1",
+    "afterJavaScriptSha256": "2d227b7a657f1b4c510099ecc9cfee0cc1712f49ac2a5eeb5b33671eff9952a1"
+  },
+  {
+    "file": "src/lib/teact/teact.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "c9789f2abbc39b0aae3352a4680a24bb1cc80c019eaf892b823462818c8f6b92",
+    "afterJavaScriptSha256": "c9789f2abbc39b0aae3352a4680a24bb1cc80c019eaf892b823462818c8f6b92"
+  },
+  {
+    "file": "src/util/tiptap/TeactRenderer.ts",
+    "identicalEmittedJavaScript": true,
+    "beforeJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+    "afterJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+    "beforeSourceSha256": "88752efb17c48522a36d97696c225fc1c943ec24869614aecbf6c8afc7723c75",
+    "afterSourceSha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+    "cleanup": "Unnecessary receiver assertion and unused type import only"
+  }
+]

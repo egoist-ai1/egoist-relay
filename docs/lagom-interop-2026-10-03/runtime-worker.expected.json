@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "state": "expected_owned_worker_payload",
+  "recordedAt": "2026-10-03T13:43:38.502633+00:00",
+  "worker": {
+    "filename": "telegram-transport.cjs",
+    "bytes": 58338,
+    "sha256": "6c9377f1992b3aa21061b25f523fd25c40b85cf4a24f0a3b20a84a053c6b8775",
+    "sourceOutDir": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\native-build\\target\\release\\build\\egoist_relay-d5192d35543dd7f2\\out",
+    "embeddedActualBytesVerified": true,
+    "scope": "Expected materialized owned Relay worker; build-only source, not a live installed process readback",
+    "containsPrivateHandoffValues": false
+  },
+  "expectedInstalledExeSha256": "899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b"
+}

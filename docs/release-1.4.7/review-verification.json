@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-04T15:25:52.707Z",
+  "snapshotSha256": "c99381d394f0ab69e43692b0113a3f490af0451269f63d50d9c401b5ad6d1193",
+  "helperSha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b",
+  "cards": 10,
+  "neutralResponses": 10,
+  "statusNotice": "Сборка Windows: проверено. Исходники и установщик: опубликовано. Локальное обновление: проверено. Исходники зависимостей остаются неполными; выпуск сохраняет prerelease.",
+  "viewportWidth": 320,
+  "horizontalOverflow": false,
+  "pageErrors": [],
+  "scope": "Final registry consistency and isolated headless rendering; earlier helper flow diagnostics14/14"
+}

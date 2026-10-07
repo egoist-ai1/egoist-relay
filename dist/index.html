@@ -23,7 +23,7 @@
   <meta name="theme-color" content="#000000">
   <meta name="google" content="notranslate">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' wss://*.web.telegram.org blob: http: https: wss: ipc:; script-src 'self' 'wasm-unsafe-eval' https://t.me/_websync_ https://telegram.me/_websync_ https://telegram.dog/_websync_; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://ss3.4sqi.net/img/categories_v2/; media-src 'self' blob: data:; object-src 'none'; frame-src http: https: bitkeep: bnc: bybitapp: echooo: imtokenv2: mytonwallet-tc: nicegram-tc: safepal-tc: tonkeeper-pro-tc: tonkeeper-tc:; base-uri 'none'; form-action 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' ws: wss: wss://*.web.telegram.org blob: http: https: ; script-src 'self' 'wasm-unsafe-eval' https://t.me/_websync_ https://telegram.me/_websync_ https://telegram.dog/_websync_; worker-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://ss3.4sqi.net/img/categories_v2/; media-src 'self' blob: data:; object-src 'none'; frame-src http: https: bitkeep: bnc: bybitapp: echooo: imtokenv2: mytonwallet-tc: nicegram-tc: safepal-tc: tonkeeper-pro-tc: tonkeeper-tc:; base-uri 'none'; form-action 'none';">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -31,7 +31,7 @@
   <meta property="og:title" content="Egoist Relay">
   <meta property="og:description"
         content="Telegram is a cloud-based mobile and desktop messaging app with a focus on security and speed.">
-  <meta property="og:image" content="./icon-dev-192x192.png">
+  <meta property="og:image" content="./icon-192x192.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -39,54 +39,49 @@
   <meta property="twitter:title" content="Egoist Relay">
   <meta property="twitter:description"
     content="Telegram is a cloud-based mobile and desktop messaging app with a focus on security and speed.">
-  <meta property="twitter:image" content="./icon-dev-192x192.png">
+  <meta property="twitter:image" content="./icon-192x192.png">
 
   <link rel="canonical" href="http://localhost:1234/">
-  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon-dev.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="./icon-dev-192x192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192x192.png">
   <link rel="alternate icon" href="./favicon.ico" type="image/x-icon">
-  <link rel="manifest" id="the-manifest-placeholder" href="./site_dev.webmanifest">
+  <link rel="manifest" id="the-manifest-placeholder" href="./site.webmanifest">
+  <link rel="preload" href="./fonts/Unbounded.ttf" as="font" type="font/ttf" crossorigin>
 
   <script  src="./redirect.js"></script>
-  <style>
-    @layer reset, variables, ui, components;
-    @layer ui {
-      @layer tablist, spinner, button, input, layout;
-    }
-  </style>
-  <script type="module" crossorigin src="./assets/index-BgajqvYk.js"></script>
+  <script  src="./compatTest.js"></script>
+  <style>@layer reset,variables;@layer ui{@layer tablist,spinner,button,input,layout;}@layer components;</style>
+  <script type="module" crossorigin src="./assets/index-BQ-gim0-.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/rolldown-runtime-hePW80VL.js">
-  <link rel="modulepreload" crossorigin href="./assets/core-DFiqCqIj.js">
-  <link rel="modulepreload" crossorigin href="./assets/fasterdom-CGQm708f.js">
-  <link rel="modulepreload" crossorigin href="./assets/teact-ghLGCokz.js">
-  <link rel="modulepreload" crossorigin href="./assets/colors-BtJ6Lgry.js">
-  <link rel="modulepreload" crossorigin href="./assets/preload-helper-HclGiUj8.js">
-  <link rel="modulepreload" crossorigin href="./assets/InputText-NkPYi6qi.js">
-  <link rel="modulepreload" crossorigin href="./assets/Checkbox-BlPpDX_a.js">
-  <link rel="modulepreload" crossorigin href="./assets/animation-l-dx5l6i.js">
-  <link rel="modulepreload" crossorigin href="./assets/Transition-Ch1A9-a2.js">
-  <link rel="modulepreload" crossorigin href="./assets/parseEmojiOnlyString-D0ya4cL8.js">
-  <link rel="modulepreload" crossorigin href="./assets/reducers-zSq888K7.js">
+  <link rel="modulepreload" crossorigin href="./assets/fasterdom-Bp4x2Zb9.js">
+  <link rel="modulepreload" crossorigin href="./assets/teact-00zyrek9.js">
+  <link rel="modulepreload" crossorigin href="./assets/core-wqAUrhUS.js">
+  <link rel="modulepreload" crossorigin href="./assets/colors-BfWth2_R.js">
+  <link rel="modulepreload" crossorigin href="./assets/preload-helper-uBIymjUX.js">
+  <link rel="modulepreload" crossorigin href="./assets/Modal-DCBkyz1U.js">
+  <link rel="modulepreload" crossorigin href="./assets/MenuSeparator-DmW3xxGv.js">
+  <link rel="modulepreload" crossorigin href="./assets/animation-BerHZ92d.js">
+  <link rel="modulepreload" crossorigin href="./assets/InfiniteScroll-HdYgke8_.js">
+  <link rel="modulepreload" crossorigin href="./assets/parseEmojiOnlyString-BNHycwC3.js">
+  <link rel="modulepreload" crossorigin href="./assets/reducers-CcJ_xa2I.js">
   <link rel="modulepreload" crossorigin href="./assets/codeLanguages-DLzBVKgX.js">
-  <link rel="modulepreload" crossorigin href="./assets/useWindowSize-BgKJDeqn.js">
-  <link rel="modulepreload" crossorigin href="./assets/DropdownMenu-a4mTGoV7.js">
-  <link rel="modulepreload" crossorigin href="./assets/usePrevious-Dab9kzdO.js">
-  <link rel="modulepreload" crossorigin href="./assets/animatedAssets-Bsv7ZybF.js">
-  <link rel="modulepreload" crossorigin href="./assets/messageSummary-FACWiyIn.js">
-  <link rel="modulepreload" crossorigin href="./assets/lock-D1DEpFxu.js">
-  <link rel="modulepreload" crossorigin href="./assets/initial-BkgbaRxP.js">
-  <link rel="modulepreload" crossorigin href="./assets/Loading-CEbBY2jw.js">
-  <link rel="stylesheet" crossorigin href="./assets/InputText-CsM1cLZS.css">
-  <link rel="stylesheet" crossorigin href="./assets/Checkbox-DcubxOxd.css">
-  <link rel="stylesheet" crossorigin href="./assets/Transition-0Q6zCgs_.css">
-  <link rel="stylesheet" crossorigin href="./assets/DropdownMenu-9rW3ElfC.css">
-  <link rel="stylesheet" crossorigin href="./assets/usePrevious-B3ktLyMZ.css">
-  <link rel="stylesheet" crossorigin href="./assets/lock-CrS77iu9.css">
-  <link rel="stylesheet" crossorigin href="./assets/Loading-CzX-7jrR.css">
-  <link rel="stylesheet" crossorigin href="./assets/index-sX--c0C5.css">
+  <link rel="modulepreload" crossorigin href="./assets/useWindowSize-CpZwK6vL.js">
+  <link rel="modulepreload" crossorigin href="./assets/useScrollToActiveTab-DvdmIhY8.js">
+  <link rel="modulepreload" crossorigin href="./assets/PickerItem-BUsMWumm.js">
+  <link rel="modulepreload" crossorigin href="./assets/useClickable-BmaXGyR-.js">
+  <link rel="modulepreload" crossorigin href="./assets/animatedAssets-CbXdde1o.js">
+  <link rel="modulepreload" crossorigin href="./assets/InlineSocialMedia-DOq1EmfC.js">
+  <link rel="stylesheet" crossorigin href="./assets/Modal-PM_Lkz5z.css">
+  <link rel="stylesheet" crossorigin href="./assets/MenuSeparator-BEMe7Xmv.css">
+  <link rel="stylesheet" crossorigin href="./assets/InfiniteScroll-mKJdh-oQ.css">
+  <link rel="stylesheet" crossorigin href="./assets/useScrollToActiveTab-CWKHovcL.css">
+  <link rel="stylesheet" crossorigin href="./assets/PickerItem-D_cO6EAg.css">
+  <link rel="stylesheet" crossorigin href="./assets/useClickable-CtPaR6ET.css">
+  <link rel="stylesheet" crossorigin href="./assets/InlineSocialMedia-BKJgRvVb.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-v3LnfNWz.css">
 </head>
 
 <body id="root">
@@ -96,7 +91,6 @@
     <p>Please, enable JavaScript to open the app.</p>
   </noscript>
   <div id="portals"></div>
-  <script  src="./compatTest.js"></script>
 </body>
 
 </html>

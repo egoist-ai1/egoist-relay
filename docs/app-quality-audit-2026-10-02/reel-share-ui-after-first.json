@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "label": "after-first",
+  "generatedAt": "2026-10-02T11:28:17.090Z",
+  "helperSource": "scripts/social-share-enhancer.js",
+  "sourceSha256": "ac6525495a70fa824be3650056c50cf6110cd48ddfe453af8357143ff605b224",
+  "injectedSha256": "ace4b2eceba19d7f9106f02546de1636e18898a9c52d2a289cd5aaf34ce711c2",
+  "boundary": {
+    "original": "window.location.href = `egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`;",
+    "replacement": "window.__reelShareTransport.push(`egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`);",
+    "exactCount": 1,
+    "service": "instagram",
+    "token": "synthetic fixture token; no native token",
+    "label": "Отправить в Telegram"
+  },
+  "evidenceScope": "Actual helper bytes and DOM observer; trusted Playwright clicks. Only final native transport assignment mocked. HTTPS Instagram document fulfilled locally; all other network blocked. No account/session/native process.",
+  "blockedRequests": 27,
+  "errors": [
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    },
+    {
+      "label": "after-first",
+      "error": "TypeError: Cannot redefine property: __egoistRelayIsShareButton"
+    }
+  ],
+  "cases": [
+    {
+      "id": "reels-feed-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-reels-feed-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "single-reel-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-single-reel-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "handle-reel-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-handle-reel-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "dm-dialog-own-reel-permalink",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-dm-dialog-own-reel-permalink.png",
+      "transports": []
+    },
+    {
+      "id": "existing-article-post",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-existing-article-post.png",
+      "transports": []
+    },
+    {
+      "id": "single-reel-current-url-fallback",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-single-reel-current-url-fallback.png",
+      "transports": []
+    },
+    {
+      "id": "feed-two-independent-reels",
+      "status": "fail",
+      "error": "TypeError: Cannot read properties of undefined (reading 'payload')",
+      "screenshot": "reel-share-ui-after-first-feed-two-independent-reels.png",
+      "transports": []
+    },
+    {
+      "id": "feed-no-permalink-no-fallback",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "ambiguous-multiple-videos-no-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "hidden-video-no-wrong-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "offscreen-video-no-wrong-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "removed-video-no-stale-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "malicious-permalink-origin-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "malicious-article-permalink-origin-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "invalid-internal-double-slash-path-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "forged-sibling-cannot-suppress-owned-button",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-forged-sibling-cannot-suppress-owned-button.png",
+      "transports": []
+    },
+    {
+      "id": "malicious-page-origin-not-initialized",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0
+      }
+    },
+    {
+      "id": "untrusted-click-rejected",
+      "status": "pass",
+      "detail": {
+        "transportCount": 0,
+        "isTrusted": false
+      }
+    },
+    {
+      "id": "forged-data-attribute-not-authorized",
+      "status": "pass",
+      "detail": {
+        "forgedOwnership": false,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "spa-current-video-and-permalink-change",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-spa-current-video-and-permalink-change.png",
+      "transports": []
+    },
+    {
+      "id": "spa-action-row-replaced",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-spa-action-row-replaced.png",
+      "transports": []
+    },
+    {
+      "id": "mutation-no-duplicate-buttons",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-after-first-mutation-no-duplicate-buttons.png",
+      "transports": []
+    },
+    {
+      "id": "label-update-registered-buttons",
+      "status": "pass",
+      "detail": {
+        "label": "Send to Telegram",
+        "geometry": {
+          "x": 157,
+          "y": 627,
+          "width": 44,
+          "height": 44
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 23,
+    "pass": 12,
+    "fail": 11,
+    "pageErrors": 11
+  }
+}

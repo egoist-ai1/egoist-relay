@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-mini-app-open"
+description = "Enables the relay_mini_app_open command without any pre-configured scope."
+commands.allow = ["relay_mini_app_open"]
+
+[[permission]]
+identifier = "deny-relay-mini-app-open"
+description = "Denies the relay_mini_app_open command without any pre-configured scope."
+commands.deny = ["relay_mini_app_open"]

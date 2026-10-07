@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "state": "version_prepared",
+  "recordedAt": "2026-10-02T14:15:48.804Z",
+  "before": {
+    "package.json": "ff7d5af792914cfd08eb52b83db4bc94c432d611159371c2ed6c3f7f11b488dc",
+    "package-lock.json": "512388c5aaf36ec449e314051dfa1dbc10df73aab631850b41cba771db616090",
+    "tauri/Cargo.toml": "8fa8a761ede1acfa68917c440913184121e4c665ef59fb9ba901c432a4c57572",
+    "tauri/Cargo.lock": "6b1c7fb3eec4c1a2c00057064382df1e61e24f0c801d09d0220775caf5d5b3b0",
+    "public/version.txt": "f43a0292c674542a2d676a0f4f588a7ffbe1cbac25090df344b12ff1279f7820"
+  },
+  "after": {
+    "package.json": "bd2c71592ce2801ebbdfd998c12b2837a7af063418c88842d8e0ad602276ce05",
+    "package-lock.json": "79961a34a02fb5de5b9eb3660b827c4f88c262aa478a8ad2fdc589ef5c6de41b",
+    "tauri/Cargo.toml": "0c927eb215b8e05490fe77e576466626366e414ea5390816c7fd6e86db94b1c0",
+    "tauri/Cargo.lock": "b08680296f38bc6e45c478ba2473e81fb56cb4765f6651f10eeee9e4fb2f0c3c",
+    "public/version.txt": "563d5c80c54e77e2f8454ecd5c14388f9ab3af77edc73b6f4736ada64527952c"
+  },
+  "metadataChangedPaths": [
+    "package.json",
+    "package-lock.json",
+    "tauri/Cargo.toml",
+    "tauri/Cargo.lock",
+    "public/version.txt"
+  ],
+  "versionOnlyByteProof": true,
+  "runtimeFiles": 40,
+  "runtimeChangedPaths": [],
+  "runtimeManifestSha256": "1d5f5fd6772406fd2d63583d4caed14917ae663e2cf7d412e30df4207427600a",
+  "runtimeManifestUnchanged": true,
+  "installedVersionUnchanged": "1.4.5",
+  "installedExeSha256": "cb44500c65985e6946c0deb21033300cddb5b4ce08396e51891a9a2d4bd691a7",
+  "versionSynchronization": {
+    "officialReleaseVersionExitCode": 0,
+    "cargoNoDepsExitCode": 0,
+    "cargoNoDepsLockUpdate": false,
+    "cargoAllTargetsOfflineExitCode": 101,
+    "cargoAllTargetsLimitation": "Uncached Android android_log-sys; offline mode prevented download; own Cargo.lock version had updated and was byte-validated",
+    "cargoWindowsLockedOfflineExitCode": 0,
+    "noBuild": true,
+    "noDownloads": true
+  },
+  "acceptedSourceHashes": {
+    "scripts/social-share-enhancer.js": "17ecb40602ea3ed80eb161b3c2c9a37acd99a00b5d8234db9b30be15ad562024",
+    "src/components/multi/SocialShareModal.tsx": "501ebc7528fcf4aaee437517fcc5ec1767ecc6b82f4c017c08620b3a743893be",
+    "src/components/multi/SocialShareModal.module.scss": "1167b388fb9247f7626fe2441ead64eca64065cd551cb4da6a69c2d0c9d4889c",
+    "src/components/common/RecipientPicker.tsx": "f2ed1075e4de187e0a8003ce33c0bb0a586ccc94fc5b05b798ab3f4ed6d99aa9"
+  },
+  "acceptanceEvidence": [
+    {
+      "file": "docs/app-quality-audit-2026-10-02/native-share-root-final-1.4.6.json",
+      "sha256": "e905c788f3430909e657e88352b693ce6fe03574888f01b8327609f6f05967ad"
+    },
+    {
+      "file": "docs/app-quality-audit-2026-10-02/reel-actions-alignment-1.4.6-v2.json",
+      "sha256": "87e2ba9e018a7b39d0c8ed48bb04390602b340d1955dab8c305732488300588e"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import type { ApiUserStatus } from '../../../api/types';
 import type { ActionReturnType } from '../../types';
 
 import { isUserId } from '../../../util/entities/ids';
+import { recordUserActivity } from '../../../util/realUserActivity';
 import { addActionHandler, getGlobal, setGlobal } from '../../index';
 import {
   deleteContact,
@@ -85,6 +86,11 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     }
 
     case 'updateUserStatus': {
+      if (update.status.type === 'userStatusOnline') {
+        recordUserActivity(update.userId);
+      } else if (update.status.type === 'userStatusOffline' && update.status.wasOnline) {
+        recordUserActivity(update.userId, update.status.wasOnline);
+      }
       // Status updates come very often so we throttle them
       pendingStatusUpdates[update.userId] = update.status;
       updateStatusesOnFullyIdle();

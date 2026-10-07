@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Bounded status-only observations inside a native 20-second warmup, no source job",
+  "sourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+  "frames": [
+    {
+      "elapsedMs": 492,
+      "recordedAt": "2026-10-02T15:11:39.315Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "provider": "instagram",
+          "state": "unavailable",
+          "reason": "dom_account_proof_pending"
+        }
+      ]
+    },
+    {
+      "elapsedMs": 3461,
+      "recordedAt": "2026-10-02T15:11:42.283Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "provider": "instagram",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        }
+      ]
+    },
+    {
+      "elapsedMs": 7487,
+      "recordedAt": "2026-10-02T15:11:46.309Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "provider": "instagram",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        }
+      ]
+    },
+    {
+      "elapsedMs": 12494,
+      "recordedAt": "2026-10-02T15:11:51.317Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "provider": "instagram",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        }
+      ]
+    },
+    {
+      "elapsedMs": 18479,
+      "recordedAt": "2026-10-02T15:11:57.301Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "unavailable",
+          "reason": "dom_account_proof_pending"
+        },
+        {
+          "provider": "instagram",
+          "state": "unavailable",
+          "reason": "dom_account_proof_pending"
+        }
+      ]
+    },
+    {
+      "elapsedMs": 24699,
+      "recordedAt": "2026-10-02T15:12:03.521Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "provider": "instagram",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        }
+      ]
+    },
+    {
+      "elapsedMs": 28499,
+      "recordedAt": "2026-10-02T15:12:07.322Z",
+      "daemonPid": 32796,
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready"
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "provider": "instagram",
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        }
+      ]
+    }
+  ],
+  "newSourceJobs": 0,
+  "accountContentRead": false,
+  "networkSettingsMutated": false,
+  "forceStops": 0
+}

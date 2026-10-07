@@ -1,0 +1,12 @@
+{
+  "state": "canonical_build_passed",
+  "tauriExitCode": 0,
+  "frozenInputsVerifiedAfterBuild": true,
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T09:42:54.2766348+00:00",
+  "installedVersionUnchanged": "1.4.2",
+  "versionFixtureExitCode": 0,
+  "version": "1.4.4",
+  "viteExitCode": 0,
+  "productionInputCount": 3307
+}

@@ -1,0 +1,291 @@
+{
+  "generatedAt": "2026-10-06T09:51:23.190Z",
+  "data": "Existing MockClient and synthetic media operations; remote requests blocked",
+  "errors": [],
+  "snapshots": [
+    {
+      "viewport": {
+        "width": 1100,
+        "height": 800
+      },
+      "rootFont": "16px",
+      "geometry": [
+        {
+          "selector": "#LeftColumn",
+          "x": 88,
+          "y": 56,
+          "width": 363,
+          "height": 728,
+          "right": 451,
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#MiddleColumn",
+          "x": 451,
+          "y": 40,
+          "width": 265,
+          "height": 760,
+          "right": 716,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#RightColumn",
+          "x": 716,
+          "y": 56,
+          "width": 408,
+          "height": 728,
+          "right": 1124,
+          "display": "block",
+          "visibility": "hidden"
+        },
+        {
+          "selector": "#relay-media-operations",
+          "x": 716,
+          "y": 40,
+          "width": 384,
+          "height": 760,
+          "right": 1100,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".Composer",
+          "x": 471,
+          "y": 734,
+          "width": 225,
+          "height": 50,
+          "right": 696,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".MiddleHeader",
+          "x": 451,
+          "y": 56,
+          "width": 265,
+          "height": 48,
+          "right": 716,
+          "display": "flex",
+          "visibility": "visible"
+        }
+      ],
+      "active": "Закрыть панель",
+      "image": "right-info-panel-1100-16.png"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "rootFont": "16px",
+      "geometry": [
+        {
+          "selector": "#LeftColumn",
+          "x": 88,
+          "y": 56,
+          "width": 320,
+          "height": 728,
+          "right": 408,
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#MiddleColumn",
+          "x": 408,
+          "y": 40,
+          "width": 488,
+          "height": 760,
+          "right": 896,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#RightColumn",
+          "x": 576,
+          "y": 56,
+          "width": 304,
+          "height": 728,
+          "right": 880,
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#relay-media-operations",
+          "x": 896,
+          "y": 40,
+          "width": 384,
+          "height": 760,
+          "right": 1280,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".Composer",
+          "x": 268,
+          "y": 734,
+          "width": 448,
+          "height": 50,
+          "right": 716,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".MiddleHeader",
+          "x": 248,
+          "y": 56,
+          "width": 488,
+          "height": 48,
+          "right": 736,
+          "display": "flex",
+          "visibility": "visible"
+        }
+      ],
+      "active": "Закрыть панель",
+      "image": "right-info-panel-1280-16.png"
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "rootFont": "16px",
+      "geometry": [
+        {
+          "selector": "#LeftColumn",
+          "x": 88,
+          "y": 56,
+          "width": 480,
+          "height": 1008,
+          "right": 568,
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#MiddleColumn",
+          "x": 568,
+          "y": 40,
+          "width": 968,
+          "height": 1040,
+          "right": 1536,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#RightColumn",
+          "x": 1056,
+          "y": 56,
+          "width": 464,
+          "height": 1008,
+          "right": 1520,
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#relay-media-operations",
+          "x": 1536,
+          "y": 40,
+          "width": 384,
+          "height": 1040,
+          "right": 1920,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".Composer",
+          "x": 448,
+          "y": 1014,
+          "width": 728,
+          "height": 50,
+          "right": 1176,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".MiddleHeader",
+          "x": 444,
+          "y": 56,
+          "width": 736,
+          "height": 48,
+          "right": 1180,
+          "display": "flex",
+          "visibility": "visible"
+        }
+      ],
+      "active": "Закрыть панель",
+      "image": "right-info-panel-1920-16.png"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "rootFont": "32px",
+      "geometry": [
+        {
+          "selector": "#LeftColumn",
+          "x": 176,
+          "y": 112,
+          "width": 512,
+          "height": 656,
+          "right": 688,
+          "display": "block",
+          "visibility": "hidden"
+        },
+        {
+          "selector": "#MiddleColumn",
+          "x": 688,
+          "y": 80,
+          "width": 592,
+          "height": 720,
+          "right": 1280,
+          "display": "flex",
+          "visibility": "hidden"
+        },
+        {
+          "selector": "#RightColumn",
+          "x": 960,
+          "y": 112,
+          "width": 288,
+          "height": 656,
+          "right": 1248,
+          "display": "block",
+          "visibility": "visible"
+        },
+        {
+          "selector": "#relay-media-operations",
+          "x": 144,
+          "y": 80,
+          "width": 1136,
+          "height": 720,
+          "right": 1280,
+          "display": "flex",
+          "visibility": "visible"
+        },
+        {
+          "selector": ".Composer",
+          "x": 568,
+          "y": 672,
+          "width": 512,
+          "height": 96,
+          "right": 1080,
+          "display": "flex",
+          "visibility": "hidden"
+        },
+        {
+          "selector": ".MiddleHeader",
+          "x": 528,
+          "y": 112,
+          "width": 592,
+          "height": 96,
+          "right": 1120,
+          "display": "flex",
+          "visibility": "hidden"
+        }
+      ],
+      "active": "Вернуться к сервису",
+      "image": "right-info-panel-1280-32.png"
+    }
+  ]
+}

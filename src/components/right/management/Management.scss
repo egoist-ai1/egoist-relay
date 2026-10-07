@@ -16,6 +16,20 @@
     @include mixins.adapt-padding-to-scrollbar(1rem);
   }
 
+  .botManagementActions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 0;
+  }
+
+  .botManagementActionLabel {
+    display: block;
+    line-height: 1.25rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
   .personal-photo {
     transform: scale(1.25);
     margin-right: 2rem;

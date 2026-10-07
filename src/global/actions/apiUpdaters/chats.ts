@@ -3,9 +3,11 @@ import type { ActionReturnType } from '../../types';
 import { MAIN_THREAD_ID } from '../../../api/types';
 
 import { ARCHIVED_FOLDER_ID, MAX_ACTIVE_PINNED_CHATS, SERVICE_NOTIFICATIONS_USER_ID } from '../../../config';
+import { isUserId } from '../../../util/entities/ids';
 import { buildCollectionByKey, omit } from '../../../util/iteratees';
 import { isLocalMessageId } from '../../../util/keys/messageKey';
 import { closeMessageNotifications, notifyAboutMessage } from '../../../util/notifications';
+import { recordUserActivity } from '../../../util/realUserActivity';
 import { checkIfHasUnreadReactions, isChatChannel } from '../../helpers';
 import {
   addActionHandler, getGlobal, setGlobal,
@@ -29,7 +31,7 @@ import {
 } from '../../reducers';
 import { removeUnreadReactions } from '../../reducers/reactions';
 import { updateTabState } from '../../reducers/tabs';
-import { addUnreadMessageToCounter, replaceThreadLocalStateParam } from '../../reducers/threads';
+import { addUnreadMessageToCounter, replaceThreadLocalStateParam, updateThreadReadState } from '../../reducers/threads';
 import {
   selectChat,
   selectChatFullInfo,
@@ -64,6 +66,12 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
         };
       }
       global = updateChat(global, update.id, update.chat);
+      if (update.readState) {
+        if (update.readState.lastReadOutboxMessageId && isUserId(update.id)) {
+          recordUserActivity(update.id);
+        }
+        global = updateThreadReadState(global, update.id, MAIN_THREAD_ID, update.readState);
+      }
 
       if (localChat?.areStoriesHidden !== update.chat.areStoriesHidden) {
         global = updatePeerStoriesHidden(global, update.id, update.chat.areStoriesHidden || false);
@@ -189,6 +197,10 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
         setGlobal(global);
 
         return undefined;
+      }
+
+      if (peerId) {
+        recordUserActivity(peerId);
       }
 
       const updatedTypingStatusByPeerId = currentTypingStatusByPeerId

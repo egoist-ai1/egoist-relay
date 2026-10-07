@@ -1,0 +1,408 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:02:13.498Z",
+  "status": "Unselected temporary visual probes; no product code modified",
+  "data": "Same existing MockClient chats and synthetic operation set",
+  "externalRequests": "aborted",
+  "records": [
+    {
+      "name": "before-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-chat.png"
+    },
+    {
+      "name": "before-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-current.png"
+    },
+    {
+      "name": "before-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-history.png"
+    },
+    {
+      "name": "before-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-share.png"
+    },
+    {
+      "name": "before-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-settings.png"
+    },
+    {
+      "name": "before-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-settings-light.png"
+    },
+    {
+      "name": "before-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/before-history-light.png"
+    },
+    {
+      "name": "before-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "directions/before-compact-light.png"
+    },
+    {
+      "variant": "before",
+      "compactGeometry": {
+        "panel": {
+          "x": 72,
+          "y": 40,
+          "width": 728,
+          "height": 520
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "2.5rem"
+      }
+    },
+    {
+      "name": "A-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-chat.png"
+    },
+    {
+      "name": "A-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-current.png"
+    },
+    {
+      "name": "A-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-history.png"
+    },
+    {
+      "name": "A-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-share.png"
+    },
+    {
+      "name": "A-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-settings.png"
+    },
+    {
+      "name": "A-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-settings-light.png"
+    },
+    {
+      "name": "A-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/A-history-light.png"
+    },
+    {
+      "name": "A-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "directions/A-compact-light.png"
+    },
+    {
+      "variant": "A",
+      "compactGeometry": {
+        "panel": {
+          "x": 0,
+          "y": 84,
+          "width": 800,
+          "height": 476
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "5.25rem"
+      }
+    },
+    {
+      "name": "B-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-chat.png"
+    },
+    {
+      "name": "B-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-current.png"
+    },
+    {
+      "name": "B-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-history.png"
+    },
+    {
+      "name": "B-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-share.png"
+    },
+    {
+      "name": "B-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-settings.png"
+    },
+    {
+      "name": "B-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-settings-light.png"
+    },
+    {
+      "name": "B-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/B-history-light.png"
+    },
+    {
+      "name": "B-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "directions/B-compact-light.png"
+    },
+    {
+      "variant": "B",
+      "compactGeometry": {
+        "panel": {
+          "x": 72,
+          "y": 40,
+          "width": 728,
+          "height": 520
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "2.5rem"
+      }
+    },
+    {
+      "name": "C-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-chat.png"
+    },
+    {
+      "name": "C-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-current.png"
+    },
+    {
+      "name": "C-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-history.png"
+    },
+    {
+      "name": "C-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-share.png"
+    },
+    {
+      "name": "C-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-settings.png"
+    },
+    {
+      "name": "C-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-settings-light.png"
+    },
+    {
+      "name": "C-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/C-history-light.png"
+    },
+    {
+      "name": "C-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "directions/C-compact-light.png"
+    },
+    {
+      "variant": "C",
+      "compactGeometry": {
+        "panel": {
+          "x": 144,
+          "y": 40,
+          "width": 656,
+          "height": 520
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "2.5rem"
+      }
+    },
+    {
+      "name": "D-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-chat.png"
+    },
+    {
+      "name": "D-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-current.png"
+    },
+    {
+      "name": "D-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-history.png"
+    },
+    {
+      "name": "D-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-share.png"
+    },
+    {
+      "name": "D-commands",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-commands.png"
+    },
+    {
+      "name": "D-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-settings.png"
+    },
+    {
+      "name": "D-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-settings-light.png"
+    },
+    {
+      "name": "D-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "directions/D-history-light.png"
+    },
+    {
+      "name": "D-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "directions/D-compact-light.png"
+    },
+    {
+      "variant": "D",
+      "compactGeometry": {
+        "panel": {
+          "x": 56,
+          "y": 40,
+          "width": 744,
+          "height": 520
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "2.5rem"
+      }
+    }
+  ],
+  "errors": []
+}

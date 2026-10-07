@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T15:19:35.285Z",
+  "scope": "Current installed release readiness, status-only, no source collection; supplements earlier immutable installation receipts",
+  "version": "1.4.6",
+  "state": "installed_verified_all_three_providers_confirmed_with_periodic_proof_refresh",
+  "observedIntervalUtc": [
+    "2026-10-02T15:11:39.315Z",
+    "2026-10-02T15:12:07.322Z"
+  ],
+  "installedExeSha256": "c7489e92a84eb8c691e90f39d6b88b7fed0d5dec412c1f0f0a79d7d340cfe4ab",
+  "relayPid": 2812,
+  "mcpPid": 32796,
+  "mcpSourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+  "providersAtFinalObservation": [
+    {
+      "provider": "telegram",
+      "state": "ready"
+    },
+    {
+      "provider": "x",
+      "state": "ready"
+    },
+    {
+      "provider": "instagram",
+      "state": "ready"
+    }
+  ],
+  "periodicPendingExpected": true,
+  "syntheticDiagnosisCases": 7,
+  "reviewContractCases": 8,
+  "network": {
+    "protectedFilesUnchanged": true,
+    "dnsSettingsUnchanged": true,
+    "proxySettingsUnchanged": true,
+    "servicesRunningAuto": 4,
+    "basePrioritiesUnchanged": true,
+    "observedDoHPidChange": {
+      "before": 26316,
+      "after": 38632,
+      "birthUtc": "2026-10-02T15:02:54.446432Z",
+      "cause": "not established by read-only check"
+    },
+    "dnsDomainsResolved": 4,
+    "mcpTcpUdpListeners": 0,
+    "networkMutations": 0,
+    "serviceControls": 0,
+    "prioritySetters": 0
+  },
+  "newSourceJobs": 0,
+  "accountContentRead": false,
+  "realMessagesSent": 0,
+  "forceStops": 0,
+  "productionSourcesModified": false,
+  "canonicalReceiptsUnchanged": {
+    "docs/release-1.4.6/release-ready.json": "23ef0db9c9c68101ace8cd0b716aecae33f90c2f496e7c38053f62ed1769b656",
+    "docs/release-1.4.6/live-verification.json": "680611f40a0adbfe405fb8ab16670a41effee5ba6de31ef366781949e65360c9",
+    "docs/app-quality-audit-2026-10-02/review.html": "a6467e4a95e3527a14b76f51ec6ecad758dbd4daa8f874bf24729b52701e2f72",
+    "tauri/src/research_social.rs": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7",
+    "runtime/research/social-read.js": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e"
+  },
+  "artifactHashes": {
+    "Реестр.json": "005a9e89d341112c614bf7c6b5292a34dc78614e38ed00bf1f59d17adc4fcea6",
+    "review.html": "9b983a8b5a59e540a903d3ed07bc307ebaebdbf17f4f388588cb2ca2cca6414f",
+    "review-validation.json": "adb15add89098673cc3b5bdb6d6ac10a7fba9275d04ef4e20f4a2fc3e3eee4d7",
+    "review-fullhd.png": "a2ab63bdf53850ed5477f30e2b0a524140e3dff923bbbf7742570ea594474171",
+    "instagram-proof-diagnosis.json": "d91154fb0d97e5e764d06a6c3acfa42781f57d624fe0d62cc9045dc693a5a80e",
+    "instagram-proof-reproducer.mjs": "9ffb4d44fa4260e6b2fe862e101cf8e40704056b58026333703e5cc2781dbcab",
+    "instagram-status-window-1.4.6.json": "dbc49ef7bb1990ce90f3cfbbe9cc74a479ca0127684d0b4ba9f307c401215bc7",
+    "network-proof-comparison.json": "6b53dd6ac16e439c616c3417edf7bb95ed7c38e7fc85e03ce22d5c18d61f639e",
+    "network-preservation-after-proof.json": "e04797aa6be1b5e52841bb38ae8a1cb870ebd72e5a7760b65bff56c8d6dcfcc9",
+    "installed-proof-identity.json": "769652659b74f2e5bf53dd6850340c076f72c3f02576c2e0fe0eaffd7b82fe09"
+  },
+  "fullAppCertification": false
+}

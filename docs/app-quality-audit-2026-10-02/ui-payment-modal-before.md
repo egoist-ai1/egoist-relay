@@ -1,0 +1,16 @@
+# Relay actual payment modal callback proof
+
+Synthetic actual App/Main/ModalContainer; local captured actions only; all external requests aborted. No real payment/account operations.
+
+| Case | Status | Readback |
+|---|---|---|
+| regular-input-loading-enter | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    6 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| regular-header-back-enter | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| regular-footer-confirm-enter-once | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| regular-footer-confirm-space-once | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| regular-header-back-space | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| stars-loading-enter | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has([class*=\"paymentButton\"])') to be visible\u001b[22m\n\u001b[2m    13 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| stars-loading-space | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has([class*=\"paymentButton\"])') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+| stars-close-enter-safe | prerequisite-gate | "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has([class*=\"paymentButton\"])') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n" |
+
+Summary: {"total":8,"pass":0,"fail":0,"prerequisiteGates":8,"errors":0,"unhandled":0,"externalRequestsSucceeded":0,"realAccountMutations":0}

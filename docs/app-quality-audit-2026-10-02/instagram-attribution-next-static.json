@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-next-static",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T11:40:01.928Z",
+  "checks": [
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+      "sha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+      "check": "node --check",
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+      "sha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7",
+      "check": "project rustfmt --check",
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\bridge-provider.mjs",
+      "sha256": "0adb7ef9b96c561b3ccf296c66bbb6138a21cac59cbc9ac6bdc5f5d5b0f6e64d",
+      "check": "node --check",
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\local-index.mjs",
+      "sha256": "55f500026e03c1b3d1256e80ced799b4e3a91198011c2039c245af75fb4a8add",
+      "check": "node --check",
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\export-format.mjs",
+      "sha256": "5941b7af41135153c685cb8890c4215b00325dde76f448f7cbdd89a1c83e1186",
+      "check": "node --check",
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-attribution-next.test.mjs",
+      "sha256": "b173b04afa2913f1eb1f2d6b2808e117b07a00524dc6012a90fe67d57e79874a",
+      "check": "node --check",
+      "exitCode": 0,
+      "stdoutBytes": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "allPass": true,
+  "sourceUnchanged": true
+}

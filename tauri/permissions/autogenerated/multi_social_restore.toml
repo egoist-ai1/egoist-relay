@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-social-restore"
+description = "Enables the multi_social_restore command without any pre-configured scope."
+commands.allow = ["multi_social_restore"]
+
+[[permission]]
+identifier = "deny-multi-social-restore"
+description = "Denies the multi_social_restore command without any pre-configured scope."
+commands.deny = ["multi_social_restore"]

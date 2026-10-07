@@ -1,0 +1,9 @@
+{
+  "patchedFile": "src/path/init.js",
+  "archiveSha256": "cb20ef8e6f97d6fe03039666cd82861f09a38b56291fa2f0f9fe140023f61c1a",
+  "version": "2.12.0",
+  "upstream": "https://github.com/tauri-apps/tauri/releases/tag/tauri-v2.12.0",
+  "sourceArchive": "https://static.crates.io/crates/tauri/tauri-2.12.0.crate",
+  "originalFileSha256": "6ecfef8c9078a591f04c5eb7ed355721efcba1eb820a0b5067be1dcca7748ef3",
+  "reason": "Skip path metadata initialization when the frame has no Tauri internal plugin object; native IPC and permissions remain unchanged"
+}

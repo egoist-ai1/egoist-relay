@@ -1,0 +1,92 @@
+{
+  "artifactId": "egoist-relay-app-quality-audit",
+  "updatedAt": "2026-10-02T09:51:55.887Z",
+  "schemaVersion": 1,
+  "version": "candidate-1.4.4-3",
+  "requirements": [
+    {
+      "status": "in_progress",
+      "evidence": "Полный source inventory + actual-component scenario receipts",
+      "id": "screens",
+      "requirement": "Каждый экран, окно, меню, диалог и панель; доступность всех переходов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Executable actual-app UI state-transition tests",
+      "id": "navigation",
+      "requirement": "Все переключения Telegram/X/Instagram, кнопки, иконки, клавиатура, загрузка, ошибки, повтор"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Actual mocked app screen scenarios + safe live readonly gates",
+      "id": "chat-settings",
+      "requirement": "Чаты, история, поиск, composer, темы и все группы настроек"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "1920x1080 actual renders, computed geometry and inspected screenshots across themes/scales",
+      "id": "visual-fullhd",
+      "requirement": "FullHD, темы, типографика, выравнивание, отсутствие обрезок/наложений, масштаб и RTL"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Frame timing/long tasks, repeated transitions, memory/resource readback",
+      "id": "animation-performance",
+      "requirement": "Плавные анимации, reduced motion, отсутствие блокировки интерфейса"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Observed sources + selected best source/file bytes/hash + streaming quality scenarios",
+      "id": "media-quality",
+      "requirement": "Быстрая загрузка оригинальных фото/видео/рилсов без снижения качества"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Actual import stress/race/byte integrity scenarios; live download proof; live upload needs exact authorized target",
+      "id": "telegram-transfer",
+      "requirement": "Отправка/скачивание файлов, отмена, повторы, прогресс и независимость запросов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "28operation matrix account-research-coverage.md;8actualstdio tools;151coretests; public-operation-pilots.json, exactlive gates retained",
+      "id": "mcp-operations",
+      "requirement": "Каждая зарегистрированная операция каждого сервиса, результаты/ошибки/частичный вывод"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Large corpus/queue/cursor stress + live selected public exports/resume",
+      "id": "research-mass",
+      "requirement": "Большие исследования, поиск, продолжение, дедупликация, экспорт и происхождение"
+    },
+    {
+      "status": "verified_selected_corpus",
+      "evidence": "index-live-acceptance.json + SocialMCP index-validation.json;100k synthetic corpus and8actualpublicjobs/20records; finite snapshot scope, not platform-wide search",
+      "id": "research-index",
+      "requirement": "Быстрый точный локальный поиск/индексирование выбранных исследовательских материалов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "151research tests; pipe/backpressure24jobs; short-write/disk/cancelstress; atomicindex process-recovery and queueddeadline",
+      "id": "failure-recovery",
+      "requirement": "Отказы сети/файлов/диска/аккаунта, зависания, отмена, восстановление и долгий стресс"
+    },
+    {
+      "status": "verified_current_1.4.2",
+      "evidence": "../release-1.4.2/installation.json and exact preservation receipts",
+      "id": "release-invariants",
+      "requirement": "Правильный установщик, версии, runtime; DNS/DoH/Lagom без изменений"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "User signed-in confirmation; root TG/X/IG exactsource pilots + five additional public operations9records; installed1.4.2",
+      "id": "all-services-live",
+      "requirement": "Живые сессии всех трёх сервисов и исследовательские сценарии"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Requirement-by-requirement completion audit and retained open gates",
+      "id": "complete-audit",
+      "requirement": "Сопоставить каждый пункт исходной цели с текущими доказательствами; не объявлять непроверенное готовым"
+    }
+  ]
+}

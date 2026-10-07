@@ -42,7 +42,7 @@ export default function useOuterHandlers(
 
   const [isQuickReactionVisible, markQuickReactionVisible, unmarkQuickReactionVisible] = useFlag();
   const [isSwiped, markSwiped, unmarkSwiped] = useFlag();
-  const doubleTapTimeoutRef = useRef<number>();
+  const doubleTapTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   function handleMouseDown(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     preventMessageInputBlur(e);

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-mark-title-bar-overlay"
+description = "Enables the mark_title_bar_overlay command without any pre-configured scope."
+commands.allow = ["mark_title_bar_overlay"]
+
+[[permission]]
+identifier = "deny-mark-title-bar-overlay"
+description = "Denies the mark_title_bar_overlay command without any pre-configured scope."
+commands.deny = ["mark_title_bar_overlay"]

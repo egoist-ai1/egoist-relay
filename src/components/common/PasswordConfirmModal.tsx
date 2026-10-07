@@ -49,6 +49,7 @@ const PasswordConfirmModal = ({
   });
 
   const handleSubmit = useLastCallback(() => {
+    if (isLoading || !password.length) return;
     checkPassword({
       currentPassword: password,
       onSuccess: () => {
@@ -73,6 +74,7 @@ const PasswordConfirmModal = ({
       confirmLabel={confirmLabel || lang('AutoDeleteConfirm')}
       confirmHandler={handleSubmit}
       confirmIsDestructive
+      isConfirmDisabled={isLoading || !password.length}
       onClose={handleClose}
     >
       <PasswordMonkey isBig isPasswordVisible={shouldShowPassword} />

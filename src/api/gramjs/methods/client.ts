@@ -8,6 +8,7 @@ import type { TwoFaParams } from '../../../lib/gramjs/client/2fa';
 import TelegramClient from '../../../lib/gramjs/client/TelegramClient';
 import { RPCError } from '../../../lib/gramjs/errors';
 import { Logger as GramJsLogger } from '../../../lib/gramjs/extensions/index';
+import { setDesktopTelegramTransport } from '../../../lib/gramjs/extensions/PromisedWebSockets';
 
 import type { ThreadId } from '../../../types';
 import type {
@@ -84,11 +85,16 @@ const gramJsUpdateEventBuilder = { build: (update: Update) => update };
 
 const CHAT_ABORT_CONTROLLERS = new Map<string, ChatAbortController>();
 const ABORT_CONTROLLERS = new Map<string, AbortController>();
+const RESEARCH_ABORT_CONTROLLERS = new Map<string, AbortController>();
 
 let client: TelegramClient;
 let currentUserId: string | undefined;
+let researchAccountRef = crypto.randomUUID();
+let researchAccountEpoch = crypto.randomUUID();
 
 export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoidFunction) {
+  invalidateResearchAccount();
+  currentUserId = undefined;
   if (DEBUG) {
     // eslint-disable-next-line no-console
     console.log('>>> START INIT API');
@@ -102,6 +108,8 @@ export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoid
   } = initialArgs;
 
   const session = new sessions.CallbackSession(sessionData, onSessionUpdate);
+
+  setDesktopTelegramTransport(initialArgs.telegramTransportUrl);
 
   (self as any).isWebmSupported = isWebmSupported;
 
@@ -199,6 +207,7 @@ export function setIsPremium({ isPremium }: { isPremium: boolean }) {
 
 const LOG_OUT_TIMEOUT = 2500;
 export async function destroy(noLogOut = false, noClearLocalDb = false) {
+  invalidateResearchAccount();
   if (!noLogOut && client.isConnected()) {
     await Promise.race([
       invokeRequest(new GramJs.auth.LogOut()),
@@ -215,7 +224,39 @@ export async function destroy(noLogOut = false, noClearLocalDb = false) {
 }
 
 export function disconnect() {
+  invalidateResearchAccount();
   client.disconnect();
+}
+
+function invalidateResearchAccount() {
+  RESEARCH_ABORT_CONTROLLERS.forEach((controller) => controller.abort(new Error('STALE_ACCOUNT')));
+  RESEARCH_ABORT_CONTROLLERS.clear();
+  researchAccountRef = crypto.randomUUID();
+  researchAccountEpoch = crypto.randomUUID();
+}
+
+export function getResearchAccountBinding() {
+  const state = !client || !currentUserId ? 'initializing' : client.isConnected() ? 'ready' : 'unavailable';
+  return { state, accountRef: researchAccountRef, accountEpoch: researchAccountEpoch };
+}
+
+export function createResearchController(jobId: string) {
+  if (RESEARCH_ABORT_CONTROLLERS.has(jobId)) throw new Error('BUSY');
+  const controller = new AbortController();
+  RESEARCH_ABORT_CONTROLLERS.set(jobId, controller);
+  return controller;
+}
+
+export function finishResearchController(jobId: string) {
+  RESEARCH_ABORT_CONTROLLERS.delete(jobId);
+}
+
+export async function invokeResearchRequest<T extends GramJs.AnyRequest>(request: T, signal: AbortSignal) {
+  if (signal.aborted) throw signal.reason;
+  const result = await client.invoke(request, undefined, signal, false, true);
+  if (signal.aborted) throw signal.reason;
+  processAndUpdateEntities(result);
+  return result;
 }
 
 export function getClient() {
@@ -435,11 +476,14 @@ export function abortRequestGroup(group: string) {
 }
 
 export async function fetchCurrentUser() {
+  const activeClient = client;
+  const activeEpoch = researchAccountEpoch;
   const userFull = await invokeRequest(new GramJs.users.GetFullUser({
     id: new GramJs.InputUserSelf(),
   }));
 
-  if (!userFull || !(userFull.users[0] instanceof GramJs.User)) {
+  if (client !== activeClient || researchAccountEpoch !== activeEpoch
+    || !userFull || !(userFull.users[0] instanceof GramJs.User)) {
     return;
   }
 
@@ -452,6 +496,7 @@ export async function fetchCurrentUser() {
   setMessageBuilderCurrentUserId(currentUser.id);
   onCurrentUserUpdate(currentUser, currentUserFullInfo);
 
+  if (currentUserId && currentUserId !== currentUser.id) invalidateResearchAccount();
   currentUserId = currentUser.id;
   setIsPremium({ isPremium: Boolean(currentUser.isPremium) });
 }

@@ -11,11 +11,19 @@
   margin: 0;
   padding-inline-start: 4.25rem;
 
-  text-align: left;
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  text-align: initial;
 
   &:hover {
     border-radius: var(--border-radius-default);
     background-color: var(--color-chat-hover);
+  }
+
+  &:has(:focus-visible) {
+    border-radius: var(--border-radius-default);
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: -0.125rem;
   }
 
   &.disabled {
@@ -66,11 +74,20 @@
 
   > input {
     position: absolute;
-    z-index: var(--z-below);
+
+    overflow: hidden;
+
+    width: 0.0625rem;
+    height: 0.0625rem;
+    margin: 0;
+
     opacity: 0;
+    clip-path: inset(50%);
   }
 
   .Radio-main {
+    min-width: 0;
+
     &::before,
     &::after {
       content: "";
@@ -93,7 +110,7 @@
       opacity: 1;
       background-color: var(--color-background);
 
-      transition: border-color 0.1s ease, opacity 0.1s ease;
+      transition: border-color 140ms ease, opacity 140ms ease;
     }
 
     &::after {
@@ -106,15 +123,15 @@
       opacity: 0;
       background: var(--color-primary);
 
-      transition: opacity 0.1s ease;
+      transition: opacity 140ms ease;
     }
 
     .label {
       unicode-bidi: plaintext;
       display: block;
 
-      line-height: 1.5rem;
-      text-align: left;
+      line-height: 1.4;
+      text-align: initial;
       overflow-wrap: anywhere;
     }
 
@@ -125,8 +142,9 @@
       margin-top: 0.25rem;
 
       font-size: 0.875rem;
-      line-height: 1rem;
+      line-height: 1.4;
       color: var(--color-text-secondary);
+      overflow-wrap: anywhere;
     }
 
     .subLabelLink {
@@ -231,5 +249,19 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Radio {
+    .Radio-main::before,
+    .Radio-main::after {
+      transition: none;
+    }
+
+    .Spinner {
+      opacity: 1;
+      animation: none;
+    }
   }
 }

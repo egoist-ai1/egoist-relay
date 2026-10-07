@@ -1,0 +1,2699 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T07:28:19.268Z",
+  "label": "third",
+  "environment": "Actual imported components in real App MockClient; fresh headless context; public requests blocked; destructive/account callbacks intercepted before opening; no product edits",
+  "cases": [
+    {
+      "id": "contact-fullhd-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 736,
+          "y": 379.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 379.90625,
+          "right": 1184,
+          "bottom": 700.09375,
+          "left": 736
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-fullhd-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 736,
+          "y": 230.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 230.28125,
+          "right": 1184,
+          "bottom": 849.71875,
+          "left": 736
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-edit-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-fullhd-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 776,
+          "y": 433.5,
+          "width": 368,
+          "height": 213,
+          "top": 433.5,
+          "right": 1144,
+          "bottom": 646.5,
+          "left": 776
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-options-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-fullhd-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 776,
+          "y": 367.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 367.453125,
+          "right": 1144,
+          "bottom": 712.546875,
+          "left": 776
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-comment-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-fullhd-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-country-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-fullhd-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-password-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-fullhd-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-formatting-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-fullhd-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-safe-link-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-fullhd-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 768,
+          "y": 419.71875,
+          "width": 384,
+          "height": 240.5625,
+          "top": 419.71875,
+          "right": 1152,
+          "bottom": 660.28125,
+          "left": 768
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-browser-close-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-fullhd-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 768,
+          "y": 326.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 326.90625,
+          "right": 1152,
+          "bottom": 753.09375,
+          "left": 768
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-mute-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-fullhd-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 768,
+          "y": 435.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 435.3125,
+          "right": 1152,
+          "bottom": 644.6875,
+          "left": 768
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-pin-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-fullhd-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 800,
+          "y": 433.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 433.625,
+          "right": 1120,
+          "bottom": 646.375,
+          "left": 800
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-chat-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-fullhd-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 680,
+          "y": 357.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 357.5625,
+          "right": 1240,
+          "bottom": 722.4375,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-photo-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-fullhd-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 680,
+          "y": 456.5,
+          "width": 560,
+          "height": 167,
+          "top": 456.5,
+          "right": 1240,
+          "bottom": 623.5,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-file-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-fullhd-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-document-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-fullhd-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"text\":\"portuguêsпортугальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1074.521240234375,\"width\":370,\"height\":56,\"top\":1074.521240234375,\"right\":1145,\"bottom\":1130.521240234375,\"left\":775}},{\"text\":\"русскийрусский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1130.521240234375,\"width\":370,\"height\":56,\"top\":1130.521240234375,\"right\":1145,\"bottom\":1186.521240234375,\"left\":775}},{\"text\":\"españolиспанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1186.521240234375,\"width\":370,\"height\":56,\"top\":1186.521240234375,\"right\":1145,\"bottom\":1242.521240234375,\"left\":775}},{\"text\":\"українськаукраинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1242.521240234375,\"width\":370,\"height\":56,\"top\":1242.521240234375,\"right\":1145,\"bottom\":1298.521240234375,\"left\":775}},{\"text\":\"Afrikaansафрикаанс\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1298.521240234375,\"width\":370,\"height\":56,\"top\":1298.521240234375,\"right\":1145,\"bottom\":1354.521240234375,\"left\":775}},{\"text\":\"албанскийалбанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1354.521240234375,\"width\":370,\"height\":56,\"top\":1354.521240234375,\"right\":1145,\"bottom\":1410.521240234375,\"left\":775}},{\"text\":\"አማርኛамхарский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1410.521240234375,\"width\":370,\"height\":56,\"top\":1410.521240234375,\"right\":1145,\"bottom\":1466.521240234375,\"left\":775}},{\"text\":\"армянскийармянский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1466.521240234375,\"width\":370,\"height\":56,\"top\":1466.521240234375,\"right\":1145,\"bottom\":1522.521240234375,\"left\":775}},{\"text\":\"azərbaycanазербайджанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1522.521240234375,\"width\":370,\"height\":56,\"top\":1522.521240234375,\"right\":1145,\"bottom\":1578.521240234375,\"left\":775}},{\"text\":\"баскскийбаскский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1578.521240234375,\"width\":370,\"height\":56,\"top\":1578.521240234375,\"right\":1145,\"bottom\":1634.521240234375,\"left\":775}},{\"text\":\"বাংলাбенгальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1634.521240234375,\"width\":370,\"height\":56,\"top\":1634.521240234375,\"right\":1145,\"bottom\":1690.521240234375,\"left\":775}},{\"text\":\"bosanskiбоснийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1690.521240234375,\"width\":370,\"height\":56,\"top\":1690.521240234375,\"right\":1145,\"bottom\":1746.521240234375,\"left\":775}},{\"text\":\"българскиболгарский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1746.521240234375,\"width\":370,\"height\":56,\"top\":1746.521240234375,\"right\":1145,\"bottom\":1802.521240234375,\"left\":775}},{\"text\":\"себуаносебуано\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1802.521240234375,\"width\":370,\"height\":56,\"top\":1802.521240234375,\"right\":1145,\"bottom\":1858.521240234375,\"left\":775}},{\"text\":\"中文（中国）китайский (Китай)\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1858.521240234375,\"width\":370,\"height\":56,\"top\":1858.521240234375,\"right\":1145,\"bottom\":1914.521240234375,\"left\":775}},{\"text\":\"中文（台灣）китайский (Тайвань)\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1914.521240234375,\"width\":370,\"height\":56,\"top\":1914.521240234375,\"right\":1145,\"bottom\":1970.521240234375,\"left\":775}},{\"text\":\"корсиканскийкорсиканский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1970.521240234375,\"width\":370,\"height\":56,\"top\":1970.521240234375,\"right\":1145,\"bottom\":2026.521240234375,\"left\":775}},{\"text\":\"hrvatskiхорватский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2026.521240234375,\"width\":370,\"height\":56,\"top\":2026.521240234375,\"right\":1145,\"bottom\":2082.521240234375,\"left\":775}},{\"text\":\"češtinaчешский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2082.521240234375,\"width\":370,\"height\":56,\"top\":2082.521240234375,\"right\":1145,\"bottom\":2138.521240234375,\"left\":775}},{\"text\":\"danskдатский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2138.521240234375,\"width\":370,\"height\":56,\"top\":2138.521240234375,\"right\":1145,\"bottom\":2194.521240234375,\"left\":775}},{\"text\":\"эсперантоэсперанто\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2194.521240234375,\"width\":370,\"height\":56,\"top\":2194.521240234375,\"right\":1145,\"bottom\":2250.521240234375,\"left\":775}},{\"text\":\"eestiэстонский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2250.521240234375,\"width\":370,\"height\":56,\"top\":2250.521240234375,\"right\":1145,\"bottom\":2306.521240234375,\"left\":775}},{\"text\":\"suomiфинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2306.521240234375,\"width\":370,\"height\":56,\"top\":2306.521240234375,\"right\":1145,\"bottom\":2362.521240234375,\"left\":775}},{\"text\":\"западнофризскийзападнофризский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2362.521240234375,\"width\":370,\"height\":56,\"top\":2362.521240234375,\"right\":1145,\"bottom\":2418.521240234375,\"left\":775}},{\"text\":\"галисийскийгалисийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2418.521240234375,\"width\":370,\"height\":56,\"top\":2418.521240234375,\"right\":1145,\"bottom\":2474.521240234375,\"left\":775}},{\"text\":\"грузинскийгрузинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2474.521240234375,\"width\":370,\"height\":56,\"top\":2474.521240234375,\"right\":1145,\"bottom\":2530.521240234375,\"left\":775}},{\"text\":\"Ελληνικάгреческий\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2530.521240234375,\"width\":370,\"height\":56,\"top\":2530.521240234375,\"right\":1145,\"bottom\":2586.521240234375,\"left\":775}},{\"text\":\"ગુજરાતીгуджарати\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2586.521240234375,\"width\":370,\"height\":56,\"top\":2586.521240234375,\"right\":1145,\"bottom\":2642.521240234375,\"left\":775}},{\"text\":\"гаитянскийгаитянский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2642.521240234375,\"width\":370,\"height\":56,\"top\":2642.521240234375,\"right\":1145,\"bottom\":2698.521240234375,\"left\":775}},{\"text\":\"хаусахауса\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2698.521240234375,\"width\":370,\"height\":56,\"top\":2698.521240234375,\"right\":1145,\"bottom\":2754.521240234375,\"left\":775}},{\"text\":\"гавайскийгавайский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2754.521240234375,\"width\":370,\"height\":56,\"top\":2754.521240234375,\"right\":1145,\"bottom\":2810.521240234375,\"left\":775}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2810.521240234375,\"width\":370,\"height\":56,\"top\":2810.521240234375,\"right\":1145,\"bottom\":2866.521240234375,\"left\":775}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2866.521240234375,\"width\":370,\"height\":56,\"top\":2866.521240234375,\"right\":1145,\"bottom\":2922.521240234375,\"left\":775}},{\"text\":\"हिन्दीхинди\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2922.521240234375,\"width\":370,\"height\":56,\"top\":2922.521240234375,\"right\":1145,\"bottom\":2978.521240234375,\"left\":775}},{\"text\":\"хмонгхмонг\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2978.521240234375,\"width\":370,\"height\":56,\"top\":2978.521240234375,\"right\":1145,\"bottom\":3034.521240234375,\"left\":775}},{\"text\":\"magyarвенгерский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3034.521240234375,\"width\":370,\"height\":56,\"top\":3034.521240234375,\"right\":1145,\"bottom\":3090.521240234375,\"left\":775}},{\"text\":\"исландскийисландский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3090.521240234375,\"width\":370,\"height\":56,\"top\":3090.521240234375,\"right\":1145,\"bottom\":3146.521240234375,\"left\":775}},{\"text\":\"игбоигбо\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3146.521240234375,\"width\":370,\"height\":56,\"top\":3146.521240234375,\"right\":1145,\"bottom\":3202.521240234375,\"left\":775}},{\"text\":\"ирландскийирландский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3202.521240234375,\"width\":370,\"height\":56,\"top\":3202.521240234375,\"right\":1145,\"bottom\":3258.521240234375,\"left\":775}},{\"text\":\"яванскийяванский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3258.521240234375,\"width\":370,\"height\":56,\"top\":3258.521240234375,\"right\":1145,\"bottom\":3314.521240234375,\"left\":775}},{\"text\":\"ಕನ್ನಡканнада\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3314.521240234375,\"width\":370,\"height\":56,\"top\":3314.521240234375,\"right\":1145,\"bottom\":3370.521240234375,\"left\":775}},{\"text\":\"қазақ тіліказахский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3370.521240234375,\"width\":370,\"height\":56,\"top\":3370.521240234375,\"right\":1145,\"bottom\":3426.521240234375,\"left\":775}},{\"text\":\"кхмерскийкхмерский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3426.521240234375,\"width\":370,\"height\":56,\"top\":3426.521240234375,\"right\":1145,\"bottom\":3482.521240234375,\"left\":775}},{\"text\":\"киньяруандакиньяруанда\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3482.521240234375,\"width\":370,\"height\":56,\"top\":3482.521240234375,\"right\":1145,\"bottom\":3538.521240234375,\"left\":775}},{\"text\":\"курдскийкурдский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3538.521240234375,\"width\":370,\"height\":56,\"top\":3538.521240234375,\"right\":1145,\"bottom\":3594.521240234375,\"left\":775}},{\"text\":\"киргизскийкиргизский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3594.521240234375,\"width\":370,\"height\":56,\"top\":3594.521240234375,\"right\":1145,\"bottom\":3650.521240234375,\"left\":775}},{\"text\":\"лаосскийлаосский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3650.521240234375,\"width\":370,\"height\":56,\"top\":3650.521240234375,\"right\":1145,\"bottom\":3706.521240234375,\"left\":775}},{\"text\":\"латинскийлатинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3706.521240234375,\"width\":370,\"height\":56,\"top\":3706.521240234375,\"right\":1145,\"bottom\":3762.521240234375,\"left\":775}},{\"text\":\"latviešuлатышский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3762.521240234375,\"width\":370,\"height\":56,\"top\":3762.521240234375,\"right\":1145,\"bottom\":3818.521240234375,\"left\":775}},{\"text\":\"lietuviųлитовский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3818.521240234375,\"width\":370,\"height\":56,\"top\":3818.521240234375,\"right\":1145,\"bottom\":3874.521240234375,\"left\":775}},{\"text\":\"люксембургскийлюксембургский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3874.521240234375,\"width\":370,\"height\":56,\"top\":3874.521240234375,\"right\":1145,\"bottom\":3930.521240234375,\"left\":775}},{\"text\":\"македонскиймакедонский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3930.521240234375,\"width\":370,\"height\":56,\"top\":3930.521240234375,\"right\":1145,\"bottom\":3986.521240234375,\"left\":775}},{\"text\":\"малагасийскиймалагасийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3986.521240234375,\"width\":370,\"height\":56,\"top\":3986.521240234375,\"right\":1145,\"bottom\":4042.521240234375,\"left\":775}},{\"text\":\"Melayuмалайский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4042.521240234375,\"width\":370,\"height\":55.999755859375,\"top\":4042.521240234375,\"right\":1145,\"bottom\":4098.52099609375,\"left\":775}},{\"text\":\"മലയാളംмалаялам\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4098.52099609375,\"width\":370,\"height\":56,\"top\":4098.52099609375,\"right\":1145,\"bottom\":4154.52099609375,\"left\":775}},{\"text\":\"мальтийскиймальтийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4154.52099609375,\"width\":370,\"height\":56,\"top\":4154.52099609375,\"right\":1145,\"bottom\":4210.52099609375,\"left\":775}},{\"text\":\"маоримаори\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4210.52099609375,\"width\":370,\"height\":56,\"top\":4210.52099609375,\"right\":1145,\"bottom\":4266.52099609375,\"left\":775}},{\"text\":\"मराठीмаратхи\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4266.52099609375,\"width\":370,\"height\":56,\"top\":4266.52099609375,\"right\":1145,\"bottom\":4322.52099609375,\"left\":775}},{\"text\":\"монгольскиймонгольский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4322.52099609375,\"width\":370,\"height\":56,\"top\":4322.52099609375,\"right\":1145,\"bottom\":4378.52099609375,\"left\":775}},{\"text\":\"бирманскийбирманский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4378.52099609375,\"width\":370,\"height\":56,\"top\":4378.52099609375,\"right\":1145,\"bottom\":4434.52099609375,\"left\":775}},{\"text\":\"непальскийнепальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4434.52099609375,\"width\":370,\"height\":56,\"top\":4434.52099609375,\"right\":1145,\"bottom\":4490.52099609375,\"left\":775}},{\"text\":\"norskнорвежский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4490.52099609375,\"width\":370,\"height\":56,\"top\":4490.52099609375,\"right\":1145,\"bottom\":4546.52099609375,\"left\":775}},{\"text\":\"ньянджаньянджа\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4546.52099609375,\"width\":370,\"height\":56,\"top\":4546.52099609375,\"right\":1145,\"bottom\":4602.52099609375,\"left\":775}},{\"text\":\"орияория\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4602.52099609375,\"width\":370,\"height\":56,\"top\":4602.52099609375,\"right\":1145,\"bottom\":4658.52099609375,\"left\":775}},{\"text\":\"пуштупушту\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4658.52099609375,\"width\":370,\"height\":56,\"top\":4658.52099609375,\"right\":1145,\"bottom\":4714.52099609375,\"left\":775}},{\"text\":\"فارسیперсидский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4714.52099609375,\"width\":370,\"height\":56,\"top\":4714.52099609375,\"right\":1145,\"bottom\":4770.52099609375,\"left\":775}},{\"text\":\"ਪੰਜਾਬੀпанджаби\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4770.52099609375,\"width\":370,\"height\":56,\"top\":4770.52099609375,\"right\":1145,\"bottom\":4826.52099609375,\"left\":775}},{\"text\":\"românăрумынский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4826.52099609375,\"width\":370,\"height\":56,\"top\":4826.52099609375,\"right\":1145,\"bottom\":4882.52099609375,\"left\":775}},{\"text\":\"самоанскийсамоанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4882.52099609375,\"width\":370,\"height\":56,\"top\":4882.52099609375,\"right\":1145,\"bottom\":4938.52099609375,\"left\":775}},{\"text\":\"гэльскийгэльский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4938.52099609375,\"width\":370,\"height\":56,\"top\":4938.52099609375,\"right\":1145,\"bottom\":4994.52099609375,\"left\":775}},{\"text\":\"српскисербский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4994.52099609375,\"width\":370,\"height\":56,\"top\":4994.52099609375,\"right\":1145,\"bottom\":5050.52099609375,\"left\":775}},{\"text\":\"южный сотоюжный сото\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5050.52099609375,\"width\":370,\"height\":56,\"top\":5050.52099609375,\"right\":1145,\"bottom\":5106.52099609375,\"left\":775}},{\"text\":\"шонашона\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5106.52099609375,\"width\":370,\"height\":56,\"top\":5106.52099609375,\"right\":1145,\"bottom\":5162.52099609375,\"left\":775}},{\"text\":\"سنڌيсиндхи\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5162.52099609375,\"width\":370,\"height\":56,\"top\":5162.52099609375,\"right\":1145,\"bottom\":5218.52099609375,\"left\":775}},{\"text\":\"сингальскийсингальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5218.52099609375,\"width\":370,\"height\":56,\"top\":5218.52099609375,\"right\":1145,\"bottom\":5274.52099609375,\"left\":775}},{\"text\":\"slovenčinaсловацкий\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5274.52099609375,\"width\":370,\"height\":56,\"top\":5274.52099609375,\"right\":1145,\"bottom\":5330.52099609375,\"left\":775}},{\"text\":\"slovenščinaсловенский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5330.52099609375,\"width\":370,\"height\":56,\"top\":5330.52099609375,\"right\":1145,\"bottom\":5386.52099609375,\"left\":775}},{\"text\":\"сомалисомали\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5386.52099609375,\"width\":370,\"height\":56,\"top\":5386.52099609375,\"right\":1145,\"bottom\":5442.52099609375,\"left\":775}},{\"text\":\"сунданскийсунданский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5442.52099609375,\"width\":370,\"height\":56,\"top\":5442.52099609375,\"right\":1145,\"bottom\":5498.52099609375,\"left\":775}},{\"text\":\"Kiswahiliсуахили\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5498.52099609375,\"width\":370,\"height\":56,\"top\":5498.52099609375,\"right\":1145,\"bottom\":5554.52099609375,\"left\":775}},{\"text\":\"svenskaшведский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5554.52099609375,\"width\":370,\"height\":56,\"top\":5554.52099609375,\"right\":1145,\"bottom\":5610.52099609375,\"left\":775}},{\"text\":\"Filipinoфилиппинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5610.52099609375,\"width\":370,\"height\":56,\"top\":5610.52099609375,\"right\":1145,\"bottom\":5666.52099609375,\"left\":775}},{\"text\":\"таджикскийтаджикский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5666.52099609375,\"width\":370,\"height\":56,\"top\":5666.52099609375,\"right\":1145,\"bottom\":5722.52099609375,\"left\":775}},{\"text\":\"தமிழ்тамильский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5722.52099609375,\"width\":370,\"height\":56,\"top\":5722.52099609375,\"right\":1145,\"bottom\":5778.52099609375,\"left\":775}},{\"text\":\"татарскийтатарский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5778.52099609375,\"width\":370,\"height\":56,\"top\":5778.52099609375,\"right\":1145,\"bottom\":5834.52099609375,\"left\":775}},{\"text\":\"తెలుగుтелугу\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5834.52099609375,\"width\":370,\"height\":56,\"top\":5834.52099609375,\"right\":1145,\"bottom\":5890.52099609375,\"left\":775}},{\"text\":\"ไทยтайский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5890.52099609375,\"width\":370,\"height\":56,\"top\":5890.52099609375,\"right\":1145,\"bottom\":5946.52099609375,\"left\":775}},{\"text\":\"Türkçeтурецкий\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5946.52099609375,\"width\":370,\"height\":56,\"top\":5946.52099609375,\"right\":1145,\"bottom\":6002.52099609375,\"left\":775}},{\"text\":\"туркменскийтуркменский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6002.52099609375,\"width\":370,\"height\":56,\"top\":6002.52099609375,\"right\":1145,\"bottom\":6058.52099609375,\"left\":775}},{\"text\":\"اردوурду\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6058.52099609375,\"width\":370,\"height\":56,\"top\":6058.52099609375,\"right\":1145,\"bottom\":6114.52099609375,\"left\":775}},{\"text\":\"уйгурскийуйгурский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6114.52099609375,\"width\":370,\"height\":56,\"top\":6114.52099609375,\"right\":1145,\"bottom\":6170.52099609375,\"left\":775}},{\"text\":\"o‘zbekузбекский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6170.52099609375,\"width\":370,\"height\":56,\"top\":6170.52099609375,\"right\":1145,\"bottom\":6226.52099609375,\"left\":775}},{\"text\":\"Tiếng Việtвьетнамский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6226.52099609375,\"width\":370,\"height\":56,\"top\":6226.52099609375,\"right\":1145,\"bottom\":6282.52099609375,\"left\":775}},{\"text\":\"валлийскийваллийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6282.52099609375,\"width\":370,\"height\":56,\"top\":6282.52099609375,\"right\":1145,\"bottom\":6338.52099609375,\"left\":775}},{\"text\":\"косакоса\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6338.52099609375,\"width\":370,\"height\":56,\"top\":6338.52099609375,\"right\":1145,\"bottom\":6394.52099609375,\"left\":775}},{\"text\":\"идишидиш\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6394.52099609375,\"width\":370,\"height\":56,\"top\":6394.52099609375,\"right\":1145,\"bottom\":6450.52099609375,\"left\":775}},{\"text\":\"йорубайоруба\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6450.52099609375,\"width\":370,\"height\":56,\"top\":6450.52099609375,\"right\":1145,\"bottom\":6506.52099609375,\"left\":775}},{\"text\":\"зулузулу\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6506.52099609375,\"width\":370,\"height\":56,\"top\":6506.52099609375,\"right\":1145,\"bottom\":6562.52099609375,\"left\":775}}]\n\n98 !== 0\n",
+      "screenshot": "ui-additional-modal-third-chat-language-fullhd-body.png",
+      "protectedEvents": [],
+      "active": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-fullhd-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 780,
+          "y": 423.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 423.140625,
+          "right": 1140,
+          "bottom": 656.84375,
+          "left": 780
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-message-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-narrow-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 96,
+          "y": 289.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 289.90625,
+          "right": 544,
+          "bottom": 610.09375,
+          "left": 96
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-narrow-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 96,
+          "y": 140.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 140.28125,
+          "right": 544,
+          "bottom": 759.71875,
+          "left": 96
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-edit-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-narrow-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 136,
+          "y": 343.5,
+          "width": 368,
+          "height": 213,
+          "top": 343.5,
+          "right": 504,
+          "bottom": 556.5,
+          "left": 136
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-options-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-narrow-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 136,
+          "y": 277.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 277.453125,
+          "right": 504,
+          "bottom": 622.546875,
+          "left": 136
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-comment-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-narrow-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-country-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-narrow-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-password-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-narrow-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-formatting-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-narrow-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-safe-link-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-narrow-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 128,
+          "y": 329.71875,
+          "width": 384,
+          "height": 240.5625,
+          "top": 329.71875,
+          "right": 512,
+          "bottom": 570.28125,
+          "left": 128
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-browser-close-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-narrow-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 128,
+          "y": 236.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 236.90625,
+          "right": 512,
+          "bottom": 663.09375,
+          "left": 128
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-mute-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-narrow-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 128,
+          "y": 345.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 345.3125,
+          "right": 512,
+          "bottom": 554.6875,
+          "left": 128
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-pin-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-narrow-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 160,
+          "y": 343.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 343.625,
+          "right": 480,
+          "bottom": 556.375,
+          "left": 160
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-chat-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-narrow-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 40,
+          "y": 267.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 267.5625,
+          "right": 600,
+          "bottom": 632.4375,
+          "left": 40
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-photo-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-narrow-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 40,
+          "y": 366.5,
+          "width": 560,
+          "height": 167,
+          "top": 366.5,
+          "right": 600,
+          "bottom": 533.5,
+          "left": 40
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-file-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-narrow-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-document-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-narrow-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"text\":\"한국어корейский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":885,\"width\":370,\"height\":56,\"top\":885,\"right\":505,\"bottom\":941,\"left\":135}},{\"text\":\"polskiпольский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":941,\"width\":370,\"height\":56,\"top\":941,\"right\":505,\"bottom\":997,\"left\":135}},{\"text\":\"portuguêsпортугальский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":997,\"width\":370,\"height\":56,\"top\":997,\"right\":505,\"bottom\":1053,\"left\":135}},{\"text\":\"русскийрусский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1053,\"width\":370,\"height\":56,\"top\":1053,\"right\":505,\"bottom\":1109,\"left\":135}},{\"text\":\"españolиспанский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1109,\"width\":370,\"height\":56,\"top\":1109,\"right\":505,\"bottom\":1165,\"left\":135}},{\"text\":\"українськаукраинский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1165,\"width\":370,\"height\":56,\"top\":1165,\"right\":505,\"bottom\":1221,\"left\":135}},{\"text\":\"Afrikaansафрикаанс\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1221,\"width\":370,\"height\":56,\"top\":1221,\"right\":505,\"bottom\":1277,\"left\":135}},{\"text\":\"албанскийалбанский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1277,\"width\":370,\"height\":56,\"top\":1277,\"right\":505,\"bottom\":1333,\"left\":135}},{\"text\":\"አማርኛамхарский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1333,\"width\":370,\"height\":56,\"top\":1333,\"right\":505,\"bottom\":1389,\"left\":135}},{\"text\":\"армянскийармянский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1389,\"width\":370,\"height\":56,\"top\":1389,\"right\":505,\"bottom\":1445,\"left\":135}},{\"text\":\"azərbaycanазербайджанский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1445,\"width\":370,\"height\":56,\"top\":1445,\"right\":505,\"bottom\":1501,\"left\":135}},{\"text\":\"баскскийбаскский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1501,\"width\":370,\"height\":56,\"top\":1501,\"right\":505,\"bottom\":1557,\"left\":135}},{\"text\":\"বাংলাбенгальский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1557,\"width\":370,\"height\":56,\"top\":1557,\"right\":505,\"bottom\":1613,\"left\":135}},{\"text\":\"bosanskiбоснийский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1613,\"width\":370,\"height\":56,\"top\":1613,\"right\":505,\"bottom\":1669,\"left\":135}},{\"text\":\"българскиболгарский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1669,\"width\":370,\"height\":56,\"top\":1669,\"right\":505,\"bottom\":1725,\"left\":135}},{\"text\":\"себуаносебуано\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1725,\"width\":370,\"height\":56,\"top\":1725,\"right\":505,\"bottom\":1781,\"left\":135}},{\"text\":\"中文（中国）китайский (Китай)\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1781,\"width\":370,\"height\":56,\"top\":1781,\"right\":505,\"bottom\":1837,\"left\":135}},{\"text\":\"中文（台灣）китайский (Тайвань)\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1837,\"width\":370,\"height\":56,\"top\":1837,\"right\":505,\"bottom\":1893,\"left\":135}},{\"text\":\"корсиканскийкорсиканский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1893,\"width\":370,\"height\":56,\"top\":1893,\"right\":505,\"bottom\":1949,\"left\":135}},{\"text\":\"hrvatskiхорватский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":1949,\"width\":370,\"height\":56,\"top\":1949,\"right\":505,\"bottom\":2005,\"left\":135}},{\"text\":\"češtinaчешский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2005,\"width\":370,\"height\":56,\"top\":2005,\"right\":505,\"bottom\":2061,\"left\":135}},{\"text\":\"danskдатский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2061,\"width\":370,\"height\":56,\"top\":2061,\"right\":505,\"bottom\":2117,\"left\":135}},{\"text\":\"эсперантоэсперанто\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2117,\"width\":370,\"height\":56,\"top\":2117,\"right\":505,\"bottom\":2173,\"left\":135}},{\"text\":\"eestiэстонский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2173,\"width\":370,\"height\":56,\"top\":2173,\"right\":505,\"bottom\":2229,\"left\":135}},{\"text\":\"suomiфинский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2229,\"width\":370,\"height\":56,\"top\":2229,\"right\":505,\"bottom\":2285,\"left\":135}},{\"text\":\"западнофризскийзападнофризский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2285,\"width\":370,\"height\":56,\"top\":2285,\"right\":505,\"bottom\":2341,\"left\":135}},{\"text\":\"галисийскийгалисийский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2341,\"width\":370,\"height\":56,\"top\":2341,\"right\":505,\"bottom\":2397,\"left\":135}},{\"text\":\"грузинскийгрузинский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2397,\"width\":370,\"height\":56,\"top\":2397,\"right\":505,\"bottom\":2453,\"left\":135}},{\"text\":\"Ελληνικάгреческий\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2453,\"width\":370,\"height\":56,\"top\":2453,\"right\":505,\"bottom\":2509,\"left\":135}},{\"text\":\"ગુજરાતીгуджарати\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2509,\"width\":370,\"height\":56,\"top\":2509,\"right\":505,\"bottom\":2565,\"left\":135}},{\"text\":\"гаитянскийгаитянский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2565,\"width\":370,\"height\":56,\"top\":2565,\"right\":505,\"bottom\":2621,\"left\":135}},{\"text\":\"хаусахауса\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2621,\"width\":370,\"height\":56,\"top\":2621,\"right\":505,\"bottom\":2677,\"left\":135}},{\"text\":\"гавайскийгавайский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2677,\"width\":370,\"height\":56,\"top\":2677,\"right\":505,\"bottom\":2733,\"left\":135}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2733,\"width\":370,\"height\":56,\"top\":2733,\"right\":505,\"bottom\":2789,\"left\":135}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2789,\"width\":370,\"height\":56,\"top\":2789,\"right\":505,\"bottom\":2845,\"left\":135}},{\"text\":\"हिन्दीхинди\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2845,\"width\":370,\"height\":56,\"top\":2845,\"right\":505,\"bottom\":2901,\"left\":135}},{\"text\":\"хмонгхмонг\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2901,\"width\":370,\"height\":56,\"top\":2901,\"right\":505,\"bottom\":2957,\"left\":135}},{\"text\":\"magyarвенгерский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":2957,\"width\":370,\"height\":56,\"top\":2957,\"right\":505,\"bottom\":3013,\"left\":135}},{\"text\":\"исландскийисландский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3013,\"width\":370,\"height\":56,\"top\":3013,\"right\":505,\"bottom\":3069,\"left\":135}},{\"text\":\"игбоигбо\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3069,\"width\":370,\"height\":56,\"top\":3069,\"right\":505,\"bottom\":3125,\"left\":135}},{\"text\":\"ирландскийирландский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3125,\"width\":370,\"height\":56,\"top\":3125,\"right\":505,\"bottom\":3181,\"left\":135}},{\"text\":\"яванскийяванский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3181,\"width\":370,\"height\":56,\"top\":3181,\"right\":505,\"bottom\":3237,\"left\":135}},{\"text\":\"ಕನ್ನಡканнада\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3237,\"width\":370,\"height\":56,\"top\":3237,\"right\":505,\"bottom\":3293,\"left\":135}},{\"text\":\"қазақ тіліказахский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3293,\"width\":370,\"height\":56,\"top\":3293,\"right\":505,\"bottom\":3349,\"left\":135}},{\"text\":\"кхмерскийкхмерский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3349,\"width\":370,\"height\":56,\"top\":3349,\"right\":505,\"bottom\":3405,\"left\":135}},{\"text\":\"киньяруандакиньяруанда\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3405,\"width\":370,\"height\":56,\"top\":3405,\"right\":505,\"bottom\":3461,\"left\":135}},{\"text\":\"курдскийкурдский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3461,\"width\":370,\"height\":56,\"top\":3461,\"right\":505,\"bottom\":3517,\"left\":135}},{\"text\":\"киргизскийкиргизский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3517,\"width\":370,\"height\":56,\"top\":3517,\"right\":505,\"bottom\":3573,\"left\":135}},{\"text\":\"лаосскийлаосский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3573,\"width\":370,\"height\":56,\"top\":3573,\"right\":505,\"bottom\":3629,\"left\":135}},{\"text\":\"латинскийлатинский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3629,\"width\":370,\"height\":56,\"top\":3629,\"right\":505,\"bottom\":3685,\"left\":135}},{\"text\":\"latviešuлатышский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3685,\"width\":370,\"height\":56,\"top\":3685,\"right\":505,\"bottom\":3741,\"left\":135}},{\"text\":\"lietuviųлитовский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3741,\"width\":370,\"height\":56,\"top\":3741,\"right\":505,\"bottom\":3797,\"left\":135}},{\"text\":\"люксембургскийлюксембургский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3797,\"width\":370,\"height\":56,\"top\":3797,\"right\":505,\"bottom\":3853,\"left\":135}},{\"text\":\"македонскиймакедонский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3853,\"width\":370,\"height\":56,\"top\":3853,\"right\":505,\"bottom\":3909,\"left\":135}},{\"text\":\"малагасийскиймалагасийский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3909,\"width\":370,\"height\":56,\"top\":3909,\"right\":505,\"bottom\":3965,\"left\":135}},{\"text\":\"Melayuмалайский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":3965,\"width\":370,\"height\":56,\"top\":3965,\"right\":505,\"bottom\":4021,\"left\":135}},{\"text\":\"മലയാളംмалаялам\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4021,\"width\":370,\"height\":56,\"top\":4021,\"right\":505,\"bottom\":4077,\"left\":135}},{\"text\":\"мальтийскиймальтийский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4077,\"width\":370,\"height\":56,\"top\":4077,\"right\":505,\"bottom\":4133,\"left\":135}},{\"text\":\"маоримаори\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4133,\"width\":370,\"height\":56,\"top\":4133,\"right\":505,\"bottom\":4189,\"left\":135}},{\"text\":\"मराठीмаратхи\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4189,\"width\":370,\"height\":56,\"top\":4189,\"right\":505,\"bottom\":4245,\"left\":135}},{\"text\":\"монгольскиймонгольский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4245,\"width\":370,\"height\":56,\"top\":4245,\"right\":505,\"bottom\":4301,\"left\":135}},{\"text\":\"бирманскийбирманский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4301,\"width\":370,\"height\":56,\"top\":4301,\"right\":505,\"bottom\":4357,\"left\":135}},{\"text\":\"непальскийнепальский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4357,\"width\":370,\"height\":56,\"top\":4357,\"right\":505,\"bottom\":4413,\"left\":135}},{\"text\":\"norskнорвежский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4413,\"width\":370,\"height\":56,\"top\":4413,\"right\":505,\"bottom\":4469,\"left\":135}},{\"text\":\"ньянджаньянджа\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4469,\"width\":370,\"height\":56,\"top\":4469,\"right\":505,\"bottom\":4525,\"left\":135}},{\"text\":\"орияория\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4525,\"width\":370,\"height\":56,\"top\":4525,\"right\":505,\"bottom\":4581,\"left\":135}},{\"text\":\"пуштупушту\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4581,\"width\":370,\"height\":56,\"top\":4581,\"right\":505,\"bottom\":4637,\"left\":135}},{\"text\":\"فارسیперсидский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4637,\"width\":370,\"height\":56,\"top\":4637,\"right\":505,\"bottom\":4693,\"left\":135}},{\"text\":\"ਪੰਜਾਬੀпанджаби\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4693,\"width\":370,\"height\":56,\"top\":4693,\"right\":505,\"bottom\":4749,\"left\":135}},{\"text\":\"românăрумынский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4749,\"width\":370,\"height\":56,\"top\":4749,\"right\":505,\"bottom\":4805,\"left\":135}},{\"text\":\"самоанскийсамоанский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4805,\"width\":370,\"height\":56,\"top\":4805,\"right\":505,\"bottom\":4861,\"left\":135}},{\"text\":\"гэльскийгэльский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4861,\"width\":370,\"height\":56,\"top\":4861,\"right\":505,\"bottom\":4917,\"left\":135}},{\"text\":\"српскисербский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4917,\"width\":370,\"height\":56,\"top\":4917,\"right\":505,\"bottom\":4973,\"left\":135}},{\"text\":\"южный сотоюжный сото\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":4973,\"width\":370,\"height\":56,\"top\":4973,\"right\":505,\"bottom\":5029,\"left\":135}},{\"text\":\"шонашона\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5029,\"width\":370,\"height\":56,\"top\":5029,\"right\":505,\"bottom\":5085,\"left\":135}},{\"text\":\"سنڌيсиндхи\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5085,\"width\":370,\"height\":56,\"top\":5085,\"right\":505,\"bottom\":5141,\"left\":135}},{\"text\":\"сингальскийсингальский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5141,\"width\":370,\"height\":56,\"top\":5141,\"right\":505,\"bottom\":5197,\"left\":135}},{\"text\":\"slovenčinaсловацкий\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5197,\"width\":370,\"height\":56,\"top\":5197,\"right\":505,\"bottom\":5253,\"left\":135}},{\"text\":\"slovenščinaсловенский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5253,\"width\":370,\"height\":56,\"top\":5253,\"right\":505,\"bottom\":5309,\"left\":135}},{\"text\":\"сомалисомали\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5309,\"width\":370,\"height\":56,\"top\":5309,\"right\":505,\"bottom\":5365,\"left\":135}},{\"text\":\"сунданскийсунданский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5365,\"width\":370,\"height\":56,\"top\":5365,\"right\":505,\"bottom\":5421,\"left\":135}},{\"text\":\"Kiswahiliсуахили\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5421,\"width\":370,\"height\":56,\"top\":5421,\"right\":505,\"bottom\":5477,\"left\":135}},{\"text\":\"svenskaшведский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5477,\"width\":370,\"height\":56,\"top\":5477,\"right\":505,\"bottom\":5533,\"left\":135}},{\"text\":\"Filipinoфилиппинский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5533,\"width\":370,\"height\":56,\"top\":5533,\"right\":505,\"bottom\":5589,\"left\":135}},{\"text\":\"таджикскийтаджикский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5589,\"width\":370,\"height\":56,\"top\":5589,\"right\":505,\"bottom\":5645,\"left\":135}},{\"text\":\"தமிழ்тамильский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5645,\"width\":370,\"height\":56,\"top\":5645,\"right\":505,\"bottom\":5701,\"left\":135}},{\"text\":\"татарскийтатарский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5701,\"width\":370,\"height\":56,\"top\":5701,\"right\":505,\"bottom\":5757,\"left\":135}},{\"text\":\"తెలుగుтелугу\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5757,\"width\":370,\"height\":56,\"top\":5757,\"right\":505,\"bottom\":5813,\"left\":135}},{\"text\":\"ไทยтайский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5813,\"width\":370,\"height\":56,\"top\":5813,\"right\":505,\"bottom\":5869,\"left\":135}},{\"text\":\"Türkçeтурецкий\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5869,\"width\":370,\"height\":56,\"top\":5869,\"right\":505,\"bottom\":5925,\"left\":135}},{\"text\":\"туркменскийтуркменский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5925,\"width\":370,\"height\":56,\"top\":5925,\"right\":505,\"bottom\":5981,\"left\":135}},{\"text\":\"اردوурду\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":5981,\"width\":370,\"height\":56,\"top\":5981,\"right\":505,\"bottom\":6037,\"left\":135}},{\"text\":\"уйгурскийуйгурский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6037,\"width\":370,\"height\":56,\"top\":6037,\"right\":505,\"bottom\":6093,\"left\":135}},{\"text\":\"o‘zbekузбекский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6093,\"width\":370,\"height\":56,\"top\":6093,\"right\":505,\"bottom\":6149,\"left\":135}},{\"text\":\"Tiếng Việtвьетнамский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6149,\"width\":370,\"height\":56,\"top\":6149,\"right\":505,\"bottom\":6205,\"left\":135}},{\"text\":\"валлийскийваллийский\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6205,\"width\":370,\"height\":56,\"top\":6205,\"right\":505,\"bottom\":6261,\"left\":135}},{\"text\":\"косакоса\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6261,\"width\":370,\"height\":56,\"top\":6261,\"right\":505,\"bottom\":6317,\"left\":135}},{\"text\":\"идишидиш\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6317,\"width\":370,\"height\":56,\"top\":6317,\"right\":505,\"bottom\":6373,\"left\":135}},{\"text\":\"йорубайоруба\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6373,\"width\":370,\"height\":56,\"top\":6373,\"right\":505,\"bottom\":6429,\"left\":135}},{\"text\":\"зулузулу\",\"tag\":\"DIV\",\"box\":{\"x\":135,\"y\":6429,\"width\":370,\"height\":56,\"top\":6429,\"right\":505,\"bottom\":6485,\"left\":135}}]\n\n100 !== 0\n",
+      "screenshot": "ui-additional-modal-third-chat-language-narrow-body.png",
+      "protectedEvents": [],
+      "active": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-narrow-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 140,
+          "y": 333.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 333.140625,
+          "right": 500,
+          "bottom": 566.84375,
+          "left": 140
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-message-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-text200-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 512,
+          "y": 230.40625,
+          "width": 896,
+          "height": 619.1875,
+          "top": 230.40625,
+          "right": 1408,
+          "bottom": 849.59375,
+          "left": 512
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-text200-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 512,
+          "y": -7.796875,
+          "width": 896,
+          "height": 1095.59375,
+          "top": -7.796875,
+          "right": 1408,
+          "bottom": 1087.796875,
+          "left": 512
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-edit-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-text200-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 592,
+          "y": 328,
+          "width": 736,
+          "height": 424,
+          "top": 328,
+          "right": 1328,
+          "bottom": 752,
+          "left": 592
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-options-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-text200-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 592,
+          "y": 245.90625,
+          "width": 736,
+          "height": 588.1875,
+          "top": 245.90625,
+          "right": 1328,
+          "bottom": 834.09375,
+          "left": 592
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-comment-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-text200-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-country-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-text200-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-password-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-text200-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-formatting-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-text200-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-safe-link-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-text200-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 576,
+          "y": 344.8125,
+          "width": 768,
+          "height": 390.375,
+          "top": 344.8125,
+          "right": 1344,
+          "bottom": 735.1875,
+          "left": 576
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-browser-close-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-text200-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 576,
+          "y": 124.40625,
+          "width": 768,
+          "height": 831.1875,
+          "top": 124.40625,
+          "right": 1344,
+          "bottom": 955.59375,
+          "left": 576
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-mute-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-text200-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 576,
+          "y": 352.8125,
+          "width": 768,
+          "height": 374.375,
+          "top": 352.8125,
+          "right": 1344,
+          "bottom": 727.1875,
+          "left": 576
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-pin-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-text200-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 640,
+          "y": 371.625,
+          "width": 640,
+          "height": 336.75,
+          "top": 371.625,
+          "right": 1280,
+          "bottom": 708.375,
+          "left": 640
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-chat-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-text200-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 400,
+          "y": 175.5625,
+          "width": 1120,
+          "height": 728.875,
+          "top": 175.5625,
+          "right": 1520,
+          "bottom": 904.4375,
+          "left": 400
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-photo-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-text200-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 400,
+          "y": 374,
+          "width": 1120,
+          "height": 332,
+          "top": 374,
+          "right": 1520,
+          "bottom": 706,
+          "left": 400
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-file-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-text200-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-document-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-text200-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"text\":\"Deutschнемецкий\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1041.203125,\"width\":742,\"height\":112,\"top\":1041.203125,\"right\":1331,\"bottom\":1153.203125,\"left\":589}},{\"text\":\"Indonesiaиндонезийский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1153.203125,\"width\":742,\"height\":112,\"top\":1153.203125,\"right\":1331,\"bottom\":1265.203125,\"left\":589}},{\"text\":\"italianoитальянский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1265.203125,\"width\":742,\"height\":112,\"top\":1265.203125,\"right\":1331,\"bottom\":1377.203125,\"left\":589}},{\"text\":\"日本語японский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1377.203125,\"width\":742,\"height\":112,\"top\":1377.203125,\"right\":1331,\"bottom\":1489.203125,\"left\":589}},{\"text\":\"한국어корейский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1489.203125,\"width\":742,\"height\":112,\"top\":1489.203125,\"right\":1331,\"bottom\":1601.203125,\"left\":589}},{\"text\":\"polskiпольский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1601.203125,\"width\":742,\"height\":112,\"top\":1601.203125,\"right\":1331,\"bottom\":1713.203125,\"left\":589}},{\"text\":\"portuguêsпортугальский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1713.203125,\"width\":742,\"height\":112,\"top\":1713.203125,\"right\":1331,\"bottom\":1825.203125,\"left\":589}},{\"text\":\"русскийрусский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1825.203125,\"width\":742,\"height\":112,\"top\":1825.203125,\"right\":1331,\"bottom\":1937.203125,\"left\":589}},{\"text\":\"españolиспанский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":1937.203125,\"width\":742,\"height\":112,\"top\":1937.203125,\"right\":1331,\"bottom\":2049.203125,\"left\":589}},{\"text\":\"українськаукраинский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2049.203125,\"width\":742,\"height\":112,\"top\":2049.203125,\"right\":1331,\"bottom\":2161.203125,\"left\":589}},{\"text\":\"Afrikaansафрикаанс\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2161.203125,\"width\":742,\"height\":112,\"top\":2161.203125,\"right\":1331,\"bottom\":2273.203125,\"left\":589}},{\"text\":\"албанскийалбанский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2273.203125,\"width\":742,\"height\":112,\"top\":2273.203125,\"right\":1331,\"bottom\":2385.203125,\"left\":589}},{\"text\":\"አማርኛамхарский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2385.203125,\"width\":742,\"height\":112,\"top\":2385.203125,\"right\":1331,\"bottom\":2497.203125,\"left\":589}},{\"text\":\"армянскийармянский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2497.203125,\"width\":742,\"height\":112,\"top\":2497.203125,\"right\":1331,\"bottom\":2609.203125,\"left\":589}},{\"text\":\"azərbaycanазербайджанский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2609.203125,\"width\":742,\"height\":112,\"top\":2609.203125,\"right\":1331,\"bottom\":2721.203125,\"left\":589}},{\"text\":\"баскскийбаскский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2721.203125,\"width\":742,\"height\":112,\"top\":2721.203125,\"right\":1331,\"bottom\":2833.203125,\"left\":589}},{\"text\":\"বাংলাбенгальский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2833.203125,\"width\":742,\"height\":112,\"top\":2833.203125,\"right\":1331,\"bottom\":2945.203125,\"left\":589}},{\"text\":\"bosanskiбоснийский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":2945.203125,\"width\":742,\"height\":112,\"top\":2945.203125,\"right\":1331,\"bottom\":3057.203125,\"left\":589}},{\"text\":\"българскиболгарский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3057.203125,\"width\":742,\"height\":112,\"top\":3057.203125,\"right\":1331,\"bottom\":3169.203125,\"left\":589}},{\"text\":\"себуаносебуано\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3169.203125,\"width\":742,\"height\":112,\"top\":3169.203125,\"right\":1331,\"bottom\":3281.203125,\"left\":589}},{\"text\":\"中文（中国）китайский (Китай)\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3281.203125,\"width\":742,\"height\":112,\"top\":3281.203125,\"right\":1331,\"bottom\":3393.203125,\"left\":589}},{\"text\":\"中文（台灣）китайский (Тайвань)\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3393.203125,\"width\":742,\"height\":112,\"top\":3393.203125,\"right\":1331,\"bottom\":3505.203125,\"left\":589}},{\"text\":\"корсиканскийкорсиканский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3505.203125,\"width\":742,\"height\":112,\"top\":3505.203125,\"right\":1331,\"bottom\":3617.203125,\"left\":589}},{\"text\":\"hrvatskiхорватский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3617.203125,\"width\":742,\"height\":112,\"top\":3617.203125,\"right\":1331,\"bottom\":3729.203125,\"left\":589}},{\"text\":\"češtinaчешский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3729.203125,\"width\":742,\"height\":112,\"top\":3729.203125,\"right\":1331,\"bottom\":3841.203125,\"left\":589}},{\"text\":\"danskдатский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3841.203125,\"width\":742,\"height\":112,\"top\":3841.203125,\"right\":1331,\"bottom\":3953.203125,\"left\":589}},{\"text\":\"эсперантоэсперанто\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":3953.203125,\"width\":742,\"height\":112,\"top\":3953.203125,\"right\":1331,\"bottom\":4065.203125,\"left\":589}},{\"text\":\"eestiэстонский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4065.203125,\"width\":742,\"height\":112,\"top\":4065.203125,\"right\":1331,\"bottom\":4177.203125,\"left\":589}},{\"text\":\"suomiфинский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4177.203125,\"width\":742,\"height\":112,\"top\":4177.203125,\"right\":1331,\"bottom\":4289.203125,\"left\":589}},{\"text\":\"западнофризскийзападнофризский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4289.203125,\"width\":742,\"height\":112,\"top\":4289.203125,\"right\":1331,\"bottom\":4401.203125,\"left\":589}},{\"text\":\"галисийскийгалисийский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4401.203125,\"width\":742,\"height\":112,\"top\":4401.203125,\"right\":1331,\"bottom\":4513.203125,\"left\":589}},{\"text\":\"грузинскийгрузинский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4513.203125,\"width\":742,\"height\":112,\"top\":4513.203125,\"right\":1331,\"bottom\":4625.203125,\"left\":589}},{\"text\":\"Ελληνικάгреческий\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4625.203125,\"width\":742,\"height\":112,\"top\":4625.203125,\"right\":1331,\"bottom\":4737.203125,\"left\":589}},{\"text\":\"ગુજરાતીгуджарати\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4737.203125,\"width\":742,\"height\":112,\"top\":4737.203125,\"right\":1331,\"bottom\":4849.203125,\"left\":589}},{\"text\":\"гаитянскийгаитянский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4849.203125,\"width\":742,\"height\":112,\"top\":4849.203125,\"right\":1331,\"bottom\":4961.203125,\"left\":589}},{\"text\":\"хаусахауса\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":4961.203125,\"width\":742,\"height\":112,\"top\":4961.203125,\"right\":1331,\"bottom\":5073.203125,\"left\":589}},{\"text\":\"гавайскийгавайский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5073.203125,\"width\":742,\"height\":112,\"top\":5073.203125,\"right\":1331,\"bottom\":5185.203125,\"left\":589}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5185.203125,\"width\":742,\"height\":112,\"top\":5185.203125,\"right\":1331,\"bottom\":5297.203125,\"left\":589}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5297.203125,\"width\":742,\"height\":112,\"top\":5297.203125,\"right\":1331,\"bottom\":5409.203125,\"left\":589}},{\"text\":\"हिन्दीхинди\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5409.203125,\"width\":742,\"height\":112,\"top\":5409.203125,\"right\":1331,\"bottom\":5521.203125,\"left\":589}},{\"text\":\"хмонгхмонг\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5521.203125,\"width\":742,\"height\":112,\"top\":5521.203125,\"right\":1331,\"bottom\":5633.203125,\"left\":589}},{\"text\":\"magyarвенгерский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5633.203125,\"width\":742,\"height\":112,\"top\":5633.203125,\"right\":1331,\"bottom\":5745.203125,\"left\":589}},{\"text\":\"исландскийисландский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5745.203125,\"width\":742,\"height\":112,\"top\":5745.203125,\"right\":1331,\"bottom\":5857.203125,\"left\":589}},{\"text\":\"игбоигбо\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5857.203125,\"width\":742,\"height\":112,\"top\":5857.203125,\"right\":1331,\"bottom\":5969.203125,\"left\":589}},{\"text\":\"ирландскийирландский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":5969.203125,\"width\":742,\"height\":112,\"top\":5969.203125,\"right\":1331,\"bottom\":6081.203125,\"left\":589}},{\"text\":\"яванскийяванский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6081.203125,\"width\":742,\"height\":112,\"top\":6081.203125,\"right\":1331,\"bottom\":6193.203125,\"left\":589}},{\"text\":\"ಕನ್ನಡканнада\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6193.203125,\"width\":742,\"height\":112,\"top\":6193.203125,\"right\":1331,\"bottom\":6305.203125,\"left\":589}},{\"text\":\"қазақ тіліказахский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6305.203125,\"width\":742,\"height\":112,\"top\":6305.203125,\"right\":1331,\"bottom\":6417.203125,\"left\":589}},{\"text\":\"кхмерскийкхмерский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6417.203125,\"width\":742,\"height\":112,\"top\":6417.203125,\"right\":1331,\"bottom\":6529.203125,\"left\":589}},{\"text\":\"киньяруандакиньяруанда\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6529.203125,\"width\":742,\"height\":112,\"top\":6529.203125,\"right\":1331,\"bottom\":6641.203125,\"left\":589}},{\"text\":\"курдскийкурдский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6641.203125,\"width\":742,\"height\":112,\"top\":6641.203125,\"right\":1331,\"bottom\":6753.203125,\"left\":589}},{\"text\":\"киргизскийкиргизский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6753.203125,\"width\":742,\"height\":112,\"top\":6753.203125,\"right\":1331,\"bottom\":6865.203125,\"left\":589}},{\"text\":\"лаосскийлаосский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6865.203125,\"width\":742,\"height\":112,\"top\":6865.203125,\"right\":1331,\"bottom\":6977.203125,\"left\":589}},{\"text\":\"латинскийлатинский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":6977.203125,\"width\":742,\"height\":112,\"top\":6977.203125,\"right\":1331,\"bottom\":7089.203125,\"left\":589}},{\"text\":\"latviešuлатышский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7089.203125,\"width\":742,\"height\":112,\"top\":7089.203125,\"right\":1331,\"bottom\":7201.203125,\"left\":589}},{\"text\":\"lietuviųлитовский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7201.203125,\"width\":742,\"height\":112,\"top\":7201.203125,\"right\":1331,\"bottom\":7313.203125,\"left\":589}},{\"text\":\"люксембургскийлюксембургский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7313.203125,\"width\":742,\"height\":112,\"top\":7313.203125,\"right\":1331,\"bottom\":7425.203125,\"left\":589}},{\"text\":\"македонскиймакедонский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7425.203125,\"width\":742,\"height\":112,\"top\":7425.203125,\"right\":1331,\"bottom\":7537.203125,\"left\":589}},{\"text\":\"малагасийскиймалагасийский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7537.203125,\"width\":742,\"height\":112,\"top\":7537.203125,\"right\":1331,\"bottom\":7649.203125,\"left\":589}},{\"text\":\"Melayuмалайский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7649.203125,\"width\":742,\"height\":112,\"top\":7649.203125,\"right\":1331,\"bottom\":7761.203125,\"left\":589}},{\"text\":\"മലയാളംмалаялам\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7761.203125,\"width\":742,\"height\":112,\"top\":7761.203125,\"right\":1331,\"bottom\":7873.203125,\"left\":589}},{\"text\":\"мальтийскиймальтийский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7873.203125,\"width\":742,\"height\":112,\"top\":7873.203125,\"right\":1331,\"bottom\":7985.203125,\"left\":589}},{\"text\":\"маоримаори\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":7985.203125,\"width\":742,\"height\":112,\"top\":7985.203125,\"right\":1331,\"bottom\":8097.203125,\"left\":589}},{\"text\":\"मराठीмаратхи\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8097.203125,\"width\":742,\"height\":112,\"top\":8097.203125,\"right\":1331,\"bottom\":8209.203125,\"left\":589}},{\"text\":\"монгольскиймонгольский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8209.203125,\"width\":742,\"height\":112,\"top\":8209.203125,\"right\":1331,\"bottom\":8321.203125,\"left\":589}},{\"text\":\"бирманскийбирманский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8321.203125,\"width\":742,\"height\":112,\"top\":8321.203125,\"right\":1331,\"bottom\":8433.203125,\"left\":589}},{\"text\":\"непальскийнепальский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8433.203125,\"width\":742,\"height\":112,\"top\":8433.203125,\"right\":1331,\"bottom\":8545.203125,\"left\":589}},{\"text\":\"norskнорвежский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8545.203125,\"width\":742,\"height\":112,\"top\":8545.203125,\"right\":1331,\"bottom\":8657.203125,\"left\":589}},{\"text\":\"ньянджаньянджа\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8657.203125,\"width\":742,\"height\":112,\"top\":8657.203125,\"right\":1331,\"bottom\":8769.203125,\"left\":589}},{\"text\":\"орияория\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8769.203125,\"width\":742,\"height\":112,\"top\":8769.203125,\"right\":1331,\"bottom\":8881.203125,\"left\":589}},{\"text\":\"пуштупушту\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8881.203125,\"width\":742,\"height\":112,\"top\":8881.203125,\"right\":1331,\"bottom\":8993.203125,\"left\":589}},{\"text\":\"فارسیперсидский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":8993.203125,\"width\":742,\"height\":112,\"top\":8993.203125,\"right\":1331,\"bottom\":9105.203125,\"left\":589}},{\"text\":\"ਪੰਜਾਬੀпанджаби\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9105.203125,\"width\":742,\"height\":112,\"top\":9105.203125,\"right\":1331,\"bottom\":9217.203125,\"left\":589}},{\"text\":\"românăрумынский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9217.203125,\"width\":742,\"height\":112,\"top\":9217.203125,\"right\":1331,\"bottom\":9329.203125,\"left\":589}},{\"text\":\"самоанскийсамоанский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9329.203125,\"width\":742,\"height\":112,\"top\":9329.203125,\"right\":1331,\"bottom\":9441.203125,\"left\":589}},{\"text\":\"гэльскийгэльский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9441.203125,\"width\":742,\"height\":112,\"top\":9441.203125,\"right\":1331,\"bottom\":9553.203125,\"left\":589}},{\"text\":\"српскисербский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9553.203125,\"width\":742,\"height\":112,\"top\":9553.203125,\"right\":1331,\"bottom\":9665.203125,\"left\":589}},{\"text\":\"южный сотоюжный сото\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9665.203125,\"width\":742,\"height\":112,\"top\":9665.203125,\"right\":1331,\"bottom\":9777.203125,\"left\":589}},{\"text\":\"шонашона\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9777.203125,\"width\":742,\"height\":112,\"top\":9777.203125,\"right\":1331,\"bottom\":9889.203125,\"left\":589}},{\"text\":\"سنڌيсиндхи\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":9889.203125,\"width\":742,\"height\":112,\"top\":9889.203125,\"right\":1331,\"bottom\":10001.203125,\"left\":589}},{\"text\":\"сингальскийсингальский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10001.203125,\"width\":742,\"height\":112,\"top\":10001.203125,\"right\":1331,\"bottom\":10113.203125,\"left\":589}},{\"text\":\"slovenčinaсловацкий\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10113.203125,\"width\":742,\"height\":112,\"top\":10113.203125,\"right\":1331,\"bottom\":10225.203125,\"left\":589}},{\"text\":\"slovenščinaсловенский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10225.203125,\"width\":742,\"height\":112,\"top\":10225.203125,\"right\":1331,\"bottom\":10337.203125,\"left\":589}},{\"text\":\"сомалисомали\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10337.203125,\"width\":742,\"height\":112,\"top\":10337.203125,\"right\":1331,\"bottom\":10449.203125,\"left\":589}},{\"text\":\"сунданскийсунданский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10449.203125,\"width\":742,\"height\":112,\"top\":10449.203125,\"right\":1331,\"bottom\":10561.203125,\"left\":589}},{\"text\":\"Kiswahiliсуахили\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10561.203125,\"width\":742,\"height\":112,\"top\":10561.203125,\"right\":1331,\"bottom\":10673.203125,\"left\":589}},{\"text\":\"svenskaшведский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10673.203125,\"width\":742,\"height\":112,\"top\":10673.203125,\"right\":1331,\"bottom\":10785.203125,\"left\":589}},{\"text\":\"Filipinoфилиппинский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10785.203125,\"width\":742,\"height\":112,\"top\":10785.203125,\"right\":1331,\"bottom\":10897.203125,\"left\":589}},{\"text\":\"таджикскийтаджикский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":10897.203125,\"width\":742,\"height\":112,\"top\":10897.203125,\"right\":1331,\"bottom\":11009.203125,\"left\":589}},{\"text\":\"தமிழ்тамильский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11009.203125,\"width\":742,\"height\":112,\"top\":11009.203125,\"right\":1331,\"bottom\":11121.203125,\"left\":589}},{\"text\":\"татарскийтатарский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11121.203125,\"width\":742,\"height\":112,\"top\":11121.203125,\"right\":1331,\"bottom\":11233.203125,\"left\":589}},{\"text\":\"తెలుగుтелугу\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11233.203125,\"width\":742,\"height\":112,\"top\":11233.203125,\"right\":1331,\"bottom\":11345.203125,\"left\":589}},{\"text\":\"ไทยтайский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11345.203125,\"width\":742,\"height\":112,\"top\":11345.203125,\"right\":1331,\"bottom\":11457.203125,\"left\":589}},{\"text\":\"Türkçeтурецкий\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11457.203125,\"width\":742,\"height\":112,\"top\":11457.203125,\"right\":1331,\"bottom\":11569.203125,\"left\":589}},{\"text\":\"туркменскийтуркменский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11569.203125,\"width\":742,\"height\":112,\"top\":11569.203125,\"right\":1331,\"bottom\":11681.203125,\"left\":589}},{\"text\":\"اردوурду\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11681.203125,\"width\":742,\"height\":112,\"top\":11681.203125,\"right\":1331,\"bottom\":11793.203125,\"left\":589}},{\"text\":\"уйгурскийуйгурский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11793.203125,\"width\":742,\"height\":112,\"top\":11793.203125,\"right\":1331,\"bottom\":11905.203125,\"left\":589}},{\"text\":\"o‘zbekузбекский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":11905.203125,\"width\":742,\"height\":112,\"top\":11905.203125,\"right\":1331,\"bottom\":12017.203125,\"left\":589}},{\"text\":\"Tiếng Việtвьетнамский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":12017.203125,\"width\":742,\"height\":112,\"top\":12017.203125,\"right\":1331,\"bottom\":12129.203125,\"left\":589}},{\"text\":\"валлийскийваллийский\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":12129.203125,\"width\":742,\"height\":112,\"top\":12129.203125,\"right\":1331,\"bottom\":12241.203125,\"left\":589}},{\"text\":\"косакоса\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":12241.203125,\"width\":742,\"height\":112,\"top\":12241.203125,\"right\":1331,\"bottom\":12353.203125,\"left\":589}},{\"text\":\"идишидиш\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":12353.203125,\"width\":742,\"height\":112,\"top\":12353.203125,\"right\":1331,\"bottom\":12465.203125,\"left\":589}},{\"text\":\"йорубайоруба\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":12465.203125,\"width\":742,\"height\":112,\"top\":12465.203125,\"right\":1331,\"bottom\":12577.203125,\"left\":589}},{\"text\":\"зулузулу\",\"tag\":\"DIV\",\"box\":{\"x\":589,\"y\":12577.203125,\"width\":742,\"height\":112,\"top\":12577.203125,\"right\":1331,\"bottom\":12689.203125,\"left\":589}}]\n\n104 !== 0\n",
+      "screenshot": "ui-additional-modal-third-chat-language-text200-body.png",
+      "protectedEvents": [],
+      "active": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-text200-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 600,
+          "y": 365.234375,
+          "width": 720,
+          "height": 349.515625,
+          "top": 365.234375,
+          "right": 1320,
+          "bottom": 714.75,
+          "left": 600
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-message-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-rtl-reduced-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 736,
+          "y": 379.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 379.90625,
+          "right": 1184,
+          "bottom": 700.09375,
+          "left": 736
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-rtl-reduced-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 736,
+          "y": 230.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 230.28125,
+          "right": 1184,
+          "bottom": 849.71875,
+          "left": 736
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-contact-edit-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-rtl-reduced-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 776,
+          "y": 433.5,
+          "width": 368,
+          "height": 213,
+          "top": 433.5,
+          "right": 1144,
+          "bottom": 646.5,
+          "left": 776
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-options-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-rtl-reduced-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 776,
+          "y": 367.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 367.453125,
+          "right": 1144,
+          "bottom": 712.546875,
+          "left": 776
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-report-comment-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-rtl-reduced-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-country-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-rtl-reduced-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-password-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-rtl-reduced-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-formatting-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-rtl-reduced-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-safe-link-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-rtl-reduced-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 768,
+          "y": 419.71875,
+          "width": 384,
+          "height": 240.5625,
+          "top": 419.71875,
+          "right": 1152,
+          "bottom": 660.28125,
+          "left": 768
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-browser-close-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-rtl-reduced-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 768,
+          "y": 326.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 326.90625,
+          "right": 1152,
+          "bottom": 753.09375,
+          "left": 768
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-mute-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-rtl-reduced-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 768,
+          "y": 435.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 435.3125,
+          "right": 1152,
+          "bottom": 644.6875,
+          "left": 768
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-pin-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-rtl-reduced-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 800,
+          "y": 433.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 433.625,
+          "right": 1120,
+          "bottom": 646.375,
+          "left": 800
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-chat-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-rtl-reduced-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 680,
+          "y": 357.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 357.5625,
+          "right": 1240,
+          "bottom": 722.4375,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-photo-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-rtl-reduced-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 680,
+          "y": 456.5,
+          "width": 560,
+          "height": 167,
+          "top": 456.5,
+          "right": 1240,
+          "bottom": 623.5,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-attachment-file-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-rtl-reduced-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-document-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-rtl-reduced-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"text\":\"polskiпольский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1031,\"width\":370,\"height\":56,\"top\":1031,\"right\":1145,\"bottom\":1087,\"left\":775}},{\"text\":\"portuguêsпортугальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1087,\"width\":370,\"height\":56,\"top\":1087,\"right\":1145,\"bottom\":1143,\"left\":775}},{\"text\":\"русскийрусский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1143,\"width\":370,\"height\":56,\"top\":1143,\"right\":1145,\"bottom\":1199,\"left\":775}},{\"text\":\"españolиспанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1199,\"width\":370,\"height\":56,\"top\":1199,\"right\":1145,\"bottom\":1255,\"left\":775}},{\"text\":\"українськаукраинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1255,\"width\":370,\"height\":56,\"top\":1255,\"right\":1145,\"bottom\":1311,\"left\":775}},{\"text\":\"Afrikaansафрикаанс\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1311,\"width\":370,\"height\":56,\"top\":1311,\"right\":1145,\"bottom\":1367,\"left\":775}},{\"text\":\"албанскийалбанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1367,\"width\":370,\"height\":56,\"top\":1367,\"right\":1145,\"bottom\":1423,\"left\":775}},{\"text\":\"አማርኛамхарский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1423,\"width\":370,\"height\":56,\"top\":1423,\"right\":1145,\"bottom\":1479,\"left\":775}},{\"text\":\"армянскийармянский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1479,\"width\":370,\"height\":56,\"top\":1479,\"right\":1145,\"bottom\":1535,\"left\":775}},{\"text\":\"azərbaycanазербайджанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1535,\"width\":370,\"height\":56,\"top\":1535,\"right\":1145,\"bottom\":1591,\"left\":775}},{\"text\":\"баскскийбаскский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1591,\"width\":370,\"height\":56,\"top\":1591,\"right\":1145,\"bottom\":1647,\"left\":775}},{\"text\":\"বাংলাбенгальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1647,\"width\":370,\"height\":56,\"top\":1647,\"right\":1145,\"bottom\":1703,\"left\":775}},{\"text\":\"bosanskiбоснийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1703,\"width\":370,\"height\":56,\"top\":1703,\"right\":1145,\"bottom\":1759,\"left\":775}},{\"text\":\"българскиболгарский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1759,\"width\":370,\"height\":56,\"top\":1759,\"right\":1145,\"bottom\":1815,\"left\":775}},{\"text\":\"себуаносебуано\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1815,\"width\":370,\"height\":56,\"top\":1815,\"right\":1145,\"bottom\":1871,\"left\":775}},{\"text\":\"中文（中国）китайский (Китай)\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1871,\"width\":370,\"height\":56,\"top\":1871,\"right\":1145,\"bottom\":1927,\"left\":775}},{\"text\":\"中文（台灣）китайский (Тайвань)\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1927,\"width\":370,\"height\":56,\"top\":1927,\"right\":1145,\"bottom\":1983,\"left\":775}},{\"text\":\"корсиканскийкорсиканский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":1983,\"width\":370,\"height\":56,\"top\":1983,\"right\":1145,\"bottom\":2039,\"left\":775}},{\"text\":\"hrvatskiхорватский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2039,\"width\":370,\"height\":56,\"top\":2039,\"right\":1145,\"bottom\":2095,\"left\":775}},{\"text\":\"češtinaчешский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2095,\"width\":370,\"height\":56,\"top\":2095,\"right\":1145,\"bottom\":2151,\"left\":775}},{\"text\":\"danskдатский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2151,\"width\":370,\"height\":56,\"top\":2151,\"right\":1145,\"bottom\":2207,\"left\":775}},{\"text\":\"эсперантоэсперанто\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2207,\"width\":370,\"height\":56,\"top\":2207,\"right\":1145,\"bottom\":2263,\"left\":775}},{\"text\":\"eestiэстонский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2263,\"width\":370,\"height\":56,\"top\":2263,\"right\":1145,\"bottom\":2319,\"left\":775}},{\"text\":\"suomiфинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2319,\"width\":370,\"height\":56,\"top\":2319,\"right\":1145,\"bottom\":2375,\"left\":775}},{\"text\":\"западнофризскийзападнофризский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2375,\"width\":370,\"height\":56,\"top\":2375,\"right\":1145,\"bottom\":2431,\"left\":775}},{\"text\":\"галисийскийгалисийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2431,\"width\":370,\"height\":56,\"top\":2431,\"right\":1145,\"bottom\":2487,\"left\":775}},{\"text\":\"грузинскийгрузинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2487,\"width\":370,\"height\":56,\"top\":2487,\"right\":1145,\"bottom\":2543,\"left\":775}},{\"text\":\"Ελληνικάгреческий\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2543,\"width\":370,\"height\":56,\"top\":2543,\"right\":1145,\"bottom\":2599,\"left\":775}},{\"text\":\"ગુજરાતીгуджарати\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2599,\"width\":370,\"height\":56,\"top\":2599,\"right\":1145,\"bottom\":2655,\"left\":775}},{\"text\":\"гаитянскийгаитянский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2655,\"width\":370,\"height\":56,\"top\":2655,\"right\":1145,\"bottom\":2711,\"left\":775}},{\"text\":\"хаусахауса\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2711,\"width\":370,\"height\":56,\"top\":2711,\"right\":1145,\"bottom\":2767,\"left\":775}},{\"text\":\"гавайскийгавайский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2767,\"width\":370,\"height\":56,\"top\":2767,\"right\":1145,\"bottom\":2823,\"left\":775}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2823,\"width\":370,\"height\":56,\"top\":2823,\"right\":1145,\"bottom\":2879,\"left\":775}},{\"text\":\"עבריתиврит\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2879,\"width\":370,\"height\":56,\"top\":2879,\"right\":1145,\"bottom\":2935,\"left\":775}},{\"text\":\"हिन्दीхинди\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2935,\"width\":370,\"height\":56,\"top\":2935,\"right\":1145,\"bottom\":2991,\"left\":775}},{\"text\":\"хмонгхмонг\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":2991,\"width\":370,\"height\":56,\"top\":2991,\"right\":1145,\"bottom\":3047,\"left\":775}},{\"text\":\"magyarвенгерский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3047,\"width\":370,\"height\":56,\"top\":3047,\"right\":1145,\"bottom\":3103,\"left\":775}},{\"text\":\"исландскийисландский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3103,\"width\":370,\"height\":56,\"top\":3103,\"right\":1145,\"bottom\":3159,\"left\":775}},{\"text\":\"игбоигбо\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3159,\"width\":370,\"height\":56,\"top\":3159,\"right\":1145,\"bottom\":3215,\"left\":775}},{\"text\":\"ирландскийирландский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3215,\"width\":370,\"height\":56,\"top\":3215,\"right\":1145,\"bottom\":3271,\"left\":775}},{\"text\":\"яванскийяванский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3271,\"width\":370,\"height\":56,\"top\":3271,\"right\":1145,\"bottom\":3327,\"left\":775}},{\"text\":\"ಕನ್ನಡканнада\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3327,\"width\":370,\"height\":56,\"top\":3327,\"right\":1145,\"bottom\":3383,\"left\":775}},{\"text\":\"қазақ тіліказахский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3383,\"width\":370,\"height\":56,\"top\":3383,\"right\":1145,\"bottom\":3439,\"left\":775}},{\"text\":\"кхмерскийкхмерский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3439,\"width\":370,\"height\":56,\"top\":3439,\"right\":1145,\"bottom\":3495,\"left\":775}},{\"text\":\"киньяруандакиньяруанда\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3495,\"width\":370,\"height\":56,\"top\":3495,\"right\":1145,\"bottom\":3551,\"left\":775}},{\"text\":\"курдскийкурдский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3551,\"width\":370,\"height\":56,\"top\":3551,\"right\":1145,\"bottom\":3607,\"left\":775}},{\"text\":\"киргизскийкиргизский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3607,\"width\":370,\"height\":56,\"top\":3607,\"right\":1145,\"bottom\":3663,\"left\":775}},{\"text\":\"лаосскийлаосский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3663,\"width\":370,\"height\":56,\"top\":3663,\"right\":1145,\"bottom\":3719,\"left\":775}},{\"text\":\"латинскийлатинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3719,\"width\":370,\"height\":56,\"top\":3719,\"right\":1145,\"bottom\":3775,\"left\":775}},{\"text\":\"latviešuлатышский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3775,\"width\":370,\"height\":56,\"top\":3775,\"right\":1145,\"bottom\":3831,\"left\":775}},{\"text\":\"lietuviųлитовский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3831,\"width\":370,\"height\":56,\"top\":3831,\"right\":1145,\"bottom\":3887,\"left\":775}},{\"text\":\"люксембургскийлюксембургский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3887,\"width\":370,\"height\":56,\"top\":3887,\"right\":1145,\"bottom\":3943,\"left\":775}},{\"text\":\"македонскиймакедонский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3943,\"width\":370,\"height\":56,\"top\":3943,\"right\":1145,\"bottom\":3999,\"left\":775}},{\"text\":\"малагасийскиймалагасийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":3999,\"width\":370,\"height\":56,\"top\":3999,\"right\":1145,\"bottom\":4055,\"left\":775}},{\"text\":\"Melayuмалайский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4055,\"width\":370,\"height\":56,\"top\":4055,\"right\":1145,\"bottom\":4111,\"left\":775}},{\"text\":\"മലയാളംмалаялам\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4111,\"width\":370,\"height\":56,\"top\":4111,\"right\":1145,\"bottom\":4167,\"left\":775}},{\"text\":\"мальтийскиймальтийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4167,\"width\":370,\"height\":56,\"top\":4167,\"right\":1145,\"bottom\":4223,\"left\":775}},{\"text\":\"маоримаори\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4223,\"width\":370,\"height\":56,\"top\":4223,\"right\":1145,\"bottom\":4279,\"left\":775}},{\"text\":\"मराठीмаратхи\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4279,\"width\":370,\"height\":56,\"top\":4279,\"right\":1145,\"bottom\":4335,\"left\":775}},{\"text\":\"монгольскиймонгольский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4335,\"width\":370,\"height\":56,\"top\":4335,\"right\":1145,\"bottom\":4391,\"left\":775}},{\"text\":\"бирманскийбирманский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4391,\"width\":370,\"height\":56,\"top\":4391,\"right\":1145,\"bottom\":4447,\"left\":775}},{\"text\":\"непальскийнепальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4447,\"width\":370,\"height\":56,\"top\":4447,\"right\":1145,\"bottom\":4503,\"left\":775}},{\"text\":\"norskнорвежский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4503,\"width\":370,\"height\":56,\"top\":4503,\"right\":1145,\"bottom\":4559,\"left\":775}},{\"text\":\"ньянджаньянджа\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4559,\"width\":370,\"height\":56,\"top\":4559,\"right\":1145,\"bottom\":4615,\"left\":775}},{\"text\":\"орияория\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4615,\"width\":370,\"height\":56,\"top\":4615,\"right\":1145,\"bottom\":4671,\"left\":775}},{\"text\":\"пуштупушту\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4671,\"width\":370,\"height\":56,\"top\":4671,\"right\":1145,\"bottom\":4727,\"left\":775}},{\"text\":\"فارسیперсидский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4727,\"width\":370,\"height\":56,\"top\":4727,\"right\":1145,\"bottom\":4783,\"left\":775}},{\"text\":\"ਪੰਜਾਬੀпанджаби\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4783,\"width\":370,\"height\":56,\"top\":4783,\"right\":1145,\"bottom\":4839,\"left\":775}},{\"text\":\"românăрумынский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4839,\"width\":370,\"height\":56,\"top\":4839,\"right\":1145,\"bottom\":4895,\"left\":775}},{\"text\":\"самоанскийсамоанский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4895,\"width\":370,\"height\":56,\"top\":4895,\"right\":1145,\"bottom\":4951,\"left\":775}},{\"text\":\"гэльскийгэльский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":4951,\"width\":370,\"height\":56,\"top\":4951,\"right\":1145,\"bottom\":5007,\"left\":775}},{\"text\":\"српскисербский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5007,\"width\":370,\"height\":56,\"top\":5007,\"right\":1145,\"bottom\":5063,\"left\":775}},{\"text\":\"южный сотоюжный сото\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5063,\"width\":370,\"height\":56,\"top\":5063,\"right\":1145,\"bottom\":5119,\"left\":775}},{\"text\":\"шонашона\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5119,\"width\":370,\"height\":56,\"top\":5119,\"right\":1145,\"bottom\":5175,\"left\":775}},{\"text\":\"سنڌيсиндхи\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5175,\"width\":370,\"height\":56,\"top\":5175,\"right\":1145,\"bottom\":5231,\"left\":775}},{\"text\":\"сингальскийсингальский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5231,\"width\":370,\"height\":56,\"top\":5231,\"right\":1145,\"bottom\":5287,\"left\":775}},{\"text\":\"slovenčinaсловацкий\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5287,\"width\":370,\"height\":56,\"top\":5287,\"right\":1145,\"bottom\":5343,\"left\":775}},{\"text\":\"slovenščinaсловенский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5343,\"width\":370,\"height\":56,\"top\":5343,\"right\":1145,\"bottom\":5399,\"left\":775}},{\"text\":\"сомалисомали\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5399,\"width\":370,\"height\":56,\"top\":5399,\"right\":1145,\"bottom\":5455,\"left\":775}},{\"text\":\"сунданскийсунданский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5455,\"width\":370,\"height\":56,\"top\":5455,\"right\":1145,\"bottom\":5511,\"left\":775}},{\"text\":\"Kiswahiliсуахили\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5511,\"width\":370,\"height\":56,\"top\":5511,\"right\":1145,\"bottom\":5567,\"left\":775}},{\"text\":\"svenskaшведский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5567,\"width\":370,\"height\":56,\"top\":5567,\"right\":1145,\"bottom\":5623,\"left\":775}},{\"text\":\"Filipinoфилиппинский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5623,\"width\":370,\"height\":56,\"top\":5623,\"right\":1145,\"bottom\":5679,\"left\":775}},{\"text\":\"таджикскийтаджикский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5679,\"width\":370,\"height\":56,\"top\":5679,\"right\":1145,\"bottom\":5735,\"left\":775}},{\"text\":\"தமிழ்тамильский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5735,\"width\":370,\"height\":56,\"top\":5735,\"right\":1145,\"bottom\":5791,\"left\":775}},{\"text\":\"татарскийтатарский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5791,\"width\":370,\"height\":56,\"top\":5791,\"right\":1145,\"bottom\":5847,\"left\":775}},{\"text\":\"తెలుగుтелугу\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5847,\"width\":370,\"height\":56,\"top\":5847,\"right\":1145,\"bottom\":5903,\"left\":775}},{\"text\":\"ไทยтайский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5903,\"width\":370,\"height\":56,\"top\":5903,\"right\":1145,\"bottom\":5959,\"left\":775}},{\"text\":\"Türkçeтурецкий\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":5959,\"width\":370,\"height\":56,\"top\":5959,\"right\":1145,\"bottom\":6015,\"left\":775}},{\"text\":\"туркменскийтуркменский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6015,\"width\":370,\"height\":56,\"top\":6015,\"right\":1145,\"bottom\":6071,\"left\":775}},{\"text\":\"اردوурду\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6071,\"width\":370,\"height\":56,\"top\":6071,\"right\":1145,\"bottom\":6127,\"left\":775}},{\"text\":\"уйгурскийуйгурский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6127,\"width\":370,\"height\":56,\"top\":6127,\"right\":1145,\"bottom\":6183,\"left\":775}},{\"text\":\"o‘zbekузбекский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6183,\"width\":370,\"height\":56,\"top\":6183,\"right\":1145,\"bottom\":6239,\"left\":775}},{\"text\":\"Tiếng Việtвьетнамский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6239,\"width\":370,\"height\":56,\"top\":6239,\"right\":1145,\"bottom\":6295,\"left\":775}},{\"text\":\"валлийскийваллийский\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6295,\"width\":370,\"height\":56,\"top\":6295,\"right\":1145,\"bottom\":6351,\"left\":775}},{\"text\":\"косакоса\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6351,\"width\":370,\"height\":56,\"top\":6351,\"right\":1145,\"bottom\":6407,\"left\":775}},{\"text\":\"идишидиш\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6407,\"width\":370,\"height\":56,\"top\":6407,\"right\":1145,\"bottom\":6463,\"left\":775}},{\"text\":\"йорубайоруба\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6463,\"width\":370,\"height\":56,\"top\":6463,\"right\":1145,\"bottom\":6519,\"left\":775}},{\"text\":\"зулузулу\",\"tag\":\"DIV\",\"box\":{\"x\":775,\"y\":6519,\"width\":370,\"height\":56,\"top\":6519,\"right\":1145,\"bottom\":6575,\"left\":775}}]\n\n99 !== 0\n",
+      "screenshot": "ui-additional-modal-third-chat-language-rtl-reduced-body.png",
+      "protectedEvents": [],
+      "active": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-rtl-reduced-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 780,
+          "y": 423.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 423.140625,
+          "right": 1140,
+          "bottom": 656.84375,
+          "left": 780
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-third-delete-message-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-cancel-enter",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-cancel-space",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-cancel-enter",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact-edit"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-cancel-space",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact-edit"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-cancel-enter",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "password"
+          },
+          {
+            "name": "clearTwoFaError"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-cancel-space",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "password"
+          },
+          {
+            "name": "clearTwoFaError"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-cancel-enter",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "toggleSafeLinkModal"
+          },
+          {
+            "name": "close",
+            "detail": "safe-link"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-cancel-space",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "toggleSafeLinkModal"
+          },
+          {
+            "name": "close",
+            "detail": "safe-link"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-cancel-enter",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"name\":\"closeBrowserModal\",\"detail\":{\"shouldSkipConfirmation\":true}},{\"name\":\"closeBrowserCloseConfirmationModal\"},{\"name\":\"close\",\"detail\":\"browser-close\"},{\"name\":\"closeBrowserCloseConfirmationModal\"},{\"name\":\"close\",\"detail\":\"browser-close\"}]\n\n1 !== 0\n",
+      "screenshot": "ui-additional-modal-third-browser-close-cancel-enter.png",
+      "protectedEvents": [
+        {
+          "name": "closeBrowserModal",
+          "detail": {
+            "shouldSkipConfirmation": true
+          }
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBrea",
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-cancel-space",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeBrowserCloseConfirmationModal"
+          },
+          {
+            "name": "close",
+            "detail": "browser-close"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-cancel-enter",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "mute"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-cancel-space",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "mute"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-cancel-enter",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "pin"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-cancel-space",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "pin"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-cancel-enter",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "delete-chat"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-cancel-space",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "delete-chat"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-empty-disabled",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "disabled": true,
+        "importDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-valid-submit-once",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "ui-additional-modal-third-contact-valid-submit-once.png",
+      "protectedEvents": [],
+      "active": "<input class=\"form-control\" type=\"text\" dir=\"auto\" tabindex=\"0\" autocomplete=\"off\" spellcheck=\"false\" aria-label=\"LastName\" style=\"\">",
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-empty-disabled",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "reportDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-valid-once",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "ui-additional-modal-third-report-comment-valid-once.png",
+      "protectedEvents": [],
+      "active": "<textarea class=\"form-control\" id=\"option\" dir=\"auto\" maxlength=\"512\" spellcheck=\"false\" aria-label=\"Report2Comment\" style=\"height: 69px;\"></textarea>",
+      "newErrors": []
+    },
+    {
+      "id": "report-option-once",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "reportDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-close-enter-safe",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Close Enter must not submit country selection\n\n1 !== 0\n",
+      "screenshot": "ui-additional-modal-third-country-close-enter-safe.png",
+      "protectedEvents": [
+        {
+          "name": "countrySubmit",
+          "detail": [
+            "RU"
+          ]
+        },
+        {
+          "name": "close",
+          "detail": "country"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBrea",
+      "newErrors": []
+    },
+    {
+      "id": "country-search-and-limit",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "hiddenExcluded": true,
+        "filtered": true,
+        "limitDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-loading-confirm-disabled",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Confirmation must be disabled during loading",
+      "screenshot": "ui-additional-modal-third-password-loading-confirm-disabled.png",
+      "protectedEvents": [],
+      "active": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">",
+      "newErrors": []
+    },
+    {
+      "id": "password-visibility-keyboard",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Visibility button Enter activates actual toggle\n\n'password' !== 'text'\n",
+      "screenshot": "ui-additional-modal-third-password-visibility-keyboard.png",
+      "protectedEvents": [],
+      "active": "<div class=\"div-button toggle-password\" role=\"button\" tabindex=\"0\" title=\"Показать пароль\" aria-label=\"Показать пароль\"><i class=\"icon icon-eye-crossed\" aria-hidden=\"true\"></i></div>",
+      "newErrors": []
+    },
+    {
+      "id": "formatting-confirm-once",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "removeFormatting",
+        "delta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-confirm-once",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "updateChatMutedState",
+        "delta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-confirm-once",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "pinMessage",
+        "delta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-confirm-once",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Intended callback exactly once\n\n3 !== 2\n",
+      "screenshot": "ui-additional-modal-third-browser-close-confirm-once.png",
+      "protectedEvents": [
+        {
+          "name": "closeBrowserModal",
+          "detail": {
+            "shouldSkipConfirmation": true
+          }
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        },
+        {
+          "name": "closeBrowserModal",
+          "detail": {
+            "shouldSkipConfirmation": true
+          }
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBrea",
+      "newErrors": []
+    },
+    {
+      "id": "document-search-copy-and-close",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "ui-additional-modal-third-document-search-copy-and-close.png",
+      "protectedEvents": [
+        {
+          "name": "showNotification",
+          "detail": {
+            "message": {
+              "key": "TextCopied"
+            }
+          }
+        }
+      ],
+      "active": "<button type=\"button\" class=\"DocumentReaderModal-module__actionBtn\" title=\"Копировать текст\" aria-label=\"Копировать текст\"><i class=\"icon icon-copy DocumentReaderModal-module__btnIcon\" aria-hidden=\"true\"></i><span class=\"DocumentReaderModal-module__actionLabel\">Копировать текст</span></button>",
+      "newErrors": []
+    },
+    {
+      "id": "document-markdown-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "actualMarkdown": true
+      },
+      "newErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": 0,
+  "sourceHashes": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "88ba19615312afad3560bfc346812117042a72707bd6ba4d8da8021d13560cba",
+    "src/components/common/PasswordConfirmModal.tsx": "ac0cac75ad2d1256db15356a02823ec1642cd6b837d10156a76f364642e54f96",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "c02bade1a6d7de8aa02806d4aa18fb6024f07f83721ed65716c411761b972578",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963"
+  },
+  "limits": [
+    "AttachmentModalItem preview only; full AttachmentModal editor/upload gate",
+    "No live password, account, server acceptance, PDF/DOCX or premium purchase coverage",
+    "RTL and 200% root font are test emulations; no claim of translated locale or physical DPI device"
+  ],
+  "gates": [],
+  "unhandled": [],
+  "summary": {
+    "total": 99,
+    "pass": 87,
+    "fail": 12,
+    "pageErrors": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "resume": {
+    "id": "0a489ea3-c01a-44e3-aa25-e3033f4faa87",
+    "state": "partial",
+    "count": 3,
+    "duplicateCount": 0,
+    "files": [
+      "records.jsonl",
+      "export.md",
+      "export.html",
+      "export-manifest.json"
+    ]
+  },
+  "media": {
+    "state": "completed",
+    "id": "2a9bae1c-2ece-4820-b487-2ed9b6d30e23",
+    "mime": "video/mp4",
+    "observedBytes": 10837502,
+    "files": []
+  }
+}

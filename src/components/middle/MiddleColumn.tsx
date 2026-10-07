@@ -439,6 +439,10 @@ function MiddleColumn({
   }), resetLeftColumnWidth, leftColumnWidth, '--left-column-width');
 
   const handleDragEnter = useLastCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'copy';
+    }
     const { items } = e.dataTransfer || {};
     // In Safari, the e.dataTransfer.items list may be empty during dragenter/dragover events,
     // preventing the ability to determine file types in advance. More details: https://bugs.webkit.org/show_bug.cgi?id=223517
@@ -449,6 +453,13 @@ function MiddleColumn({
       .every((item) => isImage(item) || isVideo(item)));
 
     setDropAreaState(shouldDrawQuick ? DropAreaState.QuickFile : DropAreaState.Document);
+  });
+
+  const handleDragOver = useLastCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'copy';
+    }
   });
 
   const handleHideDropArea = useLastCallback(() => {
@@ -574,7 +585,12 @@ function MiddleColumn({
       />
       {Boolean(renderingChatId && renderingThreadId) && (
         <>
-          <div className="messages-layout" onDragEnter={renderingCanPost ? handleDragEnter : undefined}>
+          <div
+            className="messages-layout"
+            data-dropzone
+            onDragEnter={renderingCanPost ? handleDragEnter : undefined}
+            onDragOver={renderingCanPost ? handleDragOver : undefined}
+          >
             <MiddleHeader
               chatId={renderingChatId!}
               threadId={renderingThreadId!}

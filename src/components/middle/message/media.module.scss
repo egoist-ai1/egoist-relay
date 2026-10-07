@@ -50,6 +50,13 @@
   object-fit: cover;
 }
 
+.frame.smallMedia {
+  > :global(.full-media),
+  > :global(.thumbnail:not(.blurred-bg)) {
+    object-fit: scale-down;
+  }
+}
+
 .fill {
   width: 100%;
   min-width: 0;

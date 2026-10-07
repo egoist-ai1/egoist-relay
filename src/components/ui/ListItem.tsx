@@ -137,7 +137,14 @@ const ListItem = ({
   const getMenuElement = useLastCallback(() => menuRef.current);
   const getLayout = useLastCallback(() => ({ withPortal: withPortalForMenu }));
 
+  const canActivate = !isStatic && !inactive && !nonInteractive && (!disabled || allowDisabledClick);
+
   const handleClickEvent = useLastCallback((e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (canActivate && e.detail === 0 && e.target === e.currentTarget) {
+      handleClick(e);
+      return;
+    }
+
     const hasModifierKey = e.ctrlKey || e.metaKey || e.shiftKey;
     if (!hasModifierKey && e.button === MouseButton.Main) {
       if (href && !onClick) return; // Allow default behavior for opening links
@@ -167,6 +174,23 @@ const ListItem = ({
     if (IS_TOUCH_ENV && !ripple) {
       markIsTouched();
       requestMeasure(unmarkIsTouched);
+    }
+  });
+
+  const handleKeyDown = useLastCallback((e: React.KeyboardEvent<HTMLElement>) => {
+    const isComposing = 'isComposing' in e && e.isComposing === true;
+    if (isComposing || e.defaultPrevented || e.target !== e.currentTarget
+      || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey || (e.key !== 'Enter' && e.key !== ' ')) {
+      return;
+    }
+
+    if (e.key === ' ') e.preventDefault();
+    if (!canActivate || !onClick || e.repeat) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.click();
     }
   });
 
@@ -240,7 +264,8 @@ const ListItem = ({
         // @ts-expect-error TS requires specific types for refs
         ref={buttonRef}
         rel={href ? 'noopener noreferrer' : undefined}
-        tabIndex={!isStatic ? 0 : undefined}
+        tabIndex={canActivate ? 0 : -1}
+        onKeyDown={!href ? handleKeyDown : undefined}
         onClick={(!inactive && IS_TOUCH_ENV) ? handleClick : handleClickEvent}
         onMouseDown={handleMouseDown}
         onContextMenu={onContextMenu || ((!inactive && contextActions) ? handleContextMenu : undefined)}

@@ -546,50 +546,66 @@ addActionHandler('openSupportChat', async (global, actions, payload): Promise<vo
   }
 });
 
+const runningLoadAllChats = new Set<ChatListType>();
+
 addActionHandler('loadAllChats', async (global, actions, payload): Promise<void> => {
   const { whenFirstBatchDone } = payload;
   const listType = payload.listType;
-  let isCallbackFired = false;
-  let i = 0;
 
-  while (!global.chats.isFullyLoaded[listType]) {
-    if (i++ >= INFINITE_LOOP_MARKER) {
-      if (DEBUG) {
-        // eslint-disable-next-line no-console
-        console.error('`actions/loadAllChats`: Infinite loop detected');
+  if (runningLoadAllChats.has(listType)) {
+    return;
+  }
+  runningLoadAllChats.add(listType);
+
+  try {
+    let isCallbackFired = false;
+    let i = 0;
+
+    while (!global.chats.isFullyLoaded[listType]) {
+      if (i++ >= INFINITE_LOOP_MARKER) {
+        if (DEBUG) {
+          // eslint-disable-next-line no-console
+          console.error('`actions/loadAllChats`: Infinite loop detected');
+        }
+
+        return;
       }
 
-      return;
-    }
+      global = getGlobal();
 
-    global = getGlobal();
-
-    if (global.connectionState !== 'connectionStateReady' || global.auth.state !== 'authorizationStateReady') {
-      return;
-    }
-
-    const result = await loadChats(
-      listType,
-      true,
-    );
-
-    const isFirstBatch = !isCallbackFired;
-    if (!isCallbackFired) {
-      await whenFirstBatchDone?.();
-      isCallbackFired = true;
-    }
-    global = getGlobal();
-
-    if (result?.messages) {
-      if (isFirstBatch) {
-        global = replaceMessages(global, result.messages);
-      } else {
-        global = addMessages(global, result.messages);
+      if (global.connectionState !== 'connectionStateReady' || global.auth.state !== 'authorizationStateReady') {
+        return;
       }
-    }
 
-    setGlobal(global);
-    global = getGlobal();
+      const result = await loadChats(
+        listType,
+        true,
+      );
+
+      if (!result) {
+        return;
+      }
+
+      const isFirstBatch = !isCallbackFired;
+      if (!isCallbackFired) {
+        await whenFirstBatchDone?.();
+        isCallbackFired = true;
+      }
+      global = getGlobal();
+
+      if (result?.messages) {
+        if (isFirstBatch) {
+          global = replaceMessages(global, result.messages);
+        } else {
+          global = addMessages(global, result.messages);
+        }
+      }
+
+      setGlobal(global);
+      global = getGlobal();
+    }
+  } finally {
+    runningLoadAllChats.delete(listType);
   }
 });
 
@@ -2855,6 +2871,13 @@ addActionHandler('loadTopics', async (global, actions, payload): Promise<void> =
     global = replaceThreadLocalStateParam(global, chatId, Number(threadId), 'draft', draft);
   });
 
+  const topicIconEmojiIds = result.topics
+    .map((topicState) => topicState.topic.iconEmojiId)
+    .filter((iconId): iconId is string => Boolean(iconId && iconId !== '0'));
+  if (topicIconEmojiIds.length) {
+    actions.loadCustomEmojis({ ids: topicIconEmojiIds });
+  }
+
   setGlobal(global);
 });
 
@@ -3770,10 +3793,14 @@ async function loadChats(
     });
   }
 
-  if (
-    (result.isFullyLoaded || chatIds.length === 0 || chatIds.length === result.totalChatCount)
-    && !global.chats.isFullyLoaded[listType]
-  ) {
+  const totalLoaded = global.chats.listIds[listType]?.length || 0;
+  const isListFullyLoaded = Boolean(
+    result.isFullyLoaded
+    || chatIds.length === 0
+    || (result.totalChatCount && totalLoaded >= result.totalChatCount),
+  );
+
+  if (isListFullyLoaded && !global.chats.isFullyLoaded[listType]) {
     global = {
       ...global,
       chats: {

@@ -7,7 +7,6 @@ import type { IconName } from '../../types/icons';
 
 import { requestMeasure } from '../../lib/fasterdom/fasterdom';
 import buildClassName from '../../util/buildClassName';
-import { REM } from '../common/helpers/mediaDimensions';
 
 import useFlag from '../../hooks/useFlag';
 import useLang from '../../hooks/useLang';
@@ -74,7 +73,7 @@ const NestedMenuItem = ({
       if (!itemRef.current) return;
 
       const rect = itemRef.current.getBoundingClientRect();
-      const overlap = REM;
+      const overlap = 8;
 
       setSubmenuAnchor({
         x: lang.isRtl ? rect.left + overlap : rect.right - overlap,
@@ -204,7 +203,7 @@ const NestedMenuItem = ({
             isOpen={isSubmenuOpen}
             className={buildClassName('submenu', submenuClassName)}
             anchor={submenuAnchor}
-            positionX={lang.isRtl ? 'left' : 'right'}
+            positionX={lang.isRtl ? 'right' : 'left'}
             getTriggerElement={getTriggerElement}
             getRootElement={getRootElement}
             getMenuElement={getMenuElement}

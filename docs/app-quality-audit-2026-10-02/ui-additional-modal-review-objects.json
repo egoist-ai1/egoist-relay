@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-additional-modal-audit-2026-10-02",
+  "snapshotFile": "ui-additional-modal-report.json",
+  "snapshotSha256": "cdbfe238276d3bf3c1da6344a0a9150a43fd9e5a636ddbda055139cfc28ca7b9",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "reviewObjects": [
+    {
+      "id": "ui-additional-browser-close",
+      "name": "BrowserCloseConfirmationModal",
+      "version": 1,
+      "content": "Actual Cancel Enter/Space and default focused Cancel call zero protected actions; Confirm Enter/pointer call once; existing ConfirmDialog and checkbox/callbacks reused",
+      "evidence": [
+        "ui-additional-modal-fourth.json",
+        "ui-additional-modal-focused-proof.json",
+        "ui-additional-modal-after-targeted-clean.json",
+        "ui-additional-modal-after-full.json",
+        "ui-additional-modal-product-diff.md"
+      ],
+      "confirmationAction": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта."
+    },
+    {
+      "id": "ui-additional-country-enter",
+      "name": "CountryPickerModal",
+      "version": 1,
+      "content": "Exact search-input-owned dialog delegates interactive controls via existing keyboard sentinel; Close Enter/Space0, checkbox Enter0/Space selects, filter Enter1, OK Enter1",
+      "evidence": [
+        "ui-additional-modal-fourth.json",
+        "ui-additional-modal-focused-proof.json",
+        "ui-additional-modal-after-targeted-clean.json",
+        "ui-additional-modal-after-full.json",
+        "ui-additional-modal-product-diff.md"
+      ],
+      "confirmationAction": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта."
+    },
+    {
+      "id": "ui-additional-password-guard",
+      "name": "PasswordConfirmModal",
+      "version": 1,
+      "content": "Native disabled and handler guard block loading or empty value; nonempty loading0, empty0, existing synthetic password with surrounding spaces preserved and submits once; no new minLength or trim",
+      "evidence": [
+        "ui-additional-modal-fourth.json",
+        "ui-additional-modal-focused-proof.json",
+        "ui-additional-modal-after-targeted-clean.json",
+        "ui-additional-modal-after-full.json",
+        "ui-additional-modal-product-diff.md"
+      ],
+      "confirmationAction": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта."
+    },
+    {
+      "id": "ui-additional-password-visibility",
+      "name": "PasswordForm",
+      "version": 1,
+      "content": "Direct existing useLastCallback handles Enter/Space once, prevents default scroll and ignores held-key repeat; pointer and keyboard activate real toggle without simulated click",
+      "evidence": [
+        "ui-additional-modal-fourth.json",
+        "ui-additional-modal-focused-proof.json",
+        "ui-additional-modal-after-targeted-clean.json",
+        "ui-additional-modal-after-full.json",
+        "ui-additional-modal-product-diff.md"
+      ],
+      "confirmationAction": "Принять проверенное узкое source-исправление для parent candidate1.4.4; не выполнять действие аккаунта."
+    },
+    {
+      "id": "ui-additional-coverage-scope",
+      "name": "Покрытие14 source-path targets /17 состояний",
+      "version": 1,
+      "content": "68geometry assertions;117PASS0FAIL и6gate receipts=три distinctnativeTabflows;31primitivePASS. Render/body assertion is bounded, AttachmentModalItem and PasswordForm are children, older7 overlaps atDeleteMessage.",
+      "evidence": [
+        "ui-additional-modal-report.json",
+        "ui-additional-modal-after-full.json"
+      ],
+      "confirmationAction": "Принять точный объём evidence и сохранить перечисленные gates; не подтверждать все функции/окна."
+    },
+    {
+      "id": "ui-additional-native-host-gates",
+      "name": "Три нативных Tab-flow gates",
+      "version": 1,
+      "content": "Native Chromium Tab can leave document focus to host browser UI (activeElement body, document.hasFocus false, dialog.open true). Inertness prevents background composer focus. Three boundary-proof entries support the same three Tab gates; they are not six independent prerequisites.",
+      "evidence": [
+        "ui-additional-modal-native-focus-proof.json",
+        "ui-additional-modal-after-full.json"
+      ],
+      "confirmationAction": "Сохранить platform gate для отдельной приёмки nativehost; не выполнять CSS/keyboard изменения автоматически."
+    }
+  ],
+  "responseState": "unresolved",
+  "generalComment": "",
+  "applyBehavior": "Parent project board collects yes/no/explain/comments; absence remains neutral"
+}

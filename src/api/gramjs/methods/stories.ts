@@ -1,5 +1,6 @@
 import { Api as GramJs } from '../../../lib/gramjs';
 import { RPCError } from '../../../lib/gramjs/errors';
+import { generateRandomBigInt } from '../../../lib/gramjs/Helpers';
 
 import type {
   ApiError,
@@ -33,7 +34,7 @@ import {
 } from '../gramjsBuilders';
 import { addStoryToLocalDb } from '../helpers/localDb';
 import { deserializeBytes } from '../helpers/misc';
-import { dispatchErrorUpdate, invokeRequest } from './client';
+import { dispatchErrorUpdate, invokeRequest, uploadFile } from './client';
 
 export async function fetchAllStories({
   stateHash,
@@ -551,4 +552,65 @@ export async function fetchAlbumStories({
     pinnedIds: result.pinnedToTop,
     count: result.count,
   };
+}
+
+export async function publishStory({
+  file,
+  caption,
+  pinned = false,
+  period = 86400,
+}: {
+  file: File;
+  caption?: string;
+  pinned?: boolean;
+  period?: number;
+}): Promise<boolean> {
+  try {
+    const inputFile = await uploadFile(file);
+    const isVideo = file.type.startsWith('video/') || file.name.endsWith('.mp4');
+
+    let inputMedia: GramJs.TypeInputMedia;
+    if (isVideo) {
+      inputMedia = new GramJs.InputMediaUploadedDocument({
+        file: inputFile,
+        mimeType: file.type || 'video/mp4',
+        attributes: [
+          new GramJs.DocumentAttributeVideo({
+            duration: 0,
+            w: 720,
+            h: 1280,
+            supportsStreaming: true,
+          }),
+        ],
+      });
+    } else {
+      inputMedia = new GramJs.InputMediaUploadedPhoto({
+        file: inputFile,
+      });
+    }
+
+    const request = new GramJs.stories.SendStory({
+      peer: new GramJs.InputPeerSelf(),
+      media: inputMedia,
+      privacyRules: [new GramJs.InputPrivacyValueAllowAll()],
+      randomId: generateRandomBigInt(),
+      caption,
+      pinned: pinned ? true : undefined,
+      period,
+    });
+
+    const result = await invokeRequest(request);
+
+    return Boolean(result);
+  } catch (err: unknown) {
+    if (err instanceof RPCError) {
+      dispatchErrorUpdate(err, new GramJs.stories.SendStory({
+        peer: new GramJs.InputPeerSelf(),
+        media: new GramJs.InputMediaEmpty(),
+        privacyRules: [],
+        randomId: generateRandomBigInt(),
+      }));
+    }
+    throw err;
+  }
 }

@@ -1,0 +1,2794 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T12:55:20.909856+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "scope": "Frontend cycle evidence and local1.6.0 delivery; excludes this manifest to avoid a self hash. Source identity is separate candidate-source-hashes.json.",
+  "count": 557,
+  "entries": [
+    {
+      "path": "docs/frontend-cycle-2026-10-06/ACCEPTANCE.md",
+      "bytes": 7896,
+      "sha256": "350736e5ef10fb8fc1bca009362e1202565dc3b85672877723c070925051fa4c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/accepted-direction.json",
+      "bytes": 1159,
+      "sha256": "b10fdbc35dd4bab4255c9aaae5838d57c716128bb29b1f48b93b49f0097f35b9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/audit-map.md",
+      "bytes": 29412,
+      "sha256": "e983fbcac57d9bb9a06cfcb2fa307592fa1af07929c076cc8b8797fa27c3456a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/package-lock.json",
+      "bytes": 525166,
+      "sha256": "eaf0d2024f2e4ecc315808f0a1ac404ac39abb679da4abaf85f94a851ca22cc9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/package.json",
+      "bytes": 7267,
+      "sha256": "7409c83f1ce1cc738f36854797ebd216bec500300a1d0400c39abf888bee9ae1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/public/version.txt",
+      "bytes": 6,
+      "sha256": "acb57a7135b2d7d6e665f67f056e21353023b93835f54def1ae523bf76f1bfb3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/scripts/relay-operations-ui-audit.mjs",
+      "bytes": 30860,
+      "sha256": "e1e1940f4f7fc9999376dd17346dbdc14e29b9e9b8557939585a3ee34c392a88"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/assets/localization/fallback.strings",
+      "bytes": 206964,
+      "sha256": "229b1411a275ff75d7ccf9fd8aeb3ea107ad5194821eaa728201595ec6e52692"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/assets/localization/initialKeys.ts",
+      "bytes": 2555,
+      "sha256": "5c22fa91fff031f740ec9e40af1301589f78cd0c8591a00182b92178268e62df"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/assets/localization/initialRussian.strings",
+      "bytes": 6446,
+      "sha256": "545be74473f6a374d96f303555ab63a1f6d5bce16a128f8160ded836ee746b97"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/assets/localization/initialStrings.ts",
+      "bytes": 6731,
+      "sha256": "271d3eaa0fbcf6a2e3b83cbf5a1084d5c671b85d26a1146a1faba7e1193a6ede"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/App.module.scss",
+      "bytes": 4767,
+      "sha256": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/App.tsx",
+      "bytes": 42383,
+      "sha256": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/common/Avatar.scss",
+      "bytes": 4697,
+      "sha256": "7cbbb0335c4ad3fd29e48c9d5e9a7f62230ab2415d8f189bdb5f31797d03d614"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/common/profile/ProfilePhoto.scss",
+      "bytes": 967,
+      "sha256": "6bf57927c6827f49baa559ddbc59d372b5f2216be6199becfd32433f3d419e9a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/common/Titlebar.module.scss",
+      "bytes": 5574,
+      "sha256": "141c78962718a67cc9c1e4d559b301adc5bc64524661b97acb6fd6036f81fe0b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/common/Titlebar.test.tsx",
+      "bytes": 5968,
+      "sha256": "b21280624145b7c8ceaf42c3be53d0cde3b1492d195c8ce6bdb80856a34ef83e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/common/Titlebar.tsx",
+      "bytes": 9770,
+      "sha256": "fedc8d16e4e12cb6e2a7f08049b8f9ceb89f5c57b0ad1288e6f656f35cc72c64"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/gili/layout/Island.module.scss",
+      "bytes": 1070,
+      "sha256": "f3ec669c8fec1be285e9a15a5169c97481efc481759818c8fec0053436fd8467"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/left/main/Chat.scss",
+      "bytes": 9793,
+      "sha256": "f32bab45ecb5fba0b09585954d38091b56d032d1556094d74e8c7a1a0068ad64"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/left/settings/Settings.scss",
+      "bytes": 6922,
+      "sha256": "42a1d2130d91a4ac00e00bfc19b6e5233f0b2e719e40a279f9b47cff0b203420"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/left/settings/SettingsGeneral.tsx",
+      "bytes": 7541,
+      "sha256": "caf824433135e8d8f981d5956076431e30b980b13e40ee4544008305054dc474"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/left/settings/SettingsHeader.tsx",
+      "bytes": 11892,
+      "sha256": "7a45b5c4da4eff4dfa3ecefdfdd4063ef1a7d5cb9b9c9473a89c772f76ef2e67"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/left/settings/SettingsMain.module.scss",
+      "bytes": 561,
+      "sha256": "df9e6e07e3b2475a26e929ae4a07a406ba23f4b9b0b9be63a7813160f6af6fa9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/main/Main.scss",
+      "bytes": 6061,
+      "sha256": "d69608185a8e7ac765eecb45a1e1df03d4efc16b81d94872f202e10ed4f6019b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/middle/message/MessageMeta.scss",
+      "bytes": 5878,
+      "sha256": "9cc58cab3932616beb44c7758766bb129a22698808a8e01326f8154040b8a8fc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/middle/MiddleColumn.scss",
+      "bytes": 5858,
+      "sha256": "f30acfdaf7ee5807608bead5dd9b874f543ae41911d44dc7bcb54c456dbe33f7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/middle/MiddleHeader.scss",
+      "bytes": 7080,
+      "sha256": "476ed6879fa25e0f4beec772abe6127cfe818c14ad301c37107f4596bdfdf1a1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/multi/AppSidebar.module.scss",
+      "bytes": 3958,
+      "sha256": "5f7ef60ca3397d02ad2dbc04fa42813f9417ca7b4c89b4bef0deacf35d68982d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/multi/AppSidebar.test.tsx",
+      "bytes": 3236,
+      "sha256": "50eac4e236d24c941dfadab98dcd69ed12b0b794aeb4f18b17a2552b66459171"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/multi/AppSidebar.tsx",
+      "bytes": 8227,
+      "sha256": "7d30fe6ca8a02da9f4e621748fc02052aa7262fac9fd864431372664799dad10"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/multi/MediaOperationsPanel.module.scss",
+      "bytes": 4200,
+      "sha256": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/multi/MediaOperationsPanel.tsx",
+      "bytes": 20225,
+      "sha256": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/multi/SocialShareModal.module.scss",
+      "bytes": 5175,
+      "sha256": "ad37d12d5f19827eea276369c4cc61b9b8fdfcca482e3397fbd5d9d3881aafc3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Button.scss",
+      "bytes": 12866,
+      "sha256": "7e861d2aeacc7c04daa39ddc22545c4837efd95d1a65f7c45ef557968df2e00c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Checkbox.scss",
+      "bytes": 6687,
+      "sha256": "1a0462bd750235c5e86fceba456dad7aac9fc1cf369748ebed0f75148191e83d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/ListItem.scss",
+      "bytes": 8059,
+      "sha256": "1478fcca834974c65a43b6111c6023add5d714b0784d163e9d40ded0434b6205"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/ListItem.tsx",
+      "bytes": 9591,
+      "sha256": "8e9fe6fb421eeddac9056ae15308f1a5121f9c1efe7a6f8d3ef95088940ea63a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Menu.scss",
+      "bytes": 2707,
+      "sha256": "bcf45503c4c83a4462de3d2887c1755f91759215987bc0da0e1f1ca3f94d15a7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/MenuItem.scss",
+      "bytes": 3726,
+      "sha256": "9dc9615f6361b33df708405f6d03d3822e12d083c9a527414f4eec1f5c2b56d7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Modal.scss",
+      "bytes": 6594,
+      "sha256": "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Radio.scss",
+      "bytes": 3685,
+      "sha256": "02c1707f88cc5cf3422d7091893b04c456229ec45b05f9943995a924a3536cc1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/SearchInput.scss",
+      "bytes": 2147,
+      "sha256": "7e904131429c2a614572c8a497603f82f12f311ccdd731d49d7c101d1d226fb3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Switcher.scss",
+      "bytes": 1675,
+      "sha256": "88bbe72fd16dd5d65778faaca357094b22ee52154f03ae24d249c43ddaabdf69"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/components/ui/Switcher.tsx",
+      "bytes": 1168,
+      "sha256": "48f0458eab70e60f465b803320e5f9d8db4a29e074cc91d4c0e35faffc7c1f88"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/global/actions/ui/initial.ts",
+      "bytes": 9664,
+      "sha256": "97c894477bb128362cdf452664f641da7cfde15fce1bc9ab45707f1f709d720b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/global/actions/ui/settings.ts",
+      "bytes": 9560,
+      "sha256": "6240e19dfe8e826e760aac8d6a4b67a2eb4c602d7a0a55ffd0204ae2b20b0070"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/styles/_forms.scss",
+      "bytes": 5081,
+      "sha256": "37304552fae6831f5005cabe989752ed4b75c4c21b858b126d9e75de5b60a535"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/styles/_variables.scss",
+      "bytes": 16088,
+      "sha256": "ec74237168207a30bbff2e4a109bfc9fb9abf364acca536d5861e767e429ce04"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/styles/index.scss",
+      "bytes": 63045,
+      "sha256": "59ac3f33081fa679d043e49f3b14831f90384684fa56debd59d62db540d7bd81"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/types/language.d.ts",
+      "bytes": 134130,
+      "sha256": "8600dca3baa6606030b4ed8f84d48ba9bf2bb0581af6654090d8b5f9339daa3f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/util/antigravityThemes.ts",
+      "bytes": 12506,
+      "sha256": "735e5ad2d14d1ddf727b10c1eba6548690c6ba5e1cdffb2b140bba4e1c10dc2b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/util/localization/relayOperationsStrings.ts",
+      "bytes": 13497,
+      "sha256": "2392affc12d7b4c86b3a727bbfc946e447f1542f7e19cc7fcb8dc844172a18f7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/src/util/themeStyle.ts",
+      "bytes": 3280,
+      "sha256": "95771e1baec20a7f6c2d0daec775961d8df9802e212e4aee6bd73546385b1cce"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/tauri/Cargo.lock",
+      "bytes": 167419,
+      "sha256": "becba562d3edadc6245e3d9a7106e3bb48a905710dac166ea8ccde7706c04f13"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/tauri/Cargo.toml",
+      "bytes": 1497,
+      "sha256": "17af4fa809bd1e4edaffc10277c98d3569846e8b8c277560a27a9f79e19aad22"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-changed-sources/vitest.config.ts",
+      "bytes": 574,
+      "sha256": "2d4bd2da22557c32056f9b6105c51b93f9fc83bd779e4a1396ec28b935c435a4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/chat-current-panel-1600.png",
+      "bytes": 185266,
+      "sha256": "801165abe98ca5b331758a97dc5c3f65cf8517d31690d154f1ffb8af8be1a463"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/chat-history-panel-1600.png",
+      "bytes": 212466,
+      "sha256": "831151ed582d37c09f2939e744ee8acdd844ae0e7d618f57ffe4632d79bd1fb4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/focus-details.json",
+      "bytes": 48760,
+      "sha256": "3793ad615385862774315a7a3cdbd76f530743a950e0fd6bf772dc63704c06fc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/focus-right-info-panel-1100-16.png",
+      "bytes": 123862,
+      "sha256": "d6218fc697bc3d46dfc16617f6abdc3976ad8b80086f15a349f050128c349e7d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/focus-right-info-panel-1280-16.png",
+      "bytes": 130590,
+      "sha256": "a5f617b5afef1475c3616c5b20c289b339d887748f8d16a42275780be6501a13"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/focus-right-info-panel-1280-32.png",
+      "bytes": 67429,
+      "sha256": "34fd26bd62163f9edd9787a8728604d780e3a1cd6f4a437cd35c2300bf6d43fa"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/focus-right-info-panel-1920-16.png",
+      "bytes": 186223,
+      "sha256": "3942cfcddc481bc056764fd49dc97352cdcadf5b09a72a588653ea1cc34204b8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/rendered-details.json",
+      "bytes": 6792,
+      "sha256": "4091e9d0cd896e417f42a182ec31076f3ea1c83ecfa0c3afb1ff0ef7d4b7d049"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/right-info-panel-1100-16.png",
+      "bytes": 145320,
+      "sha256": "f63b4bc30428295bb8354cf61a392843422a75fa5bb894c14bf546734d765787"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/right-info-panel-1280-16.png",
+      "bytes": 149013,
+      "sha256": "ea046e258eea87238cd2d2a0e2d6e11bab14b4c539ea38e33cf6eeb49e61fc24"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/right-info-panel-1280-32.png",
+      "bytes": 65688,
+      "sha256": "0f2e81a5afecc4c309af9e0e85bb39b3b8fe05a5fe863b685ebb4fe9a147ed7b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/right-info-panel-1920-16.png",
+      "bytes": 225680,
+      "sha256": "76f0ef2d67c8dba1ce5244a780ce50ac7a62903049be5242f279ba7b5414803b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-detail/share-choice-1600.png",
+      "bytes": 52473,
+      "sha256": "d374bcc6f2fe0472cf601ec127980fa9a5872f826eeb6d15be9fb08a8268fc1b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-focused-results.json",
+      "bytes": 80663,
+      "sha256": "d3e7a418867edfc5982cc2e2d125e2b457620fd819ddfd60df050341c421b402"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/app-boot-fullhd.png",
+      "bytes": 133406,
+      "sha256": "506c7d112823c8cc5a8e0da928b7c01d8ac0a8e3592da549781fb76c59e17c7d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/chat-conversation-fullhd.png",
+      "bytes": 188619,
+      "sha256": "038de592fdbd789b8fa756d86f6993fb9b329012d2bcc678e9889178f370b6b4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/controls-long-text-fullhd.png",
+      "bytes": 253113,
+      "sha256": "5a5a4fd3a255b1889e13312e3d2a14c0ce39dd550c5326cfd547c9935d9e24fb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/instagram-loading-fullhd.png",
+      "bytes": 32105,
+      "sha256": "ab514ae0ec8576cb5823aabd2894f2f74d36671decf6cb17db8c8fd9b19e8609"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/reduced-motion-loading.png",
+      "bytes": 29723,
+      "sha256": "5d446ea8918905c29dc6607334a032c1f3340b1c7f4286628e6505b28775e32c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/settings-DataStorage-fullhd.png",
+      "bytes": 217665,
+      "sha256": "95d65dbf40a6ef7953eb7e3364bcb5f3425b5ec90e840f66c007ce7b1fe41017"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/settings-General-fullhd.png",
+      "bytes": 212765,
+      "sha256": "e0802349e02376c61997f271c3d6966918e80114e5a86b43c4744f5e18b96546"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/settings-Main-fullhd.png",
+      "bytes": 247486,
+      "sha256": "fb727428750fe17a44e8497c640e7f4e61b3370dec7a722aba7b78c352e2f88b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/settings-Performance-fullhd.png",
+      "bytes": 188474,
+      "sha256": "c7f77ba6bb77e4e20205eb885606abcbdddad672d6b10a4be61173c7ef3fdfd5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/theme-egoist-dark-fullhd.png",
+      "bytes": 214507,
+      "sha256": "12c51a79e41f312c0c224e536aa76e317b718fb4c758d9f23bf8c9e7ee1daae4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/theme-light-modern-fullhd.png",
+      "bytes": 666581,
+      "sha256": "4fd2e498e164c52eb7868e587a3a3d1ec3f7ce7db4d2a92579788443987047ad"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-shell/ui-visuals/x-error-fullhd.png",
+      "bytes": 31685,
+      "sha256": "19229d59f849982f6a26747c4febd5f142b0327b122fb79f034d5b44d4f18e1d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline-source-hashes.json",
+      "bytes": 439878,
+      "sha256": "d39839cbbbc1d70f5ee86760c05d4536ed905c883e35b9d6bb116ccb7451f774"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/baseline.json",
+      "bytes": 750,
+      "sha256": "dab2f44ccb711f09458ad60218c31f8430abee036bd1fb9ddef61ab1ae43b92b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/1-baseline-profile-1100.png",
+      "bytes": 122846,
+      "sha256": "278b46e78d9da0ecb41739a7fd5d5d490e113eb3e32d86f1927b91ca1f37da62"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/1-baseline-profile-panel-1100.png",
+      "bytes": 90361,
+      "sha256": "10251d3c4ee2a54319911f9b932f46908ffb85a6e27c892afbb6860417df64f3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/1-baseline-reading-1100.png",
+      "bytes": 133584,
+      "sha256": "61e4527f0fec7c1f299a0e358fb9e64d7a20c38d30200e95d086d33ea9d4788e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/1-candidate-profile-1100.png",
+      "bytes": 84408,
+      "sha256": "5b94d5c39b6f27213ac539ebe8e9838025144d84a84b47ea308e2c8594944c18"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/1-candidate-profile-panel-1100.png",
+      "bytes": 76211,
+      "sha256": "e16f6a47762151e1c0f8b8e381c5909f5c4c38fd5b4a47252af7973da561c9c9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/1-candidate-reading-1100.png",
+      "bytes": 74719,
+      "sha256": "7adf02fce699c555939d22568eb80697dcb6a5d15012d8304efcf7ca294c6e3c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/2-baseline-profile-1100.png",
+      "bytes": 122834,
+      "sha256": "d220eb483ac0ef021212de15dd91fd08bd0427387fa289bb7c326feee8aef2e8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/2-baseline-profile-panel-1100.png",
+      "bytes": 90359,
+      "sha256": "1ae021439613e614bffe06bab609320d46d8d72d90ea941ed953ee089e4b60af"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/2-baseline-reading-1100.png",
+      "bytes": 133584,
+      "sha256": "61e4527f0fec7c1f299a0e358fb9e64d7a20c38d30200e95d086d33ea9d4788e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/2-candidate-profile-1100.png",
+      "bytes": 84395,
+      "sha256": "d9cf53261e5963283b6861e3f438aa7ccd86ba2ab6e75e1059a9334d45653bd5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/2-candidate-profile-panel-1100.png",
+      "bytes": 76238,
+      "sha256": "3e283d2295f79f48a606eb4613483907feafe1d90bfd6bab0ec9b07d8f6fb0e4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/2-candidate-reading-1100.png",
+      "bytes": 74719,
+      "sha256": "7adf02fce699c555939d22568eb80697dcb6a5d15012d8304efcf7ca294c6e3c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/3-baseline-profile-1100.png",
+      "bytes": 122787,
+      "sha256": "b7fd9af6ad0563241f7da629829cd665ecfff4289ab7a9f3bbfce05787fd7065"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/3-baseline-profile-panel-1100.png",
+      "bytes": 90361,
+      "sha256": "10251d3c4ee2a54319911f9b932f46908ffb85a6e27c892afbb6860417df64f3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/3-baseline-reading-1100.png",
+      "bytes": 133584,
+      "sha256": "61e4527f0fec7c1f299a0e358fb9e64d7a20c38d30200e95d086d33ea9d4788e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/3-candidate-profile-1100.png",
+      "bytes": 84450,
+      "sha256": "7dafa0ade117aa198d1cd6d53958b73342b8a26b671e79e94683e1aaa1059aec"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/3-candidate-profile-panel-1100.png",
+      "bytes": 76274,
+      "sha256": "5300d7185f56c1b678794db1213118e55a508b57226888def7951a3c6a0d046e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/3-candidate-reading-1100.png",
+      "bytes": 74719,
+      "sha256": "7adf02fce699c555939d22568eb80697dcb6a5d15012d8304efcf7ca294c6e3c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/batch-1-baseline.json",
+      "bytes": 47225,
+      "sha256": "b23ee395c0a5b25225d59a11ebfa1922762a709bd25fab631e20b57e9a4a1fcc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/batch-1-candidate.json",
+      "bytes": 47089,
+      "sha256": "f89f110456de8e82f0b37a1407ff85a26d839c2f6a298c2d0700e19dea0f2c73"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/batch-2-baseline.json",
+      "bytes": 47005,
+      "sha256": "f665bdf5d3325e95e0bca7d9f6c20487bf40f70bbbc62663a835c2f17b9ddfb0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/batch-2-candidate.json",
+      "bytes": 47086,
+      "sha256": "4ca3e95ecca4f6919ac98b0dae7f38855266678a1ec6ac76c260712daa69b6aa"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/batch-3-baseline.json",
+      "bytes": 47483,
+      "sha256": "be411fd8ad90aee2af7288f2aa825c428b06c63226cf82da756c33c3c6a8d4fe"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/batch-3-candidate.json",
+      "bytes": 47240,
+      "sha256": "3eb189ecd3694bd5951166b37e16c232213257b25828a1f6a0c091e088319a52"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/README.md",
+      "bytes": 6930,
+      "sha256": "a43407f6f0ba6d0f3bafdc5a9691d8238355f423d6bc6a20d580df45982d09eb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/results.json",
+      "bytes": 347270,
+      "sha256": "97c0cceaf4b0a8ccc6f711236eb16a6088c3f8782e1e5f1a38c57e5849355f11"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/source-identities.json",
+      "bytes": 636243,
+      "sha256": "72db92cc0883e1d0c3a063672990435bdfff59abaf26f2c33d4ef2e03760abf9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/review-objects.json",
+      "bytes": 2552,
+      "sha256": "a68dd97847d24a9bbea94aaf515b563572f077e25e03aa112fa4ad937155e192"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/RUN.md",
+      "bytes": 8377,
+      "sha256": "0d32b4a85f91e4bfe8ffa615d4a7ff30e976485a1255598cac3c1dd843a2740a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark/verification-api-smoke.json",
+      "bytes": 4749,
+      "sha256": "2486f933efeb915435650ad7176efdd6bb97442a9cba1487cded68f6189c41b7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/benchmark-assessment.md",
+      "bytes": 5359,
+      "sha256": "ff408faeaf5bf259e032ace7f3d0e8ab1152e74bff6e3b62934cc07d11e29ea6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/black-surfaces-aligned-header.png",
+      "bytes": 62336,
+      "sha256": "f42a8252af54a2adf928feb9934816c50664d05f077b3d862b6e7d9c7e35ed32"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/frontend-acceptance.json",
+      "bytes": 41612,
+      "sha256": "200a1586b3ed4d2a0113148328f3ed0f5b31eb388e3c48df3a907ccba5f4975d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/light-theme-retention-and-selected-text.png",
+      "bytes": 39334,
+      "sha256": "850aaa88a91cf760271048af83f9d6e61b9297fcea0eab58677c2357a881f14a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/minimum-window-text-200-percent.png",
+      "bytes": 33041,
+      "sha256": "35d3570c56be277f47df70c855baf15b7f11efca35c0cf5fc0b13fc7c7512297"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/reading-width-1100-with-panel.png",
+      "bytes": 100410,
+      "sha256": "506fc416d6117e9c4a1885a4e501b19be324486e642188df50b986b25893ad64"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/result-after-notification-duration.png",
+      "bytes": 100258,
+      "sha256": "1075dd272051883c1f727f1cae20028488f27ed84164619be498635559522468"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance/text-200-percent-and-configured-size.png",
+      "bytes": 147020,
+      "sha256": "a0d1f0340a462542fbebdb113c1a8228ebcfbd957002ee90a386888f168363c6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/black-surfaces-aligned-header.png",
+      "bytes": 62331,
+      "sha256": "454c9d0838ad727f2a42a00afdd66a306e37ac3a2984cbd291e0e8e5c4a5495b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/failure-saved-messages-icon-contrast.png",
+      "bytes": 65031,
+      "sha256": "d3f77acd24806181d1c50c2afb78563c9153786f8c18a3435fa214edfb1658f9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/frontend-acceptance.json",
+      "bytes": 47068,
+      "sha256": "6cb34197f3d47c3ef2c46c37228362a70ac2bda39aa4a45ad0896b4c3397915f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/light-theme-retention-and-selected-text.png",
+      "bytes": 39385,
+      "sha256": "6e0cd1f7c1a61ab658df546629a4db076651b0d4660aa192267242d7770d6e35"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/minimum-window-text-200-percent.png",
+      "bytes": 33218,
+      "sha256": "92c5a1ec01b916d3bb0893a617c3f14c47c65fbc177117867e327a1a431d5318"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/reading-width-1100-with-panel.png",
+      "bytes": 100476,
+      "sha256": "162038bd5d449c70001cd924581e395fc47742a889a807efc66d4d6eb6c9e38c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/result-after-notification-duration.png",
+      "bytes": 100323,
+      "sha256": "8fef558d05c1308545ad0d40ba494dc6fd2a56372f026ad8632ff2caded2df58"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-complete/text-200-percent-and-configured-size.png",
+      "bytes": 147020,
+      "sha256": "a0d1f0340a462542fbebdb113c1a8228ebcfbd957002ee90a386888f168363c6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/black-surfaces-aligned-header.png",
+      "bytes": 62313,
+      "sha256": "3f7e991d01d09c50585a5030648f7eff23440988101d677746d6ec47f855fbd4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/failure-minimum-window-text-200-percent.png",
+      "bytes": 38084,
+      "sha256": "f12d332217ee7176374746ab00046b1f16bffadacdc81ec491deecd56ee0314b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/frontend-acceptance.json",
+      "bytes": 41738,
+      "sha256": "1573cb6a63ef0c868ca836ae7089b2b8e680c1474b342b3df00af9b9f33b90ca"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/light-theme-retention-and-selected-text.png",
+      "bytes": 39334,
+      "sha256": "69722a2a6b31215867f6604e5b9c13b8f59d117ad96e472fb0eb7f88278f6fd6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/reading-width-1100-with-panel.png",
+      "bytes": 100374,
+      "sha256": "f5b1d1bf0e320139a4acab5e23a9d780de1df6c67e600208d91ce207977a664d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/result-after-notification-duration.png",
+      "bytes": 100222,
+      "sha256": "e73753259bad38ee0bd9073286f30e9d8634abff8e6c596cbabb64c73178a1fe"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-final/text-200-percent-and-configured-size.png",
+      "bytes": 147020,
+      "sha256": "a0d1f0340a462542fbebdb113c1a8228ebcfbd957002ee90a386888f168363c6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/failure-black-surfaces-aligned-header.png",
+      "bytes": 62337,
+      "sha256": "662c5dd4907af8d3420c5e5f310156ea473695f5bae5ddc8e8b076ae9c69a535"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/failure-light-theme-retention-and-selected-text.png",
+      "bytes": 657102,
+      "sha256": "40d867390d71f9706cf22272fa64d776f1bda4149b37d6c32e3d2209e8918713"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/failure-minimum-window-text-200-percent.png",
+      "bytes": 32814,
+      "sha256": "6f69a7e1a33c6c0b732f7e55ef5163c04f39dcdbff0f12fb1ff1dcfefbb88223"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/frontend-acceptance.json",
+      "bytes": 38928,
+      "sha256": "e51de7b11c38dd5e3d87915256f0a89f727e254b2a1281357b35a395274c255d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/reading-width-1100-with-panel.png",
+      "bytes": 100379,
+      "sha256": "3b61d4d2786917a3c0dddaebecb3058f1232d50bbf467fe183ce7c708ca6a561"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/result-after-notification-duration.png",
+      "bytes": 100227,
+      "sha256": "ec5a4863edfbb3f17ba36658067dd389d88d5b8813d6dd8eb5e6a9ac5950b0ad"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-initial/text-200-percent-and-configured-size.png",
+      "bytes": 147020,
+      "sha256": "a0d1f0340a462542fbebdb113c1a8228ebcfbd957002ee90a386888f168363c6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/black-surfaces-aligned-header.png",
+      "bytes": 62345,
+      "sha256": "095b55bf605899edb312bf12a4172a3344770fcdbe62d2c621c2abcd4829d630"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/frontend-acceptance.json",
+      "bytes": 41628,
+      "sha256": "7e0db6701714f270c47924c0db6db932b4a181e8f10fa8e5c8164e642a735673"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/light-theme-retention-and-selected-text.png",
+      "bytes": 39281,
+      "sha256": "79cc77f4210e0adf629ba361287e415e0ebb444c96d5d9c27075ce4cb48f7794"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/minimum-window-text-200-percent.png",
+      "bytes": 32350,
+      "sha256": "9dbbaa6ec0c0cb33c8a6796eb85e779c8fbba5375a1499f09d133ca3d108ff7c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/reading-width-1100-with-panel.png",
+      "bytes": 98496,
+      "sha256": "9381eae20ba85f3b1d014f51c41d3fed257361b62df047c4f92e861e0c6ec0e6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/result-after-notification-duration.png",
+      "bytes": 98526,
+      "sha256": "61cbc5febfa2afbbb7bb4a55643815fe5a08e17c3da733ce21e4cf2bfa3d1bf5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-release/text-200-percent-and-configured-size.png",
+      "bytes": 150738,
+      "sha256": "e5928869ba507201293e4ce670f9c078ad6e9f343f9487a7a2fbd472a211e297"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/black-surfaces-aligned-header.png",
+      "bytes": 62352,
+      "sha256": "911cd907758f8b0d0d052dc7163fa36c962681f0fc781b06376a8130c36b8595"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/frontend-acceptance.json",
+      "bytes": 44137,
+      "sha256": "f07a2a445da161dc8aa36356e23a28c316810108d9d7d91c88300acf1073f7f0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/light-theme-retention-and-selected-text.png",
+      "bytes": 40738,
+      "sha256": "758dbc7cd7bbc871f0a7bfd326d7c81b7e9d6f6db3060465a29b222239b2c8bf"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/minimum-window-text-200-percent.png",
+      "bytes": 33398,
+      "sha256": "6f9db53b093b3a6840ccfcfd07fefa38d3a222225a96aceff23067b4f30defa9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/reading-width-1100-with-panel.png",
+      "bytes": 100507,
+      "sha256": "c5f465d26a4b8facbf2e275b011a481140a320f4c34ecb58c25ac9559e78e3db"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/resize-full-panel-focus-restoration.png",
+      "bytes": 48229,
+      "sha256": "fb7fb3b19879ef56f4103f7e2188678816cfacbf18887e6b60743b16d295ed62"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/result-after-notification-duration.png",
+      "bytes": 100356,
+      "sha256": "3f097a13cfc8fcb20efec15d2ef4aae28183cd2706e836571b85006dccb20540"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/saved-messages-icon-contrast.png",
+      "bytes": 65088,
+      "sha256": "d9d643c706b33bb04bbde4da29f1ce5716c48df5d81eb299fc58946b2a8f8e02"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-acceptance-verified/text-200-percent-and-configured-size.png",
+      "bytes": 147039,
+      "sha256": "889d29989ab49265dd4c20041dbe50ad1bb5c5b568aa82b9d2ce544a029e7f80"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-detail/chat-integrated-final-fullhd.png",
+      "bytes": 82348,
+      "sha256": "72adf83bb37adf80eefbdaa2c79601cc7953609f058ef55d19fe1e9fe37e2560"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-detail/chat-integrated-fullhd.png",
+      "bytes": 181596,
+      "sha256": "03b36d0109b9dbe6f8a9fb584297398fae7e284691d1c9a82f9699a1e6c09163"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-detail/layout-styletrace-final.json",
+      "bytes": 5254,
+      "sha256": "3756ca65af46fb55912e41bfc78f7f617e4d0611552276b597788f688e6b0749"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-detail/layout-styletrace.json",
+      "bytes": 6525,
+      "sha256": "33bcf8a1171277ff6d5170d1778c5f35ddaab88fed7f83fede226cb4f1630369"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/operations-ui-audit-2026-10-06T10-40-19-573Z.json",
+      "bytes": 70058,
+      "sha256": "0e557c96bc8760202f4b9521ed01cf594a7e90b0c39f5b5713bb899ac7bf672c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/operations-ui-audit-2026-10-06T10-40-19-573Z.md",
+      "bytes": 3849,
+      "sha256": "ea82a8c92975250ca51a709ea06ce3061a863bdec99080cb295267d1edf64265"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/adaptive-1920x1080.png",
+      "bytes": 154279,
+      "sha256": "41414cd46a35067bf7bb2fee9f32774f4e954c8f7da785f8150aa79491931583"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/adaptive-640x448.png",
+      "bytes": 29108,
+      "sha256": "572e3e4538fc5a29906887794a5d65120bdfc84f9268fd9a66ff11383fb3a029"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/adaptive-800x560.png",
+      "bytes": 32665,
+      "sha256": "3168b030763256e37ede895e7bcd24297e95d4d853336d304e1f0d29d952c5af"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/cancel-confirmed-file-warning-recovery.png",
+      "bytes": 225180,
+      "sha256": "86037bfab28f3b5bf497861687dafcb117248e22aa2601f3a8a35ecd924da918"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/canonical-source-instagram-known-id-full-close.png",
+      "bytes": 10346,
+      "sha256": "49770c4971e5a63cd050c4847652fe1516c21d7e3db69440223f05104501f214"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/canonical-source-x-known-id-full-close.png",
+      "bytes": 9717,
+      "sha256": "b8427f58e4235332c952588a3ca198bf9c40fd6bc7c9a98ea949697ba8532164"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/ctrl-j-close-focus-native-toggle.png",
+      "bytes": 149363,
+      "sha256": "94b506c08247ea808c4eee0433da6951ce96320d6d0408fa20f7a64148e451d7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/empty-current-explicit-selection.png",
+      "bytes": 144681,
+      "sha256": "a660e7c961ac4b893dd1331f8084802102b97320a2c77c8177825fcdf5c1183a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/file-actions-known-id-missing-file.png",
+      "bytes": 161096,
+      "sha256": "52baeeaa7eb5970daf03590c4a2b0e668f4764b52bdc1c116854d38f5b283696"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/full-panel-check-chat-content-order.png",
+      "bytes": 65592,
+      "sha256": "88c0ebd9ba65a1b4d71fdf3a05911d5ae70d5a2a77123254cd682c31d226952d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/full-panel-hidden-profile-keyboard-restoration.png",
+      "bytes": 123765,
+      "sha256": "1f7c773186d8bcfcaf46ee5dbfde4fa261e1b47aab0804ed91f9a37327ab1bcc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/full-panel-sidebar-switch-content-order.png",
+      "bytes": 9723,
+      "sha256": "733f72be226510a5b70b813b5802cfa29cb4d5fbd2fc65230f25663a56a6599d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/history-clear-keeps-files-no-late-resurrection.png",
+      "bytes": 147714,
+      "sha256": "46c3f6632661561c5a15e7d3074e7be04c83b99d92b5dcf74c500a9ec6f725f5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/keyboard-tabs-rtl-long-text.png",
+      "bytes": 236362,
+      "sha256": "3f3ee52acce8bf846a3a8c4abdb1132250c62daac4cef20fa0dd1d1d2ba2f190"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/known-percent-unknown-stage.png",
+      "bytes": 164736,
+      "sha256": "59edb6c0af78677a6d4408927027624796c5340280cd4150c4557c3d96363e5a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/last-active-auto-history.png",
+      "bytes": 148117,
+      "sha256": "8946717e03fcd309455956f200eea3c0aa812a3c8d871d5ebca5688598b16bce"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/late-epoch-revision-lock-unlock.png",
+      "bytes": 148617,
+      "sha256": "76eece851be909d4e52ea365330d4dfcf82ab031d1994981099cd91d737fcc96"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/navigation-operation-continues-panel-close.png",
+      "bytes": 37029,
+      "sha256": "bca37ccda6ef07a6c791c3193adc23713708b85ed14d748131459e9d0d412880"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/prepared-send-metadata-without-url-or-path.png",
+      "bytes": 157077,
+      "sha256": "d61814b57d2cd3ca36387152da841c3dee3db23cb0c76d948945d46ca5a40953"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/saved-visible-format-size-dimensions.png",
+      "bytes": 156188,
+      "sha256": "b45c2f0ba23685054c56875cc639db710e885b5e30bd167e85ecc5bbc825998c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations/ui-visuals/operations-2026-10-06T10-40-19-573Z/text-200pct-reduced-motion-bounds.png",
+      "bytes": 66994,
+      "sha256": "c76b9081a4155171a264f00e039c5d89073021484607d3a563b62faaffda4dfa"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/operations-ui-audit-2026-10-06T11-09-39-487Z.json",
+      "bytes": 70057,
+      "sha256": "c3afd73ba768f4ca17712edc41dd48b85edca56f0ec950bc38883bc8693a64c8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/operations-ui-audit-2026-10-06T11-09-39-487Z.md",
+      "bytes": 3849,
+      "sha256": "1e87e74a14598dabe727e0e92cf163ac57487f51df26ec92bc2095a98a4ebed2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/adaptive-1920x1080.png",
+      "bytes": 65108,
+      "sha256": "ecadb934f684c1290f47c97ddc9c1aacc22cc9f055f9e31b0fe86191efd83e4f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/adaptive-640x448.png",
+      "bytes": 31280,
+      "sha256": "fada5ba05f1ae2d7c31a5bbecf5a5471027e46fa565b8208ea78945628b3ba98"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/adaptive-800x560.png",
+      "bytes": 32579,
+      "sha256": "d26d501e24ac63e44689fb565cb60c39812725fd838984bef2e4f616e29d1473"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/cancel-confirmed-file-warning-recovery.png",
+      "bytes": 127513,
+      "sha256": "ec8c4fcecf15e464c4dc4cc9b2b9c76740c7bbda080b16f123ca411ddce741e0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/canonical-source-instagram-known-id-full-close.png",
+      "bytes": 10438,
+      "sha256": "ca86b2df215bfc4bc13c8d63becd6999deca967ff7ec0633e583628a36825777"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/canonical-source-x-known-id-full-close.png",
+      "bytes": 9699,
+      "sha256": "c97036553d4ffef4a3f827790b1ee57f67c2af0a99e2c79e576d9baf3942db4a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/ctrl-j-close-focus-native-toggle.png",
+      "bytes": 61033,
+      "sha256": "4652134374a91efc798c616b8a1bae16c9c35489612145f004536a984ceb0dc6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/empty-current-explicit-selection.png",
+      "bytes": 56245,
+      "sha256": "9045d56eb01d86cb693acbe86cf21ca71199fac7093641422892f2bbeca5e650"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/file-actions-known-id-missing-file.png",
+      "bytes": 71193,
+      "sha256": "7ccaec1f77cf895c0ecf7cb21bc16b21d444382402c54f89042ce1e13a8ee2b6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/full-panel-check-chat-content-order.png",
+      "bytes": 32710,
+      "sha256": "91766d69bc39c9da6053346228b4473c134172e20539f54c19e0450c67a4ad19"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/full-panel-hidden-profile-keyboard-restoration.png",
+      "bytes": 122826,
+      "sha256": "d57ac8e8bf8a40adc860cf5bb4e394434100519d651d022b0004d3bd909547d6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/full-panel-sidebar-switch-content-order.png",
+      "bytes": 9723,
+      "sha256": "733f72be226510a5b70b813b5802cfa29cb4d5fbd2fc65230f25663a56a6599d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/history-clear-keeps-files-no-late-resurrection.png",
+      "bytes": 59008,
+      "sha256": "54e3d87af9f27b814bd395a4ed766ae6ad744dc487879554f01734b1b0b71ff2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/keyboard-tabs-rtl-long-text.png",
+      "bytes": 139266,
+      "sha256": "6955a482dc55a097f0ab9b854299afe26b887f12fb1851811c9d6bd54841216b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/known-percent-unknown-stage.png",
+      "bytes": 73685,
+      "sha256": "21a638dde57588a71dd0f26c86614f35e8db5e6b746cad7508263fd834efd01c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/last-active-auto-history.png",
+      "bytes": 59083,
+      "sha256": "018d7ef15ffa4b833532c7c55ee0c9f14d8f05e61d9a2f39609534f7a8341cf6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/late-epoch-revision-lock-unlock.png",
+      "bytes": 59581,
+      "sha256": "62ecbf12f3083e9e6a44620647601f89eaaa050c53474ccdeb68d97a7c79cba3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/navigation-operation-continues-panel-close.png",
+      "bytes": 37015,
+      "sha256": "d1df72b531f89f12687c82a394442580c2f68e9b007d29386f2565bdc6ebea5f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/prepared-send-metadata-without-url-or-path.png",
+      "bytes": 68678,
+      "sha256": "43f06200d481e4664b70da5dc2e93989a2c63f626bf08fe1d7623d8719bd23c6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/saved-visible-format-size-dimensions.png",
+      "bytes": 67156,
+      "sha256": "1c216a82e0c62dd6cf3d57f7a145d6822d93e7b9eada6413083f4326ff66660c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-operations-release/ui-visuals/operations-2026-10-06T11-09-39-487Z/text-200pct-reduced-motion-bounds.png",
+      "bytes": 66965,
+      "sha256": "235bdbcae04c4ecee3ef85f2131d6dff1aa319cb7514c2b7636bde61d4d1afad"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-render.json",
+      "bytes": 2083,
+      "sha256": "a48b392dad9c112e5cb0cf46bf571c2f9fb2f1680ed37fbb2888c5fbe9f18864"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-chat.png",
+      "bytes": 80925,
+      "sha256": "46b075ff54bde705748c946b9bd5f7c62ba069076a704cf8a64f019cb6dded47"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-compact-light.png",
+      "bytes": 37032,
+      "sha256": "6c5758851e3f9a5d6f52bef4cbd1d692797220ddde96299ad5c10a46b601842a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-current.png",
+      "bytes": 101399,
+      "sha256": "19f3393f79d547f475d1b776ec54d127b2e6ae611ce5a94f2f19c2f56cf01450"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-history-light.png",
+      "bytes": 463971,
+      "sha256": "a842b5d286fcb6a391cafc9b7ba09b5f15a761a9c81e9af0bc007a5f08ca5ec9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-history.png",
+      "bytes": 128903,
+      "sha256": "65f63dd6bb3283642bd5f3fa3f1a856a41d632aa8e79e213130bb98cc183362a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-interactions.mp4",
+      "bytes": 681151,
+      "sha256": "a6b76d8b05c91d397b849ddb6c9ab52f6eb2912f8838405c35e366caa93a6b08"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-settings-light.png",
+      "bytes": 528221,
+      "sha256": "a66ba4c4324ec2a9ee5a1ec7e711344a6bd7c96d87525dadd1c34a3492a3587e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-settings.png",
+      "bytes": 97767,
+      "sha256": "0a8089d75d260cb6b13afb41f095742045598a1e7abe293e2ca61fd764d9892a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-screens/after-share.png",
+      "bytes": 54671,
+      "sha256": "e5ba4d632e1d5fbe3f25383930604a1d884f9b8bc44ab21331bf42212b4db5a2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-source-hashes.json",
+      "bytes": 440873,
+      "sha256": "a25671b5ec6ec50b91c74eb4beb9f9303121e3c104dcde265ba66c3a9ff823fe"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-focused-results.json",
+      "bytes": 126321,
+      "sha256": "54e84d4c54f255f9be3822ae56a9982f0312eb9a6aaa5ce540e8e3d29ed3d477"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/app-boot-fullhd.png",
+      "bytes": 130351,
+      "sha256": "478b1455f5e6d602c89d16dae5b69600bf517590ad785e9bb788730231901d55"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/chat-conversation-fullhd.png",
+      "bytes": 182666,
+      "sha256": "5b65c0124b32ebaf0be5ee6b8b33304ae753011ba19804926b635e256d9f1123"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/confirmation-fullhd.png",
+      "bytes": 241134,
+      "sha256": "5a4b05caabb752e776139aa8b4046644ad194ec309a319f38d80240e77cab85c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/controls-long-text-fullhd.png",
+      "bytes": 247980,
+      "sha256": "3a16f01bfd4201ee7033a7cd22f0903a7c1022c7d251842a37c0527448f6b5c3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/fullhd-dpr2.png",
+      "bytes": 42842,
+      "sha256": "c85cf13b8bda42e1382d4dfb41cbdad11af67c0bf6f85f8adcb0bcd6efb37ce8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/layout-compact-800.png",
+      "bytes": 64163,
+      "sha256": "2fe5fe1551edc3073f4526aefde7c1503bad82549b15e1730944cc8ab63f666d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/layout-fullhd-200pct-text.png",
+      "bytes": 198048,
+      "sha256": "15f29128a3491fbe44f2dff53ed101d05cad5da80db4cc4b8187b122864508d6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/layout-fullhd-rtl.png",
+      "bytes": 206088,
+      "sha256": "d898c55ddaf3dc3e52f8a9a238af9c7fc5224bf72571cc3989c8e5ed272a1ba5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/layout-small-640.png",
+      "bytes": 28406,
+      "sha256": "43cfa213a4d9b8fa165d930201b9210ea9251b34903c2d8a9a477dc22737097e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/modal-more-menu-div-closed.png",
+      "bytes": 221438,
+      "sha256": "903e96d96d2ecbf7979daf3f8066df3303016821819d4bc95034c8f581ff6979"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/modal-more-menu-div-open.png",
+      "bytes": 241110,
+      "sha256": "2e163a39b2944f0db41858711c8729f3740c5c23df6ccf4d15023b76449f9bc1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/modal-more-menu-native-closed.png",
+      "bytes": 221438,
+      "sha256": "903e96d96d2ecbf7979daf3f8066df3303016821819d4bc95034c8f581ff6979"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/modal-more-menu-native-open.png",
+      "bytes": 241084,
+      "sha256": "05998415d63794d96a3202b5c34749226b49386120be7712a499441dd02801c3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/nested-focus-restored.png",
+      "bytes": 221438,
+      "sha256": "903e96d96d2ecbf7979daf3f8066df3303016821819d4bc95034c8f581ff6979"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/rapid-switch-settled.png",
+      "bytes": 207052,
+      "sha256": "ff32c4ab8c1ae31580f5e8013b9c573e952d15a2242a960053762b460dae0bee"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/reduced-motion-loading.png",
+      "bytes": 27730,
+      "sha256": "b8b5ef8abbd2c6785369e8647be7255d1db83f71b3940f7c1cc2859e08cd5031"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/settings-DataStorage-fullhd.png",
+      "bytes": 206973,
+      "sha256": "040bce02c8bc140224118ae6b7fc7046921ee86b3e33d62539b337da34ebf8df"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/settings-General-fullhd.png",
+      "bytes": 204278,
+      "sha256": "07161311c2fb98b4d1b4d10dfde845397d0384c45a6bb12a0196d50e7be8099a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/settings-Main-fullhd.png",
+      "bytes": 219199,
+      "sha256": "2929fd4fda0ee472b1dcbe412fde545e05acf02850382c21a85e14b65383f204"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/settings-Performance-fullhd.png",
+      "bytes": 180622,
+      "sha256": "eb1233cb1c5834ec415a594e4d4e761bbfb774577130df1745598a9e6235933c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-abyss-fullhd.png",
+      "bytes": 212912,
+      "sha256": "e0a617ff7227fb523a1664d5f4d4a1766dd0c8202328228e94d18b4e1a4eb0ce"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-dark-modern-fullhd.png",
+      "bytes": 210160,
+      "sha256": "df5c3493898ceccc287ce12162113276af159eafa84a4a2408604b0f62689a64"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-dark-plus-fullhd.png",
+      "bytes": 210884,
+      "sha256": "f16c76747624091dd5b7efe3d6c869c25d507329884352a8fc9464c835f3449f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-egoist-dark-fullhd.png",
+      "bytes": 206692,
+      "sha256": "73c9f72bfdf9a91d928745ab8c356665e4863e32aa15a391c1cc5a2731aa3b67"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-light-modern-fullhd.png",
+      "bytes": 696755,
+      "sha256": "4cee1d04720af64cb2e5b32b54b575f3ead7f64ecb478427b74710c99ae9cbbf"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-light-plus-fullhd.png",
+      "bytes": 695680,
+      "sha256": "4bf7ccc1886b185e6d902982e0e2e9a36c974a371ab4480e2f7ce645ed41eedd"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-monokai-fullhd.png",
+      "bytes": 211647,
+      "sha256": "f5a7503812ba365082e5ceb204db18d3c94162776396caf74281cb6a3b2abddf"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-quiet-light-fullhd.png",
+      "bytes": 696871,
+      "sha256": "5159da56e4eb082e89bb0e468edb2bfcfb2655e6507eace2a8496c4a75a35bab"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-solarized-dark-fullhd.png",
+      "bytes": 209094,
+      "sha256": "8827a93bb12b3f6237a2102d18e8cb44973b93f07e622fa7fc886350483d260d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-solarized-light-fullhd.png",
+      "bytes": 697577,
+      "sha256": "90712a1a9f2b8848d83872899218931eafe18752525c86c3301060866c1452a7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui/ui-visuals/theme-tokyo-night-fullhd.png",
+      "bytes": 212826,
+      "sha256": "5eb530bac4e918f80ebe98e6038de960464339f44f878f6879f355d5bcf27664"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-coverage-manifest.json",
+      "bytes": 582458,
+      "sha256": "58ce98bdb273cb4d31fc1943e40ce40ec79a174451226f1ce224000ddda75e43"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-scenario-results.json",
+      "bytes": 280866,
+      "sha256": "f3538de5ac77f79ebdb65cf351942834ca18308fb14666841ddb3164bab07c5d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/app-boot-fullhd.png",
+      "bytes": 39165,
+      "sha256": "6351cc4686250dcb5fe27cb2598212132c91a10a8fee3f4e8e902ac301489057"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/chat-conversation-fullhd.png",
+      "bytes": 83450,
+      "sha256": "96f0086b7eef9a190b23dd972d3c8b9f6b0d1f76d77e69fcba274c0202ede580"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/confirmation-fullhd.png",
+      "bytes": 125555,
+      "sha256": "f452c8a3f61e284277a95797a63072c94318959b9fb8b46dde6f73ac3c1cb4fc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/controls-long-text-fullhd.png",
+      "bytes": 140593,
+      "sha256": "52104aeaa00d2e5046d08a643a6dd1a2efbedeaea5bc0393d20f1a918c738efd"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/formatted-date-fullhd.png",
+      "bytes": 128415,
+      "sha256": "6af232f5b6a36117f6381d84002cae340992eaa64634238d73edc00d33ba51ed"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/fullhd-dpr2.png",
+      "bytes": 42842,
+      "sha256": "c85cf13b8bda42e1382d4dfb41cbdad11af67c0bf6f85f8adcb0bcd6efb37ce8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/instagram-error-fullhd.png",
+      "bytes": 35126,
+      "sha256": "a59f572888ee3b9d375eb4b486856cdfd134138cf8dba8163675fd915087f16a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/instagram-loading-fullhd.png",
+      "bytes": 29582,
+      "sha256": "97379307e147163d6d4c91a984cc8f1bea8aaa9cdf7a6ba15372869839795ccb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/layout-compact-800.png",
+      "bytes": 47752,
+      "sha256": "fedd2a490e6ec116a43f36a54238e3f5bf42962318a8f6a7bed14787d4e663f2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/layout-fullhd-200pct-text.png",
+      "bytes": 149040,
+      "sha256": "edab38a97f1cd883ab929bbe61c31cd4a5917271d4632063a9a467c48f2a65bf"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/layout-fullhd-rtl.png",
+      "bytes": 101761,
+      "sha256": "55d839ed6929e5e7aee011982d2bfbb01f256f5b405903a3e500f6e8468f0d1f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/layout-small-640.png",
+      "bytes": 22665,
+      "sha256": "5721dcbb620bf2cf61fdc1eb0a7d7ad6927d3a49450de5d967409b4c4095fb66"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/modal-more-menu-div-closed.png",
+      "bytes": 102160,
+      "sha256": "68837f84c651a923feefed5f1c6bffccdf6527ac0261d3da54f524a92e8607e6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/modal-more-menu-div-open.png",
+      "bytes": 126695,
+      "sha256": "188c1640154e0e0a4370a6ee052556b58e484de4865a36bd855caefeadf39ca7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/modal-more-menu-native-closed.png",
+      "bytes": 102160,
+      "sha256": "68837f84c651a923feefed5f1c6bffccdf6527ac0261d3da54f524a92e8607e6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/modal-more-menu-native-open.png",
+      "bytes": 126619,
+      "sha256": "753540010f25c1e72f2e68e0e712b460dd9be58ba4560579a35239e018f25030"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/nested-focus-restored.png",
+      "bytes": 102160,
+      "sha256": "68837f84c651a923feefed5f1c6bffccdf6527ac0261d3da54f524a92e8607e6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/rapid-switch-settled.png",
+      "bytes": 102718,
+      "sha256": "ad5c65df2ba9bcfd4af64e68b0dda4adde4bb0120ad5024d59101d2e24d945dd"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/reduced-motion-loading.png",
+      "bytes": 27777,
+      "sha256": "568387cb4070a5ae3ffbf75e19a56f86e2889f924e57c9c118faf8638bbcee60"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-ActiveSessions-fullhd.png",
+      "bytes": 71985,
+      "sha256": "d120a0268341e367e41c71a7bced2bf9395fca8fca7d336d315c1a8d6a9d6259"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-ActiveWebsites-gated.png",
+      "bytes": 131732,
+      "sha256": "8673a72959537a8997d151f62e7c388a7594eb849b3505433ee342d95d93d08e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-AutoDeleteMessages-fullhd.png",
+      "bytes": 89318,
+      "sha256": "076c26bec163fd05ae848df66027993cea61cc72eddcabe65bbb889eef3e22ec"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-CustomEmoji-fullhd.png",
+      "bytes": 58339,
+      "sha256": "9aa22d77828343d6386b37073ece9b31d57f86c3ba92a0c2d3f24ef52bb9d613"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-DataStorage-fullhd.png",
+      "bytes": 104253,
+      "sha256": "8cc9cfc1e4740b0809a6080108669dc69e0f8c374be966003d1930420d6f115b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-DoNotTranslate-fullhd.png",
+      "bytes": 103784,
+      "sha256": "9eee294fa5d40e784f73c04d2b515707b145ca357b95832aaf7e36c612aa1fcc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-EditProfile-fullhd.png",
+      "bytes": 95519,
+      "sha256": "1b4b00ec11273b802dcf27c568b07915a18e6e3762cc5e8856ca042aa57c26be"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Experimental-fullhd.png",
+      "bytes": 112165,
+      "sha256": "10761c8921bdb7e8d9821f4213cf9c4efaa777737d8a2000534249f32dcb3a3f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Folders-fullhd.png",
+      "bytes": 94572,
+      "sha256": "abd83485161b99882f5ce73b6eb97e43c17082bb68bc5c164a11d1c2c95c31ce"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-General-fullhd.png",
+      "bytes": 100167,
+      "sha256": "00e276112a1689571a8479343e672319d9aff36c984d15f78151ae069faa0b73"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-GeneralChatBackground-fullhd.png",
+      "bytes": 78669,
+      "sha256": "9e320d81067f862220a95c1e65f195d1e495c6d190953fd5324ab7246f7ac8aa"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-GeneralChatBackgroundColor-fullhd.png",
+      "bytes": 80177,
+      "sha256": "18889f319ead74f9011291e6b6c92f5bc09f6de9c8d982a19a3f0def406f8a9d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Language-fullhd.png",
+      "bytes": 73281,
+      "sha256": "31da1d76960d6d0ecf27fb688747eb5dfc4fadf5d672ff0e4a386081aab94268"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Main-fullhd.png",
+      "bytes": 115855,
+      "sha256": "dcc6f64e392579c22c8a39e5555e1a9eb51d5b53baab1573420c67d4f201de7b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Notifications-fullhd.png",
+      "bytes": 106384,
+      "sha256": "6c30a9d3da8781ae4db3b875442007f57564d35c6d560f5d734303d554e1dc00"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-PasscodeDisabled-fullhd.png",
+      "bytes": 108693,
+      "sha256": "3bab2c5c2e84a1954f737156b68e1d9fedfe6e48c99f4d08294733510d3edb8d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Passkeys-fullhd.png",
+      "bytes": 88320,
+      "sha256": "18ff6bd5e9b6cc61801bf781cb02dc0a66a8f6d6ebf8ad4ac816fc2628ea51eb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Performance-fullhd.png",
+      "bytes": 81980,
+      "sha256": "d02db7f01280ce5bc9e143ab019848a8209fce87acd7843bc0556be9940118f1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Privacy-fullhd.png",
+      "bytes": 117360,
+      "sha256": "6e12a1056c05fa384d750a86fed4f1d76a66b510433d33d4743f9146e77dcc25"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-PrivacyBlockedUsers-fullhd.png",
+      "bytes": 65091,
+      "sha256": "069fe417510542374f8eb6bf3f9589199a9f4189999dfc52dbe81f063b879f8a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-QuickReaction-fullhd.png",
+      "bytes": 61134,
+      "sha256": "03b69eade79155451149ed8c70f2b33ec3917d44b78ad07f3031919eceebe497"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-Stickers-fullhd.png",
+      "bytes": 79406,
+      "sha256": "852fe8bdc24e2dbba0bae303c386f566c8a9b84d40d7e669c11e249bbbde15ad"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/settings-TwoFaDisabled-fullhd.png",
+      "bytes": 90627,
+      "sha256": "bed5cce2593f2482342160fb6f40dd927d5b11a3117c33caef19bc691978c5dc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/slider-boundary-geometry.png",
+      "bytes": 123118,
+      "sha256": "0d17813d164739f5d1e8d43b675a5fceab307cbde73e838f0f4e50cbd7231436"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/slider-disabled-keyboard.png",
+      "bytes": 139685,
+      "sha256": "d447fda3e0afe9e4e20db32a0af0f9209ef93ed50cc54d67920d8c20a974bb01"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/slider-pointer-release.png",
+      "bytes": 138600,
+      "sha256": "1e7451114cd768836093f22fea26c733023cec725e4f091a3c18a5cde6aedf5f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/slider-readonly-keyboard.png",
+      "bytes": 139685,
+      "sha256": "d447fda3e0afe9e4e20db32a0af0f9209ef93ed50cc54d67920d8c20a974bb01"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-abyss-fullhd.png",
+      "bytes": 111423,
+      "sha256": "9f4d26278005851de8e518a9d82f776dc5234b916fe32b24e99942fd507c01f4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-dark-modern-fullhd.png",
+      "bytes": 107282,
+      "sha256": "82de64aaf636f0b9e1748cecf7b25216102080a3c14dba5c1889226271f2032b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-dark-plus-fullhd.png",
+      "bytes": 108472,
+      "sha256": "63bb35423609b72a4adeaf89a9567d87d86abba88bc63d4310c09388c3a0b197"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-egoist-dark-fullhd.png",
+      "bytes": 102356,
+      "sha256": "5b602c008acdcbf015018df6f305063e7993677dee886aadfa24fa3ef80a7a33"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-light-modern-fullhd.png",
+      "bytes": 681684,
+      "sha256": "58ad234e11f0802b1f0909542cb13577a8d8434a533b9a63b77daafceca1cc25"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-light-plus-fullhd.png",
+      "bytes": 680495,
+      "sha256": "dd0b8d5f4706134e4b9cb7d502da1979a8c568519b6369fe86fab56aea2d17c5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-monokai-fullhd.png",
+      "bytes": 111108,
+      "sha256": "5e7bcac3605bc14afbcef84faa5efc01f4622130fc89de1dc30652944971aaa2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-quiet-light-fullhd.png",
+      "bytes": 681854,
+      "sha256": "7d491b80ab56c0e37b66b7a4913b6da337bb0f590eefa75aaa73bcb7061a1c9f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-solarized-dark-fullhd.png",
+      "bytes": 109325,
+      "sha256": "7504c597b7560f4f5a8fa3e5a3b937536a3f61e363f3caeb59a5eeffeaf2a5e6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-solarized-light-fullhd.png",
+      "bytes": 682330,
+      "sha256": "08b6a7463166ba9f918255ca021c990d3ccfa37c0aa3c63f4a76410799606bec"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/theme-tokyo-night-fullhd.png",
+      "bytes": 112408,
+      "sha256": "f30a7ed2621f7cb95aeba974656bc531f6b698ef74ba6e9e8cd0336eb933edbe"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/x-auth-required-fullhd.png",
+      "bytes": 49947,
+      "sha256": "8cf6c70a80b3ac13a94f096ede040b9f0f99d38d7f8cd18306d298bddf923755"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/x-error-fullhd.png",
+      "bytes": 29516,
+      "sha256": "778752440bb66551043580c36b86d13457a420c368be4e8cb99c84ca9476110f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/candidate-ui-release/ui-visuals/x-loading-fullhd.png",
+      "bytes": 26859,
+      "sha256": "45860dafa9dd96f8ec565188df0ab8564369a9175063026d54a0f1a8890a7c6c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/changes-from-1.5.0.patch",
+      "bytes": 219819,
+      "sha256": "4d8219ebb3527822d61223d334fb2f032b97e3f6eb8799e1bc6458bd463f5bb2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-chat.png",
+      "bytes": 172269,
+      "sha256": "ccd78dc2e04ec44ad5d0150e4e4970c3858c2279cb961b8a6b2b5eea3f8c92bb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-compact-light.png",
+      "bytes": 43215,
+      "sha256": "50da536021786b97170fbf7204fb6424afdd3140920e397a23779ee69d4730ca"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-current.png",
+      "bytes": 185949,
+      "sha256": "e96d9f573a7b7f9271876db44e316f7aae8f48c1a38afeb412e1119a3ed4aec4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-history-light.png",
+      "bytes": 466696,
+      "sha256": "62d268749900bd8641eae99df49cfdd831b86f742cb53f2475b10bb42bbbb46d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-history.png",
+      "bytes": 216439,
+      "sha256": "6d933727daf88c0389c8d057825544e5f33339f3f972f36fe83e6093e6e08d30"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-interactions.mp4",
+      "bytes": 748446,
+      "sha256": "e2a788bbb43a5f895939c6ac244b8163922a0a7055681d054d683e12d0b1cb20"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-settings-light.png",
+      "bytes": 540073,
+      "sha256": "ded9af22e5f0fcb446a6665e36bca9d3e1477c901ba6c6d8d73989f081be089e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-settings.png",
+      "bytes": 195051,
+      "sha256": "ea1f41e0aad9dc853017ddf8ebd6c834406eedf54f68d3295690fb23db9163df"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before/before-share.png",
+      "bytes": 60169,
+      "sha256": "3c0056650bcc1483939a40d8c5b0daa6ef6c553e0bf44a58bc3cafb840d31ba9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/comparison-before-render.json",
+      "bytes": 2090,
+      "sha256": "ac58532cd64e93bc96af301121fbc473938456aa688b9226e7c7623c4cf5c3a2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-before/failure-saved-messages-icon-contrast.png",
+      "bytes": 57255,
+      "sha256": "51f7fc594c83228155a387f9efa4d932a238bb1d4549685b901978a5166f04fb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-before/frontend-acceptance.json",
+      "bytes": 7423,
+      "sha256": "fbd8625d023e8a63f59611903b97ee7ddbc146cc3cfb804329773faa2a7edaab"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-before-verified/failure-saved-messages-icon-contrast.png",
+      "bytes": 57255,
+      "sha256": "51f7fc594c83228155a387f9efa4d932a238bb1d4549685b901978a5166f04fb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-before-verified/frontend-acceptance.json",
+      "bytes": 7871,
+      "sha256": "de11a333319be463cdf4216c27f24616b2ecf2711e7ba1627856679f291407b7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-correct-selector/failure-saved-messages-icon-contrast.png",
+      "bytes": 57255,
+      "sha256": "51f7fc594c83228155a387f9efa4d932a238bb1d4549685b901978a5166f04fb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-correct-selector/frontend-acceptance.json",
+      "bytes": 8001,
+      "sha256": "c9db2344b16983c37c71caa9e06836710702489eecac60617847bf0931c6a5d6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-rule-trace/failure-saved-messages-icon-contrast.png",
+      "bytes": 57255,
+      "sha256": "51f7fc594c83228155a387f9efa4d932a238bb1d4549685b901978a5166f04fb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-rule-trace/frontend-acceptance.json",
+      "bytes": 9037,
+      "sha256": "95d07e61eea3c3827f74783749064043faa89c523421be1608e64758d9f53fc6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-trace/failure-saved-messages-icon-contrast.png",
+      "bytes": 57255,
+      "sha256": "51f7fc594c83228155a387f9efa4d932a238bb1d4549685b901978a5166f04fb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/contrast-trace/frontend-acceptance.json",
+      "bytes": 8161,
+      "sha256": "0bdaf836a13eaa091c15b8ad9036f1a6549894563a01fe3dd8e876c6c4787cb1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/gili/layout/Island.module.scss",
+      "bytes": 1070,
+      "sha256": "f3ec669c8fec1be285e9a15a5169c97481efc481759818c8fec0053436fd8467"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/left/settings/Settings.scss",
+      "bytes": 6922,
+      "sha256": "42a1d2130d91a4ac00e00bfc19b6e5233f0b2e719e40a279f9b47cff0b203420"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/left/settings/SettingsMain.module.scss",
+      "bytes": 561,
+      "sha256": "df9e6e07e3b2475a26e929ae4a07a406ba23f4b9b0b9be63a7813160f6af6fa9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Button.scss",
+      "bytes": 12866,
+      "sha256": "7e861d2aeacc7c04daa39ddc22545c4837efd95d1a65f7c45ef557968df2e00c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Checkbox.scss",
+      "bytes": 6687,
+      "sha256": "1a0462bd750235c5e86fceba456dad7aac9fc1cf369748ebed0f75148191e83d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/ListItem.scss",
+      "bytes": 8059,
+      "sha256": "1478fcca834974c65a43b6111c6023add5d714b0784d163e9d40ded0434b6205"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/ListItem.tsx",
+      "bytes": 9591,
+      "sha256": "8e9fe6fb421eeddac9056ae15308f1a5121f9c1efe7a6f8d3ef95088940ea63a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Menu.scss",
+      "bytes": 2707,
+      "sha256": "bcf45503c4c83a4462de3d2887c1755f91759215987bc0da0e1f1ca3f94d15a7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/MenuItem.scss",
+      "bytes": 3726,
+      "sha256": "9dc9615f6361b33df708405f6d03d3822e12d083c9a527414f4eec1f5c2b56d7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Modal.scss",
+      "bytes": 6594,
+      "sha256": "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Radio.scss",
+      "bytes": 3685,
+      "sha256": "02c1707f88cc5cf3422d7091893b04c456229ec45b05f9943995a924a3536cc1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/SearchInput.scss",
+      "bytes": 2147,
+      "sha256": "7e904131429c2a614572c8a497603f82f12f311ccdd731d49d7c101d1d226fb3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Switcher.scss",
+      "bytes": 1675,
+      "sha256": "88bbe72fd16dd5d65778faaca357094b22ee52154f03ae24d249c43ddaabdf69"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/components/ui/Switcher.tsx",
+      "bytes": 1168,
+      "sha256": "48f0458eab70e60f465b803320e5f9d8db4a29e074cc91d4c0e35faffc7c1f88"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/baseline-src/src/styles/_forms.scss",
+      "bytes": 5081,
+      "sha256": "37304552fae6831f5005cabe989752ed4b75c4c21b858b126d9e75de5b60a535"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-final-rendered.log",
+      "bytes": 313,
+      "sha256": "0f02461e919771b34287f831f4d98f2dea08ced60472a47eb3130f901225f9e8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after-final.log",
+      "bytes": 685,
+      "sha256": "f6d1bf96b1215d048605534ee46a56d7ed58d2cf47d9d31c28fd261c9348d92b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after-focused.png",
+      "bytes": 49143,
+      "sha256": "11e23f922da6c5164e6b24bfab53f0f3ad360721e92c8d4cd019871dba3bf773"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after-initial.json",
+      "bytes": 2825,
+      "sha256": "c4aa17c6397205172e33652e883856273679dcef8bccd16c2a692759aa721c59"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after-modal.png",
+      "bytes": 58626,
+      "sha256": "e11e8850526efde71d0e8312bad349cee7ed2f2b30bb02db8aa0b3351c80f447"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after-nested-before.json",
+      "bytes": 4492,
+      "sha256": "4589180930d829437358bd13b531b257df3d85225b7b57c3a66bd8b936caac70"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after-nested-diagnostic.json",
+      "bytes": 6177,
+      "sha256": "fa876af4bc2e86fca98d59e2f0ce9e7a160079f30f9acbad781f574bfc38f10a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-after.json",
+      "bytes": 4575,
+      "sha256": "3ef40f7385d4e78493887a75eaf960a8fe4a36b02765d1dc20fe52bed2f4d904"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-before-final.log",
+      "bytes": 1692,
+      "sha256": "010d38cf27dcc3016df535256f3ccac7faf966c5e8be5f8fd3fb3aace58452f0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/controls-keyboard-before.json",
+      "bytes": 4141,
+      "sha256": "2e7c76806c420e8051c5f24571abb05fc01b1dd1d8c71812f8ab492e2cf319f7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/eslint-controls-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-focused-results.json",
+      "bytes": 86522,
+      "sha256": "f35211e0e7228427ccadaad77fcbb2d5ed7371615f2299c98b35031ca82ab595"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/controls-long-text-fullhd.png",
+      "bytes": 106700,
+      "sha256": "3c9d8b9389f3e0d50375b97023126f903c54b4a7fd6e53a58a7d57e3789a3880"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/layout-compact-800.png",
+      "bytes": 28870,
+      "sha256": "88ea407be0123f524195937392e378d99dedb7ccccee77e4379175a35a7c686a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/layout-fullhd-200pct-text.png",
+      "bytes": 66232,
+      "sha256": "206237fa6c885bc0c8373b022882e21ec5943d49b249c0dc13bd3ed61f5759e1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/layout-fullhd-rtl.png",
+      "bytes": 58693,
+      "sha256": "9ebf7b7e23f7a6e36399d0c09b8541b8ea934f4c838328f2cfd4222da22fd64a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/layout-small-640.png",
+      "bytes": 22632,
+      "sha256": "4b82f2f3be29fff9582212fd4c9203c6b22b9c0436229ad87956aef94afa1a25"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/modal-more-menu-div-closed.png",
+      "bytes": 75409,
+      "sha256": "7f19c13998632af224207a56102ed2a5680e6d90df1805c04ddc255ac5adf81a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/modal-more-menu-div-open.png",
+      "bytes": 98028,
+      "sha256": "6fe75c575c018833099d3b969933e2bba65033ae9a5fe8570decf03921cbce71"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/modal-more-menu-native-closed.png",
+      "bytes": 75409,
+      "sha256": "7f19c13998632af224207a56102ed2a5680e6d90df1805c04ddc255ac5adf81a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/modal-more-menu-native-open.png",
+      "bytes": 98024,
+      "sha256": "cf7520ad8796afbf72da4b0a88132e541855e0ae0ee4f2d042c7fd2e841f2b66"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/settings-General-fullhd.png",
+      "bytes": 58669,
+      "sha256": "92eb94fa9f64ea9aaec86e51f4db7c787e1fa330a53ed2b1c382a0988c48f1df"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/settings-Main-fullhd.png",
+      "bytes": 75029,
+      "sha256": "99d6b960e34c3fc7d0a06d5a920acab9507622c466ca60752b42600df8a597fd"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/final-ui/ui-visuals/settings-Performance-fullhd.png",
+      "bytes": 39450,
+      "sha256": "8cbc1be4952629a913e6bc73dc1a96c6bed5e58d39599e189699874d166bbc76"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/README.md",
+      "bytes": 6466,
+      "sha256": "49361ef421c858e8b47e4940926439f36a48fdd9f268bbdead103ab4b645c683"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/review-objects.json",
+      "bytes": 3780,
+      "sha256": "240d13040d883ee5de026537c24b69352171e96aaad0086b1d228b9205f9f87d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/source-hashes.json",
+      "bytes": 3480,
+      "sha256": "358f4dd6814d629de2ebbb23932292fa6fa5b248b34b60c74318378dce4b6b3d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/source.patch",
+      "bytes": 36125,
+      "sha256": "eb25378b4b0f0a69456df8f3f9da11dd955f34894427e9e36c501e8e49505ffe"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/stylelint-controls-final.log",
+      "bytes": 6671,
+      "sha256": "b29de40b512c306966809e09ae89c56b1c804c75e9bdf98cb2d5c89a4f3abbf4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/switcher-before.json",
+      "bytes": 1641,
+      "sha256": "9b560e3ea07bb304897495337aee12d5f8331df7c890e2d56ef208dd19f23e5b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/tsc-final-main.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/tsc-final-scripts.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/tsc-final-tests.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-focused-results.json",
+      "bytes": 89809,
+      "sha256": "5c9ce6d7dc455cc540d08e947672618a111a152195c8103e7bc3bc0b3eba415c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/controls-long-text-fullhd.png",
+      "bytes": 211901,
+      "sha256": "7e615d8123de1240eeacc5744aefa29d48aff87a85801d326972d5df69d04bfd"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/layout-compact-800.png",
+      "bytes": 48178,
+      "sha256": "b45f4b9e88e7818d4c7e6df15171d322c5d15c965452b323962259d23fda5b12"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/layout-fullhd-200pct-text.png",
+      "bytes": 143715,
+      "sha256": "63bb91349dc5c86a2b78eee1b2feeaa249c8d0462ebfe36e3f2e6293f48f705a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/layout-fullhd-rtl.png",
+      "bytes": 157523,
+      "sha256": "5b1c5afa940b16ab844085ac4b7e5052b9ff4b34de5e8bc015e8856901da12cc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/layout-small-640.png",
+      "bytes": 28348,
+      "sha256": "ca8e502e4543937a033f0ce57c44aa28622415f717d43403f01ec056bc70ca88"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/settings-General-fullhd.png",
+      "bytes": 157098,
+      "sha256": "daca21b631118e6eb17b0acffc1fa2efbaa0788d08136df760e33477180d7a16"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/settings-GeneralChatBackground-fullhd.png",
+      "bytes": 126921,
+      "sha256": "0ef5fdfdaac9a41013fe58a805d9a4e42f76eb0c45228f5b587a2d7a6be194db"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/settings-GeneralChatBackgroundColor-fullhd.png",
+      "bytes": 137874,
+      "sha256": "16bc23fa27c409dcb29e932e0da0d0e895e51c6a19e192767864ac94c219b384"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/settings-Main-fullhd.png",
+      "bytes": 173566,
+      "sha256": "16945868407e16d22a6674c15f05707f32e72af43346a88cb7916e42667ddfb6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/ui-visuals/settings-Performance-fullhd.png",
+      "bytes": 129353,
+      "sha256": "74c50dab4bd130dadcc67f59f8970db89c5ea827d26d528f1f1a283024b2474a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/verification.json",
+      "bytes": 3528,
+      "sha256": "2d3c73190ac3fffbd600176f5ef2bc19903ed9d45d1a101ef20c79069c914c39"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/controls-settings/verify-controls-keyboard.mjs",
+      "bytes": 17967,
+      "sha256": "8fd9741d48ab86bef296e9f5b1576f6e698111bdd622dfedd15f96ccb72a1a9b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/delivery-integrity.json",
+      "bytes": 461,
+      "sha256": "310c37b4ff9c77a8dbd20fc9d91298780de628637a0c9fcd20d2a053302a659d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/direction-probes.json",
+      "bytes": 12336,
+      "sha256": "67b5f82358679ca1970111d8f956dd4a28708bea30e8e74e93c964fb8311df56"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/direction-render.json",
+      "bytes": 8906,
+      "sha256": "24829b3e3cbc1cf64c5cd723754bffac8c2cd17a4cb1e48dcca8a98a5e7c682c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-chat.png",
+      "bytes": 166572,
+      "sha256": "1fcebc0a2826d6244206fe4e5ef9f01c8132932def4f7e1546faa11e3bb40a54"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-compact-light.png",
+      "bytes": 34741,
+      "sha256": "ba0c51c11fc45b67b0370ba9a8939d3c2500b5b56d2948fd9df44ee69275b446"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-current.png",
+      "bytes": 180452,
+      "sha256": "df83b3159d57bcb504932e928fd0e3d53e07541b51581eef9b361fb864ff38e6"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-history-light.png",
+      "bytes": 487852,
+      "sha256": "d6ea6e3906a5f52682b34456b6df079dc49568f532e0ded01ce6cf3855ef3421"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-history.png",
+      "bytes": 208179,
+      "sha256": "c58d9a42659cb11064b0be4d297ca5365a5ce7c96af86ab36151ab5a804652dc"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-interactions.mp4",
+      "bytes": 586525,
+      "sha256": "740ca6aac5e82e2b93038f917664e23cc520fdec2bf9b98ba620bdf0fad6c1f7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-settings-light.png",
+      "bytes": 546631,
+      "sha256": "5f4578e5fe0ffb51f46ec62252a16970cbcda1795f02e57ac49f90e29e9a5716"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-settings.png",
+      "bytes": 191731,
+      "sha256": "faa10852add7211c7026f2ba24d7b12278bfec4cea836c7959e902e7d5252a7f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/A-share.png",
+      "bytes": 60322,
+      "sha256": "5a5df6c28d726d9099746ff60be6bc138ebc84725188bb1a8e721053e251bea9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-chat.png",
+      "bytes": 165520,
+      "sha256": "7ceb29a39d3dc3348546935e5a0da9c2b9ee97d94d4b0a84bb0b8268be0f9000"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-compact-light.png",
+      "bytes": 37716,
+      "sha256": "ceea4efcc119ad95dec37d8bb8756be56f3369f6e841e162015f6d887ef7fb15"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-current.png",
+      "bytes": 183506,
+      "sha256": "b433c2d6c22c52cd44df0cc0111378e07aafb1edac805af89c28aaf56b5044be"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-history-light.png",
+      "bytes": 465659,
+      "sha256": "1ae9787c203026d86b80e7590149b65b1545ba27b5b363afaf31ba2c697185f4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-history.png",
+      "bytes": 210540,
+      "sha256": "c9a7eb4a9ed0ab298d30192fef35e2d4604e1ab8101c816b36189bfc86fd8428"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-interactions.mp4",
+      "bytes": 572474,
+      "sha256": "a7d6f19fb3710a121f0d0a78c2865fbec431662f5085e477f8d36be7643bc096"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-settings-light.png",
+      "bytes": 532159,
+      "sha256": "90e8f256f425611a6742f810d5d16088d1d6301ffb6ed0c9155e5b5fe351b809"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-settings.png",
+      "bytes": 194500,
+      "sha256": "f320b36f17114748aa835d619ee1b6dfb868b380c22a5999adcdcafbaf51299d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/B-share.png",
+      "bytes": 60037,
+      "sha256": "b9829267ed66ade5313bf8448ebcc25024515814e1b745cffcc69084e62636f4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-chat.png",
+      "bytes": 170557,
+      "sha256": "d45086853557c6ce9dad4036e0334ae526ab90d552b8562d287bb8371cff0693"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-compact-light.png",
+      "bytes": 43215,
+      "sha256": "50da536021786b97170fbf7204fb6424afdd3140920e397a23779ee69d4730ca"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-current.png",
+      "bytes": 185236,
+      "sha256": "a8d8e4101fec643ae98270f03428bfe3a392dbea07290b7d790e96e51b4d0b0d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-history-light.png",
+      "bytes": 416785,
+      "sha256": "9bb542b630972eced641909530ee0043eedd3ed51e8662434d1ff7f5a9fd3c07"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-history.png",
+      "bytes": 212523,
+      "sha256": "7e0760dd0b2e6a3c18c29877bdb74470d893f44a2fb603bafc8d00ebf647b12f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-interactions.mp4",
+      "bytes": 632719,
+      "sha256": "7b062f83621abdaa381e26d63ae35fe9ebb6b42ebee4f093178ec7ffdce45234"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-settings-light.png",
+      "bytes": 492390,
+      "sha256": "1d31d9b0590a71250d1faeff6fac5429041dd7439674f065d59ce20a931a45d9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-settings.png",
+      "bytes": 145425,
+      "sha256": "35d077d90143626919957cd6f3299c7cd09847e1b06c62c268cc7283dabb60df"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/before-share.png",
+      "bytes": 59983,
+      "sha256": "203aa637f42ac50b45873d677b12311d7bf1048140e82838a2fe08dc303cef96"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-chat.png",
+      "bytes": 168039,
+      "sha256": "574451cf0a7ddfcd655d7f23099ad8c24034790a81d8577083ff091a860a2135"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-compact-light.png",
+      "bytes": 35196,
+      "sha256": "5dcf44fc611abb81beea9c37ae77a56f3c4be0da1ef977a9011748d0a8dd7241"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-current.png",
+      "bytes": 184227,
+      "sha256": "f5ba87deb8f26d7fc604b38e806d0a568d47bcc749ddcbd59d464b277cb8d485"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-history-light.png",
+      "bytes": 483038,
+      "sha256": "49555be8ee42a9478fa664626b7418565204d759c66ec1c555da77d911ba029b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-history.png",
+      "bytes": 211799,
+      "sha256": "d3e6d48a96540d4de55f2c9bdf5ff24b4c36b1ade132338620e0cc5ade732185"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-interactions.mp4",
+      "bytes": 624414,
+      "sha256": "6ba649793299e9f08d2abfb69fd2cf41d736cf57c868f1bc23f7d41260a358ba"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-settings-light.png",
+      "bytes": 553166,
+      "sha256": "c8fe892d82e193d196e961954fe4b4347cda23813759dbef10b7752463e2e986"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-settings.png",
+      "bytes": 199155,
+      "sha256": "e96c670458cbf669e01c11cd108563309412346f8f60129861211573494904ab"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/C-share.png",
+      "bytes": 60412,
+      "sha256": "456a24948c99435025433ff5913aab7a9a034aad0ce94653979e589e74d96631"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-chat.png",
+      "bytes": 167706,
+      "sha256": "d13b68138f925b625841ab6d2b83ba551400ff872a20e5543d922e3e673894c8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-commands.png",
+      "bytes": 191469,
+      "sha256": "dcea7a12d10a2475d0235b350c8fcef3c941e82f26df2c78f834dbfbc7daede5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-compact-light.png",
+      "bytes": 38301,
+      "sha256": "f6606f54800c2e016570412ffcb049301b225dab435e25bf894ec8d58fcfddba"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-current.png",
+      "bytes": 183489,
+      "sha256": "07e8e61219cb29e7784fe50f73dd60f19eea3c383f73d8359976bf20bc47859c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-history-light.png",
+      "bytes": 497147,
+      "sha256": "f6e8984d77339eede4d64236270d64fe9e70aff4a2155d158501bea0f6237473"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-history.png",
+      "bytes": 210985,
+      "sha256": "15b37f04b8cdb6a4ba28044b01058491b1b2ba3b5eeef026ac7edd49a3823751"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-interactions.mp4",
+      "bytes": 617449,
+      "sha256": "a07df781d30f4d460e6dcf32570c76327ee39a088260a0ba86ca071c55dea873"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-settings-light.png",
+      "bytes": 559710,
+      "sha256": "ee5eb5bfd984a3fec500fd944e9b95dbd42dc7e6508cba567f838b8526654fa4"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-settings.png",
+      "bytes": 149216,
+      "sha256": "e6a9b9bc622e84e6c8151c06fbc32168f51bad72f01ff331fb7c1f5aa70e3e47"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/directions/D-share.png",
+      "bytes": 59068,
+      "sha256": "af89b46f0aeb91ce5326c8d20ef17d77970de4c14b7b6e0e73fbeac23b742e82"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/focus-regression-after/operations-ui-audit-2026-10-06T10-23-18-240Z.json",
+      "bytes": 5947,
+      "sha256": "ec8c8aff627efd3e919350fd4aa36b6f10feee92b13dd998c2d46e1d5bbcb793"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/focus-regression-after/operations-ui-audit-2026-10-06T10-23-18-240Z.md",
+      "bytes": 943,
+      "sha256": "c215d09aeb4dc7c605435947ce35092ebd8b753a8e119b186fe5ec386dcd5958"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/focus-regression-after/ui-visuals/operations-2026-10-06T10-23-18-240Z/full-panel-hidden-profile-keyboard-restoration.png",
+      "bytes": 134033,
+      "sha256": "6f45d000be929d3fb67de6a784a0f67c9690892932b05f273314d91890cbd73c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/focus-regression-before/operations-ui-audit-2026-10-06T10-21-37-735Z.json",
+      "bytes": 12555,
+      "sha256": "cd4c2d7f2844f38e264844de2532b003c824045b87b38a17d267bbf73961ddd8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/focus-regression-before/operations-ui-audit-2026-10-06T10-21-37-735Z.md",
+      "bytes": 2451,
+      "sha256": "a72334d86d3a96d306790d02153a695eb541d344795e949f08529b4da6423169"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/focus-regression-before/ui-visuals/operations-2026-10-06T10-21-37-735Z/failure-full-panel-hidden-profile-keyboard-restoration.png",
+      "bytes": 65134,
+      "sha256": "6aaf5f6097c7d08481ad626f103685e9d7fd4a7f06d8a489efd1a47eb427ee35"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/implementation-plan.md",
+      "bytes": 8981,
+      "sha256": "794cb4d92d2e32eda08cf4a7212b643ec8b620b313814cf4c1a66758340dec20"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/integration-review/review-objects.json",
+      "bytes": 1434,
+      "sha256": "2f532339785f7116330a7ae4d61e1938e66500818559d37d867e33c7668e2fd3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/integration-review/review-snapshot.json",
+      "bytes": 17529,
+      "sha256": "02c860a440b944f029ba7e8e0ac63debacb9ee27308f93a4656484c7891eadc2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/integration-review/REVIEW.md",
+      "bytes": 9363,
+      "sha256": "8fe72c3487480e10dbf4050b6f34df824db50e11184d2e4f612d22ddc08ff8eb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/README.md",
+      "bytes": 2530,
+      "sha256": "ef0fbc03165d21631ad7fd147f1bb8b641d2f401c1e896715b6e84a256c5b6e9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/render-candidate.mjs",
+      "bytes": 8253,
+      "sha256": "952b7f7d4948a7e3b5159bcb4eda1ed3db0c6021d8dacf1cbf53079982ed0cf0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/render-directions.mjs",
+      "bytes": 9835,
+      "sha256": "c0c2d6a2cd1915535865ed033426a816e451ca127dd4646fc8a7d3e621b88c69"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/research.md",
+      "bytes": 28036,
+      "sha256": "c1afd378519a6a251c75f6a5380b11a9a7b39da08415e0f359b546aea8d66175"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/resize-focus-after/frontend-acceptance.json",
+      "bytes": 3410,
+      "sha256": "748421745d70f281081d47947237f1f07850b1a3af356312007583967be63dca"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/resize-focus-after/resize-full-panel-focus-restoration.png",
+      "bytes": 48816,
+      "sha256": "3ce303395f63864acfc14b055832272b870d857ace08b7e7f78c88ca42e16a8e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/resize-focus-before/failure-resize-full-panel-focus-restoration.png",
+      "bytes": 26887,
+      "sha256": "fddbc042edc16cd111d3ac363f471e583ac649bc74a9904bb59b87d1360027da"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/resize-focus-before/frontend-acceptance.json",
+      "bytes": 8376,
+      "sha256": "f5ae193ffa3dce74949fedccf4bb9ddcb37373b02092e53268759ea463bf77a9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/RESULT.md",
+      "bytes": 19187,
+      "sha256": "fc376433980eb97503ec415fc5373de15045991296273296f473857aaa9df3e3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-compact.png",
+      "bytes": 560464,
+      "sha256": "c4ea9d447ad77bf6a62b75f382935e5ea1a5820d37d818f626edcc7224089e39"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-feedback.js",
+      "bytes": 11066,
+      "sha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-neutral.png",
+      "bytes": 592341,
+      "sha256": "bf7ba2f044f420606a2f437023f4576da2abbed3f1b3a5ee5ae8332cdde2013e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-result-compact.png",
+      "bytes": 523812,
+      "sha256": "db5e22b1650746688302627eea60de9a24f972132715b85ede42c7354a132acd"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-result-neutral.png",
+      "bytes": 537346,
+      "sha256": "4698c47442355b027912a16c5c8ae8389ab19a5047916e5c98083eed9a754731"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-result-verification.json",
+      "bytes": 1452,
+      "sha256": "6043936f08aa12d8948e63a7c34f1492fe40b351af2e5fe0a70c21a251e230cf"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-result.html",
+      "bytes": 32229,
+      "sha256": "5cfe6379aceff88ff17536ed1e82d927e51afa662a88dcd7d92e79c4bf0c5109"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review-verification.json",
+      "bytes": 536,
+      "sha256": "545dd1d7a8b8ad39f5c962ba317ec310917a5090523c901ce0ca9a15da9c0dff"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/review.html",
+      "bytes": 33191,
+      "sha256": "a5534a6c46afcc777f3626429f25a0868f09b09bc43ea33a8fdcf677fdce390b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/counts/dark-640-200-x-auth-active-9.png",
+      "bytes": 37419,
+      "sha256": "ae53bac2d8783a769086dd3869dd21b8ba8d9b0cc1e7dd5262a6c4b2e400f7ab"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/counts/dark-640-200-x-auth-active-99.png",
+      "bytes": 37107,
+      "sha256": "74926fe37044158c8037161aec25d627046d63fd8253285d638c6cdb083c62e3"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/counts/shell-browser-results.json",
+      "bytes": 15966,
+      "sha256": "8553f7947026862a77a2210abefa074ba676e6c0a1282cc193f078acf2f280bb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-1280-200-x-auth.png",
+      "bytes": 82370,
+      "sha256": "39ffcb2951999e109043137334de3d7707bcb90e3e7c54c7072aeba8f76a00a7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-640-200-instagram.png",
+      "bytes": 14258,
+      "sha256": "b9b33cd5f46926a60c7db8477e67309fc620c2a08b6c8c8cf64a6eb9fcd2c0a9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-640-200-x-auth.png",
+      "bytes": 37101,
+      "sha256": "b8856cf0f0dd7ccf032fa20734dcef89acea77fb88f64b8482ac25c39bd55050"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-640-instagram-error.png",
+      "bytes": 25985,
+      "sha256": "9e3e22736103dec7d794d443ec7bebe04ea8b39644a33eacb3230ca5e495cc24"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-640-instagram-loading.png",
+      "bytes": 20980,
+      "sha256": "774f14ada64414055488bd3e9ab5ce8f7095028f46118fce5197bac8de3fdd42"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-640-reduced-long-labels.png",
+      "bytes": 25181,
+      "sha256": "2afb86a0b9fea1b6595210a7fc23913852ad3323429e2e0b7ac6e4ec17665bf2"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-640-x-auth.png",
+      "bytes": 39541,
+      "sha256": "ae2f8d3b2ea0d87e21c3ceecc967fd08d8f9bd673e1366ce246c25f80937c75c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-800-rtl-200-x-auth.png",
+      "bytes": 57879,
+      "sha256": "8e6ce93ee90d9a29e03b62c8d2700d31065c2ae45c1287cd8a042d00b27c2bb1"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-800-rtl-x-auth.png",
+      "bytes": 40851,
+      "sha256": "c18dfd94699bd2be2978c30b3b06e3f9d65a1bb92ac2e6fe3f39df50cbbbd1ae"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-800-x.png",
+      "bytes": 8989,
+      "sha256": "cb5033919e520e4cbafa7d83433afb2b28a3927238a2af795ecd04436acfc94b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/dark-full-telegram.png",
+      "bytes": 182717,
+      "sha256": "22af8031b1a8b99a8ded1ee7e0abd1466972a9cc4377713e723f4e787d08b263"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/light-800-telegram.png",
+      "bytes": 131667,
+      "sha256": "a430322572c9933b7473a256e84f12c128ddbfabf55dcfd625d395bdd0c16c14"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/geometry/shell-browser-results.json",
+      "bytes": 85238,
+      "sha256": "5312333e8d7efd747c0001072911c12302772497f3cc7349bc9e01e105462b40"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/integration/dark-full-telegram.png",
+      "bytes": 183008,
+      "sha256": "17f9700dd3d2bf0835c9de3bf31329721502ddc54000eae768182bb4cc5ae032"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/integration/light-800-telegram.png",
+      "bytes": 132294,
+      "sha256": "23d1ef91e57e436ce521e41e384e6bf76319a720e4bb6e6af0e7970c9663872c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/integration/shell-browser-results.json",
+      "bytes": 10612,
+      "sha256": "455938d07f6dadec2b4ee67b7f28c79df305ef7bb0182d493f7d0ae332b914a7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/README.md",
+      "bytes": 5549,
+      "sha256": "5afa8cadff89d39489c6654572f5f2c47a1b425b0fd48c2ceb95c8b52f612acf"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-baseline-vitest.log",
+      "bytes": 273,
+      "sha256": "4bd764827df868b00ec26b968216cd878b329f80d10d2be10cb58f925f56b8da"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-browser-final.log",
+      "bytes": 370,
+      "sha256": "b513f75beea23f6c7e71e846ff992aa14875c82d6a5bebd64e4d36d2dc83d517"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-counts.log",
+      "bytes": 113,
+      "sha256": "e7003c8d97a8a9c8ff5ef2df146fdbef59a60a9ad9610038a7f1502d8870b645"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-drag-before.log",
+      "bytes": 1431,
+      "sha256": "4c0897193e3734ef4d2139aabac372fced1c51515674951c69e2272bb82260cb"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-eslint-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-eslint-fix.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-integration.log",
+      "bytes": 92,
+      "sha256": "2211bab3554d23788257b6c8675b88a30f31f0c4215a1cb26dbf1669b29da85d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-stylelint-final.log",
+      "bytes": 338,
+      "sha256": "2619ebc8f6a1e4020f62868d97d97aa319eae8d6bcd411a46cfd8ff0f2adcd29"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-ts-main.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-ts-script.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-ts-test.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/shell-vitest-final.log",
+      "bytes": 271,
+      "sha256": "77d8339298de5a687a4066ded4e554060cc8df59797bf00714c916bc163d6dee"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/source-hashes.json",
+      "bytes": 1498,
+      "sha256": "0943e174c6b283e2b64e232b6ec6b85ce409c9dfbc8327281d06c3bc9c1ccf23"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/source.patch",
+      "bytes": 27821,
+      "sha256": "45f34f05b105077bd825662f5ecb583c6c5905a56faadc4207812acc8c9d6111"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/verification.json",
+      "bytes": 4438,
+      "sha256": "3e17499409f37d1fdcc81f83dfd45c755071cb22d1464048ee08e3a3ad0701ad"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/shell/verify-shell-browser.mjs",
+      "bytes": 12173,
+      "sha256": "ac1259f2296cc6b5f1ff93f5cea5c86574bbb0c28001f81a9b47508070238793"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/source-diff.json",
+      "bytes": 22972,
+      "sha256": "bd805dda928b55638b5876008d468eda80050258ab10f6028d5484203043626a"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/theme/actual-variants-before-restore.json",
+      "bytes": 77292,
+      "sha256": "c8eae0090b386d3515569b022910c2d033479a1a16b5efbf893cc847799492c5"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/theme/actual-variants.json",
+      "bytes": 279068,
+      "sha256": "825471f56bc04f9ada0715d11fc5cf4592c343cda17db27bb73df186a9f5ef55"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/theme/before-selected-contrast-fix.json",
+      "bytes": 267360,
+      "sha256": "2db44efb80337e050c63fd99f3bea69ec8b82f6f547856dcbdeb7b9fb32f3009"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/theme/checks.md",
+      "bytes": 7374,
+      "sha256": "11457fa0129e844d62937eff7ae567ebe8f55dd4a877c488429777bcd06c0c74"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/theme/verification-neutral-theme.json",
+      "bytes": 4811,
+      "sha256": "330e8e89cb9200d2acc24dce8077a1dd9d75e32a06ec17daaa9cc608d658b056"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/user-frontend-brief.txt",
+      "bytes": 34121,
+      "sha256": "b9d244f0bf5562d235817e1d91d28e4be4e02ed69dbeedc2ff82ee2599b0a3a9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/acceptance-candidate.log",
+      "bytes": 374,
+      "sha256": "0e9c54a1cc3dc7f16583d7ae86a2752032b77dbe8845b25ba0c35114f557aefe"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/benchmark-delivery.log",
+      "bytes": 1707,
+      "sha256": "bef9ceb901fc816593ff9299af15163ad6442f44b6ce49d1ffe7909d139d3ac8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/caption-probe.json",
+      "bytes": 2219,
+      "sha256": "0087ff85b7189c86a31a03082f7e48e4f0c784b3b9892fa37d1fdf1c97129420"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/contrast-stylelint-final.log",
+      "bytes": 7802,
+      "sha256": "6711bace7bb343dcadf0fc90e2746963ffe3d90590210e982cc39e1d298f7782"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/eslint-candidate-affected.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/eslint-complete.log",
+      "bytes": 294,
+      "sha256": "70286d8fe92e51e738de40bebf4b86c3573c211faf1b120eef4ad060643b264b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/gallery-delivery.log",
+      "bytes": 44,
+      "sha256": "861030d107449682e3b654a55dddef786d2b08fac9ca25b5103aa35bb6a4a5b0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/media-release-tests.log",
+      "bytes": 6971,
+      "sha256": "63705e917149e25be18fa197df0cbcc2b61027c097b15337ee7ac590d95a9b7b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/native-tests.log",
+      "bytes": 11383,
+      "sha256": "1131510379d436cc11e51440c3295082909c8a1daf77316ad042f5384c7b34ea"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/nsis-candidate.log",
+      "bytes": 1484,
+      "sha256": "0d0ced7246ff7c12ffc65525763051349d2c2832f499c771310b141d77be2631"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/nsis-delivery.log",
+      "bytes": 1749,
+      "sha256": "d04a81da9c5e1e3b140d588eb6f80f292f9131d8c03a72cb008f4b46e86b7673"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/own-cache-cleanup.json",
+      "bytes": 594,
+      "sha256": "81be35fc9956e941a6572e372080a5b3b613fe8b932f1dc29e45c6fd6e6e6fb0"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/preflight-delivery.json",
+      "bytes": 889,
+      "sha256": "a80f506cc522ea060066651b3e4880f5a28c5fd458fadfca1e110154b05eba9c"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/preflight-delivery.log",
+      "bytes": 86,
+      "sha256": "fa49580f52d993fe3717e4a5fa04c958b02d43e0d97f4df11ddf04b6c5a3cfec"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/production-delivery.log",
+      "bytes": 60411,
+      "sha256": "17d294d49fe4fe8c30cb8bc85d70f0aa3585b0d39f5cd4769e013a9ffe40b99b"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/review-result-qa-before-fix.log",
+      "bytes": 328,
+      "sha256": "55e106ec74939956b9eef7dc4b2630e912056c8d92b5dc668650e7d0bb54798f"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/review-result-qa-final.log",
+      "bytes": 111,
+      "sha256": "bdeb995425df7c87311eeb9fe371e51c1447bf29e4dffa9d786ccaa3d0f228e8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/source-diff-check.log",
+      "bytes": 84,
+      "sha256": "72e58c224a12170089527082ea50833c47a56e06dfaef80cc3b19c88d14cff83"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/stylelint-complete.log",
+      "bytes": 63328,
+      "sha256": "88af922a110be917beb1c439026aa38ab412b76561812d8bf0b10be485b9d0a9"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/tauri-local-build.json",
+      "bytes": 35,
+      "sha256": "cc47a9e04f0f6a25f8aed30b01c43133a0ef93485b2e4435feadf9313cddb360"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/theme-contrast-green.log",
+      "bytes": 269,
+      "sha256": "edf72a120e63c2c579480468a45d0e1e34eb479bff445c735bf4787e9ff689c7"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/theme-contrast-red.log",
+      "bytes": 2574,
+      "sha256": "73025d29034026730ba76d8ac5f4eaee28a5e98d4724ecf1cd0123bb6e4c063d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/theme-selected-contrast-final.log",
+      "bytes": 269,
+      "sha256": "fc08deee3d16e3620df9a457047fd1adc2667303167ecf0aff780c13deaaef12"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/theme-selected-contrast-lint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/tsconfig.json.candidate.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/tsconfig.script.json.candidate.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/tsconfig.test.json.candidate.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/typescript-candidate.json",
+      "bytes": 737,
+      "sha256": "05ed83c9b3c77dddd1543f4b0c3719ba6d28163083caefaf4bc1938d6030b738"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/vite.task.config.mts",
+      "bytes": 414,
+      "sha256": "a12c0ad81f88916b4957c8d271de61c20df2a4f3e1d00ddeae938abac28dd48e"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/vitest-candidate.log",
+      "bytes": 281,
+      "sha256": "621bd26b8016e004e579ccf3ddd7269b771254e2b82f8fd1ca8e1438b8fc0d0d"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification-logs/vitest.task.config.mts",
+      "bytes": 493,
+      "sha256": "f35969c8206f9c375405f8e287932d9f08547cc8541e40cfd9abeb7fe1c4a967"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verification.json",
+      "bytes": 14852,
+      "sha256": "beaaa3546ceb4e9473e96e7996005f90865665607469b9eecc1873b7f2de69d8"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/verify-result-board.mjs",
+      "bytes": 8690,
+      "sha256": "73f95d89111b3697466ccdac47821e20e2d791ddd81fa5839732b125c31daf83"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/Реестр-1.6.0.json",
+      "bytes": 10244,
+      "sha256": "85d5bda6d4cf1326e5237617a8aded75342d7a7b3c2499997bbff5ee35320439"
+    },
+    {
+      "path": "docs/frontend-cycle-2026-10-06/Реестр.json",
+      "bytes": 11762,
+      "sha256": "02b66db0d62b56c18eeacc7800806b9e54841e26291b185410902e3ebb588f87"
+    },
+    {
+      "path": "release/1.6.0/Egoist Relay_1.6.0_x64-setup.exe",
+      "bytes": 567485174,
+      "sha256": "0b85b606686e25cad55b7690014a0c9691a4bc02faeea250a5dc413130c1f7d9"
+    },
+    {
+      "path": "release/1.6.0/manifest.json",
+      "bytes": 1492,
+      "sha256": "f8fe28da87efa4b4fd35d38592d53c8c2534a53dd1d100e38a06a9cc9708b397"
+    },
+    {
+      "path": "release/1.6.0/README.md",
+      "bytes": 1689,
+      "sha256": "468c3f5ec4102f5a672ca49b3367c7a5dba38230cd188a5ad1a1c38f4d342119"
+    },
+    {
+      "path": "release/1.6.0/SHA256SUMS.txt",
+      "bytes": 100,
+      "sha256": "6f43045d4734397756295a859e8a0588e0caff19da56cf296eb9a5b11809ce34"
+    }
+  ]
+}

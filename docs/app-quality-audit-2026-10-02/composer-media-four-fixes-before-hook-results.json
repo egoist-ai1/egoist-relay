@@ -1,0 +1,2100 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-composer-media-audit-2026-10-02",
+  "version": 1,
+  "generatedAt": "2026-10-02T11:27:25.882Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourcePackageVersion": "1.4.4",
+  "candidateKind": "NEXT working tree, not the immutable canonical package",
+  "environment": {
+    "actualApp": true,
+    "transport": "existing MockClient + protected action recorder",
+    "headless": true,
+    "externalRequests": "blocked",
+    "viewport": "1920x1080 + 640x900 emulations",
+    "realUploads": 0,
+    "realMessages": 0,
+    "realDeletes": 0,
+    "realPayments": 0
+  },
+  "cases": [
+    {
+      "id": "full-attachment-photo-caption-standard",
+      "status": "pass",
+      "detail": {
+        "actualComposer": true,
+        "result": {
+          "name": "sendMessage",
+          "text": "Owned caption — подпись проверена",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "photo-high-quality-real-output",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": true,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+              "selectedBytes": 70908,
+              "selectedDimensions": {
+                "width": 2560,
+                "height": 1706
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "photo-as-file-byte-integrity",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": true,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedBytes": 167866,
+              "selectedDimensions": {
+                "width": 3000,
+                "height": 2000
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "album-group-and-ungroup",
+      "status": "pass",
+      "detail": {
+        "grouped": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            },
+            {
+              "filename": "owned-photo-two.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        },
+        "ungrouped": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": false,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            },
+            {
+              "filename": "owned-photo-two.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "caption-inversion-and-spoiler",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Caption above photo",
+          "grouped": true,
+          "inverted": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": true,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "single-photo-inverted-caption-with-ungroup-setting",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Isolated caption above single photo",
+          "grouped": false,
+          "inverted": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "multiple-ungrouped-inverted-caption",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Isolated caption above ungrouped photos",
+          "grouped": false,
+          "inverted": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            },
+            {
+              "filename": "owned-photo-two.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "empty-caption-inversion-cleared",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        },
+        "emptyCaptionFlagCleared": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "file-mode-inversion-cleared",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": true,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedBytes": 167866,
+              "selectedDimensions": {
+                "width": 3000,
+                "height": 2000
+              }
+            }
+          ]
+        },
+        "fileModeFlagCleared": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-header-pointer-hit-test",
+      "status": "pass",
+      "detail": {
+        "hits": [
+          {
+            "icon": "icon icon-close",
+            "disabled": false,
+            "box": {
+              "x": 1456,
+              "y": 52,
+              "width": 40,
+              "height": 40,
+              "top": 52,
+              "right": 1496,
+              "bottom": 92,
+              "left": 1456
+            },
+            "actualHitClass": "icon icon-close",
+            "ownsHit": true
+          },
+          {
+            "icon": "icon icon-undo",
+            "disabled": true,
+            "box": {
+              "x": 1820,
+              "y": 52,
+              "width": 40,
+              "height": 40,
+              "top": 52,
+              "right": 1860,
+              "bottom": 92,
+              "left": 1820
+            },
+            "actualHitClass": "MediaEditor-module__headerActions",
+            "ownsHit": false
+          },
+          {
+            "icon": "icon icon-redo",
+            "disabled": true,
+            "box": {
+              "x": 1864,
+              "y": 52,
+              "width": 40,
+              "height": 40,
+              "top": 52,
+              "right": 1904,
+              "bottom": 92,
+              "left": 1864
+            },
+            "actualHitClass": "MediaEditor-module__headerActions",
+            "ownsHit": false
+          }
+        ],
+        "screenshot": "composer-media-editor-header-hit-test.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "multiple-persisted-ungrouped-inverted-caption",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Persisted ungrouped caption above photos",
+          "grouped": false,
+          "inverted": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            },
+            {
+              "filename": "owned-photo-two.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-header-focus-owner",
+      "status": "pass",
+      "detail": {
+        "focus": {
+          "ownsFocus": true,
+          "activeClass": "Button smaller translucent round",
+          "activeAria": null,
+          "insideEditor": true
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-keyboard-tab-space-escape-ownership",
+      "status": "pass",
+      "detail": {
+        "tabTraces": [
+          {
+            "inside": true,
+            "activeClass": "Button smaller translucent round"
+          },
+          {
+            "inside": true,
+            "activeClass": "Button smaller translucent round"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch MediaEditor-module__selected"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch MediaEditor-module__customColor"
+          },
+          {
+            "inside": true,
+            "activeClass": "RangeSlider__input"
+          },
+          {
+            "inside": true,
+            "activeClass": "ListItem-button"
+          },
+          {
+            "inside": true,
+            "activeClass": "ListItem-button"
+          }
+        ],
+        "escapeKeepsParent": true,
+        "spaceOwnCancel": true,
+        "result": {
+          "name": "sendMessage",
+          "text": "Escape keeps original caption",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "group-compression-quality-caption-independent-settings",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Independent selection controls",
+          "grouped": false,
+          "inverted": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": true,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+              "selectedBytes": 70908,
+              "selectedDimensions": {
+                "width": 2560,
+                "height": 1706
+              }
+            },
+            {
+              "filename": "owned-photo-two.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": true,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+              "selectedBytes": 70908,
+              "selectedDimensions": {
+                "width": 2560,
+                "height": 1706
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "document-original-byte-integrity",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-byte-integrity.bin",
+              "mimeType": "application/octet-stream",
+              "size": 65537,
+              "shouldSendAsFile": true,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a",
+              "selectedSha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a",
+              "selectedBytes": 65537
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "actual-video-local-decode-preview",
+      "status": "pass",
+      "detail": {
+        "decoded": {
+          "width": 1280,
+          "height": 720,
+          "duration": 1.5,
+          "readyState": 4
+        },
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-video.mp4",
+              "mimeType": "video/mp4",
+              "size": 2678,
+              "quick": {
+                "width": 1280,
+                "height": 720,
+                "duration": 1.5
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec",
+              "selectedSha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec",
+              "selectedBytes": 2678
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "actual-audio-metadata-and-byte-integrity",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-audio.wav",
+              "mimeType": "audio/wav",
+              "size": 16078,
+              "audio": {
+                "duration": 1
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365",
+              "selectedSha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365",
+              "selectedBytes": 16078
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-add-real-filechooser-delete-and-cancel",
+      "status": "pass",
+      "detail": {
+        "append": 2,
+        "remaining": 1,
+        "sendDelta": 0,
+        "state": {
+          "parentClass": "Modal AttachmentModal-module__root low-priority opacity-transition fast shown not-open closing",
+          "open": false,
+          "rect": {
+            "x": 750,
+            "y": 467,
+            "width": 420,
+            "height": 218,
+            "top": 467,
+            "right": 1170,
+            "bottom": 685,
+            "left": 750
+          }
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "photo-editor-crop-rotate-undo-redo-save",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Caption preserved through actual editor",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 180465,
+              "quick": {
+                "width": 2000,
+                "height": 3000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "47de9ed4241b0ee44b9878591c8e09f96ef29e6948a5132267bf3f676fb20096",
+              "selectedSha256": "c2dc5385865298df11a65f92e40b9d7994e0f91425d1ab985ea788e5b940c476",
+              "selectedBytes": 27461,
+              "selectedDimensions": {
+                "width": 853,
+                "height": 1280
+              }
+            }
+          ]
+        },
+        "pointerCrop": {
+          "beforeBox": {
+            "x": 102.2265625,
+            "y": 108.1640625,
+            "width": 1235.515625,
+            "height": 823.671875
+          },
+          "croppedBox": {
+            "x": 102.2265625,
+            "y": 108.1640625,
+            "width": 1164.515625,
+            "height": 772.671875
+          },
+          "undoneBox": {
+            "x": 102.2265625,
+            "y": 108.1640625,
+            "width": 1235.515625,
+            "height": 823.671875
+          }
+        },
+        "pointerUndoRedo": true,
+        "keyboardUndoRedo": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-cancel-keeps-original-and-zero-send",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        },
+        "cancelSendDelta": 0,
+        "actualPointerCancel": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "malformed-video-falls-back-to-original-file",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-invalid-video.mp4",
+              "mimeType": "video/mp4",
+              "size": 27,
+              "shouldSendAsFile": true,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "568e6e80814227f06cb8de6e553896186b295f1f1e925533f9909d93e698c38e",
+              "selectedSha256": "568e6e80814227f06cb8de6e553896186b295f1f1e925533f9909d93e698c38e",
+              "selectedBytes": 27
+            }
+          ]
+        },
+        "finiteFallback": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "malformed-photo-error-and-valid-retry",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Malformed photo is rejected with handled feedback, without unhandled async rejection\n\n1 !== 0\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Malformed photo is rejected with handled feedback, without unhandled async rejection\n\n1 !== 0\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-composer-media.test.mjs:500:16\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-composer-media.test.mjs:111:24)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-composer-media.test.mjs:482:5",
+      "interactionProof": {
+        "failedSelect": "TimeoutError: locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.modal-dialog').filter({ has: locator('#caption-input-text') }) to be visible\u001b[22m\n",
+        "unhandled": [
+          "[object Event]"
+        ],
+        "validRetryOpened": true,
+        "realSendDelta": 0
+      },
+      "screenshot": "composer-media-failure-malformed-photo-error-and-valid-retry.png",
+      "pageErrors": []
+    },
+    {
+      "id": "malformed-photo-valid-sibling-selection",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Mixed invalid media decode must be handled without rejecting valid sibling selection\n\n2 !== 1\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Mixed invalid media decode must be handled without rejecting valid sibling selection\n\n2 !== 1\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-composer-media.test.mjs:513:14\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-composer-media.test.mjs:111:24)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-composer-media.test.mjs:503:5",
+      "interactionProof": {
+        "failedSelect": "TimeoutError: locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.modal-dialog').filter({ has: locator('#caption-input-text') }) to be visible\u001b[22m\n",
+        "unhandled": [
+          "[object Event]"
+        ],
+        "notifications": [],
+        "beforeSends": 19,
+        "sendDelta": 0
+      },
+      "screenshot": "composer-media-failure-malformed-photo-valid-sibling-selection.png",
+      "pageErrors": []
+    },
+    {
+      "id": "fullhd-and-narrow-attachment-geometry",
+      "status": "pass",
+      "detail": {
+        "samples": [
+          {
+            "box": {
+              "x": 750,
+              "y": 394.5,
+              "width": 420,
+              "height": 331,
+              "top": 394.5,
+              "right": 1170,
+              "bottom": 725.5,
+              "left": 750
+            },
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "horizontalOverflow": false,
+            "outside": [],
+            "controls": 5,
+            "screenshot": "composer-media-attachments-1920.png"
+          },
+          {
+            "box": {
+              "x": 110,
+              "y": 304.5,
+              "width": 420,
+              "height": 331,
+              "top": 304.5,
+              "right": 530,
+              "bottom": 635.5,
+              "left": 110
+            },
+            "viewport": {
+              "width": 640,
+              "height": 900
+            },
+            "horizontalOverflow": false,
+            "outside": [],
+            "controls": 5,
+            "screenshot": "composer-media-attachments-640.png"
+          }
+        ]
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-fullhd-narrow-geometry-and-pointer-cancel",
+      "status": "pass",
+      "detail": {
+        "samples": [
+          {
+            "box": {
+              "x": 0,
+              "y": 40,
+              "width": 1920,
+              "height": 1040,
+              "top": 40,
+              "right": 1920,
+              "bottom": 1080,
+              "left": 0
+            },
+            "viewport": {
+              "width": 1920,
+              "height": 1080
+            },
+            "outside": [],
+            "overflow": false,
+            "bodyClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri",
+            "scroll": {
+              "scrollTop": 0,
+              "maxScroll": 0
+            },
+            "screenshot": "composer-media-editor-1920.png"
+          },
+          {
+            "box": {
+              "x": 0,
+              "y": 40,
+              "width": 640,
+              "height": 860,
+              "top": 40,
+              "right": 640,
+              "bottom": 900,
+              "left": 0
+            },
+            "viewport": {
+              "width": 640,
+              "height": 900
+            },
+            "outside": [],
+            "overflow": false,
+            "bodyClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri",
+            "scroll": {
+              "scrollTop": 0,
+              "maxScroll": 0
+            },
+            "screenshot": "composer-media-editor-640.png"
+          },
+          {
+            "box": {
+              "x": 0,
+              "y": 40,
+              "width": 390,
+              "height": 804,
+              "top": 40,
+              "right": 390,
+              "bottom": 844,
+              "left": 0
+            },
+            "viewport": {
+              "width": 390,
+              "height": 844
+            },
+            "outside": [
+              {
+                "name": "",
+                "box": {
+                  "x": 24,
+                  "y": 878.1875,
+                  "width": 342,
+                  "height": 12,
+                  "top": 878.1875,
+                  "right": 366,
+                  "bottom": 890.1875,
+                  "left": 24
+                },
+                "reachableByPanelScroll": true
+              },
+              {
+                "name": "Pen",
+                "box": {
+                  "x": 8,
+                  "y": 953.375,
+                  "width": 374,
+                  "height": 48,
+                  "top": 953.375,
+                  "right": 382,
+                  "bottom": 1001.375,
+                  "left": 8
+                },
+                "reachableByPanelScroll": true
+              },
+              {
+                "name": "Arrow",
+                "box": {
+                  "x": 8,
+                  "y": 1005.375,
+                  "width": 374,
+                  "height": 48,
+                  "top": 1005.375,
+                  "right": 382,
+                  "bottom": 1053.375,
+                  "left": 8
+                },
+                "reachableByPanelScroll": true
+              },
+              {
+                "name": "Brush",
+                "box": {
+                  "x": 8,
+                  "y": 1057.375,
+                  "width": 374,
+                  "height": 48,
+                  "top": 1057.375,
+                  "right": 382,
+                  "bottom": 1105.375,
+                  "left": 8
+                },
+                "reachableByPanelScroll": true
+              },
+              {
+                "name": "Neon",
+                "box": {
+                  "x": 8,
+                  "y": 1109.375,
+                  "width": 374,
+                  "height": 48,
+                  "top": 1109.375,
+                  "right": 382,
+                  "bottom": 1157.375,
+                  "left": 8
+                },
+                "reachableByPanelScroll": true
+              },
+              {
+                "name": "Eraser",
+                "box": {
+                  "x": 8,
+                  "y": 1161.375,
+                  "width": 374,
+                  "height": 48,
+                  "top": 1161.375,
+                  "right": 382,
+                  "bottom": 1209.375,
+                  "left": 8
+                },
+                "reachableByPanelScroll": true
+              }
+            ],
+            "overflow": false,
+            "bodyClass": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri",
+            "scroll": {
+              "scrollTop": 365,
+              "maxScroll": 365
+            },
+            "screenshot": "composer-media-editor-390.png"
+          }
+        ],
+        "realPointerCancels": 3,
+        "responsiveEntry": "Open via offered desktop editor control, then resize own viewport; narrow attachment editor affordance is intentionally absent"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-landing-ghost-popover-inset-geometry",
+      "status": "pass",
+      "detail": {
+        "traces": [
+          {
+            "popoverOpen": true,
+            "className": "opacity-transition fast shown MediaEditor-module__root MediaEditor-module__landingGhost open",
+            "box": {
+              "x": 0,
+              "y": 40,
+              "width": 1920,
+              "height": 1040,
+              "top": 40,
+              "right": 1920,
+              "bottom": 1080,
+              "left": 0
+            },
+            "viewportHeight": 1080,
+            "captionHeight": "2.5rem"
+          }
+        ],
+        "scope": "Synthetic hidden viewer-host sentinel triggers actual MediaEditor manual-popover branch; actual viewer lifecycle unverified"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "actual-document-upload-progress-cancel",
+      "status": "pass",
+      "detail": {
+        "progress": 0.375,
+        "cancelDelta": 1,
+        "geometry": {
+          "box": {
+            "x": 705,
+            "y": 571,
+            "width": 510,
+            "height": 54,
+            "top": 571,
+            "right": 1215,
+            "bottom": 625,
+            "left": 705
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "horizontalOverflow": false,
+          "outside": [],
+          "controls": 0
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "actual-document-download-cancel",
+      "status": "pass",
+      "detail": {
+        "cancelDelta": 1
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "document-download-exact-selection",
+      "status": "pass",
+      "detail": {
+        "callbackDelta": 1,
+        "selectedMediaId": "990000001",
+        "realDownloads": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "document-preview-loading-then-exact-content",
+      "status": "pass",
+      "detail": {
+        "actualReader": true,
+        "requests": 1
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "document-preview-error-retry-download",
+      "status": "pass",
+      "detail": {
+        "retryReadRequests": 2,
+        "downloadDelta": 1,
+        "realDownloads": 0
+      },
+      "pageErrors": []
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [
+    "Event",
+    "Event",
+    "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+  ],
+  "sources": {
+    "src/components/common/Composer.tsx": {
+      "bytes": 117810,
+      "sha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a"
+    },
+    "src/components/middle/composer/AttachMenu.tsx": {
+      "bytes": 11255,
+      "sha256": "f9f04df7ca769f6978bf5dd88213947ef535f3a7709bb2b1e5bd22e4bdfc1fea"
+    },
+    "src/components/middle/composer/AttachmentModal.tsx": {
+      "bytes": 33671,
+      "sha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc"
+    },
+    "src/components/middle/composer/AttachmentModalItem.tsx": {
+      "bytes": 5032,
+      "sha256": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4"
+    },
+    "src/components/middle/composer/hooks/useAttachmentModal.ts": {
+      "bytes": 5880,
+      "sha256": "b580e52dea5cff87f30acaf74199e69162aa0598122bcccbf3c27b8ae9752806"
+    },
+    "src/components/middle/composer/helpers/buildAttachment.ts": {
+      "bytes": 4747,
+      "sha256": "9fc3f5fbbc1dc3180d614b2cc52ea6a2ea72042f33d6c84ebf0ae1284f1eb8e5"
+    },
+    "src/components/ui/mediaEditor/MediaEditor.tsx": {
+      "bytes": 30258,
+      "sha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c"
+    },
+    "src/components/ui/mediaEditor/MediaEditor.module.scss": {
+      "bytes": 14328,
+      "sha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468"
+    },
+    "src/components/common/Titlebar.module.scss": {
+      "bytes": 4663,
+      "sha256": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69"
+    },
+    "src/components/common/Document.tsx": {
+      "bytes": 7085,
+      "sha256": "c1effa47ded5accecfa84d7c152d53092aaaa1ce5d6afbbad22facaa7acc0d4a"
+    },
+    "src/components/common/File.tsx": {
+      "bytes": 7335,
+      "sha256": "900a09fb436cca5433ed6f7d75beae8e9670eb460dc76c98a05354b6682f1a71"
+    },
+    "src/components/common/DocumentReaderModal.tsx": {
+      "bytes": 13444,
+      "sha256": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377"
+    },
+    "src/util/files.ts": {
+      "bytes": 3775,
+      "sha256": "bcef355f8b15e12751584d9cc648fa2f029849cd6d49628691f7a61f64782109"
+    },
+    "scripts/relay-composer-media.fixture.tsx": {
+      "bytes": 5509,
+      "sha256": "288e812a3b73e3d0b7528df00b1f03afb90cf5a0884348372881eaa262b93a5c"
+    },
+    "scripts/relay-composer-media.server.fixture.mjs": {
+      "bytes": 2216,
+      "sha256": "5c136048c98453b4eb09fe82ddd636f406e382aa5c8138ba27fd4c1f159519ab"
+    },
+    "scripts/relay-composer-media.test.mjs": {
+      "bytes": 42208,
+      "sha256": "570ad5c6c5c82146bab3532bdf78dd222b9ae1e193d649f5435ebd7608c968a0"
+    }
+  },
+  "inputs": [
+    {
+      "name": "owned-photo.png",
+      "mimeType": "image/png",
+      "bytes": 167866,
+      "sha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f"
+    },
+    {
+      "name": "owned-byte-integrity.bin",
+      "mimeType": "application/octet-stream",
+      "bytes": 65537,
+      "sha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a"
+    },
+    {
+      "name": "owned-video.mp4",
+      "mimeType": "video/mp4",
+      "bytes": 2678,
+      "sha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec"
+    },
+    {
+      "name": "owned-audio.wav",
+      "mimeType": "audio/wav",
+      "bytes": 16078,
+      "sha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365"
+    }
+  ],
+  "gates": [
+    "Live upload/download/send acceptance and throughput remain unverified; no account effects run",
+    "Document upload/download progress is synthetic props on the actual Document/File components; actual network transfer is not measured"
+  ],
+  "blockedRequests": [],
+  "events": [
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Owned caption — подпись проверена",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 2
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 2
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Caption above photo",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Isolated caption above single photo",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Isolated caption above ungrouped photos",
+        "count": 2
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Persisted ungrouped caption above photos",
+        "count": 2
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Escape keeps original caption",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Independent selection controls",
+        "count": 2
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Caption preserved through actual editor",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    },
+    {
+      "name": "cancelOwnedUpload"
+    },
+    {
+      "name": "cancelMediaDownload",
+      "detail": {
+        "mediaId": "990000001"
+      }
+    },
+    {
+      "name": "downloadMedia",
+      "detail": {
+        "mediaId": "990000001"
+      }
+    },
+    {
+      "name": "downloadMedia",
+      "detail": {
+        "mediaId": "990000001"
+      }
+    }
+  ],
+  "captures": [
+    {
+      "name": "sendMessage",
+      "text": "Owned caption — подпись проверена",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": true,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+          "selectedBytes": 70908,
+          "selectedDimensions": {
+            "width": 2560,
+            "height": 1706
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": true,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedBytes": 167866,
+          "selectedDimensions": {
+            "width": 3000,
+            "height": 2000
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        },
+        {
+          "filename": "owned-photo-two.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": false,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        },
+        {
+          "filename": "owned-photo-two.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Caption above photo",
+      "grouped": true,
+      "inverted": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": true,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Isolated caption above single photo",
+      "grouped": false,
+      "inverted": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Isolated caption above ungrouped photos",
+      "grouped": false,
+      "inverted": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        },
+        {
+          "filename": "owned-photo-two.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": true,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedBytes": 167866,
+          "selectedDimensions": {
+            "width": 3000,
+            "height": 2000
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Persisted ungrouped caption above photos",
+      "grouped": false,
+      "inverted": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        },
+        {
+          "filename": "owned-photo-two.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Escape keeps original caption",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Independent selection controls",
+      "grouped": false,
+      "inverted": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": true,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+          "selectedBytes": 70908,
+          "selectedDimensions": {
+            "width": 2560,
+            "height": 1706
+          }
+        },
+        {
+          "filename": "owned-photo-two.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": true,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+          "selectedBytes": 70908,
+          "selectedDimensions": {
+            "width": 2560,
+            "height": 1706
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-byte-integrity.bin",
+          "mimeType": "application/octet-stream",
+          "size": 65537,
+          "shouldSendAsFile": true,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a",
+          "selectedSha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a",
+          "selectedBytes": 65537
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-video.mp4",
+          "mimeType": "video/mp4",
+          "size": 2678,
+          "quick": {
+            "width": 1280,
+            "height": 720,
+            "duration": 1.5
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec",
+          "selectedSha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec",
+          "selectedBytes": 2678
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-audio.wav",
+          "mimeType": "audio/wav",
+          "size": 16078,
+          "audio": {
+            "duration": 1
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365",
+          "selectedSha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365",
+          "selectedBytes": 16078
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Caption preserved through actual editor",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 180465,
+          "quick": {
+            "width": 2000,
+            "height": 3000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "47de9ed4241b0ee44b9878591c8e09f96ef29e6948a5132267bf3f676fb20096",
+          "selectedSha256": "c2dc5385865298df11a65f92e40b9d7994e0f91425d1ab985ea788e5b940c476",
+          "selectedBytes": 27461,
+          "selectedDimensions": {
+            "width": 853,
+            "height": 1280
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-invalid-video.mp4",
+          "mimeType": "video/mp4",
+          "size": 27,
+          "shouldSendAsFile": true,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "568e6e80814227f06cb8de6e553896186b295f1f1e925533f9909d93e698c38e",
+          "selectedSha256": "568e6e80814227f06cb8de6e553896186b295f1f1e925533f9909d93e698c38e",
+          "selectedBytes": 27
+        }
+      ]
+    }
+  ],
+  "unhandled": [
+    "[object Event]",
+    "[object Event]"
+  ],
+  "readerRequests": {
+    "retry": 2,
+    "loading": 1,
+    "success": 0
+  },
+  "summary": {
+    "total": 31,
+    "pass": 29,
+    "fail": 2,
+    "gates": 2,
+    "pageErrors": 0,
+    "unhandled": 2
+  }
+}

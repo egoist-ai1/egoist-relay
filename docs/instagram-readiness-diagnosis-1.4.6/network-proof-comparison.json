@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T18:14:13.1146906+03:00",
+  "protectedFilesUnchanged": true,
+  "dnsSettingsUnchanged": true,
+  "proxySettingsUnchanged": true,
+  "servicesUnchanged": false,
+  "serviceProcessIdentityPriorityUnchanged": false,
+  "mcpDaemonPids": [
+    32796
+  ],
+  "mcpTcpUdpListeners": 0,
+  "networkMutationsPerformed": false,
+  "forceStops": 0,
+  "serviceRunningStartModesUnchanged": true,
+  "serviceBasePrioritiesUnchanged": true,
+  "observedServiceIdentityChanges": [
+    {
+      "service": "EgoistShieldSystemDoH",
+      "beforePid": 26316,
+      "afterPid": 38632,
+      "afterBirthUtc": "2026-10-02T15:02:54.446432Z",
+      "cause": "not established by this read-only check; no service/process controls performed"
+    }
+  ],
+  "dnsResolution": [
+    {
+      "host": "www.microsoft.com",
+      "resolved": true,
+      "elapsedMs": 212,
+      "serverSelection": "existing operating system DNS configuration"
+    },
+    {
+      "host": "web.telegram.org",
+      "resolved": true,
+      "elapsedMs": 68,
+      "serverSelection": "existing operating system DNS configuration"
+    },
+    {
+      "host": "www.instagram.com",
+      "resolved": true,
+      "elapsedMs": 69,
+      "serverSelection": "existing operating system DNS configuration"
+    },
+    {
+      "host": "x.com",
+      "resolved": true,
+      "elapsedMs": 0,
+      "serverSelection": "existing operating system DNS configuration"
+    }
+  ]
+}

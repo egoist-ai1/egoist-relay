@@ -1,0 +1,337 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-bridge-account-readiness-audit-2026-10-02",
+  "createdAt": "2026-10-02T07:38:55.034181+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.json",
+  "scope": "source read-only diagnosis plus bounded synthetic DOM/adapter/broker fixture; only new audit artifacts written",
+  "productionMutations": false,
+  "workerExternalPlatformJobs": 0,
+  "taskId": "01a0f9d0-40af-7032-b182-4902e7517e9b",
+  "installedEvidence": {
+    "provenance": "parent-receipt, not independently probed by this worker",
+    "version": "1.4.2",
+    "appPid": 46312,
+    "appBirth": "2026-10-02T03:14:59.6525810Z",
+    "daemonPid": 9116,
+    "daemonSourceSha256": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+    "humanSignedInUi": "X and Instagram confirmed by human earlier; not a substitute for current research proof",
+    "warmStatus30s": {
+      "samples": 13,
+      "telegram": "ready throughout",
+      "xAndInstagram": [
+        {
+          "elapsedMs": 532,
+          "state": "pending"
+        },
+        {
+          "elapsedMs": 3086,
+          "state": "ready",
+          "reason": "dom_account_confirmed"
+        },
+        {
+          "elapsedMs": 15684,
+          "state": "ready"
+        },
+        {
+          "elapsedMs": 18173,
+          "state": "pending"
+        },
+        {
+          "elapsedMs": 20666,
+          "state": "ready"
+        },
+        {
+          "elapsedMs": 30758,
+          "state": "ready"
+        }
+      ],
+      "jobs": 0,
+      "loginOrProfileReads": 0
+    },
+    "peerPublicOperationReceipt": "public-operation-pilots.json#51ec3a51-3c3d-4697-9f71-eedade0830b1: Xdiscover partial2 then idle final proof_pending"
+  },
+  "sources": [
+    {
+      "id": "installed-public-script",
+      "path": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\research\\social-read.js",
+      "sha256": "892b7a56c9051212121beacf7e4cfc4b91956d2cbc91c072cd9d2091ab2b9338",
+      "bytes": 31561
+    },
+    {
+      "id": "candidate-public-script",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+      "sha256": "162335eccc2d6ff1676cd6fc069ce9b62bef077d89a4857ace392ade9450ddd8",
+      "bytes": 34188
+    },
+    {
+      "id": "candidate-native",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+      "sha256": "b4f41ae73fdd9406887815deec2c945603b03ff952395f16ca80960e1c49dbca",
+      "bytes": 67149
+    },
+    {
+      "id": "adapter-source",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\bridge-provider.mjs",
+      "sha256": "9c2454c190fbcc23704b4cc4621cc542c052853017716c9403e35f445b59a952",
+      "bytes": 20633
+    },
+    {
+      "id": "broker-source",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker.mjs",
+      "sha256": "e795c2b76929a2acf220c9e63c4855afc4e217212c6f0192ec5674d7ba7aec03",
+      "bytes": 34846
+    },
+    {
+      "id": "synthetic-fixture",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\relay-account-readiness-audit.test.mjs",
+      "sha256": "f6f5156739145884f0e53d75a21692dcaa2a00505e6c31f54585e5ad927a5d11",
+      "bytes": 13404
+    },
+    {
+      "id": "peer-public-receipt",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "sha256": "3ef04476dc880519e6db456e44a0b636eeda719dcd033185bfe9ccf63033f723",
+      "bytes": 55299
+    }
+  ],
+  "timers": {
+    "nativeRefreshStaleAfterMs": 15000,
+    "nativeWarmProbeDeadlineMs": 20000,
+    "nativeDeadlinePollMs": 100,
+    "jsAuthWaitMs": 15000,
+    "jsAuthPollMs": 150,
+    "brokerStatusRpcBoundMs": 5000,
+    "bridgeStatusRpcBoundMs": 5000,
+    "brokerBusyPollMs": 100
+  },
+  "findings": [
+    {
+      "id": "bridge-readiness-ttl-live",
+      "name": "Повторный TTL proof является переходным состоянием",
+      "severity": "evidence",
+      "status": "source-and-parent-live-confirmed",
+      "content": "После15 секунд native очищает ready→initializing перед новой скрытой proof; adapter показывает unavailable/dom_account_proof_pending.13 parent live samples на1.4.2 подтверждают обе платформы ready спустя≈2.5 секунды, включая повторный TTL refresh. Pending не является доказательством logout.",
+      "source": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+          "line": 1347
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\bridge-provider.mjs",
+          "line": 41
+        }
+      ],
+      "confirmationAction": "Принять ограниченный вывод о переходном TTL состоянии и сохранить live status отдельно от login/account доказательств."
+    },
+    {
+      "id": "bridge-readiness-queued-ttl",
+      "name": "Queued job преждевременно завершается во время proof refresh",
+      "severity": "P1",
+      "status": "actual-adapter-and-broker-synthetic-reproduced",
+      "content": "Готовая bound submission сдвинута на16s перед dequeue. Actual native TTL contract в synthetic provider возвращает initializing; actual adapter и broker завершают PROVIDER_UNAVAILABLE,0source executions. Execute ждёт только provider_busy.",
+      "source": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker.mjs",
+          "line": 354
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\relay-account-readiness-audit.test.mjs",
+          "line": 129
+        }
+      ],
+      "confirmationAction": "Принять воспроизведение как основание для отдельного bounded settled-proof fix, сохраняя binding и один source run."
+    },
+    {
+      "id": "bridge-readiness-submit-pin",
+      "name": "Submission pending→ready не получает account pin",
+      "severity": "P1",
+      "status": "actual-adapter-and-broker-synthetic-reproduced",
+      "content": "Actual submit во время pending сохраняет accountScope undefined. Если dequeue уже ready под той же synthetic epoch, actual binding guard завершает STALE_ACCOUNT до source run. Это отсутствующий pin, а не подтверждённая смена аккаунта.",
+      "source": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker.mjs",
+          "line": 468
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\broker.mjs",
+          "line": 372
+        }
+      ],
+      "confirmationAction": "Принять необходимость получить settled proof до pin; genuine changed account/epoch остаётся STALE_ACCOUNT."
+    },
+    {
+      "id": "bridge-readiness-started-init",
+      "name": "Early ContentLoading dispatch может стать silent noop",
+      "severity": "P1",
+      "status": "exact-native-expression-and-actual-script-synthetic-reproduced",
+      "content": "Wry Started=ContentLoading. SDK допускает ContentLoading до document-created scripts, ExecuteScript асинхронен около этого этапа. Exact native optional wrapper выполненный до init возвращает undefined; actual script init сам не повторяет dispatch; только delayed Finished повтор запускает proof. Windows ordering текущего владельца не наблюдался этим fixture, поэтому это воспроизводимый source hazard, не доказанная причина каждого live pending.",
+      "source": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+          "line": 815
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+          "line": 896
+        },
+        {
+          "file": "C:\\Users\\Egoist\\.cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\wry-0.57.0\\src\\webview2\\mod.rs",
+          "line": 714
+        }
+      ],
+      "confirmationAction": "Рассмотреть отдельный current-navigation/epoch/origin-bound DOMContentLoaded proof dispatch с Finished fallback; не считать installed1.4.2 исправленной."
+    },
+    {
+      "id": "bridge-readiness-hidden-and-guards",
+      "name": "Скрытый DOM и строгие границы аккаунта",
+      "severity": "evidence",
+      "status": "actual-script-synthetic-confirmed-live-css-unobserved",
+      "content": "Оба actual scripts подтверждают скрытые/loading X/IG документы при valid own nav. Missing/ambiguous IG nav, login/challenge и storage invalidation остаются отдельными результатами. Нативные nonce/origin/documentEpoch/expectedAccount guards сохраняются. Hidden WebView способен throttle tasks по SDK, но реальный scheduler/selector причины текущего владельца не наблюдались.",
+      "source": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+          "line": 75
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+          "line": 1650
+        }
+      ],
+      "confirmationAction": "Сохранить строгие account/origin/epoch guards; не выводить потерю сессии из missing DOM/pending и не добавлять focus/cookie обход."
+    },
+    {
+      "id": "bridge-readiness-candidate-gate",
+      "name": "1.4.3 не меняет proof lifecycle и остаётся отдельным live gate",
+      "severity": "limitation",
+      "status": "source-comparison-confirmed-candidate-live-unexecuted",
+      "content": "authProof/waitAuth и storage regex идентичны после LF/CRLF normalization.1.4.3 изменяет pause abort taxonomy, original-photo selection, checked cursor retry и native selected IG routes; текущая proof TTL/dispatch/broker transient handling не исправляется. Live1.4.3 account readiness/collection в данном этапе не запускались.",
+      "source": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\relay-account-readiness-audit.test.mjs",
+          "line": 70
+        }
+      ],
+      "confirmationAction": "Сохранить candidate source evidence отдельно от installed/live evidence; дальнейшая приёмка только после разрешённого normal owner transition."
+    }
+  ],
+  "syntheticChecks": {
+    "fixture": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\relay-account-readiness-audit.test.mjs",
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "wallMs": 446.8214,
+    "mockDomTime": "accelerated deterministic timers; not real account/server performance",
+    "productionWrapperExtraction": "exact research_social.rs format expression; native COM event scheduling is modelled, not executed",
+    "brokerExecution": "actual createRelayBridgeProvider+createResearchBroker+JobStore; provider data/timing wholly synthetic; stores only in own task work",
+    "failuresConfirmed": [
+      "queued-ready→TTL-pending:PROVIDER_UNAVAILABLE,sourceRuns0",
+      "submitted-pending→ready:STALE_ACCOUNT,sourceRuns0",
+      "Started→eval-before-init→init:no replies/no retry timer; Finished→ready"
+    ],
+    "positiveControls": [
+      "hidden X/IG both script versions ready",
+      "provider_busy→ready:one run with unchanged bound account",
+      "genuine accountEpoch change:STALE_ACCOUNT,zero runs",
+      "login/challenge remain distinct",
+      "IG missing/ambiguous/content-only own nav:explicit unavailable",
+      "delayed nav proof at synthetic600ms",
+      "unrelated storage tolerated; inactive storage does not invalidate",
+      "explicit cancel:CANCELLED; candidate storage pause:STALE_ACCOUNT; installed storage pause:CANCELLED"
+    ]
+  },
+  "proposals": [
+    {
+      "id": "settled-proof-before-pin-and-dequeue",
+      "files": [
+        "src/research/broker.mjs",
+        "src/research/bridge-provider.mjs"
+      ],
+      "status": "proposed-only",
+      "change": "Coalesce one bounded readiness wait per provider only for explicit proof_pending/app_initializing transient, before submit pin and before queued execute. Keep status snapshot truthful; stop on settled auth/challenge/rate limit/transport failure. Cap remaining deadline, do not retry source operation. Only current settled account binds; changed prior pin remains STALE_ACCOUNT.",
+      "liveGate": "fresh installed candidate idle>15s→submit and queue→dequeue with one source run, same binding; cancellation/deadline/epoch-change negatives."
+    },
+    {
+      "id": "guarded-dom-content-ready-dispatch",
+      "files": [
+        "tauri/src/research_social.rs"
+      ],
+      "status": "proposed-only",
+      "change": "Use existing Windows SDK DOMContentLoaded event for Phase::Probe after initialization, guarded current NavigationId/source/document epoch and owned request nonce, with Finished fallback. Existing UI install_service_load_observers shows available SDK pattern; do not reuse UI label/state unsafely or extract content early.",
+      "liveGate": "fresh candidate slow NavigationCompleted while DOM own nav ready: proof settles before native20s; old navigation/account replies still rejected."
+    }
+  ],
+  "limitations": [
+    "No worker live status/job or platform transport call",
+    "No cookie/profile/auth key/private message/manual credentials reads",
+    "No production source/package/runtime/dependency/process/network/priority/settings mutations",
+    "Native source is frozen candidate; installed native in-memory implementation not independently extracted/attested here",
+    "Synthetic pre-init eval demonstrates permitted ordering hazard; not Windows COM scheduler/live ownership proof",
+    "Hidden timer throttling and selector hydration can delay DOM proof, but current13 live samples indicate transient recovery, not logout",
+    "Candidate1.4.3 activation/collection acceptance remains unexecuted in this audit"
+  ],
+  "reviewObjects": [
+    {
+      "id": "bridge-readiness-ttl-live",
+      "name": "Повторный TTL proof является переходным состоянием",
+      "content": "После15 секунд native очищает ready→initializing перед новой скрытой proof; adapter показывает unavailable/dom_account_proof_pending.13 parent live samples на1.4.2 подтверждают обе платформы ready спустя≈2.5 секунды, включая повторный TTL refresh. Pending не является доказательством logout.",
+      "confirmationAction": "Принять ограниченный вывод о переходном TTL состоянии и сохранить live status отдельно от login/account доказательств.",
+      "version": 1,
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.md#bridge-readiness-ttl-live"
+    },
+    {
+      "id": "bridge-readiness-queued-ttl",
+      "name": "Queued job преждевременно завершается во время proof refresh",
+      "content": "Готовая bound submission сдвинута на16s перед dequeue. Actual native TTL contract в synthetic provider возвращает initializing; actual adapter и broker завершают PROVIDER_UNAVAILABLE,0source executions. Execute ждёт только provider_busy.",
+      "confirmationAction": "Принять воспроизведение как основание для отдельного bounded settled-proof fix, сохраняя binding и один source run.",
+      "version": 1,
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.md#bridge-readiness-queued-ttl"
+    },
+    {
+      "id": "bridge-readiness-submit-pin",
+      "name": "Submission pending→ready не получает account pin",
+      "content": "Actual submit во время pending сохраняет accountScope undefined. Если dequeue уже ready под той же synthetic epoch, actual binding guard завершает STALE_ACCOUNT до source run. Это отсутствующий pin, а не подтверждённая смена аккаунта.",
+      "confirmationAction": "Принять необходимость получить settled proof до pin; genuine changed account/epoch остаётся STALE_ACCOUNT.",
+      "version": 1,
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.md#bridge-readiness-submit-pin"
+    },
+    {
+      "id": "bridge-readiness-started-init",
+      "name": "Early ContentLoading dispatch может стать silent noop",
+      "content": "Wry Started=ContentLoading. SDK допускает ContentLoading до document-created scripts, ExecuteScript асинхронен около этого этапа. Exact native optional wrapper выполненный до init возвращает undefined; actual script init сам не повторяет dispatch; только delayed Finished повтор запускает proof. Windows ordering текущего владельца не наблюдался этим fixture, поэтому это воспроизводимый source hazard, не доказанная причина каждого live pending.",
+      "confirmationAction": "Рассмотреть отдельный current-navigation/epoch/origin-bound DOMContentLoaded proof dispatch с Finished fallback; не считать installed1.4.2 исправленной.",
+      "version": 1,
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.md#bridge-readiness-started-init"
+    },
+    {
+      "id": "bridge-readiness-hidden-and-guards",
+      "name": "Скрытый DOM и строгие границы аккаунта",
+      "content": "Оба actual scripts подтверждают скрытые/loading X/IG документы при valid own nav. Missing/ambiguous IG nav, login/challenge и storage invalidation остаются отдельными результатами. Нативные nonce/origin/documentEpoch/expectedAccount guards сохраняются. Hidden WebView способен throttle tasks по SDK, но реальный scheduler/selector причины текущего владельца не наблюдались.",
+      "confirmationAction": "Сохранить строгие account/origin/epoch guards; не выводить потерю сессии из missing DOM/pending и не добавлять focus/cookie обход.",
+      "version": 1,
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.md#bridge-readiness-hidden-and-guards"
+    },
+    {
+      "id": "bridge-readiness-candidate-gate",
+      "name": "1.4.3 не меняет proof lifecycle и остаётся отдельным live gate",
+      "content": "authProof/waitAuth и storage regex идентичны после LF/CRLF normalization.1.4.3 изменяет pause abort taxonomy, original-photo selection, checked cursor retry и native selected IG routes; текущая proof TTL/dispatch/broker transient handling не исправляется. Live1.4.3 account readiness/collection в данном этапе не запускались.",
+      "confirmationAction": "Сохранить candidate source evidence отдельно от installed/live evidence; дальнейшая приёмка только после разрешённого normal owner transition.",
+      "version": 1,
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\bridge-account-readiness-audit.md#bridge-readiness-candidate-gate"
+    }
+  ],
+  "reviewContract": {
+    "choices": [
+      "approve",
+      "reject",
+      "question",
+      "unreviewed"
+    ],
+    "defaultDecision": "unreviewed",
+    "perObjectComment": true,
+    "generalComment": true,
+    "applyMeans": "Return exact decisions/comments to parent companion review board; accept findings or authorize separately stated fix within session scope, no automatic install/account operation",
+    "snapshotSha256": "computed from exact saved JSON bytes externally; not self-referential",
+    "responsesStoredSeparately": true
+  }
+}

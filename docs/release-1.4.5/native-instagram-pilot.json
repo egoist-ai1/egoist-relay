@@ -1,0 +1,38 @@
+{
+  "installedVersion": "1.4.5",
+  "acceptedCount": 0,
+  "errorCode": "DEADLINE_EXCEEDED",
+  "schemaVersion": 1,
+  "jobId": "fcf84a28-1074-41cd-a046-15385be227cc",
+  "automaticRetryPerformed": false,
+  "completionUncertain": true,
+  "sourceAccessibleEmptyConfirmed": false,
+  "target": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+  "terminalState": "interrupted",
+  "limit": 1,
+  "realMessagesSent": 0,
+  "partialManifest": {
+    "sha256": "c4709ec66f4e5771c19b43e5730bfb6677629871c6adbe4d4a73d1175c41114b",
+    "bytes": 760,
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\fcf84a28-1074-41cd-a046-15385be227cc\\partial-manifest.json"
+  },
+  "deadlineMs": 45000,
+  "operation": "read",
+  "includeMedia": false,
+  "artifactId": "egoist-relay-native-instagram-alias-pilot",
+  "state": "interrupted_partial_preserved",
+  "version": "native-pilot-1.4.5-v1",
+  "privateThreadReads": 0,
+  "reviewObjects": [
+    {
+      "name": "Native MCP: пилот чтения одного Instagram Reel",
+      "version": "native-pilot-1.4.5-v1",
+      "content": "Заданиеfcf84a28 на одном открытом aliasReel завершилосьinterrupted/DEADLINE_EXCEEDED за45s; accepted0, partial-manifest сохранён. Поздний exactjobreadback подтвердилoutcomepartial. Это не подтверждённая пустая публикация и не успешное nativeчтение. Readiness существующих аккаунтов3/3 подтвержден отдельно; visualReels/recipient пока localfixtures и ожидается humanответ.",
+      "id": "relay-native-instagram-alias-pilot",
+      "action": "Принять точный результат пилота и ограничение подтверждённой проверки; повторное чтение автоматически не запускается.",
+      "decision": "unreviewed"
+    }
+  ],
+  "recordedAt": "2026-10-02T13:03:50.4939101+00:00",
+  "outcome": "partial"
+}

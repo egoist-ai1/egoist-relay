@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T02:00:01.086Z",
+  "scope": "Standalone companion review with synthetic QA responses; no real user decision, native bridge or external action",
+  "cases": [
+    {
+      "id": "exact-snapshot-digest-and-neutral-defaults",
+      "status": "pass",
+      "snapshotSha256": "49887e20d89da40ace0389d8d5e302f9e906b577ff88b37f8c9edca62fe53514",
+      "items": 7
+    },
+    {
+      "id": "approve-reject-question-unreviewed-comments",
+      "status": "pass"
+    },
+    {
+      "id": "draft-restored-after-reload",
+      "status": "pass"
+    },
+    {
+      "id": "json-export-envelope",
+      "status": "pass"
+    },
+    {
+      "id": "json-import-exact-ids-and-batch",
+      "status": "pass"
+    },
+    {
+      "id": "stale-snapshot-rejected-current-draft-preserved",
+      "status": "pass"
+    },
+    {
+      "id": "wrong-project-import-rejected",
+      "status": "pass"
+    },
+    {
+      "id": "standalone-apply-reuses-batch-without-native-action",
+      "status": "pass"
+    },
+    {
+      "id": "compact-neutral-standalone-screen",
+      "status": "pass",
+      "geometry": {
+        "client": 640,
+        "scroll": 640
+      }
+    },
+    {
+      "id": "patch-applied-to-frozen-baseline-and-matches-candidate",
+      "status": "pass",
+      "files": 44,
+      "lineEndings": "CRLF normalized for comparison; exact byte hashes recorded separately"
+    },
+    {
+      "id": "local-file-double-click-standalone-opens-neutral",
+      "status": "pass"
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "pass": 11,
+    "errors": 0
+  }
+}

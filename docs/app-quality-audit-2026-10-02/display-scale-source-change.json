@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "status": "next_candidate_source_applied_pending_actual_after",
+  "source": "src/components/ui/Modal.scss",
+  "beforeSha256": "ef53ea8c5eb115c5f8d6d50fd106c881fe58ace1704be42a5266dcce4275a4ac",
+  "afterSha256": "63c9116de63533ce623793dbb69f42549d0a0fe1b0529b439ea6a1bd5bf1aa5a",
+  "package144Unchanged": true,
+  "basis": [
+    "ready-before64of68fourlayoutfailures",
+    "css-proof68of68geometry",
+    "reachability-proof8of8actualscroll",
+    "shell-centering-proof60of68,8disabledcontrol-driverfailures; noJSerrors"
+  ],
+  "exclusions": [
+    "GameModal",
+    "browser-modal-dialog",
+    "premium-main-modal-dialog"
+  ],
+  "constraints": [
+    "No account/payment behavior or system network change",
+    "Canonical1.4.4 immutable; nextcandidateonly"
+  ]
+}

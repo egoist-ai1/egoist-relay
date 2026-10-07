@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-1.5.0-operations-ui-acceptance",
+  "runId": "2026-10-06T10-23-18-240Z",
+  "generatedAt": "2026-10-06T10:23:18.242Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourceHashes": {
+    "src/components/App.tsx": "ce01e429633c7c3a161b9dde1d01c4fe63e2986bcf3134b4eeedc1bec0032030",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+    "scripts/relay-operations-ui-audit.mjs": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b"
+  },
+  "environment": {
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "transport": "Real App/Panel + existing MockClient + terminal native journal mocks",
+    "remoteRequests": "blocked",
+    "account": "Synthetic fixture user 1, chat 101",
+    "physicalDpi": "Not tested",
+    "limitations": [
+      "WebView2 COM transport, actual disk files and live Telegram delivery are outside this browser audit"
+    ]
+  },
+  "cases": [
+    {
+      "id": "full-panel-hidden-profile-keyboard-restoration",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1280,
+            "height": 800,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 144,
+            "y": 80,
+            "width": 1136,
+            "height": 720,
+            "right": 1280,
+            "bottom": 800
+          },
+          "workspace": {
+            "x": 144,
+            "y": 0,
+            "width": 1136,
+            "height": 800,
+            "right": 1280,
+            "bottom": 800
+          },
+          "rem": 32,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 1178,
+                "y": 108,
+                "width": 70,
+                "height": 72,
+                "right": 1248,
+                "bottom": 180
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 176,
+                "y": 200,
+                "width": 528,
+                "height": 72,
+                "right": 704,
+                "bottom": 272
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 720,
+                "y": 200,
+                "width": 528,
+                "height": 72,
+                "right": 1248,
+                "bottom": 272
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 176,
+                "y": 514.296875,
+                "width": 169.296875,
+                "height": 72,
+                "right": 345.296875,
+                "bottom": 586.296875
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 144,
+              "y": 298,
+              "width": 1136,
+              "height": 420.109375,
+              "right": 1280,
+              "bottom": 718.109375
+            },
+            "scrollHeight": 420,
+            "clientHeight": 420
+          },
+          "header": {
+            "x": 144,
+            "y": 80,
+            "width": 1136,
+            "height": 120,
+            "right": 1280,
+            "bottom": 200
+          },
+          "footer": {
+            "x": 144,
+            "y": 718.109375,
+            "width": 1136,
+            "height": 81.890625,
+            "right": 1280,
+            "bottom": 800
+          }
+        },
+        "hiddenFocus": [],
+        "preservedProfile": 1
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-23-18-240Z/full-panel-hidden-profile-keyboard-restoration.png",
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "ce01e429633c7c3a161b9dde1d01c4fe63e2986bcf3134b4eeedc1bec0032030",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+    "scripts/relay-operations-ui-audit.mjs": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b"
+  },
+  "sourcesChangedDuringRun": [],
+  "unhandled": [],
+  "summary": {
+    "passed": 1,
+    "failed": 0,
+    "total": 1
+  }
+}

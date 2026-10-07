@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-frontend-result-1.6.0",
+  "version": "1.6.0-r1",
+  "createdAt": "2026-10-06T12:46:04.357852+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\frontend-cycle-2026-10-06\\Реестр-1.6.0.json",
+  "verificationFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\frontend-cycle-2026-10-06\\verification.json",
+  "items": [
+    {
+      "id": "relay1.6.shell",
+      "name": "Оболочка и композиция B",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Постоянная rail 4.5rem, оконная строка 2.5rem, раздельные сервисы, операции и оконные действия. Заголовок чата выровнен с областью переписки.",
+      "evidence": "18 shell tests; реальные DOM-сценарии, в том числе drag marker и клавиатура. Native DPI/GPU отдельно.",
+      "confirmationAction": "Принять реализованную композицию B; комментарии задают её доработку.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "shell/README.md"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.palette",
+      "name": "Глубокий чёрный и нейтральные серые",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "В Egoist Black оболочка, Telegram, меню, настройки, панель и диалог используют одну систему ролей. Семантические ошибки и содержимое сохраняют свои цвета.",
+      "evidence": "114 цветовых ролей; primary foreground, значок Избранного и Mini App проверены. Цвет сайтов X/Instagram принадлежит этим сайтам.",
+      "confirmationAction": "Принять показанную палитру и её применение в собственных поверхностях Relay.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "candidate-screens/after-history.png"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.reading",
+      "name": "Место для чтения и профиль",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Колонки считаются от рабочей области Telegram; профиль и заголовок сохраняют согласованное положение при открытой панели.",
+      "evidence": "Одинаковые 1100x800, MockClient и fixture; измерения и снимки находятся в RESULT.md.",
+      "confirmationAction": "Принять распределение места и показанное поведение профиля.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "RESULT.md"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.operations",
+      "name": "Результат под рукой",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Панель 24rem и Ctrl+J сохраняют текущие операции и историю. При недостатке места доступна полная рабочая область; скрытые сервисы не участвуют в Tab.",
+      "evidence": "21/21 operations UI; отдельная проверка результата через 6.2 секунды, фокуса и восстановления скрытого профиля. Реальные файлы проверяются вручную.",
+      "confirmationAction": "Принять оформление результатов и сохранённый контракт операций 1.5.0.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "candidate-operations-release/operations-ui-audit-2026-10-06T11-09-39-487Z.json"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.controls",
+      "name": "Контролы и клавиатура",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Общие меню, формы, переключатели и диалоги используют Inter, роли текущей темы и видимый фокус. ListItem срабатывает по Enter/Space один раз, вложенные контролы сохраняют свои действия.",
+      "evidence": "9/9 keyboard regression, 10/10 actual controls; три TSC, lint.",
+      "confirmationAction": "Принять внешний вид контролов и показанную клавиатурную работу.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "controls-settings/README.md"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.scaling",
+      "name": "Узкое окно, RTL и текст 200%",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Настройка размера сообщения и масштаб текста согласованы через rem. В 640x448 при 200% список операций и очистка доступны, footer не перекрывает содержание.",
+      "evidence": "Actual 640x448/800x560/FullHD, RTL, focus; native минимальный размер800x560. Narrator не проверен.",
+      "confirmationAction": "Принять поведение в проверенных размерах и способ масштабирования текста.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "candidate-acceptance-verified/frontend-acceptance.json"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.themes",
+      "name": "Сохранённые темы и локализация",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Все 11 сохранённых вариантов остаются выбором пользователя. Egoist Black используется для нового или невалидного выбора; смена темы не стирает размер текста и посторонние CSS-переменные.",
+      "evidence": "43 theme tests и actual-variants.json; подписи новых групп RU/EN. MockClient содержит прежние смешанные тестовые строки.",
+      "confirmationAction": "Принять совместимость с сохранёнными настройками и показанные варианты.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "theme/actual-variants.json"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.motion",
+      "name": "Согласованные переходы",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Содержимое панели и обратная связь контролов используют 140мс. Reduced motion убирает движение; native WebView bounds обновляются отдельным согласованным шагом.",
+      "evidence": "Browser observation, reduced-motion сценарии и две записи одинаковых действий. Физическая частота кадров не измерена.",
+      "confirmationAction": "Принять локальную motion-систему рабочего инструмента.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "candidate-screens/after-interactions.mp4"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.comparison",
+      "name": "Сравнение скорости и ресурсов",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Три пары исходников 1.5.0 и 1.6.0, один harness, данные и изолированный Edge. Отклик и конечная память browser-дерева показаны с диапазонами; CPU-сравнение недоступно из-за смены PID между снимками.",
+      "evidence": "Парные результаты и объяснение отмеченных регрессий: RESULT.md. Это не native Tauri/WebView2 дерево и не исторический упакованный runtime.",
+      "confirmationAction": "Принять выводы сравнения в указанных условиях, включая ограничения.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "RESULT.md"
+        }
+      ]
+    },
+    {
+      "id": "relay1.6.candidate",
+      "name": "Локальный кандидат 1.6.0 и дальнейшая приёмка",
+      "version": "1.6.0-r1",
+      "status": "verified",
+      "content": "Production-сборка и локальный установщик готовы. Существующие изменения сохранены; подпись, публичная публикация и live-приёмка выделены отдельно.",
+      "evidence": "416 Vitest /111 Rust /80 Node, три TSC, lint/preflight/build и SHA установщика в verification.json.",
+      "confirmationAction": "Принять локальный кандидат для своей ручной приёмки. Подтверждение не устанавливает приложение и не отправляет сообщения.",
+      "links": [
+        {
+          "name": "Проверка и детали",
+          "href": "ACCEPTANCE.md"
+        }
+      ]
+    }
+  ]
+}

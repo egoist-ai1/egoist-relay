@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:09:49.735Z",
+  "scope": "Standalone file:// review board, synthetic choices in isolated test profile; no actual user responses",
+  "checks": [
+    "exact-snapshot",
+    "neutral-directions",
+    "four-comparable-images",
+    "state-switch",
+    "draft-restore",
+    "all-four-decisions",
+    "stale-snapshot-rejected",
+    "export",
+    "compact-no-horizontal-overflow"
+  ],
+  "errors": [],
+  "snapshotSha256": "02b66db0d62b56c18eeacc7800806b9e54841e26291b185410902e3ebb588f87"
+}

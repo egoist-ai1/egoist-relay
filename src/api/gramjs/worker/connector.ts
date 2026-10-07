@@ -12,8 +12,10 @@ import { logDebugMessage } from '../../../util/debugConsole';
 import Deferred from '../../../util/Deferred';
 import { getCurrentTabId, subscribeToMasterChange } from '../../../util/establishMultitabRole';
 import generateUniqueId from '../../../util/generateUniqueId';
+import { handleError } from '../../../util/handleError';
 import { ACCOUNT_SLOT, DATA_BROADCAST_CHANNEL_NAME } from '../../../util/multiaccount';
 import { pause, throttleWithTickEnd } from '../../../util/schedulers';
+import { getDesktopTelegramTransport } from '../../../util/tauri/telegramTransport';
 
 type RequestState = {
   messageId: string;
@@ -27,7 +29,7 @@ type EnsurePromise<T> = Promise<Awaited<T>>;
 
 const HEALTH_CHECK_TIMEOUT = 150;
 const HEALTH_CHECK_MIN_DELAY = 5 * 1000; // 5 sec
-const NO_QUEUE_BEFORE_INIT = new Set(['destroy']);
+const NO_QUEUE_BEFORE_INIT = new Set(['destroy', 'relayResearch']);
 
 let worker: Worker | undefined;
 
@@ -55,6 +57,7 @@ subscribeToMasterChange((isMasterTabNew) => {
 const channel = new BroadcastChannel(DATA_BROADCAST_CHANNEL_NAME) as TypedBroadcastChannel;
 
 const postMessagesOnTickEnd = throttleWithTickEnd(() => {
+  if (!worker) return;
   const payloads = pendingPayloads;
   pendingPayloads = [];
   worker?.postMessage({ payloads });
@@ -79,13 +82,18 @@ let localApiRequestsQueue: { fnName: any; args: any; deferred: Deferred<any> }[]
 let apiRequestsQueue: { fnName: any; args: any; deferred: Deferred<any> }[] = [];
 let isInited = false;
 
-export function initApi(onUpdate: OnApiUpdate, initialArgs: ApiInitialArgs) {
+export async function initApi(onUpdate: OnApiUpdate, initialArgs: ApiInitialArgs) {
   updateCallback = onUpdate;
 
   if (!isMasterTab) {
     initApiOnMasterTab(initialArgs);
     return Promise.resolve();
   }
+
+  initialArgs = {
+    ...initialArgs,
+    telegramTransportUrl: initialArgs.isTestServerRequested ? undefined : await getDesktopTelegramTransport(),
+  };
 
   if (!worker) {
     if (DEBUG) {
@@ -97,7 +105,6 @@ export function initApi(onUpdate: OnApiUpdate, initialArgs: ApiInitialArgs) {
     if (ACCOUNT_SLOT) {
       params.set('account', String(ACCOUNT_SLOT));
     }
-
     worker = new Worker(new URL('./worker.ts', import.meta.url), {
       name: params.toString(),
       type: 'module',
@@ -280,33 +287,43 @@ export function cancelApiProgressMaster(messageId: string) {
 function subscribeToWorker(onUpdate: OnApiUpdate) {
   worker?.addEventListener('message', ({ data }: WorkerMessageEvent) => {
     data?.payloads.forEach((payload) => {
-      if (payload.type === 'updates') {
-        let DEBUG_startAt: number | undefined;
-        if (DEBUG) {
-          DEBUG_startAt = performance.now();
-        }
-
-        payload.updates.forEach(onUpdate);
-
-        if (DEBUG) {
-          const duration = performance.now() - DEBUG_startAt!;
-          if (duration > 5) {
-            // eslint-disable-next-line no-console
-            console.warn(`[API] Slow updates processing: ${payload.updates.length} updates in ${duration} ms`);
+      try {
+        if (payload.type === 'updates') {
+          let DEBUG_startAt: number | undefined;
+          if (DEBUG) {
+            DEBUG_startAt = performance.now();
           }
+
+          payload.updates.forEach((update) => {
+            try {
+              onUpdate(update);
+            } catch (err: any) {
+              handleError(err);
+            }
+          });
+
+          if (DEBUG) {
+            const duration = performance.now() - DEBUG_startAt!;
+            if (duration > 5) {
+              // eslint-disable-next-line no-console
+              console.warn(`[API] Slow updates processing: ${payload.updates.length} updates in ${duration} ms`);
+            }
+          }
+        } else if (payload.type === 'methodResponse') {
+          handleMethodResponse(payload);
+        } else if (payload.type === 'methodCallback') {
+          handleMethodCallback(payload);
+        } else if (payload.type === 'unhandledError') {
+          const message = payload.error?.message;
+          if (message && IGNORE_UNHANDLED_ERRORS.has(message)) return;
+          throw new Error(message);
+        } else if (payload.type === 'sendBeacon') {
+          navigator.sendBeacon(payload.url, payload.data);
+        } else if (payload.type === 'debugLog') {
+          logDebugMessage(payload.level, ...payload.args);
         }
-      } else if (payload.type === 'methodResponse') {
-        handleMethodResponse(payload);
-      } else if (payload.type === 'methodCallback') {
-        handleMethodCallback(payload);
-      } else if (payload.type === 'unhandledError') {
-        const message = payload.error?.message;
-        if (message && IGNORE_UNHANDLED_ERRORS.has(message)) return;
-        throw new Error(message);
-      } else if (payload.type === 'sendBeacon') {
-        navigator.sendBeacon(payload.url, payload.data);
-      } else if (payload.type === 'debugLog') {
-        logDebugMessage(payload.level, ...payload.args);
+      } catch (err: any) {
+        handleError(err);
       }
     });
   });

@@ -1,0 +1,165 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "self": true,
+      "firstName": "Egoist",
+      "lastName": "Relay"
+    },
+    {
+      "id": "101",
+      "firstName": "Марина",
+      "lastName": "Волкова",
+      "verified": true
+    }
+  ],
+  "chats": [],
+  "channels": [
+    {
+      "id": "-1000000000201",
+      "title": "Relay Новости",
+      "broadcast": true,
+      "verified": true,
+      "participantsCount": 24870
+    }
+  ],
+  "dialogs": {
+    "active": [
+      {
+        "id": "101",
+        "topMessage": 12,
+        "readInboxMaxId": 12,
+        "readOutboxMaxId": 12,
+        "unreadCount": 0,
+        "pinned": true
+      },
+      {
+        "id": "-1000000000201",
+        "topMessage": 22,
+        "readInboxMaxId": 22,
+        "readOutboxMaxId": 22,
+        "unreadCount": 0
+      }
+    ],
+    "archived": []
+  },
+  "messages": {
+    "101": [
+      {
+        "id": 10,
+        "date": 1789834200,
+        "message": "Привет! Проверим новый интерфейс Relay?",
+        "entities": []
+      },
+      {
+        "id": 11,
+        "date": 1789834260,
+        "message": "Да, всё выглядит спокойно и читается с первого взгляда.",
+        "entities": [],
+        "out": true,
+        "replyToMsgId": 10,
+        "replyToTopId": 10
+      },
+      {
+        "id": 12,
+        "date": 1789834320,
+        "message": "Отлично ✨",
+        "entities": [],
+        "reactions": {
+          "results": [
+            {
+              "emoticon": "❤",
+              "count": 4
+            },
+            {
+              "emoticon": "🔥",
+              "count": 2
+            }
+          ]
+        }
+      }
+    ],
+    "-1000000000201": [
+      {
+        "id": 20,
+        "date": 1789833000,
+        "message": "Добро пожаловать в Relay Новости.",
+        "entities": [],
+        "post": true,
+        "views": 8240,
+        "forwards": 18
+      },
+      {
+        "id": 21,
+        "date": 1789833600,
+        "message": "Telegram и X теперь доступны в одном аккуратном рабочем пространстве.",
+        "entities": [],
+        "post": true,
+        "views": 7912,
+        "forwards": 31,
+        "reactions": {
+          "results": [
+            {
+              "emoticon": "👍",
+              "count": 142
+            },
+            {
+              "emoticon": "🔥",
+              "count": 73
+            },
+            {
+              "emoticon": "❤",
+              "count": 40
+            },
+            {
+              "emoticon": "👏",
+              "count": 28
+            }
+          ]
+        }
+      },
+      {
+        "id": 22,
+        "date": 1789834380,
+        "message": "Интерфейс остаётся быстрым и понятным даже в длинной ленте.",
+        "entities": [],
+        "post": true,
+        "views": 7365,
+        "forwards": 12,
+        "replyToMsgId": 21,
+        "replyToTopId": 21,
+        "reactions": {
+          "results": [
+            {
+              "emoticon": "✨",
+              "count": 16
+            },
+            {
+              "emoticon": "💯",
+              "count": 9
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "availableReactions": [],
+  "dialogFilters": [
+    {
+      "id": 1,
+      "title": "Все чаты",
+      "contacts": true,
+      "nonContacts": true,
+      "groups": true,
+      "broadcasts": true,
+      "bots": true,
+      "pinnedPeerIds": [],
+      "includePeerIds": [],
+      "excludePeerIds": []
+    }
+  ],
+  "documents": [],
+  "topPeers": [
+    "101"
+  ]
+}

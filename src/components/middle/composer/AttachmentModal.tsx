@@ -201,6 +201,7 @@ const AttachmentModal = ({
   const [renderingShouldSendInHighQuality, setRenderingShouldSendInHighQuality] = useState(shouldSendInHighQuality);
 
   const isOpen = Boolean(attachments.length);
+  const isModalOpen = isOpen && !editingAttachment;
   const renderingIsOpen = Boolean(renderingAttachments?.length);
   const [isHovered, markHovered, unmarkHovered] = useFlag();
 
@@ -289,14 +290,19 @@ const AttachmentModal = ({
     getIsCaptionMentionEnabled, getIsCaptionTooltipEnabled, getRichEditorTooltipContext, getTooltipBoundary,
   ]);
 
-  useEffect(() => (isOpen ? captureEscKeyListener(onClear) : undefined), [isOpen, onClear]);
+  useEffect(() => (isModalOpen ? captureEscKeyListener(onClear) : undefined), [isModalOpen, onClear]);
 
   useEffect(() => {
     if (isOpen) {
       setShouldSendGrouped(attachmentSettings.shouldSendGrouped);
+    }
+  }, [attachmentSettings.shouldSendGrouped, isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
       setShouldSendInHighQuality(attachmentSettings.shouldSendInHighQuality);
     }
-  }, [attachmentSettings, isOpen]);
+  }, [attachmentSettings.shouldSendInHighQuality, isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -755,139 +761,141 @@ const AttachmentModal = ({
   ) : undefined;
 
   return (
-    <Modal
-      isOpen={isOpen}
-      header={renderHeader()}
-      className={buildClassName(
-        styles.root,
-        isHovered && styles.hovered,
-        isMobile && styles.mobile,
-        isSymbolMenuOpen && styles.symbolMenuOpen,
-        editingAttachment && styles.editorActive,
-        forceDarkTheme && 'component-theme-dark',
-      )}
-      hasAbsoluteCloseButton={Boolean(renderingAttachments)}
-      noBackdropClose
-      isLowStackPriority
-      noFreezeOnClose
-      onClose={onClear}
-    >
-      <div
-        className={styles.dropTarget}
-        onDragEnter={markHovered}
-        onDrop={handleFilesDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onClick={unmarkHovered}
-        data-attach-description={lang('AttachmentDragAddItems')}
-        data-dropzone
+    <>
+      <Modal
+        isOpen={isModalOpen}
+        header={renderHeader()}
+        className={buildClassName(
+          styles.root,
+          isHovered && styles.hovered,
+          isMobile && styles.mobile,
+          isSymbolMenuOpen && styles.symbolMenuOpen,
+          editingAttachment && styles.editorActive,
+          forceDarkTheme && 'component-theme-dark',
+        )}
+        hasAbsoluteCloseButton={Boolean(renderingAttachments)}
+        noBackdropClose
+        isLowStackPriority
+        noFreezeOnClose
+        onClose={onClear}
       >
-        <svg className={styles.dropOutlineContainer}>
-          <rect className={styles.dropOutline} x="0" y="0" width="100%" height="100%" rx="8" />
-        </svg>
         <div
-          className={buildClassName(
-            styles.attachments,
-            'custom-scroll',
-            !isSendingCompressed && styles.asFile,
-          )}
+          className={styles.dropTarget}
+          onDragEnter={markHovered}
+          onDrop={handleFilesDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onClick={unmarkHovered}
+          data-attach-description={lang('AttachmentDragAddItems')}
+          data-dropzone
         >
-          {renderingAttachments.map((attachment, i) => (
-            <AttachmentModalItem
-              attachment={attachment}
-              shouldDisplayCompressed={isSendingCompressed}
-              shouldDisplayGrouped={shouldSendGrouped}
-              isSingle={renderingAttachments.length === 1}
-              index={i}
-              key={attachment.uniqueId || i}
-              onDelete={handleDelete}
-              onToggleSpoiler={handleToggleSpoiler}
-              onEdit={!isMobile ? handleEdit : undefined}
+          <svg className={styles.dropOutlineContainer}>
+            <rect className={styles.dropOutline} x="0" y="0" width="100%" height="100%" rx="8" />
+          </svg>
+          <div
+            className={buildClassName(
+              styles.attachments,
+              'custom-scroll',
+              !isSendingCompressed && styles.asFile,
+            )}
+          >
+            {renderingAttachments.map((attachment, i) => (
+              <AttachmentModalItem
+                attachment={attachment}
+                shouldDisplayCompressed={isSendingCompressed}
+                shouldDisplayGrouped={shouldSendGrouped}
+                isSingle={renderingAttachments.length === 1}
+                index={i}
+                key={attachment.uniqueId || i}
+                onDelete={handleDelete}
+                onToggleSpoiler={handleToggleSpoiler}
+                onEdit={!isMobile ? handleEdit : undefined}
+              />
+            ))}
+          </div>
+          <div
+            ref={captionRef}
+            className={buildClassName(
+              styles.captionWrapper,
+            )}
+          >
+            <Button
+              round
+              size="tiny"
+              color="translucent"
+              tabIndex={shouldShowAiButton ? 0 : -1}
+              className={buildClassName(styles.aiButton, !shouldShowAiButton && styles.aiButtonHidden)}
+              onClick={handleOpenAiEditor}
+              ariaLabel={lang('AiMessageEditor')}
+              iconName="ai"
             />
-          ))}
-        </div>
-        <div
-          ref={captionRef}
-          className={buildClassName(
-            styles.captionWrapper,
-          )}
-        >
-          <Button
-            round
-            size="tiny"
-            color="translucent"
-            tabIndex={shouldShowAiButton ? 0 : -1}
-            className={buildClassName(styles.aiButton, !shouldShowAiButton && styles.aiButtonHidden)}
-            onClick={handleOpenAiEditor}
-            ariaLabel={lang('AiMessageEditor')}
-            iconName="ai"
-          />
-          <div className={styles.caption}>
-            <SymbolMenuButton
-              chatId={chatId}
-              threadId={threadId}
-              isMobile={isMobile}
-              isReady={isReady}
-              isSymbolMenuOpen={isSymbolMenuOpen}
-              openSymbolMenu={openSymbolMenu}
-              closeSymbolMenu={closeSymbolMenu}
-              onCustomEmojiSelect={handleCustomEmojiSelect}
-              onRemoveSymbol={handleRemoveSymbol}
-              onEmojiSelect={handleEmojiSelect}
-              isAttachmentModal
-              canSendPlainText
-              className="attachment-modal-symbol-menu with-menu-transitions"
-              idPrefix="attachment"
-              forceDarkTheme={forceDarkTheme}
-            />
-            <MessageInput
-              ref={inputRef}
-              id={ATTACHMENT_MODAL_INPUT_ID}
-              chatId={chatId}
-              threadId={threadId}
-              richEditor={richEditor}
-              tooltips={richEditorTooltips}
-              isAttachmentModalInput
-              isActive={isOpen}
-              editableInputId={EDITABLE_INPUT_MODAL_ID}
-              placeholder={lang('AttachmentCaptionPlaceholder')}
-              onSend={handleSendClick}
-              canAutoFocus={Boolean(isReady && isForCurrentMessageList && attachments.length)}
-              maxLength={captionLimit}
-              shouldSuppressFocus={isMobile && isSymbolMenuOpen}
-              onSuppressedFocus={closeSymbolMenu}
-            />
-            <div className={styles.sendWrapper}>
-              <Button
-                ref={mainButtonRef}
-                className={styles.send}
-                size="smaller"
-                inline
-                onClick={handleSendClick}
-                onContextMenu={canShowCustomSendMenu ? handleContextMenu : undefined}
-                iconName={!editingMessage && !shouldSchedule && !paidMessagesStars ? 'new-send' : undefined}
-                iconClassName={styles.sendIcon}
-              >
-                {shouldSchedule && !editingMessage ? lang('Next')
-                  : editingMessage ? lang('Save') : paidSendButtonCaption}
-              </Button>
-              {canShowCustomSendMenu && (
-                <CustomSendMenu
-                  isOpen={isCustomSendMenuOpen}
-                  canSchedule={canSchedule && isForMessage}
-                  onSendSilent={!isChatWithSelf ? handleSendSilent : undefined}
-                  onSendSchedule={handleScheduleClick}
-                  onClose={handleContextMenuClose}
-                  onCloseAnimationEnd={handleContextMenuHide}
-                  isSavedMessages={isChatWithSelf}
-                  onSendWhenOnline={onSendWhenOnline}
-                  canScheduleUntilOnline={canScheduleUntilOnline}
-                />
-              )}
+            <div className={styles.caption}>
+              <SymbolMenuButton
+                chatId={chatId}
+                threadId={threadId}
+                isMobile={isMobile}
+                isReady={isReady}
+                isSymbolMenuOpen={isSymbolMenuOpen}
+                openSymbolMenu={openSymbolMenu}
+                closeSymbolMenu={closeSymbolMenu}
+                onCustomEmojiSelect={handleCustomEmojiSelect}
+                onRemoveSymbol={handleRemoveSymbol}
+                onEmojiSelect={handleEmojiSelect}
+                isAttachmentModal
+                canSendPlainText
+                className="attachment-modal-symbol-menu with-menu-transitions"
+                idPrefix="attachment"
+                forceDarkTheme={forceDarkTheme}
+              />
+              <MessageInput
+                ref={inputRef}
+                id={ATTACHMENT_MODAL_INPUT_ID}
+                chatId={chatId}
+                threadId={threadId}
+                richEditor={richEditor}
+                tooltips={richEditorTooltips}
+                isAttachmentModalInput
+                isActive={isOpen}
+                editableInputId={EDITABLE_INPUT_MODAL_ID}
+                placeholder={lang('AttachmentCaptionPlaceholder')}
+                onSend={handleSendClick}
+                canAutoFocus={Boolean(isReady && isForCurrentMessageList && attachments.length)}
+                maxLength={captionLimit}
+                shouldSuppressFocus={isMobile && isSymbolMenuOpen}
+                onSuppressedFocus={closeSymbolMenu}
+              />
+              <div className={styles.sendWrapper}>
+                <Button
+                  ref={mainButtonRef}
+                  className={styles.send}
+                  size="smaller"
+                  inline
+                  onClick={handleSendClick}
+                  onContextMenu={canShowCustomSendMenu ? handleContextMenu : undefined}
+                  iconName={!editingMessage && !shouldSchedule && !paidMessagesStars ? 'new-send' : undefined}
+                  iconClassName={styles.sendIcon}
+                >
+                  {shouldSchedule && !editingMessage ? lang('Next')
+                    : editingMessage ? lang('Save') : paidSendButtonCaption}
+                </Button>
+                {canShowCustomSendMenu && (
+                  <CustomSendMenu
+                    isOpen={isCustomSendMenuOpen}
+                    canSchedule={canSchedule && isForMessage}
+                    onSendSilent={!isChatWithSelf ? handleSendSilent : undefined}
+                    onSendSchedule={handleScheduleClick}
+                    onClose={handleContextMenuClose}
+                    onCloseAnimationEnd={handleContextMenuHide}
+                    isSavedMessages={isChatWithSelf}
+                    onSendWhenOnline={onSendWhenOnline}
+                    canScheduleUntilOnline={canScheduleUntilOnline}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Modal>
       <MediaEditor
         isOpen={Boolean(editingAttachment)}
         imageUrl={editingAttachment?.blobUrl}
@@ -896,7 +904,7 @@ const AttachmentModal = ({
         onClose={handleCloseEditor}
         onSave={handleSaveEdit}
       />
-    </Modal>
+    </>
   );
 };
 

@@ -240,10 +240,8 @@ export function buildApiMessageWithChatId(
   const isChatWithSelf = !fromId && chatId === currentUserId;
   const forwardInfo = mtpMessage.fwdFrom && buildApiMessageForwardInfo(mtpMessage.fwdFrom, isChatWithSelf);
 
-  const isSavedOutgoing = Boolean(!forwardInfo || forwardInfo.fromId === currentUserId || forwardInfo.isSavedOutgoing);
-
   const isOutgoing = !isChatWithSelf ? Boolean(mtpMessage.out && !mtpMessage.post)
-    : isSavedOutgoing;
+    : true;
   const content = buildMessageContent(mtpMessage);
   const action = mtpMessage.action && buildApiMessageAction(mtpMessage.action);
   if (action) {

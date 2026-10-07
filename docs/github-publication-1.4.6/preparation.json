@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T15:54:18.385Z",
+  "version": "1.4.6",
+  "destination": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay GitHub",
+  "repository": "egoist-ai1/egoist-relay",
+  "branch": "codex/release-1.4.6",
+  "productionFiles": 3304,
+  "reviewedSourceFreezeFiles": 3307,
+  "publicationExclusions": [
+    {
+      "path": "public/statoscope-report.html",
+      "reason": "Machine-generated bundle report embeds build statistics and host paths; no runtime application imports depend on this file"
+    },
+    {
+      "path": "public/installer.html",
+      "reason": "Standalone installer preview contains a local installation directory; no application imports depend on this file"
+    },
+    {
+      "path": "public/build-stats.json",
+      "reason": "Machine-generated statistics contain upstream build host paths; no application imports depend on this file"
+    },
+    {
+      "path": "scripts/instagram-attribution-audit.test.mjs",
+      "reason": "Local account-evidence-dependent harness"
+    },
+    {
+      "path": "scripts/instagram-attribution-next.test.mjs",
+      "reason": "Local workstation-dependent characterization harness"
+    }
+  ],
+  "additionalSyntheticTests": 51,
+  "totalPreparedFiles": 3422,
+  "sourceFreezeSha256": "dab2c58d728c0836315ceae8465d21548a16b2ac6df23e9598a6f3025889e12b",
+  "productionSourceHashesMatched": true,
+  "supplementalTestAdaptations": [
+    {
+      "path": "scripts/media-proxy.test.mjs",
+      "originalSha256": "dc0c75068f85ade663cd6da2e408af8c5b37a72dee42fdcde7745a259d3ed77b",
+      "publishedSha256": "d7d9b4dfdd2239b3ba0bb6ac42248394f46b07849b0f3724a22cc502b1979fa5",
+      "reason": "Remove embedded synthetic TLS fixture and use optional local test inputs"
+    },
+    {
+      "path": "scripts/relay-display-scale.test.mjs",
+      "originalSha256": "ce22e596b93860f2f979e923bc0daffc9722fa6a409f511dc85e8761e141026c",
+      "publishedSha256": "3e7e235535303fc98b519c1f0f22ec489952dfef2c6cfecfb3a9d0905807f7dc",
+      "reason": "Clarify synthetic negative URL fixture or UI selector; no account credentials"
+    },
+    {
+      "path": "scripts/relay-media-audit-file.test.mjs",
+      "originalSha256": "0fe4b05831e7006d210b6ba8984958cc80ac30d963c000b634b36cecf3254dcf",
+      "publishedSha256": "d3ad3fdffb4661892dace4c8f3a646d203b3d485a034e76aeb5322e90d0d276c",
+      "reason": "Remove embedded synthetic TLS fixture and use optional local test inputs"
+    },
+    {
+      "path": "scripts/relay-ui-additional-modals.test.mjs",
+      "originalSha256": "d0b296b4b819c8c63d5dd5fea15aca6dcf29b9c5836ea95d2a195d760cb5a51b",
+      "publishedSha256": "b616485703704d5ba106c39bc2245b488c6b1d0457c167c591836197849a1619",
+      "reason": "Clarify synthetic negative URL fixture or UI selector; no account credentials"
+    },
+    {
+      "path": "src/util/browser/url.test.ts",
+      "originalSha256": "bf793a1197a2f6cd28f542d14ab2ec93775502ea0d4b7b9cfbd0a3ab60ab7821",
+      "publishedSha256": "b7516c447743a652df25c0d42ad365505e1a550ce20acd0ba2ea5c35ada53125",
+      "reason": "Clarify synthetic negative URL fixture or UI selector; no account credentials"
+    },
+    {
+      "path": "scripts/integrations/egoist-social-mcp/src/research/broker.test.mjs",
+      "originalSha256": "360395dd96a2061f3f42a1b45a6ca071e3845504272ff2817060814080983c98",
+      "publishedSha256": "dd33b25f98487774b93eb557a48a3eee1ecf04087f22c9cf1d11ef9d6d4dc2e0",
+      "reason": "Clarify synthetic negative URL fixture or UI selector; no account credentials"
+    }
+  ],
+  "personalDataCopied": false,
+  "binaryInstallerIncluded": false,
+  "sourcePublicationOnly": true
+}

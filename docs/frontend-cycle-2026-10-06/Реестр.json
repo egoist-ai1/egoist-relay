@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-frontend-directions-2026-10-06",
+  "version": "directions-v1",
+  "createdAt": "2026-10-06T10:09:48.446588+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\frontend-cycle-2026-10-06\\Реестр.json",
+  "items": [
+    {
+      "id": "direction.A",
+      "name": "A. Чтение",
+      "version": "directions-v1",
+      "status": "proposal",
+      "content": "Сервисы подписаны сверху, боковой rail нет. Больше ширины для переписки и меньше вертикальных ориентиров. Преимущество: Почти вся ширина окна достаётся чтению; три сервиса видны словами. Компромисс: Верхняя навигация занимает высоту, привычное переключение слева переезжает.",
+      "evidence": "Сопоставимая проба поверх настоящего App/Panel,1600×1000; light/compact и диалог пересылки приложены. Данные синтетические, сетевые запросы заблокированы.",
+      "confirmationAction": "Выбрать это направление для доработки и реализации фронтенда Relay; комментарий может задать сочетание. Подтверждение нескольких вариантов требует уточнения сочетания.",
+      "motionProposal": "Подчёркивание активной вкладки180мс; содержимое панели140мс; спокойная смена поверхностей.",
+      "links": [
+        {
+          "name": "Основная сцена",
+          "href": "directions/A-history.png"
+        },
+        {
+          "name": "Пересылка",
+          "href": "directions/A-share.png"
+        },
+        {
+          "name": "Настройки",
+          "href": "directions/A-settings.png"
+        }
+      ],
+      "visualHashes": {
+        "A-chat.png": "1fcebc0a2826d6244206fe4e5ef9f01c8132932def4f7e1546faa11e3bb40a54",
+        "A-compact-light.png": "ba0c51c11fc45b67b0370ba9a8939d3c2500b5b56d2948fd9df44ee69275b446",
+        "A-current.png": "df83b3159d57bcb504932e928fd0e3d53e07541b51581eef9b361fb864ff38e6",
+        "A-history-light.png": "d6ea6e3906a5f52682b34456b6df079dc49568f532e0ded01ce6cf3855ef3421",
+        "A-history.png": "c58d9a42659cb11064b0be4d297ca5365a5ce7c96af86ab36151ab5a804652dc",
+        "A-interactions.mp4": "740ca6aac5e82e2b93038f917664e23cc520fdec2bf9b98ba620bdf0fad6c1f7",
+        "A-settings-light.png": "5f4578e5fe0ffb51f46ec62252a16970cbcda1795f02e57ac49f90e29e9a5716",
+        "A-settings.png": "faa10852add7211c7026f2ba24d7b12278bfec4cea836c7959e902e7d5252a7f",
+        "A-share.png": "5a5df6c28d726d9099746ff60be6bc138ebc84725188bb1a8e721053e251bea9"
+      }
+    },
+    {
+      "id": "direction.B",
+      "name": "B. Рабочая станция",
+      "version": "directions-v1",
+      "status": "proposal",
+      "content": "Постоянные сервисы слева, выровненные рабочие поверхности, спокойные строки операций. Преимущество: Сохраняет привычное место сервисов; чтение, действия и результат имеют ясную иерархию. Компромисс: Rail занимает72px; подробности результата раскрываются в отдельной панели.",
+      "evidence": "Сопоставимая проба поверх настоящего App/Panel,1600×1000; light/compact и диалог пересылки приложены. Данные синтетические, сетевые запросы заблокированы.",
+      "confirmationAction": "Выбрать это направление для доработки и реализации фронтенда Relay; комментарий может задать сочетание. Подтверждение нескольких вариантов требует уточнения сочетания.",
+      "motionProposal": "Связанный маркер сервиса180мс; появление содержимого140мс; короткое подтверждение статуса без движения границ WebView.",
+      "links": [
+        {
+          "name": "Основная сцена",
+          "href": "directions/B-history.png"
+        },
+        {
+          "name": "Пересылка",
+          "href": "directions/B-share.png"
+        },
+        {
+          "name": "Настройки",
+          "href": "directions/B-settings.png"
+        }
+      ],
+      "visualHashes": {
+        "B-chat.png": "7ceb29a39d3dc3348546935e5a0da9c2b9ee97d94d4b0a84bb0b8268be0f9000",
+        "B-compact-light.png": "ceea4efcc119ad95dec37d8bb8756be56f3369f6e841e162015f6d887ef7fb15",
+        "B-current.png": "b433c2d6c22c52cd44df0cc0111378e07aafb1edac805af89c28aaf56b5044be",
+        "B-history-light.png": "1ae9787c203026d86b80e7590149b65b1545ba27b5b363afaf31ba2c697185f4",
+        "B-history.png": "c9a7eb4a9ed0ab298d30192fef35e2d4604e1ab8101c816b36189bfc86fd8428",
+        "B-interactions.mp4": "a7d6f19fb3710a121f0d0a78c2865fbec431662f5085e477f8d36be7643bc096",
+        "B-settings-light.png": "90e8f256f425611a6742f810d5d16088d1d6301ffb6ed0c9155e5b5fe351b809",
+        "B-settings.png": "f320b36f17114748aa835d619ee1b6dfb868b380c22a5999adcdcafbaf51299d",
+        "B-share.png": "b9829267ed66ade5313bf8448ebcc25024515814e1b745cffcc69084e62636f4"
+      }
+    },
+    {
+      "id": "direction.C",
+      "name": "C. Источник и результат",
+      "version": "directions-v1",
+      "status": "proposal",
+      "content": "Сервисы подписаны слева; результат читается как квиток: файл, источник, формат, подтверждение и действия. Преимущество: Легче разобрать сохранение или неоднозначную отправку и вернуться к исходному посту. Компромисс: Подписанная навигация занимает144px; детальные квитки показывают меньше операций за экран.",
+      "evidence": "Сопоставимая проба поверх настоящего App/Panel,1600×1000; light/compact и диалог пересылки приложены. Данные синтетические, сетевые запросы заблокированы.",
+      "confirmationAction": "Выбрать это направление для доработки и реализации фронтенда Relay; комментарий может задать сочетание. Подтверждение нескольких вариантов требует уточнения сочетания.",
+      "motionProposal": "Последовательное появление файла и квитка140/180мс; один акцент на изменении результата; reducedmotion мгновенный.",
+      "links": [
+        {
+          "name": "Основная сцена",
+          "href": "directions/C-history.png"
+        },
+        {
+          "name": "Пересылка",
+          "href": "directions/C-share.png"
+        },
+        {
+          "name": "Настройки",
+          "href": "directions/C-settings.png"
+        }
+      ],
+      "visualHashes": {
+        "C-chat.png": "574451cf0a7ddfcd655d7f23099ad8c24034790a81d8577083ff091a860a2135",
+        "C-compact-light.png": "5dcf44fc611abb81beea9c37ae77a56f3c4be0da1ef977a9011748d0a8dd7241",
+        "C-current.png": "f5ba87deb8f26d7fc604b38e806d0a568d47bcc749ddcbd59d464b277cb8d485",
+        "C-history-light.png": "49555be8ee42a9478fa664626b7418565204d759c66ec1c555da77d911ba029b",
+        "C-history.png": "d3e6d48a96540d4de55f2c9bdf5ff24b4c36b1ade132338620e0cc5ade732185",
+        "C-interactions.mp4": "6ba649793299e9f08d2abfb69fd2cf41d736cf57c868f1bc23f7d41260a358ba",
+        "C-settings-light.png": "c8fe892d82e193d196e961954fe4b4347cda23813759dbef10b7752463e2e986",
+        "C-settings.png": "e96c670458cbf669e01c11cd108563309412346f8f60129861211573494904ab",
+        "C-share.png": "456a24948c99435025433ff5913aab7a9a034aad0ce94653979e589e74d96631"
+      }
+    },
+    {
+      "id": "direction.D",
+      "name": "D. Быстрые команды",
+      "version": "directions-v1",
+      "status": "proposal",
+      "content": "Компактная оболочка и локальная палитра существующих действий; больше строк и клавиатурных подсказок. Преимущество: Быстрый доступ к сервисам и операциям без поиска маленькой кнопки; высокая плотность. Компромисс: Добавляет палитру и правила фокуса; иконки без постоянных подписей требуют привыкания.",
+      "evidence": "Сопоставимая проба поверх настоящего App/Panel,1600×1000; light/compact и диалог пересылки приложены. Данные синтетические, сетевые запросы заблокированы.",
+      "confirmationAction": "Выбрать это направление для доработки и реализации фронтенда Relay; комментарий может задать сочетание. Подтверждение нескольких вариантов требует уточнения сочетания.",
+      "motionProposal": "Фокус и выбор100мс, палитра140мс; повторный ввод прерывает переход сразу.",
+      "links": [
+        {
+          "name": "Основная сцена",
+          "href": "directions/D-history.png"
+        },
+        {
+          "name": "Пересылка",
+          "href": "directions/D-share.png"
+        },
+        {
+          "name": "Настройки",
+          "href": "directions/D-settings.png"
+        }
+      ],
+      "visualHashes": {
+        "D-chat.png": "d13b68138f925b625841ab6d2b83ba551400ff872a20e5543d922e3e673894c8",
+        "D-commands.png": "dcea7a12d10a2475d0235b350c8fcef3c941e82f26df2c78f834dbfbc7daede5",
+        "D-compact-light.png": "f6606f54800c2e016570412ffcb049301b225dab435e25bf894ec8d58fcfddba",
+        "D-current.png": "07e8e61219cb29e7784fe50f73dd60f19eea3c383f73d8359976bf20bc47859c",
+        "D-history-light.png": "f6e8984d77339eede4d64236270d64fe9e70aff4a2155d158501bea0f6237473",
+        "D-history.png": "15b37f04b8cdb6a4ba28044b01058491b1b2ba3b5eeef026ac7edd49a3823751",
+        "D-interactions.mp4": "a07df781d30f4d460e6dcf32570c76327ee39a088260a0ba86ca071c55dea873",
+        "D-settings-light.png": "ee5eb5bfd984a3fec500fd944e9b95dbd42dc7e6508cba567f838b8526654fa4",
+        "D-settings.png": "e6a9b9bc622e84e6c8151c06fbc32168f51bad72f01ff331fb7c1f5aa70e3e47",
+        "D-share.png": "af89b46f0aeb91ce5326c8d20ef17d77970de4c14b7b6e0e73fbeac23b742e82"
+      }
+    }
+  ],
+  "baselineSourceSha256": "d39839cbbbc1d70f5ee86760c05d4536ed905c883e35b9d6bb116ccb7451f774",
+  "probeSha256": "67b5f82358679ca1970111d8f956dd4a28708bea30e8e74e93c964fb8311df56"
+}

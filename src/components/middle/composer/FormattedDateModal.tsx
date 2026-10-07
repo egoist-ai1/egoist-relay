@@ -214,7 +214,7 @@ const FormattedDateModal = ({
           </div>
         </div>
 
-        <div className="dialog-buttons mt-2">
+        <div className={buildClassName(styles.dialogButtons, 'dialog-buttons mt-2')}>
           <Button className="confirm-dialog-button" onClick={handleSubmit}>
             {lang('Save')}
           </Button>

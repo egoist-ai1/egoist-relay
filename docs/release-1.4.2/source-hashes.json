@@ -1,0 +1,77 @@
+[
+  {
+    "path": "src/lib/gramjs/client/uploadFile.ts",
+    "bytes": 5584,
+    "sha256": "db95b7c6a26aeefeaf298d89b7f75a9dfecc2c902c605747b32b97b2a8dea066"
+  },
+  {
+    "path": "src/lib/gramjs/client/downloadFile.ts",
+    "bytes": 11748,
+    "sha256": "32aa5ccf6fce0d00aa2331785aa641068ea2f6d72d5ddb6f7af08bfb6393b9d1"
+  },
+  {
+    "path": "src/lib/gramjs/Utils.ts",
+    "bytes": 7844,
+    "sha256": "7e2b15472996b9d81e442d4d8106d361cfaa6cf7279f451c5851d1be99304738"
+  },
+  {
+    "path": "src/util/waitForMediaTransfer.ts",
+    "bytes": 1293,
+    "sha256": "bcfbd87a81b3a60035847eb0d6a5c6c55e18c457316c76cc0ecb526bb676cf7f"
+  },
+  {
+    "path": "src/util/resolveInlineMedia.ts",
+    "bytes": 4564,
+    "sha256": "33394c9c7b206d46bc7842774961e67fe1a265eeb8e4cf1c7646495e0e78529b"
+  },
+  {
+    "path": "src/components/middle/message/InlineSocialMedia.tsx",
+    "bytes": 23384,
+    "sha256": "5bfd302eda320062e49efc3d34105a7c76076996a983608d9a335f1d1368a5e0"
+  },
+  {
+    "path": "src/components/multi/SocialShareModal.tsx",
+    "bytes": 18490,
+    "sha256": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4"
+  },
+  {
+    "path": "src/components/multi/socialShare.ts",
+    "bytes": 11947,
+    "sha256": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a"
+  },
+  {
+    "path": "src/components/multi/socialShareErrors.ts",
+    "bytes": 921,
+    "sha256": "3bf3f69c1b8c4d60d724b5180d74961e744d9ea47225975fdc9b027ec1835549"
+  },
+  {
+    "path": "src/components/middle/composer/FormattedDateModal.tsx",
+    "bytes": 8591,
+    "sha256": "ab3c7abe5913f36f0a1f909f81675c46ca015e95034ee1a8c302acdf5a963033"
+  },
+  {
+    "path": "src/components/middle/composer/FormattedDateModal.module.scss",
+    "bytes": 2930,
+    "sha256": "efe41edf0e4e3044f5873af909b3a04bfd89590a868ebfa933353711382a29ad"
+  },
+  {
+    "path": "tauri/src/lib.rs",
+    "bytes": 18881,
+    "sha256": "7956b8c01495c857f41da32ee50fa1d1bde3756136a644d858c5705936c582d8"
+  },
+  {
+    "path": "scripts/release-runtime-manifest.json",
+    "bytes": 7088,
+    "sha256": "280afb5941cd0b9554e2908a671711f81fc35a6a4539d59b2d40a1873c37546b"
+  },
+  {
+    "bytes": 7552,
+    "sha256": "296605fe4bb9008218aceacd253f3890c4fa89f3ff0849c984a71d1425fe3362",
+    "path": "src/components/right/management/ManageBot.tsx"
+  },
+  {
+    "bytes": 5343,
+    "sha256": "365510bf95042d28ca1475961338fbe40edaf79f478958d9e85697406f2d5205",
+    "path": "src/components/right/management/Management.scss"
+  }
+]

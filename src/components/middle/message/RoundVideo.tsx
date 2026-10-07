@@ -15,6 +15,7 @@ import {
   hasMessageTtl,
 } from '../../../global/helpers';
 import { stopCurrentAudio } from '../../../util/audioPlayer';
+import { IS_TAURI } from '../../../util/browser/globalEnvironment';
 import buildClassName from '../../../util/buildClassName';
 import { formatMediaDuration } from '../../../util/dates/oldDateFormat';
 import safePlay from '../../../util/safePlay';
@@ -24,6 +25,7 @@ import useThumbnail from '../../../hooks/media/useThumbnail';
 import { useThrottledSignal } from '../../../hooks/useAsyncResolvers';
 import useFlag from '../../../hooks/useFlag';
 import { useIsIntersecting } from '../../../hooks/useIntersectionObserver';
+import useLang from '../../../hooks/useLang';
 import useLastCallback from '../../../hooks/useLastCallback';
 import useMediaTransition from '../../../hooks/useMediaTransition';
 import useMediaWithLoadProgress from '../../../hooks/useMediaWithLoadProgress';
@@ -85,7 +87,8 @@ const RoundVideo: FC<OwnProps> = ({
   const playerRef = useRef<HTMLVideoElement>();
   const circleRef = useRef<SVGCircleElement>();
 
-  const { cancelMediaDownload, openOneTimeMediaModal, transcribeAudio } = getActions();
+  const { cancelMediaDownload, openOneTimeMediaModal, transcribeAudio, cancelAudioTranscription } = getActions();
+  const lang = useLang();
 
   const isIntersecting = useIsIntersecting(ref, observeIntersection);
 
@@ -256,7 +259,11 @@ const RoundVideo: FC<OwnProps> = ({
   }
 
   const handleButtonClick = useLastCallback(() => {
-    if ((isTranscribed || isTranscriptionError) && onHideTranscription) {
+    if (isTranscribing && IS_TAURI) {
+      cancelAudioTranscription({ chatId: message.chatId, messageId: message.id });
+    } else if (isTranscriptionError) {
+      handleTranscribe();
+    } else if (isTranscribed && onHideTranscription) {
       onHideTranscription(!isTranscriptionHidden);
     } else if (!isTranscribing) {
       handleTranscribe();
@@ -349,24 +356,74 @@ const RoundVideo: FC<OwnProps> = ({
       )}
       {canTranscribe && (
         <Button
+          round
+          size="tiny"
+          color="translucent"
           onClick={handleButtonClick}
-          className="transcribe-button"
+          className={buildClassName('transcribe-button', isTranscribing && 'is-transcribing')}
+          ariaLabel={isTranscribing && IS_TAURI ? lang('RelayTranscribeCancel')
+            : isTranscriptionError ? lang('RelayRetry')
+              : IS_TAURI ? lang('RelayTranscribe') : lang('PremiumPreviewVoiceToText')}
         >
-          {isTranscribed || isTranscriptionError ? <Icon name="down" /> : <Icon name="transcribe" />}
+          {isTranscribed || isTranscriptionError ? (
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          ) : isTranscribing ? (
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transcribe-pulsing-icon"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          ) : (
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transcribe-svg-icon"
+            >
+              <path d="M4 10v4" />
+              <path d="M8 7v10" />
+              <path d="M12 4v16" />
+              <path d="M16 8h4" />
+              <path d="M16 12h4" />
+              <path d="M16 16h2.5" />
+            </svg>
+          )}
           {isTranscribing && (
-            <svg viewBox="0 0 32 24" className="loading-svg">
-              <rect
-                className="loading-rect"
+            <svg viewBox="0 0 28 28" className="loading-svg">
+              <circle
+                className="loading-circle"
                 fill="transparent"
-                width="32"
-                height="24"
-                stroke-width="3"
-                stroke-linejoin="round"
-                rx="6"
-                ry="6"
+                cx="14"
+                cy="14"
+                r="11"
+                strokeWidth="2"
                 stroke="white"
-                stroke-dashoffset="1"
-                stroke-dasharray="32,68"
+                strokeDasharray="24 45"
+                strokeLinecap="round"
               />
             </svg>
           )}

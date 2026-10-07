@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-lagom-interop-independent-source-review-2026-10-03",
+  "reviewedAtUtc": "2026-10-03T13:12:13.319203+00:00",
+  "reviewerTaskId": "01a0fdcc-ad78-79c1-9e76-07c51eea77ba",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "status": "NO_MATERIAL_BLOCKER_IDENTIFIED_FOR_CURRENT_PROTECTED_ORDINARY_USER_DEPLOYMENT",
+  "scope": "Independent static review of exactly four source changes; not an installation, end-to-end or 24x7 acceptance.",
+  "inputPins": {
+    "patchSha256": "afd49133a284e69e919ea112b1260416b586747b6a933173b919a22432d3996f",
+    "patchReceiptSha256": "7f164fb134e1b0d2c8458b5031d33dc5c2de676d79af3ddafcf7250d52ff4af4",
+    "sourceChanges": [
+      {
+        "path": "scripts/telegram-transport.mjs",
+        "beforeSha256": "f79f9d8959c19b00766ecaa607318d6fcb3d1faa576cae1054d769a45b155597",
+        "afterSha256": "465cf8a23921b195bdc80f54336f8f5fa6070f45cba3627beebdab6a7d2e323e",
+        "actualBytes": 18265,
+        "actualAfterSha256": "465cf8a23921b195bdc80f54336f8f5fa6070f45cba3627beebdab6a7d2e323e",
+        "beforeImageReconstructionMatchesReceipt": true
+      },
+      {
+        "path": "tauri/src/telegram_transport.rs",
+        "beforeSha256": "aa0426e350cb1c4118f364bdcb4f5c646bf870d76cc5263b8c002ee94410429b",
+        "afterSha256": "ac7d9f521ee818fc729e16adc09e8731d9c38a65d47991b129d60dd7bd0ec59c",
+        "actualBytes": 8903,
+        "actualAfterSha256": "ac7d9f521ee818fc729e16adc09e8731d9c38a65d47991b129d60dd7bd0ec59c",
+        "beforeImageReconstructionMatchesReceipt": true
+      },
+      {
+        "path": "tauri/src/lib.rs",
+        "beforeSha256": "7956b8c01495c857f41da32ee50fa1d1bde3756136a644d858c5705936c582d8",
+        "afterSha256": "3519218eef435c4c32edc9b4d5987b1aa274508fa3c9c4964b6d6cb532c40506",
+        "actualBytes": 19010,
+        "actualAfterSha256": "3519218eef435c4c32edc9b4d5987b1aa274508fa3c9c4964b6d6cb532c40506",
+        "beforeImageReconstructionMatchesReceipt": true
+      },
+      {
+        "path": "src/components/App.tsx",
+        "beforeSha256": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+        "afterSha256": "dc3897c4bd92b65ce3f47d4d1d6eac2ee3b4ab0642a755436298c87697326740",
+        "actualBytes": 34883,
+        "actualAfterSha256": "dc3897c4bd92b65ce3f47d4d1d6eac2ee3b4ab0642a755436298c87697326740",
+        "beforeImageReconstructionMatchesReceipt": true
+      }
+    ]
+  },
+  "method": {
+    "productExecution": false,
+    "testsRun": 0,
+    "networkProbes": 0,
+    "adminActions": 0,
+    "serviceChanges": 0,
+    "sourceEdits": 0,
+    "credentialsRead": false,
+    "diffAndActualFourFileReview": true,
+    "reconstructedAllFourPreimagesFromActualAfterAndUnifiedDiff": true
+  },
+  "materialInstallationBlockers": [],
+  "checks": [
+    {
+      "id": "handoff-schema",
+      "source": "scripts/telegram-transport.mjs",
+      "lines": [
+        332,
+        352,
+        384,
+        390
+      ],
+      "finding": "Primary protected config remains first choice. Only missing/denied/unreadable errors allow the fixed LOCALAPPDATA fallback. Handoff requires schemaVersion1, exactly four keys, host127.0.0.1, integer port1..65535 and a 32-hex secret. Invalid readable primary or fallback fails closed.",
+      "classification": "source contract verified"
+    },
+    {
+      "id": "handoff-authority-boundary",
+      "source": "scripts/telegram-transport.mjs",
+      "lines": [
+        356,
+        368,
+        371,
+        380,
+        381
+      ],
+      "finding": "realpath/lstat checks occur before open; the opened file is bounded/plain/single-link and size/mtime/link count are rechecked. This does NOT verify Windows owner/DACL or atomically pin checked parent/leaf identity. A check-to-open replacement race remains if another principal can write those paths.",
+      "classification": "deployment prerequisite and explicit reader limitation",
+      "currentDeploymentDisposition": "Not a material blocker for the specifically attested protected parent and ordinary-user consumer. Trust is supplied by external ACL creation, not by this Node reader; no elevation or cross-user authority is introduced.",
+      "requiredAssumption": "Root attests parent inheritance disabled with only concrete UserSID/SYSTEM/Admins, file created after parent protection, and Relay runs ordinary per-user. This reviewer did not inspect credential or live ACL."
+    },
+    {
+      "id": "credential-logging",
+      "source": "scripts/telegram-transport.mjs and tauri/src/telegram_transport.rs",
+      "lines": [
+        404,
+        407,
+        456
+      ],
+      "finding": "New output uses fixed reason whitelist; Rust warning logs only that reason. Telegram secret is not included in changed logs or command argv. Secret buffers are zeroed in read/connection finally paths; error causes are not serialized. Bootstrap bridge token remains in private IPC URL as existing design, not added to these warnings.",
+      "classification": "changed code reviewed; no runtime privacy scan claimed"
+    },
+    {
+      "id": "stable-worker-recovery",
+      "source": "tauri/src/telegram_transport.rs",
+      "lines": [
+        104,
+        134,
+        164,
+        203,
+        212,
+        215
+      ],
+      "finding": "Recovery relaunches only OwnedWorker using original token and exact port/URL; replacement must report the same ready URL. Backoff1/2/4/8s is capped, resets after30s stable lifetime, and stop channel breaks recovery. Existing job-bound cleanup retained. alive denotes supervisor/endpoint ownership and may remain true while endpoint is being recovered; ready does not prove Lagom route health.",
+      "classification": "source lifecycle verified; no runtime recovery measurement"
+    },
+    {
+      "id": "connection-retry",
+      "source": "scripts/telegram-transport.mjs",
+      "lines": [
+        156,
+        194,
+        224,
+        226,
+        249
+      ],
+      "finding": "Each fresh socket attempt rereads config, retries only config-unavailable/denied/listener-unavailable, clears secret buffers, and destroys failed candidate. At most10 attempts with250ms wait and1200ms socket deadline remain subordinate to existing12s handshake deadline; worst-case does not guarantee all10 attempts. No public route or service management added.",
+      "classification": "bounded source retry verified"
+    },
+    {
+      "id": "start-hidden",
+      "source": "tauri/src/lib.rs",
+      "lines": [
+        128,
+        130,
+        158,
+        162,
+        184,
+        204,
+        476,
+        490
+      ],
+      "finding": "Cold --start-hidden suppresses configured/main visibility and focus; repeated hidden launch returns before foregrounding. Explicit ordinary second-instance launch retains direct window.show/unminimize/set_focus. This source check does not validate all tray/deeplink behaviors or actual desktop launch.",
+      "classification": "source startup behavior verified within scope"
+    },
+    {
+      "id": "prewarm",
+      "source": "src/components/App.tsx",
+      "lines": [
+        173,
+        204,
+        529,
+        546
+      ],
+      "finding": "One best-effort X then Instagram prewarm pair follows observer registration, only when not locked/inactive, with unmount checks and per-command catch. Existing native activation APIs and switch queue are unchanged. Individual command failure is logged but not automatically retried by this once-per-mount prewarm; actual social load success is outside this review.",
+      "classification": "source ordering reviewed; best-effort limit"
+    }
+  ],
+  "interopProjectionLimits": [
+    "The handoff is a fixed four-field projection, not a synchronization service. Source rereads it for each new TCP connection but never updates it from Lagom.",
+    "Normal Lagom readConfig/writeConfig/start/stop key preservation is context supplied by Root, not independently audited in these four Relay files.",
+    "If key or port is manually changed outside this projection while protected primary stays unreadable, an authorized writer must refresh the handoff. Retrying stale handoff values cannot fix key mismatch; existing TCP sessions are not transparently migrated.",
+    "No actual installer, TG payload forwarding, native social view load or long-running stability was exercised by this reviewer."
+  ],
+  "feedback": {
+    "choices": [
+      "approve",
+      "reject",
+      "question"
+    ],
+    "defaultDecision": "unreviewed",
+    "comment": "",
+    "generalComment": "",
+    "applyMeaning": "Accept or question this bounded review finding; does not execute installation, modify services or change credentials.",
+    "objects": [
+      {
+        "id": "handoff-authority-boundary",
+        "name": "External ACL trust boundary for current per-user handoff",
+        "decision": "unreviewed",
+        "comment": ""
+      },
+      {
+        "id": "interop-projection-limit",
+        "name": "Manual key/port changes require projection refresh",
+        "decision": "unreviewed",
+        "comment": ""
+      }
+    ]
+  }
+}

@@ -5,9 +5,11 @@ import {
 
 import type { TextPart } from '../../types';
 
+import { requestMeasure } from '../../lib/fasterdom/fasterdom';
 import buildClassName from '../../util/buildClassName';
-import captureKeyboardListeners from '../../util/captureKeyboardListeners';
+import captureKeyboardListeners, { ALLOW_KEYBOARD_EVENT_PROPAGATION } from '../../util/captureKeyboardListeners';
 import { disableDirectTextInput, enableDirectTextInput } from '../../util/directInputManager';
+import acquireOpenModal from '../../util/openModalState';
 import trapFocus from '../../util/trapFocus';
 
 import useContextMenuHandlers from '../../hooks/useContextMenuHandlers';
@@ -17,6 +19,8 @@ import useLastCallback from '../../hooks/useLastCallback';
 import useLayoutEffectWithPrevDeps from '../../hooks/useLayoutEffectWithPrevDeps';
 import useOldLang from '../../hooks/useOldLang';
 import useShowTransition from '../../hooks/useShowTransition';
+import useSyncEffect from '../../hooks/useSyncEffect';
+import useUniqueId from '../../hooks/useUniqueId';
 
 import Button, { type OwnProps as ButtonProps } from './Button';
 import Menu from './Menu';
@@ -26,9 +30,11 @@ import Portal from './Portal';
 import './Modal.scss';
 
 export const ANIMATION_DURATION = 200;
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 export type OwnProps = {
   title?: string | TextPart[];
+  ariaLabel?: string;
   className?: string;
   contentClassName?: string;
   headerClassName?: string;
@@ -74,18 +80,23 @@ const Modal = (props: OwnProps) => {
     onEnter,
   } = props;
 
+  const shouldDisableAnimation = reducedMotionQuery.matches || document.body.classList.contains('no-page-transitions');
+
   const {
     ref: modalRef,
     shouldRender,
   } = useShowTransition<HTMLElement>({
     isOpen,
     withShouldRender: true,
+    noOpenTransition: shouldDisableAnimation,
+    closeDuration: shouldDisableAnimation ? 0 : ANIMATION_DURATION,
     onCloseAnimationEnd,
   });
 
   const shouldFreeze = !noFreezeOnClose && !isOpen;
   const {
     title,
+    ariaLabel,
     isLowStackPriority,
     header,
     children,
@@ -110,8 +121,12 @@ const Modal = (props: OwnProps) => {
   } = useFrozenProps(props, shouldFreeze);
 
   const localDialogRef = useRef<HTMLDivElement>();
+  const previousFocusRef = useRef<HTMLElement>();
   const moreButtonRef = useRef<HTMLButtonElement>();
   const menuRef = useRef<HTMLDivElement>();
+  const modalId = useUniqueId();
+  const menuPortalId = `modal-menu-${modalId}`;
+  const titleId = `modal-title-${modalId}`;
 
   const {
     isContextMenuOpen,
@@ -124,6 +139,19 @@ const Modal = (props: OwnProps) => {
   const actualDialogRef = dialogRef || localDialogRef;
   const divModalRef = modalRef as ElementRef<HTMLDivElement>;
   const nativeDialogRef = modalRef as ElementRef<HTMLDialogElement>;
+
+  useEffect(() => {
+    if (!isOpen) {
+      handleContextMenuClose();
+      handleContextMenuHide();
+    }
+  }, [isOpen, handleContextMenuClose, handleContextMenuHide]);
+
+  const handleMoreMenuClose = useLastCallback((event?: KeyboardEvent) => {
+    event?.preventDefault();
+    handleContextMenuClose();
+    moreButtonRef.current?.focus({ preventScroll: true });
+  });
 
   const getRootElement = useLastCallback(() => actualDialogRef.current);
   const getTriggerElement = useLastCallback(() => moreButtonRef.current);
@@ -143,19 +171,63 @@ const Modal = (props: OwnProps) => {
   }, [isOpen]);
 
   const handleEnter = useLastCallback((e: KeyboardEvent) => {
-    if (!onEnter) {
-      return false;
+    const target = e.target instanceof Element ? e.target : undefined;
+    if (!target || !modalRef.current?.contains(target)) {
+      const owner = target?.closest('.Modal');
+      if (owner && owner !== modalRef.current && owner.matches('.open, dialog[open]')
+        && !owner.matches('.closing, .not-shown, .not-open')) return false;
+      e.preventDefault();
+      return true;
     }
-
+    if (!onEnter || target.closest(
+      'button, a[href], [role="button"], .MenuItem, [role="menuitemradio"], textarea, '
+      + 'input[type="checkbox"], input[type="radio"], select, '
+      + '[contenteditable="true"], [contenteditable="plaintext-only"]',
+    )) {
+      return ALLOW_KEYBOARD_EVENT_PROPAGATION;
+    }
     e.preventDefault();
     onEnter();
     return true;
   });
 
+  const handleSpace = useLastCallback((e: KeyboardEvent) => {
+    const target = e.target instanceof Element ? e.target : undefined;
+    if (!target || !modalRef.current?.contains(target)) return false;
+    const menuItem = target.closest('.MenuItem');
+    if (menuItem && !menuItem.matches('button, a[href]')) e.preventDefault();
+    return ALLOW_KEYBOARD_EVENT_PROPAGATION;
+  });
+
+  const handleEscape = useLastCallback((e: KeyboardEvent) => {
+    const owner = e.target instanceof Element ? e.target.closest('.Modal') : undefined;
+    if (owner && owner !== modalRef.current && owner.matches('.open, dialog[open]')
+      && !owner.matches('.closing, .not-shown, .not-open')) return false;
+    e.preventDefault();
+    onClose();
+    return true;
+  });
+
   useEffect(() => (
-    isOpen ? captureKeyboardListeners({ onEsc: onClose, onEnter: handleEnter }) : undefined
-  ), [isOpen, onClose, handleEnter]);
-  useEffect(() => (isOpen && modalRef.current ? trapFocus(modalRef.current) : undefined), [isOpen, modalRef]);
+    isOpen ? captureKeyboardListeners({ onEsc: handleEscape, onEnter: handleEnter, onSpace: handleSpace }) : undefined
+  ), [isOpen, handleEscape, handleEnter, handleSpace]);
+  useSyncEffect(() => {
+    previousFocusRef.current = isOpen && document.activeElement instanceof HTMLElement
+      ? document.activeElement : undefined;
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    let isCancelled = false;
+    let releaseFocus: NoneToVoidFunction | undefined;
+    requestMeasure(() => {
+      if (!isCancelled && modalRef.current) releaseFocus = trapFocus(modalRef.current, previousFocusRef.current);
+    });
+    return () => {
+      isCancelled = true;
+      releaseFocus?.();
+    };
+  }, [isOpen, modalRef, shouldRender]);
 
   useLayoutEffect(() => {
     if (!isNativeDialog || !shouldRender) {
@@ -208,17 +280,13 @@ const Modal = (props: OwnProps) => {
     onBack: onClose,
   });
 
-  useLayoutEffectWithPrevDeps(([prevIsOpen]) => {
-    document.body.classList.toggle('has-open-dialog', Boolean(isOpen));
+  useLayoutEffect(() => (shouldRender ? acquireOpenModal() : undefined), [shouldRender]);
 
-    if (isOpen || (!isOpen && prevIsOpen !== undefined)) {
+  useLayoutEffectWithPrevDeps(([prevIsOpen]) => {
+    if (!shouldDisableAnimation && (isOpen || (!isOpen && prevIsOpen !== undefined))) {
       beginHeavyAnimation(ANIMATION_DURATION);
     }
-
-    return () => {
-      document.body.classList.remove('has-open-dialog');
-    };
-  }, [isOpen]);
+  }, [isOpen, shouldDisableAnimation]);
 
   const lang = useOldLang();
 
@@ -252,7 +320,14 @@ const Modal = (props: OwnProps) => {
     return title ? (
       <div className={buildClassName('modal-header', headerClassName, isCondensedHeader && 'modal-header-condensed')}>
         {closeButton}
-        <div className="modal-title" autoFocus={!noTitleAutoFocus}>{title}</div>
+        <div
+          id={titleId}
+          className="modal-title"
+          title={typeof title === 'string' ? title : undefined}
+          autoFocus={!noTitleAutoFocus}
+        >
+          {title}
+        </div>
       </div>
     ) : closeButton;
   }
@@ -274,7 +349,7 @@ const Modal = (props: OwnProps) => {
   function renderContent() {
     return (
       <>
-        <div className="modal-container">
+        <div className="modal-container" id={menuPortalId}>
           <div className="modal-backdrop" onClick={!noBackdropClose ? onClose : undefined} />
           {withBalanceBar && (
             <ModalStarBalanceBar
@@ -298,22 +373,25 @@ const Modal = (props: OwnProps) => {
                   onClick={handleContextMenu}
                   onContextMenu={handleContextMenu}
                 />
-                <Menu
-                  ref={menuRef}
-                  isOpen={isContextMenuOpen}
-                  anchor={contextMenuAnchor}
-                  autoClose
-                  withPortal
-                  positionX="right"
-                  onClose={handleContextMenuClose}
-                  onCloseAnimationEnd={handleContextMenuHide}
-                  getRootElement={getRootElement}
-                  getTriggerElement={getTriggerElement}
-                  getMenuElement={getMenuElement}
-                  getLayout={getLayout}
-                >
-                  {moreMenuItems}
-                </Menu>
+                {isOpen && contextMenuAnchor && (
+                  <Menu
+                    ref={menuRef}
+                    isOpen={isContextMenuOpen}
+                    anchor={contextMenuAnchor}
+                    autoClose
+                    withPortal
+                    portalContainerSelector={`#${menuPortalId}`}
+                    positionX="right"
+                    onClose={handleMoreMenuClose}
+                    onCloseAnimationEnd={handleContextMenuHide}
+                    getRootElement={getRootElement}
+                    getTriggerElement={getTriggerElement}
+                    getMenuElement={getMenuElement}
+                    getLayout={getLayout}
+                  >
+                    {moreMenuItems}
+                  </Menu>
+                )}
               </>
             )}
             {dialogContent}
@@ -333,6 +411,8 @@ const Modal = (props: OwnProps) => {
           ref={nativeDialogRef}
           className={fullClassName}
           aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={title && !header ? titleId : undefined}
         >
           {renderContent()}
         </dialog>
@@ -342,6 +422,9 @@ const Modal = (props: OwnProps) => {
           className={fullClassName}
           tabIndex={-1}
           role="dialog"
+          aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={title && !header ? titleId : undefined}
         >
           {renderContent()}
         </div>

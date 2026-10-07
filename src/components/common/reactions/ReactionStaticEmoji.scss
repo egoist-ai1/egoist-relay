@@ -4,6 +4,25 @@
   aspect-ratio: 1;
   width: 1rem;
 
+  &__fallback {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+    font-size: var(--reaction-static-emoji-size, 0.9375rem);
+    line-height: 1;
+
+    transition: opacity 0.3s ease;
+
+    &.is-loaded {
+      opacity: 0;
+    }
+  }
+
   &.icon-heart {
     margin: 0 !important;
     color: var(--color-heart) !important;

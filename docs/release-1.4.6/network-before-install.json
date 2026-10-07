@@ -1,0 +1,132 @@
+{
+  "scope": "Read-only current configuration and exact process identity; no secret config/DPAPI contents read",
+  "userProxySettingsSha256": "d514adafa96c7c84a1694fc9037e29368acc5be073a17fee0db4e68e58a0fd71",
+  "schemaVersion": 1,
+  "files": [
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\SystemDoH\\config.json",
+      "lastWriteUtc": "2026-10-02T14:01:26.6207062Z",
+      "bytes": 1584,
+      "sha256": "09a010adae86fd87cbe2f74ec7e91f8ef9cb54aa5c60c21e2e61f482b3dbfbe5"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-general-user.txt",
+      "lastWriteUtc": "2026-10-02T01:09:52.0464131Z",
+      "bytes": 436,
+      "sha256": "5e0d3a8f5671782f9c742dfe80678e1ecf2bd2ac1a09d806f6c6082b6bbe800d"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\service-wrapper\\egoistshield-zapret-service.xml",
+      "lastWriteUtc": "2026-10-02T00:41:16.8131681Z",
+      "bytes": 8264,
+      "sha256": "a212246d1596b0c64d8840171e5b541d341d4f0e3702b97fcbe18fca3040d31a"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-exclude-user.txt",
+      "lastWriteUtc": "2026-10-02T00:41:14.9374784Z",
+      "bytes": 19,
+      "sha256": "a55959f2708d2a68c84aceb2b0de737850aef9afb0c5dff55cc8ddc8318d171b"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\relay-tunnel.dpapi",
+      "lastWriteUtc": "2026-09-29T23:25:20.2589482Z",
+      "bytes": 1302,
+      "sha256": "efe091bcde9de71b2a769b4ceeb1b9a9413ba137491c1536c886a3497ae6faf1"
+    },
+    {
+      "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-exclude.txt",
+      "lastWriteUtc": "2026-09-20T05:46:32.0000000Z",
+      "bytes": 1716,
+      "sha256": "c5eaabb284d9e5c11340454c0d11776f8b62f519e4d71e41254f757de7bbc0d0"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\relay-dns.dpapi",
+      "lastWriteUtc": "2026-09-29T23:25:19.2140425Z",
+      "bytes": 358,
+      "sha256": "e4ef37a6202a634157ef67f9539c891601dc770f3ce4176cdeb877edf93afe07"
+    }
+  ],
+  "dnsInterfaceRecordCount": 12,
+  "mcpUsesNamedPipe": true,
+  "mcpDaemonProcesses": [],
+  "version": "1.4.6",
+  "recordedAt": "2026-10-02T14:41:06.8546818+00:00",
+  "mcpTcpUdpListeners": [],
+  "lagomProcesses": [
+    {
+      "path": "C:\\Program Files\\EgoistShield\\EgoistShield.exe",
+      "pid": 2160,
+      "birthUtc": "2026-10-02T14:01:16.2648840Z",
+      "priorityClass": "Idle"
+    },
+    {
+      "path": "C:\\Program Files\\EgoistShield\\EgoistShield.exe",
+      "pid": 18236,
+      "birthUtc": "2026-10-02T14:01:16.2229340Z",
+      "priorityClass": "AboveNormal"
+    }
+  ],
+  "dnsSettingsSha256": "c7127a7c819ed4c9448a928f902e375ac5586b2f2a072bb15f172f499100ac87",
+  "services": [
+    {
+      "Name": "EgoistShieldCore",
+      "State": "Running",
+      "ProcessId": 23052,
+      "StartMode": "Auto"
+    },
+    {
+      "Name": "EgoistShieldSystemDoH",
+      "State": "Running",
+      "ProcessId": 26316,
+      "StartMode": "Auto"
+    },
+    {
+      "Name": "EgoistShieldTelegramProxy",
+      "State": "Running",
+      "ProcessId": 5060,
+      "StartMode": "Auto"
+    },
+    {
+      "Name": "EgoistShieldZapret",
+      "State": "Running",
+      "ProcessId": 23148,
+      "StartMode": "Auto"
+    }
+  ],
+  "phase": "before-install",
+  "networkMutationsPerformed": false,
+  "serviceProcesses": [
+    {
+      "priorityClass": "",
+      "birthUtc": "2026-10-02T14:37:01.9802090Z",
+      "basePriority": 8,
+      "pid": 23052,
+      "service": "EgoistShieldCore",
+      "path": null
+    },
+    {
+      "priorityClass": "",
+      "birthUtc": "2026-10-02T14:25:53.2644620Z",
+      "basePriority": 8,
+      "pid": 26316,
+      "service": "EgoistShieldSystemDoH",
+      "path": null
+    },
+    {
+      "priorityClass": "",
+      "birthUtc": "2026-10-02T14:00:45.8140050Z",
+      "basePriority": 8,
+      "pid": 5060,
+      "service": "EgoistShieldTelegramProxy",
+      "path": null
+    },
+    {
+      "priorityClass": "",
+      "birthUtc": "2026-10-02T14:37:00.6974900Z",
+      "basePriority": 8,
+      "pid": 23148,
+      "service": "EgoistShieldZapret",
+      "path": null
+    }
+  ]
+}

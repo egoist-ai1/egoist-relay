@@ -1,0 +1,728 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-payment-modal-proof-registry",
+  "reportVersion": 1,
+  "generatedAt": "2026-10-02T08:22:40.196Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "candidateRelease": "1.4.4",
+  "scope": "Actual App/Main/ModalContainer Payment and Stars, real shared Button/Modal, synthetic typed global state and MockClient. No replica JSX. All payment/password actions captured locally before opening. Fresh headless browser and local127.0.0.1 server; every external request aborted.",
+  "receiptVersionDistinction": "Initialbefore has8prerequisite gates because zero-height Modal wrapper visibility selector was wrong. before-focused targets visible inner dialog and has8cases5pass3fail. before-focused-loading adds one actual pointer/loading/input branch:9cases6pass3fail. No previous receipt overwritten.",
+  "receipts": [
+    {
+      "label": "before",
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before.json",
+      "sha256": "e26bb41312e96e372950ddd35d70c141834bd3b7366f980fbacc6f9a40826f3d",
+      "summary": {
+        "total": 8,
+        "pass": 0,
+        "fail": 0,
+        "prerequisiteGates": 8,
+        "errors": 0,
+        "unhandled": 0,
+        "externalRequestsSucceeded": 0,
+        "realAccountMutations": 0
+      },
+      "sourceHashes": {
+        "src/components/payment/PaymentModal.tsx": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+        "src/components/payment/PasswordConfirm.tsx": "23dcc16bbb16c1e7fa78a70021a2b7bd2ba1c88dc710c87fc57fac6653a17d93",
+        "src/components/modals/stars/StarsPaymentModal.tsx": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85",
+        "src/components/ui/Button.tsx": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+        "src/util/captureKeyboardListeners.ts": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4",
+        "scripts/relay-payment-modal.fixture.tsx": "f2c60a42b6bb7998f312bfc26052ca4b5efb309f5c9393aa3b1fa52d4b6f1f03",
+        "scripts/relay-payment-modal.server.fixture.mjs": "0ef8aa4b650db97af4934968b2b6d5ab370bb96b4a0e84299a2595770fe87d67",
+        "scripts/relay-payment-modal.test.mjs": "03c77727ba1440bd791e2dcc0e7a81b1d86cf1b7d04ac2c16454531250d36c76"
+      },
+      "cases": [
+        {
+          "id": "regular-input-loading-enter",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    6 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-regular-input-loading-enter.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "regular-header-back-enter",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-regular-header-back-enter.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "regular-footer-confirm-enter-once",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-regular-footer-confirm-enter-once.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "regular-footer-confirm-space-once",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-regular-footer-confirm-space-once.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "regular-header-back-space",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.PaymentModal.open') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal PaymentModal opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-regular-header-back-space.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "stars-loading-enter",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has([class*=\"paymentButton\"])') to be visible\u001b[22m\n\u001b[2m    13 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-stars-loading-enter.png",
+          "activeTarget": "<button type=\"button\" class=\"Button modal-absolute-close-button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>"
+        },
+        {
+          "id": "stars-loading-space",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has([class*=\"paymentButton\"])') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-stars-loading-space.png",
+          "activeTarget": "<button type=\"button\" class=\"Button modal-absolute-close-button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>"
+        },
+        {
+          "id": "stars-close-enter-safe",
+          "status": "prerequisite-gate",
+          "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has([class*=\"paymentButton\"])') to be visible\u001b[22m\n\u001b[2m    14 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n",
+          "screenshot": "ui-payment-modal-before-stars-close-enter-safe.png",
+          "activeTarget": "<button type=\"button\" class=\"Button modal-absolute-close-button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>"
+        }
+      ]
+    },
+    {
+      "label": "before-focused",
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before-focused.json",
+      "sha256": "1ca1a45f64fc14501f929fcd8b4c7958b974e64414912b04a25f8b8fd17907d5",
+      "summary": {
+        "total": 8,
+        "pass": 5,
+        "fail": 3,
+        "prerequisiteGates": 0,
+        "errors": 0,
+        "unhandled": 0,
+        "externalRequestsSucceeded": 0,
+        "realAccountMutations": 0
+      },
+      "sourceHashes": {
+        "src/components/payment/PaymentModal.tsx": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+        "src/components/payment/PasswordConfirm.tsx": "23dcc16bbb16c1e7fa78a70021a2b7bd2ba1c88dc710c87fc57fac6653a17d93",
+        "src/components/modals/stars/StarsPaymentModal.tsx": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85",
+        "src/components/ui/Button.tsx": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+        "src/util/captureKeyboardListeners.ts": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4",
+        "scripts/relay-payment-modal.fixture.tsx": "f2c60a42b6bb7998f312bfc26052ca4b5efb309f5c9393aa3b1fa52d4b6f1f03",
+        "scripts/relay-payment-modal.server.fixture.mjs": "0ef8aa4b650db97af4934968b2b6d5ab370bb96b4a0e84299a2595770fe87d67",
+        "scripts/relay-payment-modal.test.mjs": "3969ef74e647bef96fa2fdaf6baac39e9f1e19730a71998874f32fa6003604b8"
+      },
+      "cases": [
+        {
+          "id": "regular-input-loading-enter",
+          "status": "fail",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+              "owned": true,
+              "disabled": false
+            },
+            "secondTarget": {
+              "focused": true,
+              "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+              "owned": true,
+              "disabled": false
+            },
+            "afterFirst": 0,
+            "afterSecond": 0,
+            "disabledAfterFirst": false
+          },
+          "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"target\":{\"focused\":true,\"target\":\"<input class=\\\"form-control\\\" type=\\\"password\\\" id=\\\"sign-in-password\\\" autocomplete=\\\"current-password\\\" spellcheck=\\\"false\\\" maxlength=\\\"256\\\" dir=\\\"auto\\\">\",\"owned\":true,\"disabled\":false},\"secondTarget\":{\"focused\":true,\"target\":\"<input class=\\\"form-control\\\" type=\\\"password\\\" id=\\\"sign-in-password\\\" autocomplete=\\\"current-password\\\" spellcheck=\\\"false\\\" maxlength=\\\"256\\\" dir=\\\"auto\\\">\",\"owned\":true,\"disabled\":false},\"afterFirst\":0,\"afterSecond\":0,\"disabledAfterFirst\":false}",
+          "screenshot": "ui-payment-modal-before-focused-regular-input-loading-enter.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "regular-header-back-enter",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button close-button smaller translucent round\" aria-label=\"Закрыть\" title=\"Закрыть\"><i class=\"icon icon-arrow-left\" aria-hidden=\"true\"></i></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 0,
+            "beforeState": {
+              "paymentOpen": true,
+              "paymentStep": 2,
+              "starsOpen": false
+            },
+            "afterState": {
+              "paymentOpen": true,
+              "paymentStep": 1,
+              "starsOpen": false
+            }
+          }
+        },
+        {
+          "id": "regular-footer-confirm-enter-once",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 1
+          }
+        },
+        {
+          "id": "regular-footer-confirm-space-once",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 1
+          }
+        },
+        {
+          "id": "regular-header-back-space",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button close-button smaller translucent round\" aria-label=\"Закрыть\" title=\"Закрыть\"><i class=\"icon icon-arrow-left\" aria-hidden=\"true\"></i></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 0,
+            "beforeState": {
+              "paymentOpen": true,
+              "paymentStep": 2,
+              "starsOpen": false
+            },
+            "afterState": {
+              "paymentOpen": true,
+              "paymentStep": 1,
+              "starsOpen": false
+            }
+          }
+        },
+        {
+          "id": "stars-loading-enter",
+          "status": "fail",
+          "detail": {
+            "key": "Enter",
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "loading": {
+              "className": "Button StarsBalanceModal-module__paymentButton default primary loading clicked inline",
+              "disabled": false,
+              "pointerEvents": "none"
+            },
+            "firstDelta": 1,
+            "afterKeyboard": 2
+          },
+          "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"key\":\"Enter\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\\\"><div><span>Cache.ClearProgress</span><div class=\\\"Spinner Spinner-module__root Spinner-module__white\\\"><div class=\\\"Spinner__inner Spinner-module__inner\\\"></div></div></div></button>\",\"owned\":true,\"disabled\":false},\"loading\":{\"className\":\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\",\"disabled\":false,\"pointerEvents\":\"none\"},\"firstDelta\":1,\"afterKeyboard\":2}",
+          "screenshot": "ui-payment-modal-before-focused-stars-loading-enter.png",
+          "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+        },
+        {
+          "id": "stars-loading-space",
+          "status": "fail",
+          "detail": {
+            "key": "Space",
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "loading": {
+              "className": "Button StarsBalanceModal-module__paymentButton default primary loading clicked inline",
+              "disabled": false,
+              "pointerEvents": "none"
+            },
+            "firstDelta": 1,
+            "afterKeyboard": 2
+          },
+          "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"key\":\"Space\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\\\"><div><span>Cache.ClearProgress</span><div class=\\\"Spinner Spinner-module__root Spinner-module__white\\\"><div class=\\\"Spinner__inner Spinner-module__inner\\\"></div></div></div></button>\",\"owned\":true,\"disabled\":false},\"loading\":{\"className\":\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\",\"disabled\":false,\"pointerEvents\":\"none\"},\"firstDelta\":1,\"afterKeyboard\":2}",
+          "screenshot": "ui-payment-modal-before-focused-stars-loading-space.png",
+          "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+        },
+        {
+          "id": "stars-close-enter-safe",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button modal-absolute-close-button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "paymentDelta": 0,
+            "closeDelta": 1
+          }
+        }
+      ]
+    },
+    {
+      "label": "before-focused-loading",
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before-focused-loading.json",
+      "sha256": "3d7177fb8beb4881f1f8138a7a66b24fad60d13f0feb2877dbd3d4561f6245cb",
+      "summary": {
+        "total": 9,
+        "pass": 6,
+        "fail": 3,
+        "prerequisiteGates": 0,
+        "errors": 0,
+        "unhandled": 0,
+        "externalRequestsSucceeded": 0,
+        "realAccountMutations": 0
+      },
+      "sourceHashes": {
+        "src/components/payment/PaymentModal.tsx": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+        "src/components/payment/PasswordConfirm.tsx": "23dcc16bbb16c1e7fa78a70021a2b7bd2ba1c88dc710c87fc57fac6653a17d93",
+        "src/components/modals/stars/StarsPaymentModal.tsx": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85",
+        "src/components/ui/Button.tsx": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+        "src/util/captureKeyboardListeners.ts": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4",
+        "scripts/relay-payment-modal.fixture.tsx": "f2c60a42b6bb7998f312bfc26052ca4b5efb309f5c9393aa3b1fa52d4b6f1f03",
+        "scripts/relay-payment-modal.server.fixture.mjs": "0ef8aa4b650db97af4934968b2b6d5ab370bb96b4a0e84299a2595770fe87d67",
+        "scripts/relay-payment-modal.test.mjs": "a9fe4c6dbef646b05d65774fc17c5b81172f6312b3b06c8428f0f4c2c68f7de6"
+      },
+      "cases": [
+        {
+          "id": "regular-input-loading-enter",
+          "status": "fail",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+              "owned": true,
+              "disabled": false
+            },
+            "secondTarget": {
+              "focused": true,
+              "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+              "owned": true,
+              "disabled": false
+            },
+            "afterFirst": 0,
+            "afterSecond": 0,
+            "disabledAfterFirst": false
+          },
+          "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"target\":{\"focused\":true,\"target\":\"<input class=\\\"form-control\\\" type=\\\"password\\\" id=\\\"sign-in-password\\\" autocomplete=\\\"current-password\\\" spellcheck=\\\"false\\\" maxlength=\\\"256\\\" dir=\\\"auto\\\">\",\"owned\":true,\"disabled\":false},\"secondTarget\":{\"focused\":true,\"target\":\"<input class=\\\"form-control\\\" type=\\\"password\\\" id=\\\"sign-in-password\\\" autocomplete=\\\"current-password\\\" spellcheck=\\\"false\\\" maxlength=\\\"256\\\" dir=\\\"auto\\\">\",\"owned\":true,\"disabled\":false},\"afterFirst\":0,\"afterSecond\":0,\"disabledAfterFirst\":false}",
+          "screenshot": "ui-payment-modal-before-focused-loading-regular-input-loading-enter.png",
+          "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+        },
+        {
+          "id": "regular-pointer-loading-input-enter",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+              "owned": true,
+              "disabled": false
+            },
+            "afterFirst": 1,
+            "afterKeyboard": 1,
+            "disabledAfterFirst": true
+          }
+        },
+        {
+          "id": "regular-header-back-enter",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button close-button smaller translucent round\" aria-label=\"Закрыть\" title=\"Закрыть\"><i class=\"icon icon-arrow-left\" aria-hidden=\"true\"></i></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 0,
+            "beforeState": {
+              "paymentOpen": true,
+              "paymentStep": 2,
+              "starsOpen": false
+            },
+            "afterState": {
+              "paymentOpen": true,
+              "paymentStep": 1,
+              "starsOpen": false
+            }
+          }
+        },
+        {
+          "id": "regular-footer-confirm-enter-once",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 1
+          }
+        },
+        {
+          "id": "regular-footer-confirm-space-once",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 1
+          }
+        },
+        {
+          "id": "regular-header-back-space",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button close-button smaller translucent round\" aria-label=\"Закрыть\" title=\"Закрыть\"><i class=\"icon icon-arrow-left\" aria-hidden=\"true\"></i></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "validationDelta": 0,
+            "beforeState": {
+              "paymentOpen": true,
+              "paymentStep": 2,
+              "starsOpen": false
+            },
+            "afterState": {
+              "paymentOpen": true,
+              "paymentStep": 1,
+              "starsOpen": false
+            }
+          }
+        },
+        {
+          "id": "stars-loading-enter",
+          "status": "fail",
+          "detail": {
+            "key": "Enter",
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "loading": {
+              "className": "Button StarsBalanceModal-module__paymentButton default primary loading clicked inline",
+              "disabled": false,
+              "pointerEvents": "none"
+            },
+            "firstDelta": 1,
+            "afterKeyboard": 2
+          },
+          "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"key\":\"Enter\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\\\"><div><span>Cache.ClearProgress</span><div class=\\\"Spinner Spinner-module__root Spinner-module__white\\\"><div class=\\\"Spinner__inner Spinner-module__inner\\\"></div></div></div></button>\",\"owned\":true,\"disabled\":false},\"loading\":{\"className\":\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\",\"disabled\":false,\"pointerEvents\":\"none\"},\"firstDelta\":1,\"afterKeyboard\":2}",
+          "screenshot": "ui-payment-modal-before-focused-loading-stars-loading-enter.png",
+          "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+        },
+        {
+          "id": "stars-loading-space",
+          "status": "fail",
+          "detail": {
+            "key": "Space",
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "loading": {
+              "className": "Button StarsBalanceModal-module__paymentButton default primary loading clicked inline",
+              "disabled": false,
+              "pointerEvents": "none"
+            },
+            "firstDelta": 1,
+            "afterKeyboard": 2
+          },
+          "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"key\":\"Space\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\\\"><div><span>Cache.ClearProgress</span><div class=\\\"Spinner Spinner-module__root Spinner-module__white\\\"><div class=\\\"Spinner__inner Spinner-module__inner\\\"></div></div></div></button>\",\"owned\":true,\"disabled\":false},\"loading\":{\"className\":\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\",\"disabled\":false,\"pointerEvents\":\"none\"},\"firstDelta\":1,\"afterKeyboard\":2}",
+          "screenshot": "ui-payment-modal-before-focused-loading-stars-loading-space.png",
+          "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+        },
+        {
+          "id": "stars-close-enter-safe",
+          "status": "pass",
+          "detail": {
+            "target": {
+              "focused": true,
+              "target": "<button type=\"button\" class=\"Button modal-absolute-close-button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+              "owned": true,
+              "disabled": false
+            },
+            "paymentDelta": 0,
+            "closeDelta": 1
+          }
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "stars-loading-duplicate",
+      "name": "Stars loading button re-dispatches through native keyboard",
+      "version": 1,
+      "classification": "actual_synthetic_callback_defect",
+      "sourcePath": "src/components/modals/stars/StarsPaymentModal.tsx",
+      "sourceSha256": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85",
+      "sourceLines": [
+        147,
+        160,
+        161,
+        201
+      ],
+      "caseIds": [
+        "stars-loading-enter",
+        "stars-loading-space"
+      ],
+      "evidence": "Pointer invokes local captured sendStarPaymentForm once. Loading button remains native-enabled, pointer-events:none. Genuine owned focused Enter and Space each increase count from1 to2.",
+      "proposedNarrowChange": "Local handler isLoading guard plus disabled={isLoading} on this Button; shared Button unchanged.",
+      "receipt": {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before-focused-loading.json",
+        "sha256": "3d7177fb8beb4881f1f8138a7a66b24fad60d13f0feb2877dbd3d4561f6245cb",
+        "cases": [
+          {
+            "id": "stars-loading-enter",
+            "status": "fail",
+            "detail": {
+              "key": "Enter",
+              "target": {
+                "focused": true,
+                "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>",
+                "owned": true,
+                "disabled": false
+              },
+              "loading": {
+                "className": "Button StarsBalanceModal-module__paymentButton default primary loading clicked inline",
+                "disabled": false,
+                "pointerEvents": "none"
+              },
+              "firstDelta": 1,
+              "afterKeyboard": 2
+            },
+            "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"key\":\"Enter\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\\\"><div><span>Cache.ClearProgress</span><div class=\\\"Spinner Spinner-module__root Spinner-module__white\\\"><div class=\\\"Spinner__inner Spinner-module__inner\\\"></div></div></div></button>\",\"owned\":true,\"disabled\":false},\"loading\":{\"className\":\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\",\"disabled\":false,\"pointerEvents\":\"none\"},\"firstDelta\":1,\"afterKeyboard\":2}",
+            "screenshot": "ui-payment-modal-before-focused-loading-stars-loading-enter.png",
+            "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+          },
+          {
+            "id": "stars-loading-space",
+            "status": "fail",
+            "detail": {
+              "key": "Space",
+              "target": {
+                "focused": true,
+                "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>",
+                "owned": true,
+                "disabled": false
+              },
+              "loading": {
+                "className": "Button StarsBalanceModal-module__paymentButton default primary loading clicked inline",
+                "disabled": false,
+                "pointerEvents": "none"
+              },
+              "firstDelta": 1,
+              "afterKeyboard": 2
+            },
+            "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"key\":\"Space\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\\\"><div><span>Cache.ClearProgress</span><div class=\\\"Spinner Spinner-module__root Spinner-module__white\\\"><div class=\\\"Spinner__inner Spinner-module__inner\\\"></div></div></div></button>\",\"owned\":true,\"disabled\":false},\"loading\":{\"className\":\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\",\"disabled\":false,\"pointerEvents\":\"none\"},\"firstDelta\":1,\"afterKeyboard\":2}",
+            "screenshot": "ui-payment-modal-before-focused-loading-stars-loading-space.png",
+            "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+          }
+        ]
+      }
+    },
+    {
+      "id": "regular-enter-no-submit",
+      "name": "Regular ConfirmPassword input Enter does not submit",
+      "version": 1,
+      "classification": "actual_synthetic_callback_functional_defect",
+      "sourcePath": "src/components/payment/PaymentModal.tsx",
+      "sourceSha256": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+      "sourceLines": [
+        465,
+        467,
+        556
+      ],
+      "caseIds": [
+        "regular-input-loading-enter",
+        "regular-footer-confirm-enter-once",
+        "regular-footer-confirm-space-once"
+      ],
+      "evidence": "Actual password input is focused and owned; first and second Enter call validation0 times and footer staysenabled. Actual footer Enter and Space each call same captured validation once, demonstrating populated state and action interception.",
+      "sourceExplanation": "Payment registers global Enter while its Modal has no onEnter. Current Modal163-180 returns ALLOW_KEYBOARD_EVENT_PROPAGATION when onEnter absent; captureKeyboardListeners91-95 breaks captured chain on that sentinel. This specific initial render path therefore never reaches old Payment listener.",
+      "proposedNarrowChange": "Local Payment Modal onEnter only for ConfirmPassword, remove redundant global Enter registration, guard loading in local submit handler. Native Back/Confirm controls continue through Modal target delegation.",
+      "receipt": {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before-focused-loading.json",
+        "sha256": "3d7177fb8beb4881f1f8138a7a66b24fad60d13f0feb2877dbd3d4561f6245cb",
+        "cases": [
+          {
+            "id": "regular-input-loading-enter",
+            "status": "fail",
+            "detail": {
+              "target": {
+                "focused": true,
+                "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+                "owned": true,
+                "disabled": false
+              },
+              "secondTarget": {
+                "focused": true,
+                "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+                "owned": true,
+                "disabled": false
+              },
+              "afterFirst": 0,
+              "afterSecond": 0,
+              "disabledAfterFirst": false
+            },
+            "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"target\":{\"focused\":true,\"target\":\"<input class=\\\"form-control\\\" type=\\\"password\\\" id=\\\"sign-in-password\\\" autocomplete=\\\"current-password\\\" spellcheck=\\\"false\\\" maxlength=\\\"256\\\" dir=\\\"auto\\\">\",\"owned\":true,\"disabled\":false},\"secondTarget\":{\"focused\":true,\"target\":\"<input class=\\\"form-control\\\" type=\\\"password\\\" id=\\\"sign-in-password\\\" autocomplete=\\\"current-password\\\" spellcheck=\\\"false\\\" maxlength=\\\"256\\\" dir=\\\"auto\\\">\",\"owned\":true,\"disabled\":false},\"afterFirst\":0,\"afterSecond\":0,\"disabledAfterFirst\":false}",
+            "screenshot": "ui-payment-modal-before-focused-loading-regular-input-loading-enter.png",
+            "activeTarget": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">"
+          },
+          {
+            "id": "regular-footer-confirm-enter-once",
+            "status": "pass",
+            "detail": {
+              "target": {
+                "focused": true,
+                "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+                "owned": true,
+                "disabled": false
+              },
+              "validationDelta": 1
+            }
+          },
+          {
+            "id": "regular-footer-confirm-space-once",
+            "status": "pass",
+            "detail": {
+              "target": {
+                "focused": true,
+                "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+                "owned": true,
+                "disabled": false
+              },
+              "validationDelta": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "regular-static-duplicate-unconfirmed",
+      "name": "Regular static duplicate/loading candidate remains unconfirmed",
+      "version": 1,
+      "classification": "static_risk_not_reproduced_in_checked_render_path",
+      "sourcePath": "src/components/payment/PaymentModal.tsx",
+      "sourceSha256": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+      "sourceLines": [
+        381,
+        396,
+        401,
+        465
+      ],
+      "caseIds": [
+        "regular-pointer-loading-input-enter"
+      ],
+      "evidence": "Actual footer pointer invokes validation1 and becomes disabled. Subsequent actual owned input Enter leaves count1; the initial Enter0 functional defect prevents testing the suspected direct capture bypass here.",
+      "proposedNarrowChange": "Do not claim duplicate defect from static source alone.",
+      "receipt": {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before-focused-loading.json",
+        "sha256": "3d7177fb8beb4881f1f8138a7a66b24fad60d13f0feb2877dbd3d4561f6245cb",
+        "cases": [
+          {
+            "id": "regular-pointer-loading-input-enter",
+            "status": "pass",
+            "detail": {
+              "target": {
+                "focused": true,
+                "target": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\">",
+                "owned": true,
+                "disabled": false
+              },
+              "afterFirst": 1,
+              "afterKeyboard": 1,
+              "disabledAfterFirst": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "sourceHashes": {
+    "src/components/payment/PaymentModal.tsx": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+    "src/components/payment/PasswordConfirm.tsx": "23dcc16bbb16c1e7fa78a70021a2b7bd2ba1c88dc710c87fc57fac6653a17d93",
+    "src/components/modals/stars/StarsPaymentModal.tsx": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85",
+    "src/components/ui/Button.tsx": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+    "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+    "src/util/captureKeyboardListeners.ts": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+    "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4",
+    "scripts/relay-payment-modal.fixture.tsx": "f2c60a42b6bb7998f312bfc26052ca4b5efb309f5c9393aa3b1fa52d4b6f1f03",
+    "scripts/relay-payment-modal.server.fixture.mjs": "0ef8aa4b650db97af4934968b2b6d5ab370bb96b4a0e84299a2595770fe87d67",
+    "scripts/relay-payment-modal.test.mjs": "a9fe4c6dbef646b05d65774fc17c5b81172f6312b3b06c8428f0f4c2c68f7de6"
+  },
+  "assertionFailuresAreNotPageErrors": true,
+  "externalRequestsSucceeded": 0,
+  "realAccountMutations": 0,
+  "ownBrowserAndServerSettled": true,
+  "productionChangesByThisAgent": 0,
+  "limits": [
+    "Synthetic callback counts do not prove server payment acceptance or duplicate actual charges.",
+    "Static regular loading candidate is not certified a defect.",
+    "Only exact focused targets and checked branches; no whole-window or all account capabilities claim.",
+    "Existing shared capture and Modal sources are unchanged."
+  ],
+  "reviewObjects": [
+    {
+      "id": "stars-loading-duplicate",
+      "name": "Stars loading button re-dispatches through native keyboard",
+      "version": 1,
+      "classification": "actual_synthetic_callback_defect",
+      "content": "Pointer invokes local captured sendStarPaymentForm once. Loading button remains native-enabled, pointer-events:none. Genuine owned focused Enter and Space each increase count from1 to2.",
+      "confirmationAction": "Local handler isLoading guard plus disabled={isLoading} on this Button; shared Button unchanged.",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "regular-enter-no-submit",
+      "name": "Regular ConfirmPassword input Enter does not submit",
+      "version": 1,
+      "classification": "actual_synthetic_callback_functional_defect",
+      "content": "Actual password input is focused and owned; first and second Enter call validation0 times and footer staysenabled. Actual footer Enter and Space each call same captured validation once, demonstrating populated state and action interception.",
+      "confirmationAction": "Local Payment Modal onEnter only for ConfirmPassword, remove redundant global Enter registration, guard loading in local submit handler. Native Back/Confirm controls continue through Modal target delegation.",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "regular-static-duplicate-unconfirmed",
+      "name": "Regular static duplicate/loading candidate remains unconfirmed",
+      "version": 1,
+      "classification": "static_risk_not_reproduced_in_checked_render_path",
+      "content": "Actual footer pointer invokes validation1 and becomes disabled. Subsequent actual owned input Enter leaves count1; the initial Enter0 functional defect prevents testing the suspected direct capture bypass here.",
+      "confirmationAction": "Do not claim duplicate defect from static source alone.",
+      "decision": "unreviewed",
+      "comment": ""
+    }
+  ]
+}

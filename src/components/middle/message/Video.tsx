@@ -243,11 +243,17 @@ const Video = <T,>({
     },
   );
 
+  const isSmall = Boolean(
+    layout !== 'fill' && width && height && (width < 240 || height < 176),
+  );
+
   const componentClassName = buildClassName(
     'media-inner dark',
     mediaStyles.frame,
     mediaStyles[layout],
     !isUploading && 'interactive',
+    isSmall && mediaStyles.smallMedia,
+    isSmall && 'small-media',
     className,
   );
 

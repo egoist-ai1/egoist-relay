@@ -1,0 +1,42 @@
+[
+  {
+    "at": "2026-10-02T02:45:40.500Z",
+    "providers": [
+      {
+        "provider": "telegram",
+        "state": "ready",
+        "reason": "ready"
+      },
+      {
+        "provider": "x",
+        "state": "unavailable",
+        "reason": "dom_account_proof_pending"
+      },
+      {
+        "provider": "instagram",
+        "state": "unavailable",
+        "reason": "dom_account_proof_pending"
+      }
+    ]
+  },
+  {
+    "at": "2026-10-02T02:45:42.396Z",
+    "providers": [
+      {
+        "provider": "telegram",
+        "state": "ready",
+        "reason": "ready"
+      },
+      {
+        "provider": "x",
+        "state": "ready",
+        "reason": "dom_account_confirmed"
+      },
+      {
+        "provider": "instagram",
+        "state": "ready",
+        "reason": "dom_account_confirmed"
+      }
+    ]
+  }
+]

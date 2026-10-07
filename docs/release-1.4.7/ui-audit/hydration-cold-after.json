@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-04T14:41:02.169Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "environment": {
+    "transport": "existing MockClient + terminal native mocks",
+    "remoteRequests": "blocked",
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "viewport": "FullHD baseline and explicit emulation; no physical DPI claim"
+  },
+  "cases": [
+    {
+      "id": "mock-chat-hydration",
+      "sources": [
+        "src/components/left/main/ChatList.tsx",
+        "src/components/middle/MessageList.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "screenshot": "hydration-cold-final.png",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 568,
+            "y": 40,
+            "width": 1352,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "H3",
+              "type": null,
+              "name": "Марина Волкова",
+              "disabled": false,
+              "rect": {
+                "x": 930,
+                "y": 58,
+                "width": 193.21875,
+                "height": 24,
+                "right": 1123.21875,
+                "bottom": 82
+              },
+              "font": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Conversation.SearchPlaceholder",
+              "disabled": false,
+              "rect": {
+                "x": 1480,
+                "y": 60,
+                "width": 40,
+                "height": 40,
+                "right": 1520,
+                "bottom": 100
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Call",
+              "disabled": false,
+              "rect": {
+                "x": 1524,
+                "y": 60,
+                "width": 40,
+                "height": 40,
+                "right": 1564,
+                "bottom": 100
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "More actions",
+              "disabled": false,
+              "rect": {
+                "x": 1568,
+                "y": 60,
+                "width": 40,
+                "height": 40,
+                "right": 1608,
+                "bottom": 100
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "❤4",
+              "disabled": false,
+              "rect": {
+                "x": 952,
+                "y": 960,
+                "width": 51.484375,
+                "height": 30,
+                "right": 1003.484375,
+                "bottom": 990
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "🔥2",
+              "disabled": false,
+              "rect": {
+                "x": 1009.484375,
+                "y": 960,
+                "width": 51.484375,
+                "height": 30,
+                "right": 1060.96875,
+                "bottom": 990
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrPollVoteDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 974,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1022
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrReactionMentionDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 974,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1022
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrMentionDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 974,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1022
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrPageDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 1030,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1078
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Add an attachment",
+              "disabled": false,
+              "rect": {
+                "x": 884,
+                "y": 1020,
+                "width": 40,
+                "height": 40,
+                "right": 924,
+                "bottom": 1060
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Open full editor",
+              "disabled": false,
+              "rect": {
+                "x": 1570,
+                "y": 1022,
+                "width": 28,
+                "height": 28,
+                "right": 1598,
+                "bottom": 1050
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Перевести RU ⇄ EN",
+              "disabled": false,
+              "rect": {
+                "x": 1476,
+                "y": 1018,
+                "width": 40,
+                "height": 40,
+                "right": 1516,
+                "bottom": 1058
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Choose emoji, sticker or GIF",
+              "disabled": false,
+              "rect": {
+                "x": 1520,
+                "y": 1020,
+                "width": 40,
+                "height": 40,
+                "right": 1560,
+                "bottom": 1060
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrVoiceMessage",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 1020,
+                "width": 40,
+                "height": 40,
+                "right": 1604,
+                "bottom": 1060
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 15,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        }
+      },
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "gates": [
+    "Settings routes requiring privacy/session data can render loading/empty in existing MockClient; screenshot + controls establish layout only, not server operation",
+    "Mock native ready events contain no X/Instagram website content; ready page functional verification is separate",
+    "Uploads/media/calls/payment are source catalogued and tested by separate root/media work; this runner sends no messages"
+  ],
+  "defects": [],
+  "unhandled": [],
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "gated": 0
+  }
+}

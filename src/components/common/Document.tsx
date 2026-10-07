@@ -13,6 +13,7 @@ import {
   getMediaTransferState,
   isDocumentVideo,
 } from '../../global/helpers';
+import { isReadableDocument, openDocumentReader } from '../../util/documentReaderState';
 import { isIpRevealingMedia } from '../../util/media/ipRevealingMedia';
 import { getDocumentExtension, getDocumentHasPreview } from './helpers/documentInfo';
 import { preloadDocumentMedia } from './helpers/preloadDocumentMedia';
@@ -174,6 +175,11 @@ const Document = ({
       return;
     }
 
+    if (isReadableDocument(document)) {
+      openDocumentReader({ document, message, blobUrl: mediaData });
+      return;
+    }
+
     if (isIpRevealingMedia({ mimeType, extension }) && shouldWarnAboutFiles) {
       openFileIpDialog();
       return;
@@ -211,7 +217,9 @@ const Document = ({
         sender={sender}
         isSelectable={isSelectable}
         isSelected={isSelected}
-        actionIcon={withMediaViewer ? (isDocumentVideo(document) ? 'play' : 'eye') : 'download'}
+        actionIcon={withMediaViewer
+          ? (isDocumentVideo(document) ? 'play' : 'eye')
+          : (isReadableDocument(document) ? 'eye' : 'download')}
         contextActions={contextActions}
         onClick={handleClick}
         onDateClick={onDateClick ? handleDateClick : undefined}

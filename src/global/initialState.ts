@@ -106,7 +106,7 @@ export const INITIAL_SHARED_STATE: SharedState = {
     shouldReplaceTextShortcuts: true,
     performance: INITIAL_PERFORMANCE_STATE_MAX,
     shouldSkipBrowserCloseConfirmation: false,
-    language: 'en',
+    language: 'ru',
     timeFormat: '24h',
     wasTimeFormatSetManually: false,
     isConnectionStatusMinimized: true,
@@ -327,7 +327,7 @@ export const INITIAL_GLOBAL_STATE: GlobalState = {
       disallowedGifts: undefined,
       nonContactPeersPaidStars: 0,
       shouldHideReadMarks: false,
-      canTranslate: false,
+      canTranslate: true,
       canTranslateChats: true,
       doNotTranslate: [],
       translationTone: 'neutral',
@@ -419,7 +419,7 @@ export const INITIAL_TAB_STATE: TabState = {
 
   storyViewer: {
     isMuted: true,
-    isRibbonShown: false,
+    isRibbonShown: true,
   },
 
   mediaViewer: {

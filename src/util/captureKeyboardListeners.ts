@@ -9,7 +9,8 @@ type HandlerName =
   | 'onRight'
   | 'onTab'
   | 'onSpace';
-type Handler = (e: KeyboardEvent) => void | boolean;
+export const ALLOW_KEYBOARD_EVENT_PROPAGATION = 'allow-keyboard-event-propagation' as const;
+type Handler = (e: KeyboardEvent) => void | boolean | typeof ALLOW_KEYBOARD_EVENT_PROPAGATION;
 type CaptureOptions = Partial<Record<HandlerName, Handler>>;
 
 const keyToHandlerName: Record<string, HandlerName> = {
@@ -87,7 +88,11 @@ function handleKeyDown(e: KeyboardEvent) {
 
   for (let i = length - 1; i >= 0; i--) {
     const handler = handlers[handlerName][i];
-    if (handler(e) !== false) {
+    const result = handler(e);
+    if (result === ALLOW_KEYBOARD_EVENT_PROPAGATION) {
+      break;
+    }
+    if (result !== false) {
       e.stopPropagation();
       break;
     }

@@ -1,5 +1,4 @@
-import type { FC } from '../../../lib/teact/teact';
-import { memo, useMemo } from '../../../lib/teact/teact';
+import { memo, useMemo, useState } from '../../../lib/teact/teact';
 
 import type { ApiAvailableReaction, ApiReaction } from '../../../api/types';
 import type { ObserveFn } from '../../../hooks/useIntersectionObserver';
@@ -8,6 +7,7 @@ import { isSameReaction } from '../../../global/helpers';
 import buildClassName from '../../../util/buildClassName';
 
 import useThumbnail from '../../../hooks/media/useThumbnail';
+import useLastCallback from '../../../hooks/useLastCallback';
 import useMedia from '../../../hooks/useMedia';
 import useMediaTransition from '../../../hooks/useMediaTransition';
 
@@ -27,14 +27,14 @@ type OwnProps = {
   observeIntersection?: ObserveFn;
 };
 
-const ReactionStaticEmoji: FC<OwnProps> = ({
+const ReactionStaticEmoji = ({
   reaction,
   availableReactions,
   className,
   size,
   withIconHeart,
   observeIntersection,
-}) => {
+}: OwnProps) => {
   const availableReaction = useMemo(() => (
     availableReactions?.find((available) => isSameReaction(available.reaction, reaction))
   ), [availableReactions, reaction]);
@@ -45,11 +45,34 @@ const ReactionStaticEmoji: FC<OwnProps> = ({
   const mediaData = useMedia(mediaHash, false, undefined, undefined, cacheBuster);
   const thumbDataUri = useThumbnail(staticIcon?.thumbnail);
 
+  const [failedMediaSource, setFailedMediaSource] = useState<string>();
+  const [failedThumbSource, setFailedThumbSource] = useState<string>();
+  const [loadedMediaSource, setLoadedMediaSource] = useState<string>();
+  const [loadedThumbSource, setLoadedThumbSource] = useState<string>();
+  const hasMediaData = Boolean(mediaData && mediaData !== failedMediaSource);
+  const hasThumbData = Boolean(thumbDataUri && thumbDataUri !== failedThumbSource);
+  const isMediaLoaded = hasMediaData && loadedMediaSource === mediaData;
+  const isThumbLoaded = hasThumbData && loadedThumbSource === thumbDataUri;
+  const isThumbVisible = isThumbLoaded && !hasMediaData;
+
   const { ref: thumbRef } = useMediaTransition<HTMLImageElement>({
-    hasMediaData: Boolean(thumbDataUri && !mediaData),
+    hasMediaData: isThumbVisible,
   });
   const { ref: mediaRef } = useMediaTransition<HTMLImageElement>({
-    hasMediaData: Boolean(mediaData),
+    hasMediaData: isMediaLoaded,
+  });
+
+  const handleMediaError = useLastCallback(() => {
+    setFailedMediaSource(mediaData);
+  });
+  const handleMediaLoad = useLastCallback(() => {
+    setLoadedMediaSource(mediaData);
+  });
+  const handleThumbError = useLastCallback(() => {
+    setFailedThumbSource(thumbDataUri);
+  });
+  const handleThumbLoad = useLastCallback(() => {
+    setLoadedThumbSource(thumbDataUri);
   });
 
   const shouldApplySizeFix = reaction.type === 'emoji' && reaction.emoticon === '🦄';
@@ -75,21 +98,38 @@ const ReactionStaticEmoji: FC<OwnProps> = ({
   return (
     <div
       className={buildClassName('ReactionStaticEmoji', className)}
-      style={size ? `width: ${size}px; height: ${size}px` : undefined}
+      style={size
+        ? `--reaction-static-emoji-size: ${size}px; width: ${size}px; height: ${size}px`
+        : undefined}
+      role="img"
+      aria-label={availableReaction?.title || reaction.emoticon}
     >
+      <span
+        className={buildClassName(
+          'ReactionStaticEmoji__fallback',
+          (isMediaLoaded || isThumbVisible) && 'is-loaded',
+        )}
+        aria-hidden
+      >
+        {reaction.emoticon}
+      </span>
       <img
         ref={thumbRef}
         className="thumb"
-        src={thumbDataUri}
+        src={hasThumbData ? thumbDataUri : undefined}
         alt=""
         draggable={false}
+        onLoad={handleThumbLoad}
+        onError={handleThumbError}
       />
       <img
         ref={mediaRef}
         className={buildClassName('media', shouldApplySizeFix && 'with-unicorn-fix')}
-        src={mediaData || blankUrl}
-        alt={availableReaction?.title}
+        src={hasMediaData ? mediaData : blankUrl}
+        alt=""
         draggable={false}
+        onLoad={handleMediaLoad}
+        onError={handleMediaError}
       />
     </div>
   );

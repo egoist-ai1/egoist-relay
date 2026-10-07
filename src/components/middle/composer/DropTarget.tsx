@@ -34,6 +34,14 @@ const DropTarget: FC<OwnProps> = ({ isQuick, isGeneric, onFileSelect }) => {
     unmarkHovered();
   });
 
+  const handleDragOver = useLastCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'copy';
+    }
+  });
+
   const className = buildClassName(
     'DropTarget',
     isHovered && 'hovered',
@@ -45,6 +53,7 @@ const DropTarget: FC<OwnProps> = ({ isQuick, isGeneric, onFileSelect }) => {
       ref={ref}
       onDrop={onFileSelect}
       onDragEnter={markHovered}
+      onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       data-dropzone
     >

@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-local-asr-known-answer",
+  "version": "1",
+  "createdAt": "2026-10-02T04:21:54.829Z",
+  "scope": "Two short synthetic local Windows SAPI/System.Speech WAV clips, actual installed transcription adapter and whisper.cpp runtime. No real social job or microphone.",
+  "installedVoices": [
+    {
+      "Name": "Microsoft Irina Desktop",
+      "Culture": "ru-RU",
+      "Enabled": true
+    },
+    {
+      "Name": "Microsoft Zira Desktop",
+      "Culture": "en-US",
+      "Enabled": true
+    },
+    {
+      "Name": "Microsoft Irina",
+      "Culture": "ru-RU",
+      "Enabled": true
+    },
+    {
+      "Name": "Microsoft Pavel",
+      "Culture": "ru-RU",
+      "Enabled": true
+    }
+  ],
+  "capabilities": {
+    "available": true,
+    "engine": "whisper.cpp",
+    "version": "1.9.4",
+    "model": "ggml-small-q5_1",
+    "multilingual": true,
+    "vadAvailable": true,
+    "limits": {
+      "maxFiles": 20,
+      "maxDurationSeconds": 600,
+      "maxFileBytes": 1073741824,
+      "maxJobBytes": 2147483648,
+      "reserveBytes": 1073741824
+    },
+    "mediaTypes": [
+      "video/mp4",
+      "video/webm",
+      "video/quicktime",
+      "audio/mp4",
+      "audio/mpeg",
+      "audio/ogg",
+      "audio/wav",
+      "audio/x-wav",
+      "audio/flac",
+      "audio/aac",
+      "audio/webm"
+    ],
+    "accountAccessVerified": false
+  },
+  "runtime": {
+    "root": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime",
+    "files": [
+      {
+        "name": "whisper",
+        "file": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\transcription\\whisper-cli.exe",
+        "bytes": 479744,
+        "sha256": "89051fdd1284ba34083d604960f16fbb8ef8186368b1bad4a2cdfb439f6b96c6"
+      },
+      {
+        "name": "model",
+        "file": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\transcription\\ggml-small-q5_1.bin",
+        "bytes": 190085487,
+        "sha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb"
+      },
+      {
+        "name": "vadModel",
+        "file": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\transcription\\ggml-silero-v6.2.0.bin",
+        "bytes": 885098,
+        "sha256": "2aa269b785eeb53a82983a20501ddf7c1d9c48e33ab63a41391ac6c9f7fb6987"
+      },
+      {
+        "name": "ffmpeg",
+        "file": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\media\\ffmpeg.exe",
+        "bytes": 105423872,
+        "sha256": "3256173f3f8bffd7df12227c68adf68025edb1832273a9530688a7bb1ed8edec",
+        "version": "ffmpeg version 9.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers"
+      },
+      {
+        "name": "ffprobe",
+        "file": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\media\\ffprobe.exe",
+        "bytes": 105221120,
+        "sha256": "f0d36ecbbdd3bcfac3efa078c96c7271c2e68b3810595552ac3b7f17e9a65c52",
+        "version": "ffprobe version 9.0.2-essentials_build-www.gyan.dev Copyright (c) 2007-2026 the FFmpeg developers"
+      }
+    ]
+  },
+  "clips": [
+    {
+      "languageRequested": "en",
+      "voice": "Microsoft Zira Desktop",
+      "culture": "en-US",
+      "groundTruth": "Today we are testing speech recognition. Please save this video and find the message.",
+      "fixture": {
+        "file": "media-tts-en.wav",
+        "bytes": 197966,
+        "sha256": "4faf6f17023fb0d3dd5ba84e17b38c85246c49322980b5623bbae29017b0fb17",
+        "outputDirectory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\asr-known-answer-db8799e8-40e8-484c-8d62-7dd3673a63cd\\en",
+        "sampleRate": 16000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "synthesisElapsedMs": 72.3361
+      },
+      "adapterResult": {
+        "state": "completed",
+        "count": 1,
+        "segmentCount": 1,
+        "files": [
+          "transcripts.jsonl",
+          "transcripts.md",
+          "transcription-manifest.json"
+        ],
+        "items": [
+          {
+            "mediaId": "synthetic-tts-en",
+            "file": "media-tts-en.wav",
+            "sha256": "4faf6f17023fb0d3dd5ba84e17b38c85246c49322980b5623bbae29017b0fb17",
+            "state": "completed",
+            "language": "en",
+            "segmentCount": 1,
+            "sourceDurationSeconds": 6.185,
+            "processedDurationSeconds": 6.185
+          }
+        ]
+      },
+      "adapterElapsedMs": 2611,
+      "checkpoints": [
+        {
+          "state": "completed",
+          "count": 1,
+          "segmentCount": 1,
+          "files": [
+            "transcripts.jsonl",
+            "transcripts.md"
+          ]
+        },
+        {
+          "state": "completed",
+          "count": 1,
+          "segmentCount": 1,
+          "files": [
+            "transcripts.jsonl",
+            "transcripts.md",
+            "transcription-manifest.json"
+          ]
+        }
+      ],
+      "originalSourceUnchanged": true,
+      "actualText": "Today we are testing speech recognition, please save this video and find the message.",
+      "languageRecognized": "en",
+      "segments": [
+        {
+          "startMs": 100,
+          "endMs": 5470,
+          "text": "Today we are testing speech recognition, please save this video and find the message."
+        }
+      ],
+      "audio": {
+        "sourceDurationSeconds": 6.185,
+        "codec": "pcm_s16le",
+        "channels": 1,
+        "sampleRate": 16000,
+        "processedDurationSeconds": 6.185,
+        "decodedDurationSeconds": 6.185
+      },
+      "engine": {
+        "name": "whisper.cpp",
+        "version": "1.9.4",
+        "model": "ggml-small-q5_1",
+        "modelSha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb",
+        "vad": true
+      },
+      "completeness": {
+        "state": "complete",
+        "coveredStartMs": 0,
+        "coveredEndMs": 6185,
+        "missingSeconds": 0,
+        "timestampKind": "model_estimate",
+        "accuracyVerified": false
+      },
+      "transcriptJsonlSha256": "185961fe513cc7b3bbe1d7cff5c250cbf6bec8471826761b627bbef1174d7caa",
+      "metrics": {
+        "normalization": "Unicode NFKC, lowercase, punctuation to spaces, collapse whitespace; CER excludes spaces.",
+        "normalizedReference": "today we are testing speech recognition please save this video and find the message",
+        "normalizedHypothesis": "today we are testing speech recognition please save this video and find the message",
+        "referenceWords": 14,
+        "hypothesisWords": 14,
+        "wordEditDistance": 0,
+        "WER": 0,
+        "referenceCharacters": 70,
+        "hypothesisCharacters": 70,
+        "characterEditDistance": 0,
+        "CER": 0
+      },
+      "localKnownAnswerMetricsVerified": true
+    },
+    {
+      "languageRequested": "ru",
+      "voice": "Microsoft Irina Desktop",
+      "culture": "ru-RU",
+      "groundTruth": "Сегодня мы проверяем распознавание речи. Сохраните это видео и найдите сообщение.",
+      "fixture": {
+        "file": "media-tts-ru.wav",
+        "bytes": 251886,
+        "sha256": "73892b5a76b935ed2476595bf105f04bbe29e1838e952d321883886bab189f67",
+        "outputDirectory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\asr-known-answer-db8799e8-40e8-484c-8d62-7dd3673a63cd\\ru",
+        "sampleRate": 16000,
+        "channels": 1,
+        "bitsPerSample": 16,
+        "synthesisElapsedMs": 35.5511
+      },
+      "adapterResult": {
+        "state": "completed",
+        "count": 1,
+        "segmentCount": 2,
+        "files": [
+          "transcripts.jsonl",
+          "transcripts.md",
+          "transcription-manifest.json"
+        ],
+        "items": [
+          {
+            "mediaId": "synthetic-tts-ru",
+            "file": "media-tts-ru.wav",
+            "sha256": "73892b5a76b935ed2476595bf105f04bbe29e1838e952d321883886bab189f67",
+            "state": "completed",
+            "language": "ru",
+            "segmentCount": 2,
+            "sourceDurationSeconds": 7.87,
+            "processedDurationSeconds": 7.87
+          }
+        ]
+      },
+      "adapterElapsedMs": 2680,
+      "checkpoints": [
+        {
+          "state": "completed",
+          "count": 1,
+          "segmentCount": 2,
+          "files": [
+            "transcripts.jsonl",
+            "transcripts.md"
+          ]
+        },
+        {
+          "state": "completed",
+          "count": 1,
+          "segmentCount": 2,
+          "files": [
+            "transcripts.jsonl",
+            "transcripts.md",
+            "transcription-manifest.json"
+          ]
+        }
+      ],
+      "originalSourceUnchanged": true,
+      "actualText": "Сегодня мы проверяем распознавание речи. Сохраните это видео и найдите сообщения.",
+      "languageRecognized": "ru",
+      "segments": [
+        {
+          "startMs": 190,
+          "endMs": 3780,
+          "text": "Сегодня мы проверяем распознавание речи."
+        },
+        {
+          "startMs": 3780,
+          "endMs": 7080,
+          "text": "Сохраните это видео и найдите сообщения."
+        }
+      ],
+      "audio": {
+        "sourceDurationSeconds": 7.87,
+        "codec": "pcm_s16le",
+        "channels": 1,
+        "sampleRate": 16000,
+        "processedDurationSeconds": 7.87,
+        "decodedDurationSeconds": 7.87
+      },
+      "engine": {
+        "name": "whisper.cpp",
+        "version": "1.9.4",
+        "model": "ggml-small-q5_1",
+        "modelSha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb",
+        "vad": true
+      },
+      "completeness": {
+        "state": "complete",
+        "coveredStartMs": 0,
+        "coveredEndMs": 7870,
+        "missingSeconds": 0,
+        "timestampKind": "model_estimate",
+        "accuracyVerified": false
+      },
+      "transcriptJsonlSha256": "4f78a0a1f63b6807f3454aaadeb22f2fdddbb7f372ac85a0a8f0b5ea7a8526ee",
+      "metrics": {
+        "normalization": "Unicode NFKC, lowercase, punctuation to spaces, collapse whitespace; CER excludes spaces.",
+        "normalizedReference": "сегодня мы проверяем распознавание речи сохраните это видео и найдите сообщение",
+        "normalizedHypothesis": "сегодня мы проверяем распознавание речи сохраните это видео и найдите сообщения",
+        "referenceWords": 11,
+        "hypothesisWords": 11,
+        "wordEditDistance": 1,
+        "WER": 0.09090909090909091,
+        "referenceCharacters": 69,
+        "hypothesisCharacters": 69,
+        "characterEditDistance": 1,
+        "CER": 0.014492753623188406
+      },
+      "localKnownAnswerMetricsVerified": true
+    }
+  ],
+  "deadline": {
+    "perClipMs": 60000,
+    "totalAdapterBudgetMs": 120000
+  },
+  "productionEdits": false,
+  "networkConfigurationChanges": false,
+  "realPlatformAccuracyVerified": false,
+  "adapterTotalElapsedMs": 5297,
+  "completedAt": "2026-10-02T04:22:01.564Z",
+  "state": "completed",
+  "boundaries": [
+    "WER/CER are measured only against these two exact synthetic TTS phrases; they do not establish accuracy on human recordings, accents, music, noise or all platform media.",
+    "Requested language is fixed per clip; this does not verify automatic language detection.",
+    "Timestamp bounds are validated by the adapter, but boundary accuracy is not known-answer verified without manually aligned reference timestamps.",
+    "Real public no_speech/media pilots are separate evidence; this local test does not modify their states.",
+    "Runtime helpers are launched only through the actual existing adapter with finite deadlines and handles owned by that call; no unknown process is stopped."
+  ],
+  "reviewObject": {
+    "id": "asr-local-known-answer",
+    "name": "Локальная проверка распознавания речи с известным текстом",
+    "version": "1",
+    "decision": "unreviewed",
+    "action": "Принять измеренные результаты локального теста как ограниченное доказательство работы ASR.",
+    "content": "Две синтетические фразы установленными голосами Windows: английская и русская. В отчёте есть фактический текст, сегменты, WER/CER, длительность, версии и SHA. Результат не утверждает точности на всех реальных видео."
+  },
+  "adapterSource": {
+    "File": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\transcribe-media.mjs",
+    "Sha256": "5070d35350d864a6dd5c850c15a67b9f32242b77a899fac6f28a006d8387189f",
+    "NodeVersion": "v24.19.0",
+    "ActualAdapterUsed": true,
+    "MockedProcessRunner": false
+  }
+}

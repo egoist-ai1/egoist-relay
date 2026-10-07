@@ -313,14 +313,36 @@ export function selectIsMessageFocused<T extends GlobalState>(
 export function selectIsMessageUnread<T extends GlobalState>(
   global: T, chatId: string, threadId: ThreadId, messageId: number, messageListType: MessageListType,
 ) {
-  const { lastReadOutboxMessageId } = selectThreadReadState(global, chatId, threadId) || {};
+  const readState = selectThreadReadState(global, chatId, threadId)
+    || (threadId !== MAIN_THREAD_ID ? selectThreadReadState(global, chatId, MAIN_THREAD_ID) : undefined);
+  const lastReadOutboxMessageId = readState?.lastReadOutboxMessageId;
   const message = selectChatMessage(global, chatId, messageId);
   if (!message) {
     return false;
   }
 
-  return messageListType === 'scheduled' || isMessageLocal(message)
-    || !lastReadOutboxMessageId || lastReadOutboxMessageId < message.id;
+  if (messageListType === 'scheduled' || isMessageLocal(message)) {
+    return true;
+  }
+
+  if (lastReadOutboxMessageId && lastReadOutboxMessageId >= message.id) {
+    return false;
+  }
+
+  if (isUserId(chatId)) {
+    const chatMessages = global.messages.byChatId[chatId]?.byId;
+    if (chatMessages) {
+      const hasPeerReply = Object.values(chatMessages).some(
+        (m) => m && m.senderId === chatId
+          && (m.id > message.id || (Boolean(m.date && message.date) && m.date >= message.date)),
+      );
+      if (hasPeerReply) {
+        return false;
+      }
+    }
+  }
+
+  return !lastReadOutboxMessageId || lastReadOutboxMessageId < message.id;
 }
 
 export function selectOutgoingStatus<T extends GlobalState>(
@@ -1512,16 +1534,16 @@ function сheckMessageSendingDenied(message: ApiMessage, options: IAllowedAttach
 export function selectCanTranslateMessage<T extends GlobalState>(
   global: T, message: ApiMessage, detectedLanguage?: string, ...[tabId = getCurrentTabId()]: TabArgs<T>
 ) {
-  const { canTranslate: isTranslationEnabled, doNotTranslate } = global.settings.byKey;
+  const { canTranslate: isTranslationEnabled = true, doNotTranslate = [] } = global.settings.byKey;
 
   const canTranslateLanguage = !detectedLanguage || !doNotTranslate.includes(detectedLanguage);
 
-  const isTranslatable = isMessageTranslatable(message);
+  const isTranslatable = isMessageTranslatable(message, true);
 
   // Separate translations are disabled when chat translation enabled
   const chatRequestedLanguage = selectRequestedChatTranslationLanguage(global, message.chatId, tabId);
 
-  return IS_TRANSLATION_SUPPORTED && isTranslationEnabled && canTranslateLanguage && isTranslatable
+  return IS_TRANSLATION_SUPPORTED && Boolean(isTranslationEnabled) && canTranslateLanguage && isTranslatable
     && !chatRequestedLanguage;
 }
 

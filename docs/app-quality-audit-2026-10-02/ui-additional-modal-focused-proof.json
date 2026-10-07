@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T07:39:10.511Z",
+  "label": "focused-proof",
+  "environment": "Actual imported components in real App MockClient; fresh headless context; public requests blocked; destructive/account callbacks intercepted before opening; no product edits",
+  "cases": [
+    {
+      "id": "browser-close-cancel-enter",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"name\":\"closeBrowserModal\",\"detail\":{\"shouldSkipConfirmation\":true}},{\"name\":\"closeBrowserCloseConfirmationModal\"},{\"name\":\"close\",\"detail\":\"browser-close\"},{\"name\":\"closeBrowserCloseConfirmationModal\"},{\"name\":\"close\",\"detail\":\"browser-close\"}]\n\n1 !== 0\n",
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "screenshot": "ui-additional-modal-focused-proof-browser-close-cancel-enter.png",
+      "protectedEvents": [
+        {
+          "name": "closeBrowserModal",
+          "detail": {
+            "shouldSkipConfirmation": true
+          }
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBrea",
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-cancel-space",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeBrowserCloseConfirmationModal"
+          },
+          {
+            "name": "close",
+            "detail": "browser-close"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-close-enter-safe",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Close Enter must not submit country selection\n\n1 !== 0\n",
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button Modal-module__closeButton tiny translucent round\" aria-label=\"Закрыть\" title=\"Закрыть\"><div class=\"animated-close-icon\"></div></button>"
+      },
+      "screenshot": "ui-additional-modal-focused-proof-country-close-enter-safe.png",
+      "protectedEvents": [
+        {
+          "name": "countrySubmit",
+          "detail": [
+            "RU"
+          ]
+        },
+        {
+          "name": "close",
+          "detail": "country"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBrea",
+      "newErrors": []
+    },
+    {
+      "id": "password-loading-confirm-disabled",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: {\"isDisabled\":false,\"checkDelta\":1}\n\n1 !== 0\n",
+      "interactionTarget": {
+        "inputMethod": "actual pointer click",
+        "isDisabled": false,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default danger text inline\">Confirm</button>"
+      },
+      "screenshot": "ui-additional-modal-focused-proof-password-loading-confirm-disabled.png",
+      "protectedEvents": [
+        {
+          "name": "checkPassword",
+          "detail": {
+            "length": 0
+          }
+        },
+        {
+          "name": "passwordSubmit",
+          "detail": {
+            "length": 0
+          }
+        }
+      ],
+      "active": "<input class=\"form-control\" type=\"password\" id=\"sign-in-password\" autocomplete=\"current-password\" spellcheck=\"false\" maxlength=\"256\" dir=\"auto\" style=\"\">",
+      "newErrors": []
+    },
+    {
+      "id": "password-visibility-keyboard",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Visibility button Enter activates actual toggle\n\n'password' !== 'text'\n",
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<div class=\"div-button toggle-password\" role=\"button\" tabindex=\"0\" title=\"Показать пароль\" aria-label=\"Показать пароль\"><i class=\"icon icon-eye-crossed\" aria-hidden=\"true\"></i></div>"
+      },
+      "screenshot": "ui-additional-modal-focused-proof-password-visibility-keyboard.png",
+      "protectedEvents": [],
+      "active": "<div class=\"div-button toggle-password\" role=\"button\" tabindex=\"0\" title=\"Показать пароль\" aria-label=\"Показать пароль\"><i class=\"icon icon-eye-crossed\" aria-hidden=\"true\"></i></div>",
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-confirm-once",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Intended callback exactly once\n\n3 !== 2\n",
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default danger text\">Confirm</button>"
+      },
+      "screenshot": "ui-additional-modal-focused-proof-browser-close-confirm-once.png",
+      "protectedEvents": [
+        {
+          "name": "closeBrowserModal",
+          "detail": {
+            "shouldSkipConfirmation": true
+          }
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        },
+        {
+          "name": "closeBrowserModal",
+          "detail": {
+            "shouldSkipConfirmation": true
+          }
+        },
+        {
+          "name": "closeBrowserCloseConfirmationModal"
+        },
+        {
+          "name": "close",
+          "detail": "browser-close"
+        }
+      ],
+      "active": "<div id=\"editable-message-text\" class=\"form-control allow-selection styling-module__regularInput ProseMirror ProseMirror-focused\" contenteditable=\"true\" role=\"textbox\" aria-disabled=\"false\" dir=\"auto\" spellcheck=\"false\" tabindex=\"0\" aria-label=\"Message\" translate=\"no\" style=\"\"><p class=\"styling-module__paragraph is-editor-empty\" data-placeholder=\"Type something\"><br class=\"ProseMirror-trailingBrea",
+      "newErrors": []
+    },
+    {
+      "id": "country-close-space-safe",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "submitDelta": 0,
+        "closed": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-visibility-pointer",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "actualPointerToggled": true
+      },
+      "newErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": 0,
+  "sourceHashes": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "88ba19615312afad3560bfc346812117042a72707bd6ba4d8da8021d13560cba",
+    "src/components/common/PasswordConfirmModal.tsx": "ac0cac75ad2d1256db15356a02823ec1642cd6b837d10156a76f364642e54f96",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "c02bade1a6d7de8aa02806d4aa18fb6024f07f83721ed65716c411761b972578",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963"
+  },
+  "limits": [
+    "AttachmentModalItem preview only; full AttachmentModal editor/upload gate",
+    "No live password, account, server acceptance, PDF/DOCX or premium purchase coverage",
+    "RTL and 200% root font are test emulations; no claim of translated locale or physical DPI device"
+  ],
+  "gates": [],
+  "unhandled": [],
+  "summary": {
+    "total": 8,
+    "pass": 3,
+    "fail": 5,
+    "pageErrors": 0
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "state": "canonical_build_passed",
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "initialTauriBuildExitCode": 1,
+  "installedVersionUnchanged": "1.4.5",
+  "nativeFixtureTests": 11,
+  "packagingRoute": "Tauri bundle with prior canonical NSIS except version and actual EstimatedSize, embeds exact existing Microsoft signed offline WebView2",
+  "initialFailure": "WebView2 redirect HEAD unavailable os11001 after successful native compile",
+  "frozenInputsVerifiedAfterBuild": true,
+  "recordedAt": "2026-10-02T14:34:52.4346785+00:00",
+  "nativeCompilationPassed": true,
+  "productionInputCount": 3307,
+  "tauriBundleExitCode": 0,
+  "viteExitCode": 0,
+  "tauriExitCode": 0,
+  "versionFixtureExitCode": 0
+}

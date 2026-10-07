@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "items": 115,
+  "snapshotSha256": "0b31d925ed198dae5eab1fb3ce3d3f7753c9d5a22745b4306eb1fee108a7ab8d",
+  "cases": [
+    "neutral_defaults_and_exact_snapshot",
+    "yes_no_question_comments_and_general",
+    "draft_persistence",
+    "stale_snapshot_rejected",
+    "exact_import_batch_id_preserved",
+    "standalone_apply_exports_honest_json",
+    "simulated_host_transport_once_no_real_message",
+    "simulated_native_state_16KiB_honest_summary_full_comments_preserved"
+  ],
+  "actualHostBridge": false,
+  "fixtureOwnDraftReset": true,
+  "pageErrors": 0,
+  "networkRequests": 0,
+  "blockedExternalRequests": 0,
+  "ownedBrowserProfiles": [
+    "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc8d-28f1-7002-8707-7d6c68f5ef69\\work\\browser-standalone-1790952945325",
+    "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc8d-28f1-7002-8707-7d6c68f5ef69\\work\\browser-simulated-1790952946556"
+  ],
+  "processCleanup": "All precisely owned persistent Playwright contexts closed in finally; no shared process stop or external browser profile used.",
+  "state": "passed",
+  "nativeStateBudget": {
+    "nativeBytes": 524,
+    "summaryOnly": true,
+    "fullCommentsPreserved": true,
+    "explicitWarning": true,
+    "hostSimulated": true
+  },
+  "pageErrorCount": 0,
+  "pageErrorDetails": [],
+  "processReconciliation": {
+    "schemaVersion": 1,
+    "capturedAt": "2026-10-02T14:56:25.2731480Z",
+    "state": "no_remaining_own_edge_or_node",
+    "remaining": 0,
+    "forceStops": 0,
+    "scope": "Exact task ID in command line, Edge/node only; no shared process query or stop",
+    "processes": []
+  },
+  "localLinkCheck": {
+    "schemaVersion": 1,
+    "items": 115,
+    "passed": 115,
+    "missing": []
+  },
+  "exactCurrentReceiptReadback": {
+    "count": 18,
+    "matched": 18,
+    "files": [
+      {
+        "file": "reel-actions-alignment-1.4.6-v2.json",
+        "bytes": 13146,
+        "sha256": "87e2ba9e018a7b39d0c8ed48bb04390602b340d1955dab8c305732488300588e",
+        "matched": true
+      },
+      {
+        "file": "telegram-share-native-format-1.4.6.json",
+        "bytes": 7004,
+        "sha256": "3022e4804c12439e6eb093a53d098a12f523deb801a529b71818e98bc1997396",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/release-ready.json",
+        "bytes": 1785,
+        "sha256": "23ef0db9c9c68101ace8cd0b716aecae33f90c2f496e7c38053f62ed1769b656",
+        "matched": true
+      },
+      {
+        "file": "native-share-root-final-1.4.6.json",
+        "bytes": 25696,
+        "sha256": "e905c788f3430909e657e88352b693ce6fe03574888f01b8327609f6f05967ad",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/source-freeze.json",
+        "bytes": 594973,
+        "sha256": "dab2c58d728c0836315ceae8465d21548a16b2ac6df23e9598a6f3025889e12b",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/source-qa.json",
+        "bytes": 3135,
+        "sha256": "20b94cae2f00728fea159fa0f4ebebc8a0f8cba17083e5fd7c8af9ed89362bc3",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/version-preparation.json",
+        "bytes": 2902,
+        "sha256": "19951c47b7c1c3bcfe86a0784b27cc6be8b41b4ff175df35c0a70c788bd5ce15",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/package-verification.json",
+        "bytes": 8663,
+        "sha256": "b92dd21f8a51c92f708556c55c12f545257a68393d5b664ab05cc3484252e5bd",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/installer-smoke.json",
+        "bytes": 9228,
+        "sha256": "6329b0559d50765c4587d1dc5d7e754a1b1a3d1fd7301843dc7825522f43ae89",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/offline-packaging.json",
+        "bytes": 1121,
+        "sha256": "51581fcf6a4b948914bd057b2e8df5bcb21aa02915a99e0cd11256aa0256e1d8",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/build-execution.json",
+        "bytes": 725,
+        "sha256": "aef7bc0742e71287d3818c7441b8aac5f79072e40d99053e9a98e3edc0ac0f4d",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/network-preservation.json",
+        "bytes": 1616,
+        "sha256": "6acffabd7e5f152a42793c7f47934769bf74ae2479a81d0b6a876ddce8d86493",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/installation.json",
+        "bytes": 8980,
+        "sha256": "e7de97e170727a9bd24dc52cac6aec7ece13d0914d4fa6ffe41d6b344bd938d7",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/version-readback.json",
+        "bytes": 171,
+        "sha256": "94dc172904c2851f2de4239b15082b4463863e0263f4431378be37fa95a6935e",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/bridge-identity.json",
+        "bytes": 96,
+        "sha256": "d0b1828b8224c2fedfe9efeb56d10696c1f508178ed3f4ebdba732f2af995354",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/user-confirmations.json",
+        "bytes": 439,
+        "sha256": "1d7e2be58597841fdbf9ca3a4dfd901548638c31fd08ccdcdcd3e0692327d902",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/live-verification.json",
+        "bytes": 2257,
+        "sha256": "680611f40a0adbfe405fb8ab16670a41effee5ba6de31ef366781949e65360c9",
+        "matched": true
+      },
+      {
+        "file": "../release-1.4.6/network-preservation-after-install.json",
+        "bytes": 2215,
+        "sha256": "e3a52f7c96262cda429fc7c351be79cf01d63a7864f38832656ba87761cca70d",
+        "matched": true
+      }
+    ]
+  },
+  "sourceReadback": {
+    "count": 34,
+    "matched": 34,
+    "files": [
+      {
+        "file": "src/components/ui/RangeSlider.tsx",
+        "sha256": "0859997f137f10c0e750094b6cf3a5b80244b447193e3b2dcf059c20eb15da38",
+        "unchanged": true,
+        "bytes": 3414,
+        "matched": true
+      },
+      {
+        "file": "src/lib/gramjs/client/MockClient.ts",
+        "sha256": "c7e9f966e96e9971fad8bc09b7bb9b3f03e28585a44c68ddcf9d420c5d968d20",
+        "unchanged": true,
+        "bytes": 15748,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/Modal.tsx",
+        "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+        "unchanged": true,
+        "bytes": 12687,
+        "matched": true
+      },
+      {
+        "file": "src/util/trapFocus.ts",
+        "sha256": "8314b161a5716198d4137b37e5bfb92810da5f33c3c887a24bfd363d594edaa6",
+        "unchanged": true,
+        "bytes": 3456,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/ConfirmDialog.tsx",
+        "sha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0",
+        "unchanged": true,
+        "bytes": 3192,
+        "matched": true
+      },
+      {
+        "file": "src/components/middle/message/Message.scss",
+        "sha256": "45783b340c40994671d694c3c734e650e8b4a5a234c662b18ef95ca7fbb0bc38",
+        "unchanged": true,
+        "bytes": 22890,
+        "matched": true
+      },
+      {
+        "file": "src/components/middle/message/MessageMeta.scss",
+        "sha256": "9cc58cab3932616beb44c7758766bb129a22698808a8e01326f8154040b8a8fc",
+        "unchanged": true,
+        "bytes": 5878,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/Menu.tsx",
+        "sha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768",
+        "unchanged": true,
+        "bytes": 6894,
+        "matched": true
+      },
+      {
+        "file": "src/util/captureKeyboardListeners.ts",
+        "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "unchanged": true,
+        "bytes": 2890,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/Button.tsx",
+        "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "unchanged": true,
+        "bytes": 8647,
+        "matched": true
+      },
+      {
+        "file": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+        "unchanged": true,
+        "bytes": 8970,
+        "matched": true
+      },
+      {
+        "file": "src/util/tiptap/TeactRenderer.ts",
+        "sha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+        "unchanged": true,
+        "bytes": 1086,
+        "matched": true
+      },
+      {
+        "file": "tauri/src/research_social.rs",
+        "sha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7",
+        "unchanged": true,
+        "bytes": 97533,
+        "matched": true
+      },
+      {
+        "file": "runtime/research/social-read.js",
+        "sha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+        "unchanged": true,
+        "bytes": 36508,
+        "matched": true
+      },
+      {
+        "file": "src/lib/gramjs/client/downloadFile.ts",
+        "sha256": "987a8c175f98683c7316c78c097cd9be6324fce0a3d20a21dccea981be50c697",
+        "unchanged": true,
+        "bytes": 12144,
+        "matched": true
+      },
+      {
+        "file": "scripts/social-media-fetch.mjs",
+        "sha256": "7b1b91ed9ada51e895889ca101792a154d47f1e9f2337e2e341875f53622c36b",
+        "unchanged": true,
+        "bytes": 11610,
+        "matched": true
+      },
+      {
+        "file": "scripts/inline-media-resolver.mjs",
+        "sha256": "8e86ae8afb5ba82f8c94f29ca9d68f265d463c0bd4792d93d27d964637c4b1dd",
+        "unchanged": true,
+        "bytes": 22227,
+        "matched": true
+      },
+      {
+        "file": "src/components/main/BrowserCloseConfirmationModal.tsx",
+        "sha256": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+        "unchanged": true,
+        "bytes": 1673,
+        "matched": true
+      },
+      {
+        "file": "src/components/common/CountryPickerModal.tsx",
+        "sha256": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+        "unchanged": true,
+        "bytes": 5408,
+        "matched": true
+      },
+      {
+        "file": "src/components/common/PasswordConfirmModal.tsx",
+        "sha256": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+        "unchanged": true,
+        "bytes": 2825,
+        "matched": true
+      },
+      {
+        "file": "src/components/common/PasswordForm.tsx",
+        "sha256": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4",
+        "unchanged": true,
+        "bytes": 5487,
+        "matched": true
+      },
+      {
+        "file": "vitest.config.ts",
+        "sha256": "2d4bd2da22557c32056f9b6105c51b93f9fc83bd779e4a1396ec28b935c435a4",
+        "unchanged": true,
+        "bytes": 574,
+        "matched": true
+      },
+      {
+        "file": "eslint.config.js",
+        "sha256": "10925e4ff5bebde5cda5a415758c8c0b8f6b3e0e14de58dbc7eeed1da7a93470",
+        "unchanged": true,
+        "bytes": 9041,
+        "matched": true
+      },
+      {
+        "file": "tsconfig.script.json",
+        "sha256": "9fa6a22b293fd63e0d6b4405b7780369d9129557d178ce83e49d550083320917",
+        "unchanged": true,
+        "bytes": 1005,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/Modal.scss",
+        "sha256": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82",
+        "unchanged": true,
+        "bytes": 6273,
+        "matched": true
+      },
+      {
+        "file": "scripts/social-share-enhancer.js",
+        "sha256": "17ecb40602ea3ed80eb161b3c2c9a37acd99a00b5d8234db9b30be15ad562024",
+        "unchanged": true,
+        "bytes": 20121,
+        "matched": true
+      },
+      {
+        "file": "src/components/common/Composer.tsx",
+        "sha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a",
+        "unchanged": true,
+        "bytes": 117810,
+        "matched": true
+      },
+      {
+        "file": "src/components/middle/composer/AttachmentModal.tsx",
+        "sha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc",
+        "unchanged": true,
+        "bytes": 33671,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/mediaEditor/MediaEditor.tsx",
+        "sha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c",
+        "unchanged": true,
+        "bytes": 30258,
+        "matched": true
+      },
+      {
+        "file": "src/components/ui/mediaEditor/MediaEditor.module.scss",
+        "sha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468",
+        "unchanged": true,
+        "bytes": 14328,
+        "matched": true
+      },
+      {
+        "file": "src/components/middle/composer/hooks/useAttachmentModal.ts",
+        "sha256": "b9f51779c7da54f380b284583c69226692a8b307600536a1760cfcf1568eefcd",
+        "unchanged": true,
+        "bytes": 6350,
+        "matched": true
+      },
+      {
+        "file": "src/components/multi/SocialShareModal.tsx",
+        "sha256": "501ebc7528fcf4aaee437517fcc5ec1767ecc6b82f4c017c08620b3a743893be",
+        "unchanged": true,
+        "bytes": 19106,
+        "matched": true
+      },
+      {
+        "file": "src/components/multi/SocialShareModal.module.scss",
+        "sha256": "1167b388fb9247f7626fe2441ead64eca64065cd551cb4da6a69c2d0c9d4889c",
+        "unchanged": true,
+        "bytes": 4756,
+        "matched": true
+      },
+      {
+        "file": "src/components/common/RecipientPicker.tsx",
+        "sha256": "f2ed1075e4de187e0a8003ce33c0bb0a586ccc94fc5b05b798ab3f4ed6d99aa9",
+        "unchanged": true,
+        "bytes": 15216,
+        "matched": true
+      }
+    ]
+  },
+  "archiveReadback": {
+    "files": 6,
+    "matched": 6,
+    "snapshotSha256": "82e3454818f61482dcf291c7659974ac472eed4e2368bdd6498f707471aea407"
+  },
+  "sharedHelperSha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b",
+  "canonicalInstallerReadback": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.4.6\\Egoist Relay_1.4.6_x64-setup.exe",
+    "bytes": 570445845,
+    "sha256": "3f723548168e83278e80300a9e3876ef738590ef8c90f1a7d00dc78b099fcfdd"
+  },
+  "schemaBoundaries": {
+    "prior109PreservedExactly": true,
+    "fullAppVerified": false,
+    "allResponsesNeutral": true,
+    "instagramMcpReady": false,
+    "freshActualExitApprovalInSeparateReceipt": true
+  }
+}

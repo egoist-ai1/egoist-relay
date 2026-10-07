@@ -1,0 +1,8 @@
+{
+  "snapshotSha256": "c41559841dbf56b2f82eb3aab5a5b4df7a3c044da001e79d51c412aa7b61a66a",
+  "snapshotBytesMatched": true,
+  "objects": 2,
+  "neutralDefaultInherited": true,
+  "helperUnchanged": true,
+  "scope": "Static snapshot/HTML bindings; reused previously verified helper and renderer, no new browser/native proof"
+}

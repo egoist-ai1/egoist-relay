@@ -1,0 +1,91 @@
+[
+  {
+    "file": "tsconfig.test.json",
+    "sha256": "e7575315dabfc85c5b5e9e7eb42899bb909274725a25e0e2c448df609620a354",
+    "beforeSha256": "6e47e71fbb9880899548bd921a42e3c4f187b60a84f343e9c6c2fb6da37a0cba"
+  },
+  {
+    "file": "src/api/gramjs/updates/updateManager.ts",
+    "sha256": "0769c19b6190609b82db0e654e21663a6dea0e0d43d402a5d5011cf11debe3a8",
+    "beforeSha256": "cff97d85f6a9f42fb5edb7bfaa0ada7bfbc9cbe9992db4b29774b09f25562bab"
+  },
+  {
+    "file": "src/components/main/visualEffects/ConfettiContainer.tsx",
+    "sha256": "f12360e9688e7fd9afb21805634f86bcab815054f8e9f08be93060d56bf3e9f3",
+    "beforeSha256": "5c302cabd0720a5353f477aae997e5d16d4bfbd2e4b98ad2e408eedc71296b70"
+  },
+  {
+    "file": "src/components/middle/EmojiInteractionAnimation.tsx",
+    "sha256": "8a7ef8a7d1d9813dc619179a9d4889208cd37fef866bed7583da4c28a1cbe1f8",
+    "beforeSha256": "be944de3e792fdbd6d14b3910a5636dd64adebf4f08f62a9b4d13e1f0153f6bf"
+  },
+  {
+    "file": "src/components/middle/message/hooks/useOuterHandlers.ts",
+    "sha256": "077fedcf7ade537be003e7973f53206cc5f25716496791101f319a9beadccae3",
+    "beforeSha256": "6f61b10145563b6c55428399cb2e82540131dd89848cc78ffbc2d2a48cb66f77"
+  },
+  {
+    "file": "src/components/modals/browser/hooks/useWebAppFrame.ts",
+    "sha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a",
+    "beforeSha256": "56cf079f99dfcbab1fbb992a3ece642d22235587288f4a20f4adc9278392e612"
+  },
+  {
+    "file": "src/components/modals/browser/WebAppTab.tsx",
+    "sha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb",
+    "beforeSha256": "daca09cc2d0cb306f73f5477007606c2b4a74a43dca9f4ed7121e2578ad19ebc"
+  },
+  {
+    "file": "src/components/right/Profile.tsx",
+    "sha256": "bc5b74b7deea260473311ff716e84e51ff9dd455afb1908f05b46b06bac33c1a",
+    "beforeSha256": "abf07658f04efabae6c8eb084eedd9fb6d3544f403a4eb7f8b3bd260c2b9d190"
+  },
+  {
+    "file": "src/hooks/useMultiClick.ts",
+    "sha256": "8285dcbc1e8a1deb2a2dc25c2478c90c2e8734d36f1e6b0e3e2717a2876a0a42",
+    "beforeSha256": "d29782dd9bbb642c564a6a5776f70cdaa263a273a5166da6f5d4bd8ea8c39e93"
+  },
+  {
+    "file": "src/lib/gramjs/client/TelegramClient.ts",
+    "sha256": "e5ccdfd5175f3146fb4f9d6fd13031d1e54ada8b3f96ddcd021ba4fb9dc2b642",
+    "beforeSha256": "1883460f1698a1cc0a6c25d846a02f99b9cbfc8a6aa016490660448988c84c28"
+  },
+  {
+    "file": "src/util/websync.ts",
+    "sha256": "a1fac7f8590cd7e89c23e97f84b54f139b13b88b8c954a4ecb2dce0d2cefcfeb",
+    "beforeSha256": "c42b7ffb8318fb7e21a1de4a832c68dcc56e90ba20403bda3c4cae34e51b00af"
+  },
+  {
+    "file": "src/lib/teact/teact.ts",
+    "sha256": "1783b848980c3bba153df1c8a98504cd5ade8394d4fef9480ea1a2ed19c5ca92",
+    "beforeSha256": "64ad7f24c6a395a211a549f7a85e527bda8b2e9011c67e11aa05ee43ba55edce"
+  },
+  {
+    "file": "src/components/middle/message/InlineSocialMedia.test.tsx",
+    "sha256": "afce9f0f944be317b9bf9b58f44e4ef35bcc6adf3710f666631749bf8e125b4a",
+    "beforeSha256": "01d7bf2e9df224fd640951ed41edb84fe1657f4751201ab62641a5dbe28b8fd2"
+  },
+  {
+    "file": "src/util/clipboard.test.ts",
+    "sha256": "3e8ec142b8a5e3de357decc4de93d484dc62bcf6d7eb4f91ccee1ade32c5c64f",
+    "beforeSha256": "0655ac0860c76ecc677a4b35afcc7b7147ccd552d00ad88b46c82e6b162c450d"
+  },
+  {
+    "file": "src/util/mediaLoader.test.ts",
+    "sha256": "1885a65348819e0ca420bae6bf8e0706e6a45fec805c31e8e8ff477c15d4e77e",
+    "beforeSha256": "026461de02fa91c36dea8ea0fdcc52fb6c4f7631831369e5f9a684543092a5fd"
+  },
+  {
+    "file": "src/lib/gramjs/security.test.ts",
+    "sha256": "833874c41c9cf9642e56fb46844bca866574d97b158eac8fac59bf5e85b44c32",
+    "beforeSha256": "519a9e25edc9b58dc60898457f29abfb23d6c61a2dcba30ca377f5b9e5343016"
+  },
+  {
+    "file": "scripts/relay-type-audit.mjs",
+    "sha256": "7c697378efd25b10d8529809d160426676ffbd0928d08d5a458d104e1bb1926e"
+  },
+  {
+    "file": "src/util/tiptap/TeactRenderer.ts",
+    "sha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+    "beforeSha256": "88752efb17c48522a36d97696c225fc1c943ec24869614aecbf6c8afc7723c75"
+  }
+]

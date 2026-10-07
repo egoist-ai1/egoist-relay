@@ -1,0 +1,27 @@
+{
+  "files": 1878,
+  "errorCount": 2,
+  "warningCount": 1,
+  "errors": [
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\reel-actions-alignment-baseline-1.4.5.js",
+      "messages": [
+        {
+          "ruleId": null,
+          "severity": 2,
+          "message": "Parsing error: \"parserOptions.project\" has been provided for @typescript-eslint/parser.\nThe file was not found in any of the provided project(s): docs\\app-quality-audit-2026-10-02\\reel-actions-alignment-baseline-1.4.5.js"
+        }
+      ]
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\instagram-readiness-diagnosis-1.4.6\\instagram-proof-reproducer.mjs",
+      "messages": [
+        {
+          "ruleId": null,
+          "severity": 2,
+          "message": "Parsing error: \"parserOptions.project\" has been provided for @typescript-eslint/parser.\nThe file was not found in any of the provided project(s): docs\\instagram-readiness-diagnosis-1.4.6\\instagram-proof-reproducer.mjs"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-fixtures",
+  "version": "1",
+  "createdAt": "2026-10-02T10:06:54.658Z",
+  "sources": [
+    {
+      "label": "installed-1.4.2",
+      "file": "C:/Users/Egoist/AppData/Local/Egoist Relay/runtime/research/social-read.js",
+      "bytes": 31561,
+      "sha256": "892b7a56c9051212121beacf7e4cfc4b91956d2cbc91c072cd9d2091ab2b9338"
+    },
+    {
+      "label": "candidate-1.4.4",
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+      "bytes": 34188,
+      "sha256": "162335eccc2d6ff1676cd6fc069ce9b62bef077d89a4857ace392ade9450ddd8"
+    }
+  ],
+  "native": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+    "bytes": 88662,
+    "sha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+    "executionVerifiedHere": false
+  },
+  "publicPilot": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+    "bytes": 55299,
+    "sha256": "3ef04476dc880519e6db456e44a0b636eeda719dcd033185bfe9ccf63033f723",
+    "selectedCorpus": [
+      {
+        "jobId": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "request": {
+          "query": "openai",
+          "scope": "profiles",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "state": "partial",
+        "count": 1,
+        "files": [
+          {
+            "name": "records.jsonl",
+            "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\records.jsonl",
+            "bytes": 5315,
+            "sha256": "b3b9f35043412f5586781a8195329f4a59a68c379ce01a9be787cf7d8d0a7461"
+          },
+          {
+            "name": "export-manifest.json",
+            "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\export-manifest.json",
+            "bytes": 1146,
+            "sha256": "431fc83e9075ae811d211bf406443aed1a4ed40841285b7fe42475eef387d4b7"
+          }
+        ]
+      },
+      {
+        "jobId": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "request": {
+          "channel": "openai",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000,
+          "includeMedia": false
+        },
+        "state": "partial",
+        "count": 2,
+        "files": [
+          {
+            "name": "records.jsonl",
+            "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\records.jsonl",
+            "bytes": 5581,
+            "sha256": "591bb7a532b01f5feb7d33d2b9d3adafa78dbce60d1f4aeaa27fe921bbf0ade7"
+          },
+          {
+            "name": "export-manifest.json",
+            "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\export-manifest.json",
+            "bytes": 1350,
+            "sha256": "757c7e6ce135de481a5f8b4402fb180243adecc29191b9aa5f7725e88da50c0c"
+          }
+        ]
+      }
+    ],
+    "originalsUnchanged": true
+  },
+  "observations": [
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "profile-grid-different-handle",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/openai/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {},
+      "description": "Synthetic OpenAI profile biography. This is not an individual reel caption.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": true
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "profile-metadata-provenance-contract",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/openai/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {},
+      "description": "Synthetic OpenAI profile biography. This is not an individual reel caption.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": true
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "same-handle-not-publisher-proof",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/openai/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/openai/reel/SAMEHANDLE",
+      "author": {},
+      "description": "Synthetic OpenAI profile biography. This is not an individual reel caption.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": true
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "detail-observed-fields",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01/",
+      "requestedTarget": "https://www.instagram.com/chatgpt/reel/COLLAB01/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {
+        "observedText": "chatgpt Â· openai"
+      },
+      "caption": "Exact article caption",
+      "description": "Synthetic caption for the exact selected reel.",
+      "timestamp": "2026-09-01T12:00:00Z",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": false
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "same-shortcode-alias-caption-contract",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/reel/COLLAB01/",
+      "requestedTarget": "https://www.instagram.com/chatgpt/reel/COLLAB01/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {},
+      "description": "Synthetic caption for the exact selected reel.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": false
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "wrong-source-guard",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/chatgpt/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "error"
+      ],
+      "errorCode": "SOURCE_CHANGED",
+      "records": 0,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "installed-1.4.2",
+      "scenario": "wrong-source-guard",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/reel/OTHER/",
+      "requestedTarget": "https://www.instagram.com/chatgpt/reel/EXPECTED/",
+      "eventKinds": [
+        "auth",
+        "error"
+      ],
+      "errorCode": "SOURCE_CHANGED",
+      "records": 0,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "profile-grid-different-handle",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/openai/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {},
+      "description": "Synthetic OpenAI profile biography. This is not an individual reel caption.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": true
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "profile-metadata-provenance-contract",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/openai/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {},
+      "description": "Synthetic OpenAI profile biography. This is not an individual reel caption.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": true
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "same-handle-not-publisher-proof",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/openai/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/openai/reel/SAMEHANDLE",
+      "author": {},
+      "description": "Synthetic OpenAI profile biography. This is not an individual reel caption.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": true
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "detail-observed-fields",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01/",
+      "requestedTarget": "https://www.instagram.com/chatgpt/reel/COLLAB01/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {
+        "observedText": "chatgpt Â· openai"
+      },
+      "caption": "Exact article caption",
+      "description": "Synthetic caption for the exact selected reel.",
+      "timestamp": "2026-09-01T12:00:00Z",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": false
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "same-shortcode-alias-caption-contract",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/reel/COLLAB01/",
+      "requestedTarget": "https://www.instagram.com/chatgpt/reel/COLLAB01/",
+      "eventKinds": [
+        "auth",
+        "records",
+        "page_done"
+      ],
+      "sourceUrl": "https://www.instagram.com/chatgpt/reel/COLLAB01",
+      "author": {},
+      "description": "Synthetic caption for the exact selected reel.",
+      "fieldEvidence": {
+        "text": "article h1 or meta[og:description]",
+        "media": "img/video/source/track"
+      },
+      "unresolvedFields": [
+        "api_only_fields_not_observed",
+        "caption_not_observed",
+        "timestamp_not_observed"
+      ],
+      "pageDone": {
+        "count": 1,
+        "partial": false
+      },
+      "records": 1,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "wrong-source-guard",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/chatgpt/",
+      "requestedTarget": "https://www.instagram.com/openai/",
+      "eventKinds": [
+        "auth",
+        "error"
+      ],
+      "errorCode": "SOURCE_CHANGED",
+      "records": 0,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    },
+    {
+      "helper": "candidate-1.4.4",
+      "scenario": "wrong-source-guard",
+      "synthetic": true,
+      "documentUrl": "https://www.instagram.com/reel/OTHER/",
+      "requestedTarget": "https://www.instagram.com/chatgpt/reel/EXPECTED/",
+      "eventKinds": [
+        "auth",
+        "error"
+      ],
+      "errorCode": "SOURCE_CHANGED",
+      "records": 0,
+      "fixtureNetwork": {
+        "outgoingRequests": 0,
+        "documentsFulfilled": 1,
+        "requestsAborted": 0
+      }
+    }
+  ],
+  "expectedContractFailures": [
+    "profile-metadata-provenance-contract",
+    "same-shortcode-alias-caption-contract"
+  ],
+  "liveInstagramAccess": false,
+  "relayAccess": false,
+  "mcpCalls": 0,
+  "productionEdits": 0,
+  "fixtureBoundary": "Separate owned browser; every synthetic HTTPS document fulfilled locally and all other requests aborted. Auth and Tauri transport are synthetic fixture seams, never a real user session."
+}

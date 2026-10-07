@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "state": "settings_and_services_preserved_after_production_install_mcp_start",
+  "recordedAt": "2026-10-02T14:52:47.702Z",
+  "comparisons": {
+    "files": true,
+    "services": true,
+    "serviceProcesses": true,
+    "dnsSettingsSha256": true,
+    "userProxySettingsSha256": true
+  },
+  "protectedFileCount": 7,
+  "runningServiceCount": 4,
+  "serviceBasePriorityAndIdentityUnchanged": true,
+  "mcp": {
+    "pid": 32796,
+    "priorityClass": "Normal",
+    "namedPipeTransport": true,
+    "tcpUdpListenerCount": 0,
+    "dnsListenerCount": 0
+  },
+  "nonServiceLagomProcesses": {
+    "before": [
+      {
+        "path": "C:\\Program Files\\EgoistShield\\EgoistShield.exe",
+        "pid": 2160,
+        "birthUtc": "2026-10-02T14:01:16.2648840Z",
+        "priorityClass": "Idle"
+      },
+      {
+        "path": "C:\\Program Files\\EgoistShield\\EgoistShield.exe",
+        "pid": 18236,
+        "birthUtc": "2026-10-02T14:01:16.2229340Z",
+        "priorityClass": "AboveNormal"
+      }
+    ],
+    "after": [
+      {
+        "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Lagom\\.tools\\dotnet-10.0.401\\dotnet.exe",
+        "priorityClass": "Normal",
+        "pid": 14940,
+        "birthUtc": "2026-10-02T14:47:52.9352420Z"
+      },
+      {
+        "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Lagom\\.tools\\dotnet-10.0.401\\sdk\\10.0.401\\Roslyn\\bincore\\VBCSCompiler.exe",
+        "priorityClass": "Normal",
+        "pid": 31104,
+        "birthUtc": "2026-10-02T14:42:04.5380250Z"
+      }
+    ],
+    "exactSnapshotMatch": false,
+    "interpretation": "Non-service Lagom UI/build process population changed while independent host activity continued; Relay installer/MCP did not stop, start or change priority of these processes. No restoration attempted. Service identities and measured base priorities matched exactly."
+  },
+  "mutationsPerformed": [],
+  "limits": [
+    "Service PriorityClass unavailable under ordinary process access; CIM base Priority measured.",
+    "Current settings and exact service identities are compared; non-service process population is independently dynamic."
+  ]
+}

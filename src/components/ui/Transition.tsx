@@ -69,6 +69,7 @@ const DISABLEABLE_ANIMATIONS = new Set<AnimationName>([
   'slide', 'slideRtl', 'slideFade', 'zoomFade', 'zoomBounceSemiFade', 'slideLayers', 'pushSlide', 'reveal',
   'slideOptimized', 'slideOptimizedRtl', 'slideVertical', 'slideVerticalFade',
 ]);
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function Transition({
   ref,
@@ -100,8 +101,8 @@ function Transition({
 }: TransitionProps) {
   const currentKeyRef = useRef<number>();
   // No need for a container to update on change
-  const shouldDisableAnimation = DISABLEABLE_ANIMATIONS.has(name)
-    && !selectCanAnimateInterface(getGlobal());
+  const shouldDisableAnimation = reducedMotionQuery.matches
+    || (DISABLEABLE_ANIMATIONS.has(name) && !selectCanAnimateInterface(getGlobal()));
 
   let containerRef = useRef<HTMLDivElement>();
   if (ref) {

@@ -1,0 +1,77 @@
+[
+  {
+    "file": "src/components/ui/Button.scss",
+    "beforeSha256": "7e861d2aeacc7c04daa39ddc22545c4837efd95d1a65f7c45ef557968df2e00c",
+    "afterSha256": "db3b31919ceaae4aa3319518b33fbd900550d508f15e020db873cd7027db67a2"
+  },
+  {
+    "file": "src/components/ui/ListItem.scss",
+    "beforeSha256": "1478fcca834974c65a43b6111c6023add5d714b0784d163e9d40ded0434b6205",
+    "afterSha256": "c246ddc61644146b9b3a25b3bd38bcd259d2312ab1325626ac93c7651f5fe3e0"
+  },
+  {
+    "file": "src/components/ui/Menu.scss",
+    "beforeSha256": "bcf45503c4c83a4462de3d2887c1755f91759215987bc0da0e1f1ca3f94d15a7",
+    "afterSha256": "9c8d999cc756c43cf5f231e7447be5a7f1099206497be7789a2be2adead2edfe"
+  },
+  {
+    "file": "src/components/ui/Modal.scss",
+    "beforeSha256": "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32",
+    "afterSha256": "1665c30ae0ef020f7f0d40f7b7bfda7c1365b46796655d96ee1f66fd9079d19a"
+  },
+  {
+    "file": "src/components/ui/Checkbox.scss",
+    "beforeSha256": "1a0462bd750235c5e86fceba456dad7aac9fc1cf369748ebed0f75148191e83d",
+    "afterSha256": "b7faa789ee7692e7a8f3a13a3e2a29520ffe13c136b34b3fba449092f6b31822"
+  },
+  {
+    "file": "src/components/ui/Radio.scss",
+    "beforeSha256": "02c1707f88cc5cf3422d7091893b04c456229ec45b05f9943995a924a3536cc1",
+    "afterSha256": "96b33605057c6061f49a4d582caf809497be153d7c6cf1716033f5233c259626"
+  },
+  {
+    "file": "src/components/ui/Switcher.scss",
+    "beforeSha256": "88bbe72fd16dd5d65778faaca357094b22ee52154f03ae24d249c43ddaabdf69",
+    "afterSha256": "e663389e819e021dc9eab8201fac5832d5c01732476f5bd8f205ede3a2ef768e"
+  },
+  {
+    "file": "src/components/ui/SearchInput.scss",
+    "beforeSha256": "7e904131429c2a614572c8a497603f82f12f311ccdd731d49d7c101d1d226fb3",
+    "afterSha256": "e5ffcc239e3a7f89c8c164bf75fff749a2c3f99cfcd3655b204cc6f1fc70fe44"
+  },
+  {
+    "file": "src/styles/_forms.scss",
+    "beforeSha256": "37304552fae6831f5005cabe989752ed4b75c4c21b858b126d9e75de5b60a535",
+    "afterSha256": "f9cbf9d435c85b38d64523f24042ed62ffa956a2c556521071d207b0cfa678c8"
+  },
+  {
+    "file": "src/components/left/settings/Settings.scss",
+    "beforeSha256": "42a1d2130d91a4ac00e00bfc19b6e5233f0b2e719e40a279f9b47cff0b203420",
+    "afterSha256": "67b31a3efb8fc8fd68f742d8b2633e349b29a5565412cf06bd3c4798dd6be061"
+  },
+  {
+    "file": "src/components/left/settings/SettingsMain.module.scss",
+    "beforeSha256": "df9e6e07e3b2475a26e929ae4a07a406ba23f4b9b0b9be63a7813160f6af6fa9",
+    "afterSha256": "c9227c11c2e1c40fcf3019a1223a8dae2e4eddef4fc5026a6320ef4810bf1934"
+  },
+  {
+    "file": "src/components/ui/MenuItem.scss",
+    "beforeSha256": "9dc9615f6361b33df708405f6d03d3822e12d083c9a527414f4eec1f5c2b56d7",
+    "afterSha256": "0f12d232e6f8847ab22fb51eeb54dbcae7c9ffddc41d8593ce20425ca29dba12"
+  },
+  {
+    "file": "src/components/gili/layout/Island.module.scss",
+    "beforeSha256": "f3ec669c8fec1be285e9a15a5169c97481efc481759818c8fec0053436fd8467",
+    "afterSha256": "f292d36871a925216486d9a2d6756b5fb7bbeea7f7f9884957c4f3a29d6b568a"
+  },
+  {
+    "file": "src/components/ui/Switcher.tsx",
+    "beforeSha256": "48f0458eab70e60f465b803320e5f9d8db4a29e074cc91d4c0e35faffc7c1f88",
+    "afterSha256": "d64ce29742f8c2550cdcef0c6604633340573fad4357c09279adda5b8c1b02fd"
+  },
+  {
+    "file": "src/components/ui/ListItem.tsx",
+    "beforeSha256": "8e9fe6fb421eeddac9056ae15308f1a5121f9c1efe7a6f8d3ef95088940ea63a",
+    "afterSha256": "4325b4d4a563afd725ab5dde56de64ac27c397983c4e511e6817cd753593a4c4"
+  }
+]

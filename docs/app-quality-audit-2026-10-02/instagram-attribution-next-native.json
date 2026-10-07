@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-next-native",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T11:29:23.769Z",
+  "result": {
+    "exitCode": 0,
+    "passed": 43,
+    "failed": 0,
+    "ignored": 0,
+    "filteredOut": 0
+  },
+  "native": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+    "bytes": 97533,
+    "sha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7"
+  },
+  "helper": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+    "bytes": 36510,
+    "sha256": "f17e01d405f7f608b3d4ef289f6f1e28d29c56a21e9f04af8442c619ea1df3e0"
+  },
+  "helperReceipt": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-tests-v8.json",
+    "bytes": 4380,
+    "sha256": "bf4b4d7a47eb0206416fb78f602c06c3c7c23f9e25ec977b5c28ea6150ed9833"
+  },
+  "actualHelperWire": {
+    "synthetic": true,
+    "fixtureCount": 10,
+    "bytes": 4480951,
+    "sha256": "8e5d96ce61b71c15ba97f690f2767e96ef8bcf7d530eab95e8487f7cc5fd4ee5",
+    "acceptedByActualNativeValidateDataEvent": true
+  },
+  "log": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-native.log",
+    "bytes": 4556,
+    "sha256": "5c183bcb0ec94b62f6017909482f9348b08fe9e4f14c94cc0aa2b262bf7307e4"
+  },
+  "command": "cargo test --locked --offline --lib -- --nocapture",
+  "toolchain": "cargo1.98.1/MSVC14.51.36231; existingWindowsSDK10.0.26100.0",
+  "environmentScope": "Owned child-process LIB/INCLUDE only; no installation or persistent settings.",
+  "frozenReleaseInstalled": false,
+  "livePlatformAccess": false,
+  "mcpCalls": 0
+}

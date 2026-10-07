@@ -7,7 +7,7 @@ import type {
 } from './types';
 
 export const APP_CODE_NAME = 'A';
-export const APP_ENV = import.meta.env.TG_APP_ENV;
+export const APP_ENV = import.meta.env.TG_APP_ENV || (import.meta.env.PROD ? 'production' : 'development');
 export const APP_NAME = import.meta.env.TG_APP_NAME || `Telegram Web ${APP_CODE_NAME}`;
 
 export const PRODUCTION_HOSTNAME = 'web.telegram.org';
@@ -23,12 +23,12 @@ export const IS_BETA = APP_ENV === 'staging';
 
 export const PAID_MESSAGES_PURPOSE = 'paid_messages';
 
-export const DEBUG = APP_ENV !== 'production';
+export const DEBUG = Boolean(import.meta.env.DEV && APP_ENV !== 'production');
 export const DEBUG_MORE = false;
 export const DEBUG_CALLS = false;
 export const DEBUG_LOG_FILENAME = 'tt-log.json';
 export const STRICTERDOM_ENABLED = DEBUG;
-export const FORCE_FALLBACK_LANG = DEBUG;
+export const FORCE_FALLBACK_LANG = false;
 
 export const BETA_CHANGELOG_URL = 'https://telegra.ph/WebA-Beta-03-20';
 
@@ -36,7 +36,7 @@ export const DEBUG_ALERT_MSG = 'Shoot!\nSomething went wrong, please see the err
 export const DEBUG_GRAMJS = false;
 
 export const PAGE_TITLE = import.meta.env.TG_APP_TITLE;
-export const PAGE_TITLE_TAURI = 'Telegram Air';
+export const PAGE_TITLE_TAURI = 'Egoist Relay';
 export const INACTIVE_MARKER = '[Inactive]';
 export const TELEGRAM_API_ID = Number(import.meta.env.TG_TELEGRAM_API_ID);
 export const TELEGRAM_API_HASH = import.meta.env.TG_TELEGRAM_API_HASH;
@@ -63,7 +63,7 @@ export const MEDIA_CACHE_NAME = 'tt-media';
 export const MEDIA_CACHE_NAME_AVATARS = 'tt-media-avatars';
 export const MEDIA_PROGRESSIVE_CACHE_DISABLED = false;
 export const MEDIA_PROGRESSIVE_CACHE_NAME = 'tt-media-progressive';
-export const MEDIA_CACHE_MAX_BYTES = 512 * 1024; // 512 KB
+export const MEDIA_CACHE_MAX_BYTES = 64 * 1024 * 1024; // Maximum size of one cached media file
 export const CUSTOM_BG_CACHE_NAME = 'tt-custom-bg';
 export const LANG_CACHE_NAME = 'tt-lang-packs-v52';
 export const ASSET_CACHE_NAME = 'tt-assets';
@@ -74,8 +74,8 @@ export const MULTITAB_LOCALSTORAGE_KEY_PREFIX = 'tt-multitab';
 export const INTERCLIENT_BROADCAST_CHANNEL = 'tgweb';
 export const DC_IDS = [1, 2, 3, 4, 5] as const;
 
-export const DOWNLOAD_WORKERS = 16;
-export const UPLOAD_WORKERS = 16;
+export const DOWNLOAD_WORKERS = 32;
+export const UPLOAD_WORKERS = 32;
 
 const isBigScreen = typeof window !== 'undefined' && window.innerHeight >= 900;
 
@@ -141,7 +141,7 @@ export const ANIMATION_LEVEL_CUSTOM = -1;
 export const ANIMATION_LEVEL_MIN = 0;
 export const ANIMATION_LEVEL_MED = 1;
 export const ANIMATION_LEVEL_MAX = 2;
-export const ANIMATION_LEVEL_DEFAULT = ANIMATION_LEVEL_MED;
+export const ANIMATION_LEVEL_DEFAULT = ANIMATION_LEVEL_MAX;
 
 export const DEFAULT_MESSAGE_TEXT_SIZE_PX = 16;
 export const IOS_DEFAULT_MESSAGE_TEXT_SIZE_PX = 17;

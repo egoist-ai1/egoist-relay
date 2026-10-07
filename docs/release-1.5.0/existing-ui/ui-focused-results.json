@@ -1,0 +1,3246 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T01:41:30.415Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "environment": {
+    "transport": "existing MockClient + terminal native mocks",
+    "remoteRequests": "blocked",
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "viewport": "FullHD baseline and explicit emulation; no physical DPI claim"
+  },
+  "cases": [
+    {
+      "id": "app-boot-fullhd",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx",
+        "src/components/common/Titlebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 52,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на X",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 140,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Instagram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 228,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 304
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Загрузки и пересылки",
+              "disabled": false,
+              "rect": {
+                "x": 1742,
+                "y": 0,
+                "width": 40,
+                "height": 39,
+                "right": 1782,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Свернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1782,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1828,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Развернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1828,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1874,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Закрыть",
+              "disabled": false,
+              "rect": {
+                "x": 1874,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1920,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Open menu",
+              "disabled": false,
+              "rect": {
+                "x": 101,
+                "y": 68,
+                "width": 40,
+                "height": 40,
+                "right": 141,
+                "bottom": 108
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "text",
+              "name": "Поиск",
+              "disabled": false,
+              "rect": {
+                "x": 189,
+                "y": 68,
+                "width": 313,
+                "height": 40,
+                "right": 502,
+                "bottom": 108
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "DIV",
+              "type": null,
+              "name": "Опубликовать историю в Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 302,
+                "y": 124,
+                "width": 60,
+                "height": 75.390625,
+                "right": 362,
+                "bottom": 199.390625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "H3",
+              "type": null,
+              "name": "Relay Новости",
+              "disabled": false,
+              "rect": {
+                "x": 167,
+                "y": 282.203125,
+                "width": 143.265625,
+                "height": 23.1875,
+                "right": 310.265625,
+                "bottom": 305.390625
+              },
+              "font": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "H3",
+              "type": null,
+              "name": "Марина Волкова",
+              "disabled": false,
+              "rect": {
+                "x": 167,
+                "y": 354.203125,
+                "width": 173.75,
+                "height": 23.1875,
+                "right": 340.75,
+                "bottom": 377.390625
+              },
+              "font": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "NewMessageTitle",
+              "disabled": false,
+              "rect": {
+                "x": 516,
+                "y": 1092,
+                "width": 36,
+                "height": 36,
+                "right": 552,
+                "bottom": 1128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 12,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 0,
+          "isSynced": true,
+          "isSyncing": false
+        },
+        "screenshot": "ui-visuals/app-boot-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "mock-chat-hydration",
+      "sources": [
+        "src/components/left/main/ChatList.tsx",
+        "src/components/middle/MessageList.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "screenshot": "ui-visuals/chat-conversation-fullhd.png",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 568,
+            "y": 40,
+            "width": 1352,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "H3",
+              "type": null,
+              "name": "Марина Волкова",
+              "disabled": false,
+              "rect": {
+                "x": 930,
+                "y": 58,
+                "width": 193.21875,
+                "height": 24,
+                "right": 1123.21875,
+                "bottom": 82
+              },
+              "font": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Conversation.SearchPlaceholder",
+              "disabled": false,
+              "rect": {
+                "x": 1480,
+                "y": 60,
+                "width": 40,
+                "height": 40,
+                "right": 1520,
+                "bottom": 100
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Call",
+              "disabled": false,
+              "rect": {
+                "x": 1524,
+                "y": 60,
+                "width": 40,
+                "height": 40,
+                "right": 1564,
+                "bottom": 100
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "More actions",
+              "disabled": false,
+              "rect": {
+                "x": 1568,
+                "y": 60,
+                "width": 40,
+                "height": 40,
+                "right": 1608,
+                "bottom": 100
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "❤4",
+              "disabled": false,
+              "rect": {
+                "x": 952,
+                "y": 960,
+                "width": 51.484375,
+                "height": 30,
+                "right": 1003.484375,
+                "bottom": 990
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "🔥2",
+              "disabled": false,
+              "rect": {
+                "x": 1009.484375,
+                "y": 960,
+                "width": 51.484375,
+                "height": 30,
+                "right": 1060.96875,
+                "bottom": 990
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrPollVoteDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 974,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1022
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrReactionMentionDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 974,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1022
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrMentionDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 974,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1022
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrPageDown",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 1030,
+                "width": 48,
+                "height": 48,
+                "right": 1612,
+                "bottom": 1078
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Add an attachment",
+              "disabled": false,
+              "rect": {
+                "x": 884,
+                "y": 1020,
+                "width": 40,
+                "height": 40,
+                "right": 924,
+                "bottom": 1060
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Open full editor",
+              "disabled": false,
+              "rect": {
+                "x": 1570,
+                "y": 1022,
+                "width": 28,
+                "height": 28,
+                "right": 1598,
+                "bottom": 1050
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Перевести RU ⇄ EN",
+              "disabled": false,
+              "rect": {
+                "x": 1476,
+                "y": 1018,
+                "width": 40,
+                "height": 40,
+                "right": 1516,
+                "bottom": 1058
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Choose emoji, sticker or GIF",
+              "disabled": false,
+              "rect": {
+                "x": 1520,
+                "y": 1020,
+                "width": 40,
+                "height": 40,
+                "right": 1560,
+                "bottom": 1060
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrVoiceMessage",
+              "disabled": false,
+              "rect": {
+                "x": 1564,
+                "y": 1020,
+                "width": 40,
+                "height": 40,
+                "right": 1604,
+                "bottom": 1060
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 15,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "layout-compact-800",
+      "sources": [
+        "src/components/left/settings/SettingsGeneral.tsx",
+        "src/components/common/Titlebar.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "textScale": 1,
+        "direction": "ltr",
+        "geometry": {
+          "viewport": {
+            "width": 800,
+            "height": 560,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 88,
+            "y": 56,
+            "width": 424,
+            "height": 528,
+            "right": 512,
+            "bottom": 584
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrGoBack",
+              "disabled": false,
+              "rect": {
+                "x": 101,
+                "y": 68,
+                "width": 40,
+                "height": 40,
+                "right": 141,
+                "bottom": 108
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "range",
+              "name": "Message Font Size",
+              "disabled": false,
+              "rect": {
+                "x": 128,
+                "y": 197.1875,
+                "width": 344,
+                "height": 12,
+                "right": 472,
+                "bottom": 209.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "DIV",
+              "type": null,
+              "name": "Chat Wallpaper",
+              "disabled": false,
+              "rect": {
+                "x": 112,
+                "y": 217.1875,
+                "width": 376,
+                "height": 48,
+                "right": 488,
+                "bottom": 265.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 369.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 382.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 417.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 430.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 465.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 478.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 513.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 526.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 561.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 574.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 609.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 622.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 657.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 670.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 748.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 761.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 796.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 809.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 844.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 857.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 892.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 905.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1000.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1013.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1048.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1061.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1162.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1175.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1222.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1235.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "checkbox",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 176,
+                "y": 1280.375,
+                "width": 13,
+                "height": 13,
+                "right": 189,
+                "bottom": 1293.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 7,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/layout-compact-800.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "layout-small-640",
+      "sources": [
+        "src/components/left/settings/SettingsGeneral.tsx",
+        "src/components/common/Titlebar.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "textScale": 1,
+        "direction": "ltr",
+        "geometry": {
+          "viewport": {
+            "width": 640,
+            "height": 448,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 88,
+            "y": 56,
+            "width": 424,
+            "height": 416,
+            "right": 512,
+            "bottom": 472
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrGoBack",
+              "disabled": false,
+              "rect": {
+                "x": 101,
+                "y": 68,
+                "width": 40,
+                "height": 40,
+                "right": 141,
+                "bottom": 108
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "range",
+              "name": "Message Font Size",
+              "disabled": false,
+              "rect": {
+                "x": 128,
+                "y": 197.1875,
+                "width": 344,
+                "height": 12,
+                "right": 472,
+                "bottom": 209.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "DIV",
+              "type": null,
+              "name": "Chat Wallpaper",
+              "disabled": false,
+              "rect": {
+                "x": 112,
+                "y": 217.1875,
+                "width": 376,
+                "height": 48,
+                "right": 488,
+                "bottom": 265.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 369.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 382.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 417.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 430.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 465.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 478.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 513.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 526.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 561.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 574.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 609.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 622.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 657.53125,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 670.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 748.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 761.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 796.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 809.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 844.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 857.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 892.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 905.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1000.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1013.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1048.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1061.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1162.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1175.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 180,
+                "y": 1222.375,
+                "width": 13,
+                "height": 13,
+                "right": 193,
+                "bottom": 1235.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "checkbox",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 176,
+                "y": 1280.375,
+                "width": 13,
+                "height": 13,
+                "right": 189,
+                "bottom": 1293.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 5,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/layout-small-640.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "layout-fullhd-200pct-text",
+      "sources": [
+        "src/components/left/settings/SettingsGeneral.tsx",
+        "src/components/common/Titlebar.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "textScale": 2,
+        "direction": "ltr",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 176,
+            "y": 112,
+            "width": 512,
+            "height": 936,
+            "right": 688,
+            "bottom": 1048
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrGoBack",
+              "disabled": false,
+              "rect": {
+                "x": 202,
+                "y": 136,
+                "width": 80,
+                "height": 80,
+                "right": 282,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "range",
+              "name": "Message Font Size",
+              "disabled": false,
+              "rect": {
+                "x": 256,
+                "y": 371.1875,
+                "width": 352,
+                "height": 24,
+                "right": 608,
+                "bottom": 395.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "DIV",
+              "type": null,
+              "name": "Chat Wallpaper",
+              "disabled": false,
+              "rect": {
+                "x": 224,
+                "y": 411.1875,
+                "width": 416,
+                "height": 96,
+                "right": 640,
+                "bottom": 507.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 722.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 735.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 818.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 831.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 914.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 927.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1010.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1023.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1106.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1119.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1202.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1215.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1298.375,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1311.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1480.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1493.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1576.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1589.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1672.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1685.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1768.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1781.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 1984.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 1997.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 2080.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 2093.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 2324.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 2337.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 360,
+                "y": 2476.0625,
+                "width": 13,
+                "height": 13,
+                "right": 373,
+                "bottom": 2489.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "checkbox",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 352,
+                "y": 2624.0625,
+                "width": 13,
+                "height": 13,
+                "right": 365,
+                "bottom": 2637.0625
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 7,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/layout-fullhd-200pct-text.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "layout-fullhd-rtl",
+      "sources": [
+        "src/components/left/settings/SettingsGeneral.tsx",
+        "src/components/common/Titlebar.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "textScale": 1,
+        "direction": "rtl",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "rtl",
+          "surface": {
+            "x": 1352,
+            "y": 56,
+            "width": 480,
+            "height": 1008,
+            "right": 1832,
+            "bottom": 1064
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "AccDescrGoBack",
+              "disabled": false,
+              "rect": {
+                "x": 1779,
+                "y": 68,
+                "width": 40,
+                "height": 40,
+                "right": 1819,
+                "bottom": 108
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "range",
+              "name": "Message Font Size",
+              "disabled": false,
+              "rect": {
+                "x": 1392,
+                "y": 197.1875,
+                "width": 400,
+                "height": 12,
+                "right": 1792,
+                "bottom": 209.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "DIV",
+              "type": null,
+              "name": "Chat Wallpaper",
+              "disabled": false,
+              "rect": {
+                "x": 1376,
+                "y": 217.1875,
+                "width": 432,
+                "height": 48,
+                "right": 1808,
+                "bottom": 265.1875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 369.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 382.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 417.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 430.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 465.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 478.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 513.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 526.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 561.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 574.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 609.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 622.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 657.53125,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 670.53125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 748.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 761.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 796.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 809.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 844.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 857.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 892.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 905.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 1000.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 1013.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 1048.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 1061.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 1162.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 1175.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "radio",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1727,
+                "y": 1222.375,
+                "width": 13,
+                "height": 13,
+                "right": 1740,
+                "bottom": 1235.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            },
+            {
+              "tag": "INPUT",
+              "type": "checkbox",
+              "name": "",
+              "disabled": false,
+              "rect": {
+                "x": 1731,
+                "y": 1280.375,
+                "width": 13,
+                "height": 13,
+                "right": 1744,
+                "bottom": 1293.375
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": false,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 16,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/layout-fullhd-rtl.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "service-switch-keyboard",
+      "sources": [
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "switches": [
+          "telegram",
+          "instagram",
+          "telegram"
+        ]
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "service-switch-rapid-120",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "dispatchedClicks": 120,
+        "settledApp": "telegram",
+        "nativeCalls": 4,
+        "screenshot": "ui-visuals/rapid-switch-settled.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "x-state-loading",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/common/Titlebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 52,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на X. Открываем X",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 140,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Instagram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 228,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 304
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Назад",
+              "disabled": true,
+              "rect": {
+                "x": 1570,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1610,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вперёд",
+              "disabled": true,
+              "rect": {
+                "x": 1612,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1652,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Главная",
+              "disabled": false,
+              "rect": {
+                "x": 1654,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1694,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Обновить страницу",
+              "disabled": false,
+              "rect": {
+                "x": 1696,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1736,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Загрузки и пересылки",
+              "disabled": false,
+              "rect": {
+                "x": 1742,
+                "y": 0,
+                "width": 40,
+                "height": 39,
+                "right": 1782,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Свернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1782,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1828,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Развернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1828,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1874,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Закрыть",
+              "disabled": false,
+              "rect": {
+                "x": 1874,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1920,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 11,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/x-loading-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "x-state-auth-required",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/common/Titlebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 52,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на X. Вход напрямую в X",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 140,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Instagram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 228,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 304
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Назад",
+              "disabled": true,
+              "rect": {
+                "x": 1433.640625,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1473.640625,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вперёд",
+              "disabled": true,
+              "rect": {
+                "x": 1475.640625,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1515.640625,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Главная",
+              "disabled": false,
+              "rect": {
+                "x": 1517.640625,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1557.640625,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Обновить страницу",
+              "disabled": false,
+              "rect": {
+                "x": 1559.640625,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1599.640625,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вход по логину X",
+              "disabled": false,
+              "rect": {
+                "x": 1605.640625,
+                "y": 5.5,
+                "width": 124.359375,
+                "height": 28,
+                "right": 1730,
+                "bottom": 33.5
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Загрузки и пересылки",
+              "disabled": false,
+              "rect": {
+                "x": 1742,
+                "y": 0,
+                "width": 40,
+                "height": 39,
+                "right": 1782,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Свернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1782,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1828,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Развернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1828,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1874,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Закрыть",
+              "disabled": false,
+              "rect": {
+                "x": 1874,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1920,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вход по логину X",
+              "disabled": false,
+              "rect": {
+                "x": 914.75,
+                "y": 643.875,
+                "width": 162.484375,
+                "height": 44,
+                "right": 1077.234375,
+                "bottom": 687.875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 13,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/x-auth-required-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "x-state-error",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/common/Titlebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 52,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на X. Не удалось открыть X",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 140,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Instagram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 228,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 304
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Назад",
+              "disabled": true,
+              "rect": {
+                "x": 1570,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1610,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вперёд",
+              "disabled": true,
+              "rect": {
+                "x": 1612,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1652,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Главная",
+              "disabled": false,
+              "rect": {
+                "x": 1654,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1694,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Обновить страницу",
+              "disabled": false,
+              "rect": {
+                "x": 1696,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1736,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Загрузки и пересылки",
+              "disabled": false,
+              "rect": {
+                "x": 1742,
+                "y": 0,
+                "width": 40,
+                "height": 39,
+                "right": 1782,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Свернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1782,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1828,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Развернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1828,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1874,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Закрыть",
+              "disabled": false,
+              "rect": {
+                "x": 1874,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1920,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Попробовать снова",
+              "disabled": false,
+              "rect": {
+                "x": 906.125,
+                "y": 637.6875,
+                "width": 179.734375,
+                "height": 44,
+                "right": 1085.859375,
+                "bottom": 681.6875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 12,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/x-error-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "instagram-state-loading",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/common/Titlebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 52,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на X. Не удалось открыть X",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 140,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Instagram. Открываем Instagram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 228,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 304
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Назад",
+              "disabled": true,
+              "rect": {
+                "x": 1570,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1610,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вперёд",
+              "disabled": true,
+              "rect": {
+                "x": 1612,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1652,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Главная",
+              "disabled": false,
+              "rect": {
+                "x": 1654,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1694,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Обновить страницу",
+              "disabled": false,
+              "rect": {
+                "x": 1696,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1736,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Загрузки и пересылки",
+              "disabled": false,
+              "rect": {
+                "x": 1742,
+                "y": 0,
+                "width": 40,
+                "height": 39,
+                "right": 1782,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Свернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1782,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1828,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Развернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1828,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1874,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Закрыть",
+              "disabled": false,
+              "rect": {
+                "x": 1874,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1920,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 11,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/instagram-loading-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "instagram-state-error",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/common/Titlebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Telegram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 52,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 128
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на X. Не удалось открыть X",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 140,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 216
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Переключиться на Instagram. Не удалось открыть Instagram",
+              "disabled": false,
+              "rect": {
+                "x": 6,
+                "y": 228,
+                "width": 59,
+                "height": 76,
+                "right": 65,
+                "bottom": 304
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Назад",
+              "disabled": true,
+              "rect": {
+                "x": 1570,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1610,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Вперёд",
+              "disabled": true,
+              "rect": {
+                "x": 1612,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1652,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Главная",
+              "disabled": false,
+              "rect": {
+                "x": 1654,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1694,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Обновить страницу",
+              "disabled": false,
+              "rect": {
+                "x": 1696,
+                "y": 4,
+                "width": 40,
+                "height": 31,
+                "right": 1736,
+                "bottom": 35
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Загрузки и пересылки",
+              "disabled": false,
+              "rect": {
+                "x": 1742,
+                "y": 0,
+                "width": 40,
+                "height": 39,
+                "right": 1782,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Свернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1782,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1828,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Развернуть",
+              "disabled": false,
+              "rect": {
+                "x": 1828,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1874,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Закрыть",
+              "disabled": false,
+              "rect": {
+                "x": 1874,
+                "y": 0,
+                "width": 46,
+                "height": 39,
+                "right": 1920,
+                "bottom": 39
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Попробовать снова",
+              "disabled": false,
+              "rect": {
+                "x": 906.125,
+                "y": 637.6875,
+                "width": 179.734375,
+                "height": 44,
+                "right": 1085.859375,
+                "bottom": 681.6875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 12,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/instagram-error-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "reduced-motion-states",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "animations": [
+          "none",
+          "none",
+          "none"
+        ],
+        "screenshot": "ui-visuals/reduced-motion-loading.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "device-scale-factor-2",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/common/Titlebar.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "dpr": 2,
+        "screenshot": "ui-visuals/fullhd-dpr2.png"
+      },
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "gates": [
+    "Settings routes requiring privacy/session data can render loading/empty in existing MockClient; screenshot + controls establish layout only, not server operation",
+    "Mock native ready events contain no X/Instagram website content; ready page functional verification is separate",
+    "Uploads/media/calls/payment are source catalogued and tested by separate root/media work; this runner sends no messages"
+  ],
+  "defects": [],
+  "unhandled": [],
+  "summary": {
+    "total": 15,
+    "pass": 15,
+    "fail": 0,
+    "gated": 0
+  }
+}

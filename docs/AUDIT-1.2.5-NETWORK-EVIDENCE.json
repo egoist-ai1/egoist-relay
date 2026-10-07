@@ -1,0 +1,1127 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-29",
+  "generatedAtUtc": "2026-09-29T12:56:16.7762467Z",
+  "project": "Egoist Relay",
+  "taskId": "01a0ecd3-a1ba-7121-bd3a-2f7bd8767330",
+  "installedBaselineVersion": "1.2.4",
+  "targetVersion": "1.2.5",
+  "scope": "Managed network services, Telegram bridge, autonomous app-local IPv4 SOCKS/DoH/DPI gateway, read-only Lagom Zapret profile and launcher. Dirty baseline preserved.",
+  "environment": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "node": "24.19.0",
+    "rust": "1.98.1",
+    "ciadpi": "17.3"
+  },
+  "constraints": [
+    "No account interactions or posts",
+    "No system proxy/DNS/routes/firewall changes",
+    "Only newly spawned and verified fixture processes stopped",
+    "No final bundle/native executable/installer built by this network agent",
+    "No real tunnel profile or secret in fixtures or report",
+    "The later selected personalDoH envelope was explicitly authorized for RAM/stdin live connectivity; URL/token excluded from evidence."
+  ],
+  "sources": [
+    {
+      "path": "scripts/proxy-bridge.mjs",
+      "sha256": "2BC79AB59340158D78E63B55BA471381AF86D576F2DCCE2745EA3B000E7728EA"
+    },
+    {
+      "path": "scripts/start-relay.mjs",
+      "sha256": "2B7A2C70B927DF33F4E350D7A41FC729456C6D60B5D997119E73EFDE6CCEA7E9"
+    },
+    {
+      "path": "scripts/regression/proxy-bridge.test.mjs",
+      "sha256": "934F7CC119FBB5DB018612DDB886F014E4B36B22DD56C9E92AF8748270627B01"
+    },
+    {
+      "path": "runtime/ciadpi.exe",
+      "sha256": "EB53CEEEB981CC6735AC24BB1E51E725280B86630E80FDF19DDC4EE4A5B54EF4"
+    },
+    {
+      "path": "runtime/egoist-tg-proxy.exe",
+      "sha256": "F4C06A47258986030C2E6CE51E28A9A1E75A9B66C9B217AA73AF7D64FFC40FED"
+    },
+    {
+      "sha256": "EA3031EC4F7F43F1EFA01F4CE955BAB62A208EDFF7D357568E56940EF1DB070E",
+      "path": "scripts/app-proxy.mjs"
+    },
+    {
+      "sha256": "D9B4AA4F4EBE7A7C2763F0B5590C78973084968C53831379C4143B33BBA80150",
+      "path": "scripts/regression/app-proxy.test.mjs"
+    },
+    {
+      "sha256": "8A8D4DC89BFA81C8A56C8797DE75F251E6943931D1275706844B53AD2920067D",
+      "path": "scripts/app-dns.mjs"
+    }
+  ],
+  "baselineCopies": [
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\proxy-bridge.before.mjs",
+      "sha256": "A75C090D4B4B093D49DF2DA582CA7BC6FA3F3A6676F49E468D1BE53337740C7A"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\proxy-bridge-classic-fixtures.test.mjs",
+      "sha256": "5D36C6066DEBB0B82AD0FCF00638B7AA7B81B4FB2A447594A362027DD1D52DEC"
+    }
+  ],
+  "nativeHandoff": {
+    "path": "tauri/src/network.rs",
+    "sha256": "3FEB62291B97980698C1F208ACF524D63F199B8DE5DBC5156C8F194059B7F758",
+    "note": "Snapshot after verified orphan cleanup; root owns later Xray integration and full native/release gates.",
+    "regressionTestsAtHandoff": 8
+  },
+  "bridgeContract": {
+    "protocolVersion": 3,
+    "defaultBridgePort": 17884,
+    "defaultMtproxyPort": 17883,
+    "tunnelSelector": "EGOIST_RELAY_TUNNEL_SOCKS_PORT",
+    "tunnelHost": "127.0.0.1",
+    "tunnelTransport": "intermediate",
+    "healthRoute": [
+      "socks",
+      "tunnel",
+      "mtproxy"
+    ],
+    "mtproxySecretUsedInTunnel": false,
+    "directFallback": false,
+    "localHostnameResolutionOfTelegramDcs": false,
+    "dcEndpoints": {
+      "production": [
+        "149.154.175.50:443",
+        "149.154.167.51:443",
+        "149.154.175.100:443",
+        "149.154.167.91:443",
+        "149.154.171.5:443"
+      ],
+      "test": [
+        "149.154.175.10:443",
+        "149.154.167.40:443",
+        "149.154.175.117:443"
+      ]
+    },
+    "limitation": "Static bootstrap DC list; no dynamic help.getConfig or arbitrary CDN endpoints supplied by the client.",
+    "genericSelector": "EGOIST_RELAY_SOCKS_PORT",
+    "conflictingAliasPorts": "startup fails; identical ports choose generic socks"
+  },
+  "checks": {
+    "baselineClassic": {
+      "total": 19,
+      "passed": 11,
+      "failed": 8,
+      "cancelled": 0,
+      "exitCode": 1,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\bridge-baseline-release-gate.log",
+      "reproductionCommand": "node --test --test-reporter=tap --test-name-pattern=\"^(?!tunnel:)\" scripts/tests/proxy-bridge.test.mjs",
+      "sourceEnvironment": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\proxy-bridge.before.mjs",
+      "sourceEnvironmentName": "EGOIST_RELAY_TEST_BRIDGE_SCRIPT"
+    },
+    "initialCandidateClassic": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "cancelled": 0,
+      "exitCode": 0,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\bridge-candidate-release-gate.log",
+      "sourceSha256": "157A7BCFE8BB0ADA2709C28C3F1D6BD53ED35CB39DCE46817764B14B073EAF67"
+    },
+    "finalCandidate": {
+      "exitCode": 0,
+      "failed": 0,
+      "workEnvironment": "EGOIST_RELAY_AUDIT_WORK",
+      "bridge": 47,
+      "gateway": 37,
+      "skipped": 0,
+      "command": "node --test scripts/regression/app-proxy.test.mjs scripts/regression/proxy-bridge.test.mjs",
+      "passed": 84,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\network-regression-final-project-gate.log",
+      "cancelled": 0,
+      "total": 84
+    },
+    "tunnelTargeted": {
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "exitCode": 0,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\bridge-tunnel-targeted.log"
+    },
+    "lint": {
+      "exitCode": 0,
+      "command": "node node_modules/eslint/bin/eslint.js scripts/proxy-bridge.mjs scripts/start-relay.mjs scripts/tests/proxy-bridge.test.mjs",
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\network-js-tunnel-lint-final.log"
+    },
+    "launcherHelp": {
+      "exitCode": 0,
+      "command": "node scripts/start-relay.mjs --help",
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\launcher-help.log"
+    },
+    "ownershipAndCleanupHarness": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "exitCode": 0,
+      "source": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\network-parent-death-candidate-harness.rs",
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\parent-death-candidate.log",
+      "cases": [
+        "Real Windows IPv4/IPv6/wildcard listener ownership and unmanaged route boundaries",
+        "Bundled Telegram wrapper-child ancestry and membership in Relay Job Object",
+        "Descendant graph after launcher exit rejects unrelated/self/cycles",
+        "Parent-only death cleanup releases the owned listener"
+      ]
+    },
+    "orphanReproduction": {
+      "baseline": {
+        "launcherPid": 40584,
+        "listenerPid": 51984,
+        "listenerSurvivedSourceDisposalForSeconds": 2,
+        "exitCode": 101,
+        "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\parent-death-baseline.log"
+      },
+      "candidate": {
+        "launcherPid": 37224,
+        "listenerPid": 53364,
+        "listenerAfterSourceDisposal": null,
+        "exitCode": 0,
+        "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\parent-death-candidate.log"
+      }
+    },
+    "previousFullCargo": {
+      "total": 17,
+      "passed": 17,
+      "networkTests": 7,
+      "evidence": "Root agent confirmed full gate before final orphan cleanup and Xray integration; this subagent did not run shared Cargo.",
+      "finalNativeGate": "Owned by root"
+    },
+    "fixtureCorrection": {
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\bridge-tunnel-fixture-dns-error.log",
+      "note": "Initial test guard incorrectly prohibited Node internal lookup of numeric loopback during listen; corrected guard without production change. Final guard locally handles127.0.0.1 and rejects every hostname."
+    },
+    "autonomousFinal": {
+      "exitCode": 0,
+      "failed": 0,
+      "workEnvironment": "EGOIST_RELAY_AUDIT_WORK",
+      "bridge": 47,
+      "gateway": 37,
+      "skipped": 0,
+      "command": "node --test scripts/regression/app-proxy.test.mjs scripts/regression/proxy-bridge.test.mjs",
+      "passed": 84,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\network-regression-final-project-gate.log",
+      "cancelled": 0,
+      "total": 84
+    },
+    "gatewayInitial": {
+      "passed": 29,
+      "total": 34,
+      "failed": 5,
+      "fixtureIssues": [
+        "Reader waited for close instead of EOF with allowHalfOpen (3 failures)",
+        "504 simultaneous SYN burst failed ECONNREFUSED on Windows; capacity fixture now uses batches24"
+      ],
+      "actualProductionDefect": "Early upstream EOF before SOCKS success did not fail until deadline"
+    },
+    "autonomousLint": {
+      "exitCode": 0,
+      "command": "node node_modules/eslint/bin/eslint.js scripts/app-proxy.mjs scripts/regression/app-proxy.test.mjs scripts/proxy-bridge.mjs scripts/regression/proxy-bridge.test.mjs"
+    },
+    "renamedGatewayBundle": {
+      "passed": true,
+      "fixture": "Own esbuild CJS artifact named egoist_relay_app_proxy_123.cjs, stdin HTTPS8443 provider, numeric SOCKS transfer",
+      "noPrivateTokenOutput": true,
+      "notProductionReleaseBinary": true
+    },
+    "previousTunnelCandidate": {
+      "total": 39,
+      "passed": 39,
+      "failed": 0,
+      "cancelled": 0,
+      "exitCode": 0,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\bridge-final-hashed-release-gate.log",
+      "command": "node --test --test-reporter=tap scripts/tests/proxy-bridge.test.mjs",
+      "workEnvironment": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0ecd3-a1ba-7121-bd3a-2f7bd8767330\\work\\bridge-final-hashed-fixtures"
+    }
+  },
+  "classicComparison": [
+    {
+      "id": 1,
+      "name": "health identifies the actual child and target; HTTP health is read-only",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 2,
+      "name": "intermediate: fragmented header, short/extended packets, signed media/test DC and stream cipher order",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 3,
+      "name": "padded: fragmented header, short/extended packets, signed media/test DC and stream cipher order",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 4,
+      "name": "intermediate: short and extended quick ACK requests preserve acknowledgement byte order",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 5,
+      "name": "padded: short and extended quick ACK requests preserve acknowledgement byte order",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 6,
+      "name": "20 independent sessions retain byte order under concurrent transfer",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 7,
+      "name": "connect retry preserves queued browser packets when local proxy starts late",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 8,
+      "name": "upstream loss closes the affected WebSocket instead of replaying an established session",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 9,
+      "name": "configuration remains fixed for all connections until bridge restart",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 10,
+      "name": "a remote website and unrelated local origin cannot use the Telegram bridge",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 11,
+      "name": "invalid DC closes only the affected connection",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 12,
+      "name": "text frame closes only the affected connection",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 13,
+      "name": "invalid transport header closes only the affected connection",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 14,
+      "name": "zero-length packet closes only the affected connection",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 15,
+      "name": "invalid explicit secret fails startup instead of choosing a different proxy",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 16,
+      "name": "invalid explicit port fails startup instead of choosing a different proxy",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 17,
+      "name": "bridge log rotates a large existing log without blocking transport",
+      "baseline": "fail",
+      "final": "pass"
+    },
+    {
+      "id": 18,
+      "name": "an occupied bridge port fails startup and leaves the existing local listener alive",
+      "baseline": "pass",
+      "final": "pass"
+    },
+    {
+      "id": 19,
+      "name": "browser input backpressure does not create a false heartbeat disconnect",
+      "baseline": "fail",
+      "final": "pass"
+    }
+  ],
+  "finalCases": [
+    {
+      "id": 1,
+      "name": "configuration is exact, immutable and refuses invalid ports or URL fields without exposing the URI",
+      "result": "pass"
+    },
+    {
+      "id": 2,
+      "name": "loopback health identifies the process and frozen upstream without initializing DNS or exposing names",
+      "result": "pass"
+    },
+    {
+      "id": 3,
+      "name": "public numeric Telegram CONNECT bypasses DNS and preserves pipelined application bytes",
+      "result": "pass"
+    },
+    {
+      "id": 4,
+      "name": "domain CONNECT initializes one selected resolver, pins public IPv4 and never forwards the hostname",
+      "result": "pass"
+    },
+    {
+      "id": 5,
+      "name": "fragmented SOCKS upstream reply type 1 preserves client and server byte order",
+      "result": "pass"
+    },
+    {
+      "id": 6,
+      "name": "fragmented SOCKS upstream reply type 3 preserves client and server byte order",
+      "result": "pass"
+    },
+    {
+      "id": 7,
+      "name": "fragmented SOCKS upstream reply type 4 preserves client and server byte order",
+      "result": "pass"
+    },
+    {
+      "id": 8,
+      "name": "coalesced large server data after SOCKS reply is application data rather than a handshake overflow",
+      "result": "pass"
+    },
+    {
+      "id": 9,
+      "name": "private, loopback, multicast, reserved and IPv6 raw targets are denied before upstream or DNS",
+      "result": "pass"
+    },
+    {
+      "id": 10,
+      "name": "numeric address in a domain request is still subject to the public IPv4 guard",
+      "result": "pass"
+    },
+    {
+      "id": 11,
+      "name": "resolver output is revalidated and refuses rebinding set [\"8.8.8.8\",\"127.0.0.1\"]",
+      "result": "pass"
+    },
+    {
+      "id": 12,
+      "name": "resolver output is revalidated and refuses rebinding set [\"192.168.1.1\"]",
+      "result": "pass"
+    },
+    {
+      "id": 13,
+      "name": "resolver output is revalidated and refuses rebinding set [\"2001:4860:4860::8888\"]",
+      "result": "pass"
+    },
+    {
+      "id": 14,
+      "name": "resolver output is revalidated and refuses rebinding set []",
+      "result": "pass"
+    },
+    {
+      "id": 15,
+      "name": "BIND, UDP, arbitrary destination ports and malformed domain bytes cannot open an upstream socket",
+      "result": "pass"
+    },
+    {
+      "id": 16,
+      "name": "failed DNS bootstrap preserves local health and established numeric sessions; retry keeps the same provider",
+      "result": "pass"
+    },
+    {
+      "id": 17,
+      "name": "startup does not await slow DNS; simultaneous domain requests share one initialization",
+      "result": "pass"
+    },
+    {
+      "id": 18,
+      "name": "the production socket path contacts only its configured loopback upstream without OS hostname resolution",
+      "result": "pass"
+    },
+    {
+      "id": 19,
+      "name": "client cancellation during DNS initialization does not trigger a later DNS query or target connection",
+      "result": "pass"
+    },
+    {
+      "id": 20,
+      "name": "upstream auth closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 21,
+      "name": "upstream version closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 22,
+      "name": "upstream reject closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 23,
+      "name": "upstream address closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 24,
+      "name": "upstream reserved closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 25,
+      "name": "upstream truncated closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 26,
+      "name": "upstream drop closes the request without DNS or direct fallback",
+      "result": "pass"
+    },
+    {
+      "id": 27,
+      "name": "established upstream loss closes only that stream and does not replay a CONNECT",
+      "result": "pass"
+    },
+    {
+      "id": 28,
+      "name": "handshake deadline closes incomplete clients but leaves established idle streams available",
+      "result": "pass"
+    },
+    {
+      "id": 29,
+      "name": "TCP half close preserves the last application bytes before final EOF",
+      "result": "pass"
+    },
+    {
+      "id": 30,
+      "name": "backpressure bounds the gateway writable queue and preserves a 16 MiB transfer",
+      "result": "pass"
+    },
+    {
+      "id": 31,
+      "name": "504 SOCKS handshakes retain health capacity and reject the next SOCKS client",
+      "result": "pass"
+    },
+    {
+      "id": 32,
+      "name": "occupied listener is retained; gateway refuses a foreign port rather than using it",
+      "result": "pass"
+    },
+    {
+      "id": 33,
+      "name": "shutdown closes its resolver and streams and releases only its own listener",
+      "result": "pass"
+    },
+    {
+      "id": 34,
+      "name": "CLI oversized stdin rejects with a static error and no provider token output",
+      "result": "pass"
+    },
+    {
+      "id": 35,
+      "name": "CLI field stdin rejects with a static error and no provider token output",
+      "result": "pass"
+    },
+    {
+      "id": 36,
+      "name": "CLI url stdin rejects with a static error and no provider token output",
+      "result": "pass"
+    },
+    {
+      "id": 37,
+      "name": "the renamed native runtime bundle starts from bounded stdin and serves numeric SOCKS traffic",
+      "result": "pass"
+    },
+    {
+      "id": 38,
+      "name": "health identifies the actual child and target; HTTP health is read-only",
+      "result": "pass"
+    },
+    {
+      "id": 39,
+      "name": "intermediate: fragmented header, short/extended packets, signed media/test DC and stream cipher order",
+      "result": "pass"
+    },
+    {
+      "id": 40,
+      "name": "padded: fragmented header, short/extended packets, signed media/test DC and stream cipher order",
+      "result": "pass"
+    },
+    {
+      "id": 41,
+      "name": "intermediate: short and extended quick ACK requests preserve acknowledgement byte order",
+      "result": "pass"
+    },
+    {
+      "id": 42,
+      "name": "padded: short and extended quick ACK requests preserve acknowledgement byte order",
+      "result": "pass"
+    },
+    {
+      "id": 43,
+      "name": "20 independent sessions retain byte order under concurrent transfer",
+      "result": "pass"
+    },
+    {
+      "id": 44,
+      "name": "connect retry preserves queued browser packets when local proxy starts late",
+      "result": "pass"
+    },
+    {
+      "id": 45,
+      "name": "upstream loss closes the affected WebSocket instead of replaying an established session",
+      "result": "pass"
+    },
+    {
+      "id": 46,
+      "name": "configuration remains fixed for all connections until bridge restart",
+      "result": "pass"
+    },
+    {
+      "id": 47,
+      "name": "a remote website and unrelated local origin cannot use the Telegram bridge",
+      "result": "pass"
+    },
+    {
+      "id": 48,
+      "name": "invalid DC closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 49,
+      "name": "text frame closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 50,
+      "name": "invalid transport header closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 51,
+      "name": "zero-length packet closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 52,
+      "name": "invalid explicit secret fails startup instead of choosing a different proxy",
+      "result": "pass"
+    },
+    {
+      "id": 53,
+      "name": "invalid explicit port fails startup instead of choosing a different proxy",
+      "result": "pass"
+    },
+    {
+      "id": 54,
+      "name": "bridge log rotates a large existing log without blocking transport",
+      "result": "pass"
+    },
+    {
+      "id": 55,
+      "name": "an occupied bridge port fails startup and leaves the existing local listener alive",
+      "result": "pass"
+    },
+    {
+      "id": 56,
+      "name": "browser input backpressure does not create a false heartbeat disconnect",
+      "result": "pass"
+    },
+    {
+      "id": 57,
+      "name": "tunnel: health describes the frozen SOCKS route and ignores MTProxy configuration",
+      "result": "pass"
+    },
+    {
+      "id": 58,
+      "name": "tunnel: official production and test DC endpoints carry raw obfuscated intermediate bytes",
+      "result": "pass"
+    },
+    {
+      "id": 59,
+      "name": "tunnel: fragmented SOCKS address type 1 preserves the transport stream",
+      "result": "pass"
+    },
+    {
+      "id": 60,
+      "name": "tunnel: fragmented SOCKS address type 3 preserves the transport stream",
+      "result": "pass"
+    },
+    {
+      "id": 61,
+      "name": "tunnel: fragmented SOCKS address type 4 preserves the transport stream",
+      "result": "pass"
+    },
+    {
+      "id": 62,
+      "name": "tunnel: short and extended quick acknowledgements preserve byte order without a proxy secret",
+      "result": "pass"
+    },
+    {
+      "id": 63,
+      "name": "tunnel: SOCKS auth failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 64,
+      "name": "tunnel: SOCKS version failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 65,
+      "name": "tunnel: SOCKS reject failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 66,
+      "name": "tunnel: SOCKS address failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 67,
+      "name": "tunnel: SOCKS size failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 68,
+      "name": "tunnel: SOCKS truncated failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 69,
+      "name": "tunnel: absent SOCKS endpoint does not fall back to an available MTProxy",
+      "result": "pass"
+    },
+    {
+      "id": 70,
+      "name": "tunnel: late SOCKS startup retains queued browser packets",
+      "result": "pass"
+    },
+    {
+      "id": 71,
+      "name": "tunnel: established upstream loss closes the session without replaying its request",
+      "result": "pass"
+    },
+    {
+      "id": 72,
+      "name": "tunnel: unsupported test DC is rejected before contacting SOCKS",
+      "result": "pass"
+    },
+    {
+      "id": 73,
+      "name": "tunnel: invalid explicit port 0 fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 74,
+      "name": "tunnel: invalid explicit port 65536 fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 75,
+      "name": "tunnel: invalid explicit port bad fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 76,
+      "name": "tunnel: invalid explicit port collision fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 77,
+      "name": "socks: generic app route uses frozen loopback SOCKS and raw Telegram obfuscation for ordinary/media/test DCs",
+      "result": "pass"
+    },
+    {
+      "id": 78,
+      "name": "socks: gateway refusal closes without direct TCP, DNS or MTProxy fallback",
+      "result": "pass"
+    },
+    {
+      "id": 79,
+      "name": "socks: matching generic and tunnel aliases choose the generic route",
+      "result": "pass"
+    },
+    {
+      "id": 80,
+      "name": "socks: invalid generic route 0 fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 81,
+      "name": "socks: invalid generic route 65536 fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 82,
+      "name": "socks: invalid generic route bad fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 83,
+      "name": "socks: invalid generic route collision fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 84,
+      "name": "socks: invalid generic route conflict fails startup",
+      "result": "pass"
+    }
+  ],
+  "testAdaptations": [
+    "Baseline log constant redirects output only to task work.",
+    "Backpressure case only: heartbeat30s ->200ms in both compared sources; five4MiB payloads, upstream pauses500ms.",
+    "Truncated SOCKS reply case only: connect timeout5000ms ->200ms; retry delay and retry count unchanged.",
+    "SOCKS fixture records real official target bytes but forwards to its own local raw-key DC fixture; no public-network DC contact.",
+    "Tunnel test guard rejects nonowned/nonloopback TCP and all hostname DNS lookup; numeric loopback is returned locally for Node listen.",
+    "Gateway deadline/cooldown cases source-copy15/30s->150ms; no production timeout changes.",
+    "Gateway capacity reaches504 in batches24; does not claim504 simultaneous incoming SYN stability.",
+    "Gateway factories inject resolver/local SOCKS backend only; stdin has no test hooks.",
+    "Production gateway socket test forbids all direct/outside-loopback TCP and external OS DNS.",
+    "37 gateway +47 bridge rerun after moving fixtures out of gitignored scripts/tests into scripts/regression."
+  ],
+  "limits": [
+    "Local health confirms process/protocol, not remote reachability or VPN encryption.",
+    "Autonomous app-local DoH/DPI uses IPv4 TCP and OS routing; it does not reproduce Zapret UDP QUIC/Discord/STUN/game packet tricks or create an encrypted remote VPN.",
+    "Other app outbound paths, Chromium/updater DNS, actual personal provider and clean-PC operation require root built-app gates.",
+    "Already active global Lagom WinDivert can still modify app outbound packets, so live success on this host does not prove independent ciadpi effectiveness.",
+    "Dynamic Telegram DC/CDN endpoints are not wired to bridge.",
+    "No real account/media/post/send test in this subtask.",
+    "No hours-long full-capacity heavy-stream load, multiGiB, sleep/wake or physical-network/VPN matrix.",
+    "Previously observed ciadpi partialHTTP response defect is not fixed by this unchanged binary.",
+    "Loopback services and Origin checks are not security boundaries against malware with the same user privileges."
+  ],
+  "primarySources": [
+    "https://core.telegram.org/mtproto/mtproto-transports",
+    "https://core.telegram.org/api/datacenter",
+    "https://github.com/telegramdesktop/tdesktop/blob/dev/Telegram/SourceFiles/mtproto/mtproto_dc_options.cpp",
+    "https://github.com/hufrea/byedpi/blob/main/README.md",
+    "https://learn.microsoft.com/en-us/windows/win32/api/iphlpapi/nf-iphlpapi-getextendedtcptable",
+    "https://learn.microsoft.com/en-us/windows/win32/api/tcpmib/ns-tcpmib-mib_tcp6row_owner_pid",
+    "https://learn.microsoft.com/en-us/windows/win32/api/jobapi/nf-jobapi-isprocessinjob",
+    "https://github.com/bol-van/zapret/blob/master/docs/windows.md",
+    "https://reqrypt.org/windivert-doc.html",
+    "https://github.com/hufrea/byedpi/blob/main/LICENSE",
+    "https://github.com/bol-van/zapret/blob/master/docs/LICENSE.txt",
+    "https://github.com/Flowseal/zapret-discord-youtube/blob/main/LICENSE.txt"
+  ],
+  "appGatewayContract": {
+    "establishedIdleTimeout": null,
+    "totalTcpCap": 512,
+    "renamedCliPattern": "egoist_relay_app_proxy_<PID>.cjs",
+    "initFailureRetryMs": 30000,
+    "directFallback": false,
+    "maxPendingBytes": 262144,
+    "frontCommands": [
+      "SOCKS5 no-auth CONNECT publicIPv4 port80/443",
+      "GET /health"
+    ],
+    "maxWritableQueueBytes": 1048576,
+    "config": "frozen per process",
+    "defaultUpstreamPort": 17881,
+    "reservedHealthSlots": 8,
+    "dnsInitialization": "lazy, shared per process; numeric addresses do not initialize DNS",
+    "denied": [
+      "BIND",
+      "UDP",
+      "auth-only clients",
+      "regular HTTP CONNECT",
+      "rawIPv6",
+      "private/reserved/multicast/loopback addresses",
+      "mixed-private DNS output"
+    ],
+    "socksCap": 504,
+    "establishedReplay": false,
+    "maxStdinBytes": 65536,
+    "upstreamRequests": "ATYP1 numeric IPv4 only, own loopback backend",
+    "dnsImplementationOwner": "media audit; real TLS/DoH wire gate is separate",
+    "defaultListenPort": 17880,
+    "listenHost": "127.0.0.1",
+    "stdinFields": [
+      "listenPort",
+      "upstreamPort",
+      "providerUrl"
+    ],
+    "handshakeTimeoutMs": 15000,
+    "providerUriInLogsHealthArgsEnv": false,
+    "providerPorts": [
+      443,
+      8443
+    ]
+  },
+  "lagomZapret": {
+    "checkedAtUtc": "2026-09-29T12:36:32.4754423Z",
+    "packageVersion": "1.10.3",
+    "selectedProfile": "general (EGOIST MIX)",
+    "processes": [
+      {
+        "ProcessId": 35404,
+        "ParentProcessId": 52780,
+        "creationDate": "2026-09-29T15:14:34.099027+03:00"
+      }
+    ],
+    "services": [
+      {
+        "Name": "EgoistShieldSystemDoH",
+        "State": "Running",
+        "StartMode": "Auto"
+      },
+      {
+        "Name": "EgoistShieldZapret",
+        "State": "Running",
+        "StartMode": "Auto"
+      }
+    ],
+    "driver": [
+      {
+        "Name": "WinDivert",
+        "State": "Running",
+        "StartMode": "Disabled",
+        "PathName": "\\??\\C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\bin\\WinDivert64.sys"
+      }
+    ],
+    "files": [
+      {
+        "Hash": "AFFB4F69D2EA302A7ABCCD5325D81826E140DDAE014F1E070BC4A6C0DD555188",
+        "Path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\bin\\winws.exe"
+      },
+      {
+        "Hash": "C1E060EE19444A259B2162F8AF0F3FE8C4428A1C6F694DCE20DE194AC8D7D9A2",
+        "Path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\bin\\WinDivert.dll"
+      },
+      {
+        "Hash": "8DA085332782708D8767BCACE5327A6EC7283C17CFB85E40B03CD2323A90DDC2",
+        "Path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\bin\\WinDivert64.sys"
+      }
+    ],
+    "nativeTpwsFiles": [],
+    "filterGroups": 10,
+    "logPath": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\logs\\zapret-service",
+    "executable": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\bin\\winws.exe",
+    "argumentsSha256": "DA4733FBA462AE4D4CCDF79EF49882BEB178D135469EE57720619AE166CDBAB6",
+    "globalPacketFilter": true,
+    "relayPidFilter": false,
+    "nativeWindowsTpwsFound": false,
+    "wrapperLogMatchesActivePid": true,
+    "externalServiceRestartObserved": "Wrapper log installation/start at2026-09-29 15:14 MSK; network subtask did not perform it"
+  },
+  "previousTunnelCases": [
+    {
+      "id": 1,
+      "name": "health identifies the actual child and target; HTTP health is read-only",
+      "result": "pass"
+    },
+    {
+      "id": 2,
+      "name": "intermediate: fragmented header, short/extended packets, signed media/test DC and stream cipher order",
+      "result": "pass"
+    },
+    {
+      "id": 3,
+      "name": "padded: fragmented header, short/extended packets, signed media/test DC and stream cipher order",
+      "result": "pass"
+    },
+    {
+      "id": 4,
+      "name": "intermediate: short and extended quick ACK requests preserve acknowledgement byte order",
+      "result": "pass"
+    },
+    {
+      "id": 5,
+      "name": "padded: short and extended quick ACK requests preserve acknowledgement byte order",
+      "result": "pass"
+    },
+    {
+      "id": 6,
+      "name": "20 independent sessions retain byte order under concurrent transfer",
+      "result": "pass"
+    },
+    {
+      "id": 7,
+      "name": "connect retry preserves queued browser packets when local proxy starts late",
+      "result": "pass"
+    },
+    {
+      "id": 8,
+      "name": "upstream loss closes the affected WebSocket instead of replaying an established session",
+      "result": "pass"
+    },
+    {
+      "id": 9,
+      "name": "configuration remains fixed for all connections until bridge restart",
+      "result": "pass"
+    },
+    {
+      "id": 10,
+      "name": "a remote website and unrelated local origin cannot use the Telegram bridge",
+      "result": "pass"
+    },
+    {
+      "id": 11,
+      "name": "invalid DC closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 12,
+      "name": "text frame closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 13,
+      "name": "invalid transport header closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 14,
+      "name": "zero-length packet closes only the affected connection",
+      "result": "pass"
+    },
+    {
+      "id": 15,
+      "name": "invalid explicit secret fails startup instead of choosing a different proxy",
+      "result": "pass"
+    },
+    {
+      "id": 16,
+      "name": "invalid explicit port fails startup instead of choosing a different proxy",
+      "result": "pass"
+    },
+    {
+      "id": 17,
+      "name": "bridge log rotates a large existing log without blocking transport",
+      "result": "pass"
+    },
+    {
+      "id": 18,
+      "name": "an occupied bridge port fails startup and leaves the existing local listener alive",
+      "result": "pass"
+    },
+    {
+      "id": 19,
+      "name": "browser input backpressure does not create a false heartbeat disconnect",
+      "result": "pass"
+    },
+    {
+      "id": 20,
+      "name": "tunnel: health describes the frozen SOCKS route and ignores MTProxy configuration",
+      "result": "pass"
+    },
+    {
+      "id": 21,
+      "name": "tunnel: official production and test DC endpoints carry raw obfuscated intermediate bytes",
+      "result": "pass"
+    },
+    {
+      "id": 22,
+      "name": "tunnel: fragmented SOCKS address type 1 preserves the transport stream",
+      "result": "pass"
+    },
+    {
+      "id": 23,
+      "name": "tunnel: fragmented SOCKS address type 3 preserves the transport stream",
+      "result": "pass"
+    },
+    {
+      "id": 24,
+      "name": "tunnel: fragmented SOCKS address type 4 preserves the transport stream",
+      "result": "pass"
+    },
+    {
+      "id": 25,
+      "name": "tunnel: short and extended quick acknowledgements preserve byte order without a proxy secret",
+      "result": "pass"
+    },
+    {
+      "id": 26,
+      "name": "tunnel: SOCKS auth failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 27,
+      "name": "tunnel: SOCKS version failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 28,
+      "name": "tunnel: SOCKS reject failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 29,
+      "name": "tunnel: SOCKS address failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 30,
+      "name": "tunnel: SOCKS size failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 31,
+      "name": "tunnel: SOCKS truncated failure closes safely without direct TCP or local DNS fallback",
+      "result": "pass"
+    },
+    {
+      "id": 32,
+      "name": "tunnel: absent SOCKS endpoint does not fall back to an available MTProxy",
+      "result": "pass"
+    },
+    {
+      "id": 33,
+      "name": "tunnel: late SOCKS startup retains queued browser packets",
+      "result": "pass"
+    },
+    {
+      "id": 34,
+      "name": "tunnel: established upstream loss closes the session without replaying its request",
+      "result": "pass"
+    },
+    {
+      "id": 35,
+      "name": "tunnel: unsupported test DC is rejected before contacting SOCKS",
+      "result": "pass"
+    },
+    {
+      "id": 36,
+      "name": "tunnel: invalid explicit port 0 fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 37,
+      "name": "tunnel: invalid explicit port 65536 fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 38,
+      "name": "tunnel: invalid explicit port bad fails startup",
+      "result": "pass"
+    },
+    {
+      "id": 39,
+      "name": "tunnel: invalid explicit port collision fails startup",
+      "result": "pass"
+    }
+  ],
+  "liveConnectivity": {
+    "boundedPortWssSuccess": 0,
+    "ownTcpState": "SynSent to numeric DC4:443",
+    "evidence": "docs/AUDIT-1.2.5-NETWORK-CONNECTIVITY.json",
+    "noAutomaticRouteChange": true,
+    "telegramTimeouts": 27,
+    "status": "Telegram upstream TCP access unresolved on this host",
+    "strategyProbes": 30,
+    "boundedPortWssProbes": 9,
+    "noSystemNetworkChange": true,
+    "controlSuccess": 3
+  }
+}

@@ -1,0 +1,1003 @@
+{
+  "recommendation": "No automatic strategy/port/route changes. Split-only and no-desync did not repair this failure. Identify upstream Telegram TCP reachability separately; remoteMTProxy can be an optional explicit route. DoH/TCP desync do not establish a missing TCP handshake.",
+  "schemaVersion": 1,
+  "results": [
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "example.com",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 713,
+      "complete": true,
+      "durationMs": 795,
+      "ok": true
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15010,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "t.me",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15014,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15014,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "api.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15007,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 2,
+      "phase": "socks",
+      "durationMs": 15008,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 3,
+      "phase": "socks",
+      "durationMs": 15014,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15015
+    },
+    {
+      "strategy": "current",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15015
+    },
+    {
+      "strategy": "current",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15006
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "example.com",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 713,
+      "complete": true,
+      "durationMs": 513,
+      "ok": true
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15015,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "t.me",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "api.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15011,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 2,
+      "phase": "socks",
+      "durationMs": 15008,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 3,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15010
+    },
+    {
+      "strategy": "split-only",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15005
+    },
+    {
+      "strategy": "split-only",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15010
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "example.com",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 713,
+      "complete": true,
+      "durationMs": 515,
+      "ok": true
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15005,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "t.me",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15003,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15003,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "api.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15010,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 2,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 3,
+      "phase": "socks",
+      "durationMs": 15005,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15004
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15011
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15015
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "pluto.web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 5016,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "venus.web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 5002,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "aurora.web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 5007,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 80,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5007
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 5222,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5007
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 80,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5008
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 5222,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5008
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 80,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5011
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 5222,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5011
+    }
+  ],
+  "allSystemNetworkUnmodified": true,
+  "project": "Egoist Relay",
+  "nodeVersion": "24.21.0",
+  "strategySummary": {
+    "probes": 30,
+    "telegram": "All4TelegramHTTPS domains failed beforeTLS; web.telegram.org repeated3times per strategy; all3numericDC443 failed",
+    "current": {
+      "success": 1,
+      "failure": 9
+    },
+    "success": 3,
+    "splitOnly": {
+      "success": 1,
+      "failure": 9
+    },
+    "noDesync": {
+      "success": 1,
+      "failure": 9
+    },
+    "successfulControl": "example.com200 full713bytes for all3strategies",
+    "timeout": 27
+  },
+  "limits": [
+    "SynSent does not uniquely locate the drop: ISP/routing/globalVPN/firewall/WinDivert/remote endpoint remain possible",
+    "Active globalWinDivert can affect outgoingTCP; no cleanPC isolation proof",
+    "Numeric DC tests prove onlyTCP reachability, not MTProto login/media/authorization",
+    "Port80/5222 follow-up goes through own ciadpi backend because production appfront accepts80/443only",
+    "5s probes can be affected by transient network delay; repeated15s443 failures support the narrower observedunreachable conclusion",
+    "No userprocess/services/routes/adapter settings changed"
+  ],
+  "ciadpiVersion": "17.3",
+  "activeGlobalWinDivertUnmodified": true,
+  "ciadpiSha256": "EB53CEEEB981CC6735AC24BB1E51E725280B86630E80FDF19DDC4EE4A5B54EF4",
+  "observations": [
+    {
+      "event": "start",
+      "node": "v24.21.0",
+      "strategies": [
+        "current",
+        "split-only",
+        "no-desync"
+      ],
+      "privateProvider": true,
+      "noSystemChanges": true
+    },
+    {
+      "event": "strategy",
+      "strategy": "current",
+      "backendPid": 24988,
+      "upstreamPort": 60884,
+      "listenPort": 60885,
+      "flags": [
+        "-i",
+        "127.0.0.1",
+        "-p",
+        "60884",
+        "-c",
+        "512",
+        "-N",
+        "-U",
+        "--proto",
+        "tls,http",
+        "--pf",
+        "80-8443",
+        "--split",
+        "1",
+        "--disorder",
+        "3+s",
+        "--mod-http=h,d",
+        "--tlsrec",
+        "1+s"
+      ]
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "example.com",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 713,
+      "complete": true,
+      "durationMs": 795,
+      "ok": true
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15010,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "t.me",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15014,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15014,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "api.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15007,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 2,
+      "phase": "socks",
+      "durationMs": 15008,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 3,
+      "phase": "socks",
+      "durationMs": 15014,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "current",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15015
+    },
+    {
+      "strategy": "current",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15015
+    },
+    {
+      "strategy": "current",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15006
+    },
+    {
+      "event": "dns-summary",
+      "strategy": "current",
+      "summary": {
+        "providerClass": "custom",
+        "state": "ready",
+        "bootstrapMode": "https-ipv4",
+        "cacheEntries": 5
+      }
+    },
+    {
+      "event": "strategy",
+      "strategy": "split-only",
+      "backendPid": 48584,
+      "upstreamPort": 57018,
+      "listenPort": 57019,
+      "flags": [
+        "-i",
+        "127.0.0.1",
+        "-p",
+        "57018",
+        "-c",
+        "512",
+        "-N",
+        "-U",
+        "--proto",
+        "tls,http",
+        "--pf",
+        "80-8443",
+        "--split",
+        "1+s",
+        "--tlsrec",
+        "1+s"
+      ]
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "example.com",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 713,
+      "complete": true,
+      "durationMs": 513,
+      "ok": true
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15015,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "t.me",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "api.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15011,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 2,
+      "phase": "socks",
+      "durationMs": 15008,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 3,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "split-only",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15010
+    },
+    {
+      "strategy": "split-only",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15005
+    },
+    {
+      "strategy": "split-only",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15010
+    },
+    {
+      "event": "dns-summary",
+      "strategy": "split-only",
+      "summary": {
+        "providerClass": "custom",
+        "state": "ready",
+        "bootstrapMode": "https-ipv4",
+        "cacheEntries": 5
+      }
+    },
+    {
+      "event": "strategy",
+      "strategy": "no-desync",
+      "backendPid": 40204,
+      "upstreamPort": 59334,
+      "listenPort": 59335,
+      "flags": [
+        "-i",
+        "127.0.0.1",
+        "-p",
+        "59334",
+        "-c",
+        "512",
+        "-N",
+        "-U",
+        "--proto",
+        "tls,http",
+        "--pf",
+        "80-8443"
+      ]
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "example.com",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 713,
+      "complete": true,
+      "durationMs": 515,
+      "ok": true
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15005,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "t.me",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15003,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15003,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "api.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 15010,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 2,
+      "phase": "socks",
+      "durationMs": 15006,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "web.telegram.org",
+      "attempt": 3,
+      "phase": "socks",
+      "durationMs": 15005,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15004
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15011
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 443,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 15015
+    },
+    {
+      "event": "dns-summary",
+      "strategy": "no-desync",
+      "summary": {
+        "providerClass": "custom",
+        "state": "ready",
+        "bootstrapMode": "https-ipv4",
+        "cacheEntries": 5
+      }
+    },
+    {
+      "event": "start",
+      "node": "v24.21.0",
+      "strategies": [
+        "no-desync"
+      ],
+      "mode": "ports-wss",
+      "privateProvider": true,
+      "noSystemChanges": true
+    },
+    {
+      "event": "strategy",
+      "strategy": "no-desync",
+      "backendPid": 15600,
+      "upstreamPort": 51677,
+      "listenPort": 51678,
+      "flags": [
+        "-i",
+        "127.0.0.1",
+        "-p",
+        "51677",
+        "-c",
+        "512",
+        "-N",
+        "-U",
+        "--proto",
+        "tls,http",
+        "--pf",
+        "80-8443"
+      ]
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "pluto.web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 5016,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "venus.web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 5002,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "kind": "https",
+      "host": "aurora.web.telegram.org",
+      "attempt": 1,
+      "phase": "socks",
+      "durationMs": 5007,
+      "ok": false,
+      "error": "TIMEOUT"
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 80,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5007
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.175.50",
+      "port": 5222,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5007
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 80,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5008
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.51",
+      "port": 5222,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5008
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 80,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5011
+    },
+    {
+      "strategy": "no-desync",
+      "hop": "own-numeric-socks-backend",
+      "kind": "tcp-connect-only",
+      "address": "149.154.167.91",
+      "port": 5222,
+      "ok": false,
+      "error": "TIMEOUT",
+      "durationMs": 5011
+    },
+    {
+      "event": "dns-summary",
+      "strategy": "no-desync",
+      "summary": {
+        "providerClass": "custom",
+        "state": "ready",
+        "bootstrapMode": "https-ipv4",
+        "cacheEntries": 3
+      }
+    }
+  ],
+  "nodeSha256": "BA4E6D110E8C1592A1ECD390F6B05F3DA124B13871A5BE62B341A07A853C6C32",
+  "cleanup": [
+    {
+      "stillRunning": false,
+      "ownedFixturePid": 24988
+    },
+    {
+      "stillRunning": false,
+      "ownedFixturePid": 48584
+    },
+    {
+      "stillRunning": false,
+      "ownedFixturePid": 40204
+    },
+    {
+      "stillRunning": false,
+      "ownedFixturePid": 15600
+    }
+  ],
+  "generatedAtUtc": "2026-09-29T12:54:31.1701446Z",
+  "source": "scripts/regression/network-connectivity.mjs",
+  "date": "2026-09-29",
+  "sourceSha256": "DD83FCAA83FCA1B08B45FFBFE9A1042A5C51A9CFAA5D8DB49AE8AB53ADA5A989",
+  "privateProfile": "Explicitly selected user-authorized current-user DPAPI envelope, unsealed in RAM then stdin; URL/token not in args/env/output/artifacts",
+  "boundedPortsWssSummary": {
+    "success": 0,
+    "timeout": 9,
+    "numeric": "DC1/2/4 publicIPv4TCP80/5222 via own numeric SOCKS backend; front5222 remains denied",
+    "probes": 9,
+    "timeoutMs": 5000,
+    "wssHttps": "pluto/venus/aurora.web.telegram.org via selectedDoH+gateway"
+  },
+  "tcpSnapshot": {
+    "remoteAddress": "149.154.167.91",
+    "state": "SynSent",
+    "ownBackendPid": 24988,
+    "remotePort": 443
+  }
+}

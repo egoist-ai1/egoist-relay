@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.5-candidate-audit-2",
+  "objects": 109,
+  "status": "historical_immutable_before_1.4.6",
+  "snapshotSha256": "82e3454818f61482dcf291c7659974ac472eed4e2368bdd6498f707471aea407",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 12753,
+      "sha256": "4d23d7ad4c5e994d37651d857aa7f971630c0dbfed1ac44964ba8f4d5991839d"
+    },
+    {
+      "file": "Реестр.json",
+      "bytes": 98450,
+      "sha256": "82e3454818f61482dcf291c7659974ac472eed4e2368bdd6498f707471aea407"
+    },
+    {
+      "file": "requirements.json",
+      "bytes": 5356,
+      "sha256": "9604f561aebe81f74fe578013b19cfbcd0ce3b98730cd32be64a1f98316e056e"
+    },
+    {
+      "file": "validation-summary.json",
+      "bytes": 17630,
+      "sha256": "7890de07d4e7a088b84925226a1191fa90afc69190537034a026d8f3f82cf8e0"
+    },
+    {
+      "file": "review.html",
+      "bytes": 92585,
+      "sha256": "a97c0c611bf16306110d41409bb148c5e4a60e6da2944578a5f15e10c2b7a7b6"
+    },
+    {
+      "file": "review-validation.json",
+      "bytes": 1973,
+      "sha256": "90c1089e8254fc9051685598195abf167b3840a025830167ca44e73426a3a57a"
+    }
+  ],
+  "note": "Exact six aggregate bytes. Original HTML snapshot locator is historical; analyse copied snapshot and manifest, never silently transfer approvals into a changed snapshot."
+}

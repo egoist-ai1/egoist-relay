@@ -1,18 +1,21 @@
 import {
-  memo, useCallback,
+  memo, useCallback, useMemo, useState,
 } from '../../../lib/teact/teact';
 import { getActions, withGlobal } from '../../../global';
 
 import type { SharedSettings } from '../../../global/types';
-import type { ThemeKey, TimeFormat } from '../../../types';
+import type { TimeFormat } from '../../../types';
 import type { IRadioOption } from '../../ui/RadioGroup';
 import { SettingsScreens } from '../../../types';
 
 import { selectSharedSettings } from '../../../global/selectors/sharedState';
 import {
+  ANTIGRAVITY_THEMES, applyAntigravityTheme, getActiveThemeVariantId,
+} from '../../../util/antigravityThemes';
+import applyMessageTextSize from '../../../util/applyMessageTextSize';
+import {
   IS_ANDROID, IS_IOS, IS_MAC_OS,
 } from '../../../util/browser/windowEnvironment';
-import { getSystemTheme } from '../../../util/systemTheme';
 
 import useAppLayout from '../../../hooks/useAppLayout';
 import useHistoryBack from '../../../hooks/useHistoryBack';
@@ -24,6 +27,8 @@ import Checkbox from '../../ui/Checkbox';
 import ListItem from '../../ui/ListItem';
 import RadioGroup from '../../ui/RadioGroup';
 import RangeSlider from '../../ui/RangeSlider';
+
+import styles from './SettingsGeneral.module.scss';
 
 type OwnProps = {
   isActive?: boolean;
@@ -67,16 +72,31 @@ const SettingsGeneral = ({
     value: '24h',
   }];
 
-  const appearanceThemeOptions: IRadioOption[] = [{
-    label: lang('EmptyChatAppearanceLight'),
-    value: 'light',
-  }, {
-    label: lang('EmptyChatAppearanceDark'),
-    value: 'dark',
-  }, {
-    label: lang('EmptyChatAppearanceSystem'),
-    value: 'auto',
-  }];
+  const [activeVariant, setActiveVariant] = useState(getActiveThemeVariantId);
+
+  const antigravityDarkOptions: IRadioOption[] = useMemo(() => {
+    return ANTIGRAVITY_THEMES.filter((t) => t.category === 'dark').map((t) => ({
+      label: t.name,
+      value: t.id,
+    }));
+  }, []);
+
+  const antigravityLightOptions: IRadioOption[] = useMemo(() => {
+    return ANTIGRAVITY_THEMES.filter((t) => t.category === 'light').map((t) => ({
+      label: t.name,
+      value: t.id,
+    }));
+  }, []);
+
+  const handleThemeVariantChange = useCallback((variantId: string) => {
+    setActiveVariant(variantId);
+    applyAntigravityTheme(variantId);
+    const def = ANTIGRAVITY_THEMES.find((t) => t.id === variantId);
+    if (def) {
+      setSharedSettingOption({ theme: def.base });
+      setSharedSettingOption({ shouldUseSystemTheme: false });
+    }
+  }, [setSharedSettingOption]);
 
   const keyboardSendOptions = !isMobileDevice ? [
     { value: 'enter', label: lang('SettingsSendEnter'), subLabel: lang('SettingsSendEnterDescription') },
@@ -88,21 +108,9 @@ const SettingsGeneral = ({
   ] : undefined;
 
   const handleMessageTextSizeChange = useCallback((newSize: number) => {
-    document.documentElement.style.setProperty(
-      '--composer-text-size', `${Math.max(newSize, IS_IOS ? 16 : 15)}px`,
-    );
-    document.documentElement.style.setProperty('--message-meta-height', `${Math.floor(newSize * 1.25)}px`);
-    document.documentElement.style.setProperty('--message-text-size', `${newSize}px`);
-    document.documentElement.setAttribute('data-message-text-size', newSize.toString());
+    applyMessageTextSize(newSize);
 
     setSharedSettingOption({ messageTextSize: newSize });
-  }, []);
-
-  const handleAppearanceThemeChange = useCallback((value: string) => {
-    const newTheme = value === 'auto' ? getSystemTheme() : value as ThemeKey;
-
-    setSharedSettingOption({ theme: newTheme });
-    setSharedSettingOption({ shouldUseSystemTheme: value === 'auto' });
   }, []);
 
   const handleTimeFormatChange = useCallback((newTimeFormat: string) => {
@@ -143,13 +151,25 @@ const SettingsGeneral = ({
         </ListItem>
       </Island>
 
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('Theme')}</IslandTitle>
+      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayThemeVariants')}</IslandTitle>
       <Island>
+        <div className={styles.themeGroupTitle}>
+          {lang('RelayThemeDark')}
+        </div>
         <RadioGroup
-          name="theme"
-          options={appearanceThemeOptions}
-          selected={shouldUseSystemTheme ? 'auto' : theme}
-          onChange={handleAppearanceThemeChange}
+          name="antigravityDark"
+          options={antigravityDarkOptions}
+          selected={activeVariant}
+          onChange={handleThemeVariantChange}
+        />
+        <div className={styles.themeGroupTitle}>
+          {lang('RelayThemeLight')}
+        </div>
+        <RadioGroup
+          name="antigravityLight"
+          options={antigravityLightOptions}
+          selected={activeVariant}
+          onChange={handleThemeVariantChange}
         />
       </Island>
 

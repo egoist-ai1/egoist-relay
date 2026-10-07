@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "snapshotSha256": "005a9e89d341112c614bf7c6b5292a34dc78614e38ed00bf1f59d17adc4fcea6",
+  "items": 3,
+  "cases": [
+    "neutral_defaults_and_exact_snapshot",
+    "yes_no_question_comments_and_general",
+    "draft_persistence",
+    "stale_snapshot_rejected",
+    "exact_import_batch_id_preserved",
+    "standalone_apply_exports_honest_json",
+    "simulated_host_transport_once_no_real_message",
+    "simulated_native_state_16KiB_honest_summary_full_comments_preserved"
+  ],
+  "actualHostBridge": false,
+  "fixtureOwnDraftReset": true,
+  "nativeStateBudget": {
+    "nativeBytes": 295,
+    "summaryOnly": true,
+    "fullCommentsPreserved": true,
+    "explicitWarning": true,
+    "hostSimulated": true
+  },
+  "state": "passed",
+  "pageErrors": 0,
+  "networkRequests": 0
+}

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:51:08.458Z",
+  "mode": "after",
+  "sourceHashes": {
+    "src/components/ui/Switcher.tsx": "d64ce29742f8c2550cdcef0c6604633340573fad4357c09279adda5b8c1b02fd",
+    "src/components/ui/Switcher.scss": "a1c9c03e81d83223500a63f3a1d061a83ca7080123643d6de41e4562c52ce606",
+    "src/components/ui/ListItem.tsx": "dbdc0f54de7e272fd7f29b3a6d8e64dd07899a28010e062af6f557666aebf5ab",
+    "src/components/ui/Modal.tsx": "174c7f786ca0786bf8aa4f3ccf25ecc413a13fb83bc29c3e80a543d693a18c52"
+  },
+  "scope": "Actual Switcher and ListItem with local callbacks, rendered alongside isolated real App; before substitutes owned source subset, not the entire old application.",
+  "environment": {
+    "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "remoteRequests": "blocked",
+    "account": "existing synthetic MockClient user 1",
+    "physicalDpi": "unverified"
+  },
+  "cases": [
+    {
+      "id": "standalone-switcher-tab-space-callback-once",
+      "status": "pass",
+      "detail": {
+        "target": "switcher-standalone",
+        "callbacks": 1,
+        "focus": {
+          "outlineWidth": "2px",
+          "outlineStyle": "solid",
+          "outlineColor": "rgb(245, 245, 245)",
+          "track": "rgb(245, 245, 245)",
+          "thumb": "rgb(0, 0, 0)"
+        }
+      }
+    },
+    {
+      "id": "owned-row-switcher-no-second-tab-target",
+      "status": "pass",
+      "detail": {
+        "target": "switcher-end",
+        "callbackCount": 1,
+        "inactiveAndDisabledCallbacks": 0,
+        "ownerTabIndex": -1
+      }
+    },
+    {
+      "id": "switcher-reduced-motion",
+      "status": "pass",
+      "detail": {
+        "durations": [
+          [
+            "0s",
+            "0s"
+          ],
+          [
+            "0s",
+            "0s"
+          ],
+          [
+            "0s",
+            "0s"
+          ],
+          [
+            "0s",
+            "0s"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "listitem-enter-space-mouse-exactly-once",
+      "status": "pass",
+      "detail": {
+        "results": [
+          {
+            "action": "Enter",
+            "callbacks": 1
+          },
+          {
+            "action": "Space",
+            "callbacks": 1
+          },
+          {
+            "action": "mouse",
+            "callbacks": 1
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "fatal": "TimeoutError: locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.probe-listitem-modal.open') to be visible\u001b[22m\n\u001b[2m    63 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"modal-title-muwk6cjv26ozno3mr17\" class=\"Modal probe-listitem-modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n"
+}

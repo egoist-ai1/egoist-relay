@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T10:40:07.237888+00:00",
+  "productionEdited": false,
+  "candidateVersion": "1.4.4",
+  "candidateInputs": {
+    "candidateVersion": "1.4.4",
+    "manifestFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\release-1.4.4\\source-freeze.json",
+    "manifestSha256": "cd7d1c8fd12a14062450aa7bb099952340e8326b023e8aed3ad2da6b409c4b09",
+    "manifestEntryCount": 3307,
+    "entryMismatches": [],
+    "frozenOwnedCount": 24,
+    "frozenOwnedMismatches": [],
+    "newHarnessExcludedByFixtureTestNames": true,
+    "noProductWritesByThisBatch": true
+  },
+  "newHarness": [
+    {
+      "file": "scripts/relay-ui-remaining-modals.fixture.tsx",
+      "sha256": "5d366bcfdeae051f5720c96685103c3d63417ba532a2c95d9f42364aa80126b3"
+    },
+    {
+      "file": "scripts/relay-ui-remaining-modals.server.fixture.mjs",
+      "sha256": "5612f5b0a7d9bea85592709633ae29ea3ae689cafaf4b32e3b53b5c404c1c31e"
+    },
+    {
+      "file": "scripts/relay-ui-remaining-modals.test.mjs",
+      "sha256": "e2e300fcb8a267daffe9e3f0f53ce2c0b0239aaab15d005238f4e5cf1bc0f379"
+    }
+  ],
+  "selectedSources": {
+    "src/components/left/settings/BlockUserModal.tsx": "9c84ec19bd4d4b524153ea321e1c71c62d1d01aedde4a5a3cbdd654025aec6ae",
+    "src/components/common/PrivacySettingsNoticeModal.tsx": "5670a295466e01105e71170fc591851f1d8527d43f2db007186df31f7aa34e54",
+    "src/components/common/SensitiveContentConfirmModal.tsx": "e4552f7a59f9062f7e1391f8d636d9c8ebf6e8290c654aaab620188d0565c7f0",
+    "src/components/common/ReportAvatarModal.tsx": "612450d1a1f0b4a704c3717fb18746681c9224c892a0f76e5f722b66ca7939c2",
+    "src/components/common/UnpinAllMessagesModal.tsx": "853470cfbd385761e44c4ac84a717ad8aa6a1c2eb97387e7d7399eccc645f596",
+    "src/components/main/DeleteFolderDialog.tsx": "0b5db72437c6992af87d424a4b5f3270f9634780643c0c6f1d5d64a808029b01",
+    "src/components/main/BotTrustModal.tsx": "6aa6885abd735f72011290a2bbca5a4451dc25c14f2ba9948ebcbfcb237400b8",
+    "src/components/right/management/RemoveGroupUserModal.tsx": "1bf28e7cbc3d1c90c5be35dd600ba8a7251997699418a955cd2d53bbd04efd9e",
+    "src/components/modals/autoDeleteTimer/AutoDeleteTimerModal.tsx": "fc8307f0d093e499c4964a5d1032e5d1cbfedf6e051f4f084b0aad11d90aa453",
+    "src/components/modals/birthday/BirthdaySetupModal.tsx": "38fd1eeb3f005bcffd82c1742abe9124d07a0e77960741f903681352bb50883f",
+    "src/components/modals/prompt/PromptDialog.tsx": "32e71f9835f0a84d732ce91de10c913840d4a1a651de608b68708762188cafdd",
+    "src/components/modals/rank/EditRankModal.tsx": "1fd0729f390c45001a8cc0ec70d67e51dc55c77baabe03f5e81d9d415d40e1bf",
+    "src/components/modals/ModalContainer.tsx": "951464d5adfa397014c3fb5ee545511bf55c43fd229e0423e426feca531665d3"
+  },
+  "selectedSourceBeforeAfterUnchanged": true,
+  "sourcePolicy": {
+    "selectedSourceCount": 3307,
+    "newHarness": [
+      {
+        "file": "scripts/relay-ui-remaining-modals.fixture.tsx",
+        "selected": false
+      },
+      {
+        "file": "scripts/relay-ui-remaining-modals.server.fixture.mjs",
+        "selected": false
+      },
+      {
+        "file": "scripts/relay-ui-remaining-modals.test.mjs",
+        "selected": false
+      }
+    ],
+    "readOnly": true
+  },
+  "state": "New harness/report batch frozen; parent owns any product height fix/build/install; whole application audit remains active"
+}

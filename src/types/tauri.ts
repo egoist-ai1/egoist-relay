@@ -3,11 +3,13 @@ import type { Update } from '@tauri-apps/plugin-updater';
 
 type TauriApi = {
   version: string;
+  updaterEnabled?: boolean;
+  youtubePlayerSmoke?: boolean;
   markTitleBarOverlay: (isOverlay: boolean, isMobile?: boolean) => Promise<void>;
   setNotificationsCount: (amount: number, isMuted?: boolean) => Promise<void>;
   openNewWindow: (url: string) => Promise<void>;
   relaunch: () => Promise<void>;
-  checkUpdate: () => Promise<Update | null>;
+  checkUpdate: () => Promise<Update | undefined>;
   getCurrentWindow: () => Promise<TauriWindow>;
   setWindowTitle: (title: string) => Promise<void>;
 };

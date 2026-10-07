@@ -7,6 +7,7 @@ import { ApiMessageEntityTypes, type LinkContext } from '../../api/types';
 import { IS_TAURI } from '../../util/browser/globalEnvironment';
 import { ensureProtocol, getUnicodeUrl, isSuspiciousUrl } from '../../util/browser/url';
 import buildClassName from '../../util/buildClassName';
+import { INLINE_MEDIA_OPEN_EVENT, parseInlineSocialMediaUrl } from '../../util/inlineSocialMedia';
 
 import useLastCallback from '../../hooks/useLastCallback';
 
@@ -49,6 +50,16 @@ const SafeLink = ({
     if (!url) return true;
 
     e.preventDefault();
+
+    if (!e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && parseInlineSocialMediaUrl(url)) {
+      const inlineEvent = new CustomEvent(INLINE_MEDIA_OPEN_EVENT, {
+        bubbles: true, cancelable: true, detail: { url },
+      });
+      if (!e.currentTarget.dispatchEvent(inlineEvent)) {
+        e.stopPropagation();
+        return false;
+      }
+    }
 
     const isTrustedLink = isRegularLink && !isSuspiciousUrl(url);
     const linkContext: LinkContext | undefined = chatId && messageId

@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-composer-media-next-audit-2026-10-02",
+  "version": 1,
+  "generatedAt": "2026-10-02T11:42:10.140Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "candidateKind": "NEXT working tree, not the immutable canonical package",
+  "sourcePackageVersion": "1.4.4",
+  "summary": {
+    "total": 32,
+    "pass": 32,
+    "fail": 0,
+    "gates": 2,
+    "pageErrors": 0,
+    "unhandled": 0
+  },
+  "environment": {
+    "actualApp": true,
+    "transport": "existing MockClient + protected action recorder",
+    "headless": true,
+    "externalRequests": "blocked",
+    "viewport": "1920x1080 + 640x900 emulations",
+    "realUploads": 0,
+    "realMessages": 0,
+    "realDeletes": 0,
+    "realPayments": 0,
+    "viewportScopes": [
+      "1920x1080",
+      "640x900",
+      "390x844"
+    ]
+  },
+  "realEffects": {
+    "uploads": 0,
+    "downloads": 0,
+    "messages": 0,
+    "deletes": 0,
+    "payments": 0,
+    "accountChanges": 0,
+    "networkSettingsChanges": 0,
+    "sharedProcessesStopped": 0
+  },
+  "before": {
+    "receipt": "composer-media-before-results.json",
+    "summary": {
+      "total": 26,
+      "pass": 17,
+      "fail": 9,
+      "gates": 2,
+      "pageErrors": 0,
+      "unhandled": 1
+    },
+    "interpretation": "Before receipt contains confirmed caption/group/focus/Escape failures and malformed PNG unhandled failure, plus harness issues. Disabled Undo/Redo were incorrectly included in hit-test requirements; closed retained modal geometry assertion was also corrected; Escape caused later scenario cascade. Do not count all nine failed cases as independent product defects."
+  },
+  "after": {
+    "receipt": "composer-media-after-results.json",
+    "sourceManifest": "composer-media-final-source-shas.json",
+    "sourceRecheck": "All 16 loaded source/harness SHA256 values rechecked unchanged after final run",
+    "notifications": [
+      {
+        "name": "showNotification",
+        "detail": {
+          "message": "Непредвиденная ошибка"
+        }
+      },
+      {
+        "name": "showNotification",
+        "detail": {
+          "message": "Непредвиденная ошибка"
+        }
+      },
+      {
+        "name": "showNotification",
+        "detail": {
+          "message": "Непредвиденная ошибка"
+        }
+      }
+    ],
+    "sendsCaptured": 20,
+    "realSends": 0
+  },
+  "defects": [
+    {
+      "id": "caption-ungrouped",
+      "source": "Composer.tsx",
+      "change": "Preserve UI-requested inverted caption for single/multiple ungrouped compressed media, while retaining empty-caption and file-mode guards",
+      "evidence": [
+        "single-photo-inverted-caption-with-ungroup-setting",
+        "multiple-ungrouped-inverted-caption",
+        "multiple-persisted-ungrouped-inverted-caption",
+        "empty-caption-inversion-cleared",
+        "file-mode-inversion-cleared"
+      ]
+    },
+    {
+      "id": "setting-isolation",
+      "source": "AttachmentModal.tsx",
+      "change": "Synchronize local grouping and quality by their primitive fields; unrelated caption/compression changes preserve the selected grouping",
+      "evidence": [
+        "group-compression-quality-caption-independent-settings",
+        "multiple-ungrouped-inverted-caption"
+      ]
+    },
+    {
+      "id": "editor-focus-escape",
+      "source": "AttachmentModal.tsx + MediaEditor.tsx",
+      "change": "Mount MediaEditor beside parent Modal, release parent focus/keyboard capture while editing, and give editor the existing focus-stack owner",
+      "evidence": [
+        "editor-header-focus-owner",
+        "editor-keyboard-tab-space-escape-ownership",
+        "photo-editor-crop-rotate-undo-redo-save",
+        "editor-cancel-keeps-original-and-zero-send"
+      ]
+    },
+    {
+      "id": "editor-caption-inset",
+      "source": "MediaEditor.module.scss",
+      "change": "Respect Windows desktop caption inset in both fixed editor and landingGhost manual-popover sizing",
+      "evidence": [
+        "editor-header-pointer-hit-test",
+        "editor-fullhd-narrow-geometry-and-pointer-cancel",
+        "editor-landing-ghost-popover-inset-geometry"
+      ]
+    },
+    {
+      "id": "malformed-selection",
+      "source": "useAttachmentModal.ts (root-owned patch)",
+      "change": "Handle each initial-file decode failure, revoke its created object URLs, retain valid siblings, notify through existing localization, and preserve prior selection when all files fail",
+      "evidence": [
+        "malformed-photo-error-and-valid-retry",
+        "malformed-photo-valid-sibling-selection",
+        "malformed-photo-retains-existing-selection-exact-hook"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "name": "owned-photo.png",
+      "mimeType": "image/png",
+      "bytes": 167866,
+      "sha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f"
+    },
+    {
+      "name": "owned-byte-integrity.bin",
+      "mimeType": "application/octet-stream",
+      "bytes": 65537,
+      "sha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a"
+    },
+    {
+      "name": "owned-video.mp4",
+      "mimeType": "video/mp4",
+      "bytes": 2678,
+      "sha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec"
+    },
+    {
+      "name": "owned-audio.wav",
+      "mimeType": "audio/wav",
+      "bytes": 16078,
+      "sha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "full-attachment-photo-caption-standard",
+      "status": "pass"
+    },
+    {
+      "id": "photo-high-quality-real-output",
+      "status": "pass"
+    },
+    {
+      "id": "photo-as-file-byte-integrity",
+      "status": "pass"
+    },
+    {
+      "id": "album-group-and-ungroup",
+      "status": "pass"
+    },
+    {
+      "id": "caption-inversion-and-spoiler",
+      "status": "pass"
+    },
+    {
+      "id": "single-photo-inverted-caption-with-ungroup-setting",
+      "status": "pass"
+    },
+    {
+      "id": "multiple-ungrouped-inverted-caption",
+      "status": "pass"
+    },
+    {
+      "id": "empty-caption-inversion-cleared",
+      "status": "pass"
+    },
+    {
+      "id": "file-mode-inversion-cleared",
+      "status": "pass"
+    },
+    {
+      "id": "editor-header-pointer-hit-test",
+      "status": "pass"
+    },
+    {
+      "id": "multiple-persisted-ungrouped-inverted-caption",
+      "status": "pass"
+    },
+    {
+      "id": "editor-header-focus-owner",
+      "status": "pass"
+    },
+    {
+      "id": "editor-keyboard-tab-space-escape-ownership",
+      "status": "pass"
+    },
+    {
+      "id": "group-compression-quality-caption-independent-settings",
+      "status": "pass"
+    },
+    {
+      "id": "document-original-byte-integrity",
+      "status": "pass"
+    },
+    {
+      "id": "actual-video-local-decode-preview",
+      "status": "pass"
+    },
+    {
+      "id": "actual-audio-metadata-and-byte-integrity",
+      "status": "pass"
+    },
+    {
+      "id": "modal-add-real-filechooser-delete-and-cancel",
+      "status": "pass"
+    },
+    {
+      "id": "photo-editor-crop-rotate-undo-redo-save",
+      "status": "pass"
+    },
+    {
+      "id": "editor-cancel-keeps-original-and-zero-send",
+      "status": "pass"
+    },
+    {
+      "id": "malformed-video-falls-back-to-original-file",
+      "status": "pass"
+    },
+    {
+      "id": "malformed-photo-error-and-valid-retry",
+      "status": "pass"
+    },
+    {
+      "id": "malformed-photo-valid-sibling-selection",
+      "status": "pass"
+    },
+    {
+      "id": "malformed-photo-retains-existing-selection-exact-hook",
+      "status": "pass"
+    },
+    {
+      "id": "fullhd-and-narrow-attachment-geometry",
+      "status": "pass"
+    },
+    {
+      "id": "editor-fullhd-narrow-geometry-and-pointer-cancel",
+      "status": "pass"
+    },
+    {
+      "id": "editor-landing-ghost-popover-inset-geometry",
+      "status": "pass"
+    },
+    {
+      "id": "actual-document-upload-progress-cancel",
+      "status": "pass"
+    },
+    {
+      "id": "actual-document-download-cancel",
+      "status": "pass"
+    },
+    {
+      "id": "document-download-exact-selection",
+      "status": "pass"
+    },
+    {
+      "id": "document-preview-loading-then-exact-content",
+      "status": "pass"
+    },
+    {
+      "id": "document-preview-error-retry-download",
+      "status": "pass"
+    }
+  ],
+  "codeChecks": [
+    {
+      "id": "production-typescript",
+      "status": "pass",
+      "exitCode": 0
+    },
+    {
+      "id": "actual-fixture-typescript",
+      "status": "pass",
+      "exitCode": 0
+    },
+    {
+      "id": "targeted-production-eslint",
+      "status": "pass",
+      "exitCode": 0
+    },
+    {
+      "id": "full-scss-check",
+      "status": "pass",
+      "exitCode": 0,
+      "findings": {
+        "problems": 509,
+        "errors": 0,
+        "warnings": 509,
+        "ownedMediaEditorStylesheetFindings": 0
+      }
+    },
+    {
+      "id": "fixture-server-syntax",
+      "status": "pass",
+      "exitCode": 0
+    },
+    {
+      "id": "fixture-runner-syntax",
+      "status": "pass",
+      "exitCode": 0
+    }
+  ],
+  "scopeGaps": [
+    "Live provider/server acceptance, authenticated media transfer speed and upload throughput remain unverified: all sends/cancel/download callbacks are protected mock recorders.",
+    "Document/File transfer progress uses synthetic props on actual components; there are no real uploads, downloads, messages, deletes or payments.",
+    "Malformed media rejection paths in edited-message replacement, appending files, and quality rebuild remain outside the narrowly reviewed initial-selection hook branch.",
+    "LandingGhost manual-popover geometry uses an explicit hidden synthetic viewer-host sentinel to trigger actual MediaEditor behavior; complete actual MediaViewer-to-editor lifecycle is not proved.",
+    "Viewport tests are headless Windows emulations at 1920×1080, 640×900 and 390×844; physical monitor DPI, touch hardware and GPU performance remain unverified.",
+    "Source remains NEXT working tree; canonical 1.4.4 package/runtime/proofs and installed user Relay remain untouched by this child."
+  ],
+  "performanceClaim": "None: fixture UI waits and mocked actions are not a measurement of real network throughput.",
+  "autoReview": {
+    "initialCombinedAction": "rejected before execution; reason saved in composer-hook-review-rejection.json",
+    "childContinuation": "Applied only four explicitly scoped reviewed files; never retried or indirectly wrote rejected hook",
+    "rootFollowup": "Root independently reviewed and applied unique initial-selection block; exact b580->b9f517 hash reconstruction proves all other hook branches byte unchanged"
+  },
+  "processClosure": {
+    "accountOrSharedProcessesStopped": 0,
+    "ownMatchingProcesses": [],
+    "ownMockListeners": [],
+    "expectedOwnMockPort": 1253,
+    "observedAt": "2026-10-02T11:39:28.3094032Z"
+  },
+  "reviewObjects": [
+    {
+      "id": "composer-caption-settings-next",
+      "name": "Подпись и выбор группировки/качества",
+      "version": 1,
+      "content": "Принять проверенные NEXT изменения Composer и AttachmentModal: запрошенная подпись сохраняется без группировки, независимые настройки не сбрасывают выбор.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-after-results.json",
+      "sourceManifest": "composer-media-final-source-shas.json"
+    },
+    {
+      "id": "composer-editor-controls-next",
+      "name": "Фокус, клавиатура и размеры редактора",
+      "version": 1,
+      "content": "Принять NEXT изменения редактора: обычные pointer crop/rotate/Undo/Redo/Save/Cancel, Tab/Space/Escape, сохранение вложения и подписи, FullHD/узкие окна и scoped popover geometry проверены.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-after-results.json",
+      "sourceManifest": "composer-media-final-source-shas.json"
+    },
+    {
+      "id": "composer-malformed-initial-selection-next",
+      "name": "Ошибочный PNG и сохранение выбранных файлов",
+      "version": 1,
+      "content": "Принять отдельную atomic root правку только initial non-editing selection: invalid-alone, valid sibling, retained prior and retry проходят. Edited/appending/quality rejection остаются отдельным coverage gap.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-after-results.json",
+      "sourceManifest": "composer-media-final-source-shas.json"
+    },
+    {
+      "id": "composer-local-media-evidence",
+      "name": "Исходные байты и границы проверки передачи",
+      "version": 1,
+      "content": "Принять локальные результаты fidelity и UI controls. Нормальное фото1280×853, HQ2560×1706 и оригинал3000×2000 as-file проверены; server acceptance/реальная скорость не подтверждены и требуют отдельного разрешённого live пилота.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-report.json"
+    }
+  ]
+}

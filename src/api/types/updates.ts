@@ -254,6 +254,7 @@ export type ApiUpdateNewMessage = {
   id: number;
   message: ApiMessage;
   shouldForceReply?: boolean;
+  shouldSkipFocus?: boolean;
   wasDrafted?: boolean;
   poll?: ApiMessagePoll;
   webPages?: ApiWebPage[];

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-miniapp-hotfix-1.6.1",
+  "version": "1.6.1-v1",
+  "createdAt": "2026-10-06T14:17:00.490735+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\hotfix-1.6.1\\bot-windows\\review-snapshot.json",
+  "items": [
+    {
+      "id": "miniapp-csp",
+      "name": "Причина iframe отказа",
+      "version": "1.6.1-v1",
+      "status": "observed",
+      "content": "Публичный HTTP200 и frame-ancestors none объясняют отказ iframe независимо от proxy settings.",
+      "evidence": "shop-public-headers.json",
+      "confirmationAction": "Принять диагностический вывод и обсудить ваш комментарий.",
+      "links": [
+        {
+          "name": "Headers",
+          "href": "shop-public-headers.json"
+        }
+      ]
+    },
+    {
+      "id": "miniapp-native",
+      "name": "Windows top-level Mini App bridge",
+      "version": "1.6.1-v1",
+      "status": "implemented",
+      "content": "Mini App остаётся внутри Relay, сохраняет Telegram protocol и источник; ID/nonce/origin/navigation guards разделяют host и remote content.",
+      "evidence": "SDK4/4, adapter7/7, actual JSX9/9; physical WebView2 coverage отдельно.",
+      "confirmationAction": "Принять реализованный контракт как предмет локальной живой приёмки.",
+      "links": [
+        {
+          "name": "Отчёт",
+          "href": "REPORT.md"
+        },
+        {
+          "name": "Diff",
+          "href": "changes-from-1.6.0.patch"
+        }
+      ]
+    },
+    {
+      "id": "miniapp-popup",
+      "name": "Owned popup и системная policy",
+      "version": "1.6.1-v1",
+      "status": "implemented",
+      "content": "Create/window_features сохраняет environment и opener. Popup закрывается с владельцем, лишён Relay IPC. Вложенные popup пока запрещены.",
+      "evidence": "Locked Tauri/Wry source и production compile; реальный opener/proxy route ещё не проверены.",
+      "confirmationAction": "Принять контракт/ограничение либо указать необходимый сценарий popup.",
+      "links": [
+        {
+          "name": "Source hashes",
+          "href": "source-diff.json"
+        }
+      ]
+    },
+    {
+      "id": "miniapp-coverage",
+      "name": "Граница живой проверки",
+      "version": "1.6.1-v1",
+      "status": "unverified",
+      "content": "Нет проверки аккаунта, покупки, реального InitData, PAC route, native popup/keyboard, DPI/GPU и второго устройства.",
+      "evidence": "verification.json разделяет mock/native coverage.",
+      "confirmationAction": "Принять границу отчёта и согласовать конкретный дальнейший локальный сценарий в комментарии.",
+      "links": [
+        {
+          "name": "Проверки",
+          "href": "verification.json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "state": "rejected_not_installed_not_distributed",
+  "recordedAt": "2026-10-03T13:11:45.280842+00:00",
+  "reason": "Temporary absolute Windows frontendDist deserializes as FrontendDist::Url(c:); no embedded assets",
+  "productSourcesChanged": false,
+  "candidateMetadata": {
+    "installers": [
+      {
+        "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\native-build\\target\\release\\bundle\\nsis\\Egoist Relay_1.4.6_x64-setup.exe",
+        "bytes": 497817895,
+        "sha256": "7d378210f3fc8ebf73261c11ee011ffb670f82530cb32c6f66d94312160103ca"
+      }
+    ],
+    "nativeExecutables": [
+      {
+        "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\native-build\\target\\release\\Egoist Relay.exe",
+        "bytes": 7923712,
+        "sha256": "e79d9df9813562086553569eac91c10623d271904dc4a8ba805c2c8bfdc286ab"
+      }
+    ]
+  },
+  "verifiedLocalPrimarySource": "tauri-utils FrontendDist untagged enum Url before Directory; tauri-codegen context Url uses default EmbeddedAssets"
+}

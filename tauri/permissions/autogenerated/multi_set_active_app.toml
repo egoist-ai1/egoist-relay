@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-set-active-app"
+description = "Enables the multi_set_active_app command without any pre-configured scope."
+commands.allow = ["multi_set_active_app"]
+
+[[permission]]
+identifier = "deny-multi-set-active-app"
+description = "Denies the multi_set_active_app command without any pre-configured scope."
+commands.deny = ["multi_set_active_app"]

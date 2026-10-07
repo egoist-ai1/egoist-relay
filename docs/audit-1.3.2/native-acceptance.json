@@ -1,0 +1,205 @@
+[
+  {
+    "at": "2026-09-30T15:56:11.541Z",
+    "kind": "binding",
+    "sessionId": "429c3464-d28b-4187-86c6-916e20414f97",
+    "appPid": 38156,
+    "services": [
+      {
+        "service": "main",
+        "bound": true,
+        "label": "main"
+      },
+      {
+        "service": "x",
+        "bound": true,
+        "label": "x_webview"
+      },
+      {
+        "service": "instagram",
+        "bound": true,
+        "label": "instagram_webview"
+      }
+    ]
+  },
+  {
+    "at": "2026-09-30T15:56:21.022Z",
+    "kind": "switch",
+    "service": "x",
+    "dispatched": true,
+    "active": true,
+    "requiresSnapshot": true,
+    "elapsedMs": 8202
+  },
+  {
+    "at": "2026-09-30T15:57:11.091Z",
+    "kind": "loadOutcome",
+    "service": "x",
+    "hasError": true,
+    "hasUi": false,
+    "elapsedMs": 58271,
+    "remote": {
+      "url": "https://x.com/",
+      "state": "ready",
+      "readiness": {
+        "documentReadyState": "complete",
+        "visibility": "hidden",
+        "loadingIndicatorCount": 0
+      },
+      "controlCount": 0
+    },
+    "selected": [
+      {
+        "service": "main",
+        "pressed": false
+      },
+      {
+        "service": "x",
+        "pressed": true
+      },
+      {
+        "service": "instagram",
+        "pressed": false
+      }
+    ]
+  },
+  {
+    "at": "2026-09-30T15:57:15.022Z",
+    "kind": "retry",
+    "service": "x",
+    "dispatched": true,
+    "loadingIndicatorCount": 2
+  },
+  {
+    "at": "2026-09-30T15:57:23.908Z",
+    "kind": "switch",
+    "service": "instagram",
+    "dispatched": true,
+    "active": true,
+    "requiresSnapshot": true,
+    "elapsedMs": 6405
+  },
+  {
+    "at": "2026-09-30T15:58:06.725Z",
+    "kind": "loadOutcome",
+    "service": "instagram",
+    "hasError": true,
+    "hasUi": false,
+    "elapsedMs": 49222,
+    "remote": {
+      "url": "chrome-error://chromewebdata/",
+      "state": "recovering",
+      "readiness": {
+        "documentReadyState": "complete",
+        "visibility": "hidden",
+        "loadingIndicatorCount": 0
+      },
+      "controlCount": 2
+    },
+    "selected": [
+      {
+        "service": "main",
+        "pressed": false
+      },
+      {
+        "service": "x",
+        "pressed": false
+      },
+      {
+        "service": "instagram",
+        "pressed": true
+      }
+    ]
+  },
+  {
+    "at": "2026-09-30T15:58:10.291Z",
+    "kind": "retry",
+    "service": "instagram",
+    "dispatched": true,
+    "loadingIndicatorCount": 0
+  },
+  {
+    "at": "2026-09-30T15:58:20.603Z",
+    "kind": "repeatedSwitch",
+    "round": 0,
+    "selected": [
+      {
+        "service": "main",
+        "pressed": true
+      },
+      {
+        "service": "x",
+        "pressed": false
+      },
+      {
+        "service": "instagram",
+        "pressed": false
+      }
+    ]
+  },
+  {
+    "at": "2026-09-30T15:58:27.423Z",
+    "kind": "repeatedSwitch",
+    "round": 1,
+    "selected": [
+      {
+        "service": "main",
+        "pressed": true
+      },
+      {
+        "service": "x",
+        "pressed": false
+      },
+      {
+        "service": "instagram",
+        "pressed": false
+      }
+    ]
+  },
+  {
+    "at": "2026-09-30T15:58:34.230Z",
+    "kind": "repeatedSwitch",
+    "round": 2,
+    "selected": [
+      {
+        "service": "main",
+        "pressed": true
+      },
+      {
+        "service": "x",
+        "pressed": false
+      },
+      {
+        "service": "instagram",
+        "pressed": false
+      }
+    ]
+  },
+  {
+    "at": "2026-09-30T15:58:36.926Z",
+    "kind": "finished",
+    "sessionId": "429c3464-d28b-4187-86c6-916e20414f97",
+    "appPid": 38156,
+    "youtubeEmbedReferer": {
+      "configured": true,
+      "identifiedRequests": 0
+    },
+    "services": [
+      {
+        "service": "main",
+        "bound": true,
+        "label": "main"
+      },
+      {
+        "service": "x",
+        "bound": true,
+        "label": "x_webview"
+      },
+      {
+        "service": "instagram",
+        "bound": true,
+        "label": "instagram_webview"
+      }
+    ]
+  }
+]

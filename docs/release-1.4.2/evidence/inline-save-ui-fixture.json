@@ -1,0 +1,8 @@
+{
+  "actualComponent": true,
+  "originalDownloadButton": true,
+  "cancelAbortsExactRequest": true,
+  "cancelDoesNotReportSaved": true,
+  "successStatus": true,
+  "noAccountSend": true
+}

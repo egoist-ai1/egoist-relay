@@ -16,6 +16,15 @@
 
   transition: opacity 0.2s, transform var(--select-transition);
 
+  &:not(.isOwn) {
+    left: 0;
+  }
+
+  &.isOwn {
+    right: 0;
+    left: auto;
+  }
+
   :global(.select-mode-active) & {
     transform: translateX(2.5rem);
   }

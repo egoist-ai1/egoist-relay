@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-payment-modal-proposed-change",
+  "version": 2,
+  "generatedAt": "2026-10-02T08:38:10.406Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "applied": false,
+  "patchedComponentExecuted": false,
+  "diffFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-proposed.diff",
+  "diffSha256": "a815fc3a2592d95cab4a5c1301520f6493a620889f3e5af26a9b5eabbb6513a9",
+  "unchangedCurrentSourceHashes": {
+    "src/components/payment/PaymentModal.tsx": "f113fd7697f376307510e20ff7364adced019401eddcf2fb8be6db82281155e9",
+    "src/components/modals/stars/StarsPaymentModal.tsx": "d9b11a6006c4574eeb23684ddbe3663eec0353bc18fc3e1b437c530db0e15b85"
+  },
+  "proposedSourceHashes": {
+    "src/components/payment/PaymentModal.tsx": "c4188b41eac33fd7ed64367b009331c7074ef32272366119def87aa48b332853",
+    "src/components/modals/stars/StarsPaymentModal.tsx": "06858bb6434406ef6f7d352e0b483c347191ccb7748c0ae5e7c70fa65b3d6217"
+  },
+  "autoReview": {
+    "status": "rejected",
+    "firstAttempt": "approval review timeout; no action",
+    "retryReason": "Production payment and keyboard behavior requires explicit human authorization; claimed parent authorization not accepted",
+    "boundary": "No production writes or alternate writer/indirect execution after rejection. Draft only, awaiting human permission."
+  },
+  "proof": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-before-rapid.json",
+    "sha256": "b57df1b85c0aa0c845264fec92cf506604762522d83f0253ea1ad99fd357ddc9",
+    "summary": {
+      "total": 11,
+      "pass": 6,
+      "fail": 5,
+      "prerequisiteGates": 0,
+      "errors": 0,
+      "unhandled": 0,
+      "externalRequestsSucceeded": 0,
+      "realAccountMutations": 0
+    },
+    "sameTaskCases": [
+      {
+        "id": "regular-rapid-native-clicks",
+        "status": "fail",
+        "detail": {
+          "kind": "regular",
+          "target": {
+            "focused": true,
+            "target": "<button type=\"submit\" class=\"Button button-text default primary\">Proceed to checkout</button>",
+            "owned": true,
+            "disabled": false
+          },
+          "eventDelivery": "Two synthetic untrusted native HTMLElement.click activations in one task before RAF; actual shared Button handlers, not direct callback calls",
+          "sameTask": {
+            "beforeCount": 3,
+            "afterFirst": 4,
+            "afterSecond": 5,
+            "disabledSameTask": false
+          },
+          "callbackDelta": 2
+        },
+        "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"kind\":\"regular\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"submit\\\" class=\\\"Button button-text default primary\\\">Proceed to checkout</button>\",\"owned\":true,\"disabled\":false},\"eventDelivery\":\"Two synthetic untrusted native HTMLElement.click activations in one task before RAF; actual shared Button handlers, not direct callback calls\",\"sameTask\":{\"beforeCount\":3,\"afterFirst\":4,\"afterSecond\":5,\"disabledSameTask\":false},\"callbackDelta\":2}",
+        "screenshot": "ui-payment-modal-before-rapid-regular-rapid-native-clicks.png",
+        "activeTarget": "<body id=\"root\" class=\"is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog\" style=\"--theme-background-color: #000000; --action-message-bg: #48576166;\"><div id=\"portals\"><div><div class=\"Menu compact in-portal main-menu\"><div role=\"presentation\" class=\"bubble menu-container custom-scroll opacity-transition fast not-shown not-open\"><!--empty-fragment--><div class=\"MenuSeparator-module__root MenuSeparator-module__thin\"></div><div role=\"menuitem\" tabindex=\"0\" class=\"MenuItem compact\"><i class=\"icon icon-user\" aria-hidden=\"true\"></i>My Profile</div><div role=\"menuitem\" tabindex=\"0\" class=\"MenuItem compact\"><i class=\"icon icon-saved-messages\" aria-hidden=\"true\"></i>Saved Messages</div><div role=\"menuitem\" tabindex=\"0\" class=\"MenuItem compact\"><i class=\"icon icon-group\" aria-hidden=\"true\"></i>Contacts</div><div role=\"menuitem\" tabindex=\"0\" class=\"MenuItem compact"
+      },
+      {
+        "id": "stars-rapid-native-clicks",
+        "status": "fail",
+        "detail": {
+          "kind": "stars",
+          "target": {
+            "focused": true,
+            "target": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary inline\">Confirm and Pay <i class=\"icon icon-star in-text-icon\" aria-hidden=\"true\"></i>️25</button>",
+            "owned": true,
+            "disabled": false
+          },
+          "eventDelivery": "Two synthetic untrusted native HTMLElement.click activations in one task before RAF; actual shared Button handlers, not direct callback calls",
+          "sameTask": {
+            "beforeCount": 4,
+            "afterFirst": 5,
+            "afterSecond": 6,
+            "disabledSameTask": false
+          },
+          "callbackDelta": 2
+        },
+        "error": "AssertionError [ERR_ASSERTION]: Expected safety contract; actual: {\"kind\":\"stars\",\"target\":{\"focused\":true,\"target\":\"<button type=\\\"button\\\" class=\\\"Button StarsBalanceModal-module__paymentButton default primary inline\\\">Confirm and Pay <i class=\\\"icon icon-star in-text-icon\\\" aria-hidden=\\\"true\\\"></i>️25</button>\",\"owned\":true,\"disabled\":false},\"eventDelivery\":\"Two synthetic untrusted native HTMLElement.click activations in one task before RAF; actual shared Button handlers, not direct callback calls\",\"sameTask\":{\"beforeCount\":4,\"afterFirst\":5,\"afterSecond\":6,\"disabledSameTask\":false},\"callbackDelta\":2}",
+        "screenshot": "ui-payment-modal-before-rapid-stars-rapid-native-clicks.png",
+        "activeTarget": "<button type=\"button\" class=\"Button StarsBalanceModal-module__paymentButton default primary loading clicked inline\"><div><span>Cache.ClearProgress</span><div class=\"Spinner Spinner-module__root Spinner-module__white\"><div class=\"Spinner__inner Spinner-module__inner\"></div></div></div></button>"
+      }
+    ],
+    "previousRegistry": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-payment-modal-proof.json",
+    "previousRegistrySha256": "44429d486a79e43f23ee6551b608c0659eef16bc3ef309b132b847b6e05bccba"
+  },
+  "plan": [
+    {
+      "file": "src/components/modals/stars/StarsPaymentModal.tsx",
+      "change": "Local loading/closed/pending guard; native disabled while loading; synchronous pending latch and markLoading before local dispatch; reset latch on close.",
+      "why": "Actual native keyboard during loading duplicates callback; two native synthetic activations in one task also duplicate before RAF."
+    },
+    {
+      "file": "src/components/payment/PaymentModal.tsx",
+      "change": "Remove own redundant global Enter listener; own Modal onEnter only open ConfirmPassword; local loading/closed guard; ConfirmPassword-only synchronous pending latch reset on existing result/step/error and close lifecycles.",
+      "why": "Actual owned input Enter invokes validation0 while footer Enter/Space1; same-task footer synthetic clicks validate2. Preserve literal password, other steps and native Back/Confirm behavior."
+    }
+  ],
+  "acceptanceAfterPermission": [
+    "Actual own password input Enter1; loading/repeat subsequent0; same-task validation1.",
+    "Stars initial actual pointer/nativeEnter/nativeSpace1; loading subsequent0; same-task callback1; close0payment/1close; reopen resets latch.",
+    "Back/Cancel Enter/Space0payment, native Confirm once, literal password unchanged.",
+    "Scoped source+ownfixture TS/lint; root final src/scripts/test TSC/full ESLint once after final metadata ready."
+  ],
+  "limits": [
+    "No change applied; draft not runtime tested.",
+    "Rapid cases use two explicitly synthetic/untrusted native HTMLElement.click calls on real focused button in one task, not direct handler invocation or real physical double click.",
+    "No real payment/server acceptance/charges/account mutation.",
+    "Original static global Enter duplicate candidate remains unconfirmed for checked input path; additional same-task footer validation duplicate is separately evidenced."
+  ],
+  "reviewObjects": [
+    {
+      "id": "stars-local-loading-guard",
+      "name": "src/components/modals/stars/StarsPaymentModal.tsx",
+      "version": 2,
+      "content": "Local loading/closed/pending guard; native disabled while loading; synchronous pending latch and markLoading before local dispatch; reset latch on close. Actual native keyboard during loading duplicates callback; two native synthetic activations in one task also duplicate before RAF.",
+      "confirmationAction": "Apply exactly the proposed source diff after explicit human permission, then actual local callback acceptance checks; never send real payments.",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "regular-scoped-password-enter",
+      "name": "src/components/payment/PaymentModal.tsx",
+      "version": 2,
+      "content": "Remove own redundant global Enter listener; own Modal onEnter only open ConfirmPassword; local loading/closed guard; ConfirmPassword-only synchronous pending latch reset on existing result/step/error and close lifecycles. Actual owned input Enter invokes validation0 while footer Enter/Space1; same-task footer synthetic clicks validate2. Preserve literal password, other steps and native Back/Confirm behavior.",
+      "confirmationAction": "Apply exactly the proposed source diff after explicit human permission, then actual local callback acceptance checks; never send real payments.",
+      "decision": "unreviewed",
+      "comment": ""
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+[
+  {
+    "path": "counts/dark-640-200-x-auth-active-9.png",
+    "bytes": 37419,
+    "sha256": "ae53bac2d8783a769086dd3869dd21b8ba8d9b0cc1e7dd5262a6c4b2e400f7ab"
+  },
+  {
+    "path": "counts/dark-640-200-x-auth-active-99.png",
+    "bytes": 37107,
+    "sha256": "74926fe37044158c8037161aec25d627046d63fd8253285d638c6cdb083c62e3"
+  },
+  {
+    "path": "counts/shell-browser-results.json",
+    "bytes": 15966,
+    "sha256": "8553f7947026862a77a2210abefa074ba676e6c0a1282cc193f078acf2f280bb"
+  },
+  {
+    "path": "geometry/dark-1280-200-x-auth.png",
+    "bytes": 82370,
+    "sha256": "39ffcb2951999e109043137334de3d7707bcb90e3e7c54c7072aeba8f76a00a7"
+  },
+  {
+    "path": "geometry/dark-640-200-instagram.png",
+    "bytes": 14258,
+    "sha256": "b9b33cd5f46926a60c7db8477e67309fc620c2a08b6c8c8cf64a6eb9fcd2c0a9"
+  },
+  {
+    "path": "geometry/dark-640-200-x-auth.png",
+    "bytes": 37101,
+    "sha256": "b8856cf0f0dd7ccf032fa20734dcef89acea77fb88f64b8482ac25c39bd55050"
+  },
+  {
+    "path": "geometry/dark-640-instagram-error.png",
+    "bytes": 25985,
+    "sha256": "9e3e22736103dec7d794d443ec7bebe04ea8b39644a33eacb3230ca5e495cc24"
+  },
+  {
+    "path": "geometry/dark-640-instagram-loading.png",
+    "bytes": 20980,
+    "sha256": "774f14ada64414055488bd3e9ab5ce8f7095028f46118fce5197bac8de3fdd42"
+  },
+  {
+    "path": "geometry/dark-640-reduced-long-labels.png",
+    "bytes": 25181,
+    "sha256": "2afb86a0b9fea1b6595210a7fc23913852ad3323429e2e0b7ac6e4ec17665bf2"
+  },
+  {
+    "path": "geometry/dark-640-x-auth.png",
+    "bytes": 39541,
+    "sha256": "ae2f8d3b2ea0d87e21c3ceecc967fd08d8f9bd673e1366ce246c25f80937c75c"
+  },
+  {
+    "path": "geometry/dark-800-rtl-200-x-auth.png",
+    "bytes": 57879,
+    "sha256": "8e6ce93ee90d9a29e03b62c8d2700d31065c2ae45c1287cd8a042d00b27c2bb1"
+  },
+  {
+    "path": "geometry/dark-800-rtl-x-auth.png",
+    "bytes": 40851,
+    "sha256": "c18dfd94699bd2be2978c30b3b06e3f9d65a1bb92ac2e6fe3f39df50cbbbd1ae"
+  },
+  {
+    "path": "geometry/dark-800-x.png",
+    "bytes": 8989,
+    "sha256": "cb5033919e520e4cbafa7d83433afb2b28a3927238a2af795ecd04436acfc94b"
+  },
+  {
+    "path": "geometry/dark-full-telegram.png",
+    "bytes": 182717,
+    "sha256": "22af8031b1a8b99a8ded1ee7e0abd1466972a9cc4377713e723f4e787d08b263"
+  },
+  {
+    "path": "geometry/light-800-telegram.png",
+    "bytes": 131667,
+    "sha256": "a430322572c9933b7473a256e84f12c128ddbfabf55dcfd625d395bdd0c16c14"
+  },
+  {
+    "path": "geometry/shell-browser-results.json",
+    "bytes": 85238,
+    "sha256": "5312333e8d7efd747c0001072911c12302772497f3cc7349bc9e01e105462b40"
+  },
+  {
+    "path": "integration/dark-full-telegram.png",
+    "bytes": 183008,
+    "sha256": "17f9700dd3d2bf0835c9de3bf31329721502ddc54000eae768182bb4cc5ae032"
+  },
+  {
+    "path": "integration/light-800-telegram.png",
+    "bytes": 132294,
+    "sha256": "23d1ef91e57e436ce521e41e384e6bf76319a720e4bb6e6af0e7970c9663872c"
+  },
+  {
+    "path": "integration/shell-browser-results.json",
+    "bytes": 10612,
+    "sha256": "455938d07f6dadec2b4ee67b7f28c79df305ef7bb0182d493f7d0ae332b914a7"
+  },
+  {
+    "path": "README.md",
+    "bytes": 5549,
+    "sha256": "5afa8cadff89d39489c6654572f5f2c47a1b425b0fd48c2ceb95c8b52f612acf"
+  },
+  {
+    "path": "shell-baseline-vitest.log",
+    "bytes": 273,
+    "sha256": "4bd764827df868b00ec26b968216cd878b329f80d10d2be10cb58f925f56b8da"
+  },
+  {
+    "path": "shell-browser-final.log",
+    "bytes": 370,
+    "sha256": "b513f75beea23f6c7e71e846ff992aa14875c82d6a5bebd64e4d36d2dc83d517"
+  },
+  {
+    "path": "shell-counts.log",
+    "bytes": 113,
+    "sha256": "e7003c8d97a8a9c8ff5ef2df146fdbef59a60a9ad9610038a7f1502d8870b645"
+  },
+  {
+    "path": "shell-drag-before.log",
+    "bytes": 1431,
+    "sha256": "4c0897193e3734ef4d2139aabac372fced1c51515674951c69e2272bb82260cb"
+  },
+  {
+    "path": "shell-eslint-final.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "shell-eslint-fix.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "shell-integration.log",
+    "bytes": 92,
+    "sha256": "2211bab3554d23788257b6c8675b88a30f31f0c4215a1cb26dbf1669b29da85d"
+  },
+  {
+    "path": "shell-stylelint-final.log",
+    "bytes": 338,
+    "sha256": "2619ebc8f6a1e4020f62868d97d97aa319eae8d6bcd411a46cfd8ff0f2adcd29"
+  },
+  {
+    "path": "shell-ts-main.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "shell-ts-script.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "shell-ts-test.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "shell-vitest-final.log",
+    "bytes": 271,
+    "sha256": "77d8339298de5a687a4066ded4e554060cc8df59797bf00714c916bc163d6dee"
+  },
+  {
+    "path": "source-hashes.json",
+    "bytes": 1498,
+    "sha256": "0943e174c6b283e2b64e232b6ec6b85ce409c9dfbc8327281d06c3bc9c1ccf23"
+  },
+  {
+    "path": "source.patch",
+    "bytes": 27821,
+    "sha256": "45f34f05b105077bd825662f5ecb583c6c5905a56faadc4207812acc8c9d6111"
+  },
+  {
+    "path": "verification.json",
+    "bytes": 4438,
+    "sha256": "3e17499409f37d1fdcc81f83dfd45c755071cb22d1464048ee08e3a3ad0701ad"
+  },
+  {
+    "path": "verify-shell-browser.mjs",
+    "bytes": 12173,
+    "sha256": "ac1259f2296cc6b5f1ff93f5cea5c86574bbb0c28001f81a9b47508070238793"
+  }
+]

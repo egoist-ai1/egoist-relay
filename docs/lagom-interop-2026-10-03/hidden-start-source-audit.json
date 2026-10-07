@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "state": "read_only_hidden_start_followup",
+  "recordedAt": "2026-10-03T13:53:46.784228+00:00",
+  "selectedProcess": {
+    "pid": 30140,
+    "bornAtUtc": "2026-10-03T13:40:39.7232030Z",
+    "exactInstalledPathVerified": true,
+    "actualHiddenArgumentPresent": true,
+    "commandLinePrinted": false
+  },
+  "rootObservation": {
+    "projectReceipt": "installed-process-readback.json",
+    "atUtc": "2026-10-03T13:42:56.8154954+00:00",
+    "mainVisible": true
+  },
+  "sourceFindings": [
+    {
+      "path": "tauri/src/lib.rs",
+      "line": 128,
+      "finding": "hidden argument included in should_avoid_foreground; creation visible/focused guarded at489/490"
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "line": 201,
+      "finding": "main.show only after ordinary second-instance, while incoming --start-hidden returns early at185"
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "line": 477,
+      "finding": "open_new_window show guarded"
+    },
+    {
+      "path": "tauri/src/tray/mod.rs",
+      "line": 137,
+      "finding": "main.show on explicit tray click/Open; required user opening path"
+    },
+    {
+      "path": "tauri/src/deeplink.rs",
+      "line": 28,
+      "finding": "main show/focus guarded"
+    },
+    {
+      "path": "tauri/src/multi_app.rs",
+      "line": 522,
+      "finding": "activate Telegram does not show main, guarded focus only"
+    },
+    {
+      "path": "tauri/src/multi_app.rs",
+      "line": 205,
+      "finding": "prewarm creates child with start_hidden true; Wry visible handles child HWND rather than parent"
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "line": 134,
+      "finding": "existing relay_control_status reports ENV background, not hidden argument or window visibility"
+    },
+    {
+      "path": "docs/lagom-interop-2026-10-03/generated-installer.nsi",
+      "line": 414,
+      "finding": "GUI RunMainBinary uses no args; silent/passive start only /R at763, which does not explain actual hidden-argument PID without other events"
+    }
+  ],
+  "frameworkReadback": {
+    "tao": "0.37.1",
+    "wry": "0.57.0",
+    "tauriRuntimeWry": "2.12.0",
+    "singleInstance": "2.4.3",
+    "singleInstanceAutomaticShowFound": false
+  },
+  "conclusion": "No automatic unguarded main.show found in bounded source audit; late visibility does not distinguish user opening from startup error without event history",
+  "hiddenStartupAcceptance": "argument_and_startup_verified_late_visibility_explained_by_user_opening",
+  "codeOrInstallerChanged": false,
+  "processActionsPerformed": false,
+  "systemNetworkOrServiceMutations": false,
+  "safeExistingControl": "WM_CLOSE on freshly verified own main HWND invokes hide/prevent_close; it preserves owned workers but does not certify initial hidden start",
+  "userClarification": {
+    "recordedAt": "2026-10-03T14:03:05.122486+00:00",
+    "source": "Direct human async reply in current task",
+    "answer": "Да, открывал сам",
+    "resolvedObservation": "The user opened the window after installation; later visible=true is not evidence of spontaneous foreground startup",
+    "doesNotProve": "No immediate post-start visibility or new Windows logon observation exists"
+  },
+  "currentConclusion": "Actual --start-hidden and Startup link are verified. User confirms opening the later visible window. No automatic visibility defect is established; no restart or code change is needed."
+}

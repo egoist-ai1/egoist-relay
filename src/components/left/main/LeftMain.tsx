@@ -93,10 +93,11 @@ const LeftMain: FC<OwnProps> = ({
   } = useForumPanelRender(isCommunityPanelOpen);
   const isCommunityPanelRendered = isCommunityPanelOpen && content === LeftColumnContent.ChatList;
 
+  const hasUpdate = IS_TAURI ? Boolean(tauriUpdate) : isAppUpdateAvailable;
   const {
     shouldRender: shouldRenderUpdateButton,
     transitionClassNames: updateButtonClassNames,
-  } = useShowTransitionDeprecated(isAppUpdateAvailable || Boolean(tauriUpdate));
+  } = useShowTransitionDeprecated(hasUpdate);
 
   const isMouseInsideRef = useRef(false);
 

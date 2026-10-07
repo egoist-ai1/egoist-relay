@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "state": "packed_payload_readback",
+  "recordedAt": "2026-10-03T13:28:50.228764+00:00",
+  "extractedWithoutExecution": true,
+  "archiveListExitCode": 0,
+  "extractExitCode": 0,
+  "candidateInstaller": {
+    "bytes": 570618798,
+    "sha256": "b521b6055d68bc930483b98b0952ae1a8c242f6d74511a1b76d380bcdaf6a2e8"
+  },
+  "builtExe": {
+    "bytes": 80960000,
+    "sha256": "f37412269dfbfa7bdcb1ad68efd71dcc21141e551828ba15d60d2ca29ac4e534",
+    "marker": "__TAURI_BUNDLE_TYPE_VAR_UNK",
+    "markerOccurrences": [
+      {
+        "offset": 80269104,
+        "value": "__TAURI_BUNDLE_TYPE_VAR_NSS"
+      },
+      {
+        "offset": 80269131,
+        "value": "__TAURI_BUNDLE_TYPE_VAR_UNK"
+      }
+    ]
+  },
+  "packedExe": {
+    "bytes": 80960000,
+    "sha256": "899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b",
+    "marker": "__TAURI_BUNDLE_TYPE_VAR_NSS",
+    "markerOccurrences": [
+      {
+        "offset": 80269104,
+        "value": "__TAURI_BUNDLE_TYPE_VAR_NSS"
+      },
+      {
+        "offset": 80269131,
+        "value": "__TAURI_BUNDLE_TYPE_VAR_NSS"
+      }
+    ]
+  },
+  "buildToPackedByteDifferences": {
+    "count": 3,
+    "offsets": [
+      80269155,
+      80269156,
+      80269157
+    ],
+    "onlyTauriBundleTypeMarker": true,
+    "strictSlotCheck": true
+  },
+  "installerContainsPrivateHandoff": false,
+  "packedFileEntries": [
+    "$PLUGINSDIR\\System.dll",
+    "$PLUGINSDIR\\modern-wizard.bmp",
+    "$PLUGINSDIR\\nsDialogs.dll",
+    "$PLUGINSDIR\\nsis_tauri_utils.dll",
+    "$PLUGINSDIR\\StartMenu.dll",
+    "$PLUGINSDIR\\modern-header.bmp",
+    "$TEMP\\MicrosoftEdgeWebView2RuntimeInstaller.exe",
+    "$PLUGINSDIR\\relay-stop-processes.ps1",
+    "$PLUGINSDIR\\nsExec.dll",
+    "Egoist Relay.exe",
+    "runtime\\NODE-LICENSE.txt",
+    "runtime\\licenses\\NODE-LICENSE.txt",
+    "runtime\\README.md",
+    "runtime\\YT-DLP-LICENSE.txt",
+    "runtime\\YT-DLP-THIRD-PARTY-LICENSES.txt",
+    "runtime\\licenses\\RELAY-GPL-LICENSE.txt",
+    "runtime\\media\\FFMPEG-BUILD-README.txt",
+    "runtime\\media\\FFMPEG-LICENSE.txt",
+    "runtime\\media\\ffmpeg.exe",
+    "runtime\\media\\ffprobe.exe",
+    "runtime\\node.exe",
+    "runtime\\research\\bridge-server.mjs",
+    "runtime\\research\\ensure-private-state.ps1",
+    "runtime\\research\\social-read.js",
+    "runtime\\transcription\\MODEL-LICENSE.txt",
+    "runtime\\transcription\\MSVC-BUILD-TOOLS-LICENSE.txt",
+    "runtime\\transcription\\MSVC-RUNTIME-LICENSE.txt",
+    "runtime\\transcription\\VAD-LICENSE.txt",
+    "runtime\\transcription\\WHISPER-LICENSE.txt",
+    "runtime\\transcription\\ggml-base.dll",
+    "runtime\\transcription\\ggml-cpu-alderlake.dll",
+    "runtime\\transcription\\ggml-cpu-cannonlake.dll",
+    "runtime\\transcription\\ggml-cpu-cascadelake.dll",
+    "runtime\\transcription\\ggml-cpu-haswell.dll",
+    "runtime\\transcription\\ggml-cpu-icelake.dll",
+    "runtime\\transcription\\ggml-cpu-sandybridge.dll",
+    "runtime\\transcription\\ggml-cpu-skylakex.dll",
+    "runtime\\transcription\\ggml-cpu-sse42.dll",
+    "runtime\\transcription\\ggml-cpu-x64.dll",
+    "runtime\\transcription\\ggml-silero-v6.2.0.bin",
+    "runtime\\transcription\\ggml-small-q5_1.bin",
+    "runtime\\transcription\\ggml.dll",
+    "runtime\\transcription\\msvcp140.dll",
+    "runtime\\transcription\\provenance.json",
+    "runtime\\transcription\\vcomp140.dll",
+    "runtime\\transcription\\vcruntime140.dll",
+    "runtime\\transcription\\vcruntime140_1.dll",
+    "runtime\\transcription\\whisper-cli.exe",
+    "runtime\\transcription\\whisper.dll",
+    "runtime\\yt-dlp.exe",
+    "$PLUGINSDIR\\relay-legacy-runtime.json",
+    "uninstall.exe"
+  ],
+  "metadataRepresentationCorrectedAt": "2026-10-03T13:42:04.525419+00:00"
+}

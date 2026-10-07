@@ -143,6 +143,7 @@ import { getServerTime } from '../../util/serverTime';
 import stopEvent from '../../util/stopEvent';
 import { getUtf8Length } from '../../util/textFormat';
 import windowSize from '../../util/windowSize';
+import { callApi } from '../../api/gramjs';
 import applyIosAutoCapitalizationFix from '../middle/composer/helpers/applyIosAutoCapitalizationFix';
 import buildAttachment, {
   buildGifAttachment,
@@ -961,6 +962,41 @@ const Composer = ({
   }, [aiMessageEditorPendingResult, chatId, clearDraft,
     clearAiMessageEditorPendingResult, saveDraft, threadId, updateRichMessage]);
 
+  const handleQuickTranslate = useLastCallback(async () => {
+    const currentValue = richEditor.getValue();
+    const formatted = getRichInputAsFormatted(currentValue);
+    if (!formatted || !formatted.text.trim()) {
+      showNotification({ message: 'Введите текст для перевода' });
+      return;
+    }
+
+    const hasCyrillic = /[а-яё]/i.test(formatted.text);
+    const targetLang = hasCyrillic ? 'en' : 'ru';
+
+    try {
+      showNotification({
+        message: targetLang === 'en' ? 'Перевод на английский...' : 'Перевод на русский...',
+      });
+      const result = await callApi('translateText', {
+        text: [formatted],
+        toLanguageCode: targetLang,
+      });
+
+      if (result && result.length > 0) {
+        const translatedFormatted = result[0];
+        updateRichMessage(buildRichMessageFromFormatted(translatedFormatted));
+        saveDraft({ chatId, threadId, text: translatedFormatted });
+        showNotification({
+          message: targetLang === 'en' ? 'Переведено на английский (EN)' : 'Переведено на русский (RU)',
+        });
+      } else {
+        showNotification({ message: 'Не удалось перевести текст' });
+      }
+    } catch {
+      showNotification({ message: 'Ошибка перевода' });
+    }
+  });
+
   const hasQuickReplies = Boolean(quickReplies && Object.keys(quickReplies).length);
 
   useDraft({
@@ -1354,7 +1390,7 @@ const Composer = ({
       ? getRichInputAsFormatted(currentRichMessage) : undefined;
     const { text, entities } = formattedRichMessage || { text: '' };
 
-    isInvertedMedia = text && sendCompressed && sendGrouped ? isInvertedMedia : undefined;
+    isInvertedMedia = text && sendCompressed ? isInvertedMedia : undefined;
 
     if (editingMessage) {
       editMessage({
@@ -1432,6 +1468,36 @@ const Composer = ({
         scheduledAt,
         scheduleRepeatPeriod,
         isInvertedMedia,
+      });
+    }
+  });
+
+  const handleDropFiles = useLastCallback(async (files: File[], isQuick?: boolean) => {
+    if (!files?.length) return;
+
+    if (editingMessage) {
+      handleFileSelect(files);
+      return;
+    }
+
+    if (!currentMessageList && !storyId) {
+      return;
+    }
+
+    const shouldCompress = isQuick !== undefined ? isQuick : attachmentSettings.shouldCompress;
+    const newAttachments = await Promise.all(
+      files.map((file) => buildAttachment(
+        file.name,
+        file,
+        { shouldSendInHighQuality: attachmentSettings.shouldSendInHighQuality },
+      )),
+    );
+
+    if (newAttachments.length) {
+      handleActionWithPaymentConfirmation(sendAttachments, {
+        attachments: newAttachments,
+        sendCompressed: shouldCompress,
+        sendGrouped: true,
       });
     }
   });
@@ -2563,7 +2629,7 @@ const Composer = ({
           isOpen={dropAreaState !== DropAreaState.None}
           withQuick={dropAreaState === DropAreaState.QuickFile || prevDropAreaState === DropAreaState.QuickFile}
           onHide={onDropHide!}
-          onFileSelect={handleFileSelect}
+          onFileSelect={handleDropFiles}
           editingMessage={editingMessage}
         />
       )}
@@ -2879,6 +2945,15 @@ const Composer = ({
                         iconName="cash-circle"
                       />
                     )}
+                    <Button
+                      round
+                      faded
+                      className="composer-action-button"
+                      color="translucent"
+                      onClick={handleQuickTranslate}
+                      ariaLabel="Перевести RU ⇄ EN"
+                      iconName="language"
+                    />
                     {Boolean(botKeyboardMessageId) && !activeRecording && !editingMessage && (
                       <>
                         <ResponsiveHoverButton
@@ -2930,6 +3005,17 @@ const Composer = ({
               isFrozen={isRecordingFinished}
               getProgress={getProgress}
               getPlaybackEl={renderedVideoRecording?.getPlaybackEl}
+            />
+          )}
+          {hasInputContent && (
+            <Button
+              round
+              faded
+              className="composer-action-button composer-translate-button"
+              color="translucent"
+              onClick={handleQuickTranslate}
+              ariaLabel="Перевести RU ⇄ EN"
+              iconName="language"
             />
           )}
           {((!isComposerBlocked || canSendGifs || canSendStickers) && !isNeedPremium && !isAccountFrozen) && (

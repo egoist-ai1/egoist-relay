@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-reels-telegram-share",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T12:06:31.0400494+00:00",
+  "state": "source_verified_package_pending",
+  "source": {
+    "file": "scripts/social-share-enhancer.js",
+    "beforeSha256": "4cb6b7ebaeeaaf961eca2aa7bdeeeeabe1f42344336588ce44a8f85870395023",
+    "afterSha256": "814f9c99aa491e0acbd10841be3eb8277f40d30f89ab11f8ca269353f197b856"
+  },
+  "harness": {
+    "file": "scripts/relay-social-share-reels.test.mjs",
+    "sha256": "4e17aa8b7db0cf8e8acfcf365171195508a8913588a732a13d8e8bf5a6f87119"
+  },
+  "before": {
+    "total": 26,
+    "pass": 12,
+    "fail": 14,
+    "pageErrors": 0
+  },
+  "helperAfter": {
+    "total": 30,
+    "pass": 30,
+    "fail": 0,
+    "pageErrors": 0
+  },
+  "recipientAfter": {
+    "total": 13,
+    "pass": 13,
+    "fail": 0,
+    "pageErrors": 0,
+    "unhandled": 0
+  },
+  "boundary": {
+    "original": "window.location.href = `egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`;",
+    "replacement": "window.__reelShareTransport.push(`egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`);",
+    "exactCount": 1,
+    "service": "instagram",
+    "token": "synthetic fixture token; no native token",
+    "label": "Отправить в Telegram"
+  },
+  "receiverSources": {
+    "src/components/App.tsx": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+    "src/components/multi/SocialShareModal.tsx": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4",
+    "src/components/multi/socialShare.ts": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a",
+    "src/components/common/RecipientPicker.tsx": "d2fe5e772e543226d452b7096da11fa17e8641915a340c0d108dc307c2c22810",
+    "src/components/common/pickers/ChatOrUserPicker.tsx": "17dd01cdd244907d1f87a2cbb607428f65cedf364a20400eaf079aa53ef0900e"
+  },
+  "evidence": [
+    {
+      "file": "reel-share-ui-before-final.json",
+      "sha256": "8645c018a43354f4451dbdf00d7f6a98b2fdd76e4d1788e70540fb40d1e3c5dd"
+    },
+    {
+      "file": "reel-share-ui-root-final.json",
+      "sha256": "cbf2cd723fef43c6a948d811247938c3d83cac590009a90f793a45cd240f5973"
+    },
+    {
+      "file": "reel-share-ui-receiver-root-final-startup.json",
+      "sha256": "1741a86c8a5f47cbc529ec8a39026f69d061c9f8d6a91c03c5bc6e9c7c801bf1"
+    }
+  ],
+  "implementation": [
+    "Discover Reels feed/detail/handle aliases and opened DM reel from visible video+own observed permalink, without requiring article.",
+    "Normalize own Instagram permalinks to native accepted canonical target; reject ambiguous/foreign/hidden/removed sources.",
+    "Prefer native actions, otherwise bounded44px floating button; preserve X native role group and original media URL selection.",
+    "Recompute context on trusted click; observe SPA/DOM/source/visibility/scroll changes; cleanup stale owned buttons and prevent duplicates.",
+    "Reuse existing native multi-social-share and actual recipient picker; original native transport assignment byte-identical."
+  ],
+  "limits": [
+    "Only synthetic locally fulfilled Instagram/X DOM and real Relay components verified; native WebView/platform UI after installation pending.",
+    "No accounts/cookies/private message inventory read, no real sends or account actions.",
+    "Helper30 and recipient13 are separate boundary checks, not one certified live end-to-end send.",
+    "Direct media availability depends on observed CDN source; blob-only playback may require link-mode fallback."
+  ],
+  "reviewObjects": [
+    {
+      "id": "reels-share-feed-dm",
+      "name": "Отправить Reels в Telegram",
+      "version": "1",
+      "content": "Кнопка появляется в ленте Reels, отдельном рилсе и открытом рилсе из личного сообщения, в том числе без article. Выбирает текущий ролик, а не соседнюю preview карточку. 30/30 helper cases,0ошибок.",
+      "confirmationAction": "Принять описанное исправление для новой версии Relay. Подтверждение не отправляет сообщения и не устанавливает пакет."
+    },
+    {
+      "id": "reels-share-recipient",
+      "name": "Выбор получателя и отмена",
+      "version": "1",
+      "content": "Существующий actual App→SocialShareModal→RecipientPicker: поиск, выбор, Cancel/Enter/Space и повторное нажатие,13/13. Подтверждение вызывает ровно один локальный mock callback; реальных сообщений0.",
+      "confirmationAction": "Принять описанное исправление для новой версии Relay. Подтверждение не отправляет сообщения и не устанавливает пакет."
+    },
+    {
+      "id": "reels-share-spa-context",
+      "name": "Переключение рилсов и корректная ссылка",
+      "version": "1",
+      "content": "DOM/source/permalink/action-row изменения обновляют кнопку. Hidden/offscreen/removed и ambiguous sources не отправляются; forged атрибуты не считаются owned кнопкой. Strict vendor origin и canonical normalization сохраняют native guard.",
+      "confirmationAction": "Принять описанное исправление для новой версии Relay. Подтверждение не отправляет сообщения и не устанавливает пакет."
+    },
+    {
+      "id": "reels-share-x-regression",
+      "name": "Сохранение отправки постов X",
+      "version": "1",
+      "content": "Четыре actual-helper X regression cases: role=group перед section, timestamp permalink/text, original photo и signed video source, untrusted0/no-action0. Новая обработка Reels сохраняет прежний X сценарий.",
+      "confirmationAction": "Принять описанное исправление для новой версии Relay. Подтверждение не отправляет сообщения и не устанавливает пакет."
+    }
+  ]
+}

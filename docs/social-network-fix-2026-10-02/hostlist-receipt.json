@@ -1,0 +1,25 @@
+{
+  "beforeSha256": "1A76F5D35CFFA3F35149A48A4AB9678494DE6580480A88DA72138BA0D5FDBF42",
+  "originalBytesPreserved": true,
+  "completedAt": "2026-10-02T01:09:52.3018416+00:00",
+  "target": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-general-user.txt",
+  "addedBytes": 106,
+  "domains": [
+    "x.com",
+    "twitter.com",
+    "twimg.com",
+    "t.co",
+    "instagram.com",
+    "cdninstagram.com",
+    "fbcdn.net"
+  ],
+  "systemDnsUnchanged": true,
+  "state": "applied",
+  "serviceXmlUnchanged": true,
+  "exclusionsUnchanged": true,
+  "startedAt": "2026-10-02T01:09:51.1181181+00:00",
+  "afterSha256": "5E0D3A8F5671782F9C742DFE80678E1ECF2BD2AC1A09D806F6C6082B6BBE800D",
+  "dohProfileUnchanged": true,
+  "servicePidUnchanged": true,
+  "schemaVersion": 1
+}

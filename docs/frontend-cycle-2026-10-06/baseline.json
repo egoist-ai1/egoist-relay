@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-06T09:45:14.035138+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "version": "1.5.0",
+  "branch": "codex/relay-media-operations",
+  "sourceCount": 2534,
+  "differencesFromDelivered150": [],
+  "baselineDirectory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\baseline-source",
+  "gitStatusEntries": 1598,
+  "liveAccountActions": false,
+  "uiRun": "pending",
+  "userIntent": "Full frontend cycle selected by user reply 2; visual direction pending",
+  "briefSha256": "b9d244f0bf5562d235817e1d91d28e4be4e02ed69dbeedc2ff82ee2599b0a3a9"
+}

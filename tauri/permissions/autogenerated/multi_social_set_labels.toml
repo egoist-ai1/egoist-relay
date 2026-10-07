@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-social-set-labels"
+description = "Enables the multi_social_set_labels command without any pre-configured scope."
+commands.allow = ["multi_social_set_labels"]
+
+[[permission]]
+identifier = "deny-multi-social-set-labels"
+description = "Denies the multi_social_set_labels command without any pre-configured scope."
+commands.deny = ["multi_social_set_labels"]

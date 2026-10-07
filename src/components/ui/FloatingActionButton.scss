@@ -26,4 +26,16 @@
     right: auto;
     left: 1rem;
   }
+
+  :global(.theme-dark) & {
+    color: #000000 !important;
+
+    .icon {
+      color: #000000 !important;
+    }
+
+    .Spinner [class*="inner"] {
+      background-image: var(--spinner-black-data) !important;
+    }
+  }
 }

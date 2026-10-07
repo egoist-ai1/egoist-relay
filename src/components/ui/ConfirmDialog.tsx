@@ -53,10 +53,13 @@ const ConfirmDialog: FC<OwnProps> = ({
   const containerRef = useRef<HTMLDivElement>();
 
   const handleSelectWithEnter = useCallback((index: number) => {
-    if (index === -1) confirmHandler();
-  }, [confirmHandler]);
+    if (index === -1 && document.activeElement === containerRef.current
+      && !confirmIsDestructive && !isConfirmDisabled) confirmHandler();
+  }, [confirmHandler, confirmIsDestructive, isConfirmDisabled]);
 
-  const handleKeyDown = useKeyboardListNavigation(containerRef, isOpen, handleSelectWithEnter, '.Button');
+  const handleKeyDown = useKeyboardListNavigation(
+    containerRef, isOpen, handleSelectWithEnter, '.Button:not(:disabled)', true,
+  );
 
   return (
     <Modal
@@ -76,12 +79,15 @@ const ConfirmDialog: FC<OwnProps> = ({
       <div
         className={areButtonsInColumn ? 'dialog-buttons-column' : 'dialog-buttons mt-2'}
         ref={containerRef}
+        tabIndex={-1}
+        autoFocus={confirmIsDestructive && isOnlyConfirm}
         onKeyDown={handleKeyDown}
       >
         <Button
           className="confirm-dialog-button"
           isText
           inline
+          noFastClick
           onClick={confirmHandler}
           color={confirmIsDestructive ? 'danger' : 'primary'}
           disabled={isConfirmDisabled}
@@ -90,7 +96,13 @@ const ConfirmDialog: FC<OwnProps> = ({
           {confirmLabel || lang('GeneralConfirm')}
         </Button>
         {!isOnlyConfirm && (
-          <Button className="confirm-dialog-button" isText onClick={onClose} autoFocus={confirmIsDestructive}>
+          <Button
+            className="confirm-dialog-button"
+            isText
+            noFastClick
+            onClick={onClose}
+            autoFocus={confirmIsDestructive}
+          >
             {lang('Cancel')}
           </Button>
         )}

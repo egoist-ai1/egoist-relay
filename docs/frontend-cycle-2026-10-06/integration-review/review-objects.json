@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-frontend-integration-review-2026-10-06",
+  "action": "Принять независимый review и его границы. Источники не меняются, публикация и непроверенные native/account области не подтверждаются.",
+  "objects": [
+    {
+      "id": "integration-reviewed-links",
+      "title": "Focus, geometry, message size, keyboard и theme lifecycle",
+      "target": "REVIEW.md#проверенные-связки",
+      "claim": "В перечисленных связках подтверждённых регрессий не найдено",
+      "response": null,
+      "comment": ""
+    },
+    {
+      "id": "integration-snapshot-boundary",
+      "title": "Граница frozen snapshot",
+      "target": "REVIEW.md#граница-заключения",
+      "claim": "Общий final patch/hashes нужно обновить после текущего root pass",
+      "response": null,
+      "comment": ""
+    },
+    {
+      "id": "integration-unverified",
+      "title": "Непроверенные области",
+      "target": "REVIEW.md#граница-заключения",
+      "claim": "Контраст Avatar/ProfilePhoto и native/live проверки не входят в заключение",
+      "response": null,
+      "comment": ""
+    }
+  ]
+}

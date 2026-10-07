@@ -1,0 +1,44 @@
+{
+  "generatedAt": "2026-10-02T03:22:43.919Z",
+  "summary": {
+    "total": 56,
+    "pass": 47,
+    "fail": 9,
+    "sourceComponents": 774,
+    "renderedEvidenceComponents": 28
+  },
+  "cases": [
+    {
+      "id": "slider-disabled-keyboard",
+      "sources": [
+        "src/components/ui/RangeSlider.tsx",
+        "src/components/left/settings/SettingsGeneralBackground.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Disabled range control changed through keyboard\n+ actual - expected\n\n+ [\n+   {\n+     disabledSlider: 51\n+   }\n+ ]\n- []\n",
+      "screenshot": "ui-visuals/failure-slider-disabled-keyboard.png",
+      "pageErrors": []
+    },
+    {
+      "id": "slider-readonly-keyboard",
+      "sources": [
+        "src/components/ui/RangeSlider.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Read-only range control changed through keyboard\n+ actual - expected\n\n+ [\n+   {\n+     readOnlySlider: 51\n+   }\n+ ]\n- []\n",
+      "screenshot": "ui-visuals/failure-slider-readonly-keyboard.png",
+      "pageErrors": []
+    },
+    {
+      "id": "slider-step-track-percentage",
+      "sources": [
+        "src/components/ui/RangeSlider.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: 50 of 100 must fill 50% even with step 2\n\n100 !== 50\n",
+      "screenshot": "ui-visuals/failure-slider-step-track-percentage.png",
+      "pageErrors": []
+    }
+  ],
+  "note": "Captured actual RangeSlider failures before guarded keyboard and normalized fill changes; remaining failures are separately triaged harness/context."
+}

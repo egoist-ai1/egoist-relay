@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-04T14:25:38.997Z",
+  "evidence": "Actual enhancer source, fully local HTML and synthetic video state; no first-party network/account or native share effects",
+  "cases": [
+    {
+      "id": "instagram-story-wheel-guards",
+      "sources": [
+        "scripts/instagram-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "syntheticWheel": true,
+        "screenshot": "ui-visuals/instagram-stories-enhancer-fullhd.png"
+      }
+    },
+    {
+      "id": "instagram-video-visibility-intent",
+      "sources": [
+        "scripts/instagram-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "state": {
+          "playing": {
+            "paused": false,
+            "plays": 1,
+            "pauses": 1
+          },
+          "paused": {
+            "paused": true,
+            "plays": 0,
+            "pauses": 0
+          }
+        },
+        "playback": "mocked property and play/pause callbacks; no real decoder/network"
+      }
+    },
+    {
+      "id": "x-video-visibility-intent",
+      "sources": [
+        "scripts/x-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "state": {
+          "playing": {
+            "paused": false,
+            "plays": 1,
+            "pauses": 1
+          },
+          "paused": {
+            "paused": true,
+            "plays": 0,
+            "pauses": 0
+          }
+        },
+        "playback": "mocked property and play/pause callbacks; no real decoder/network"
+      }
+    },
+    {
+      "id": "ig-srcset-signed-original",
+      "sources": [
+        "scripts/social-share-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "originalSelected": true,
+        "postTimestampPreferred": true,
+        "button": {
+          "label": "Передать в Telegram",
+          "width": 44,
+          "height": 44
+        },
+        "screenshot": "ui-visuals/enhancer-ig-srcset-signed-original-fullhd.png"
+      }
+    },
+    {
+      "id": "ig-srcset-malformed-fallback",
+      "sources": [
+        "scripts/social-share-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "originalSelected": true,
+        "postTimestampPreferred": true,
+        "button": {
+          "label": "Передать в Telegram",
+          "width": 44,
+          "height": 44
+        },
+        "screenshot": "ui-visuals/enhancer-ig-srcset-malformed-fallback-fullhd.png"
+      }
+    },
+    {
+      "id": "ig-srcset-mixed-descriptor",
+      "sources": [
+        "scripts/social-share-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "originalSelected": true,
+        "postTimestampPreferred": true,
+        "button": {
+          "label": "Передать в Telegram",
+          "width": 44,
+          "height": 44
+        },
+        "screenshot": "ui-visuals/enhancer-ig-srcset-mixed-descriptor-fullhd.png"
+      }
+    },
+    {
+      "id": "x-photo-original",
+      "sources": [
+        "scripts/social-share-enhancer.js"
+      ],
+      "status": "pass",
+      "detail": {
+        "originalSelected": true,
+        "postTimestampPreferred": true,
+        "button": {
+          "label": "Передать в Telegram",
+          "width": 44,
+          "height": 44
+        },
+        "screenshot": "ui-visuals/enhancer-x-photo-original-fullhd.png"
+      }
+    }
+  ]
+}

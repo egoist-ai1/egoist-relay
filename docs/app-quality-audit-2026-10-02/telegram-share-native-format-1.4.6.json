@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-telegram-share-native-format",
+  "version": "native-format-1.4.6-v1",
+  "generatedAt": "2026-10-02T14:28:26.836585+00:00",
+  "state": "source_verified_release_build_pending",
+  "candidateVersion": "1.4.6",
+  "productionSourceSha256": {
+    "src/components/multi/SocialShareModal.tsx": "501ebc7528fcf4aaee437517fcc5ec1767ecc6b82f4c017c08620b3a743893be",
+    "src/components/multi/SocialShareModal.module.scss": "1167b388fb9247f7626fe2441ead64eca64065cd551cb4da6a69c2d0c9d4889c",
+    "src/components/common/RecipientPicker.tsx": "f2ed1075e4de187e0a8003ce33c0bb0a586ccc94fc5b05b798ab3f4ed6d99aa9"
+  },
+  "testSourceSha256": {
+    "scripts/relay-social-share-reels.test.mjs": "a9e27f6c71ab51755630296f5dfd69bbac520526367fd06245fcbc1c32d755d7",
+    "scripts/relay-social-share-reels.fixture.tsx": "547fb7b65e4b38f81e2737c8c9903bcc1f65d2b6207eee5e1b2afc3eef0722b8"
+  },
+  "validation": {
+    "baselineReceiver": "13/13 passed",
+    "finalReceiver": {
+      "total": 20,
+      "pass": 20,
+      "fail": 0,
+      "pageErrors": 0,
+      "unhandled": 0
+    },
+    "sourcesUnchanged": true,
+    "mainTypeScriptExit": 0,
+    "fixtureTypeScriptExit": 0,
+    "eslintExit": 0,
+    "stylelintExit": 0,
+    "existingStylelintWarnings": 2,
+    "ownedBrowserCountAfter": 0,
+    "ownedListenerCountAfter": 0,
+    "shortHeightGeometry": {
+      "listBox": {
+        "x": 78.5,
+        "y": 242,
+        "width": 483,
+        "height": 70
+      },
+      "rowBox": {
+        "x": 88.5,
+        "y": 242,
+        "width": 463,
+        "height": 70
+      }
+    }
+  },
+  "behavior": [
+    "Existing native RecipientPicker/ShareWith title, recent contacts, folders and selected chat rows are reused.",
+    "Controlled single recipient selection retains the existing one-peer send backend.",
+    "Full-width Copy Link pill before selection and Send pill after selection; source preview/media modes/download/cancel/payment guards remain.",
+    "Short-height header/details scroll preserve a full70px row at640x560/root20 and reachable media-mode controls."
+  ],
+  "scope": {
+    "actualAppSyntheticSession": true,
+    "realMessages": 0,
+    "realPayments": 0,
+    "systemClipboardWrites": 0,
+    "copyBoundary": "document.execCommand(copy) is a local callback; original clipboard implementation never invoked.",
+    "sendBoundary": "Only socialShareRandomId sendMessageLocal/sendMessage stop at local callback.",
+    "remoteRequests": "Only localhost allowed.",
+    "nativeAccountVisualValidation": "pending",
+    "systemNetworkChanges": 0,
+    "productionInstallation": "not performed by this agent"
+  },
+  "evidence": [
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/css-accepted-final.log",
+      "sha256": "8b5b4018d63a285b4238247f9f6c7a1b2a33971873874438124f9bf639b541be",
+      "bytes": 286
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/receiver-final.log",
+      "sha256": "8b8e0a19ba9b64814e5b3225be8995b419c8adb4469c21413cb7d9cc1cdb783c",
+      "bytes": 974
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-before-native-format.json",
+      "sha256": "d2962335c85612af703e199a0773841c1689eaca7dd92235ea3cac625665774c",
+      "bytes": 17647
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-native-format-final-dark-fullhd.png",
+      "sha256": "1ded46adce6d991fa79879c7f2352f6dc7269464e8ab2da6ba55ef44549c5e52",
+      "bytes": 71088
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-native-format-final-light-fullhd.png",
+      "sha256": "bda92acc5dc3e2ff99da88ca72567eae948f7d0b30e8ed7425a6df970a2c9fd0",
+      "bytes": 68494
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-native-format-final-narrow-rtl-reduced.png",
+      "sha256": "43ae0fe1bb178412e4aad031293943fa8f1fdf2de63d7da2e0a8daef308f00ed",
+      "bytes": 61511
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-native-format-final-native-format-fullhd.png",
+      "sha256": "1ded46adce6d991fa79879c7f2352f6dc7269464e8ab2da6ba55ef44549c5e52",
+      "bytes": 71088
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-native-format-final-short-640-root20-media.png",
+      "sha256": "c93393c7208b364a7342b4f38490ff4fdeb4501e10f277db20cf6afaf75e5daa",
+      "bytes": 51412
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-native-format-final.json",
+      "sha256": "ef6de63f4c24471fae49e3552f8851d1b9e90919fde9b7e8bfd5acbfae08c67c",
+      "bytes": 25636
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-short-accepted.json",
+      "sha256": "38628758a9c77c19d7806097249ef67e2dd6a7d56ff00571b50ccf114c4c453f",
+      "bytes": 7538
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/reel-share-ui-receiver-short-isolate.json",
+      "sha256": "4fc0fc72404683dc4c20392045225380b1385672a55e146b66144afed4bd2906",
+      "bytes": 3709
+    },
+    {
+      "path": "docs/app-quality-audit-2026-10-02/telegram-share-native-format-1.4.6-evidence/tsconfig.fixture.final.json",
+      "sha256": "565aed28440e6f7626cd6f81eba439db935a43bab5593e2074ed7f72841fbd68",
+      "bytes": 2172
+    }
+  ],
+  "reviewObjects": [
+    {
+      "id": "relay-native-social-recipient-dialog",
+      "name": "Окно пересылки в оформлении Telegram",
+      "version": "native-format-1.4.6-v1",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "relay-native-social-link-copy",
+      "name": "Копирование ссылки и выбор одного получателя",
+      "version": "native-format-1.4.6-v1",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "relay-native-social-short-height",
+      "name": "Доступность списка и медиа-опций при коротком окне",
+      "version": "native-format-1.4.6-v1",
+      "decision": "unreviewed",
+      "comment": ""
+    }
+  ],
+  "reviewAction": "Подтверждение принимает конкретное изменение интерфейса. Решения нейтральны; этот отчёт не устанавливает пакет и не создаёт разрешение на установку."
+}

@@ -1,0 +1,26 @@
+{
+  "version": "1.4.5",
+  "state": "version_prepared",
+  "recordedAt": "2026-10-02T12:21:47.906Z",
+  "before": {
+    "package.json": "eb3606ae9a13bc24694348779add0ef88b9810866a042ac7445f487dd4cffc29",
+    "package-lock.json": "bba385536d1214c2120f39db22ec87106b1dcb6f626b376c879e61e8aed3a8a2",
+    "tauri/Cargo.toml": "d6a3a33c9b6e2fde4f586ed0d9c9750dc503cc2961f4105c599200ac75eba6c0",
+    "tauri/Cargo.lock": "3efa737d6dd911791b0da50ae3b33f27cf78c5f45ede5a9f256cb82157a446f1",
+    "public/version.txt": "d03d8b268b4171328ac2458ce8ca82d69a1fde38469d4e4faae4f8fa8d8a5e35",
+    "scripts/release-runtime-manifest.json": "004e4ddc52950255619c4437ff8b58d03602b5a4605a2668ca25538b483f9889"
+  },
+  "after": {
+    "package.json": "ff7d5af792914cfd08eb52b83db4bc94c432d611159371c2ed6c3f7f11b488dc",
+    "package-lock.json": "512388c5aaf36ec449e314051dfa1dbc10df73aab631850b41cba771db616090",
+    "tauri/Cargo.toml": "8fa8a761ede1acfa68917c440913184121e4c665ef59fb9ba901c432a4c57572",
+    "tauri/Cargo.lock": "6b1c7fb3eec4c1a2c00057064382df1e61e24f0c801d09d0220775caf5d5b3b0",
+    "public/version.txt": "f43a0292c674542a2d676a0f4f588a7ffbe1cbac25090df344b12ff1279f7820",
+    "scripts/release-runtime-manifest.json": "1d5f5fd6772406fd2d63583d4caed14917ae663e2cf7d412e30df4207427600a"
+  },
+  "runtimeFiles": 40,
+  "runtimeChangedPaths": [
+    "runtime/research/social-read.js"
+  ],
+  "installedVersionUnchanged": "1.4.2"
+}

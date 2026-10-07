@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-scenario-audit-2026-10-02",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "reviewObjects": [
+    {
+      "id": "ui-audit-range",
+      "name": "Недоступные настройки и точный прогресс ползунка",
+      "version": 1,
+      "content": "3 reproduced failures corrected; disabled/readOnly cannot change via keyboard, fill honors min/max and finite0/1-option bounds.",
+      "evidence": "ui-report.md;ui-before-fixes.json;ui-scenario-results.json",
+      "confirmationAction": "Принять проверенное изменение RangeSlider; настройки аккаунтов не выполняются."
+    },
+    {
+      "id": "ui-audit-dialog-keyboard",
+      "name": "Фокус, безопасное подтверждение и меню диалога",
+      "version": 2,
+      "content": "31 actual custom safety cases pass: Cancel/Keep/checkbox never call protected destructive handler; default native Button and Confirm activate once. Two active Modal owners retain exact Enter/Escape routing; AI keyboard language trigger and owned body portal work. Native/div menu keyboard callbacks execute once without modal callback; owned portal remains focusable, Escape closes menu first and returns focus. Disabled/hidden controls skipped and destructive default is Cancel/neutral.",
+      "evidence": "ui-report.md;ui-custom-modal-before.json;ui-custom-modal-additional-before.json;ui-custom-modal-after.json;ui-scenario-results.json;ui-keyboard-contract-results.json",
+      "confirmationAction": "Принять проверенные UI-исправления; это не запуск удаления или действия аккаунта."
+    },
+    {
+      "id": "ui-audit-theme-contrast",
+      "name": "Читаемые сообщения во всех11 темах",
+      "version": 1,
+      "content": "Actual RadioGroup selection/readback, solid body/reply/time and66 actual-component dark media overlays pass4.5 contrast; minimum4.762. Existing palette/layout/media kept.",
+      "evidence": "ui-report.md;ui-focus-theme-after-probe.json;ui-visuals/after-radio-theme-light-modern.png",
+      "confirmationAction": "Принять проверенное изменение локальных стилей сообщений."
+    },
+    {
+      "id": "ui-audit-coverage",
+      "name": "Покрытие и оставшиеся экраны",
+      "version": 1,
+      "content": "64 scenarios:63PASS/0FAIL/1fixturegate;125 route requests:109bodyrendered/16gates/0errors. 774 source entries are catalogued, not all functionally certified. Live accounts/uploads/auth/calls/physicalGPU remain separate gates.",
+      "evidence": "ui-report.md;ui-coverage-manifest.json;ui-grouped-route-results.json",
+      "confirmationAction": "Принять отчёт как проверенный объём и сохранить перечисленные gates для дальнейшего аудита; это не подтверждение полной готовности всех функций."
+    }
+  ]
+}

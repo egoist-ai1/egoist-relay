@@ -1,0 +1,52 @@
+{
+  "builtLength": 80405504,
+  "installedLength": 80405504,
+  "changedBytes": 3,
+  "peOffset": 232,
+  "bundleTokenOffset": 79738451,
+  "builtBundleToken": "__TAURI_BUNDLE_TYPE_VAR_UNK",
+  "installedBundleToken": "__TAURI_BUNDLE_TYPE_VAR_NSS",
+  "expectedPackagedHash": "4794383e37bde5fbc3b41d043a01facb9f48fb7f1c9cca847e9078c2ab313478",
+  "installedHash": "4794383e37bde5fbc3b41d043a01facb9f48fb7f1c9cca847e9078c2ab313478",
+  "exactNsisPatchMatch": true,
+  "checksumOffset": 320,
+  "ranges": [
+    {
+      "start": 79738475,
+      "end": 79738477,
+      "section": ".rdata"
+    }
+  ],
+  "sections": [
+    {
+      "name": ".text",
+      "size": 5161984,
+      "start": 1024
+    },
+    {
+      "name": ".rdata",
+      "size": 74804224,
+      "start": 5163008
+    },
+    {
+      "name": ".data",
+      "size": 134656,
+      "start": 79967232
+    },
+    {
+      "name": ".pdata",
+      "size": 102400,
+      "start": 80101888
+    },
+    {
+      "name": ".rsrc",
+      "size": 116224,
+      "start": 80204288
+    },
+    {
+      "name": ".reloc",
+      "size": 84992,
+      "start": 80320512
+    }
+  ]
+}

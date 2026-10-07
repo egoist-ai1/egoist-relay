@@ -26,7 +26,7 @@ export default function useMediaWithLoadProgress(
   const isStreaming = IS_PROGRESSIVE_SUPPORTED && mediaFormat === ApiMediaFormat.Progressive;
   const mediaData = mediaHash
     ? (isStreaming && !noLoad ? mediaLoader.getProgressiveUrl(mediaHash)
-      : mediaLoader.getFromMemory(mediaHash)) : undefined;
+      : mediaLoader.getFromMemory(mediaHash, mediaFormat, isHtmlAllowed)) : undefined;
 
   const forceUpdate = useForceUpdate();
   const isSynced = useSelector(selectIsSynced);
@@ -80,12 +80,13 @@ export default function useMediaWithLoadProgress(
   }, [handleProgress, noLoad]);
 
   useEffect(() => {
+    if (!mediaHash) return undefined;
+    const release = mediaLoader.retainMedia(mediaHash, mediaFormat, isHtmlAllowed);
     return () => {
-      if (mediaHash) {
-        mediaLoader.removeCallback(mediaHash, id);
-      }
+      mediaLoader.removeCallback(mediaHash, id, mediaFormat, isHtmlAllowed);
+      release();
     };
-  }, [id, mediaHash]);
+  }, [id, mediaHash, mediaFormat, isHtmlAllowed]);
 
   return { mediaData, loadProgress };
 }

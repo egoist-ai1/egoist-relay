@@ -227,6 +227,10 @@ const Photo = <T,>({
     }
   }, [shouldAffectAppendix, fullMediaData, isOwn, isInSelectMode, isSelected, theme]);
 
+  const isSmall = Boolean(
+    layout !== 'fill' && size === 'inline' && width && height && (width < 240 || height < 176),
+  );
+
   const componentClassName = buildClassName(
     'media-inner',
     styles.frame,
@@ -234,6 +238,8 @@ const Photo = <T,>({
     size === 'pictogram' && styles.pictogram,
     !isUploading && !nonInteractive && 'interactive',
     (width === height || size === 'pictogram') && 'square-image',
+    isSmall && styles.smallMedia,
+    isSmall && 'small-media',
     className,
   );
 

@@ -1,0 +1,57 @@
+{
+  "phase": "final",
+  "parent": {
+    "bodyFlag": true,
+    "openCount": 1
+  },
+  "child": {
+    "bodyFlag": true,
+    "openCount": 2
+  },
+  "closedChild": {
+    "bodyFlag": true,
+    "openCount": 1,
+    "focus": ""
+  },
+  "reduced": {
+    "rootDuration": "0s",
+    "dialogDuration": "0s",
+    "ariaModal": "true",
+    "ariaLabelledBy": "modal-title-mutwx0yxqt6jvngmodk"
+  },
+  "closingReduced": {
+    "closingCount": 0,
+    "elementAtCenter": "mask-image-disabled ui-ready"
+  },
+  "closingNormal": {
+    "closingCount": 0,
+    "elementAtCenter": "mask-image-disabled ui-ready"
+  },
+  "smallScaled": {
+    "left": 48,
+    "right": 352,
+    "width": 304,
+    "viewport": 400,
+    "height": 320,
+    "viewportHeight": 448,
+    "scrollWidth": 302,
+    "clientWidth": 302
+  },
+  "sources": {
+    "src/components/ui/Modal.tsx": "174c7f786ca0786bf8aa4f3ccf25ecc413a13fb83bc29c3e80a543d693a18c52",
+    "src/components/ui/Modal.scss": "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32",
+    "src/components/gili/modal/Modal.tsx": "2e37525226b82f9d3f682b0f2760fbc9806f652c1501345b04332f92a1b565f5",
+    "src/util/openModalState.ts": "bb7c494735bec99c15a3c5e1b251a6d598e4cd8f7fedf43b4e5942ea9d432728",
+    "src/hooks/useShowTransition.ts": "435d64f50c44b3e042f16527e85177d6d78102a8952289fc0ab7acbec7ed0ddc"
+  },
+  "hashesUnchangedDuringRun": true,
+  "checks": {
+    "stackStateSurvivesChildClose": true,
+    "reducedMotionDisabled": true,
+    "reducedCloseCompletes": true,
+    "normalCloseCompletes": true,
+    "compactTextWithinViewport": true,
+    "dialogHasAccessibleTitle": true,
+    "hashesUnchanged": true
+  }
+}

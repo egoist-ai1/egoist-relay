@@ -1,19 +1,15 @@
 import {
-  memo, useCallback, useRef, useState,
+  memo, useCallback, useState,
 } from '../../lib/teact/teact';
 import { getActions } from '../../global';
 
 import type { TabState } from '../../global/types';
 
-import buildClassName from '../../util/buildClassName';
-
-import useKeyboardListNavigation from '../../hooks/useKeyboardListNavigation';
 import useLang from '../../hooks/useLang';
 import useOldLang from '../../hooks/useOldLang';
 
-import Button from '../ui/Button';
 import Checkbox from '../ui/Checkbox';
-import Modal from '../ui/Modal';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 export type OwnProps = {
   modal: TabState['isBrowserCloseConfirmationModalOpen'];
@@ -31,8 +27,6 @@ const BrowserCloseConfirmationModal = ({
 
   const [shouldSkipInFuture, setShouldSkipInFuture] = useState(false);
 
-  const containerRef = useRef<HTMLDivElement>();
-
   const onClose = useCallback(() => {
     closeBrowserCloseConfirmationModal({ shouldSkipInFuture });
   }, [shouldSkipInFuture]);
@@ -42,18 +36,14 @@ const BrowserCloseConfirmationModal = ({
     closeBrowserCloseConfirmationModal({ shouldSkipInFuture });
   }, [shouldSkipInFuture]);
 
-  const handleSelectWithEnter = useCallback((index: number) => {
-    if (index === -1) confirmHandler();
-  }, [confirmHandler]);
-
-  const handleKeyDown = useKeyboardListNavigation(containerRef, isOpen, handleSelectWithEnter, '.Button');
-
   return (
-    <Modal
-      className={buildClassName('confirm')}
+    <ConfirmDialog
       title={lang('CloseBrowserTabs')}
       isOpen={isOpen}
       onClose={onClose}
+      confirmLabel={oldLang('Confirm')}
+      confirmHandler={confirmHandler}
+      confirmIsDestructive
     >
       <p>{lang('AreYouSureCloseBrowserTabs')}</p>
       <Checkbox
@@ -62,24 +52,7 @@ const BrowserCloseConfirmationModal = ({
         checked={shouldSkipInFuture}
         onCheck={setShouldSkipInFuture}
       />
-      <div
-        className="dialog-buttons mt-2"
-        ref={containerRef}
-        onKeyDown={handleKeyDown}
-      >
-        <Button
-          className="confirm-dialog-button"
-          isText
-          onClick={confirmHandler}
-          color="danger"
-        >
-          {oldLang('Confirm')}
-        </Button>
-        <Button className="confirm-dialog-button" isText onClick={onClose}>
-          {oldLang('Cancel')}
-        </Button>
-      </div>
-    </Modal>
+    </ConfirmDialog>
   );
 };
 

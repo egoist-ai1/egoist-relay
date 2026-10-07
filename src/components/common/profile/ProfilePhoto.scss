@@ -42,6 +42,11 @@
     font-size: 10rem;
   }
 
+  &.saved-messages,
+  &.replies-bot-account {
+    color: var(--color-primary-text);
+  }
+
   .thumb {
     position: absolute;
     top: 0;

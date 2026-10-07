@@ -15,6 +15,7 @@ import captureEscKeyListener from '../../../util/captureEscKeyListener';
 import getPointerPosition from '../../../util/events/getPointerPosition';
 import { blobToFile, preloadImage } from '../../../util/files';
 import { resolveTransitionName } from '../../../util/resolveTransitionName';
+import trapFocus from '../../../util/trapFocus';
 import { REM } from '../../common/helpers/mediaDimensions';
 import { landGhostInMediaEditor, prepareMediaEditorGhost } from '../../mediaViewer/helpers/ghostAnimation';
 import {
@@ -420,6 +421,12 @@ const MediaEditor = ({
     initCanvas();
   }, [isOpen, imageUrl, renderCanvas, initCropState]);
 
+  useEffect(() => {
+    if (!isOpen || !shouldRender || !rootRef.current) return undefined;
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+    return trapFocus(rootRef.current, previousFocus);
+  }, [isOpen, shouldRender, rootRef]);
+
   // Esc key handler via captureEscKeyListener (participates in shared handler stack)
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -757,7 +764,14 @@ const MediaEditor = ({
 
   return (
     <Portal>
-      <div ref={rootRef} className={buildClassName(styles.root, isAwaitingGhostLanding && styles.landingGhost)}>
+      <div
+        ref={rootRef}
+        className={buildClassName(styles.root, isAwaitingGhostLanding && styles.landingGhost)}
+        role="dialog"
+        aria-modal
+        aria-label={lang('EditMedia')}
+        tabIndex={-1}
+      >
         <div ref={canvasAreaRef} className={styles.canvasArea}>
           <div className={buildClassName(styles.canvasContainer, isAwaitingGhostLanding && styles.hiddenForGhost)}>
             <canvas

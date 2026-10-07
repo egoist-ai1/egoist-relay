@@ -1,0 +1,11 @@
+.themeGroupTitle {
+  margin-block: 1rem 0.5rem;
+  padding-inline: 0.5rem;
+
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+
+  &:first-child { margin-block-start: 0; }
+}

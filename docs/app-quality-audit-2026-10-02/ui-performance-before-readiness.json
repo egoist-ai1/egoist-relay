@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T05:15:48.245Z",
+  "environment": {
+    "viewport": "1920x1080",
+    "transport": "existing MockClient/task-only native mocks",
+    "network": "all remote requests blocked",
+    "timingScope": "Headless browser observations on a shared host; no physical GPU/DPI/60fps claim"
+  },
+  "cases": [
+    {
+      "id": "fullhd-sequential-48-service-switches",
+      "status": "pass",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "detail": {
+        "switches": 48,
+        "elapsedMs": 4856,
+        "finalApp": "telegram"
+      }
+    }
+  ],
+  "errors": [],
+  "fatal": "TimeoutError: page.waitForSelector: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.Modal.open:has(#audit-name)') to be visible\u001b[22m\n\u001b[2m    61 × locator resolved to hidden <div tabindex=\"-1\" role=\"dialog\" class=\"Modal slim opacity-transition fast shown open\">…</div>\u001b[22m\n",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "errors": 0
+  }
+}

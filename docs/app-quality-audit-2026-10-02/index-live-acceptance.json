@@ -1,0 +1,585 @@
+{
+  "state": "verified",
+  "recordedAt": "2026-10-02T04:04:52.801Z",
+  "jobIds": [
+    "13340970-23a3-4abc-b738-2b7070c4679f",
+    "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+    "3c77733f-f629-4d1c-8a38-c2c9ef103f1b",
+    "8e9db0c3-eee4-4c53-b90b-98739008edbe",
+    "708f5d45-6d57-40d5-be8b-af61ea42d98f",
+    "daf03e0e-6795-47e6-a115-d362662c8d60",
+    "ed346049-694b-4574-9350-cdad2ec4a2c7",
+    "d2256ad2-2555-4de2-b90f-5bb013b74a06"
+  ],
+  "transport": "actual_mcp_stdio",
+  "platformCollection": false,
+  "queries": [
+    {
+      "query": "Telegram",
+      "expected": 7,
+      "returned": 7,
+      "pages": [
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "8e0d5e23d9e90a3df37553253e1de587588f5efa9492ba5f8830fbe2af01a07b",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "8e0d5e23d9e90a3df37553253e1de587588f5efa9492ba5f8830fbe2af01a07b",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "8e0d5e23d9e90a3df37553253e1de587588f5efa9492ba5f8830fbe2af01a07b",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 1,
+          "totalMatches": 7,
+          "snapshotSha256": "8e0d5e23d9e90a3df37553253e1de587588f5efa9492ba5f8830fbe2af01a07b",
+          "byteLimited": false,
+          "hasCursor": false
+        }
+      ],
+      "locatorsVerified": true,
+      "duplicateLocators": 0,
+      "elapsedMs": 144.0102999999997,
+      "observed": [
+        {
+          "jobId": "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+          "line": 3,
+          "contentSha256": "8672350b09a0c770ee4f0f8e10063472d2c4f6b4d3c8ef291d0aeb44314b490f",
+          "provider": "telegram",
+          "source": null
+        },
+        {
+          "jobId": "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+          "line": 2,
+          "contentSha256": "eae9644667ceab7e65d651e1ddf30b7627ba471fd5bdbd3885e9cb3672a1ee07",
+          "provider": "telegram",
+          "source": null
+        },
+        {
+          "jobId": "13340970-23a3-4abc-b738-2b7070c4679f",
+          "line": 1,
+          "contentSha256": "cd6eb6e8908eda17886cb8005f0cfe6cbc0d68f2bf3cc77d667a0d92817f0aa5",
+          "provider": "telegram",
+          "source": null
+        },
+        {
+          "jobId": "3c77733f-f629-4d1c-8a38-c2c9ef103f1b",
+          "line": 1,
+          "contentSha256": "25d1badb20d2090e3085411716a5e63a482c4f56fd3ec9eee14818850c1b0d92",
+          "provider": "telegram",
+          "source": "https://t.me/durov/548"
+        },
+        {
+          "jobId": "13340970-23a3-4abc-b738-2b7070c4679f",
+          "line": 3,
+          "contentSha256": "08d016ba244f8c7b7e6dcce571bd87c8bf25cba6dd4e8e4564e47abb73c76e67",
+          "provider": "telegram",
+          "source": null
+        },
+        {
+          "jobId": "13340970-23a3-4abc-b738-2b7070c4679f",
+          "line": 2,
+          "contentSha256": "1db6eb40bcfbc6eaaa484be5fda3bb3d7225adac7044cb63ef3772b259b66b65",
+          "provider": "telegram",
+          "source": null
+        },
+        {
+          "jobId": "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+          "line": 1,
+          "contentSha256": "280d9ee4bbadf73d078e0f7fefaf2da6f5363af2348f548b24c571f0b82091b9",
+          "provider": "telegram",
+          "source": null
+        }
+      ]
+    },
+    {
+      "query": "OpenAI",
+      "expected": 7,
+      "returned": 7,
+      "pages": [
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 1,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": false
+        }
+      ],
+      "locatorsVerified": true,
+      "duplicateLocators": 0,
+      "elapsedMs": 130.09360000000015,
+      "observed": [
+        {
+          "jobId": "d2256ad2-2555-4de2-b90f-5bb013b74a06",
+          "line": 1,
+          "contentSha256": "e53c2c9e9ac1782aab5aae865bfdca51fc6a983cc7244a70668c945f9817b906",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openai"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "line": 1,
+          "contentSha256": "afd734cc223992b00ee3e6515f2eb6bca52124fb3f2aa1cad97880703acb794a",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/erikankullberg/reel/Dd9Bpv1sQNR"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "line": 2,
+          "contentSha256": "8f427eec7306f6acd9b6b2557530abbefb58d3d49cda89a396987303a9c61d27",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openai/reel/Dd7wXSRJQ2b"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "line": 3,
+          "contentSha256": "ea750754599007e7fb53942534431a96fcb48008656faaed4e680e0aeb394c9f",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openaidevs/reel/Dd6_AKftSu6"
+        },
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "line": 1,
+          "contentSha256": "be5427fdcb53c9937ddeafde2a15f8c6da273f54d0edb3a877bb8ac5119bdf32",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj"
+        },
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "line": 2,
+          "contentSha256": "7cb7b2716a30a6dcf3f6de32e9041f68853b97e74fab7024a699812029c34444",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp"
+        },
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "line": 3,
+          "contentSha256": "045cbd5b7ec5e91d5ae4707a01f6ac2b73478164d904bb183fd2511b863ffc4b",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openai/reel/Daii7UapatI"
+        }
+      ]
+    },
+    {
+      "query": "\"OpenAI\"",
+      "expected": 7,
+      "returned": 7,
+      "pages": [
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 2,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": true
+        },
+        {
+          "state": "results",
+          "returned": 1,
+          "totalMatches": 7,
+          "snapshotSha256": "936ba643c6bc51f5648fe6686209a8b6be3cf1096ed3b74330125843c1c38b8c",
+          "byteLimited": false,
+          "hasCursor": false
+        }
+      ],
+      "locatorsVerified": true,
+      "duplicateLocators": 0,
+      "elapsedMs": 143.22440000000006,
+      "observed": [
+        {
+          "jobId": "d2256ad2-2555-4de2-b90f-5bb013b74a06",
+          "line": 1,
+          "contentSha256": "e53c2c9e9ac1782aab5aae865bfdca51fc6a983cc7244a70668c945f9817b906",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openai"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "line": 1,
+          "contentSha256": "afd734cc223992b00ee3e6515f2eb6bca52124fb3f2aa1cad97880703acb794a",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/erikankullberg/reel/Dd9Bpv1sQNR"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "line": 2,
+          "contentSha256": "8f427eec7306f6acd9b6b2557530abbefb58d3d49cda89a396987303a9c61d27",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openai/reel/Dd7wXSRJQ2b"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "line": 3,
+          "contentSha256": "ea750754599007e7fb53942534431a96fcb48008656faaed4e680e0aeb394c9f",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openaidevs/reel/Dd6_AKftSu6"
+        },
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "line": 1,
+          "contentSha256": "be5427fdcb53c9937ddeafde2a15f8c6da273f54d0edb3a877bb8ac5119bdf32",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj"
+        },
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "line": 2,
+          "contentSha256": "7cb7b2716a30a6dcf3f6de32e9041f68853b97e74fab7024a699812029c34444",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp"
+        },
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "line": 3,
+          "contentSha256": "045cbd5b7ec5e91d5ae4707a01f6ac2b73478164d904bb183fd2511b863ffc4b",
+          "provider": "instagram",
+          "source": "https://www.instagram.com/openai/reel/Daii7UapatI"
+        }
+      ]
+    },
+    {
+      "query": "relayauditabsentterm014243",
+      "expected": 0,
+      "returned": 0,
+      "pages": [
+        {
+          "state": "no_results",
+          "returned": 0,
+          "totalMatches": 0,
+          "snapshotSha256": "b4425122d70c1f25619ed1df398a1b3664bbaaeee94fe99fe1a290f75486571c",
+          "byteLimited": false,
+          "hasCursor": false
+        }
+      ],
+      "locatorsVerified": true,
+      "duplicateLocators": 0,
+      "elapsedMs": 34.863700000000335,
+      "observed": []
+    }
+  ],
+  "childPid": 18944,
+  "protocolVersion": "2025-11-25",
+  "tools": [
+    "social_index_jobs",
+    "social_search_index",
+    "social_status",
+    "social_capabilities",
+    "social_submit",
+    "social_job",
+    "social_cancel",
+    "telegram_join_chat"
+  ],
+  "daemonBefore": {
+    "pid": 9116,
+    "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3"
+  },
+  "corpus": [
+    {
+      "jobId": "13340970-23a3-4abc-b738-2b7070c4679f",
+      "provider": "telegram",
+      "state": "partial",
+      "count": 3,
+      "sourceSha256": "0a60d83c390ffa5e0d4210bb7d46824fe3d7926746d291d62aecf881cc1267b1"
+    },
+    {
+      "jobId": "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+      "provider": "telegram",
+      "state": "partial",
+      "count": 3,
+      "sourceSha256": "099183ad9aac4fd82fffb4a3e2f5090bf5adcf32491d4cecccbbab5d832ae029"
+    },
+    {
+      "jobId": "3c77733f-f629-4d1c-8a38-c2c9ef103f1b",
+      "provider": "telegram",
+      "state": "completed",
+      "count": 1,
+      "sourceSha256": "2ce8a7efdbbd31c23af11169c344d50cb5a93912f5867f6478f3d53aad61fa59"
+    },
+    {
+      "jobId": "8e9db0c3-eee4-4c53-b90b-98739008edbe",
+      "provider": "x",
+      "state": "partial",
+      "count": 3,
+      "sourceSha256": "4d2eabc55f5b3940a138b2d1a8202241221a1290e69ad8f28e3d3459340f81b3"
+    },
+    {
+      "jobId": "708f5d45-6d57-40d5-be8b-af61ea42d98f",
+      "provider": "x",
+      "state": "partial",
+      "count": 3,
+      "sourceSha256": "331571442aacd8ad3793f20b855b5f4e62c26dc1a58bd07b8a1d31261e540b68"
+    },
+    {
+      "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+      "provider": "instagram",
+      "state": "partial",
+      "count": 3,
+      "sourceSha256": "0b9a6bc1fae4a53dd5197e639a69f94e17f16977be005c299d0c07aedfd63ac0"
+    },
+    {
+      "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+      "provider": "instagram",
+      "state": "partial",
+      "count": 3,
+      "sourceSha256": "9d8d03061b33389b922c4bdb46510a53455f1d18c682982dad173cf9a7904e50"
+    },
+    {
+      "jobId": "d2256ad2-2555-4de2-b90f-5bb013b74a06",
+      "provider": "instagram",
+      "state": "completed",
+      "count": 1,
+      "sourceSha256": "9e94a5a74e914c358431a3c75346e8a1a87a408bd3aa90c581e0d4c718aac35c"
+    }
+  ],
+  "totalRecords": 20,
+  "index": {
+    "schemaVersion": 1,
+    "state": "indexed",
+    "jobs": [
+      {
+        "jobId": "13340970-23a3-4abc-b738-2b7070c4679f",
+        "state": "indexed",
+        "indexed": 3,
+        "incomplete": true,
+        "coverage": "channel",
+        "sourceSha256": "0a60d83c390ffa5e0d4210bb7d46824fe3d7926746d291d62aecf881cc1267b1",
+        "sourceBytes": 28101,
+        "missingFields": {
+          "id": 0,
+          "source": 3,
+          "timestamp": 0,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "1f9eb2cf-f299-4e84-ac33-9b89cc0f2609",
+        "state": "indexed",
+        "indexed": 3,
+        "incomplete": true,
+        "coverage": "channel",
+        "sourceSha256": "099183ad9aac4fd82fffb4a3e2f5090bf5adcf32491d4cecccbbab5d832ae029",
+        "sourceBytes": 35766,
+        "missingFields": {
+          "id": 0,
+          "source": 3,
+          "timestamp": 0,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "3c77733f-f629-4d1c-8a38-c2c9ef103f1b",
+        "state": "indexed",
+        "indexed": 1,
+        "incomplete": false,
+        "coverage": "channel",
+        "sourceSha256": "2ce8a7efdbbd31c23af11169c344d50cb5a93912f5867f6478f3d53aad61fa59",
+        "sourceBytes": 6189,
+        "missingFields": {
+          "id": 0,
+          "source": 0,
+          "timestamp": 0,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "8e9db0c3-eee4-4c53-b90b-98739008edbe",
+        "state": "indexed",
+        "indexed": 3,
+        "incomplete": true,
+        "coverage": "channel",
+        "sourceSha256": "4d2eabc55f5b3940a138b2d1a8202241221a1290e69ad8f28e3d3459340f81b3",
+        "sourceBytes": 4447,
+        "missingFields": {
+          "id": 0,
+          "source": 0,
+          "timestamp": 0,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "708f5d45-6d57-40d5-be8b-af61ea42d98f",
+        "state": "indexed",
+        "indexed": 3,
+        "incomplete": true,
+        "coverage": "platform_search",
+        "sourceSha256": "331571442aacd8ad3793f20b855b5f4e62c26dc1a58bd07b8a1d31261e540b68",
+        "sourceBytes": 4369,
+        "missingFields": {
+          "id": 0,
+          "source": 0,
+          "timestamp": 0,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+        "state": "indexed",
+        "indexed": 3,
+        "incomplete": true,
+        "coverage": "channel",
+        "sourceSha256": "0b9a6bc1fae4a53dd5197e639a69f94e17f16977be005c299d0c07aedfd63ac0",
+        "sourceBytes": 8351,
+        "missingFields": {
+          "id": 0,
+          "source": 0,
+          "timestamp": 3,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+        "state": "indexed",
+        "indexed": 3,
+        "incomplete": true,
+        "coverage": "channel",
+        "sourceSha256": "9d8d03061b33389b922c4bdb46510a53455f1d18c682982dad173cf9a7904e50",
+        "sourceBytes": 5846,
+        "missingFields": {
+          "id": 0,
+          "source": 0,
+          "timestamp": 3,
+          "text": 0,
+          "contentText": 0
+        }
+      },
+      {
+        "jobId": "d2256ad2-2555-4de2-b90f-5bb013b74a06",
+        "state": "indexed",
+        "indexed": 1,
+        "incomplete": false,
+        "coverage": "profile",
+        "sourceSha256": "9e94a5a74e914c358431a3c75346e8a1a87a408bd3aa90c581e0d4c718aac35c",
+        "sourceBytes": 5315,
+        "missingFields": {
+          "id": 0,
+          "source": 0,
+          "timestamp": 1,
+          "text": 0,
+          "contentText": 0
+        }
+      }
+    ],
+    "indexedRecords": 20,
+    "incomplete": true,
+    "revision": "1",
+    "limits": {
+      "jobsPerCall": 100,
+      "recordsPerJob": 1000,
+      "records": 1000000,
+      "sourceBytes": 134217728,
+      "batchBytes": 1073741824,
+      "lineBytes": 8388608,
+      "databaseBytes": 2147483648,
+      "reserveBytes": 67108864,
+      "queryBytes": 1024,
+      "terms": 32,
+      "resultsPerPage": 100,
+      "resultBytes": 81920,
+      "queuedCalls": 8
+    },
+    "elapsedMs": 76.95820000000003
+  },
+  "idempotent": {
+    "states": [
+      "unchanged",
+      "unchanged",
+      "unchanged",
+      "unchanged",
+      "unchanged",
+      "unchanged",
+      "unchanged",
+      "unchanged"
+    ],
+    "elapsedMs": 48.175399999999854
+  },
+  "maxFrameBytes": 23614,
+  "stderrBytes": 0,
+  "childExit": {
+    "code": 0,
+    "signal": null
+  },
+  "daemonAfter": {
+    "pid": 9116,
+    "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+    "queues": [
+      {
+        "provider": "telegram",
+        "queued": 0,
+        "running": null
+      },
+      {
+        "provider": "x",
+        "queued": 0,
+        "running": null
+      },
+      {
+        "provider": "instagram",
+        "queued": 0,
+        "running": null
+      }
+    ]
+  },
+  "daemonPreserved": true
+}

@@ -1,0 +1,622 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T02:00:00.805497+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "baselineVersion": "1.4.7",
+  "candidateVersion": "1.5.0",
+  "initialGitHead": "9ec2abd83846195b2217edb47d5d42e8a6cf64f2",
+  "branch": "codex/relay-media-operations",
+  "gitHeadIsProductBaseline": false,
+  "frozenActualFiles": 2457,
+  "excludedUnrelatedChanges": [
+    "Existing scripts/integrations tree was not edited in this cycle and is outside the initial frozen top-level script scope."
+  ],
+  "archiveSupplement": {
+    "path": "release/1.4.7/Egoist-Relay-1.4.7-sources.zip",
+    "sha256": "3259a7c92f1ef7daad460376c4dd01f7a5c548c6d660bbd1c69a774817cf7696",
+    "frozenFilesMatched": 2444,
+    "frozenFilesDifferentFromArchive": [
+      "src/util/browser/url.test.ts",
+      "scripts/media-proxy.test.mjs",
+      "scripts/relay-display-scale.test.mjs",
+      "scripts/relay-media-audit-file.test.mjs",
+      "scripts/relay-ui-additional-modals.test.mjs",
+      ".gitignore"
+    ],
+    "scope": "Supplement for lockfile/capability/generated files absent from initial text freeze; actual frozen working tree takes precedence."
+  },
+  "patch": "changes-from-1.4.7.patch",
+  "lineEndings": "Patch normalizes CRLF to LF; manifest hashes are exact bytes. Generated schema/permissions changes listed by hash, not expanded into patch. Binary runtime/assets, dist and docs outside this code patch.",
+  "changes": [
+    {
+      "path": "package-lock.json",
+      "status": "modified",
+      "beforeSha256": "f67f42e5e9cd7bc3b5dd08087cb844630c1282556977431caa3cd29f91a28a78",
+      "afterSha256": "eaf0d2024f2e4ecc315808f0a1ac404ac39abb679da4abaf85f94a851ca22cc9",
+      "beforeBytes": 525166,
+      "afterBytes": 525166,
+      "baselineProvenance": "verified-local-1.4.7-source-archive-supplement",
+      "generated": false
+    },
+    {
+      "path": "package.json",
+      "status": "modified",
+      "beforeSha256": "ed34c87a34a8180ea5cd9ff0dd791cf8c3a87b8adbeeafa35bfcb4b4f39eeacf",
+      "afterSha256": "7409c83f1ce1cc738f36854797ebd216bec500300a1d0400c39abf888bee9ae1",
+      "beforeBytes": 6867,
+      "afterBytes": 7267,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "public/version.txt",
+      "status": "modified",
+      "beforeSha256": "794d9bfd2d064be2041cba080923b3e39ba3bec84c35794780482852b5f4007e",
+      "afterSha256": "acb57a7135b2d7d6e665f67f056e21353023b93835f54def1ae523bf76f1bfb3",
+      "beforeBytes": 6,
+      "afterBytes": 6,
+      "baselineProvenance": "verified-local-1.4.7-source-archive-supplement",
+      "generated": false
+    },
+    {
+      "path": "scripts/inline-media-resolver.mjs",
+      "status": "modified",
+      "beforeSha256": "8e86ae8afb5ba82f8c94f29ca9d68f265d463c0bd4792d93d27d964637c4b1dd",
+      "afterSha256": "f0ad35be86099b9b8b78f46dbebbece7b0ccf3ac0ea80e83961f97687473592b",
+      "beforeBytes": 22227,
+      "afterBytes": 23109,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "scripts/relay-media-audit-file.test.mjs",
+      "status": "modified",
+      "beforeSha256": "0fe4b05831e7006d210b6ba8984958cc80ac30d963c000b634b36cecf3254dcf",
+      "afterSha256": "f49773f64cb724116b459b30ff18f84e80094f143c5700b1d34103c6e9db6ab0",
+      "beforeBytes": 14201,
+      "afterBytes": 14294,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "scripts/relay-operations-ui-audit.mjs",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "e1e1940f4f7fc9999376dd17346dbdc14e29b9e9b8557939585a3ee34c392a88",
+      "beforeBytes": 0,
+      "afterBytes": 30860,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "scripts/relay-ui-audit.server.mjs",
+      "status": "modified",
+      "beforeSha256": "7c3e04e3c93f10268ea52a316b8d0cb2c0f9ab5732eac88466a171477c894557",
+      "afterSha256": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+      "beforeBytes": 6506,
+      "afterBytes": 14041,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "scripts/social-media-fetch.test.mjs",
+      "status": "modified",
+      "beforeSha256": "c8da342a3d2c3755c02dc42a4237a3709b8869f6d178b92ff031082ad90b9f21",
+      "afterSha256": "eeddc6be7990bade50bfa8b915c39472b4dc670984605b1db2f7ad7eeb030554",
+      "beforeBytes": 15309,
+      "afterBytes": 15871,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/assets/localization/fallback.strings",
+      "status": "modified",
+      "beforeSha256": "8b84a0ef8c59cba349653f03d1f9c0db6e8d06e5ff5f885932c68c24ef699b67",
+      "afterSha256": "229b1411a275ff75d7ccf9fd8aeb3ea107ad5194821eaa728201595ec6e52692",
+      "beforeBytes": 199032,
+      "afterBytes": 206964,
+      "baselineProvenance": "verified-local-1.4.7-source-archive-supplement",
+      "generated": false
+    },
+    {
+      "path": "src/components/App.module.scss",
+      "status": "modified",
+      "beforeSha256": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+      "afterSha256": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+      "beforeBytes": 4244,
+      "afterBytes": 4767,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/App.tsx",
+      "status": "modified",
+      "beforeSha256": "dc3897c4bd92b65ce3f47d4d1d6eac2ee3b4ab0642a755436298c87697326740",
+      "afterSha256": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+      "beforeBytes": 34883,
+      "afterBytes": 42383,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/common/Titlebar.module.scss",
+      "status": "modified",
+      "beforeSha256": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+      "afterSha256": "141c78962718a67cc9c1e4d559b301adc5bc64524661b97acb6fd6036f81fe0b",
+      "beforeBytes": 4663,
+      "afterBytes": 5574,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/common/Titlebar.tsx",
+      "status": "modified",
+      "beforeSha256": "f75e649ab61c39bc21ec25924b77b2e3ee4d523e0115066428b223c5a203519b",
+      "afterSha256": "fedc8d16e4e12cb6e2a7f08049b8f9ceb89f5c57b0ad1288e6f656f35cc72c64",
+      "beforeBytes": 8720,
+      "afterBytes": 9770,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/main/DownloadManager.test.tsx",
+      "status": "modified",
+      "beforeSha256": "ee01fa0efca696ddaba3cbb485b01825c5e57f98bc3dfb6c62ee229637f402d9",
+      "afterSha256": "1f65ec13262e1f6f2ad3d428cd46383e463be4fb7c58a753f97aa0aee129533a",
+      "beforeBytes": 6807,
+      "afterBytes": 11194,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/main/DownloadManager.tsx",
+      "status": "modified",
+      "beforeSha256": "fb04e5cf1855f8eab9d310917625286539bd318028149153382c6707b09aa125",
+      "afterSha256": "87f3c6535411d678270ae9229b7b8dfac18d29e3971483c96fc45548ef065adc",
+      "beforeBytes": 4996,
+      "afterBytes": 6314,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/MediaOperationsPanel.module.scss",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+      "beforeBytes": 0,
+      "afterBytes": 4200,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/MediaOperationsPanel.tsx",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea",
+      "beforeBytes": 0,
+      "afterBytes": 20225,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/SocialShareModal.module.scss",
+      "status": "modified",
+      "beforeSha256": "1167b388fb9247f7626fe2441ead64eca64065cd551cb4da6a69c2d0c9d4889c",
+      "afterSha256": "ad37d12d5f19827eea276369c4cc61b9b8fdfcca482e3397fbd5d9d3881aafc3",
+      "beforeBytes": 4756,
+      "afterBytes": 5175,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/SocialShareModal.tsx",
+      "status": "modified",
+      "beforeSha256": "501ebc7528fcf4aaee437517fcc5ec1767ecc6b82f4c017c08620b3a743893be",
+      "afterSha256": "197b80d172604b80cecd84e6eee0f7554d3de93a8a8931ec87ec38458b9d6e39",
+      "beforeBytes": 19106,
+      "afterBytes": 18058,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/mediaOperationQueue.test.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "8592653b5da4f82943983b2abc4188a1aa10b5f57a87cd961d03cd169ff3512d",
+      "beforeBytes": 0,
+      "afterBytes": 2571,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/mediaOperationQueue.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "61efe53e159eb3d4c0f293258d390c4cdf222359a1bc5b689db63eb945f9d939",
+      "beforeBytes": 0,
+      "afterBytes": 1985,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/mediaOperations.test.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "d3f47188ec4a937d3121276c710c9230fe0dd6eacd94f0da4a13b880bf561728",
+      "beforeBytes": 0,
+      "afterBytes": 32145,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/mediaOperations.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+      "beforeBytes": 0,
+      "afterBytes": 17458,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/mediaOperations.types.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+      "beforeBytes": 0,
+      "afterBytes": 2825,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/socialShare.test.ts",
+      "status": "modified",
+      "beforeSha256": "bccf683061b59d09ad989e1344886094621abfb27e53ff9a961a27139c533581",
+      "afterSha256": "f01f973751f65dae534e3c81438a3aa8d0a32b96f526ddbc3ab2d89e1dd2afbe",
+      "beforeBytes": 5763,
+      "afterBytes": 9014,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/socialShare.ts",
+      "status": "modified",
+      "beforeSha256": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a",
+      "afterSha256": "65d39201995939d54948be33e93361c025f1d47f7fd71cca17200bc05acfaeea",
+      "beforeBytes": 11947,
+      "afterBytes": 13669,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/components/multi/socialShareErrors.ts",
+      "status": "modified",
+      "beforeSha256": "3bf3f69c1b8c4d60d724b5180d74961e744d9ea47225975fdc9b027ec1835549",
+      "afterSha256": "a35bf9761e31b1e00f8e7dabcef4bb3a4a659bca536ac8d6f83a8e656df8a6af",
+      "beforeBytes": 921,
+      "afterBytes": 962,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/types/language.d.ts",
+      "status": "modified",
+      "beforeSha256": "00d4cca6b0c59df037c4cd0001a7bb9992ed1bae285c2deefa3ff5035d57b83e",
+      "afterSha256": "8600dca3baa6606030b4ed8f84d48ba9bf2bb0581af6654090d8b5f9339daa3f",
+      "beforeBytes": 131489,
+      "afterBytes": 134130,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/util/localization/index.ts",
+      "status": "modified",
+      "beforeSha256": "cbf93c5f093c96312d982ce2fc2c04a8feebe62aa2be644b8a6da529605f5ed7",
+      "afterSha256": "5c64b68a51dc09371629e139ebfee5f4c51207d60bb6a0fb5aa99f45db7776b3",
+      "beforeBytes": 16059,
+      "afterBytes": 16696,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "src/util/localization/relayOperationsStrings.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "2392affc12d7b4c86b3a727bbfc946e447f1542f7e19cc7fcb8dc844172a18f7",
+      "beforeBytes": 0,
+      "afterBytes": 13497,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/util/tauri/mediaDownload.test.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "a68d2c8d60dfe2ffce7bee6d15d7f8f451bfbeb40bdd0cf16b47d0a5b425748f",
+      "beforeBytes": 0,
+      "afterBytes": 3070,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "src/util/tauri/mediaDownload.ts",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "0b167b6e557debc2da55b3e7870b56fe9f9aafc8718069bd3134f36f73729f95",
+      "beforeBytes": 0,
+      "afterBytes": 2609,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "tauri/Cargo.lock",
+      "status": "modified",
+      "beforeSha256": "7db29cc71c2f115c460ef7b893e0d6f05ced35e450eb39c7420f902996056cbd",
+      "afterSha256": "becba562d3edadc6245e3d9a7106e3bb48a905710dac166ea8ccde7706c04f13",
+      "beforeBytes": 167419,
+      "afterBytes": 167419,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "tauri/Cargo.toml",
+      "status": "modified",
+      "beforeSha256": "16e3764752aa00282073a7bc65a889dc8d741ca57a8ef1b799ee8216931be1ba",
+      "afterSha256": "17af4fa809bd1e4edaffc10277c98d3569846e8b8c277560a27a9f79e19aad22",
+      "beforeBytes": 1497,
+      "afterBytes": 1497,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "tauri/build.rs",
+      "status": "modified",
+      "beforeSha256": "b707b35023536eb2e3abb94159070f15ec5e26c84a9459d4d773207e841993d1",
+      "afterSha256": "1ae0a50bc2913380b757a4db68130063332d3bdca4a674abc6ac279d6e770493",
+      "beforeBytes": 3352,
+      "afterBytes": 3880,
+      "baselineProvenance": "verified-local-1.4.7-source-archive-supplement",
+      "generated": false
+    },
+    {
+      "path": "tauri/capabilities/media-operations.json",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "e6e778e5a0551a1e7798ef712f4f3c2c87691600bdb098579530a720e5276dc5",
+      "beforeBytes": 0,
+      "afterBytes": 633,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "tauri/capabilities/social-share.json",
+      "status": "modified",
+      "beforeSha256": "42edabb9afb2fc57af86373d27b14048e15fd7d15891e250361343f96aa5661b",
+      "afterSha256": "b06cffdb11047cedf2ec28ee2f176a23dd90f5ac4dc77a4807502350c679fec5",
+      "beforeBytes": 347,
+      "afterBytes": 407,
+      "baselineProvenance": "verified-local-1.4.7-source-archive-supplement",
+      "generated": false
+    },
+    {
+      "path": "tauri/gen/schemas/acl-manifests.json",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "e9d77d2788c784744b262bfe26baa4850f598c38129b5666349a1aeedcbc8079",
+      "beforeBytes": 0,
+      "afterBytes": 177089,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/gen/schemas/capabilities.json",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "ad9b8410d1b1864273da0f9e86269bd71a01f8c15439c3ec8b69ada16612138a",
+      "beforeBytes": 0,
+      "afterBytes": 3004,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/gen/schemas/desktop-schema.json",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "a1bab71da16aec04df25e8b03b5e215ce55799e9bc79080396134927311b5b0e",
+      "beforeBytes": 0,
+      "afterBytes": 465128,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/gen/schemas/windows-schema.json",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "a1bab71da16aec04df25e8b03b5e215ce55799e9bc79080396134927311b5b0e",
+      "beforeBytes": 0,
+      "afterBytes": 465128,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/multi_set_content_visible.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "f488e2df3927dcbf24edd9e327682eb57edb95a273c2ee2197e49ac673f75999",
+      "beforeBytes": 0,
+      "afterBytes": 450,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/multi_social_detach.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "87f20f003435a5b654bb7476b69ed29f3f779b8231fc72101a77ec40d43daba6",
+      "beforeBytes": 0,
+      "afterBytes": 414,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/multi_social_release.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "0cd59391ac2a0e2007974847f6eaeb6c3eb7ad6e4e085897e194f10c7a8a7902",
+      "beforeBytes": 0,
+      "afterBytes": 420,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/multi_social_restore.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "4b16d8e84b9e9b3921fbf476933a83f2a962ca4ff84d9c0a30b7112a998633ca",
+      "beforeBytes": 0,
+      "afterBytes": 420,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/multi_social_save_media.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "291e1832701f06fe17c0bd62ca894cafabf2b49c810dde7b562c0c94b22ff39d",
+      "beforeBytes": 0,
+      "afterBytes": 438,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/relay_media_download_file_name.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "014a5892b511c1ac6d36fe0ec70ee4ffe7e2774cfdb0c921a0b430974f399702",
+      "beforeBytes": 0,
+      "afterBytes": 480,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/relay_media_download_prepare.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "624f550d7f0deff60bd87b1d0e4c621f66682a1a4a395da666e9cf1128707c86",
+      "beforeBytes": 0,
+      "afterBytes": 468,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/relay_media_operation_action.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "b34d6bd8e6c95063aa61fc5ec11ef1c045ac3e83643c7ffe5b40c01a0511a5d3",
+      "beforeBytes": 0,
+      "afterBytes": 468,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/relay_media_operation_revision.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "9cdc57984f1111b4b638ee1848ce56d1903bbf6a2e7af0f1d31600b9572fa42c",
+      "beforeBytes": 0,
+      "afterBytes": 480,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/relay_media_operation_source.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "6370482305ecf1132469ee3a621e883c3de65161fbcc716a5904225216f46f0f",
+      "beforeBytes": 0,
+      "afterBytes": 468,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/permissions/autogenerated/relay_media_operations_list.toml",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "76fb9a46044152e724e1158ea2b4803413d10d4ab391d8c2555c7dfd3739de8e",
+      "beforeBytes": 0,
+      "afterBytes": 462,
+      "baselineProvenance": "new-file",
+      "generated": true
+    },
+    {
+      "path": "tauri/src/inline_media.rs",
+      "status": "modified",
+      "beforeSha256": "8d1c3bbac115530d373131a2f7fc0b6b018aa73c8b8a6e5cf7e2a32980609808",
+      "afterSha256": "decc4ce2f37904fc7e9afab34db9e93f8fb308cdbe6609fac2ea4cff0640a44c",
+      "beforeBytes": 29060,
+      "afterBytes": 42046,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "status": "modified",
+      "beforeSha256": "3519218eef435c4c32edc9b4d5987b1aa274508fa3c9c4964b6d6cb532c40506",
+      "afterSha256": "da46ddf9b0276fc703b65fd23cfd9fe50492cd1191fe8e9458dcfa9bbe8a86da",
+      "beforeBytes": 19010,
+      "afterBytes": 20374,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "tauri/src/media_operations.rs",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "9b8810ed018e1bedbcf78d5133f04ed2656eecd8111c280925199d49126942d3",
+      "beforeBytes": 0,
+      "afterBytes": 103555,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "tauri/src/multi_app.rs",
+      "status": "modified",
+      "beforeSha256": "2cb9744987ef5b9501174bdfa779b727ef4aca2bbb08b40d0fcac4dd46336476",
+      "afterSha256": "9fc172db4a62b0e04642626b2e59335cd8cb9648a01a7e88e84f70f59f6d7c3b",
+      "beforeBytes": 60963,
+      "afterBytes": 63421,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "tauri/src/multi_app_downloads.rs",
+      "status": "added",
+      "beforeSha256": null,
+      "afterSha256": "f0542f24be4e232dbf955edb1e1b3652a345ab62e670ec25552e3026e74d7a5a",
+      "beforeBytes": 0,
+      "afterBytes": 38121,
+      "baselineProvenance": "new-file",
+      "generated": false
+    },
+    {
+      "path": "tauri/src/social_share.rs",
+      "status": "modified",
+      "beforeSha256": "08ab590cca1e312022f681b6725ca014ed16de4444c28a6d5a9223ff908fa68f",
+      "afterSha256": "e090d2972ee72ac624a5346af150e0da23e3045b2027193b7f6300df1393fa9d",
+      "beforeBytes": 24124,
+      "afterBytes": 33839,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    },
+    {
+      "path": "tauri/src/system_proxy.rs",
+      "status": "modified",
+      "beforeSha256": "8815244a164b1b4dcb785fdfa255bd1fc4f38537b02984acfa831a2484aa5b3f",
+      "afterSha256": "43c24941f4a34d2b7fe06df8711c7d1eb013e46fd3c65be663ae1de24d1212ba",
+      "beforeBytes": 17268,
+      "afterBytes": 36479,
+      "baselineProvenance": "frozen-actual-working-tree",
+      "generated": false
+    }
+  ]
+}

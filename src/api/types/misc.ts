@@ -32,6 +32,7 @@ export interface ApiInitialArgs {
   isTestServerRequested?: boolean;
   accountIds?: string[];
   hasPasskeySupport?: boolean;
+  telegramTransportUrl?: string;
 }
 
 export type ApiPasskeyOption = {

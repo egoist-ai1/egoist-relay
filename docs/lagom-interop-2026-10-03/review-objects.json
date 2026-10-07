@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-lagom-interop-2026-10-03",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "version": "source-patch-v1",
+  "state": "full_installer_ready_for_root_installation",
+  "recordedAt": "2026-10-03T13:42:04.525419+00:00",
+  "objects": [
+    {
+      "id": "relay-private-handoff",
+      "name": "Чтение приватной пользовательской проекции Lagom",
+      "version": "source-patch-v1",
+      "content": "При недоступности защищённого config Relay читает только фиксированный per-user handoff schema1 с localhost, port и32hex secret; строгая форма/размер/обычный путь, zeroise buffers. Обычные boot/restart/toggle сохраняют credentials; ручная смена key/port требует обновления проекции.",
+      "evidence": "source-patch.diff; private-handoff-local.log",
+      "confirmationMeans": "Принять описание механизма и ограничений; без новой сетевой настройки или расширения ACL."
+    },
+    {
+      "id": "relay-owned-worker-recovery",
+      "name": "Стабильный адрес локального Telegram transport",
+      "version": "source-patch-v1",
+      "content": "Адаптер сохраняет локальный endpoint при ранней недоступности Lagom, перечитывает config для каждого нового TCP, ограничивает попытки/таймеры. Rust восстанавливает только собственный worker с прежними port/token; healthy streams не перезапускаются.",
+      "evidence": "source-patch.diff",
+      "confirmationMeans": "Принять изменение Relay; не требовать остановки служб или замены DNS."
+    },
+    {
+      "id": "relay-background-prewarm",
+      "name": "Фоновый старт и подготовка X/Instagram",
+      "version": "source-patch-v1",
+      "content": "--start-hidden не забирает фокус и сохраняет tray Open. Существующие hidden prewarm команды запускаются после регистрации listeners, ошибки независимы от Telegram. Автозапуск и реальная hidden-app проверка принадлежат отдельному авторизованному этапу Root.",
+      "evidence": "source-patch.diff; installation-semantics.md",
+      "confirmationMeans": "Принять описание source changes; не создавать новый checkbox или network/service task."
+    },
+    {
+      "id": "relay-evidence-limit",
+      "name": "Проверки и границы вывода",
+      "version": "source-patch-v1",
+      "content": "TypeScript/owned ESLint/8 существующих Vitest проверок/normal-user config+listener probe прошли. Общий lint имеет2 старые docs parse ошибки. Эти результаты не доказывают доставку всех аккаунтных операций, голос/WebRTC, всех CDNs или отсутствие внешних обрывов.",
+      "evidence": "source-checks.json; existing-vitest-results.json; eslint-whole-summary.json",
+      "confirmationMeans": "Принять проверяемый scope отчёта, без заявления о полном24/7 сертификате."
+    },
+    {
+      "id": "relay-full-installer",
+      "name": "Полный Relay 1.4.6 с подключением Lagom",
+      "version": "installer-b521b605-v1",
+      "content": "Штатный полный currentUser NSIS с embedded UI, прежними40 runtime и offline WebView2. Setup SHA256 b521b6055d68bc930483b98b0952ae1a8c242f6d74511a1b76d380bcdaf6a2e8; ожидаемый установленный EXE SHA256899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b. От опубликованных3307 inputфайлов изменены только4 порученных источника, исторический1.4.6 сохранён.",
+      "evidence": "release-ready.json; packed-payload-readback.json; native-embedded-assets.json; baseline-comparison.json",
+      "confirmationMeans": "Принять результат сборки и readback; установку выполняет Root по уже полученному разрешению, публикация отдельно."
+    }
+  ],
+  "responsesDefault": "unreviewed",
+  "parentBoardIntegration": "Root integrates these exact IDs/versions into its companion review board; no approval waiting for already authorized work",
+  "buildReceipt": "release-ready.json"
+}

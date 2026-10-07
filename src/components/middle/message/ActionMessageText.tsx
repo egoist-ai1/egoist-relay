@@ -125,7 +125,7 @@ const ActionMessageText = ({
               replyMessage,
               renderTextWithEntities({
                 text: formattedText.text,
-                entities: formattedText.entities,
+                entities: 'entities' in formattedText ? formattedText.entities : undefined,
                 asPreview: true,
               }),
               asPreview,

@@ -1,0 +1,353 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:35:51.643Z",
+  "evidence": "Actual App with existing synthetic MockClient; headless installed Edge; all remote traffic blocked; no physical native window, GPU, DPI or accounts tested",
+  "cases": [
+    {
+      "id": "dark-full-telegram",
+      "status": "pass",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "rem": 16,
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 1848,
+          "height": 40,
+          "right": 1920,
+          "bottom": 40
+        },
+        "sidebar": {
+          "x": 0,
+          "y": 0,
+          "width": 72,
+          "height": 1080,
+          "right": 72,
+          "bottom": 1080
+        },
+        "sidebarBackground": "rgb(0, 0, 0)",
+        "titlebarBackground": "rgb(0, 0, 0)",
+        "titlebarOverflow": false,
+        "controls": [
+          {
+            "label": "Загрузки и пересылки",
+            "box": {
+              "x": 1737,
+              "y": 0,
+              "width": 44,
+              "height": 39,
+              "right": 1781,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          },
+          {
+            "label": "Свернуть",
+            "box": {
+              "x": 1782,
+              "y": 0,
+              "width": 46,
+              "height": 39,
+              "right": 1828,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          },
+          {
+            "label": "Развернуть",
+            "box": {
+              "x": 1828,
+              "y": 0,
+              "width": 46,
+              "height": 39,
+              "right": 1874,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          },
+          {
+            "label": "Закрыть",
+            "box": {
+              "x": 1874,
+              "y": 0,
+              "width": 46,
+              "height": 39,
+              "right": 1920,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          }
+        ],
+        "serviceButtons": [
+          {
+            "app": "telegram",
+            "box": {
+              "x": 6,
+              "y": 52,
+              "width": 59,
+              "height": 64,
+              "right": 65,
+              "bottom": 116
+            },
+            "label": "Telegram",
+            "labelBox": {
+              "x": 10.96875,
+              "y": 92.34375,
+              "width": 49.0625,
+              "height": 14.296875,
+              "right": 60.03125,
+              "bottom": 106.640625
+            },
+            "isLabelContained": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "transition": "0.14s, 0.14s, 0.14s"
+          },
+          {
+            "app": "x",
+            "box": {
+              "x": 6,
+              "y": 124,
+              "width": 59,
+              "height": 64,
+              "right": 65,
+              "bottom": 188
+            },
+            "label": "X",
+            "labelBox": {
+              "x": 31.640625,
+              "y": 164.34375,
+              "width": 7.71875,
+              "height": 14.296875,
+              "right": 39.359375,
+              "bottom": 178.640625
+            },
+            "isLabelContained": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "transition": "0.14s, 0.14s, 0.14s"
+          },
+          {
+            "app": "instagram",
+            "box": {
+              "x": 6,
+              "y": 196,
+              "width": 59,
+              "height": 64,
+              "right": 65,
+              "bottom": 260
+            },
+            "label": "Instagram",
+            "labelBox": {
+              "x": 9.1875,
+              "y": 236.34375,
+              "width": 52.625,
+              "height": 14.296875,
+              "right": 61.8125,
+              "bottom": 250.640625
+            },
+            "isLabelContained": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "transition": "0.14s, 0.14s, 0.14s"
+          }
+        ],
+        "brand": {
+          "text": "Relay",
+          "font": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "display": "block"
+        }
+      },
+      "screenshot": "dark-full-telegram.png"
+    },
+    {
+      "id": "light-800-telegram",
+      "status": "pass",
+      "geometry": {
+        "viewport": {
+          "width": 800,
+          "height": 560
+        },
+        "rem": 16,
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 728,
+          "height": 40,
+          "right": 800,
+          "bottom": 40
+        },
+        "sidebar": {
+          "x": 0,
+          "y": 0,
+          "width": 72,
+          "height": 560,
+          "right": 72,
+          "bottom": 560
+        },
+        "sidebarBackground": "rgb(248, 248, 248)",
+        "titlebarBackground": "rgb(248, 248, 248)",
+        "titlebarOverflow": false,
+        "controls": [
+          {
+            "label": "Загрузки и пересылки",
+            "box": {
+              "x": 617,
+              "y": 0,
+              "width": 44,
+              "height": 39,
+              "right": 661,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          },
+          {
+            "label": "Свернуть",
+            "box": {
+              "x": 662,
+              "y": 0,
+              "width": 46,
+              "height": 39,
+              "right": 708,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          },
+          {
+            "label": "Развернуть",
+            "box": {
+              "x": 708,
+              "y": 0,
+              "width": 46,
+              "height": 39,
+              "right": 754,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          },
+          {
+            "label": "Закрыть",
+            "box": {
+              "x": 754,
+              "y": 0,
+              "width": 46,
+              "height": 39,
+              "right": 800,
+              "bottom": 39
+            },
+            "isReachable": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "background": "rgba(0, 0, 0, 0)",
+            "transition": "0.14s, 0.14s"
+          }
+        ],
+        "serviceButtons": [
+          {
+            "app": "telegram",
+            "box": {
+              "x": 6,
+              "y": 52,
+              "width": 59,
+              "height": 64,
+              "right": 65,
+              "bottom": 116
+            },
+            "label": "Telegram",
+            "labelBox": {
+              "x": 10.96875,
+              "y": 92.34375,
+              "width": 49.0625,
+              "height": 14.296875,
+              "right": 60.03125,
+              "bottom": 106.640625
+            },
+            "isLabelContained": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "transition": "0.14s, 0.14s, 0.14s"
+          },
+          {
+            "app": "x",
+            "box": {
+              "x": 6,
+              "y": 124,
+              "width": 59,
+              "height": 64,
+              "right": 65,
+              "bottom": 188
+            },
+            "label": "X",
+            "labelBox": {
+              "x": 31.640625,
+              "y": 164.34375,
+              "width": 7.71875,
+              "height": 14.296875,
+              "right": 39.359375,
+              "bottom": 178.640625
+            },
+            "isLabelContained": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "transition": "0.14s, 0.14s, 0.14s"
+          },
+          {
+            "app": "instagram",
+            "box": {
+              "x": 6,
+              "y": 196,
+              "width": 59,
+              "height": 64,
+              "right": 65,
+              "bottom": 260
+            },
+            "label": "Instagram",
+            "labelBox": {
+              "x": 9.1875,
+              "y": 236.34375,
+              "width": 52.625,
+              "height": 14.296875,
+              "right": 61.8125,
+              "bottom": 250.640625
+            },
+            "isLabelContained": true,
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "transition": "0.14s, 0.14s, 0.14s"
+          }
+        ],
+        "brand": {
+          "text": "Relay",
+          "font": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "display": "block"
+        }
+      },
+      "screenshot": "light-800-telegram.png"
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "errors": 0
+  }
+}

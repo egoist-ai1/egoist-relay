@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "state": "checks_have_failures",
+  "recordedAt": "2026-10-03T12:31:44.838111+00:00",
+  "checks": [
+    {
+      "name": "private-handoff-local",
+      "exitCode": 0,
+      "elapsedSeconds": 0.281,
+      "log": "private-handoff-local.log",
+      "logBytes": 107
+    },
+    {
+      "name": "existing-vitest",
+      "exitCode": 0,
+      "elapsedSeconds": 20.265,
+      "log": "existing-vitest.log",
+      "logBytes": 2144
+    },
+    {
+      "name": "eslint-whole",
+      "exitCode": 1,
+      "elapsedSeconds": 112.516,
+      "log": "eslint-whole.log",
+      "logBytes": 0
+    }
+  ],
+  "typescriptExitCode": 0,
+  "nodeSyntaxExitCode": 0,
+  "ownedLintFinalExitCode": 0,
+  "newTestsWritten": false,
+  "localReadAndTcpProbeOnly": true,
+  "externalNetworkProbes": false,
+  "systemSettingsChanged": false
+}

@@ -725,6 +725,16 @@ const ContextMenuContainer = ({
     closeMenu();
   });
 
+  const handleTranslateToLang = useLastCallback((toLanguageCode: string) => {
+    requestMessageTranslation({
+      chatId: message.chatId,
+      id: message.id,
+      toLanguageCode,
+      tone: currentTranslationTone,
+    });
+    closeMenu();
+  });
+
   const handleTranslateWithTone = useLastCallback((tone: TranslationTone) => {
     const { languageCode } = parseTranslationCacheKey(translationRequestLanguage!);
 
@@ -866,6 +876,7 @@ const ContextMenuContainer = ({
         onShowReactors={handleOpenReactorListModal}
         onReactionPickerOpen={handleReactionPickerOpen}
         onTranslate={handleTranslate}
+        onTranslateToLang={handleTranslateToLang}
         onTranslateWithTone={handleTranslateWithTone}
         onShowOriginal={handleShowOriginal}
         onSelectLanguage={handleSelectLanguage}

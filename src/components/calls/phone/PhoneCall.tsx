@@ -10,6 +10,7 @@ import type { ApiPhoneCall, ApiUser } from '../../../api/types';
 import {
   getStreams, IS_SCREENSHARE_SUPPORTED, switchCameraInputP2p, toggleStreamP2p,
 } from '../../../lib/vibecalls';
+import { getUserFullName } from '../../../global/helpers/users';
 import { selectTabState } from '../../../global/selectors';
 import { selectPhoneCallUser } from '../../../global/selectors/calls';
 import {
@@ -240,6 +241,8 @@ const PhoneCall = ({
     return undefined;
   }, [phoneCall?.reason, phoneCall?.state]);
 
+  const callerDisplayName = user ? getUserFullName(user) : '';
+
   return (
     <Modal
       isOpen={isOpen}
@@ -251,11 +254,15 @@ const PhoneCall = ({
       dialogClassName={buildClassName(isFullscreen && styles.fullscreenDialog)}
       dialogRef={containerRef}
     >
-      <Avatar
-        peer={user}
-        size="jumbo"
-        className={hasVideo || hasPresentation ? styles.blurred : ''}
-      />
+      <div className={styles.backgroundWrapper}>
+        <Avatar
+          peer={user}
+          size="jumbo"
+          className={buildClassName(styles.backgroundAvatar, (hasVideo || hasPresentation) && styles.blurred)}
+        />
+        <div className={styles.backgroundOverlay} />
+      </div>
+
       {phoneCall?.screencastState === 'active' && streams?.presentation
         && <video className={styles.mainVideo} muted autoPlay playsInline srcObject={streams.presentation} />}
       {phoneCall?.videoState === 'active' && streams?.video
@@ -291,6 +298,7 @@ const PhoneCall = ({
             iconName={isFullscreen ? 'smallscreen' : 'fullscreen'}
             onClick={handleToggleFullscreen}
             ariaLabel={lang(isFullscreen ? 'AccExitFullscreen' : 'AccSwitchToFullscreen')}
+            className={styles.headerButton}
           />
         )}
 
@@ -300,7 +308,7 @@ const PhoneCall = ({
           color="translucent"
           iconName="close"
           onClick={handleClose}
-          className={styles.closeButton}
+          className={buildClassName(styles.closeButton, styles.headerButton)}
         />
       </div>
       <div
@@ -314,10 +322,37 @@ const PhoneCall = ({
           {lang('CallEmojiKeyTooltip', user?.firstName).replace('%%', '%')}
         </div>
       </div>
-      <div className={styles.userInfo}>
-        <h1>{user?.firstName}</h1>
-        <span className={styles.status}>{callStatus || formatMediaDuration(timeElapsed || 0)}</span>
-      </div>
+
+      {!hasVideo && !hasPresentation ? (
+        <div className={styles.centerSection}>
+          <div className={styles.avatarWrapper}>
+            <div className={buildClassName(
+              styles.pulseRing, (isActive || isIncomingRequested || isOutgoingRequested) && styles.pulsing,
+            )}
+            />
+            <div className={buildClassName(
+              styles.pulseRingOuter, (isActive || isIncomingRequested || isOutgoingRequested) && styles.pulsingOuter,
+            )}
+            />
+            <Avatar
+              peer={user}
+              size="jumbo"
+              className={styles.centerAvatar}
+            />
+          </div>
+          <h1 className={styles.callerName}>{callerDisplayName}</h1>
+          <div className={styles.statusBadge}>
+            {isActive && <span className={styles.activeDot} />}
+            <span className={styles.statusText}>{callStatus || formatMediaDuration(timeElapsed || 0)}</span>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.userInfoFloating}>
+          <h1 className={styles.floatingName}>{callerDisplayName}</h1>
+          <span className={styles.floatingStatus}>{callStatus || formatMediaDuration(timeElapsed || 0)}</span>
+        </div>
+      )}
+
       <div className={styles.buttons}>
         <PhoneCallButton
           onClick={handleToggleAudio}

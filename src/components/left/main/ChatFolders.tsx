@@ -95,12 +95,13 @@ const ChatFolders = ({
     updateScrollState(activeList ?? undefined);
   }, [activeChatFolder, updateScrollState]);
 
+  const isRibbonOpen = isStoryRibbonShown !== false;
   const {
     ref,
     shouldRender: shouldRenderStoryRibbon,
     getIsClosing: getIsStoryRibbonClosing,
   } = useShowTransition({
-    isOpen: isStoryRibbonShown,
+    isOpen: isRibbonOpen,
     className: false,
     withShouldRender: true,
   });
@@ -114,7 +115,7 @@ const ChatFolders = ({
     });
   });
 
-  const { displayedFolders, folderTabs } = useFolderTabs({
+  const { folderTabs } = useFolderTabs({
     sidebarMode: false,
     noEmoticons: true,
     orderedFolderIds,
@@ -125,8 +126,6 @@ const ChatFolders = ({
     maxFolderInvites,
   });
 
-  const allChatsFolderIndex = displayedFolders?.findIndex((folder) => folder.id === ALL_FOLDER_ID);
-  const isInAllChatsFolder = allChatsFolderIndex === activeChatFolder;
   const isInFirstFolder = FIRST_FOLDER_INDEX === activeChatFolder;
 
   const openFolder = useLastCallback((index: number) => {
@@ -227,15 +226,19 @@ const ChatFolders = ({
     withShouldRender: true,
   });
 
-  function renderCurrentTab(isActive: boolean) {
-    const activeFolder = Object.values(chatFoldersById)
-      .find(({ id }) => id === folderTabs![activeChatFolder].id);
-    const isFolder = activeFolder && !isInAllChatsFolder;
+  function renderCurrentTab(isActive: boolean, isFrom?: boolean, currentKey?: number) {
+    const targetFolderIndex = currentKey !== undefined ? currentKey : activeChatFolder;
+    const folderTab = folderTabs?.[targetFolderIndex];
+    const isTargetAllChats = folderTab?.id === ALL_FOLDER_ID;
+    const targetFolder = Object.values(chatFoldersById)
+      .find(({ id }) => id === folderTab?.id);
+    const isFolder = targetFolder && !isTargetAllChats;
 
     return (
       <ChatList
+        key={folderTab ? folderTab.id : targetFolderIndex}
         folderType={isFolder ? 'folder' : 'all'}
-        folderId={isFolder ? activeFolder.id : undefined}
+        folderId={isFolder ? targetFolder.id : undefined}
         isActive={isActive}
         isForumPanelOpen={isForumPanelOpen}
         foldersDispatch={foldersDispatch}
@@ -243,7 +246,7 @@ const ChatFolders = ({
         canDisplayArchive={(hasArchivedChats || hasArchivedStories) && !archiveSettings.isHidden}
         archiveSettings={archiveSettings}
         isFoldersSidebarShown={isFoldersSidebarShown}
-        isStoryRibbonShown={isStoryRibbonShown}
+        isStoryRibbonShown={isRibbonOpen}
         withTags
         onScroll={handleScroll}
       />

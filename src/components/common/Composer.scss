@@ -554,6 +554,23 @@
       color: white;
     }
 
+    :global(.theme-dark) & {
+      color: #000000 !important;
+      background: #FFFFFF !important;
+
+      .icon {
+        color: #000000 !important;
+      }
+
+      .paidStars {
+        color: #000000 !important;
+      }
+
+      &:hover {
+        background-color: #E2E2E2 !important;
+      }
+    }
+
     .icon-new-send {
       font-size: 1.75rem;
     }
@@ -866,14 +883,22 @@
       max-width: clamp(0px, 12rem, 25vw);
       height: var(--height);
       padding: 0 var(--padding-sides);
+      border: 1px solid rgba(0, 0, 0, 0.12);
       border-radius: calc(var(--height) / 2);
 
-      color: white !important;
+      color: #000000 !important;
       text-transform: none;
 
-      background: var(--color-primary) !important;
+      background: #FFFFFF !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
       /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
       transition: 0.25s ease-out width, 0.15s background-color;
+
+      .bot-menu-icon,
+      .bot-menu-text {
+        color: #000000 !important;
+        fill: #000000 !important;
+      }
 
       &.open {
         width: calc(var(--icon-width) + var(--icon-gap) + var(--bot-menu-text-width) + var(--padding-sides) * 2);
@@ -881,7 +906,14 @@
 
       @media (hover: hover) {
         &:hover {
-          background-color: var(--color-primary-shade) !important;
+          color: #000000 !important;
+          background-color: #F0F0F2 !important;
+
+          .bot-menu-icon,
+          .bot-menu-text {
+            color: #000000 !important;
+            fill: #000000 !important;
+          }
         }
       }
     }

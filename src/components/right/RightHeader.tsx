@@ -25,7 +25,6 @@ import {
   selectUser,
 } from '../../global/selectors';
 import { IS_TAURI } from '../../util/browser/globalEnvironment';
-import { IS_MAC_OS } from '../../util/browser/windowEnvironment';
 import buildClassName from '../../util/buildClassName';
 import { isUserId } from '../../util/entities/ids';
 
@@ -661,7 +660,7 @@ const RightHeader: FC<OwnProps & StateProps> = ({
   return (
     <div
       className={buildClassName('RightHeader', isSecondaryBackground && 'secondary')}
-      data-tauri-drag-region={IS_TAURI && IS_MAC_OS ? true : undefined}
+      data-tauri-drag-region={IS_TAURI ? true : undefined}
     >
       <Button
         className="close-button"

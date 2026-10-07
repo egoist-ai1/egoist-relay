@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-publication-1.6.1-404954317",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\publication-1.6.1\\Реестр.json",
+  "version": "1.6.1",
+  "createdAt": "2026-10-06T17:03:37.250028+00:00",
+  "items": [
+    {
+      "id": "installer-public",
+      "name": "Установщик1.6.1 опубликован",
+      "version": "1.6.1",
+      "content": "Готовый Windows x64 установщик доступен в GitHub prerelease relay-v1.6.1. Старые установщики сохранены.",
+      "evidence": "Asset616111149,567488354bytes; server SHA-256 совпал с frozen candidate. Public GET206 без авторизации, первые1024bytes совпали с EXE.",
+      "confirmationAction": "Зафиксировать принятие опубликованного результата. Подтверждение не создаёт новых публикаций или установок.",
+      "links": [
+        {
+          "name": "Скачать установщик",
+          "href": "https://github.com/egoist-ai1/egoist-relay/releases/download/relay-v1.6.1/Egoist-Relay-1.6.1-x64-setup.exe"
+        },
+        {
+          "name": "Сетевой receipt",
+          "href": "publication.json"
+        }
+      ]
+    },
+    {
+      "id": "release-boundaries",
+      "name": "Статус сборки и границы проверки",
+      "version": "1.6.1",
+      "content": "Выпуск предварительный и без цифровой подписи; updater отключён. Native PAC/live acceptance и полнота dependency source inventory не заявляются. Дополнительный source ZIP не загружен после отказа автоматической проверки.",
+      "evidence": "Точечные проверки и сборка1.6.1 сохранены в исходном отчёте. Публикация не запускала повторный полный набор тестов или сборку.",
+      "confirmationAction": "Принять описанный статус выпуска. Комментарии уточняют дальнейшую работу; это не разрешение на загрузку дополнительных файлов.",
+      "links": [
+        {
+          "name": "Отчёт публикации",
+          "href": "README.md"
+        },
+        {
+          "name": "Проверки hotfix",
+          "href": "../hotfix-1.6.1/README.md"
+        }
+      ]
+    }
+  ]
+}

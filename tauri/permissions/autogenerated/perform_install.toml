@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-perform-install"
+description = "Enables the perform_install command without any pre-configured scope."
+commands.allow = ["perform_install"]
+
+[[permission]]
+identifier = "deny-perform-install"
+description = "Denies the perform_install command without any pre-configured scope."
+commands.deny = ["perform_install"]

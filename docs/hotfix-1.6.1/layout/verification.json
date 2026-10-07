@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "baseline": "1.6.0 exact source bytes",
+  "candidate": "1.6.1",
+  "isolation": "Real App/Teact and existing MockClient; native effects mocked, remote requests blocked, fresh context",
+  "before": [
+    {
+      "id": "main-menu-surface",
+      "background": "rgba(0, 0, 0, 0)",
+      "token": "",
+      "pass": false
+    },
+    {
+      "id": "chat-preview-1100",
+      "rows": [
+        {
+          "name": "Сообщество игр",
+          "top": 253.390625,
+          "bottom": 385.390625,
+          "buttonHeight": 132,
+          "titles": [
+            {
+              "text": "Видео | Стримы с длинным названием",
+              "height": 80,
+              "lineHeight": 20,
+              "whiteSpace": "normal"
+            }
+          ]
+        },
+        {
+          "name": "Форум ремонта",
+          "top": 325.390625,
+          "bottom": 437.390625,
+          "buttonHeight": 112,
+          "titles": [
+            {
+              "text": "Тех Поддержка",
+              "height": 60,
+              "lineHeight": 20,
+              "whiteSpace": "normal"
+            }
+          ]
+        },
+        {
+          "name": "Тестовый магазин",
+          "top": 397.390625,
+          "bottom": 469.390625,
+          "buttonHeight": 72,
+          "titles": [],
+          "badge": {
+            "text": "Open",
+            "width": 60.671875,
+            "height": 28,
+            "whiteSpace": "pre-wrap"
+          }
+        },
+        {
+          "name": "SavedMessages",
+          "top": 469.390625,
+          "bottom": 549.390625,
+          "buttonHeight": 72,
+          "titles": []
+        }
+      ],
+      "forumPresent": 2,
+      "botPresent": true,
+      "singleLineTopics": false,
+      "compactBotButton": false,
+      "noRowOverlap": false,
+      "pass": false
+    },
+    {
+      "id": "chat-preview-800",
+      "rows": [
+        {
+          "name": "Сообщество игр",
+          "top": 269.390625,
+          "bottom": 381.390625,
+          "buttonHeight": 112,
+          "titles": [
+            {
+              "text": "Видео | Стримы с длинным названием",
+              "height": 60,
+              "lineHeight": 20,
+              "whiteSpace": "normal"
+            }
+          ]
+        },
+        {
+          "name": "Форум ремонта",
+          "top": 341.390625,
+          "bottom": 433.390625,
+          "buttonHeight": 92,
+          "titles": [
+            {
+              "text": "Тех Поддержка",
+              "height": 40,
+              "lineHeight": 20,
+              "whiteSpace": "normal"
+            }
+          ]
+        },
+        {
+          "name": "Тестовый магазин",
+          "top": 413.390625,
+          "bottom": 485.390625,
+          "buttonHeight": 72,
+          "titles": [],
+          "badge": {
+            "text": "Open",
+            "width": 60.671875,
+            "height": 28,
+            "whiteSpace": "pre-wrap"
+          }
+        },
+        {
+          "name": "SavedMessages",
+          "top": 485.390625,
+          "bottom": 565.390625,
+          "buttonHeight": 72,
+          "titles": []
+        }
+      ],
+      "forumPresent": 2,
+      "botPresent": true,
+      "singleLineTopics": false,
+      "compactBotButton": false,
+      "noRowOverlap": false,
+      "pass": false
+    }
+  ],
+  "after": [
+    {
+      "id": "main-menu-surface",
+      "background": "rgba(24, 24, 24, 0.96)",
+      "token": "#181818F5",
+      "pass": true
+    },
+    {
+      "id": "nested-menu-surfaces",
+      "backgrounds": [
+        "rgba(24, 24, 24, 0.96)",
+        "rgba(24, 24, 24, 0.96)"
+      ],
+      "pass": true
+    },
+    {
+      "id": "chat-context-surface",
+      "background": "rgba(24, 24, 24, 0.96)",
+      "pass": true
+    },
+    {
+      "id": "chat-preview-1100",
+      "rows": [
+        {
+          "name": "Сообщество игр",
+          "top": 253.390625,
+          "bottom": 325.390625,
+          "buttonHeight": 72,
+          "titles": [
+            {
+              "text": "Видео | Стримы с длинным названием",
+              "height": 20,
+              "lineHeight": 20,
+              "whiteSpace": "nowrap"
+            }
+          ]
+        },
+        {
+          "name": "Форум ремонта",
+          "top": 325.390625,
+          "bottom": 397.390625,
+          "buttonHeight": 72,
+          "titles": [
+            {
+              "text": "Тех Поддержка",
+              "height": 20,
+              "lineHeight": 20,
+              "whiteSpace": "nowrap"
+            }
+          ]
+        },
+        {
+          "name": "Тестовый магазин",
+          "top": 397.390625,
+          "bottom": 469.390625,
+          "buttonHeight": 72,
+          "titles": [],
+          "badge": {
+            "text": "Open",
+            "width": 52.671875,
+            "height": 22,
+            "whiteSpace": "nowrap"
+          }
+        },
+        {
+          "name": "SavedMessages",
+          "top": 469.390625,
+          "bottom": 549.390625,
+          "buttonHeight": 72,
+          "titles": []
+        }
+      ],
+      "forumPresent": 2,
+      "botPresent": true,
+      "singleLineTopics": true,
+      "compactBotButton": true,
+      "noRowOverlap": true,
+      "pass": true
+    },
+    {
+      "id": "chat-preview-800",
+      "rows": [
+        {
+          "name": "Сообщество игр",
+          "top": 269.390625,
+          "bottom": 341.390625,
+          "buttonHeight": 72,
+          "titles": [
+            {
+              "text": "Видео | Стримы с длинным названием",
+              "height": 20,
+              "lineHeight": 20,
+              "whiteSpace": "nowrap"
+            }
+          ]
+        },
+        {
+          "name": "Форум ремонта",
+          "top": 341.390625,
+          "bottom": 413.390625,
+          "buttonHeight": 72,
+          "titles": [
+            {
+              "text": "Тех Поддержка",
+              "height": 20,
+              "lineHeight": 20,
+              "whiteSpace": "nowrap"
+            }
+          ]
+        },
+        {
+          "name": "Тестовый магазин",
+          "top": 413.390625,
+          "bottom": 485.390625,
+          "buttonHeight": 72,
+          "titles": [],
+          "badge": {
+            "text": "Open",
+            "width": 52.671875,
+            "height": 22,
+            "whiteSpace": "nowrap"
+          }
+        },
+        {
+          "name": "SavedMessages",
+          "top": 485.390625,
+          "bottom": 565.390625,
+          "buttonHeight": 72,
+          "titles": []
+        }
+      ],
+      "forumPresent": 2,
+      "botPresent": true,
+      "singleLineTopics": true,
+      "compactBotButton": true,
+      "noRowOverlap": true,
+      "pass": true
+    },
+    {
+      "id": "message-context-surfaces",
+      "menuBackground": "rgba(24, 24, 24, 0.96)",
+      "reactionsBackground": null,
+      "pass": true
+    },
+    {
+      "id": "russian-mini-app-caption",
+      "label": "Открыть",
+      "width": 77.828125,
+      "height": 22,
+      "whiteSpace": "nowrap",
+      "pass": true
+    }
+  ],
+  "summary": {
+    "pageErrors": 0,
+    "passed": 7,
+    "total": 7
+  },
+  "notes": [
+    "Context menu sampled initially before lazy chunk completed; final probe waits for visible items",
+    "Russian caption uses real ChatBadge component/styles with synthetic DOM label because offline mock langpack uses English",
+    "Windows DPI/GPU/live profile not tested; reaction capsule not rendered in this fixture"
+  ],
+  "changedFiles": [
+    "src/styles/index.scss",
+    "src/components/common/ChatForumLastMessage.module.scss",
+    "src/components/left/main/ChatBadge.module.scss"
+  ],
+  "checks": {
+    "existingStylelintWarnings": 65,
+    "stylelintErrors": 0
+  }
+}

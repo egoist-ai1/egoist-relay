@@ -1,0 +1,12 @@
+{
+  "files": 33571,
+  "freeAfter": 7741075456,
+  "scope": "Own completed Cargo debug test artifacts and incremental cache; release cache/baseline/project/receipts retained",
+  "reparseCount": 0,
+  "bytesEnumerated": 7968411286.0,
+  "freeBefore": 516382720,
+  "target": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-rust-target\\debug",
+  "existsAfter": false,
+  "writerStatus": "Native111 tests completed; failed release build ended; no debug writer running",
+  "generatedAt": "2026-10-06T12:15:11.2844832Z"
+}

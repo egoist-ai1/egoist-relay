@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-10-02T11:36:05.755Z",
+  "finalSource": true,
+  "checks": [
+    {
+      "id": "production-typescript",
+      "status": "pass",
+      "exitCode": 0,
+      "elapsedMs": 41765,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "actual-fixture-typescript",
+      "status": "pass",
+      "exitCode": 0,
+      "elapsedMs": 45309,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "targeted-production-eslint",
+      "status": "pass",
+      "exitCode": 0,
+      "elapsedMs": 29326,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "full-scss-check",
+      "status": "pass",
+      "exitCode": 0,
+      "elapsedMs": 7029,
+      "stdout": "",
+      "stderr": "\nsrc/components/App.module.scss\n  171:3  ‼  Property \"text-wrap\" is not a widely available baseline feature.  plugin/use-baseline\n\nsrc/styles/index.scss\n    74:3   ‼  Property \"user-select\" is not a widely available baseline feature.                                           plugin/use-baseline\n    77:3   ‼  Property \"overscroll-behavior\" is not a widely available baseline feature.                                   plugin/use-baseline\n   104:1   ‼  Too many type selectors in \"*:not(i):not([class*=\"icon\"]):not(code):not(pre):not(kbd):not(samp)\", maximum 0  selector-max-type\n   108:1   ‼  Too many type selectors in \"input\", maximum 0                                                                selector-max-type\n   108:8   ‼  Too many type selectors in \"select\", maximum 0                                                               selector-max-type\n   108:16  ‼  Too many type selectors in \"textarea\", maximum 0                                                             selector-max-type\n   108:26  ‼  Too many type selectors in \"optgroup\", maximum 0                                                             selector-max-type\n   113:1   ‼  Too many type selectors in \"pre\", maximum ",
+      "findings": {
+        "problems": 509,
+        "errors": 0,
+        "warnings": 509,
+        "ownedMediaEditorStylesheetFindings": 0
+      }
+    },
+    {
+      "id": "fixture-server-syntax",
+      "status": "pass",
+      "exitCode": 0,
+      "elapsedMs": 47,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "fixture-runner-syntax",
+      "status": "pass",
+      "exitCode": 0,
+      "elapsedMs": 45,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

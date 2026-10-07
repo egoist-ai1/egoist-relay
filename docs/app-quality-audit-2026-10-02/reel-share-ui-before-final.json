@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "label": "before-final",
+  "generatedAt": "2026-10-02T11:36:09.472Z",
+  "helperSource": "scripts/social-share-enhancer.js",
+  "sourceSha256": "4cb6b7ebaeeaaf961eca2aa7bdeeeeabe1f42344336588ce44a8f85870395023",
+  "injectedSha256": "8c7a26ec6d88461543451af4a4cbe6ad4f8c18e6dac94fbc19adb86ac443957a",
+  "boundary": {
+    "original": "window.location.href = `egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`;",
+    "replacement": "window.__reelShareTransport.push(`egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`);",
+    "exactCount": 1,
+    "service": "instagram",
+    "token": "synthetic fixture token; no native token",
+    "label": "Отправить в Telegram"
+  },
+  "evidenceScope": "Actual helper bytes and DOM observer; trusted Playwright clicks. Only final native transport assignment mocked. HTTPS Instagram document fulfilled locally; all other network blocked. No account/session/native process.",
+  "blockedRequests": 30,
+  "errors": [],
+  "cases": [
+    {
+      "id": "reels-feed-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-reels-feed-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "single-reel-no-article",
+      "status": "pass",
+      "detail": {
+        "payload": {
+          "requestId": "ca648784-713b-4f12-8cea-febe3517a4a4",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelA123/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        },
+        "screenshot": "reel-share-ui-before-final-single-fullhd.png",
+        "noArticle": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      }
+    },
+    {
+      "id": "handle-reel-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-handle-reel-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "dm-dialog-own-reel-permalink",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-dm-dialog-own-reel-permalink.png",
+      "transports": []
+    },
+    {
+      "id": "dm-dialog-no-own-permalink-no-neighbor-share",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "native-action-sibling-group-preferred",
+      "status": "fail",
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button.egoistRelayShare')\u001b[22m\n",
+      "screenshot": "reel-share-ui-before-final-native-action-sibling-group-preferred.png",
+      "transports": []
+    },
+    {
+      "id": "floating-fallback-without-action-row",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-floating-fallback-without-action-row.png",
+      "transports": []
+    },
+    {
+      "id": "existing-article-post",
+      "status": "pass",
+      "detail": {
+        "articlePreserved": true
+      }
+    },
+    {
+      "id": "single-reel-current-url-fallback",
+      "status": "pass",
+      "detail": {
+        "currentRouteFallback": true
+      }
+    },
+    {
+      "id": "feed-two-independent-reels",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 2\n",
+      "screenshot": "reel-share-ui-before-final-feed-two-independent-reels.png",
+      "transports": []
+    },
+    {
+      "id": "feed-no-permalink-no-fallback",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "ambiguous-multiple-videos-no-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-final-ambiguous-multiple-videos-no-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "fc71313c-22a4-4fa2-b156-76a2d6bb7d7f",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              },
+              {
+                "url": "https://scontent.cdninstagram.com/AnotherVideo.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "hidden-video-no-wrong-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-final-hidden-video-no-wrong-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "c4d45fc6-5a17-426c-8779-f9357c956018",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "offscreen-video-no-wrong-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-final-offscreen-video-no-wrong-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "7e9e3187-afb2-4420-b2d1-9243bde02bfd",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "removed-video-no-stale-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-final-removed-video-no-stale-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "3614670e-9da0-4eb5-bc4f-ec7323050338",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "malicious-permalink-origin-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "malicious-article-permalink-origin-rejected",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-final-malicious-article-permalink-origin-rejected.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "5cef8724-e383-49d9-a2ad-1d58392177aa",
+            "service": "instagram",
+            "url": "https://evil.example/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "invalid-internal-double-slash-path-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "forged-sibling-cannot-suppress-owned-button",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-forged-sibling-cannot-suppress-owned-button.png",
+      "transports": []
+    },
+    {
+      "id": "malicious-page-origin-not-initialized",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0
+      }
+    },
+    {
+      "id": "untrusted-click-rejected",
+      "status": "pass",
+      "detail": {
+        "transportCount": 0,
+        "isTrusted": false
+      }
+    },
+    {
+      "id": "forged-data-attribute-not-authorized",
+      "status": "pass",
+      "detail": {
+        "forgedOwnership": false,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "spa-current-video-and-permalink-change",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-spa-current-video-and-permalink-change.png",
+      "transports": []
+    },
+    {
+      "id": "spa-action-row-replaced",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-final-spa-action-row-replaced.png",
+      "transports": []
+    },
+    {
+      "id": "mutation-no-duplicate-buttons",
+      "status": "pass",
+      "detail": {
+        "count": 1,
+        "transportCount": 1
+      }
+    },
+    {
+      "id": "label-update-registered-buttons",
+      "status": "pass",
+      "detail": {
+        "label": "Send to Telegram",
+        "geometry": {
+          "x": 157,
+          "y": 627,
+          "width": 44,
+          "height": 44
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 26,
+    "pass": 12,
+    "fail": 14,
+    "pageErrors": 0
+  }
+}

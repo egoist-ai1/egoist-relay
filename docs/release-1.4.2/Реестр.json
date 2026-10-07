@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-final-1.4.2",
+  "version": "1.4.2",
+  "createdAt": "2026-10-02T02:20:16.108Z",
+  "items": [
+    {
+      "id": "telegram-bot-management-layout",
+      "name": "Telegram: исправление панели управления ботом",
+      "version": 1,
+      "content": "Стили форматирования даты ограничены своим диалогом. Действия управления ботом располагаются отдельными строками; пояснение не сжимается в столбец. Проверены четыре ширины и оба направления текста.",
+      "action": "Принять исправление выделенного на скриншоте дефекта.",
+      "link": "evidence/manage-bot-after.png"
+    },
+    {
+      "id": "telegram-file-transfer",
+      "name": "Telegram: очередь, отмена и подтверждение передачи файлов",
+      "version": 1,
+      "content": "Повтор отправки читает байты части один раз; ошибка останавливает дальнейшую очередь. Отмена освобождает собственные worker/sender и pending RPC, соседние запросы сохраняются. Прогресс учитывает только true от Telegram. Убран потолок 4000 МиБ в выборе блока; лимит конфигурации аккаунта сохраняется. Тестовые файлы в пользовательские чаты не отправлялись.",
+      "action": "Принять проверенную реализацию передачи файлов.",
+      "link": "evidence/upload-after.json"
+    },
+    {
+      "id": "original-download-controls",
+      "name": "Кнопка «Скачать оригинал» и отмена",
+      "version": 1,
+      "content": "Встроенный плеер и окно пересылки сохраняют выбранные оригиналы в Downloads. Большой файл проходит файловый native канал, без полного буфера в интерфейсе. Скачивание не отправляет сообщения; отмена относится к своему ID.",
+      "action": "Принять новый доступный сценарий скачивания.",
+      "link": "evidence/inline-save-ui-fixture.json"
+    },
+    {
+      "id": "instagram-background-preload",
+      "name": "Instagram: загрузка видео в фоне",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "При переключении сервиса играющее видео приостанавливается и получает metadata вместо auto preload. Оригинальный preload сохраняется и восстанавливается для видимого видео при активации.",
+      "evidence": [
+        "evidence/instagram-ui-before.json",
+        "evidence/instagram-ui-after.json"
+      ],
+      "file": "scripts/instagram-enhancer.js",
+      "link": "../service-ui-audit-2026-10-02/coverage.json",
+      "action": "Принять показанное исправление интерфейса."
+    },
+    {
+      "id": "instagram-video-reparent",
+      "name": "Instagram: продолжение видео после перестройки страницы",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "Перемещение существующего video DOM node не сбрасывает факт паузы, поставленной Relay. Возобновляются только видео, которые Relay приостановил и которые остаются видимыми.",
+      "evidence": [
+        "evidence/instagram-ui-before.json",
+        "evidence/instagram-ui-after.json"
+      ],
+      "file": "scripts/instagram-enhancer.js",
+      "link": "../service-ui-audit-2026-10-02/coverage.json",
+      "action": "Принять показанное исправление интерфейса."
+    },
+    {
+      "id": "instagram-story-navigation",
+      "name": "Instagram: колесо мыши и доступная навигация историй",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "Колесо выбирает видимую доступную кнопку истории в viewport, пропускает inert/aria-hidden и не вмешивается в editable поля, комментарии со своим scroll, горизонтальные trackpad gestures и неактивный сервис.",
+      "evidence": [
+        "evidence/instagram-ui-before.json",
+        "evidence/instagram-ui-after.json",
+        "evidence/instagram-ui-edges.json"
+      ],
+      "file": "scripts/instagram-enhancer.js",
+      "link": "../service-ui-audit-2026-10-02/coverage.json",
+      "action": "Принять показанное исправление интерфейса."
+    },
+    {
+      "id": "x-video-dom-cleanup",
+      "name": "X: освобождение удалённых видео",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "После удаления video DOM node он удаляется из набора временно приостановленных видео, сохраняя воспроизведение для подключённых к документу узлов.",
+      "evidence": [
+        "evidence/x-ui-before.json",
+        "evidence/x-ui-after.json"
+      ],
+      "file": "scripts/x-enhancer.js",
+      "link": "../service-ui-audit-2026-10-02/coverage.json",
+      "action": "Принять показанное исправление интерфейса."
+    },
+    {
+      "id": "instagram-share-permalink",
+      "name": "Instagram: ссылка выбранного поста",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "При наличии caption ссылки на другой пост share prioritizes permalink, содержащий timestamp основного поста. Fallback для постов без timestamp сохранён. CDN whitelist и нативная проверка source не менялись.",
+      "evidence": [
+        "evidence/share-ui-before.json",
+        "evidence/share-ui-after.json"
+      ],
+      "file": "scripts/social-share-enhancer.js",
+      "link": "../service-ui-audit-2026-10-02/coverage.json",
+      "action": "Принять показанное исправление интерфейса."
+    },
+    {
+      "id": "media-original-file-save",
+      "name": "Оригиналы сохраняются через файл",
+      "version": 1,
+      "content": "Native save commands сохраняют в Downloads без передачи полного файла через IPC. Используются streaming-to-disk, bounded memory, dynamic свободное место, create_new и UUID против перезаписи, cancellation и finite worker deadline.",
+      "link": "../service-ui-audit-2026-10-02/coverage-media-optimization.json",
+      "action": "Принять показанное изменение загрузки медиа."
+    },
+    {
+      "id": "media-source-quality",
+      "name": "Видео без ограничения 720p и 10 минут",
+      "version": 1,
+      "content": "Best available source video/audio выбираются без height/duration фильтров Relay. Merge source streams выполняется без re-encoding. Live/DRM/source authentication остаются в рамках доступности сервиса.",
+      "link": "../service-ui-audit-2026-10-02/coverage-media-optimization.json",
+      "action": "Принять показанное изменение загрузки медиа."
+    },
+    {
+      "id": "media-photo-original",
+      "name": "Фото в максимальном наблюдаемом размере",
+      "version": 1,
+      "content": "X фото запрашивает name=orig, сохраняя identity и формат. Instagram выбирает самый большой корректный observed srcset candidate с provider CDN whitelist; signed query string остаётся неизменным. Для malformed/mixed descriptors действует validated currentSrc/src fallback.",
+      "link": "../service-ui-audit-2026-10-02/coverage-media-optimization.json",
+      "action": "Принять показанное изменение загрузки медиа."
+    },
+    {
+      "id": "media-request-efficiency",
+      "name": "Загрузка без лишнего metadata retry",
+      "version": 1,
+      "content": "Empty download не запускает второй extractor metadata request. Fragment loading использует bounded concurrency 4. Existing direct CDN pipeline использует один GET, без HEAD/probe/сжатия.",
+      "link": "../service-ui-audit-2026-10-02/coverage-media-optimization.json",
+      "action": "Принять показанное изменение загрузки медиа."
+    },
+    {
+      "id": "social-source-readiness",
+      "name": "Bounded source readiness and strict Instagram account proof",
+      "version": "Relay1.4.2",
+      "content": "Accept bounded source wait, exact stable failure codes, unique marked Profile+inbox identity checks and single-GET header validation; actual account pilots remain a separate gate.",
+      "link": "capabilities.md",
+      "action": "Принять показанный контракт исследовательских операций."
+    },
+    {
+      "id": "research-stream-flow",
+      "name": "Bounded streaming backpressure with responsive native commands",
+      "version": "Relay1.4.2",
+      "content": "Accept await-drain/finite-close helper delivery, off-main validated native reply wrappers, existing directory stat reuse and a consistent finite 500 media-ID task bound; wire protocol, byte budgets and safety checks remain.",
+      "link": "capabilities.md",
+      "action": "Принять показанный контракт исследовательских операций."
+    },
+    {
+      "id": "research-live-gates",
+      "name": "Per-operation coverage and live acceptance gates",
+      "version": "Relay1.4.2",
+      "content": "Accept the documented implementation matrix and pending actual source/media/cursor gates; do not treat registered operation names as universal account/source access.",
+      "link": "capabilities.md",
+      "action": "Принять показанный контракт исследовательских операций."
+    },
+    {
+      "id": "media-request-ownership",
+      "name": "Exact ownership of cancelled media requests",
+      "version": "Relay1.4.2",
+      "content": "Accept sender-owned queue/pending/recent cleanup only for signaled GetFile/SaveFilePart/SaveBigFilePart; preserve unrelated RPCs, shared connection, queue order and original wrapper errors.",
+      "link": "capabilities.md",
+      "action": "Принять показанный контракт исследовательских операций."
+    },
+    {
+      "id": "preserved-settings",
+      "name": "Сохранность DNS и Egoist Lagom",
+      "version": 1,
+      "content": "Общесистемные DNS, proxy, маршруты и адаптеры не менялись. Существующие DoH, зашифрованные профили Relay, XML службы, исключения и процессы Lagom сохраняются. Итоговая сверка после установки будет записана в installation.json.",
+      "action": "Подтвердить сохранность после просмотра итоговой сверки.",
+      "link": "installation.json"
+    }
+  ]
+}

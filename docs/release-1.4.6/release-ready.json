@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "state": "installed_verified_telegram_x_ready_instagram_mcp_pending",
+  "recordedAt": "2026-10-02T14:52:47.705Z",
+  "installedVersion": "1.4.6",
+  "canonicalInstaller": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/release/1.4.6/Egoist Relay_1.4.6_x64-setup.exe",
+  "installerSha256": "3f723548168e83278e80300a9e3876ef738590ef8c90f1a7d00dc78b099fcfdd",
+  "installerBytes": 570445845,
+  "exeSha256": "c7489e92a84eb8c691e90f39d6b88b7fed0d5dec412c1f0f0a79d7d340cfe4ab",
+  "runtimeCount": 40,
+  "productionInputCount": 3307,
+  "productionChanges": 4,
+  "versionMetadataChanges": 5,
+  "sourceFreezeSha256": "dab2c58d728c0836315ceae8465d21548a16b2ac6df23e9598a6f3025889e12b",
+  "tests": {
+    "vitestSuites": 26,
+    "vitestTests": 322,
+    "shareHelper": 30,
+    "railScenarios": 4,
+    "actualNativeRecipientScenarios": 20,
+    "nativeGuards": 11,
+    "typescriptConfigsPassed": 3
+  },
+  "networkPreservedDuringIsolatedSmoke": true,
+  "userRelayUnchangedDuringSmoke": true,
+  "productionInstalled": true,
+  "pendingActions": [
+    "Current Instagram MCP account proof remains pending; do not interpret UI login as a verified research bridge."
+  ],
+  "scope": "Installed final requested UI release: Reels alignment, Нравятся caption and native Telegram recipient dialog. Historical media/research evidence separate; broader exhaustive account/throughput certification not claimed.",
+  "normalUserExitConfirmed": true,
+  "productionInstallReceipt": "installation.json",
+  "liveVerificationReceipt": "live-verification.json",
+  "networkPreservedDuringProductionInstall": true,
+  "mcpDaemonCurrent": true,
+  "telegramAndXBridgeReady": true,
+  "instagramUiHumanConfirmed": true,
+  "instagramMcpReady": false
+}

@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-app-quality-types-2026-10-02",
+  "version": "3",
+  "createdAt": "2026-10-02T03:53:41.121Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "scope": "Typechecking intended Vitest source tests and their transitive project dependencies; runtime-identical production type annotations only.",
+  "environment": {
+    "node": "v24.19.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.11",
+    "environment": "jsdom"
+  },
+  "rootCauses": {
+    "timerHandleEnvironment": 20,
+    "missingTauriAugmentation": 20,
+    "teactFactoryReturnAnnotation": 4,
+    "telegramDecryptResultNarrowing": 5,
+    "partialCanvasFixture": 1,
+    "missingBrowserAiAmbientTypes": 4,
+    "progressMockGeneric": 1
+  },
+  "diagnostics": {
+    "before": 55,
+    "after": 0,
+    "tscMainExit": 0,
+    "tscTestExit": 0
+  },
+  "coverage": {
+    "beforeTestFileCount": 26,
+    "afterTestFileCount": 26,
+    "beforeProjectFileCount": 1720,
+    "afterProjectFileCount": 1721,
+    "removedProjectFiles": [],
+    "removedTestFiles": [],
+    "addedProjectFiles": [
+      "src/types/tauri.ts"
+    ],
+    "tests": [
+      "src/api/gramjs/apiBuilders/symbols.test.ts",
+      "src/components/common/Titlebar.test.tsx",
+      "src/components/main/DownloadManager.test.tsx",
+      "src/components/middle/message/InlineSocialMedia.test.tsx",
+      "src/components/middle/message/helpers/copyOptions.test.ts",
+      "src/components/multi/AppSidebar.test.tsx",
+      "src/components/multi/socialShare.test.ts",
+      "src/components/multi/socialShareErrors.test.ts",
+      "src/lib/gramjs/client/relay-media-audit-opfs.test.ts",
+      "src/lib/gramjs/client/relay-media-audit-sender.test.ts",
+      "src/lib/gramjs/client/relay-media-audit.test.ts",
+      "src/lib/gramjs/extensions/PromisedWebSockets.network.test.ts",
+      "src/lib/gramjs/helpers.test.ts",
+      "src/lib/gramjs/security.test.ts",
+      "src/util/browser/url.test.ts",
+      "src/util/clipboard.test.ts",
+      "src/util/documentClipboard.test.ts",
+      "src/util/documentPreview.test.ts",
+      "src/util/download.test.ts",
+      "src/util/inlineSocialMedia.test.ts",
+      "src/util/mediaLoader.test.ts",
+      "src/util/relay-media-audit-inline.test.ts",
+      "src/util/resolveInlineMedia.test.ts",
+      "src/util/tauri/appBounds.test.ts",
+      "src/util/tauri/deepLinks.test.ts",
+      "src/util/tauri/initTauriApi.test.ts"
+    ]
+  },
+  "runtime": {
+    "uniqueTestFiles": 7,
+    "uniquePassedTests": 101,
+    "rerunSubsetFiles": 2,
+    "rerunSubsetPassedTests": 54,
+    "note": "The 54 rerun cases are a subset of 101 and are not added to the unique total."
+  },
+  "lint": {
+    "fileCount": 16,
+    "errors": 0,
+    "warnings": 0,
+    "fullProject": {
+      "exitCode": 0,
+      "fileCount": 1862,
+      "errors": 0,
+      "warnings": 1,
+      "fatal": 0,
+      "durationMs": 4346,
+      "initialBeforeErrors": 27,
+      "initialBeforeEvidence": "types-eslint-retry.json",
+      "finalEvidence": "types-eslint-final.json",
+      "finalEvidenceSha256": "efb08da7d32310d708742f6323469b4b0b31924ab9b6e5d30daef83b16d29040",
+      "warningSuppressed": false
+    }
+  },
+  "runtimeErasure": {
+    "fileCount": 12,
+    "allIdentical": true,
+    "evidence": "types-production-erasure-proof.json"
+  },
+  "changes": [
+    {
+      "file": "tsconfig.test.json",
+      "sha256": "e7575315dabfc85c5b5e9e7eb42899bb909274725a25e0e2c448df609620a354",
+      "beforeSha256": "6e47e71fbb9880899548bd921a42e3c4f187b60a84f343e9c6c2fb6da37a0cba"
+    },
+    {
+      "file": "src/api/gramjs/updates/updateManager.ts",
+      "sha256": "0769c19b6190609b82db0e654e21663a6dea0e0d43d402a5d5011cf11debe3a8",
+      "beforeSha256": "cff97d85f6a9f42fb5edb7bfaa0ada7bfbc9cbe9992db4b29774b09f25562bab"
+    },
+    {
+      "file": "src/components/main/visualEffects/ConfettiContainer.tsx",
+      "sha256": "f12360e9688e7fd9afb21805634f86bcab815054f8e9f08be93060d56bf3e9f3",
+      "beforeSha256": "5c302cabd0720a5353f477aae997e5d16d4bfbd2e4b98ad2e408eedc71296b70"
+    },
+    {
+      "file": "src/components/middle/EmojiInteractionAnimation.tsx",
+      "sha256": "8a7ef8a7d1d9813dc619179a9d4889208cd37fef866bed7583da4c28a1cbe1f8",
+      "beforeSha256": "be944de3e792fdbd6d14b3910a5636dd64adebf4f08f62a9b4d13e1f0153f6bf"
+    },
+    {
+      "file": "src/components/middle/message/hooks/useOuterHandlers.ts",
+      "sha256": "077fedcf7ade537be003e7973f53206cc5f25716496791101f319a9beadccae3",
+      "beforeSha256": "6f61b10145563b6c55428399cb2e82540131dd89848cc78ffbc2d2a48cb66f77"
+    },
+    {
+      "file": "src/components/modals/browser/hooks/useWebAppFrame.ts",
+      "sha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a",
+      "beforeSha256": "56cf079f99dfcbab1fbb992a3ece642d22235587288f4a20f4adc9278392e612"
+    },
+    {
+      "file": "src/components/modals/browser/WebAppTab.tsx",
+      "sha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb",
+      "beforeSha256": "daca09cc2d0cb306f73f5477007606c2b4a74a43dca9f4ed7121e2578ad19ebc"
+    },
+    {
+      "file": "src/components/right/Profile.tsx",
+      "sha256": "bc5b74b7deea260473311ff716e84e51ff9dd455afb1908f05b46b06bac33c1a",
+      "beforeSha256": "abf07658f04efabae6c8eb084eedd9fb6d3544f403a4eb7f8b3bd260c2b9d190"
+    },
+    {
+      "file": "src/hooks/useMultiClick.ts",
+      "sha256": "8285dcbc1e8a1deb2a2dc25c2478c90c2e8734d36f1e6b0e3e2717a2876a0a42",
+      "beforeSha256": "d29782dd9bbb642c564a6a5776f70cdaa263a273a5166da6f5d4bd8ea8c39e93"
+    },
+    {
+      "file": "src/lib/gramjs/client/TelegramClient.ts",
+      "sha256": "e5ccdfd5175f3146fb4f9d6fd13031d1e54ada8b3f96ddcd021ba4fb9dc2b642",
+      "beforeSha256": "1883460f1698a1cc0a6c25d846a02f99b9cbfc8a6aa016490660448988c84c28"
+    },
+    {
+      "file": "src/util/websync.ts",
+      "sha256": "a1fac7f8590cd7e89c23e97f84b54f139b13b88b8c954a4ecb2dce0d2cefcfeb",
+      "beforeSha256": "c42b7ffb8318fb7e21a1de4a832c68dcc56e90ba20403bda3c4cae34e51b00af"
+    },
+    {
+      "file": "src/lib/teact/teact.ts",
+      "sha256": "1783b848980c3bba153df1c8a98504cd5ade8394d4fef9480ea1a2ed19c5ca92",
+      "beforeSha256": "64ad7f24c6a395a211a549f7a85e527bda8b2e9011c67e11aa05ee43ba55edce"
+    },
+    {
+      "file": "src/components/middle/message/InlineSocialMedia.test.tsx",
+      "sha256": "afce9f0f944be317b9bf9b58f44e4ef35bcc6adf3710f666631749bf8e125b4a",
+      "beforeSha256": "01d7bf2e9df224fd640951ed41edb84fe1657f4751201ab62641a5dbe28b8fd2"
+    },
+    {
+      "file": "src/util/clipboard.test.ts",
+      "sha256": "3e8ec142b8a5e3de357decc4de93d484dc62bcf6d7eb4f91ccee1ade32c5c64f",
+      "beforeSha256": "0655ac0860c76ecc677a4b35afcc7b7147ccd552d00ad88b46c82e6b162c450d"
+    },
+    {
+      "file": "src/util/mediaLoader.test.ts",
+      "sha256": "1885a65348819e0ca420bae6bf8e0706e6a45fec805c31e8e8ff477c15d4e77e",
+      "beforeSha256": "026461de02fa91c36dea8ea0fdcc52fb6c4f7631831369e5f9a684543092a5fd"
+    },
+    {
+      "file": "src/lib/gramjs/security.test.ts",
+      "sha256": "833874c41c9cf9642e56fb46844bca866574d97b158eac8fac59bf5e85b44c32",
+      "beforeSha256": "519a9e25edc9b58dc60898457f29abfb23d6c61a2dcba30ca377f5b9e5343016"
+    },
+    {
+      "file": "scripts/relay-type-audit.mjs",
+      "sha256": "7c697378efd25b10d8529809d160426676ffbd0928d08d5a458d104e1bb1926e"
+    },
+    {
+      "file": "src/util/tiptap/TeactRenderer.ts",
+      "sha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+      "beforeSha256": "88752efb17c48522a36d97696c225fc1c943ec24869614aecbf6c8afc7723c75",
+      "scope": "Approved runtime-preserving assertion/type-import cleanup from full-lint receiver diagnostic"
+    }
+  ],
+  "evidence": [
+    "types-before.json",
+    "types-after.json",
+    "types-changes.patch",
+    "types-production-erasure-proof.json",
+    "types-source-hashes.json",
+    "types-lint-final.json",
+    "types-targeted-runtime.txt",
+    "types-final-fixtures-runtime.txt",
+    "main-types-after.txt",
+    "test-types-final-cli.txt",
+    "types-teact-renderer-erasure.json",
+    "types-teact-renderer-lint.json",
+    "types-cleanup-test-after.json",
+    "types-eslint-retry.json",
+    "types-eslint-final.json"
+  ],
+  "reproducibleCommands": [
+    "node scripts/relay-type-audit.mjs --project tsconfig.test.json --output <chosen-output.json>",
+    "node node_modules/typescript/bin/tsc --project tsconfig.json --noEmit --incremental false --pretty false",
+    "APP_ENV=test node node_modules/vitest/vitest.mjs run --silent=true src/components/common/Titlebar.test.tsx src/components/multi/AppSidebar.test.tsx src/components/main/DownloadManager.test.tsx src/components/middle/message/InlineSocialMedia.test.tsx src/util/clipboard.test.ts src/util/mediaLoader.test.ts src/lib/gramjs/security.test.ts"
+  ],
+  "unchangedConstraints": [
+    "No production function bodies changed",
+    "No test inputs removed or suppressed",
+    "No new dependencies",
+    "No network/account/system changes",
+    "No other-agent source/test files changed"
+  ],
+  "remainingGates": [
+    "Root must aggregate with concurrently changed source and UI/media/MCP audits at source freeze.",
+    "These type/runtime checks do not establish native WebView UI coverage, live account transfers, or all platform functions.",
+    "tsconfig.script.json and arbitrary JavaScript tooling are separate scopes; this report does not claim their full typecheck passes.",
+    "Full ESLint1862files exits0with0errors/1retainedDocumentReaderwarning; scoped source flow reviewed without suppressing warning or claiming whole-application security/platform certification."
+  ],
+  "reviewObjects": [
+    {
+      "id": "types-test-context",
+      "name": "Полная проверка типов тестов",
+      "version": "1",
+      "content": "tsconfig.test сохраняет браузерные декларации production и добавляет реальные Node/Vitest types и существующую Tauri augmentation. Все 26 тестов и 1720 исходных файлов зависимостей остаются в проверке; diagnostics 55→0.",
+      "action": "Принять уточнённое окружение типов и использовать scripts/relay-type-audit.mjs как воспроизводимый gate.",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "types-production-annotations",
+      "name": "Точные типы без изменения поведения",
+      "version": "2",
+      "content": "10 timer-handle annotation files, accurate Teact VirtualElementParent return and one unnecessary receiver assertion/type-import cleanup. Emitted JavaScript is byte-identical for all12productionfiles; fresh wholeproductionTSC0,wholetestcontext0 retains26tests/1721projectinputs,cleanup targetlint0.",
+      "action": "Принять точные аннотации типов, сохраняя runtime-реализацию.",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "id": "types-test-fixtures",
+      "name": "Типизированные fixtures и сценарная проверка",
+      "version": "1",
+      "content": "Telegram union проверяется реальным instanceof, canvas fixture ограничена drawImage contract, progress-mock имеет ApiOnProgress, timer-spy использует реальный globalThis Node таймер.101 уникальный сценарий в 7 файлах проходит; 54 из них повторно проверены после финального уточнения fixtures. Адресный lint 16 файлов: 0 ошибок/ 0 предупреждений.",
+      "action": "Принять типизированные fixtures и результаты адресной проверки.",
+      "decision": "unreviewed",
+      "comment": ""
+    }
+  ],
+  "reviewBoard": {
+    "owner": "/root",
+    "companion": "Aggregate app-quality audit review board",
+    "status": "objects_ready_for_aggregate_board"
+  },
+  "updatedAt": "2026-10-02T06:41:41.223Z",
+  "previousReportSha256": "01d2d56f155f75f8ac1599f22c1902ea491f7a748b5a3f3ad2f1853330f5c232",
+  "cleanupValidation": {
+    "file": "src/util/tiptap/TeactRenderer.ts",
+    "sourceBeforeSha256": "88752efb17c48522a36d97696c225fc1c943ec24869614aecbf6c8afc7723c75",
+    "sourceAfterSha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+    "wholeProductionTsc": {
+      "exitCode": 0,
+      "args": [
+        "--max-old-space-size=2048",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--incremental",
+        "false"
+      ],
+      "diagnosticLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "wholeTestTypeContext": {
+      "exitCode": 0,
+      "diagnosticCount": 0,
+      "testFileCount": 26,
+      "projectFileCount": 1721,
+      "removedProjectFiles": [],
+      "removedTestFiles": [],
+      "evidence": "types-cleanup-test-after.json"
+    },
+    "targetLint": {
+      "exitCode": 0,
+      "fileCount": 1,
+      "errorCount": 0,
+      "warningCount": 0,
+      "evidence": "types-teact-renderer-lint.json"
+    },
+    "runtimeErasure": {
+      "identical": true,
+      "beforeJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+      "afterJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+      "evidence": "types-teact-renderer-erasure.json"
+    },
+    "noAdditionalRuntimeTestRequired": "JavaScript byte identity plus root full26/322PASS; no new runtime behavior introduced."
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a110b9-92a2-79f2-a809-498c13becc2d",
+  "completedAt": "2026-10-06T18:59:34.848912+00:00",
+  "status": "complete",
+  "scope": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-92a2-79f2-a809-498c13becc2d\\work",
+  "nativeObservation": {
+    "id": "01a110b9-92a2-79f2-a809-498c13becc2d",
+    "archived": 0,
+    "readOnly": true
+  },
+  "authorization": "Parent relayed verified human request to clear reproducible old build/QA cache; only own work touched",
+  "safety": {
+    "ownerMatched": true,
+    "reparseAndHardlinksBypassed": false,
+    "holdsBypassed": false,
+    "writerCommandLinesMatchingOwnWork": 0,
+    "deletionUsedExclusiveNativeHandle": true,
+    "projectSourceAndReleaseDirsTouched": false
+  },
+  "initial": {
+    "files": 795,
+    "logicalBytes": 54651826
+  },
+  "removed": {
+    "files": 735,
+    "logicalBytes": 53174101,
+    "allocatedBytes": 54604824,
+    "emptyDirectories": 20,
+    "manifestSha256": "da8b1c821d09c647ac0cefdfb6c991e03c7df482fe06919b341f0fca8563bf2c",
+    "groups": {
+      "exact-project-evidence-duplicate": {
+        "files": 42,
+        "logicalBytes": 1312240,
+        "allocatedBytes": 1382448
+      },
+      "reproducible-cache": {
+        "files": 6,
+        "logicalBytes": 2691334,
+        "allocatedBytes": 2707464
+      },
+      "bot-windows-1.6.1/integration-server/vite-cache": {
+        "files": 137,
+        "logicalBytes": 9835050,
+        "allocatedBytes": 10102920
+      },
+      "bot-windows-1.6.1/vite-cache": {
+        "files": 1,
+        "logicalBytes": 109,
+        "allocatedBytes": 112
+      },
+      "shell-browser/vite-cache": {
+        "files": 137,
+        "logicalBytes": 9833793,
+        "allocatedBytes": 10102920
+      },
+      "shell-browser-final/vite-cache": {
+        "files": 137,
+        "logicalBytes": 9833793,
+        "allocatedBytes": 10102920
+      },
+      "shell-counts/vite-cache": {
+        "files": 137,
+        "logicalBytes": 9833793,
+        "allocatedBytes": 10102920
+      },
+      "shell-integration/vite-cache": {
+        "files": 137,
+        "logicalBytes": 9833793,
+        "allocatedBytes": 10102920
+      },
+      "vitest-cache": {
+        "files": 1,
+        "logicalBytes": 196,
+        "allocatedBytes": 200
+      }
+    },
+    "nativeDataAllocationBytes": 54604824
+  },
+  "physicalAllocationMeasurement": "Windows FileStandardInfo.AllocationSize measured per exclusive ordinary single-link file. NTFS resident file allocations can occupy retained MFT records, so this is native data allocation released, not an exact count of volume clusters physically freed.",
+  "volumeFreeSpace": {
+    "volume": "C:",
+    "beforeBytes": 362898681856,
+    "afterBytes": 362953535488,
+    "deltaBytes": 54853632,
+    "scope": "Whole C: during this child deletion interval; includes concurrent unrelated activity and must not be added to coordinator delta"
+  },
+  "remaining": {
+    "files": 60,
+    "logicalBytes": 1477725,
+    "entries": [
+      {
+        "path": "add-drag-contract-test.py",
+        "bytes": 2491
+      },
+      {
+        "path": "baseline/src/components/common/Titlebar.module.scss",
+        "bytes": 5574
+      },
+      {
+        "path": "baseline/src/components/common/Titlebar.test.tsx",
+        "bytes": 5968
+      },
+      {
+        "path": "baseline/src/components/common/Titlebar.tsx",
+        "bytes": 9770
+      },
+      {
+        "path": "baseline/src/components/multi/AppSidebar.module.scss",
+        "bytes": 3958
+      },
+      {
+        "path": "baseline/src/components/multi/AppSidebar.test.tsx",
+        "bytes": 3236
+      },
+      {
+        "path": "baseline/src/components/multi/AppSidebar.tsx",
+        "bytes": 8227
+      },
+      {
+        "path": "baseline-owned-hashes.json",
+        "bytes": 898
+      },
+      {
+        "path": "bot-windows-1.6.1/before/src/assets/localization/fallback.strings",
+        "bytes": 203713
+      },
+      {
+        "path": "bot-windows-1.6.1/before/src/assets/localization/initialRussian.strings",
+        "bytes": 6550
+      },
+      {
+        "path": "bot-windows-1.6.1/before/src/components/modals/browser/hooks/useWebAppFrame.ts",
+        "bytes": 12023
+      },
+      {
+        "path": "bot-windows-1.6.1/before/src/components/modals/browser/WebAppTab.tsx",
+        "bytes": 45438
+      },
+      {
+        "path": "bot-windows-1.6.1/before/src/types/language.d.ts",
+        "bytes": 134255
+      },
+      {
+        "path": "bot-windows-1.6.1/before/src/util/localization/relayOperationsStrings.ts",
+        "bytes": 13553
+      },
+      {
+        "path": "bot-windows-1.6.1/before/tauri/build.rs",
+        "bytes": 3880
+      },
+      {
+        "path": "bot-windows-1.6.1/before/tauri/src/lib.rs",
+        "bytes": 20374
+      },
+      {
+        "path": "bot-windows-1.6.1/before/tauri/src/multi_app.rs",
+        "bytes": 63421
+      },
+      {
+        "path": "bot-windows-1.6.1/before/tauri/src/multi_app_downloads.rs",
+        "bytes": 38121
+      },
+      {
+        "path": "bot-windows-1.6.1/before-hashes.json",
+        "bytes": 2371
+      },
+      {
+        "path": "bot-windows-1.6.1/checkpoint.json",
+        "bytes": 1462
+      },
+      {
+        "path": "bot-windows-1.6.1/final-checkpoint.json",
+        "bytes": 2692
+      },
+      {
+        "path": "bot-windows-1.6.1/format-new-files.mjs",
+        "bytes": 1216
+      },
+      {
+        "path": "bot-windows-1.6.1/integration-smoke.mjs",
+        "bytes": 9058
+      },
+      {
+        "path": "bot-windows-1.6.1/patch-check.log",
+        "bytes": 85
+      },
+      {
+        "path": "bot-windows-1.6.1/telegram-web-app.sdk.js",
+        "bytes": 56926
+      },
+      {
+        "path": "bot-windows-1.6.1/vitest.config.mjs",
+        "bytes": 388
+      },
+      {
+        "path": "checkpoint-shell-handoff.json",
+        "bytes": 3353
+      },
+      {
+        "path": "configure-shell-audit.py",
+        "bytes": 416
+      },
+      {
+        "path": "extend-caption-count-audit.py",
+        "bytes": 1122
+      },
+      {
+        "path": "extend-shell-tests.py",
+        "bytes": 4421
+      },
+      {
+        "path": "finalize-shell-audit.py",
+        "bytes": 1421
+      },
+      {
+        "path": "finalize-shell-handoff.py",
+        "bytes": 3752
+      },
+      {
+        "path": "fix-caption-drag.py",
+        "bytes": 476
+      },
+      {
+        "path": "format-drag-test.py",
+        "bytes": 522
+      },
+      {
+        "path": "implement-shell.py",
+        "bytes": 12945
+      },
+      {
+        "path": "integration-review-checkpoint.json",
+        "bytes": 2050
+      },
+      {
+        "path": "publish-shell-handoff.py",
+        "bytes": 13846
+      },
+      {
+        "path": "refine-rail-type.py",
+        "bytes": 472
+      },
+      {
+        "path": "refine-shell.py",
+        "bytes": 1236
+      },
+      {
+        "path": "shell-browser/dark-1280-200-x-auth.png",
+        "bytes": 85239
+      },
+      {
+        "path": "shell-browser/dark-640-200-instagram.png",
+        "bytes": 14772
+      },
+      {
+        "path": "shell-browser/dark-640-200-x-auth.png",
+        "bytes": 38584
+      },
+      {
+        "path": "shell-browser/dark-640-instagram-error.png",
+        "bytes": 28170
+      },
+      {
+        "path": "shell-browser/dark-640-instagram-loading.png",
+        "bytes": 22923
+      },
+      {
+        "path": "shell-browser/dark-640-reduced-long-labels.png",
+        "bytes": 27326
+      },
+      {
+        "path": "shell-browser/dark-640-x-auth.png",
+        "bytes": 41293
+      },
+      {
+        "path": "shell-browser/dark-800-rtl-200-x-auth.png",
+        "bytes": 60270
+      },
+      {
+        "path": "shell-browser/dark-800-rtl-x-auth.png",
+        "bytes": 42600
+      },
+      {
+        "path": "shell-browser/dark-800-x.png",
+        "bytes": 9306
+      },
+      {
+        "path": "shell-browser/dark-full-telegram.png",
+        "bytes": 185511
+      },
+      {
+        "path": "shell-browser/light-800-telegram.png",
+        "bytes": 116310
+      },
+      {
+        "path": "shell-browser/shell-browser-results.json",
+        "bytes": 84417
+      },
+      {
+        "path": "shell-browser.log",
+        "bytes": 370
+      },
+      {
+        "path": "shell-eslint-fix.log",
+        "bytes": 248
+      },
+      {
+        "path": "shell-eslint-initial.log",
+        "bytes": 3731
+      },
+      {
+        "path": "shell-stylelint-fix.log",
+        "bytes": 338
+      },
+      {
+        "path": "shell-stylelint-initial.log",
+        "bytes": 627
+      },
+      {
+        "path": "shell-vitest-initial.log",
+        "bytes": 1477
+      },
+      {
+        "path": "verify-shell-browser.mjs",
+        "bytes": 12145
+      },
+      {
+        "path": "vitest-own.config.mjs",
+        "bytes": 388
+      }
+    ]
+  },
+  "exceptions": [],
+  "preserved": "Unique shell baseline (6 files), bot before baseline (10 files), SDK source, own reproduction/edit scripts/configs, unmatched logs/evidence, all task state/history and all project sources/artifacts/releases",
+  "releaseRetention": "1.6.1/1.6.0/1.5.0/1.4.7/1.4.6 handled by coordinator; no release directory read or deleted here",
+  "physicalAllocatedRelease": {
+    "filesystem": "NTFS",
+    "clusterBytes": 4096,
+    "exactBytes": null,
+    "ordinaryNonresidentClusterReleaseLowerBoundBytes": 51597312,
+    "ordinaryNonresidentClusterReleaseUpperBoundBytes": 54603776,
+    "reason": "Per-file native allocations were summed before deletion; resident vs nonresident split was not retained. Bounds remove at most one subcluster resident allocation per deleted file. Filesystem metadata savings not credited. C: free delta includes concurrent activity."
+  }
+}

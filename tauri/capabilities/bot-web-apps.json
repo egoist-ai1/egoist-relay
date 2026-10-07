@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-mini-apps",
+  "description": "Host untrusted Windows Mini Apps through the local main Relay renderer only",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["relay-mini-app-host"]
+}

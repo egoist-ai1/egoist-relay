@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-10-02T06:38:26.847Z",
+  "project": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "nodeExecutable": "C:\\Users\\Egoist\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+  "nodeVersion": "v24.19.0",
+  "args": [
+    "--max-old-space-size=5120",
+    "node_modules/eslint/bin/eslint.js",
+    "--cache",
+    "--cache-strategy",
+    "content",
+    "--cache-location",
+    "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\work\\full-eslint-5120-cache",
+    "--format",
+    "json",
+    "--output-file",
+    "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\work\\full-eslint-5120-final-diagnostics.json"
+  ],
+  "scope": "No file/path scope argument: canonical ESLint default project coverage, formatter-only output change. No --fix or rule/config changes.",
+  "heapMiB": 5120,
+  "minFreeMiB": 6144,
+  "timeoutMs": 180000,
+  "totalMiB": 31938,
+  "freeMiBAtStart": 10535,
+  "logPath": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\work\\full-eslint-5120-final.log",
+  "diagnosticPath": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\work\\full-eslint-5120-final-diagnostics.json",
+  "cachePath": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\work\\full-eslint-5120-cache",
+  "sourceEdits": false,
+  "newDependencies": false,
+  "finishedAt": "2026-10-02T06:38:31.194Z",
+  "durationMs": 4346,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "status": "full-lint-completed-no-errors",
+  "errorCount": 0,
+  "warningCount": 1,
+  "fatalCount": 0,
+  "filesEvaluated": 1862,
+  "filesWithDiagnostics": 1,
+  "ruleCounts": [
+    {
+      "ruleId": "@eslint-react/dom-no-dangerously-set-innerhtml",
+      "count": 1
+    }
+  ],
+  "affectedFiles": [
+    {
+      "path": "src/components/common/DocumentReaderModal.tsx",
+      "errors": 0,
+      "warnings": 1,
+      "fatal": 0,
+      "diagnosticCount": 1,
+      "examples": [
+        {
+          "line": 307,
+          "column": 19,
+          "ruleId": "@eslint-react/dom-no-dangerously-set-innerhtml",
+          "message": "Using 'dangerouslySetInnerHTML' may have security implications."
+        }
+      ],
+      "diagnostics": [
+        {
+          "line": 307,
+          "column": 19,
+          "endLine": 307,
+          "endColumn": 81,
+          "severity": 1,
+          "ruleId": "@eslint-react/dom-no-dangerously-set-innerhtml",
+          "message": "Using 'dangerouslySetInnerHTML' may have security implications."
+        }
+      ]
+    }
+  ],
+  "diagnosticSha256": "1cb93cf14df7fc7bb72d77414f754c404d6e27103df51a4af7f296e27b69aebc",
+  "logSha256": "ea58cf797e406a82ef67076415bf46878ffe16de505aa3eb3e6438b57a2b8c12",
+  "parseError": null,
+  "logTail": [
+    "{\"schemaVersion\":1,\"startedAt\":\"2026-10-02T06:38:26.847Z\",\"project\":\"C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay\",\"nodeExecutable\":\"C:\\\\Users\\\\Egoist\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\node\\\\bin\\\\node.exe\",\"nodeVersion\":\"v24.19.0\",\"args\":[\"--max-old-space-size=5120\",\"node_modules/eslint/bin/eslint.js\",\"--cache\",\"--cache-strategy\",\"content\",\"--cache-location\",\"C:\\\\Users\\\\Egoist\\\\Projects\\\\.agent-brain\\\\chat-runtime\\\\tasks\\\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\\\work\\\\full-eslint-5120-cache\",\"--format\",\"json\",\"--output-file\",\"C:\\\\Users\\\\Egoist\\\\Projects\\\\.agent-brain\\\\chat-runtime\\\\tasks\\\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\\\work\\\\full-eslint-5120-final-diagnostics.json\"],\"scope\":\"No file/path scope argument: canonical ESLint default project coverage, formatter-only output change. No --fix or rule/config changes.\",\"heapMiB\":5120,\"minFreeMiB\":6144,\"timeoutMs\":180000,\"totalMiB\":31938,\"freeMiBAtStart\":10535,\"logPath\":\"C:\\\\Users\\\\Egoist\\\\Projects\\\\.agent-brain\\\\chat-runtime\\\\tasks\\\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\\\work\\\\full-eslint-5120-final.log\",\"diagnosticPath\":\"C:\\\\Users\\\\Egoist\\\\Projects\\\\.agent-brain\\\\chat-runtime\\\\tasks\\\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\\\work\\\\full-eslint-5120-final-diagnostics.json\",\"cachePath\":\"C:\\\\Users\\\\Egoist\\\\Projects\\\\.agent-brain\\\\chat-runtime\\\\tasks\\\\01a0fab1-a1b5-7190-a57d-b826e3ddcc56\\\\work\\\\full-eslint-5120-cache\",\"sourceEdits\":false,\"newDependencies\":false}",
+    ""
+  ],
+  "limitations": [
+    "Single bounded no-fix attempt; no unrelated baseline lint fixes authorized.",
+    "Clean targeted lint and type/tests do not mean full-project lint clean if this attempt fails."
+  ],
+  "reviewObjects": [
+    {
+      "id": "full-eslint-attempt",
+      "name": "Bounded full project ESLint result",
+      "version": 1,
+      "decision": "unreviewed",
+      "content": "Observed single full-scope no-fix ESLint attempt with own heap limit and task-local cache/output.",
+      "actionOnApprove": "Accept observed result and explicit remaining diagnostic/resource gates; no unrelated changes implied."
+    }
+  ],
+  "updatedAt": "2026-10-02T06:41:41.223Z",
+  "previousReceiptSha256": "22d46620dc065c3c29906aa9c205fbb1b06f11b84c362b7519cc471d19345519",
+  "beforeEvidence": {
+    "path": "docs/app-quality-audit-2026-10-02/types-eslint-retry.json",
+    "sha256": "4773d792a2b8f78dd37325c369c0a07dd4aa1c4e52cf33d4ec79bf472d1c560d",
+    "exitCode": 1,
+    "errorCount": 27,
+    "warningCount": 1,
+    "filesEvaluated": 1862,
+    "preserved": true
+  },
+  "retainedWarningReview": {
+    "ruleId": "@eslint-react/dom-no-dangerously-set-innerhtml",
+    "file": "src/components/common/DocumentReaderModal.tsx",
+    "line": 307,
+    "sourceSha256": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "utilityFile": "src/util/documentPreview.ts",
+    "utilitySha256": "1ba90f6ec5c062ea5672ed2a56818705b3d03d28c826e8915e62bf5dadef6152",
+    "flowEvidence": [
+      {
+        "path": "src/components/common/DocumentReaderModal.tsx",
+        "lines": "149–155,307",
+        "fact": "formattedContent selects parsed Markdown or generated DOCX content and highlights before controlled HTML preview."
+      },
+      {
+        "path": "src/util/documentPreview.ts",
+        "lines": "125–140,327–328",
+        "fact": "DOCX run text goes through escapeDocumentText before fixed-format HTML tags; escaped &,<,>,doublequote."
+      },
+      {
+        "path": "src/util/documentPreview.ts",
+        "lines": "246–289",
+        "fact": "Markdown inline text is escaped; generated links restrict protocols http/https/mailto and escape URL attributes."
+      },
+      {
+        "path": "src/util/documentPreview.ts",
+        "lines": "292–324",
+        "fact": "Highlight operates on text nodes, uses createElement(mark) and textContent, escapes regex query."
+      }
+    ],
+    "conclusion": "Generic lint warning retained. No concrete new injection defect established by bounded source dataflow review; this is not general sanitization/security certification.",
+    "suppressed": false,
+    "sourceEdited": false,
+    "reportedRuntimeContext": "Root full26files/322tests PASS includes existing document preview cases; no new runtime source changes in warning path."
+  }
+}

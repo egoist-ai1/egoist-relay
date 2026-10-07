@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T05:05:54.606Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "environment": {
+    "transport": "existing MockClient + terminal native mocks",
+    "remoteRequests": "blocked",
+    "browserExecutable": "C:\\Users\\Egoist\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1243\\chrome-headless-shell-win64\\chrome-headless-shell.exe",
+    "viewport": "FullHD baseline and explicit emulation; no physical DPI claim"
+  },
+  "cases": [
+    {
+      "id": "modal-outside-focus-containment",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "outsideFocusRedirected": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "confirmation-focus-cancel",
+      "sources": [
+        "src/components/ui/ConfirmDialog.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "direction": "ltr",
+          "surface": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Удалить тестовый объект",
+              "disabled": false,
+              "rect": {
+                "x": 852.578125,
+                "y": 581.59375,
+                "width": 274.421875,
+                "height": 35.1875,
+                "right": 1127,
+                "bottom": 616.78125
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            },
+            {
+              "tag": "BUTTON",
+              "type": "button",
+              "name": "Отмена",
+              "disabled": false,
+              "rect": {
+                "x": 1037.734375,
+                "y": 624.78125,
+                "width": 89.265625,
+                "height": 35.1875,
+                "right": 1127,
+                "bottom": 659.96875
+              },
+              "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+              "visibleInViewport": true,
+              "clippedX": false
+            }
+          ],
+          "visibleControlCount": 2,
+          "horizontalOverflow": false,
+          "unreadableZeroWidthLabels": []
+        },
+        "screenshot": "ui-visuals/confirmation-fullhd.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "confirmation-disabled-keyboard",
+      "sources": [
+        "src/components/ui/ConfirmDialog.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "disabledConfirmationCount": 0
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "confirmation-destructive-only-neutral-focus",
+      "sources": [
+        "src/components/ui/ConfirmDialog.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "neutralDefault": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-nested-focus-return-and-hidden-disabled",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/ConfirmDialog.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "targets": [
+          "audit-nested-trigger",
+          "audit-nested-input",
+          "audit-nested-trigger",
+          "audit-nested-input",
+          "audit-nested-trigger",
+          "audit-nested-input",
+          "audit-nested-trigger",
+          "audit-nested-input",
+          "audit-nested-trigger",
+          "audit-nested-input",
+          "audit-nested-trigger",
+          "audit-nested-input",
+          "audit-nested-trigger",
+          "audit-nested-input"
+        ],
+        "childReturned": true,
+        "parentReturned": true,
+        "screenshot": "ui-visuals/nested-focus-restored.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-nested-disabled-first-fallback",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/ConfirmDialog.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "fallback": "enabled visible Close parent",
+        "hiddenDisabledSkipped": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-more-menu-div",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "kind": "menu-div",
+        "relation": {
+          "insideModal": true,
+          "nativeModal": false,
+          "ancestors": [
+            "DIV.MenuItem audit-menu-first compact text-only",
+            "DIV.bubble menu-container custom-scroll opacity-transition fast shown right top open",
+            "DIV.Menu compact in-portal",
+            "DIV.",
+            "DIV.modal-container",
+            "DIV.Modal audit-more-modal slim opacity-transition fast shown open"
+          ]
+        },
+        "menuBounds": {
+          "x": 922,
+          "y": 462,
+          "width": 216,
+          "height": 99.75
+        },
+        "keyboardReadbacks": [
+          {
+            "key": "Enter",
+            "before": {
+              "actions": 0,
+              "modal": 0
+            },
+            "after": {
+              "actions": 1,
+              "modal": 0
+            }
+          },
+          {
+            "key": "Space",
+            "before": {
+              "actions": 1,
+              "modal": 0
+            },
+            "after": {
+              "actions": 2,
+              "modal": 0
+            }
+          }
+        ],
+        "keyboard": [
+          "ArrowDown",
+          "Tab",
+          "Enter",
+          "Space",
+          "Escape"
+        ],
+        "callbackOnly": true,
+        "screenshots": [
+          "ui-visuals/modal-more-menu-div-open.png",
+          "ui-visuals/modal-more-menu-div-closed.png"
+        ]
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-more-menu-native",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "kind": "menu-native",
+        "relation": {
+          "insideModal": true,
+          "nativeModal": true,
+          "ancestors": [
+            "DIV.MenuItem audit-menu-first compact text-only",
+            "DIV.bubble menu-container custom-scroll opacity-transition fast shown right top open",
+            "DIV.Menu compact in-portal",
+            "DIV.",
+            "DIV.modal-container",
+            "DIALOG.Modal audit-more-modal slim opacity-transition fast shown open"
+          ]
+        },
+        "menuBounds": {
+          "x": 922,
+          "y": 462,
+          "width": 216,
+          "height": 99.75
+        },
+        "keyboardReadbacks": [
+          {
+            "key": "Enter",
+            "before": {
+              "actions": 2,
+              "modal": 0
+            },
+            "after": {
+              "actions": 3,
+              "modal": 0
+            }
+          },
+          {
+            "key": "Space",
+            "before": {
+              "actions": 3,
+              "modal": 0
+            },
+            "after": {
+              "actions": 4,
+              "modal": 0
+            }
+          }
+        ],
+        "keyboard": [
+          "ArrowDown",
+          "Tab",
+          "Enter",
+          "Space",
+          "Escape"
+        ],
+        "callbackOnly": true,
+        "screenshots": [
+          "ui-visuals/modal-more-menu-native-open.png",
+          "ui-visuals/modal-more-menu-native-closed.png"
+        ]
+      },
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "gates": [
+    "Settings routes requiring privacy/session data can render loading/empty in existing MockClient; screenshot + controls establish layout only, not server operation",
+    "Mock native ready events contain no X/Instagram website content; ready page functional verification is separate",
+    "Uploads/media/calls/payment are source catalogued and tested by separate root/media work; this runner sends no messages"
+  ],
+  "defects": [],
+  "unhandled": [],
+  "summary": {
+    "total": 8,
+    "pass": 8,
+    "fail": 0,
+    "gated": 0
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T05:58:01.093Z",
+  "label": "lifecycle-probe",
+  "environment": "Actual custom components; destructive/delete/AI callbacks replaced only in fresh test browser; remote requests blocked; no account transport",
+  "cases": [
+    {
+      "id": "ai-portal-div-focus",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "owned": true,
+          "ancestor": "<div><div class=\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\" style=\"left: 753.688px; top: 6"
+        },
+        "focused": true
+      }
+    },
+    {
+      "id": "ai-portal-native-focus",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "owned": true,
+          "ancestor": "<div><div class=\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\" style=\"left: 753.688px; top: 6"
+        },
+        "focused": true
+      }
+    },
+    {
+      "id": "ai-portal-div-keyboard-enter",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxsrq27eifehgkh5\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n",
+      "stack": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxsrq27eifehgkh5\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:2201\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:14:154)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:92",
+      "screenshot": "ui-visuals/lifecycle-probe-ai-portal-div-keyboard-enter.png",
+      "events": [
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        }
+      ],
+      "active": "<span class=\"AiTextTranslateEditor-module__languageLink\" role=\"button\" tabindex=\"0\">английский<i class=\"icon icon-down\"></i></span>"
+    },
+    {
+      "id": "ai-portal-div-keyboard-space",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxudrttqwnkcfn1\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n",
+      "stack": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxudrttqwnkcfn1\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:2201\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:14:154)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:92",
+      "screenshot": "ui-visuals/lifecycle-probe-ai-portal-div-keyboard-space.png",
+      "events": [
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        }
+      ],
+      "active": "<span class=\"AiTextTranslateEditor-module__languageLink\" role=\"button\" tabindex=\"0\">английский<i class=\"icon icon-down\"></i></span>"
+    },
+    {
+      "id": "ai-portal-native-keyboard-enter",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxvyi7uz7talzm3c\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n",
+      "stack": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxvyi7uz7talzm3c\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:2201\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:14:154)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:92",
+      "screenshot": "ui-visuals/lifecycle-probe-ai-portal-native-keyboard-enter.png",
+      "events": [
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        }
+      ],
+      "active": "<span class=\"AiTextTranslateEditor-module__languageLink\" role=\"button\" tabindex=\"0\">английский<i class=\"icon icon-down\"></i></span>"
+    },
+    {
+      "id": "ai-portal-native-keyboard-space",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxxjakfikc1te5kn\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n",
+      "stack": "AssertionError [ERR_ASSERTION]: [{\"classes\":\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\",\"owner\":\"Modal audit-ai-modal opacity-transition fast shown open\",\"portal\":\"modal-menu-muqjxxjakfikc1te5kn\",\"html\":\"<div class=\\\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\\\" style=\\\"left: 753.688px; top: 625.797px;\\\"><div role=\\\"presentation\\\" class=\\\"bubble menu-container custom-scroll opacity-transition fast sh\"}]\n\n1 !== 0\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:2201\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:14:154)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:34:92",
+      "screenshot": "ui-visuals/lifecycle-probe-ai-portal-native-keyboard-space.png",
+      "events": [
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        }
+      ],
+      "active": "<span class=\"AiTextTranslateEditor-module__languageLink\" role=\"button\" tabindex=\"0\">английский<i class=\"icon icon-down\"></i></span>"
+    },
+    {
+      "id": "ai-two-modal-owner-geometry",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: second native menu opens\n\n0 !== 1\n",
+      "stack": "AssertionError [ERR_ASSERTION]: second native menu opens\n\n0 !== 1\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:35:629\n    at async run (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:14:154)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.custom-modals.mjs:35:2",
+      "screenshot": "ui-visuals/lifecycle-probe-ai-two-modal-owner-geometry.png",
+      "events": [
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        },
+        {
+          "protectedAiOption": {
+            "selectedLanguage": "en"
+          }
+        },
+        {
+          "protectedAiCompose": {
+            "translateToLang": "en"
+          }
+        }
+      ],
+      "active": "<span class=\"AiTextTranslateEditor-module__languageLink\" role=\"button\" tabindex=\"0\">немецкий<i class=\"icon icon-down\"></i></span>"
+    },
+    {
+      "id": "ai-nonmodal-default-portal",
+      "sources": [
+        "src/components/ui/Menu.tsx",
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "inDefaultPortals": true,
+          "inModal": false
+        },
+        "defaultEscape": true
+      }
+    }
+  ],
+  "errors": [],
+  "unhandled": [],
+  "summary": {
+    "total": 8,
+    "pass": 3,
+    "fail": 5,
+    "errors": 0
+  }
+}

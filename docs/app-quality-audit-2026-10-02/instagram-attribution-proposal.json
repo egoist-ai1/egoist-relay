@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-reviewable-proposal",
+  "version": "1",
+  "status": "proposal_not_applied_or_executed",
+  "productionEdits": false,
+  "candidateExecuted": false,
+  "patchFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-proposal.patch",
+  "patchSha256": "a4d35e762c13a99d5c3c506c6a90c3e84acc8b48f5e2e36806d53b7fdbfe4c7b",
+  "files": [
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+      "label": "runtime/research/social-read.js",
+      "baselineSha256": "162335eccc2d6ff1676cd6fc069ce9b62bef077d89a4857ace392ade9450ddd8",
+      "proposedSha256": "c4d888bc14e02b373be0580270e1c6b273afa56283d1a28fcfe059b277354a62"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+      "label": "tauri/src/research_social.rs",
+      "baselineSha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+      "proposedSha256": "27206ec385f8447f10eb3cb39ae4278bde49ccf6181c47e8b9069bb6dd3485d7"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\local-index.mjs",
+      "label": "Egoist Social MCP/src/research/local-index.mjs",
+      "baselineSha256": "fb68ce70c3eb26720f000d9ee4759d794762ef1d33c0564a353c3c6e503e9598",
+      "proposedSha256": "1716e10b8064af03c64225b52b7b64163b694d42b56ca8610d0942ad54d011c1"
+    }
+  ],
+  "fieldRoles": {
+    "pageProvenance": [
+      "sourceContext.pageUrl: actual current document URL, validated against native event.pageUrl",
+      "sourceContext.requestedSource: the selected target, validated against current native job",
+      "sourceContext.collection: visible_dom",
+      "pageMetadata.sourceUrl: same verified document URL",
+      "pageMetadata.descriptionField: reference to the legacy flat description field, never a second large text copy",
+      "description: backward-compatible page-description alias, not inferred post caption"
+    ],
+    "postEvidence": [
+      "source/sourceUrl: exact observed first-party permalink, not publisher proof",
+      "text: observed node h1 or OG description only on validated same-post locator",
+      "timestamp: observed time[datetime], absent if missing",
+      "author.observedText: raw observed header text; no structured publisher or collaborator claim",
+      "media: observed descriptor with its existing page/element evidence",
+      "unresolvedFields: publisher_identity_unverified and collaboration_unverified remain explicit"
+    ]
+  },
+  "compatibility": [
+    "Keep schemaVersion1, source/id/type fields, author shape and legacy description alias; do not mutate old accepted artifacts.",
+    "Existing bridge-provider copies additional record fields, and native record validation permits optional fields; the new guard validates only when provenance fields are present.",
+    "Human export already labels description as page metadata. No format API change is needed; showing sourceContext/pageMetadata may be added separately after review.",
+    "MCP compact job/result schemas and broker/account/queue/cursor flow remain unchanged.",
+    "Future local-index records with explicit pageMetadata.descriptionField exclude that page biography from post FTS content. Legacy rows lack this evidence and keep prior interpretation.",
+    "No nested large description copy is added: descriptionField references the existing flat field and its textFields/part transport.",
+    "Existing long-field packing/textFields must receive separate role-aware consumer tests before a final claim that page metadata can never enter combined text; this proposal does not silently rewrite prior long-field adapters."
+  ],
+  "validationGates": [
+    "No proposed code was applied, parsed or executed here; source before hashes remain unchanged.",
+    "Root must run both reproduced failing caption/provenance cases against a separate approved candidate, plus wrong profile/shortcode/origin/malformed route tests.",
+    "Native optional-context mismatch tests must prove that forged page/source metadata is rejected while old records remain valid.",
+    "Add one FTS known-answer test proving a profile biography does not become a post-body match when new explicit provenance is present.",
+    "Run large textFields/part transport tests to preserve record field roles and frame bounds, then release/runtime source hashes and all service smoke checks.",
+    "Real collaboration/publisher relationship is still unverified; no URL-prefix inference or hidden API use is proposed."
+  ],
+  "beforeFailuresReceiptFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-test-receipt-v3.json",
+  "beforeFailuresReceiptSha256": "8256e6dd9b7ce36d414d5f032a007c885f8c15927ba326031976cd26bec18758",
+  "fieldRoleWarning": "Flat legacy description remains for export compatibility but is explicitly page metadata; derived FTS body content should exclude it only when that new provenance is present."
+}

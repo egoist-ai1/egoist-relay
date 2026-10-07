@@ -1,0 +1,228 @@
+{
+  "theme": "theme-dark theme-variant-egoist-dark",
+  "rootColors": [
+    [
+      "--color-background",
+      "#000000"
+    ],
+    [
+      "--color-background-secondary",
+      "#101010"
+    ],
+    [
+      "--color-text",
+      "#F5F5F5"
+    ],
+    [
+      "--theme-background-color",
+      ""
+    ]
+  ],
+  "header": {
+    "className": "MiddleHeader",
+    "x": 796,
+    "y": 56,
+    "width": 736,
+    "height": 48,
+    "bg": "rgb(0, 0, 0)",
+    "image": "none",
+    "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+    "maxWidth": "736px",
+    "margin": "16px 388px 0px",
+    "position": "absolute",
+    "color": "rgb(245, 245, 245)"
+  },
+  "headerParent": {
+    "className": "messages-layout",
+    "x": 408,
+    "y": 40,
+    "width": 1512,
+    "height": 1040,
+    "bg": "rgb(10, 11, 14)",
+    "image": "radial-gradient(at 50% 40%, rgba(20, 22, 28, 0.45) 0%, rgba(10, 11, 14, 0.95) 100%)",
+    "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+    "maxWidth": "none",
+    "margin": "0px",
+    "position": "relative",
+    "color": "rgb(245, 245, 245)"
+  },
+  "backgroundLayers": [
+    {
+      "className": "messages-container",
+      "x": 780,
+      "y": 40,
+      "width": 768,
+      "height": 1040,
+      "bg": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "768px",
+      "margin": "0px 372px",
+      "position": "static",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "Transition_slide Transition_slide-active",
+      "x": 408,
+      "y": 40,
+      "width": 1512,
+      "height": 1040,
+      "bg": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "static",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "Transition MessageList custom-scroll with-default-bg with-bottom-snap",
+      "x": 408,
+      "y": 40,
+      "width": 1512,
+      "height": 1040,
+      "bg": "rgb(10, 11, 14)",
+      "image": "radial-gradient(at 50% 40%, rgba(20, 22, 28, 0.45) 0%, rgba(10, 11, 14, 0.95) 100%)",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "relative",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "Transition_slide Transition_slide-active",
+      "x": 408,
+      "y": 40,
+      "width": 1512,
+      "height": 1040,
+      "bg": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "static",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "Transition",
+      "x": 408,
+      "y": 40,
+      "width": 1512,
+      "height": 1040,
+      "bg": "rgba(0, 0, 0, 0)",
+      "image": "none",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "relative",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "messages-layout",
+      "x": 408,
+      "y": 40,
+      "width": 1512,
+      "height": 1040,
+      "bg": "rgb(10, 11, 14)",
+      "image": "radial-gradient(at 50% 40%, rgba(20, 22, 28, 0.45) 0%, rgba(10, 11, 14, 0.95) 100%)",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "relative",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "mask-image-disabled ui-ready",
+      "x": 408,
+      "y": 40,
+      "width": 1512,
+      "height": 1040,
+      "bg": "rgb(10, 11, 14)",
+      "image": "radial-gradient(at 50% 40%, rgba(20, 22, 28, 0.45) 0%, rgba(10, 11, 14, 0.95) 100%)",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "relative",
+      "color": "rgb(245, 245, 245)"
+    },
+    {
+      "className": "_patternBackground-module__background _patternBackground-module__customBgColor _patternBackground-module__withPattern _patternBackground-module__withTransition",
+      "x": 72,
+      "y": 40,
+      "width": 1848,
+      "height": 1040,
+      "bg": "rgb(0, 0, 0)",
+      "image": "none",
+      "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "maxWidth": "none",
+      "margin": "0px",
+      "position": "absolute",
+      "color": "rgb(245, 245, 245)"
+    }
+  ],
+  "rules": [
+    {
+      "source": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/styles/index.scss",
+      "selector": "html.theme-dark .MiddleHeader",
+      "props": [
+        [
+          "width",
+          "100%",
+          "important"
+        ],
+        [
+          "max-width",
+          "calc(var(--messages-container-width, 48rem) - 2rem)",
+          "important"
+        ],
+        [
+          "margin-top",
+          "calc(var(--middle-panel-inline-padding, 1rem) + var(--middle-header-player-height, 0px))",
+          "important"
+        ]
+      ]
+    },
+    {
+      "source": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/components/middle/MiddleHeader.scss",
+      "selector": ".MiddleHeader",
+      "props": [
+        [
+          "width",
+          "100%",
+          ""
+        ],
+        [
+          "max-width",
+          "none",
+          ""
+        ],
+        [
+          "margin",
+          "var(--middle-header-player-height, 0px) 0 0",
+          ""
+        ],
+        [
+          "background",
+          "var(--color-background)",
+          ""
+        ],
+        [
+          "border-radius",
+          "0px",
+          ""
+        ]
+      ]
+    },
+    {
+      "source": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/components/middle/MiddleHeader.scss",
+      "selector": ".MiddleHeader",
+      "props": [
+        [
+          "width",
+          "calc(100% - var(--right-column-width) - var(--middle-panel-inline-padding) * 2)",
+          ""
+        ]
+      ]
+    }
+  ]
+}

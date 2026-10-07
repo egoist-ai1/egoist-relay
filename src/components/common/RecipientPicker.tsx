@@ -60,7 +60,10 @@ export type OwnProps = {
   isForwarding?: boolean;
   shouldFilterInviteable?: boolean;
   isMultiSelect?: boolean;
+  isSingleSelect?: boolean;
+  selectedRecipient?: ChatSelectionKey;
   withFolders?: boolean;
+  withRecentContacts?: boolean;
   footer?: TeactNode;
   viewportFooter?: TeactNode;
   loadMore?: NoneToVoidFunction;
@@ -103,8 +106,11 @@ const RecipientPicker = ({
   isForwarding,
   shouldFilterInviteable,
   isMultiSelect,
+  selectedRecipient,
+  isSingleSelect,
   maxFolders,
   withFolders,
+  withRecentContacts = true,
   footer,
   viewportFooter,
   loadMore,
@@ -353,10 +359,13 @@ const RecipientPicker = ({
     );
   }, [hasSelectedChips, selectedIds, appearingIds, removingIds]);
 
-  const selectedPeerIds = useMemo(() => selectedIds.map((key) => key.peerId), [selectedIds]);
+  const displayedSelectedIds = useMemo(() => (
+    isMultiSelect ? selectedIds : selectedRecipient ? [selectedRecipient] : []
+  ), [isMultiSelect, selectedIds, selectedRecipient]);
+  const selectedPeerIds = useMemo(() => displayedSelectedIds.map((key) => key.peerId), [displayedSelectedIds]);
 
   const subheaderContent = useMemo(() => {
-    const hasRecentContacts = recentContactIds.length > 0 && !search;
+    const hasRecentContacts = withRecentContacts && recentContactIds.length > 0 && !search;
     const hasFolderTabs = shouldRenderFolders;
 
     if (!hasRecentContacts && !hasFolderTabs) return undefined;
@@ -368,7 +377,7 @@ const RecipientPicker = ({
             <ListTopPeers
               peerIds={recentContactIds}
               currentUserId={currentUserId}
-              selectedIds={isMultiSelect ? selectedPeerIds : undefined}
+              selectedIds={isMultiSelect || isSingleSelect ? selectedPeerIds : undefined}
               onPeerClick={handleSelect}
             />
           </Island>
@@ -384,11 +393,13 @@ const RecipientPicker = ({
     );
   }, [
     recentContactIds,
+    withRecentContacts,
     search,
     shouldRenderFolders,
     currentUserId,
     handleSelect,
     isMultiSelect,
+    isSingleSelect,
     selectedPeerIds,
     folderTabs,
     activeFolderIndex,
@@ -409,7 +420,7 @@ const RecipientPicker = ({
       footer={footer}
       viewportFooter={viewportFooter}
       listActiveKey={activeFolderIndex}
-      selectedIds={isMultiSelect ? selectedIds : undefined}
+      selectedIds={isMultiSelect || isSingleSelect ? displayedSelectedIds : undefined}
       onSearchChange={setSearch}
       loadMore={loadMore}
       onSelectChatOrUser={handleSelect}

@@ -139,9 +139,9 @@
   :global {
     .modal-dialog {
       width: 100%;
-      max-width: 26.25rem;
+      max-width: min(56rem, 90vw);
       height: 100%;
-      max-height: min(42.5rem, 85vh);
+      max-height: min(52rem, 90vh);
 
       background-color: var(--color-web-app-browser);
       backdrop-filter: blur(1.5625rem);

@@ -1,0 +1,5672 @@
+{
+  "freshRunAt": "2026-09-29T21:26:26.887Z",
+  "synthetic": true,
+  "actualComponents": [
+    "AppSidebar",
+    "Titlebar",
+    "DocumentReaderModal",
+    "InlineSocialMedia",
+    "SocialShareModal"
+  ],
+  "stubbed": [
+    "language provider",
+    "native Tauri",
+    "Telegram state/API/media loading",
+    "share RecipientPicker/Modal/payment and send"
+  ],
+  "metrics": [
+    {
+      "label": "reader-800x560-16px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 607.75,
+          "h": 23.1875,
+          "scrollW": 610,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 170.390625,
+          "w": 649.921875,
+          "h": 107.171875,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        190.390625,
+        212.78125,
+        235.171875
+      ],
+      "textRowY": [
+        190.390625,
+        212.78125,
+        235.171875
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-800x560-16px-tab",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 607.75,
+          "h": 23.1875,
+          "scrollW": 610,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 170.390625,
+          "w": 649.921875,
+          "h": 107.171875,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_actionBtn",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        190.390625,
+        212.78125,
+        235.171875
+      ],
+      "textRowY": [
+        190.390625,
+        212.78125,
+        235.171875
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "solid"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-800x560-32px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "32px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 213.796875,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 213,
+          "clientH": 213
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 49,
+          "y": 53,
+          "w": 702,
+          "h": 52.796875,
+          "scrollW": 702,
+          "clientW": 702,
+          "scrollH": 53,
+          "clientH": 53
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 49,
+          "y": 129.796875,
+          "w": 702,
+          "h": 88,
+          "scrollW": 702,
+          "clientW": 702,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_title": {
+          "x": 167.421875,
+          "y": 56.203125,
+          "w": 467.53125,
+          "h": 46.390625,
+          "scrollW": 1219,
+          "clientW": 468,
+          "scrollH": 46,
+          "clientH": 46
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 242.796875,
+          "w": 750,
+          "h": 288.203125,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 288,
+          "clientH": 288
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 49,
+          "y": 129.796875,
+          "w": 390,
+          "h": 88,
+          "scrollW": 390,
+          "clientW": 390,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 125.15625,
+          "y": 275.796875,
+          "w": 616.84375,
+          "h": 214.390625,
+          "scrollW": 617,
+          "clientW": 617,
+          "scrollH": 214,
+          "clientH": 214
+        },
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 656,
+          "h": 80,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 560,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 656,
+          "h": 480,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 480,
+          "clientH": 480
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        315.796875,
+        360.59375,
+        405.390625
+      ],
+      "textRowY": [
+        315.796875,
+        360.59375,
+        405.390625
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-800x560-32px-tab",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "32px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 213.796875,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 213,
+          "clientH": 213
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 49,
+          "y": 53,
+          "w": 702,
+          "h": 52.796875,
+          "scrollW": 702,
+          "clientW": 702,
+          "scrollH": 53,
+          "clientH": 53
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 49,
+          "y": 129.796875,
+          "w": 702,
+          "h": 88,
+          "scrollW": 702,
+          "clientW": 702,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_title": {
+          "x": 167.421875,
+          "y": 56.203125,
+          "w": 467.53125,
+          "h": 46.390625,
+          "scrollW": 1219,
+          "clientW": 468,
+          "scrollH": 46,
+          "clientH": 46
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 242.796875,
+          "w": 750,
+          "h": 288.203125,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 288,
+          "clientH": 288
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 49,
+          "y": 129.796875,
+          "w": 390,
+          "h": 88,
+          "scrollW": 390,
+          "clientW": 390,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 125.15625,
+          "y": 275.796875,
+          "w": 616.84375,
+          "h": 214.390625,
+          "scrollW": 617,
+          "clientW": 617,
+          "scrollH": 214,
+          "clientH": 214
+        },
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 656,
+          "h": 80,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 560,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 656,
+          "h": 480,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 480,
+          "clientH": 480
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_actionBtn",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        315.796875,
+        360.59375,
+        405.390625
+      ],
+      "textRowY": [
+        315.796875,
+        360.59375,
+        405.390625
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "solid"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1280x720-16px",
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 48,
+          "y": 36,
+          "w": 1184,
+          "h": 648,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 646,
+          "clientH": 646
+        },
+        "DocumentReaderModal_header": {
+          "x": 49,
+          "y": 37,
+          "w": 1182,
+          "h": 116.390625,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 115,
+          "clientH": 115
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 69,
+          "y": 53,
+          "w": 1142,
+          "h": 27.390625,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 69,
+          "y": 92.390625,
+          "w": 1142,
+          "h": 44,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 129.21875,
+          "y": 55.09375,
+          "w": 1023.75,
+          "h": 23.1875,
+          "scrollW": 1024,
+          "clientW": 1024,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 49,
+          "y": 153.390625,
+          "w": 1182,
+          "h": 529.609375,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 530,
+          "clientH": 530
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 69,
+          "y": 92.390625,
+          "w": 749.265625,
+          "h": 44,
+          "scrollW": 749,
+          "clientW": 749,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 163.078125,
+          "y": 186.390625,
+          "w": 987.921875,
+          "h": 107.171875,
+          "scrollW": 988,
+          "clientW": 988,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1208,
+          "h": 40,
+          "scrollW": 1208,
+          "clientW": 1208,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 720,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 720,
+          "clientH": 720
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1208,
+          "h": 680,
+          "scrollW": 1208,
+          "clientW": 1208,
+          "scrollH": 680,
+          "clientH": 680
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        206.390625,
+        228.78125,
+        251.171875
+      ],
+      "textRowY": [
+        206.390625,
+        228.78125,
+        251.171875
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1280x720-16px-tab",
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 48,
+          "y": 36,
+          "w": 1184,
+          "h": 648,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 646,
+          "clientH": 646
+        },
+        "DocumentReaderModal_header": {
+          "x": 49,
+          "y": 37,
+          "w": 1182,
+          "h": 116.390625,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 115,
+          "clientH": 115
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 69,
+          "y": 53,
+          "w": 1142,
+          "h": 27.390625,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 69,
+          "y": 92.390625,
+          "w": 1142,
+          "h": 44,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 129.21875,
+          "y": 55.09375,
+          "w": 1023.75,
+          "h": 23.1875,
+          "scrollW": 1024,
+          "clientW": 1024,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 49,
+          "y": 153.390625,
+          "w": 1182,
+          "h": 529.609375,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 530,
+          "clientH": 530
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 69,
+          "y": 92.390625,
+          "w": 749.265625,
+          "h": 44,
+          "scrollW": 749,
+          "clientW": 749,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 163.078125,
+          "y": 186.390625,
+          "w": 987.921875,
+          "h": 107.171875,
+          "scrollW": 988,
+          "clientW": 988,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1208,
+          "h": 40,
+          "scrollW": 1208,
+          "clientW": 1208,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 720,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 720,
+          "clientH": 720
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1208,
+          "h": 680,
+          "scrollW": 1208,
+          "clientW": 1208,
+          "scrollH": 680,
+          "clientH": 680
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_actionBtn",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        206.390625,
+        228.78125,
+        251.171875
+      ],
+      "textRowY": [
+        206.390625,
+        228.78125,
+        251.171875
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "solid"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1280x720-32px",
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "rootFont": "32px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 38.40625,
+          "y": 36,
+          "w": 1203.1875,
+          "h": 648,
+          "scrollW": 1201,
+          "clientW": 1201,
+          "scrollH": 646,
+          "clientH": 646
+        },
+        "DocumentReaderModal_header": {
+          "x": 39.40625,
+          "y": 37,
+          "w": 1201.1875,
+          "h": 229.796875,
+          "scrollW": 1201,
+          "clientW": 1201,
+          "scrollH": 229,
+          "clientH": 229
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 79.40625,
+          "y": 69,
+          "w": 1121.1875,
+          "h": 52.796875,
+          "scrollW": 1121,
+          "clientW": 1121,
+          "scrollH": 53,
+          "clientH": 53
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 79.40625,
+          "y": 145.796875,
+          "w": 1121.1875,
+          "h": 88,
+          "scrollW": 1121,
+          "clientW": 1121,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_title": {
+          "x": 197.828125,
+          "y": 72.203125,
+          "w": 886.71875,
+          "h": 46.390625,
+          "scrollW": 1219,
+          "clientW": 887,
+          "scrollH": 46,
+          "clientH": 46
+        },
+        "DocumentReaderModal_body": {
+          "x": 39.40625,
+          "y": 266.796875,
+          "w": 1201.1875,
+          "h": 416.203125,
+          "scrollW": 1201,
+          "clientW": 1201,
+          "scrollH": 416,
+          "clientH": 416
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 79.40625,
+          "y": 145.796875,
+          "w": 339.75,
+          "h": 88,
+          "scrollW": 340,
+          "clientW": 340,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 158.75,
+          "y": 318.984375,
+          "w": 1029.65625,
+          "h": 214.390625,
+          "scrollW": 1030,
+          "clientW": 1030,
+          "scrollH": 214,
+          "clientH": 214
+        },
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 1136,
+          "h": 80,
+          "scrollW": 1136,
+          "clientW": 1136,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 720,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 720,
+          "clientH": 720
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 1136,
+          "h": 640,
+          "scrollW": 1136,
+          "clientW": 1136,
+          "scrollH": 640,
+          "clientH": 640
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        358.984375,
+        403.78125,
+        448.578125
+      ],
+      "textRowY": [
+        358.984375,
+        403.78125,
+        448.578125
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1280x720-32px-tab",
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "rootFont": "32px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 38.40625,
+          "y": 36,
+          "w": 1203.1875,
+          "h": 648,
+          "scrollW": 1201,
+          "clientW": 1201,
+          "scrollH": 646,
+          "clientH": 646
+        },
+        "DocumentReaderModal_header": {
+          "x": 39.40625,
+          "y": 37,
+          "w": 1201.1875,
+          "h": 229.796875,
+          "scrollW": 1201,
+          "clientW": 1201,
+          "scrollH": 229,
+          "clientH": 229
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 79.40625,
+          "y": 69,
+          "w": 1121.1875,
+          "h": 52.796875,
+          "scrollW": 1121,
+          "clientW": 1121,
+          "scrollH": 53,
+          "clientH": 53
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 79.40625,
+          "y": 145.796875,
+          "w": 1121.1875,
+          "h": 88,
+          "scrollW": 1121,
+          "clientW": 1121,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_title": {
+          "x": 197.828125,
+          "y": 72.203125,
+          "w": 886.71875,
+          "h": 46.390625,
+          "scrollW": 1219,
+          "clientW": 887,
+          "scrollH": 46,
+          "clientH": 46
+        },
+        "DocumentReaderModal_body": {
+          "x": 39.40625,
+          "y": 266.796875,
+          "w": 1201.1875,
+          "h": 416.203125,
+          "scrollW": 1201,
+          "clientW": 1201,
+          "scrollH": 416,
+          "clientH": 416
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 79.40625,
+          "y": 145.796875,
+          "w": 339.75,
+          "h": 88,
+          "scrollW": 340,
+          "clientW": 340,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 158.75,
+          "y": 318.984375,
+          "w": 1029.65625,
+          "h": 214.390625,
+          "scrollW": 1030,
+          "clientW": 1030,
+          "scrollH": 214,
+          "clientH": 214
+        },
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 1136,
+          "h": 80,
+          "scrollW": 1136,
+          "clientW": 1136,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 720,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 720,
+          "clientH": 720
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 1136,
+          "h": 640,
+          "scrollW": 1136,
+          "clientW": 1136,
+          "scrollH": 640,
+          "clientH": 640
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_actionBtn",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        358.984375,
+        403.78125,
+        448.578125
+      ],
+      "textRowY": [
+        358.984375,
+        403.78125,
+        448.578125
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "solid"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1573x1163-16px",
+      "viewport": {
+        "w": 1573,
+        "h": 1163
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 194.5,
+          "y": 149.5,
+          "w": 1184,
+          "h": 864,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 862,
+          "clientH": 862
+        },
+        "DocumentReaderModal_header": {
+          "x": 195.5,
+          "y": 150.5,
+          "w": 1182,
+          "h": 116.390625,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 115,
+          "clientH": 115
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 215.5,
+          "y": 166.5,
+          "w": 1142,
+          "h": 27.390625,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 215.5,
+          "y": 205.890625,
+          "w": 1142,
+          "h": 44,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 275.71875,
+          "y": 168.59375,
+          "w": 1023.75,
+          "h": 23.1875,
+          "scrollW": 1024,
+          "clientW": 1024,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 195.5,
+          "y": 266.890625,
+          "w": 1182,
+          "h": 745.609375,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 746,
+          "clientH": 746
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 215.5,
+          "y": 205.890625,
+          "w": 749.265625,
+          "h": 44,
+          "scrollW": 749,
+          "clientW": 749,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 309.578125,
+          "y": 299.890625,
+          "w": 987.921875,
+          "h": 107.171875,
+          "scrollW": 988,
+          "clientW": 988,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1501,
+          "h": 40,
+          "scrollW": 1501,
+          "clientW": 1501,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 1163,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 1163,
+          "clientH": 1163
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1501,
+          "h": 1123,
+          "scrollW": 1501,
+          "clientW": 1501,
+          "scrollH": 1123,
+          "clientH": 1123
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        319.890625,
+        342.28125,
+        364.671875
+      ],
+      "textRowY": [
+        319.890625,
+        342.28125,
+        364.671875
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1573x1163-16px-tab",
+      "viewport": {
+        "w": 1573,
+        "h": 1163
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 194.5,
+          "y": 149.5,
+          "w": 1184,
+          "h": 864,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 862,
+          "clientH": 862
+        },
+        "DocumentReaderModal_header": {
+          "x": 195.5,
+          "y": 150.5,
+          "w": 1182,
+          "h": 116.390625,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 115,
+          "clientH": 115
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 215.5,
+          "y": 166.5,
+          "w": 1142,
+          "h": 27.390625,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 215.5,
+          "y": 205.890625,
+          "w": 1142,
+          "h": 44,
+          "scrollW": 1142,
+          "clientW": 1142,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 275.71875,
+          "y": 168.59375,
+          "w": 1023.75,
+          "h": 23.1875,
+          "scrollW": 1024,
+          "clientW": 1024,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 195.5,
+          "y": 266.890625,
+          "w": 1182,
+          "h": 745.609375,
+          "scrollW": 1182,
+          "clientW": 1182,
+          "scrollH": 746,
+          "clientH": 746
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 215.5,
+          "y": 205.890625,
+          "w": 749.265625,
+          "h": 44,
+          "scrollW": 749,
+          "clientW": 749,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 309.578125,
+          "y": 299.890625,
+          "w": 987.921875,
+          "h": 107.171875,
+          "scrollW": 988,
+          "clientW": 988,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1501,
+          "h": 40,
+          "scrollW": 1501,
+          "clientW": 1501,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 1163,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 1163,
+          "clientH": 1163
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1501,
+          "h": 1123,
+          "scrollW": 1501,
+          "clientW": 1501,
+          "scrollH": 1123,
+          "clientH": 1123
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_actionBtn",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        319.890625,
+        342.28125,
+        364.671875
+      ],
+      "textRowY": [
+        319.890625,
+        342.28125,
+        364.671875
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "solid"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1573x1163-32px",
+      "viewport": {
+        "w": 1573,
+        "h": 1163
+      },
+      "rootFont": "32px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 47.1875,
+          "y": 58.15625,
+          "w": 1478.609375,
+          "h": 1046.6875,
+          "scrollW": 1477,
+          "clientW": 1477,
+          "scrollH": 1045,
+          "clientH": 1045
+        },
+        "DocumentReaderModal_header": {
+          "x": 48.1875,
+          "y": 59.15625,
+          "w": 1476.609375,
+          "h": 229.796875,
+          "scrollW": 1477,
+          "clientW": 1477,
+          "scrollH": 229,
+          "clientH": 229
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 88.1875,
+          "y": 91.15625,
+          "w": 1396.609375,
+          "h": 52.796875,
+          "scrollW": 1397,
+          "clientW": 1397,
+          "scrollH": 53,
+          "clientH": 53
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 88.1875,
+          "y": 167.953125,
+          "w": 1396.609375,
+          "h": 88,
+          "scrollW": 1397,
+          "clientW": 1397,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_title": {
+          "x": 206.609375,
+          "y": 94.359375,
+          "w": 1162.140625,
+          "h": 46.390625,
+          "scrollW": 1219,
+          "clientW": 1162,
+          "scrollH": 46,
+          "clientH": 46
+        },
+        "DocumentReaderModal_body": {
+          "x": 48.1875,
+          "y": 288.953125,
+          "w": 1476.609375,
+          "h": 814.890625,
+          "scrollW": 1477,
+          "clientW": 1477,
+          "scrollH": 815,
+          "clientH": 815
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 88.1875,
+          "y": 167.953125,
+          "w": 615.171875,
+          "h": 88,
+          "scrollW": 615,
+          "clientW": 615,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 179.25,
+          "y": 352.859375,
+          "w": 1281.640625,
+          "h": 214.390625,
+          "scrollW": 1282,
+          "clientW": 1282,
+          "scrollH": 214,
+          "clientH": 214
+        },
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 1429,
+          "h": 80,
+          "scrollW": 1429,
+          "clientW": 1429,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 1163,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 1163,
+          "clientH": 1163
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 1429,
+          "h": 1083,
+          "scrollW": 1429,
+          "clientW": 1429,
+          "scrollH": 1083,
+          "clientH": 1083
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        392.859375,
+        437.65625,
+        482.453125
+      ],
+      "textRowY": [
+        392.859375,
+        437.65625,
+        482.453125
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-1573x1163-32px-tab",
+      "viewport": {
+        "w": 1573,
+        "h": 1163
+      },
+      "rootFont": "32px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 47.1875,
+          "y": 58.15625,
+          "w": 1478.609375,
+          "h": 1046.6875,
+          "scrollW": 1477,
+          "clientW": 1477,
+          "scrollH": 1045,
+          "clientH": 1045
+        },
+        "DocumentReaderModal_header": {
+          "x": 48.1875,
+          "y": 59.15625,
+          "w": 1476.609375,
+          "h": 229.796875,
+          "scrollW": 1477,
+          "clientW": 1477,
+          "scrollH": 229,
+          "clientH": 229
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 88.1875,
+          "y": 91.15625,
+          "w": 1396.609375,
+          "h": 52.796875,
+          "scrollW": 1397,
+          "clientW": 1397,
+          "scrollH": 53,
+          "clientH": 53
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 88.1875,
+          "y": 167.953125,
+          "w": 1396.609375,
+          "h": 88,
+          "scrollW": 1397,
+          "clientW": 1397,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_title": {
+          "x": 206.609375,
+          "y": 94.359375,
+          "w": 1162.140625,
+          "h": 46.390625,
+          "scrollW": 1219,
+          "clientW": 1162,
+          "scrollH": 46,
+          "clientH": 46
+        },
+        "DocumentReaderModal_body": {
+          "x": 48.1875,
+          "y": 288.953125,
+          "w": 1476.609375,
+          "h": 814.890625,
+          "scrollW": 1477,
+          "clientW": 1477,
+          "scrollH": 815,
+          "clientH": 815
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 88.1875,
+          "y": 167.953125,
+          "w": 615.171875,
+          "h": 88,
+          "scrollW": 615,
+          "clientW": 615,
+          "scrollH": 88,
+          "clientH": 88
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 179.25,
+          "y": 352.859375,
+          "w": 1281.640625,
+          "h": 214.390625,
+          "scrollW": 1282,
+          "clientW": 1282,
+          "scrollH": 214,
+          "clientH": 214
+        },
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 1429,
+          "h": 80,
+          "scrollW": 1429,
+          "clientW": 1429,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 1163,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 1163,
+          "clientH": 1163
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 1429,
+          "h": 1083,
+          "scrollW": 1429,
+          "clientW": 1429,
+          "scrollH": 1083,
+          "clientH": 1083
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_actionBtn",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\nПервая строка\nВторая строка\nКириллица",
+      "documentRowCount": 3,
+      "searchMarks": 0,
+      "bodyElements": 10,
+      "numberRowY": [
+        392.859375,
+        437.65625,
+        482.453125
+      ],
+      "textRowY": [
+        392.859375,
+        437.65625,
+        482.453125
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "Копировать текст",
+          "aria": "Копировать текст",
+          "outline": "solid"
+        },
+        {
+          "text": "Скачать оригинал",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-md",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 92.046875,
+          "y": 43.09375,
+          "w": 612.921875,
+          "h": 23.1875,
+          "scrollW": 613,
+          "clientW": 613,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "Аудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 0,
+      "searchMarks": 1,
+      "bodyElements": 4,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-copy-md",
+      "mockedClipboard": "Аудит поиска и просмотра: Строка кириллицы"
+    },
+    {
+      "label": "reader-extension-docx",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 108.875,
+          "y": 43.09375,
+          "w": 596.09375,
+          "h": 23.1875,
+          "scrollW": 627,
+          "clientW": 596,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "Аудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 0,
+      "searchMarks": 1,
+      "bodyElements": 4,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-copy-docx",
+      "mockedClipboard": "Аудит поиска и просмотра: Строка кириллицы"
+    },
+    {
+      "label": "reader-extension-htm",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 100.96875,
+          "y": 43.09375,
+          "w": 604,
+          "h": 23.1875,
+          "scrollW": 619,
+          "clientW": 604,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-h",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 80.578125,
+          "y": 43.09375,
+          "w": 624.390625,
+          "h": 23.1875,
+          "scrollW": 624,
+          "clientW": 624,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-hpp",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.328125,
+          "y": 43.09375,
+          "w": 607.640625,
+          "h": 23.1875,
+          "scrollW": 619,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-java",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 105.171875,
+          "y": 43.09375,
+          "w": 599.796875,
+          "h": 23.1875,
+          "scrollW": 620,
+          "clientW": 600,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-go",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 90.453125,
+          "y": 43.09375,
+          "w": 614.515625,
+          "h": 23.1875,
+          "scrollW": 615,
+          "clientW": 615,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-php",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.328125,
+          "y": 43.09375,
+          "w": 607.640625,
+          "h": 23.1875,
+          "scrollW": 619,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-rb",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 88.03125,
+          "y": 43.09375,
+          "w": 616.9375,
+          "h": 23.1875,
+          "scrollW": 617,
+          "clientW": 617,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-bat",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 96.65625,
+          "y": 43.09375,
+          "w": 608.3125,
+          "h": 23.1875,
+          "scrollW": 614,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-ps1",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 96.203125,
+          "y": 43.09375,
+          "w": 608.765625,
+          "h": 23.1875,
+          "scrollW": 618,
+          "clientW": 609,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-conf",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 107.71875,
+          "y": 43.09375,
+          "w": 597.25,
+          "h": 23.1875,
+          "scrollW": 624,
+          "clientW": 597,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-config",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 121.296875,
+          "y": 43.09375,
+          "w": 583.671875,
+          "h": 23.1875,
+          "scrollW": 638,
+          "clientW": 584,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-extension-txt",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 607.75,
+          "h": 23.1875,
+          "scrollW": 610,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 173.234375,
+          "w": 750,
+          "h": 357.765625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 206.234375,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nАудит поиска и просмотра: Строка кириллицы",
+      "documentRowCount": 1,
+      "searchMarks": 1,
+      "bodyElements": 7,
+      "numberRowY": [
+        226.234375
+      ],
+      "textRowY": [
+        226.234375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-20000-lines",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 29.989501953125,
+          "y": 35.149383544921875,
+          "w": 740.02099609375,
+          "h": 495.9715270996094,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 30.97357177734375,
+          "y": 36.133453369140625,
+          "w": 738.0528564453125,
+          "h": 106.66401672363281,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 42.78241729736328,
+          "y": 47.942298889160156,
+          "w": 714.4351806640625,
+          "h": 26.954307556152344,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 42.78241729736328,
+          "y": 86.70545196533203,
+          "w": 714.4351806640625,
+          "h": 43.299095153808594,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 102.04191589355469,
+          "y": 50.0026969909668,
+          "w": 598.0687866210938,
+          "h": 22.818134307861328,
+          "scrollW": 610,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 30.97357177734375,
+          "y": 178.07025146484375,
+          "w": 738.0528564453125,
+          "h": 352.06658935546875,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 358,
+          "clientH": 358
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 42.78241729736328,
+          "y": 86.70545196533203,
+          "w": 560.920166015625,
+          "h": 43.299095153808594,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 123.78372192382812,
+          "y": 210.54457092285156,
+          "w": 612.7684326171875,
+          "h": 44107.26953125,
+          "scrollW": 623,
+          "clientW": 623,
+          "scrollH": 44821,
+          "clientH": 44821
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n5",
+      "documentRowCount": 2000,
+      "searchMarks": 0,
+      "bodyElements": 4004,
+      "numberRowY": [
+        230.22598266601562,
+        252.2599334716797,
+        274.29388427734375
+      ],
+      "textRowY": [
+        230.22598266601562,
+        252.2599334716797,
+        274.29388427734375
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать показанный текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ],
+      "wallReadyMs": 80
+    },
+    {
+      "label": "reader-copy-truncated",
+      "mockedClipboardLines": 2000
+    },
+    {
+      "label": "reader-original-download",
+      "mockedDownloadMedia": "audit.txt"
+    },
+    {
+      "label": "reader-error",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 607.75,
+          "h": 23.1875,
+          "scrollW": 610,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 622,
+          "h": 44,
+          "scrollW": 622,
+          "clientW": 622,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "Не удалось открыть документ. Попробуйте ещё раз или скачайте оригинал.\n\nПовторить загрузку\nСкачать оригинал",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "bodyElements": 5,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-retry-recovered",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 607.75,
+          "h": 23.1875,
+          "scrollW": 610,
+          "clientW": 608,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 170.390625,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "theme-dark",
+      "isFocusInDialog": false,
+      "bodyText": "1\nRECOVERED_DOCUMENT",
+      "documentRowCount": 1,
+      "searchMarks": 0,
+      "bodyElements": 6,
+      "numberRowY": [
+        190.390625
+      ],
+      "textRowY": [
+        190.390625
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-too-large-declared",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 613.171875,
+          "h": 23.1875,
+          "scrollW": 613,
+          "clientW": 613,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 622,
+          "h": 44,
+          "scrollW": 622,
+          "clientW": 622,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "Документ слишком большой для встроенного просмотра. Скачайте оригинал.\n\nСкачать оригинал",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "bodyElements": 4,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-too-large-stream",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 665.78125,
+          "h": 23.1875,
+          "scrollW": 666,
+          "clientW": 666,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 622,
+          "h": 44,
+          "scrollW": 622,
+          "clientW": 622,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "Документ слишком большой для встроенного просмотра. Скачайте оригинал.\n\nСкачать оригинал",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "bodyElements": 4,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-invalid-docx",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 108.875,
+          "y": 43.09375,
+          "w": 654.125,
+          "h": 23.1875,
+          "scrollW": 654,
+          "clientW": 654,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 622,
+          "h": 44,
+          "scrollW": 622,
+          "clientW": 622,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "Не удалось прочитать DOCX. Скачайте оригинал и откройте его в редакторе.\n\nСкачать оригинал",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "bodyElements": 4,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-empty",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 665.78125,
+          "h": 23.1875,
+          "scrollW": 666,
+          "clientW": 666,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 622,
+          "h": 44,
+          "scrollW": 622,
+          "clientW": 622,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "В документе нет текста для просмотра.",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "bodyElements": 1,
+      "numberRowY": [],
+      "textRowY": [],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-stale-request",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "DocumentReaderModal_modal": {
+          "x": 24,
+          "y": 28,
+          "w": 752,
+          "h": 504,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 502,
+          "clientH": 502
+        },
+        "DocumentReaderModal_header": {
+          "x": 25,
+          "y": 29,
+          "w": 750,
+          "h": 108.390625,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 107,
+          "clientH": 107
+        },
+        "DocumentReaderModal_headerLeft": {
+          "x": 37,
+          "y": 41,
+          "w": 726,
+          "h": 27.390625,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 27,
+          "clientH": 27
+        },
+        "DocumentReaderModal_headerRight": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 726,
+          "h": 44,
+          "scrollW": 726,
+          "clientW": 726,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_title": {
+          "x": 97.21875,
+          "y": 43.09375,
+          "w": 665.78125,
+          "h": 23.1875,
+          "scrollW": 666,
+          "clientW": 666,
+          "scrollH": 23,
+          "clientH": 23
+        },
+        "DocumentReaderModal_body": {
+          "x": 25,
+          "y": 137.390625,
+          "w": 750,
+          "h": 393.609375,
+          "scrollW": 750,
+          "clientW": 750,
+          "scrollH": 394,
+          "clientH": 394
+        },
+        "DocumentReaderModal_searchBox": {
+          "x": 37,
+          "y": 80.390625,
+          "w": 570,
+          "h": 44,
+          "scrollW": 570,
+          "clientW": 570,
+          "scrollH": 44,
+          "clientH": 44
+        },
+        "DocumentReaderModal_textLines": {
+          "x": 92.078125,
+          "y": 170.390625,
+          "w": 649.921875,
+          "h": 62.390625,
+          "scrollW": 650,
+          "clientW": 650,
+          "scrollH": 62,
+          "clientH": 62
+        },
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 1,
+      "activeElement": "DocumentReaderModal_searchInput",
+      "isFocusInDialog": true,
+      "bodyText": "1\nCURRENT_DOCUMENT",
+      "documentRowCount": 1,
+      "searchMarks": 0,
+      "bodyElements": 6,
+      "numberRowY": [
+        190.390625
+      ],
+      "textRowY": [
+        190.390625
+      ],
+      "topAtHeader": true,
+      "buttons": [
+        {
+          "text": "",
+          "aria": "Копировать текст",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Скачать оригинал",
+          "outline": "none"
+        },
+        {
+          "text": "",
+          "aria": "Закрыть просмотр",
+          "outline": "none"
+        }
+      ]
+    },
+    {
+      "label": "reader-reduced-motion",
+      "animation": "none"
+    },
+    {
+      "label": "shell-800x560",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "background-control",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "shell-1280x720",
+      "viewport": {
+        "w": 1280,
+        "h": 720
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1208,
+          "h": 40,
+          "scrollW": 1208,
+          "clientW": 1208,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 720,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 720,
+          "clientH": 720
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1208,
+          "h": 680,
+          "scrollW": 1208,
+          "clientW": 1208,
+          "scrollH": 680,
+          "clientH": 680
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "background-control",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "shell-1573x1163",
+      "viewport": {
+        "w": 1573,
+        "h": 1163
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1501,
+          "h": 40,
+          "scrollW": 1501,
+          "clientW": 1501,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 1163,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 1163,
+          "clientH": 1163
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1501,
+          "h": 1123,
+          "scrollW": 1501,
+          "clientW": 1501,
+          "scrollH": 1123,
+          "clientH": 1123
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "background-control",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "sidebar-keyboard",
+      "arrow": true,
+      "end": true,
+      "selected": "instagram"
+    },
+    {
+      "label": "native-pane-800x560-16px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "AppSidebar_appButton AppSidebar_hasError",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "native-pane-800x560-32px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "32px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 656,
+          "h": 80,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 560,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 656,
+          "h": 480,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 480,
+          "clientH": 480
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "AppSidebar_appButton AppSidebar_hasError",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "native-pane-1652x1160-16px",
+      "viewport": {
+        "w": 1652,
+        "h": 1160
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 1580,
+          "h": 40,
+          "scrollW": 1580,
+          "clientW": 1580,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 1160,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 1160,
+          "clientH": 1160
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 1580,
+          "h": 1120,
+          "scrollW": 1580,
+          "clientW": 1580,
+          "scrollH": 1120,
+          "clientH": 1120
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "AppSidebar_appButton AppSidebar_hasError",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "native-pane-1652x1160-32px",
+      "viewport": {
+        "w": 1652,
+        "h": 1160
+      },
+      "rootFont": "32px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 1508,
+          "h": 80,
+          "scrollW": 1508,
+          "clientW": 1508,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 1160,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 1160,
+          "clientH": 1160
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 1508,
+          "h": 1080,
+          "scrollW": 1508,
+          "clientW": 1508,
+          "scrollH": 1080,
+          "clientH": 1080
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "AppSidebar_appButton AppSidebar_hasError",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "inline-800x560-16px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "AppSidebar_appButton AppSidebar_hasError",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "inline-800x560-32px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "32px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 656,
+          "h": 80,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 560,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 656,
+          "h": 480,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 480,
+          "clientH": 480
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "AppSidebar_appButton AppSidebar_hasError",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "share-800x560-16px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "16px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 72,
+          "y": 0,
+          "w": 728,
+          "h": 40,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 40,
+          "clientH": 39
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 72,
+          "h": 560,
+          "scrollW": 71,
+          "clientW": 71,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "SocialShareModal_footer": {
+          "x": 209,
+          "y": 303.09375,
+          "w": 382,
+          "h": 223.90625,
+          "scrollW": 382,
+          "clientW": 382,
+          "scrollH": 223,
+          "clientH": 223
+        },
+        "SocialShareModal_actions": {
+          "x": 209,
+          "y": 424.15625,
+          "w": 382,
+          "h": 102.84375,
+          "scrollW": 382,
+          "clientW": 382,
+          "scrollH": 103,
+          "clientH": 103
+        },
+        "App_nativeViewport": {
+          "x": 72,
+          "y": 40,
+          "w": 728,
+          "h": 520,
+          "scrollW": 728,
+          "clientW": 728,
+          "scrollH": 520,
+          "clientH": 520
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "SocialShareModal_sourceToggle",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    },
+    {
+      "label": "share-source-click-32",
+      "clickable": false,
+      "reason": "source control obstructed in synthetic RecipientPicker fixture"
+    },
+    {
+      "label": "share-800x560-32px",
+      "viewport": {
+        "w": 800,
+        "h": 560
+      },
+      "rootFont": "32px",
+      "rects": {
+        "Titlebar_titlebar": {
+          "x": 144,
+          "y": 0,
+          "w": 656,
+          "h": 80,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 79,
+          "clientH": 78
+        },
+        "AppSidebar_sidebar": {
+          "x": 0,
+          "y": 0,
+          "w": 144,
+          "h": 560,
+          "scrollW": 142,
+          "clientW": 142,
+          "scrollH": 560,
+          "clientH": 560
+        },
+        "SocialShareModal_footer": {
+          "x": 81,
+          "y": 542.1875,
+          "w": 638,
+          "h": 1,
+          "scrollW": 638,
+          "clientW": 638,
+          "scrollH": 222,
+          "clientH": 0
+        },
+        "SocialShareModal_actions": {
+          "x": 81,
+          "y": 543.1875,
+          "w": 638,
+          "h": 205.796875,
+          "scrollW": 638,
+          "clientW": 638,
+          "scrollH": 206,
+          "clientH": 206
+        },
+        "App_nativeViewport": {
+          "x": 144,
+          "y": 80,
+          "w": 656,
+          "h": 480,
+          "scrollW": 656,
+          "clientW": 656,
+          "scrollH": 480,
+          "clientH": 480
+        }
+      },
+      "dialogCount": 0,
+      "activeElement": "SocialShareModal_sourceToggle",
+      "documentRowCount": 0,
+      "searchMarks": 0,
+      "numberRowY": [],
+      "textRowY": [],
+      "buttons": []
+    }
+  ],
+  "errors": []
+}

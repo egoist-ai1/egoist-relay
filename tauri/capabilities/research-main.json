@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-research-main",
+  "description": "Research registration and reply only in the bundled main renderer",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["relay-research-main"]
+}

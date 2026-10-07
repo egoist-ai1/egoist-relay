@@ -1,0 +1,2056 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.3-review-6-final-gates",
+  "capturedAt": "2026-10-02T05:53:32.716Z",
+  "reviewerTaskId": "01a0fab1-a1b5-7190-a57d-b826e3ddcc56",
+  "scope": "Independent bounded read-only source review of pending keyboard and modal-owned portal fixes. Actual native browser/default-action acceptance is owned by UI agent; no account/browser/process operations performed by reviewer.",
+  "sources": [
+    {
+      "path": "src/components/ui/Button.tsx",
+      "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4"
+    },
+    {
+      "path": "src/components/ui/Modal.tsx",
+      "sha256": "65e814eb90605b3bd3f086692b00768b337a1b81b1816459ea065a861764fe01"
+    },
+    {
+      "path": "src/components/ui/Menu.tsx",
+      "sha256": "941363d4394b2ba3420b56210e3155e8a95a577c0c37b6f52c35b9b3c2b7a4fa"
+    },
+    {
+      "path": "src/util/captureKeyboardListeners.ts",
+      "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207"
+    },
+    {
+      "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+      "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f"
+    },
+    {
+      "path": "src/components/ui/ConfirmDialog.tsx",
+      "sha256": "ca94cf91c10fd4f2f5e9d9d0b552249dc62ef95ea8e3b385458826b19c776680"
+    },
+    {
+      "path": "src/hooks/useKeyboardListNavigation.ts",
+      "sha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453"
+    },
+    {
+      "path": "src/components/ui/Checkbox.tsx",
+      "sha256": "e41294ae97be8e3115aab13c1eaa7d34e05a87e2460c8df48fe356b462f20359"
+    },
+    {
+      "path": "src/components/ui/Checkbox.scss",
+      "sha256": "1a0462bd750235c5e86fceba456dad7aac9fc1cf369748ebed0f75148191e83d"
+    },
+    {
+      "path": "src/components/common/DeleteMessageModal.tsx",
+      "sha256": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963"
+    },
+    {
+      "path": "src/components/ui/Portal.ts",
+      "sha256": "d37e8ea4beba6af2b860093e65bee331d3eb850dcf2ef0629ed84966b9ee6c5d"
+    },
+    {
+      "path": "src/hooks/useShowTransition.ts",
+      "sha256": "d7e8454e1c2d76d6b72292677865d7e6dcb8e45982cd466350feff6fd3ca2f1e"
+    },
+    {
+      "path": "src/hooks/useMenuPosition.ts",
+      "sha256": "1e24ee14293bb98dacd350a1074c25824e85325b2e7283e5ce15d21638138818"
+    },
+    {
+      "path": "src/components/ui/Modal.scss",
+      "sha256": "ef53ea8c5eb115c5f8d6d50fd106c881fe58ace1704be42a5266dcce4275a4ac"
+    },
+    {
+      "path": "src/util/captureEscKeyListener.ts",
+      "sha256": "576003c28a780285a1d77c1da72426bed72c421020f807844e75b4a5a6e754ac"
+    }
+  ],
+  "proof": {
+    "kind": "AST extraction of actual callbacks, TypeScript transpile, callback-only deterministic invocation",
+    "limitations": [
+      "SourceTarget supplies only selector/containment contract; it is not real DOM or a native keyboard test.",
+      "Confirm sequence invokes actual fallback then assumes native Button callback; UI browser fixture must establish event delivery and actual counts.",
+      "No deletion/send/AI API callback executed."
+    ],
+    "results": [
+      {
+        "id": "modal-cancel-button",
+        "onEnterCalls": 0,
+        "defaultPrevented": false,
+        "returned": "allow-keyboard-event-propagation"
+      },
+      {
+        "id": "modal-checkbox",
+        "onEnterCalls": 1,
+        "defaultPrevented": true,
+        "returned": true
+      },
+      {
+        "id": "modal-select",
+        "onEnterCalls": 1,
+        "defaultPrevented": true,
+        "returned": true
+      },
+      {
+        "id": "modal-menu-item",
+        "onEnterCalls": 0,
+        "defaultPrevented": false,
+        "returned": "allow-keyboard-event-propagation"
+      },
+      {
+        "id": "modal-text-input",
+        "onEnterCalls": 1,
+        "defaultPrevented": true,
+        "returned": true
+      },
+      {
+        "id": "modal-outside-button",
+        "onEnterCalls": 0,
+        "defaultPrevented": true,
+        "returned": true
+      },
+      {
+        "id": "button-fast-desktop",
+        "pointerCalls": 1,
+        "keyboardClickCalls": 1,
+        "nativeDisabledEventDeliveryNotSimulated": true
+      },
+      {
+        "id": "button-slow-desktop",
+        "pointerCalls": 1,
+        "keyboardClickCalls": 1,
+        "nativeDisabledEventDeliveryNotSimulated": true
+      },
+      {
+        "id": "button-touch",
+        "pointerCalls": 1,
+        "keyboardClickCalls": 1,
+        "nativeDisabledEventDeliveryNotSimulated": true
+      },
+      {
+        "id": "button-disabled",
+        "pointerCalls": 0,
+        "keyboardClickCalls": 0,
+        "nativeDisabledEventDeliveryNotSimulated": true
+      },
+      {
+        "id": "button-explicit-disabled-allowed",
+        "pointerCalls": 1,
+        "keyboardClickCalls": 1,
+        "nativeDisabledEventDeliveryNotSimulated": true
+      },
+      {
+        "id": "confirm-default-confirm-button",
+        "keydownConfirms": 1,
+        "afterAssumedNativeClick": {
+          "confirms": 2,
+          "cancels": 0
+        },
+        "defaultClickIsBrowserAcceptanceGate": true
+      },
+      {
+        "id": "confirm-tab-focused-cancel-button",
+        "keydownConfirms": 1,
+        "afterAssumedNativeClick": {
+          "confirms": 1,
+          "cancels": 1
+        },
+        "defaultClickIsBrowserAcceptanceGate": true
+      }
+    ],
+    "sourceSnapshot": "Historical baseline source callback extraction retained unchanged; not final-code acceptance."
+  },
+  "findings": [
+    {
+      "id": "modal-toggle-enter",
+      "priority": "P1",
+      "status": "resolved in final source and covered by actual synthetic custom UI receipt",
+      "file": "src/components/ui/Modal.tsx",
+      "line": 168,
+      "title": "Enter on native checkbox reaches modal submit/delete callback",
+      "trigger": "DeleteMessageModal with canDeleteForAll=true; focus native checkbox and press Enter.",
+      "evidence": [
+        "DeleteMessageModal.tsx:517 sets onEnter=handleDeleteMessageList; :557–563 renders Checkbox.",
+        "Checkbox.tsx:149–159 creates native input[type=checkbox]; no key handler or tabindex=-1 by default; CSS input is opacity0, not display:none.",
+        "Modal interactive target selector omits checkbox/radio inputs and select; callback extraction yields onEnterCalls=1, preventDefault=true for checkbox and select."
+      ],
+      "effect": "Current source dispatch invokes deletion callback while user is focused on the option rather than an explicit action. This is a retained gap in the newly revised Enter delegation; no live deletion performed.",
+      "recommendation": "Delegate Enter for native toggle/select targets and matching interactive roles while preserving explicit text-input submit behavior. Validate actual synthetic DeleteMessageModal callback counts.",
+      "resolution": "Modal.tsx:172–177 delegates checkbox/radio/select; actual DeleteMessage checkbox count0 and select/radio modalEnter0.",
+      "actualCaseIds": [
+        "delete-message-checkbox-enter",
+        "contained-select-enter",
+        "contained-radio-enter"
+      ]
+    },
+    {
+      "id": "confirm-native-enter",
+      "priority": "P1",
+      "status": "resolved in final source and covered by actual synthetic custom UI receipt",
+      "file": "src/components/ui/ConfirmDialog.tsx",
+      "line": 58,
+      "title": "Fallback confirmation ignores actual native button target",
+      "trigger": "Non-destructive ConfirmDialog; Enter on default native confirm, or Tab-focus Cancel then Enter while focusedIndex remains -1.",
+      "evidence": [
+        "handleSelectWithEnter(-1) calls confirmHandler without target check.",
+        "useKeyboardListNavigation.ts:36–38 invokes fallback for every bubbling Enter with its stored focusedIndex; only arrow navigation updates stored index.",
+        "ConfirmDialog native Button has noFastClick/onClick. Modal now allows contained button Enter to bubble and default native activation."
+      ],
+      "effect": "Source composition allows default confirm twice, or confirms from keydown before native Cancel callback. Browser fixture remains acceptance gate.",
+      "recommendation": "Make neutral fallback target-aware; explicit native Button activation must run only its click callback. Preserve destructive/disabled guards and verify Tab and default focus separately.",
+      "resolution": "ConfirmDialog.tsx:55–58 fallback requires document.activeElement===containerRef.current, retains non-destructive+enabled guards; actual native Confirm Enter confirms1 and Cancel confirms0/closes1.",
+      "actualCaseIds": [
+        "standard-confirm-confirm-enter",
+        "standard-confirm-cancel-enter"
+      ]
+    },
+    {
+      "id": "menu-closing-owner",
+      "priority": "resolved",
+      "status": "resolved in final source and covered by actual synthetic custom UI receipt",
+      "file": "src/components/ui/Menu.tsx",
+      "line": 92,
+      "title": "Closing-owner source concern resolved during concurrent UI-owner edit",
+      "trigger": "Close an AI language or desktop attachment body menu routed automatically from trigger-owned modal-container.",
+      "evidence": [
+        "Initial Menu e5837598… gated trigger lookup on isOpen; observation sent to UI owner.",
+        "Reviewed current Menu 941363d4… now looks up trigger regardless isOpen and returns undefined for closed dynamic portal with no trigger.",
+        "With existing body trigger, owner selector and Portal key remain stable during close.",
+        "Explicit Modal.moreMenuItems portal selector remains stable."
+      ],
+      "effect": "No current closing-owner defect asserted. Original source concern is retained with its own baseline hash rather than attributed to the later source.",
+      "recommendation": "UI owner verifies actual AI/Attachment closing animation, focus restore and reopen on final current source.",
+      "resolution": "Menu.tsx:92–96 retains trigger owner while closing, own bubble positioning and exact portal destination; current AI div/native fixtures confirm closing ownership, trigger focus return and subsequent exact-owner Escape/cleanup.",
+      "actualCaseIds": [
+        "ai-portal-div-keyboard-enter",
+        "ai-portal-div-keyboard-space",
+        "ai-portal-native-keyboard-enter",
+        "ai-portal-native-keyboard-space",
+        "ai-two-modal-owner-geometry"
+      ]
+    }
+  ],
+  "reviewedBehaviors": [
+    {
+      "id": "button-pointer-keyboard",
+      "status": "source-consistent; actual native event acceptance pending",
+      "evidence": "Fast desktop mousedown invokes handleClick once; pointer click detail>=1 is ignored by keyboard handler; detail0 invokes once. Touch/noFastClick remains normal click. Disabled callbacks are gated except explicit allowDisabledClick contract."
+    },
+    {
+      "id": "contained-interactive",
+      "status": "source-consistent for currently enumerated selectors",
+      "evidence": "button/anchor/role-button/MenuItem/menuitemradio/textarea/contenteditable Enter returns propagation sentinel, allowing actual target handling while stopping lower registered capture-stack callbacks."
+    },
+    {
+      "id": "portal-open-owner-geometry",
+      "status": "source-consistent for two identified body-owned portal paths",
+      "evidence": "Menu derives owner only from actual trigger.closest(.Modal .modal-container), overrides global menu query with own bubble ref. Owner .modal-container is fixed at viewport0, so useMenuPosition viewport left/top coords match while open; no general background-menu exemption."
+    },
+    {
+      "id": "native-escape",
+      "status": "source-consistent; actual native top-layer acceptance pending",
+      "evidence": "Menu Escape receives actual event via capture listener, preventDefault for owner modal, focuses trigger and closes menu. Modal Escape preventDefault + onClose avoids native cancel duplicate; cancel listener also prevents default. Registration/topmost ordering and native inertness require UI fixture."
+    },
+    {
+      "id": "ai-trigger",
+      "status": "source-consistent",
+      "evidence": "Actual AI span trigger has role=button/tabIndex0 and Enter/Space preventDefault+handleTriggerClick; span lacks native button click default, so manual handler does not duplicate click."
+    }
+  ],
+  "sourceEdits": false,
+  "existingReportEdits": false,
+  "browserOrAccountRun": false,
+  "reviewObjects": [
+    {
+      "id": "keyboard-review-findings",
+      "name": "Contained-control and ConfirmDialog Enter dispatch",
+      "version": 2,
+      "decision": "unreviewed",
+      "content": "Previous Enter dispatch findings are resolved in final reviewed source and actual31/31 synthetic component receipt; bounded source hashes and original failures retained.",
+      "actionOnApprove": "Accept these bounded code-review conclusions as release evidence while preserving stated full-suite and live account/body coverage limits."
+    },
+    {
+      "id": "portal-closing-review",
+      "name": "Modal-owned body portal closing lifecycle",
+      "version": 2,
+      "decision": "unreviewed",
+      "content": "Exact modal-owned portal open/closing/reopen/cleanup and native Escape are supported by latest synthetic cases; intermediate failed probe retained separately.",
+      "actionOnApprove": "Accept these bounded code-review conclusions as release evidence while preserving stated full-suite and live account/body coverage limits."
+    }
+  ],
+  "updatedAt": "2026-10-02T06:41:41.223Z",
+  "previousReceiptSha256": "2ec04f00d1922a6bcbfa8f17a1d7f8401857eaa6b328a3be0e59b8aac1eed7c0",
+  "historicalObservations": [
+    {
+      "id": "menu-closing-owner-initial",
+      "sourceSha256": "e5837598a30d350c7c237055d82a905bf50e0ec69c31da736374b3f118636213",
+      "observation": "Initial source trigger lookup was gated by isOpen and auto portal owner disappeared while closing.",
+      "currentSourceSha256": "941363d4394b2ba3420b56210e3155e8a95a577c0c37b6f52c35b9b3c2b7a4fa",
+      "resolution": "Current source removes isOpen gate and suppresses closed portal without a trigger; previous source concern resolved. No actual visual/native acceptance claim."
+    }
+  ],
+  "activeFindings": [],
+  "sourceReadback": {
+    "at": "2026-10-02T05:55:07.648Z",
+    "files": [
+      {
+        "path": "src/components/ui/Button.tsx",
+        "reviewedSha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "currentSha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "unchangedSinceSnapshot": true
+      },
+      {
+        "path": "src/components/ui/Modal.tsx",
+        "reviewedSha256": "65e814eb90605b3bd3f086692b00768b337a1b81b1816459ea065a861764fe01",
+        "currentSha256": "65e814eb90605b3bd3f086692b00768b337a1b81b1816459ea065a861764fe01",
+        "unchangedSinceSnapshot": true
+      },
+      {
+        "path": "src/components/ui/Menu.tsx",
+        "reviewedSha256": "941363d4394b2ba3420b56210e3155e8a95a577c0c37b6f52c35b9b3c2b7a4fa",
+        "currentSha256": "941363d4394b2ba3420b56210e3155e8a95a577c0c37b6f52c35b9b3c2b7a4fa",
+        "unchangedSinceSnapshot": true
+      },
+      {
+        "path": "src/util/captureKeyboardListeners.ts",
+        "reviewedSha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "currentSha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "unchangedSinceSnapshot": true
+      },
+      {
+        "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "reviewedSha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+        "currentSha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+        "unchangedSinceSnapshot": true
+      },
+      {
+        "path": "src/components/ui/ConfirmDialog.tsx",
+        "reviewedSha256": "ca94cf91c10fd4f2f5e9d9d0b552249dc62ef95ea8e3b385458826b19c776680",
+        "currentSha256": "ca94cf91c10fd4f2f5e9d9d0b552249dc62ef95ea8e3b385458826b19c776680",
+        "unchangedSinceSnapshot": true
+      },
+      {
+        "path": "src/hooks/useKeyboardListNavigation.ts",
+        "reviewedSha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453",
+        "currentSha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453",
+        "unchangedSinceSnapshot": true
+      }
+    ]
+  },
+  "reviewHistory": [
+    {
+      "version": "1.4.3-review-2",
+      "sha256": "d32e783768c1cc281e6f9b3c94e521fdf09bca8101ad04896d83955f77924824",
+      "capturedAt": "2026-10-02T05:53:32.716Z",
+      "updatedAt": "2026-10-02T05:55:07.647Z",
+      "activeFindings": [
+        "modal-toggle-enter",
+        "confirm-native-enter"
+      ],
+      "findings": [
+        {
+          "id": "modal-toggle-enter",
+          "priority": "P1",
+          "status": "source-reproduced; actual synthetic UI acceptance pending",
+          "file": "src/components/ui/Modal.tsx",
+          "line": 168,
+          "title": "Enter on native checkbox reaches modal submit/delete callback",
+          "trigger": "DeleteMessageModal with canDeleteForAll=true; focus native checkbox and press Enter.",
+          "evidence": [
+            "DeleteMessageModal.tsx:517 sets onEnter=handleDeleteMessageList; :557–563 renders Checkbox.",
+            "Checkbox.tsx:149–159 creates native input[type=checkbox]; no key handler or tabindex=-1 by default; CSS input is opacity0, not display:none.",
+            "Modal interactive target selector omits checkbox/radio inputs and select; callback extraction yields onEnterCalls=1, preventDefault=true for checkbox and select."
+          ],
+          "effect": "Current source dispatch invokes deletion callback while user is focused on the option rather than an explicit action. This is a retained gap in the newly revised Enter delegation; no live deletion performed.",
+          "recommendation": "Delegate Enter for native toggle/select targets and matching interactive roles while preserving explicit text-input submit behavior. Validate actual synthetic DeleteMessageModal callback counts."
+        },
+        {
+          "id": "confirm-native-enter",
+          "priority": "P1",
+          "status": "source-reproduced composition; native click counts pending",
+          "file": "src/components/ui/ConfirmDialog.tsx",
+          "line": 58,
+          "title": "Fallback confirmation ignores actual native button target",
+          "trigger": "Non-destructive ConfirmDialog; Enter on default native confirm, or Tab-focus Cancel then Enter while focusedIndex remains -1.",
+          "evidence": [
+            "handleSelectWithEnter(-1) calls confirmHandler without target check.",
+            "useKeyboardListNavigation.ts:36–38 invokes fallback for every bubbling Enter with its stored focusedIndex; only arrow navigation updates stored index.",
+            "ConfirmDialog native Button has noFastClick/onClick. Modal now allows contained button Enter to bubble and default native activation."
+          ],
+          "effect": "Source composition allows default confirm twice, or confirms from keydown before native Cancel callback. Browser fixture remains acceptance gate.",
+          "recommendation": "Make neutral fallback target-aware; explicit native Button activation must run only its click callback. Preserve destructive/disabled guards and verify Tab and default focus separately."
+        },
+        {
+          "id": "menu-closing-owner",
+          "priority": "resolved",
+          "status": "resolved in current source; actual UI close/reopen acceptance pending",
+          "file": "src/components/ui/Menu.tsx",
+          "line": 92,
+          "title": "Closing-owner source concern resolved during concurrent UI-owner edit",
+          "trigger": "Close an AI language or desktop attachment body menu routed automatically from trigger-owned modal-container.",
+          "evidence": [
+            "Initial Menu e5837598… gated trigger lookup on isOpen; observation sent to UI owner.",
+            "Reviewed current Menu 941363d4… now looks up trigger regardless isOpen and returns undefined for closed dynamic portal with no trigger.",
+            "With existing body trigger, owner selector and Portal key remain stable during close.",
+            "Explicit Modal.moreMenuItems portal selector remains stable."
+          ],
+          "effect": "No current closing-owner defect asserted. Original source concern is retained with its own baseline hash rather than attributed to the later source.",
+          "recommendation": "UI owner verifies actual AI/Attachment closing animation, focus restore and reopen on final current source."
+        }
+      ],
+      "reviewedSources": [
+        {
+          "path": "src/components/ui/Button.tsx",
+          "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4"
+        },
+        {
+          "path": "src/components/ui/Modal.tsx",
+          "sha256": "65e814eb90605b3bd3f086692b00768b337a1b81b1816459ea065a861764fe01"
+        },
+        {
+          "path": "src/components/ui/Menu.tsx",
+          "sha256": "941363d4394b2ba3420b56210e3155e8a95a577c0c37b6f52c35b9b3c2b7a4fa"
+        },
+        {
+          "path": "src/util/captureKeyboardListeners.ts",
+          "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207"
+        },
+        {
+          "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+          "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f"
+        },
+        {
+          "path": "src/components/ui/ConfirmDialog.tsx",
+          "sha256": "ca94cf91c10fd4f2f5e9d9d0b552249dc62ef95ea8e3b385458826b19c776680"
+        },
+        {
+          "path": "src/hooks/useKeyboardListNavigation.ts",
+          "sha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453"
+        },
+        {
+          "path": "src/components/ui/Checkbox.tsx",
+          "sha256": "e41294ae97be8e3115aab13c1eaa7d34e05a87e2460c8df48fe356b462f20359"
+        },
+        {
+          "path": "src/components/ui/Checkbox.scss",
+          "sha256": "1a0462bd750235c5e86fceba456dad7aac9fc1cf369748ebed0f75148191e83d"
+        },
+        {
+          "path": "src/components/common/DeleteMessageModal.tsx",
+          "sha256": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963"
+        },
+        {
+          "path": "src/components/ui/Portal.ts",
+          "sha256": "d37e8ea4beba6af2b860093e65bee331d3eb850dcf2ef0629ed84966b9ee6c5d"
+        },
+        {
+          "path": "src/hooks/useShowTransition.ts",
+          "sha256": "d7e8454e1c2d76d6b72292677865d7e6dcb8e45982cd466350feff6fd3ca2f1e"
+        },
+        {
+          "path": "src/hooks/useMenuPosition.ts",
+          "sha256": "1e24ee14293bb98dacd350a1074c25824e85325b2e7283e5ce15d21638138818"
+        },
+        {
+          "path": "src/components/ui/Modal.scss",
+          "sha256": "ef53ea8c5eb115c5f8d6d50fd106c881fe58ace1704be42a5266dcce4275a4ac"
+        },
+        {
+          "path": "src/util/captureEscKeyListener.ts",
+          "sha256": "576003c28a780285a1d77c1da72426bed72c421020f807844e75b4a5a6e754ac"
+        }
+      ],
+      "callbackProof": {
+        "kind": "AST extraction of actual callbacks, TypeScript transpile, callback-only deterministic invocation",
+        "limitations": [
+          "SourceTarget supplies only selector/containment contract; it is not real DOM or a native keyboard test.",
+          "Confirm sequence invokes actual fallback then assumes native Button callback; UI browser fixture must establish event delivery and actual counts.",
+          "No deletion/send/AI API callback executed."
+        ],
+        "results": [
+          {
+            "id": "modal-cancel-button",
+            "onEnterCalls": 0,
+            "defaultPrevented": false,
+            "returned": "allow-keyboard-event-propagation"
+          },
+          {
+            "id": "modal-checkbox",
+            "onEnterCalls": 1,
+            "defaultPrevented": true,
+            "returned": true
+          },
+          {
+            "id": "modal-select",
+            "onEnterCalls": 1,
+            "defaultPrevented": true,
+            "returned": true
+          },
+          {
+            "id": "modal-menu-item",
+            "onEnterCalls": 0,
+            "defaultPrevented": false,
+            "returned": "allow-keyboard-event-propagation"
+          },
+          {
+            "id": "modal-text-input",
+            "onEnterCalls": 1,
+            "defaultPrevented": true,
+            "returned": true
+          },
+          {
+            "id": "modal-outside-button",
+            "onEnterCalls": 0,
+            "defaultPrevented": true,
+            "returned": true
+          },
+          {
+            "id": "button-fast-desktop",
+            "pointerCalls": 1,
+            "keyboardClickCalls": 1,
+            "nativeDisabledEventDeliveryNotSimulated": true
+          },
+          {
+            "id": "button-slow-desktop",
+            "pointerCalls": 1,
+            "keyboardClickCalls": 1,
+            "nativeDisabledEventDeliveryNotSimulated": true
+          },
+          {
+            "id": "button-touch",
+            "pointerCalls": 1,
+            "keyboardClickCalls": 1,
+            "nativeDisabledEventDeliveryNotSimulated": true
+          },
+          {
+            "id": "button-disabled",
+            "pointerCalls": 0,
+            "keyboardClickCalls": 0,
+            "nativeDisabledEventDeliveryNotSimulated": true
+          },
+          {
+            "id": "button-explicit-disabled-allowed",
+            "pointerCalls": 1,
+            "keyboardClickCalls": 1,
+            "nativeDisabledEventDeliveryNotSimulated": true
+          },
+          {
+            "id": "confirm-default-confirm-button",
+            "keydownConfirms": 1,
+            "afterAssumedNativeClick": {
+              "confirms": 2,
+              "cancels": 0
+            },
+            "defaultClickIsBrowserAcceptanceGate": true
+          },
+          {
+            "id": "confirm-tab-focused-cancel-button",
+            "keydownConfirms": 1,
+            "afterAssumedNativeClick": {
+              "confirms": 1,
+              "cancels": 1
+            },
+            "defaultClickIsBrowserAcceptanceGate": true
+          }
+        ],
+        "sourceSnapshot": "Historical baseline source callback extraction retained unchanged; not final-code acceptance."
+      }
+    }
+  ],
+  "finalReview": {
+    "capturedAt": "2026-10-02T06:16:31.778Z",
+    "scopeFiles": [
+      {
+        "path": "src/components/ui/Button.tsx",
+        "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "modifiedAt": "2026-10-02T05:42:02.575Z"
+      },
+      {
+        "path": "src/components/ui/Modal.tsx",
+        "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+        "modifiedAt": "2026-10-02T06:10:41.293Z"
+      },
+      {
+        "path": "src/components/ui/Menu.tsx",
+        "sha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768",
+        "modifiedAt": "2026-10-02T05:58:00.722Z"
+      },
+      {
+        "path": "src/util/captureKeyboardListeners.ts",
+        "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "modifiedAt": "2026-10-02T05:05:45.739Z"
+      },
+      {
+        "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+        "modifiedAt": "2026-10-02T05:42:02.576Z"
+      },
+      {
+        "path": "src/components/ui/ConfirmDialog.tsx",
+        "sha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0",
+        "modifiedAt": "2026-10-02T05:55:12.564Z"
+      },
+      {
+        "path": "src/hooks/useKeyboardListNavigation.ts",
+        "sha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453",
+        "modifiedAt": "2026-09-12T17:46:47.126Z"
+      }
+    ],
+    "unresolvedConcreteDefects": [],
+    "conclusion": "No unresolved concrete defect identified in the seven scoped frozen source files. Previous callback findings and menu-owner lifecycle concern are resolved narrowly and supported by UI owner actual synthetic native-event evidence. This is not certification of every inner form or live server/account flow.",
+    "sourceAssessments": [
+      {
+        "file": "src/components/ui/Button.tsx",
+        "line": 193,
+        "assessment": "Native click detail0 goes through callback once; fast desktop pointer action remains mousedown, subsequent pointer click ignored. Existing disabled/allowDisabledClick contract retained; latest custom disabled test is forced pointer count0, not an additional keyboard-disabled fixture."
+      },
+      {
+        "file": "src/components/ui/Modal.tsx",
+        "line": 163,
+        "assessment": "Contained checkbox/radio/select joins targeted interactive Enter delegation; textarea/contenteditable/MenuItem/native buttons and anchors retain target handling. Single-line text input baseline onEnter remains; unowned outside Enter is prevented/consumed."
+      },
+      {
+        "file": "src/components/ui/Modal.tsx",
+        "line": 166,
+        "assessment": "Only a distinct target-owned .Modal currently open (or native dialog[open]) and not closing/not-shown/not-open makes unrelated Modal Enter handler returnfalse; same narrow owner guard is applied to Escape. Global capture ordering is unchanged."
+      },
+      {
+        "file": "src/components/ui/ConfirmDialog.tsx",
+        "line": 55,
+        "assessment": "Neutral container fallback checks actual document.activeElement identity, index-1, non-destructive and enabled. Native button paths therefore activate only native click; target check resolves Tab/default focus duplicate."
+      },
+      {
+        "file": "src/components/ui/Menu.tsx",
+        "line": 92,
+        "assessment": "Actual trigger lookup does not depend on isOpen, owner derives from trigger.closest(.Modal .modal-container), closed dynamic portal with no trigger does not render. Owner selector/key persists through close; own bubble ref replaces ambiguous global query for owned menus."
+      },
+      {
+        "file": "src/components/ui/Menu.tsx",
+        "line": 103,
+        "assessment": "Owned modal Escape prevents native dialog cancel, restores exact trigger focus and closes menu; subsequent Escape closes exact owner. Modal-container fixed viewport geometry remains compatible with portal coordinates."
+      },
+      {
+        "file": "src/util/captureKeyboardListeners.ts",
+        "line": 91,
+        "assessment": "Propagation sentinel exits registered stack without stopping target event. false delegates to next handler; native Enter/Space targets remain handled by their own components."
+      },
+      {
+        "file": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "line": 124,
+        "assessment": "Actual focusable span trigger handles Enter/Space explicitly with preventDefault; role button does not create a second native click."
+      },
+      {
+        "file": "src/hooks/useKeyboardListNavigation.ts",
+        "line": 36,
+        "assessment": "Unchanged source; no global navigation alteration needed for neutral Confirm target fix."
+      }
+    ],
+    "latestActualEvidence": {
+      "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-after.json",
+      "sha256": "7a7d3aa9468b20bc22dd179ebe96ca017fb2a7928b38b4eec30bdcdccf8d8d09",
+      "generatedAt": "2026-10-02T06:10:55.427Z",
+      "environment": "Actual custom components; destructive/delete/AI callbacks replaced only in fresh test browser; remote requests blocked; no account transport",
+      "summary": {
+        "total": 31,
+        "pass": 31,
+        "fail": 0,
+        "errors": 0
+      },
+      "errors": [],
+      "unhandled": [],
+      "specificCases": [
+        {
+          "id": "default-button-enter",
+          "sources": [
+            "src/components/ui/Button.tsx",
+            "src/components/ui/Modal.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "key": "Enter",
+            "delta": 1
+          }
+        },
+        {
+          "id": "default-button-space",
+          "sources": [
+            "src/components/ui/Button.tsx",
+            "src/components/ui/Modal.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "key": "Space",
+            "delta": 1
+          }
+        },
+        {
+          "id": "default-button-pointer-once",
+          "sources": [
+            "src/components/ui/Button.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "delta": 1
+          }
+        },
+        {
+          "id": "default-button-disabled-zero",
+          "sources": [
+            "src/components/ui/Button.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "delta": 0
+          }
+        },
+        {
+          "id": "standard-confirm-confirm-enter",
+          "sources": [
+            "src/components/ui/ConfirmDialog.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Button.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "delta": {
+              "confirmed": 1,
+              "closed": 1
+            }
+          }
+        },
+        {
+          "id": "standard-confirm-cancel-enter",
+          "sources": [
+            "src/components/ui/ConfirmDialog.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Button.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "delta": {
+              "confirmed": 0,
+              "closed": 1
+            }
+          }
+        },
+        {
+          "id": "delete-message-checkbox-enter",
+          "sources": [
+            "src/components/common/DeleteMessageModal.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Checkbox.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "delta": 0
+          }
+        },
+        {
+          "id": "contained-select-enter",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/TextArea.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "modalSubmitDelta": 0
+          }
+        },
+        {
+          "id": "contained-radio-enter",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/TextArea.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "modalSubmitDelta": 0
+          }
+        },
+        {
+          "id": "ai-portal-div-keyboard-enter",
+          "sources": [
+            "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Menu.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "key": "Enter",
+            "geometry": {
+              "bubble": {
+                "left": 721.6875,
+                "top": 633.796875,
+                "right": 891.078125,
+                "bottom": 891.796875,
+                "width": 169.390625,
+                "height": 258
+              },
+              "trigger": {
+                "left": 737.6875,
+                "top": 601.5,
+                "bottom": 625.796875
+              },
+              "owner": "modal-menu-muqkew3cqtgu5fi7o0b"
+            },
+            "itemCallbackOnce": true,
+            "modalEnterDelta": 0,
+            "closingOwned": true,
+            "exactFocusReturn": true,
+            "secondEscapeParentClose": true
+          }
+        },
+        {
+          "id": "ai-portal-div-keyboard-space",
+          "sources": [
+            "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Menu.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "key": "Space",
+            "geometry": {
+              "bubble": {
+                "left": 721.6875,
+                "top": 633.796875,
+                "right": 891.078125,
+                "bottom": 891.796875,
+                "width": 169.390625,
+                "height": 258
+              },
+              "trigger": {
+                "left": 737.6875,
+                "top": 601.5,
+                "bottom": 625.796875
+              },
+              "owner": "modal-menu-muqkeydtpmc1ptpx9v"
+            },
+            "itemCallbackOnce": true,
+            "modalEnterDelta": 0,
+            "closingOwned": true,
+            "exactFocusReturn": true,
+            "secondEscapeParentClose": true
+          }
+        },
+        {
+          "id": "ai-portal-native-keyboard-enter",
+          "sources": [
+            "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Menu.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "key": "Enter",
+            "geometry": {
+              "bubble": {
+                "left": 721.6875,
+                "top": 633.796875,
+                "right": 891.078125,
+                "bottom": 891.796875,
+                "width": 169.390625,
+                "height": 258
+              },
+              "trigger": {
+                "left": 737.6875,
+                "top": 601.5,
+                "bottom": 625.796875
+              },
+              "owner": "modal-menu-muqkf0nsapuoszx0h1v"
+            },
+            "itemCallbackOnce": true,
+            "modalEnterDelta": 0,
+            "closingOwned": true,
+            "exactFocusReturn": true,
+            "secondEscapeParentClose": true
+          }
+        },
+        {
+          "id": "ai-portal-native-keyboard-space",
+          "sources": [
+            "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Menu.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "key": "Space",
+            "geometry": {
+              "bubble": {
+                "left": 721.6875,
+                "top": 633.796875,
+                "right": 891.078125,
+                "bottom": 891.796875,
+                "width": 169.390625,
+                "height": 258
+              },
+              "trigger": {
+                "left": 737.6875,
+                "top": 601.5,
+                "bottom": 625.796875
+              },
+              "owner": "modal-menu-muqkf2y6y2qts73jfc"
+            },
+            "itemCallbackOnce": true,
+            "modalEnterDelta": 0,
+            "closingOwned": true,
+            "exactFocusReturn": true,
+            "secondEscapeParentClose": true
+          }
+        },
+        {
+          "id": "ai-two-modal-owner-geometry",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/Menu.tsx",
+            "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "ids": [
+              "modal-menu-muqkf58gx9kl4qeanl",
+              "modal-menu-muqkf58evqh13uynh7"
+            ],
+            "secondRect": {
+              "x": 721.6875,
+              "y": 633.796875,
+              "width": 169.390625,
+              "height": 258
+            },
+            "firstRect": {
+              "x": 721.6875,
+              "y": 633.796875,
+              "width": 169.390625,
+              "height": 258
+            },
+            "distinctOwners": true,
+            "spaceAndPointerCallbacksOnce": true,
+            "bothModalEnterDelta": 0,
+            "exactOwnerCleanup": true
+          }
+        },
+        {
+          "id": "ai-nonmodal-default-portal",
+          "sources": [
+            "src/components/ui/Menu.tsx",
+            "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "relation": {
+              "inDefaultPortals": true,
+              "inModal": false
+            },
+            "defaultEscape": true
+          }
+        },
+        {
+          "id": "contained-textarea-enter",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/TextArea.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "modalSubmitDelta": 0
+          }
+        },
+        {
+          "id": "contained-contenteditable-enter",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/TextArea.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "modalSubmitDelta": 0
+          }
+        },
+        {
+          "id": "contained-native-link-enter",
+          "sources": [
+            "src/components/ui/Modal.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "linkDelta": 1,
+            "modalDelta": 0
+          }
+        },
+        {
+          "id": "contained-single-line-input-baseline",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/components/ui/InputText.tsx"
+          ],
+          "status": "pass",
+          "detail": {
+            "nativeSpace": true,
+            "modalEnterDelta": 1
+          }
+        },
+        {
+          "id": "unowned-outside-enter-blocked",
+          "sources": [
+            "src/components/ui/Modal.tsx",
+            "src/util/captureKeyboardListeners.ts"
+          ],
+          "status": "pass",
+          "detail": {
+            "result": {
+              "prevented": true,
+              "targetHandler": 0
+            },
+            "modalEnterDelta": 0
+          }
+        }
+      ],
+      "runnerPath": "scripts/relay-ui-audit.custom-modals.mjs",
+      "runnerSha256": "f5e34662f6a0d04a0fa9416843d9353eed887a4bc6856eacae745abcdd70c348"
+    },
+    "historicalEvidence": [
+      {
+        "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-before.json",
+        "sha256": "3ac29c2a41669368e7be8c6a2da0703b1ac2ce366345336aa85a5e925fa210c3",
+        "generatedAt": "2026-10-02T05:36:21.234Z",
+        "summary": {
+          "total": 10,
+          "pass": 2,
+          "fail": 8,
+          "errors": 0
+        },
+        "cases": [
+          {
+            "id": "default-button-enter",
+            "status": "fail"
+          },
+          {
+            "id": "default-button-space",
+            "status": "fail"
+          },
+          {
+            "id": "default-button-pointer-once",
+            "status": "pass"
+          },
+          {
+            "id": "default-button-disabled-zero",
+            "status": "pass"
+          },
+          {
+            "id": "delete-photo-cancel-enter",
+            "status": "fail"
+          },
+          {
+            "id": "guard-bot-keep-enter",
+            "status": "fail"
+          },
+          {
+            "id": "calendar-repeat-item-enter",
+            "status": "fail"
+          },
+          {
+            "id": "calendar-repeat-escape-child-only",
+            "status": "fail"
+          },
+          {
+            "id": "ai-portal-div-focus",
+            "status": "fail"
+          },
+          {
+            "id": "ai-portal-native-focus",
+            "status": "fail"
+          }
+        ]
+      },
+      {
+        "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-additional-before.json",
+        "sha256": "a608252cdd2a569c96a277a4f294eadcf2904dbc6c8c1561e5febf3bae91b4a3",
+        "generatedAt": "2026-10-02T05:52:12.502Z",
+        "summary": {
+          "total": 13,
+          "pass": 10,
+          "fail": 3,
+          "errors": 0
+        },
+        "cases": [
+          {
+            "id": "default-button-enter",
+            "status": "pass"
+          },
+          {
+            "id": "default-button-space",
+            "status": "pass"
+          },
+          {
+            "id": "default-button-pointer-once",
+            "status": "pass"
+          },
+          {
+            "id": "default-button-disabled-zero",
+            "status": "pass"
+          },
+          {
+            "id": "delete-photo-cancel-enter",
+            "status": "pass"
+          },
+          {
+            "id": "guard-bot-keep-enter",
+            "status": "pass"
+          },
+          {
+            "id": "calendar-repeat-item-enter",
+            "status": "pass"
+          },
+          {
+            "id": "calendar-repeat-escape-child-only",
+            "status": "pass"
+          },
+          {
+            "id": "ai-portal-div-focus",
+            "status": "pass"
+          },
+          {
+            "id": "ai-portal-native-focus",
+            "status": "pass"
+          },
+          {
+            "id": "standard-confirm-confirm-enter",
+            "status": "fail"
+          },
+          {
+            "id": "standard-confirm-cancel-enter",
+            "status": "fail"
+          },
+          {
+            "id": "delete-message-checkbox-enter",
+            "status": "fail"
+          }
+        ]
+      },
+      {
+        "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-two-owner-enter-after.json",
+        "sha256": "bb30bde960ca5a90839144bac1d2d3cdff77a1204ba01b760d0fd19bc7cf8090",
+        "generatedAt": "2026-10-02T06:00:40.542Z",
+        "summary": {
+          "total": 1,
+          "pass": 0,
+          "fail": 1,
+          "errors": 0
+        },
+        "cases": [
+          {
+            "id": "ai-two-modal-owner-geometry",
+            "status": "fail"
+          }
+        ]
+      }
+    ],
+    "intermediateProbeDistinction": "ui-custom-modal-two-owner-enter-after.json generated06:00:40 contains a failed intermediate locator-focus run (0/1PASS); latest06:02:27 full31-case receipt contains the same two-owner case PASS with distinct-owner cleanup/Enter/Escape counters. No historical failure overwritten or hidden.",
+    "remainingGates": [
+      "Root/UI owner complete their full64-case, grouped125-route and66theme/control reruns and canonical build under final source/harness freeze.",
+      "Report does not certify all138 modal-category bodies or live server/native account workflows.",
+      "Actual synthetic callbacks replace protected deletion/AI side effects; no live account acceptance claimed."
+    ],
+    "reviewerSourceEdits": false,
+    "reviewerBrowserRun": false,
+    "reviewerUiEvidenceEdits": false,
+    "sourceReadback": [
+      {
+        "path": "src/components/ui/Button.tsx",
+        "currentSha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+        "matchesReviewedSha256": true
+      },
+      {
+        "path": "src/components/ui/Modal.tsx",
+        "currentSha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+        "matchesReviewedSha256": true
+      },
+      {
+        "path": "src/components/ui/Menu.tsx",
+        "currentSha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768",
+        "matchesReviewedSha256": true
+      },
+      {
+        "path": "src/util/captureKeyboardListeners.ts",
+        "currentSha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+        "matchesReviewedSha256": true
+      },
+      {
+        "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "currentSha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+        "matchesReviewedSha256": true
+      },
+      {
+        "path": "src/components/ui/ConfirmDialog.tsx",
+        "currentSha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0",
+        "matchesReviewedSha256": true
+      },
+      {
+        "path": "src/hooks/useKeyboardListNavigation.ts",
+        "currentSha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453",
+        "matchesReviewedSha256": true
+      }
+    ],
+    "postTypeReturnReview": {
+      "file": "src/components/ui/Modal.tsx",
+      "line": 198,
+      "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+      "assessment": "Explicit returntrue after preventDefault/onClose satisfies TS7030; captureKeyboardListeners result!==false treats former undefined and true identically as consumed. Distinct active owner branch remains explicitfalse. Post-patch actual31/31 receipt accepted separately from earlier31 snapshot.",
+      "reportedChecks": {
+        "source": "UI owner coordination message",
+        "productionTscExit": 0,
+        "fixtureTscExit": 0,
+        "targetedNineFileEslintExit": 0
+      }
+    },
+    "captureCompatibilityEvidence": {
+      "path": "docs/app-quality-audit-2026-10-02/ui-keyboard-contract-results.json",
+      "sha256": "7c8316effe3575fb897d0e2b71b8fa76b650a76b964fc0e4b3cc392e177c99a2",
+      "environment": "Actual TypeScript capture module imported by Node; existing jsdom DOM event propagation, no app/accounts",
+      "cases": [
+        {
+          "id": "default-undefined-stops-dom-and-earlier",
+          "status": "pass",
+          "calls": [
+            "top"
+          ],
+          "targetEvents": 0,
+          "defaultPrevented": false
+        },
+        {
+          "id": "true-stops-dom-and-earlier",
+          "status": "pass",
+          "calls": [
+            "top"
+          ],
+          "targetEvents": 0,
+          "defaultPrevented": false
+        },
+        {
+          "id": "false-continues-earlier-handler",
+          "status": "pass",
+          "calls": [
+            "top",
+            "earlier"
+          ],
+          "targetEvents": 0,
+          "defaultPrevented": false
+        },
+        {
+          "id": "explicit-sentinel-blocks-earlier-allows-dom",
+          "status": "pass",
+          "calls": [
+            "top"
+          ],
+          "targetEvents": 1,
+          "defaultPrevented": false
+        },
+        {
+          "id": "composition-bypasses-capture",
+          "status": "pass",
+          "calls": [],
+          "targetEvents": 1,
+          "defaultPrevented": false
+        },
+        {
+          "id": "released-listener-does-not-handle",
+          "status": "pass"
+        },
+        {
+          "id": "sentinel-preserves-caller-prevent-default",
+          "status": "pass"
+        }
+      ]
+    },
+    "performanceEvidence": {
+      "path": "docs/app-quality-audit-2026-10-02/ui-performance-results.json",
+      "sha256": "409c30ecf3786541c05baab636842852bc2a1f25883d4cd90cb9658f2a1c0099",
+      "generatedAt": "2026-10-02T06:11:53.746Z",
+      "environment": {
+        "viewport": "1920x1080",
+        "transport": "existing MockClient/task-only native mocks",
+        "network": "all remote requests blocked",
+        "timingScope": "Headless browser observations on a shared host; no physical GPU/DPI/60fps claim"
+      },
+      "summary": {
+        "total": 3,
+        "pass": 3,
+        "errors": 0
+      }
+    },
+    "fullEslintRetry": {
+      "status": "full-lint-completed-no-errors",
+      "path": "docs/app-quality-audit-2026-10-02/types-eslint-final.json",
+      "sha256": "efb08da7d32310d708742f6323469b4b0b31924ab9b6e5d30daef83b16d29040",
+      "heapMiB": 5120,
+      "freeMiBAtStart": 10535,
+      "durationMs": 4346,
+      "exitCode": 0,
+      "filesEvaluated": 1862,
+      "errorCount": 0,
+      "warningCount": 1,
+      "fatalCount": 0,
+      "timedOut": false,
+      "initialBeforeEvidence": {
+        "path": "docs/app-quality-audit-2026-10-02/types-eslint-retry.json",
+        "sha256": "4773d792a2b8f78dd37325c369c0a07dd4aa1c4e52cf33d4ec79bf472d1c560d",
+        "exitCode": 1,
+        "errorCount": 27,
+        "warningCount": 1,
+        "filesEvaluated": 1862,
+        "preserved": true
+      },
+      "fixScope": "UI-owner harness namespace/unused cleanup and reviewer-owned runtime-identical TeactRenderer assertion/import cleanup only; no rule suppression.",
+      "childSettled": true
+    },
+    "sourceStillMatchesReviewedFreeze": true,
+    "relatedTypeCleanup": {
+      "path": "src/util/tiptap/TeactRenderer.ts",
+      "sourceSha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+      "proofPath": "docs/app-quality-audit-2026-10-02/types-teact-renderer-erasure.json",
+      "identicalEmittedJavaScript": true,
+      "wholeProductionTscExit": 0,
+      "wholeTestTypeContextDiagnostics": 0,
+      "targetLintExit": 0
+    }
+  },
+  "finalReviewHistory": [
+    {
+      "version": "1.4.3-review-3-final-source",
+      "receiptSha256": "1ff9d37183bf577ce848ef16d83115f5382e27a41da2784e0ae5cb4a66351d72",
+      "finalReview": {
+        "capturedAt": "2026-10-02T06:16:31.778Z",
+        "scopeFiles": [
+          {
+            "path": "src/components/ui/Button.tsx",
+            "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+            "modifiedAt": "2026-10-02T05:42:02.575Z"
+          },
+          {
+            "path": "src/components/ui/Modal.tsx",
+            "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+            "modifiedAt": "2026-10-02T06:10:41.293Z"
+          },
+          {
+            "path": "src/components/ui/Menu.tsx",
+            "sha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768",
+            "modifiedAt": "2026-10-02T05:58:00.722Z"
+          },
+          {
+            "path": "src/util/captureKeyboardListeners.ts",
+            "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+            "modifiedAt": "2026-10-02T05:05:45.739Z"
+          },
+          {
+            "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+            "modifiedAt": "2026-10-02T05:42:02.576Z"
+          },
+          {
+            "path": "src/components/ui/ConfirmDialog.tsx",
+            "sha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0",
+            "modifiedAt": "2026-10-02T05:55:12.564Z"
+          },
+          {
+            "path": "src/hooks/useKeyboardListNavigation.ts",
+            "sha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453",
+            "modifiedAt": "2026-09-12T17:46:47.126Z"
+          }
+        ],
+        "unresolvedConcreteDefects": [],
+        "conclusion": "No unresolved concrete defect identified in the seven scoped frozen source files. Previous callback findings and menu-owner lifecycle concern are resolved narrowly and supported by UI owner actual synthetic native-event evidence. This is not certification of every inner form or live server/account flow.",
+        "sourceAssessments": [
+          {
+            "file": "src/components/ui/Button.tsx",
+            "line": 193,
+            "assessment": "Native click detail0 goes through callback once; fast desktop pointer action remains mousedown, subsequent pointer click ignored. Existing disabled/allowDisabledClick contract retained; latest custom disabled test is forced pointer count0, not an additional keyboard-disabled fixture."
+          },
+          {
+            "file": "src/components/ui/Modal.tsx",
+            "line": 163,
+            "assessment": "Contained checkbox/radio/select joins targeted interactive Enter delegation; textarea/contenteditable/MenuItem/native buttons and anchors retain target handling. Single-line text input baseline onEnter remains; unowned outside Enter is prevented/consumed."
+          },
+          {
+            "file": "src/components/ui/Modal.tsx",
+            "line": 166,
+            "assessment": "Only a distinct target-owned .Modal currently open (or native dialog[open]) and not closing/not-shown/not-open makes unrelated Modal Enter handler returnfalse; same narrow owner guard is applied to Escape. Global capture ordering is unchanged."
+          },
+          {
+            "file": "src/components/ui/ConfirmDialog.tsx",
+            "line": 55,
+            "assessment": "Neutral container fallback checks actual document.activeElement identity, index-1, non-destructive and enabled. Native button paths therefore activate only native click; target check resolves Tab/default focus duplicate."
+          },
+          {
+            "file": "src/components/ui/Menu.tsx",
+            "line": 92,
+            "assessment": "Actual trigger lookup does not depend on isOpen, owner derives from trigger.closest(.Modal .modal-container), closed dynamic portal with no trigger does not render. Owner selector/key persists through close; own bubble ref replaces ambiguous global query for owned menus."
+          },
+          {
+            "file": "src/components/ui/Menu.tsx",
+            "line": 103,
+            "assessment": "Owned modal Escape prevents native dialog cancel, restores exact trigger focus and closes menu; subsequent Escape closes exact owner. Modal-container fixed viewport geometry remains compatible with portal coordinates."
+          },
+          {
+            "file": "src/util/captureKeyboardListeners.ts",
+            "line": 91,
+            "assessment": "Propagation sentinel exits registered stack without stopping target event. false delegates to next handler; native Enter/Space targets remain handled by their own components."
+          },
+          {
+            "file": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "line": 124,
+            "assessment": "Actual focusable span trigger handles Enter/Space explicitly with preventDefault; role button does not create a second native click."
+          },
+          {
+            "file": "src/hooks/useKeyboardListNavigation.ts",
+            "line": 36,
+            "assessment": "Unchanged source; no global navigation alteration needed for neutral Confirm target fix."
+          }
+        ],
+        "latestActualEvidence": {
+          "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-after.json",
+          "sha256": "7a7d3aa9468b20bc22dd179ebe96ca017fb2a7928b38b4eec30bdcdccf8d8d09",
+          "generatedAt": "2026-10-02T06:10:55.427Z",
+          "environment": "Actual custom components; destructive/delete/AI callbacks replaced only in fresh test browser; remote requests blocked; no account transport",
+          "summary": {
+            "total": 31,
+            "pass": 31,
+            "fail": 0,
+            "errors": 0
+          },
+          "errors": [],
+          "unhandled": [],
+          "specificCases": [
+            {
+              "id": "default-button-enter",
+              "sources": [
+                "src/components/ui/Button.tsx",
+                "src/components/ui/Modal.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "key": "Enter",
+                "delta": 1
+              }
+            },
+            {
+              "id": "default-button-space",
+              "sources": [
+                "src/components/ui/Button.tsx",
+                "src/components/ui/Modal.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "key": "Space",
+                "delta": 1
+              }
+            },
+            {
+              "id": "default-button-pointer-once",
+              "sources": [
+                "src/components/ui/Button.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "delta": 1
+              }
+            },
+            {
+              "id": "default-button-disabled-zero",
+              "sources": [
+                "src/components/ui/Button.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "delta": 0
+              }
+            },
+            {
+              "id": "standard-confirm-confirm-enter",
+              "sources": [
+                "src/components/ui/ConfirmDialog.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Button.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "delta": {
+                  "confirmed": 1,
+                  "closed": 1
+                }
+              }
+            },
+            {
+              "id": "standard-confirm-cancel-enter",
+              "sources": [
+                "src/components/ui/ConfirmDialog.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Button.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "delta": {
+                  "confirmed": 0,
+                  "closed": 1
+                }
+              }
+            },
+            {
+              "id": "delete-message-checkbox-enter",
+              "sources": [
+                "src/components/common/DeleteMessageModal.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Checkbox.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "delta": 0
+              }
+            },
+            {
+              "id": "contained-select-enter",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/TextArea.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "modalSubmitDelta": 0
+              }
+            },
+            {
+              "id": "contained-radio-enter",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/TextArea.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "modalSubmitDelta": 0
+              }
+            },
+            {
+              "id": "ai-portal-div-keyboard-enter",
+              "sources": [
+                "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Menu.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "key": "Enter",
+                "geometry": {
+                  "bubble": {
+                    "left": 721.6875,
+                    "top": 633.796875,
+                    "right": 891.078125,
+                    "bottom": 891.796875,
+                    "width": 169.390625,
+                    "height": 258
+                  },
+                  "trigger": {
+                    "left": 737.6875,
+                    "top": 601.5,
+                    "bottom": 625.796875
+                  },
+                  "owner": "modal-menu-muqkew3cqtgu5fi7o0b"
+                },
+                "itemCallbackOnce": true,
+                "modalEnterDelta": 0,
+                "closingOwned": true,
+                "exactFocusReturn": true,
+                "secondEscapeParentClose": true
+              }
+            },
+            {
+              "id": "ai-portal-div-keyboard-space",
+              "sources": [
+                "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Menu.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "key": "Space",
+                "geometry": {
+                  "bubble": {
+                    "left": 721.6875,
+                    "top": 633.796875,
+                    "right": 891.078125,
+                    "bottom": 891.796875,
+                    "width": 169.390625,
+                    "height": 258
+                  },
+                  "trigger": {
+                    "left": 737.6875,
+                    "top": 601.5,
+                    "bottom": 625.796875
+                  },
+                  "owner": "modal-menu-muqkeydtpmc1ptpx9v"
+                },
+                "itemCallbackOnce": true,
+                "modalEnterDelta": 0,
+                "closingOwned": true,
+                "exactFocusReturn": true,
+                "secondEscapeParentClose": true
+              }
+            },
+            {
+              "id": "ai-portal-native-keyboard-enter",
+              "sources": [
+                "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Menu.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "key": "Enter",
+                "geometry": {
+                  "bubble": {
+                    "left": 721.6875,
+                    "top": 633.796875,
+                    "right": 891.078125,
+                    "bottom": 891.796875,
+                    "width": 169.390625,
+                    "height": 258
+                  },
+                  "trigger": {
+                    "left": 737.6875,
+                    "top": 601.5,
+                    "bottom": 625.796875
+                  },
+                  "owner": "modal-menu-muqkf0nsapuoszx0h1v"
+                },
+                "itemCallbackOnce": true,
+                "modalEnterDelta": 0,
+                "closingOwned": true,
+                "exactFocusReturn": true,
+                "secondEscapeParentClose": true
+              }
+            },
+            {
+              "id": "ai-portal-native-keyboard-space",
+              "sources": [
+                "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Menu.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "key": "Space",
+                "geometry": {
+                  "bubble": {
+                    "left": 721.6875,
+                    "top": 633.796875,
+                    "right": 891.078125,
+                    "bottom": 891.796875,
+                    "width": 169.390625,
+                    "height": 258
+                  },
+                  "trigger": {
+                    "left": 737.6875,
+                    "top": 601.5,
+                    "bottom": 625.796875
+                  },
+                  "owner": "modal-menu-muqkf2y6y2qts73jfc"
+                },
+                "itemCallbackOnce": true,
+                "modalEnterDelta": 0,
+                "closingOwned": true,
+                "exactFocusReturn": true,
+                "secondEscapeParentClose": true
+              }
+            },
+            {
+              "id": "ai-two-modal-owner-geometry",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/Menu.tsx",
+                "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "ids": [
+                  "modal-menu-muqkf58gx9kl4qeanl",
+                  "modal-menu-muqkf58evqh13uynh7"
+                ],
+                "secondRect": {
+                  "x": 721.6875,
+                  "y": 633.796875,
+                  "width": 169.390625,
+                  "height": 258
+                },
+                "firstRect": {
+                  "x": 721.6875,
+                  "y": 633.796875,
+                  "width": 169.390625,
+                  "height": 258
+                },
+                "distinctOwners": true,
+                "spaceAndPointerCallbacksOnce": true,
+                "bothModalEnterDelta": 0,
+                "exactOwnerCleanup": true
+              }
+            },
+            {
+              "id": "ai-nonmodal-default-portal",
+              "sources": [
+                "src/components/ui/Menu.tsx",
+                "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "relation": {
+                  "inDefaultPortals": true,
+                  "inModal": false
+                },
+                "defaultEscape": true
+              }
+            },
+            {
+              "id": "contained-textarea-enter",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/TextArea.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "modalSubmitDelta": 0
+              }
+            },
+            {
+              "id": "contained-contenteditable-enter",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/TextArea.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "modalSubmitDelta": 0
+              }
+            },
+            {
+              "id": "contained-native-link-enter",
+              "sources": [
+                "src/components/ui/Modal.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "linkDelta": 1,
+                "modalDelta": 0
+              }
+            },
+            {
+              "id": "contained-single-line-input-baseline",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/components/ui/InputText.tsx"
+              ],
+              "status": "pass",
+              "detail": {
+                "nativeSpace": true,
+                "modalEnterDelta": 1
+              }
+            },
+            {
+              "id": "unowned-outside-enter-blocked",
+              "sources": [
+                "src/components/ui/Modal.tsx",
+                "src/util/captureKeyboardListeners.ts"
+              ],
+              "status": "pass",
+              "detail": {
+                "result": {
+                  "prevented": true,
+                  "targetHandler": 0
+                },
+                "modalEnterDelta": 0
+              }
+            }
+          ],
+          "runnerPath": "scripts/relay-ui-audit.custom-modals.mjs",
+          "runnerSha256": "f5e34662f6a0d04a0fa9416843d9353eed887a4bc6856eacae745abcdd70c348"
+        },
+        "historicalEvidence": [
+          {
+            "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-before.json",
+            "sha256": "3ac29c2a41669368e7be8c6a2da0703b1ac2ce366345336aa85a5e925fa210c3",
+            "generatedAt": "2026-10-02T05:36:21.234Z",
+            "summary": {
+              "total": 10,
+              "pass": 2,
+              "fail": 8,
+              "errors": 0
+            },
+            "cases": [
+              {
+                "id": "default-button-enter",
+                "status": "fail"
+              },
+              {
+                "id": "default-button-space",
+                "status": "fail"
+              },
+              {
+                "id": "default-button-pointer-once",
+                "status": "pass"
+              },
+              {
+                "id": "default-button-disabled-zero",
+                "status": "pass"
+              },
+              {
+                "id": "delete-photo-cancel-enter",
+                "status": "fail"
+              },
+              {
+                "id": "guard-bot-keep-enter",
+                "status": "fail"
+              },
+              {
+                "id": "calendar-repeat-item-enter",
+                "status": "fail"
+              },
+              {
+                "id": "calendar-repeat-escape-child-only",
+                "status": "fail"
+              },
+              {
+                "id": "ai-portal-div-focus",
+                "status": "fail"
+              },
+              {
+                "id": "ai-portal-native-focus",
+                "status": "fail"
+              }
+            ]
+          },
+          {
+            "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-additional-before.json",
+            "sha256": "a608252cdd2a569c96a277a4f294eadcf2904dbc6c8c1561e5febf3bae91b4a3",
+            "generatedAt": "2026-10-02T05:52:12.502Z",
+            "summary": {
+              "total": 13,
+              "pass": 10,
+              "fail": 3,
+              "errors": 0
+            },
+            "cases": [
+              {
+                "id": "default-button-enter",
+                "status": "pass"
+              },
+              {
+                "id": "default-button-space",
+                "status": "pass"
+              },
+              {
+                "id": "default-button-pointer-once",
+                "status": "pass"
+              },
+              {
+                "id": "default-button-disabled-zero",
+                "status": "pass"
+              },
+              {
+                "id": "delete-photo-cancel-enter",
+                "status": "pass"
+              },
+              {
+                "id": "guard-bot-keep-enter",
+                "status": "pass"
+              },
+              {
+                "id": "calendar-repeat-item-enter",
+                "status": "pass"
+              },
+              {
+                "id": "calendar-repeat-escape-child-only",
+                "status": "pass"
+              },
+              {
+                "id": "ai-portal-div-focus",
+                "status": "pass"
+              },
+              {
+                "id": "ai-portal-native-focus",
+                "status": "pass"
+              },
+              {
+                "id": "standard-confirm-confirm-enter",
+                "status": "fail"
+              },
+              {
+                "id": "standard-confirm-cancel-enter",
+                "status": "fail"
+              },
+              {
+                "id": "delete-message-checkbox-enter",
+                "status": "fail"
+              }
+            ]
+          },
+          {
+            "path": "docs/app-quality-audit-2026-10-02/ui-custom-modal-two-owner-enter-after.json",
+            "sha256": "bb30bde960ca5a90839144bac1d2d3cdff77a1204ba01b760d0fd19bc7cf8090",
+            "generatedAt": "2026-10-02T06:00:40.542Z",
+            "summary": {
+              "total": 1,
+              "pass": 0,
+              "fail": 1,
+              "errors": 0
+            },
+            "cases": [
+              {
+                "id": "ai-two-modal-owner-geometry",
+                "status": "fail"
+              }
+            ]
+          }
+        ],
+        "intermediateProbeDistinction": "ui-custom-modal-two-owner-enter-after.json generated06:00:40 contains a failed intermediate locator-focus run (0/1PASS); latest06:02:27 full31-case receipt contains the same two-owner case PASS with distinct-owner cleanup/Enter/Escape counters. No historical failure overwritten or hidden.",
+        "remainingGates": [
+          "Root/UI owner complete their full64-case, grouped125-route and66theme/control reruns and canonical build under final source/harness freeze.",
+          "Report does not certify all138 modal-category bodies or live server/native account workflows.",
+          "Actual synthetic callbacks replace protected deletion/AI side effects; no live account acceptance claimed."
+        ],
+        "reviewerSourceEdits": false,
+        "reviewerBrowserRun": false,
+        "reviewerUiEvidenceEdits": false,
+        "sourceReadback": [
+          {
+            "path": "src/components/ui/Button.tsx",
+            "currentSha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4",
+            "matchesReviewedSha256": true
+          },
+          {
+            "path": "src/components/ui/Modal.tsx",
+            "currentSha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+            "matchesReviewedSha256": true
+          },
+          {
+            "path": "src/components/ui/Menu.tsx",
+            "currentSha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768",
+            "matchesReviewedSha256": true
+          },
+          {
+            "path": "src/util/captureKeyboardListeners.ts",
+            "currentSha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207",
+            "matchesReviewedSha256": true
+          },
+          {
+            "path": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+            "currentSha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f",
+            "matchesReviewedSha256": true
+          },
+          {
+            "path": "src/components/ui/ConfirmDialog.tsx",
+            "currentSha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0",
+            "matchesReviewedSha256": true
+          },
+          {
+            "path": "src/hooks/useKeyboardListNavigation.ts",
+            "currentSha256": "8b69f192a2e5a8d2d906f007ad2fd91baa6ca1f2ec25ee865fc32a878ed8f453",
+            "matchesReviewedSha256": true
+          }
+        ],
+        "postTypeReturnReview": {
+          "file": "src/components/ui/Modal.tsx",
+          "line": 198,
+          "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+          "assessment": "Explicit returntrue after preventDefault/onClose satisfies TS7030; captureKeyboardListeners result!==false treats former undefined and true identically as consumed. Distinct active owner branch remains explicitfalse. Post-patch actual31/31 receipt accepted separately from earlier31 snapshot.",
+          "reportedChecks": {
+            "source": "UI owner coordination message",
+            "productionTscExit": 0,
+            "fixtureTscExit": 0,
+            "targetedNineFileEslintExit": 0
+          }
+        },
+        "captureCompatibilityEvidence": {
+          "path": "docs/app-quality-audit-2026-10-02/ui-keyboard-contract-results.json",
+          "sha256": "7c8316effe3575fb897d0e2b71b8fa76b650a76b964fc0e4b3cc392e177c99a2",
+          "environment": "Actual TypeScript capture module imported by Node; existing jsdom DOM event propagation, no app/accounts",
+          "cases": [
+            {
+              "id": "default-undefined-stops-dom-and-earlier",
+              "status": "pass",
+              "calls": [
+                "top"
+              ],
+              "targetEvents": 0,
+              "defaultPrevented": false
+            },
+            {
+              "id": "true-stops-dom-and-earlier",
+              "status": "pass",
+              "calls": [
+                "top"
+              ],
+              "targetEvents": 0,
+              "defaultPrevented": false
+            },
+            {
+              "id": "false-continues-earlier-handler",
+              "status": "pass",
+              "calls": [
+                "top",
+                "earlier"
+              ],
+              "targetEvents": 0,
+              "defaultPrevented": false
+            },
+            {
+              "id": "explicit-sentinel-blocks-earlier-allows-dom",
+              "status": "pass",
+              "calls": [
+                "top"
+              ],
+              "targetEvents": 1,
+              "defaultPrevented": false
+            },
+            {
+              "id": "composition-bypasses-capture",
+              "status": "pass",
+              "calls": [],
+              "targetEvents": 1,
+              "defaultPrevented": false
+            },
+            {
+              "id": "released-listener-does-not-handle",
+              "status": "pass"
+            },
+            {
+              "id": "sentinel-preserves-caller-prevent-default",
+              "status": "pass"
+            }
+          ]
+        },
+        "performanceEvidence": {
+          "path": "docs/app-quality-audit-2026-10-02/ui-performance-results.json",
+          "sha256": "409c30ecf3786541c05baab636842852bc2a1f25883d4cd90cb9658f2a1c0099",
+          "generatedAt": "2026-10-02T06:11:53.746Z",
+          "environment": {
+            "viewport": "1920x1080",
+            "transport": "existing MockClient/task-only native mocks",
+            "network": "all remote requests blocked",
+            "timingScope": "Headless browser observations on a shared host; no physical GPU/DPI/60fps claim"
+          },
+          "summary": {
+            "total": 3,
+            "pass": 3,
+            "errors": 0
+          }
+        },
+        "fullEslintRetry": {
+          "status": "in-progress",
+          "heapMiB": 5120,
+          "minFreeAtLaunchMiB": 6144,
+          "actualFreeAtLaunchMiB": 9936,
+          "scope": "Canonical no-scope ESLint default project lint, no fix; own cache/log/structured output.",
+          "receiptPath": "docs/app-quality-audit-2026-10-02/types-eslint-retry.json"
+        }
+      }
+    }
+  ]
+}

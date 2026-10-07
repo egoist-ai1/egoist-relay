@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T11:06:48.909206+00:00",
+  "taskId": "01a110b9-e0fb-7b32-b25c-cd096182eb93",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourceCount": 15,
+  "sourceSnapshot": "source-hashes.json",
+  "patch": "source.patch",
+  "environment": {
+    "node": "v24.19.0",
+    "browser": "Microsoft Edge 154.0.4258.53",
+    "browserVersionEvidence": "ProductVersion of installed executable",
+    "remoteRequests": "blocked",
+    "transport": "existing MockClient + terminal native mocks; local callback-only component fixture",
+    "accounts": "no live account actions",
+    "physicalDpiGpu": "unverified"
+  },
+  "checks": [
+    {
+      "name": "TypeScript main",
+      "configuration": "tsconfig.json",
+      "exitCode": 0,
+      "log": "tsc-final-main.log"
+    },
+    {
+      "name": "TypeScript scripts",
+      "configuration": "tsconfig.script.json",
+      "exitCode": 0,
+      "log": "tsc-final-scripts.log"
+    },
+    {
+      "name": "TypeScript tests",
+      "configuration": "tsconfig.test.json",
+      "exitCode": 0,
+      "log": "tsc-final-tests.log"
+    },
+    {
+      "name": "ESLint affected TSX",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "heapMiB": 5120,
+      "log": "eslint-controls-final.log"
+    },
+    {
+      "name": "Stylelint 13 affected SCSS",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 60,
+      "log": "stylelint-controls-final.log"
+    },
+    {
+      "name": "Actual App final focused UI",
+      "exitCode": 0,
+      "pass": 10,
+      "fail": 0,
+      "gated": 0,
+      "report": "final-ui/ui-focused-results.json"
+    },
+    {
+      "name": "Actual controls scoped baseline",
+      "exitCode": 0,
+      "pass": 1,
+      "fail": 8,
+      "report": "controls-keyboard-before.json",
+      "expectedFailure": true,
+      "scope": "Only 15 saved owned files replaced; remaining App current. Multiple failed criteria share the same keyboard defect."
+    },
+    {
+      "name": "Actual controls candidate",
+      "exitCode": 0,
+      "pass": 9,
+      "fail": 0,
+      "pageErrors": 0,
+      "report": "controls-keyboard-after.json"
+    }
+  ],
+  "knownLimitations": [
+    "No native DPI/GPU, screen-reader, live Telegram or second Windows configuration check in this subtask.",
+    "Before comparison replaces only owned source subset; it is not a full old product build.",
+    "Floating labels ellipsize; not all long floating labels are fully displayed.",
+    "Stylelint warnings remain and are visible in log.",
+    "Main header SETTINGS is observed in EN synthetic state, outside assigned source ownership; reported to root."
+  ],
+  "harnessCorrections": [
+    {
+      "report": "controls-keyboard-after-initial.json",
+      "cause": "Waited for a zero-size Modal root instead of its visible fixed-position modal-dialog; corrected harness selector."
+    },
+    {
+      "report": "controls-keyboard-after-nested-diagnostic.json",
+      "cause": "A previous static-row artificial keydown incremented Modal counter; nested scenario did not add an owner or modal callback. Corrected assertion to per-scenario delta and added child input/button/link proof."
+    }
+  ],
+  "review": {
+    "snapshotFile": "review-objects.json",
+    "snapshotSha256": "240d13040d883ee5de026537c24b69352171e96aaad0086b1d228b9205f9f87d",
+    "integration": "Parent integrates these independent objects into the frontend-cycle companion board. Responses remain separate and unreviewed by default."
+  }
+}

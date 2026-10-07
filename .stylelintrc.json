@@ -6,6 +6,11 @@
   ],
   "ignoreFiles": [
     "dist/**/*.css",
+    "tauri/target/**",
+    "runtime/**",
+    "scratch/**",
+    "release/**",
+    ".cache/**",
     "src/styles/icons.{scss,css}"
   ],
   "plugins": [

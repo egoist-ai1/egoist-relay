@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-miniapp-hotfix-1.6.1",
+  "action": "Принять выводы/контракт/границы и обсудить комментарии. Авторизованные исходники уже реализованы; внешние действия не запускаются.",
+  "objects": [
+    {
+      "id": "miniapp-csp",
+      "title": "Причина iframe отказа",
+      "claim": "Публичный HTTP200 и frame-ancestors none объясняют отказ iframe независимо от proxy settings.",
+      "response": null,
+      "comment": ""
+    },
+    {
+      "id": "miniapp-native",
+      "title": "Windows top-level Mini App bridge",
+      "claim": "Mini App остаётся внутри Relay, сохраняет Telegram protocol и источник; ID/nonce/origin/navigation guards разделяют host и remote content.",
+      "response": null,
+      "comment": ""
+    },
+    {
+      "id": "miniapp-popup",
+      "title": "Owned popup и системная policy",
+      "claim": "Create/window_features сохраняет environment и opener. Popup закрывается с владельцем, лишён Relay IPC. Вложенные popup пока запрещены.",
+      "response": null,
+      "comment": ""
+    },
+    {
+      "id": "miniapp-coverage",
+      "title": "Граница живой проверки",
+      "claim": "Нет проверки аккаунта, покупки, реального InitData, PAC route, native popup/keyboard, DPI/GPU и второго устройства.",
+      "response": null,
+      "comment": ""
+    }
+  ]
+}

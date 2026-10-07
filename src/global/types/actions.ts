@@ -1729,6 +1729,11 @@ export interface ActionPayloads {
   closeReactionPicker: WithTabId | undefined;
 
   // Stories
+  postStory: {
+    file: File;
+    caption?: string;
+    pinned?: boolean;
+  } & WithTabId;
   loadAllStories: undefined;
   loadAllHiddenStories: undefined;
   loadPeerStories: {
@@ -2935,6 +2940,11 @@ export interface ActionPayloads {
   };
 
   transcribeAudio: {
+    chatId: string;
+    messageId: number;
+  };
+
+  cancelAudioTranscription: {
     chatId: string;
     messageId: number;
   };

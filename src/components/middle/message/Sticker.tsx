@@ -179,7 +179,7 @@ const Sticker: FC<OwnProps & StateProps> = ({
     <div
       ref={ref}
       className={className}
-      style={`width: ${width}px; height: ${height}px;`}
+      style={`width: ${width}px; height: ${height}px; aspect-ratio: ${width} / ${height};`}
       onClick={!isMemojiSticker ? handleClick : undefined}
     >
       <StickerView

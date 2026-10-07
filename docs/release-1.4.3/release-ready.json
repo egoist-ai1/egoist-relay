@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.3",
+  "state": "canonical_ready_for_normal_user_exit",
+  "installedVersion": "1.4.2",
+  "recordedAt": "2026-10-02T07:03:00.039Z",
+  "canonicalInstaller": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/release/1.4.3/Egoist Relay_1.4.3_x64-setup.exe",
+  "installerSha256": "41fecacd82d90b877a68ff5964c3fac0345baefa3763bd5ada15152b4923f08b",
+  "exeSha256": "a260e9b425c12fd91a4ab899183a1ae76e7673448794c8653c8dbb14ba097d8a",
+  "sourceFreezeSha256": "c70e0663aa3b364687292cde83fb61a91c3756ec762b653974af5cec41d797a1",
+  "productionInputCount": 3307,
+  "runtimeCount": 40,
+  "vitest": {
+    "files": 26,
+    "passed": 322,
+    "failed": 0
+  },
+  "uiReportSha256": "b4169d803c325c633d6d988628e9f0eb383f83717da13a08625a7a0c9dad5f37",
+  "uiChecks": {
+    "main": {
+      "total": 64,
+      "pass": 63,
+      "fail": 0,
+      "gated": 1,
+      "sourceComponents": 774,
+      "renderedEvidenceComponents": 40
+    },
+    "groupedRouteRendering": {
+      "total": 125,
+      "pass": 109,
+      "gated": 16,
+      "errors": 0
+    },
+    "themeContrast": {
+      "totalThemes": 11,
+      "pass": 11,
+      "fail": 0,
+      "overlaySamples": 66,
+      "minimumContrast": 4.762049148867173
+    },
+    "keyboardCaptureCompatibility": {
+      "total": 7,
+      "pass": 7
+    },
+    "enhancers": {
+      "total": 7,
+      "pass": 7,
+      "fail": 0
+    },
+    "performance": {
+      "total": 3,
+      "pass": 3,
+      "errors": 0
+    },
+    "customModalSafety": {
+      "total": 31,
+      "pass": 31,
+      "fail": 0,
+      "errors": 0
+    },
+    "typeScript": {
+      "exitCode": 0,
+      "scope": "actual src + fixture + imported group-state"
+    },
+    "eslint": {
+      "exitCode": 0,
+      "scope": "9 owned production/test-only TS/TSX files;0 warnings/errors"
+    },
+    "scss": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 15,
+      "scope": "Message.scss andMessageMeta.scss; existing warnings"
+    },
+    "wholeProjectLint": {
+      "npm": "unavailable; direct Node equivalents used",
+      "typescriptExitCode": 0,
+      "defaultHeapAttempt": {
+        "exitCode": 134,
+        "reason": "V8 heap exhausted at4096MiB"
+      },
+      "completedBoundedAttempt": {
+        "receipt": "types-eslint-retry.json",
+        "heapMiB": 5120,
+        "exitCode": 1,
+        "errorCount": 27,
+        "warningCount": 1,
+        "filesEvaluated": 1862
+      },
+      "finalBoundedAttempt": {
+        "receipt": "types-eslint-final.json",
+        "exitCode": 0,
+        "errorCount": 0,
+        "warningCount": 1,
+        "filesEvaluated": 1862
+      },
+      "harnessCorrections": {
+        "command": "existing Node node_modules/eslint/bin/eslint.js scripts/relay-ui-audit.* scripts/relay-media-audit-file.test.mjs --format json --output-file own-runtime",
+        "filesEvaluated": 11,
+        "errors": 0,
+        "warnings": 0,
+        "exitCode": 0
+      },
+      "note": "Completed27-error bounded attempt is historical before namespace/unused corrections; current harness0errors. Root final full-project lint is a separate receipt; no configuration weakened."
+    },
+    "harnessNamespaceSmoke": {
+      "main": {
+        "total": 4,
+        "pass": 4,
+        "fail": 0,
+        "gated": 0
+      },
+      "groupCallback": {
+        "total": 2,
+        "pass": 2
+      },
+      "custom": {
+        "total": 1,
+        "pass": 1,
+        "fail": 0,
+        "errors": 0
+      },
+      "enhancers": {
+        "total": 7,
+        "pass": 7
+      },
+      "themes": {
+        "totalThemes": 11,
+        "pass": 11,
+        "fail": 0,
+        "overlaySamples": 66,
+        "minimumContrast": 4.762049148867173
+      },
+      "performance": {
+        "total": 3,
+        "pass": 3,
+        "errors": 0
+      }
+    },
+    "mediaNamespaceFixture": {
+      "total": 13,
+      "pass": 13,
+      "fail": 0,
+      "scope": "existing task-local synthetic http1/h2/disk/original MP4 fixtures; no device network edits",
+      "initialSetupGate": "First invocation omitted EGOIST_RELAY_AUDIT_WORK and failed setup; corrected task-local invocation passes13."
+    },
+    "sourceReferences": {
+      "validated": 83,
+      "missing": 0
+    }
+  },
+  "installerSmokeSha256": "d1cc508ae901b78defb55dbc65f7b8f66d6d51633893c1d317273658a0744711",
+  "logs": [
+    {
+      "file": "release-1.4.3-final-all-vitest.log",
+      "bytes": 280,
+      "sha256": "0ec2aa42ec7c355562e9ac48e90048e6a055c947a837bc654623d6e3ed7e4703"
+    },
+    {
+      "file": "release-1.4.3-final-vite-build.log",
+      "bytes": 60223,
+      "sha256": "dce688c77cfb11a8f6cc855a6db5978fc3f8b2454acf4f904d891bc9eccdf38e"
+    },
+    {
+      "file": "release-1.4.3-final-tauri-build.log",
+      "bytes": 1743,
+      "sha256": "4f7a4268481a9fcccae018945cff5b3b6782a5fa51ec317384275c318e368473"
+    }
+  ],
+  "liveNewBuildChecks": "pending_installation",
+  "normalUserExitRequired": true
+}

@@ -27,6 +27,7 @@
   }
 
   &.with-reactions &_items {
+    margin-inline-end: 0 !important;
     padding: 0.25rem 0;
     border-radius: var(--border-radius-default);
 
@@ -37,10 +38,6 @@
     body.no-menu-blur & {
       background: var(--color-background);
       backdrop-filter: none;
-    }
-
-    @media (min-width: 600px) {
-      margin-inline-end: 2.75rem;
     }
   }
 

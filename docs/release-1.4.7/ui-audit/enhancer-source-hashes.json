@@ -1,0 +1,9 @@
+{
+    "exitCode":  0,
+    "hashesUnchangedDuringRun":  true,
+    "sourceHashes":  {
+                         "scripts/instagram-enhancer.js":  "e6729631e9e7862f403afc4393aac097154d20cf71eb33c6694e02dbfa66b66e",
+                         "scripts/social-share-enhancer.js":  "e49856d0e702c8ba1cca12017e00bd3b4002feff0328e8b25527df5ad035abaf",
+                         "scripts/x-enhancer.js":  "ec7f65e4509472fa634d5e45ce283040e48a2eb8d92acb19ab0da31bb76fe707"
+                     }
+}

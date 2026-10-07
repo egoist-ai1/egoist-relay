@@ -1,0 +1,164 @@
+{
+  "state": "installed_all_three_bridges_ready_mcp_current",
+  "runtimeCount": 40,
+  "schemaVersion": 1,
+  "providers": [
+    {
+      "provider": "telegram",
+      "state": "ready",
+      "reason": "ready",
+      "operations": [
+        "discover",
+        "chat_info",
+        "read",
+        "search",
+        "channel_history",
+        "chat_export",
+        "download",
+        "join_chat",
+        "transcribe"
+      ]
+    },
+    {
+      "provider": "x",
+      "state": "ready",
+      "reason": "dom_account_confirmed",
+      "operations": [
+        "discover",
+        "profile",
+        "read",
+        "search",
+        "channel_history",
+        "chat_export",
+        "download",
+        "article",
+        "read_thread",
+        "transcribe"
+      ]
+    },
+    {
+      "provider": "instagram",
+      "state": "ready",
+      "reason": "dom_account_confirmed",
+      "operations": [
+        "discover",
+        "profile",
+        "read",
+        "search",
+        "channel_history",
+        "chat_export",
+        "download",
+        "read_thread",
+        "transcribe"
+      ]
+    }
+  ],
+  "newSourceResearchJobs": 0,
+  "queued": 0,
+  "exeSha256": "cb44500c65985e6946c0deb21033300cddb5b4ce08396e51891a9a2d4bd691a7",
+  "relay": {
+    "pid": 41340,
+    "birthUtc": "2026-10-02T12:39:50.816555Z",
+    "executablePath": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\Egoist Relay.exe"
+  },
+  "daemon": {
+    "previous40404PresentBeforeActivation": false,
+    "activation": "started_after_confirmed_previous_owner_absence",
+    "sourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+    "ownedDaemonForceStops": 0,
+    "currentSourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+    "pid": 27960,
+    "birthUtc": "2026-10-02T12:46:05.000987Z"
+  },
+  "version": "1.4.5",
+  "limits": [
+    "Readiness confirms existing account proof and current daemon identity; not exhaustive live operation or CDN-speed certification",
+    "Reels/recipient behavior verified in local fixtures; native human visual check is pending"
+  ],
+  "realMessagesSent": 0,
+  "preservation": {
+    "files": [
+      {
+        "unchanged": false,
+        "sha256": "09A010ADAE86FD87CBE2F74EC7E91F8EF9CB54AA5C60C21E2E61F482B3DBFBE5",
+        "baselineSha256": "1D659D8398A9FB53D010D79C4E8ED062C1AA1403B3CAA45180BBE606A91265EB",
+        "path": "C:\\ProgramData\\EgoistShield\\Runtime\\SystemDoH\\config.json"
+      },
+      {
+        "unchanged": true,
+        "sha256": "5E0D3A8F5671782F9C742DFE80678E1ECF2BD2AC1A09D806F6C6082B6BBE800D",
+        "baselineSha256": "5E0D3A8F5671782F9C742DFE80678E1ECF2BD2AC1A09D806F6C6082B6BBE800D",
+        "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-general-user.txt"
+      },
+      {
+        "unchanged": true,
+        "sha256": "A212246D1596B0C64D8840171E5B541D341D4F0E3702B97FCBE18FCA3040D31A",
+        "baselineSha256": "A212246D1596B0C64D8840171E5B541D341D4F0E3702B97FCBE18FCA3040D31A",
+        "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\service-wrapper\\egoistshield-zapret-service.xml"
+      },
+      {
+        "unchanged": true,
+        "sha256": "A55959F2708D2A68C84ACEB2B0DE737850AEF9AFB0C5DFF55CC8DDC8318D171B",
+        "baselineSha256": "A55959F2708D2A68C84ACEB2B0DE737850AEF9AFB0C5DFF55CC8DDC8318D171B",
+        "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-exclude-user.txt"
+      },
+      {
+        "unchanged": true,
+        "sha256": "EFE091BCDE9DE71B2A769B4CEEB1B9A9413BA137491C1536C886A3497AE6FAF1",
+        "baselineSha256": "EFE091BCDE9DE71B2A769B4CEEB1B9A9413BA137491C1536C886A3497AE6FAF1",
+        "path": "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\relay-tunnel.dpapi"
+      },
+      {
+        "unchanged": true,
+        "sha256": "C5EAABB284D9E5C11340454C0D11776F8B62F519E4D71E41254F757DE7BBC0D0",
+        "baselineSha256": "C5EAABB284D9E5C11340454C0D11776F8B62F519E4D71E41254F757DE7BBC0D0",
+        "path": "C:\\ProgramData\\EgoistShield\\Runtime\\Zapret\\core\\lists\\list-exclude.txt"
+      },
+      {
+        "unchanged": true,
+        "sha256": "E4EF37A6202A634157EF67F9539C891601DC770F3CE4176CDEB877EDF93AFE07",
+        "baselineSha256": "E4EF37A6202A634157EF67F9539C891601DC770F3CE4176CDEB877EDF93AFE07",
+        "path": "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\relay-dns.dpapi"
+      }
+    ],
+    "processes": [
+      {
+        "present": true,
+        "pid": 19928,
+        "startedAt": 1790901679477,
+        "unchanged": true,
+        "priorityComparison": "baseline unavailable; no priority write performed"
+      },
+      {
+        "present": true,
+        "pid": 20028,
+        "startedAt": 1790901679070,
+        "unchanged": true,
+        "priorityComparison": "baseline unavailable; no priority write performed"
+      },
+      {
+        "present": false,
+        "pid": 21536,
+        "startedAt": null,
+        "unchanged": false,
+        "priorityComparison": "baseline unavailable; no priority write performed"
+      }
+    ],
+    "noPriorityWrites": true,
+    "fileHashesUnchanged": false,
+    "noNetworkSettingWrites": true,
+    "processesUnchanged": false,
+    "baselineScope": "Historical09:09snapshot; not an immediate preinstall baseline",
+    "differenceExplanation": "SystemDoH config timestamp12:04:38Z predates installation12:39:09Z. HistoricalPID21536 absent; current SystemDoH service runsPID35904. No network/service/priority mutation was performed by this update; retain current user settings.",
+    "currentSystemDoH": {
+      "state": "Running",
+      "installationStartedUtc": "2026-10-02T12:39:09.6864404Z",
+      "configModifiedUtc": "2026-10-02T12:04:38.4676069Z",
+      "processId": 35904
+    }
+  },
+  "installedVersion": "1.4.5",
+  "nativeReelsVisualCheck": "human_response_pending",
+  "running": 0,
+  "recordedAt": "2026-10-02T15:50:45.448535+03:00"
+}

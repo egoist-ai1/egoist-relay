@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T12:46:06.543Z",
+  "scope": "Standalone file:// actual companion board, synthetic choices in isolated test contexts; mock bridge only, no actual user response or Codex follow-up transmission",
+  "checks": [
+    "exact-snapshot-bytes-and-registry",
+    "ten-neutral-objects",
+    "eight-equal-scale-before-after-states",
+    "two-opt-in-videos",
+    "four-decisions-comments-and-draft-restore",
+    "repeat-envelope-same-batch",
+    "actual-json-export",
+    "actual-json-import-preserves-batch",
+    "stale-snapshot-rejected-with-draft-preserved",
+    "wrong-project-rejected-with-draft-preserved",
+    "wrong-snapshot-file-rejected-with-draft-preserved",
+    "unknown-id-rejected-with-draft-preserved",
+    "stale-version-rejected-with-draft-preserved",
+    "unresolved-filter-keeps-comment-only-object",
+    "standalone-apply-json-fallback",
+    "compact-no-horizontal-overflow",
+    "mock-bridge-gzip-state-budget-and-repeat-no-resend"
+  ],
+  "errors": [],
+  "snapshotSha256": "85d5bda6d4cf1326e5237617a8aded75342d7a7b3c2499997bbff5ee35320439",
+  "status": "pass",
+  "runnerFile": "verify-result-board.mjs",
+  "runnerSha256": "73f95d89111b3697466ccdac47821e20e2d791ddd81fa5839732b125c31daf83",
+  "helperSha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b",
+  "boardSha256": "5cfe6379aceff88ff17536ed1e82d927e51afa662a88dcd7d92e79c4bf0c5109"
+}

@@ -4,6 +4,7 @@ import { concat, writeInt32LE, writeUint32LE } from '../../util/encoding/buffer'
 import { IGE } from './crypto/IGE';
 import MTProtoState from './network/MTProtoState';
 import GZIPPacked from './tl/core/GZIPPacked';
+import TLMessage from './tl/core/TLMessage';
 import { BinaryReader } from './extensions';
 
 import { AuthKey } from './crypto/AuthKey';
@@ -192,6 +193,7 @@ describe('TDLib-derived MTProto security checks', () => {
 
       const message = await state.decryptMessageData(packet);
 
+      assertTransportMessage(message);
       expect(message.obj).toBe(true);
     });
 
@@ -284,6 +286,7 @@ describe('TDLib-derived MTProto security checks', () => {
       await state.decryptMessageData(packet);
 
       const replayedMessage = await state.decryptMessageData(packet);
+      assertTransportMessage(replayedMessage);
       expect(state.consumeMessageReplay(replayedMessage)).toBe(true);
     });
 
@@ -313,10 +316,12 @@ describe('TDLib-derived MTProto security checks', () => {
         }),
       );
 
+      assertTransportMessage(container);
       expect(container.obj).toBeInstanceOf(MessageContainer);
       if (!(container.obj instanceof MessageContainer)) throw new Error('Expected a message container');
 
       const [replayedMessage, freshMessage] = container.obj.messages;
+      assertTransportMessage(replayedMessage);
       expect(state.consumeMessageReplay(replayedMessage)).toBe(true);
       expect(state.consumeMessageReplay(freshMessage)).toBe(false);
     });
@@ -370,6 +375,12 @@ async function buildEncryptedPacket(
     msgKey,
     encryptedData,
   );
+}
+
+function assertTransportMessage(
+  message: Awaited<ReturnType<MTProtoState['decryptMessageData']>>,
+): asserts message is TLMessage {
+  if (!(message instanceof TLMessage)) throw new Error('Expected a Telegram transport message');
 }
 
 function buildMessageId(timestamp: number, parity = SERVER_MSG_ID_PARITY) {

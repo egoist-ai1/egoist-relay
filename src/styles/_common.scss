@@ -1,5 +1,25 @@
 @use "mixins";
 
+::selection {
+  color: #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+::-moz-selection {
+  color: #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+.text-content,
+.transcription,
+.message-content,
+.ActionMessageText,
+.channel-post,
+.Message .text-content * {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 // Common styles for all media-type components across the app.
 .media-inner {
   user-select: none;
@@ -22,7 +42,7 @@
 
   video {
     background: no-repeat 50% 50%;
-    background-size: contain;
+    background-size: cover;
   }
 
   .thumbnail {
@@ -248,6 +268,18 @@
   &.open {
     transform: translateY(0);
   }
+}
+
+:root,
+html.theme-dark {
+  --color-peer-0: #D45246;
+  --color-peer-1: #F68136;
+  --color-peer-2: #6C61DF;
+  --color-peer-3: #46BA43;
+  --color-peer-4: #5CAFFA;
+  --color-peer-5: #408ACF;
+  --color-peer-6: #D95574;
+  --color-peer-7: #408ACF;
 }
 
 // Update this value when new server colors are added

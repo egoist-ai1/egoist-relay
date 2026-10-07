@@ -1,0 +1,74 @@
+[
+  {
+    "provider": "telegram",
+    "operation": "read",
+    "id": "3c77733f-f629-4d1c-8a38-c2c9ef103f1b",
+    "state": "completed",
+    "count": 1,
+    "hasCursor": false,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "coverage": "channel",
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\3c77733f-f629-4d1c-8a38-c2c9ef103f1b"
+  },
+  {
+    "provider": "x",
+    "operation": "profile",
+    "id": "e535ed4c-f9fb-4b26-86d3-c746fa2da8aa",
+    "state": "completed",
+    "count": 1,
+    "hasCursor": false,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "coverage": "profile",
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\e535ed4c-f9fb-4b26-86d3-c746fa2da8aa"
+  },
+  {
+    "provider": "instagram",
+    "operation": "profile",
+    "id": "58eaa530-54f1-4311-945c-8bbfe61db5bc",
+    "state": "partial",
+    "count": 0,
+    "error": {
+      "code": "STALE_ACCOUNT",
+      "message": "The bound account changed; accepted data remains in its original partial export."
+    },
+    "hasCursor": false,
+    "files": [
+      "partial-manifest.json"
+    ],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\58eaa530-54f1-4311-945c-8bbfe61db5bc"
+  },
+  {
+    "provider": "instagram",
+    "operation": "channel_history",
+    "id": "036f787b-2fdb-4fa9-8683-bbe5ff211612",
+    "state": "failed",
+    "count": 0,
+    "error": {
+      "code": "PROVIDER_UNAVAILABLE",
+      "message": "The provider is unavailable; this is not an empty research result."
+    },
+    "hasCursor": false,
+    "files": [],
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\036f787b-2fdb-4fa9-8683-bbe5ff211612"
+  },
+  {
+    "provider": "x",
+    "operation": "channel_history",
+    "id": "6374fb46-0a6f-486c-b339-506cc7c7d17f",
+    "state": "partial",
+    "count": 3,
+    "hasCursor": true,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "coverage": "channel",
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\6374fb46-0a6f-486c-b339-506cc7c7d17f"
+  }
+]

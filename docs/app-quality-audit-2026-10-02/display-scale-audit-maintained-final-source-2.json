@@ -1,0 +1,1138 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T11:37:29.105Z",
+  "label": "maintained-final-source-2",
+  "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+  "limits": [
+    "Controlled headless DPR and responsive viewport, not native Windows WebView DPI or browser text-only zoom",
+    "No real account operations, uploads, external network, payments or product source edits",
+    "AttachmentModalItem is preview child only; full composer covered independently"
+  ],
+  "cases": [
+    {
+      "id": "maintained-final-source-2-contact-edit-dpr1-light",
+      "kind": "contact-edit",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "applicable": true,
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "openingSample": {
+        "panel": {
+          "x": 736,
+          "y": 251.28125,
+          "width": 448,
+          "height": 617.4375,
+          "top": 251.28125,
+          "right": 1184,
+          "bottom": 868.71875,
+          "left": 736
+        },
+        "titlebarBottom": 40,
+        "title": {
+          "x": 758,
+          "y": 272.28125,
+          "width": 404,
+          "height": 29,
+          "top": 272.28125,
+          "right": 1162,
+          "bottom": 301.28125,
+          "left": 758
+        },
+        "buttons": []
+      },
+      "settleWaitMs": 69,
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 736,
+          "y": 251.28125,
+          "width": 448,
+          "height": 617.4375,
+          "top": 251.28125,
+          "right": 1184,
+          "bottom": 868.71875,
+          "left": 736
+        },
+        "content": {
+          "x": 736,
+          "y": 301.28125,
+          "width": 448,
+          "height": 567.4375,
+          "top": 301.28125,
+          "right": 1184,
+          "bottom": 868.71875,
+          "left": 736
+        },
+        "header": {
+          "x": 736,
+          "y": 251.28125,
+          "width": 448,
+          "height": 50,
+          "top": 251.28125,
+          "right": 1184,
+          "bottom": 301.28125,
+          "left": 736
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 1848,
+          "height": 40,
+          "top": 0,
+          "right": 1920,
+          "bottom": 40,
+          "left": 72
+        },
+        "controls": 6,
+        "outside": [],
+        "text": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewCon",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "24px",
+            "fontSizePhysical": 24,
+            "lineHeightCss": "34.8px",
+            "text": "MobileHidden"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Notes"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 15,
+            "lineHeightCss": "21.75px",
+            "text": "Notes are only visible to you."
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 15,
+            "lineHeightCss": "21.75px",
+            "text": "NewContact.Phone.Hidden.Text"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "lng_new_contact_share"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 15,
+            "lineHeightCss": "21.75px",
+            "text": "AddContact.SharedContactExceptionInfo"
+          }
+        ]
+      },
+      "scrollBefore": {
+        "top": 0,
+        "height": 567,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 736,
+          "y": 301.28125,
+          "width": 448,
+          "height": 567.4375,
+          "top": 301.28125,
+          "right": 1184,
+          "bottom": 868.71875,
+          "left": 736
+        }
+      },
+      "footerReachability": [
+        {
+          "text": "Done",
+          "rect": {
+            "x": 1096.390625,
+            "y": 814.53125,
+            "width": 63.609375,
+            "height": 35.1875,
+            "top": 814.53125,
+            "right": 1160,
+            "bottom": 849.71875,
+            "left": 1096.390625
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        },
+        {
+          "text": "Cancel",
+          "rect": {
+            "x": 995.796875,
+            "y": 814.53125,
+            "width": 84.59375,
+            "height": 35.1875,
+            "top": 814.53125,
+            "right": 1080.390625,
+            "bottom": 849.71875,
+            "left": 995.796875
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        }
+      ],
+      "scrollAfter": {
+        "top": 0,
+        "height": 567,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 736,
+          "y": 301.28125,
+          "width": 448,
+          "height": 567.4375,
+          "top": 301.28125,
+          "right": 1184,
+          "bottom": 868.71875,
+          "left": 736
+        }
+      },
+      "screenshot": "display-scale-maintained-final-source-2-contact-edit-dpr1-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "maintained-final-source-2-chat-language-dpr1-light",
+      "kind": "chat-language",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last() to be visible\u001b[22m\n",
+      "screenshot": "display-scale-maintained-final-source-2-chat-language-dpr1-light-failure.png"
+    },
+    {
+      "id": "maintained-final-source-2-contact-edit-dpr1-dark",
+      "kind": "contact-edit",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "applicable": true,
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "openingSample": {
+        "panel": {
+          "x": 736,
+          "y": 250.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 250.28125,
+          "right": 1184,
+          "bottom": 869.71875,
+          "left": 736
+        },
+        "titlebarBottom": 40,
+        "title": {
+          "x": 759,
+          "y": 272.28125,
+          "width": 402,
+          "height": 29,
+          "top": 272.28125,
+          "right": 1161,
+          "bottom": 301.28125,
+          "left": 759
+        },
+        "buttons": []
+      },
+      "settleWaitMs": 28,
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 736,
+          "y": 250.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 250.28125,
+          "right": 1184,
+          "bottom": 869.71875,
+          "left": 736
+        },
+        "content": {
+          "x": 737,
+          "y": 301.28125,
+          "width": 446,
+          "height": 567.4375,
+          "top": 301.28125,
+          "right": 1183,
+          "bottom": 868.71875,
+          "left": 737
+        },
+        "header": {
+          "x": 737,
+          "y": 251.28125,
+          "width": 446,
+          "height": 50,
+          "top": 251.28125,
+          "right": 1183,
+          "bottom": 301.28125,
+          "left": 737
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 1848,
+          "height": 40,
+          "top": 0,
+          "right": 1920,
+          "bottom": 40,
+          "left": 72
+        },
+        "controls": 6,
+        "outside": [],
+        "text": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewCon",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "24px",
+            "fontSizePhysical": 24,
+            "lineHeightCss": "34.8px",
+            "text": "MobileHidden"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Notes"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 15,
+            "lineHeightCss": "21.75px",
+            "text": "Notes are only visible to you."
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 15,
+            "lineHeightCss": "21.75px",
+            "text": "NewContact.Phone.Hidden.Text"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "lng_new_contact_share"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 15,
+            "lineHeightCss": "21.75px",
+            "text": "AddContact.SharedContactExceptionInfo"
+          }
+        ]
+      },
+      "scrollBefore": {
+        "top": 0,
+        "height": 567,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 737,
+          "y": 301.28125,
+          "width": 446,
+          "height": 567.4375,
+          "top": 301.28125,
+          "right": 1183,
+          "bottom": 868.71875,
+          "left": 737
+        }
+      },
+      "footerReachability": [
+        {
+          "text": "Done",
+          "rect": {
+            "x": 1095.390625,
+            "y": 814.53125,
+            "width": 63.609375,
+            "height": 35.1875,
+            "top": 814.53125,
+            "right": 1159,
+            "bottom": 849.71875,
+            "left": 1095.390625
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        },
+        {
+          "text": "Cancel",
+          "rect": {
+            "x": 994.796875,
+            "y": 814.53125,
+            "width": 84.59375,
+            "height": 35.1875,
+            "top": 814.53125,
+            "right": 1079.390625,
+            "bottom": 849.71875,
+            "left": 994.796875
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        }
+      ],
+      "scrollAfter": {
+        "top": 0,
+        "height": 567,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 737,
+          "y": 301.28125,
+          "width": 446,
+          "height": 567.4375,
+          "top": 301.28125,
+          "right": 1183,
+          "bottom": 868.71875,
+          "left": 737
+        }
+      },
+      "screenshot": "display-scale-maintained-final-source-2-contact-edit-dpr1-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "maintained-final-source-2-chat-language-dpr1-dark",
+      "kind": "chat-language",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last() to be visible\u001b[22m\n",
+      "screenshot": "display-scale-maintained-final-source-2-chat-language-dpr1-dark-failure.png"
+    },
+    {
+      "id": "maintained-final-source-2-contact-edit-dpr2-light",
+      "kind": "contact-edit",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "applicable": true,
+        "actualBodyClasses": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "openingSample": {
+        "panel": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 476,
+          "top": 52,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "titlebarBottom": 40,
+        "title": {
+          "x": 278,
+          "y": 73,
+          "width": 404,
+          "height": 29,
+          "top": 73,
+          "right": 682,
+          "bottom": 102,
+          "left": 278
+        },
+        "buttons": []
+      },
+      "settleWaitMs": 28,
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 476,
+          "top": 52,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "content": {
+          "x": 256,
+          "y": 102,
+          "width": 448,
+          "height": 426,
+          "top": 102,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "header": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 50,
+          "top": 52,
+          "right": 704,
+          "bottom": 102,
+          "left": 256
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 888,
+          "height": 40,
+          "top": 0,
+          "right": 960,
+          "bottom": 40,
+          "left": 72
+        },
+        "controls": 6,
+        "outside": [],
+        "text": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewCon",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "24px",
+            "fontSizePhysical": 48,
+            "lineHeightCss": "34.8px",
+            "text": "MobileHidden"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Notes"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "Notes are only visible to you."
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "NewContact.Phone.Hidden.Text"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "lng_new_contact_share"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "AddContact.SharedContactExceptionInfo"
+          }
+        ]
+      },
+      "scrollBefore": {
+        "top": 0,
+        "height": 426,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 256,
+          "y": 102,
+          "width": 448,
+          "height": 426,
+          "top": 102,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        }
+      },
+      "footerReachability": [
+        {
+          "text": "Done",
+          "rect": {
+            "x": 616.390625,
+            "y": 474.25,
+            "width": 63.609375,
+            "height": 35.1875,
+            "top": 474.25,
+            "right": 680,
+            "bottom": 509.4375,
+            "left": 616.390625
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        },
+        {
+          "text": "Cancel",
+          "rect": {
+            "x": 515.796875,
+            "y": 474.25,
+            "width": 84.59375,
+            "height": 35.1875,
+            "top": 474.25,
+            "right": 600.390625,
+            "bottom": 509.4375,
+            "left": 515.796875
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        }
+      ],
+      "scrollAfter": {
+        "top": 141,
+        "height": 426,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 256,
+          "y": 102,
+          "width": 448,
+          "height": 426,
+          "top": 102,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        }
+      },
+      "screenshot": "display-scale-maintained-final-source-2-contact-edit-dpr2-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "maintained-final-source-2-chat-language-dpr2-light",
+      "kind": "chat-language",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last() to be visible\u001b[22m\n",
+      "screenshot": "display-scale-maintained-final-source-2-chat-language-dpr2-light-failure.png"
+    },
+    {
+      "id": "maintained-final-source-2-contact-edit-dpr2-dark",
+      "kind": "contact-edit",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "applicable": true,
+        "actualBodyClasses": "App-module__bg is-pointer-env with-message-blur is-windows is-tauri has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "openingSample": {
+        "panel": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 476,
+          "top": 52,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "titlebarBottom": 40,
+        "title": {
+          "x": 279,
+          "y": 74,
+          "width": 402,
+          "height": 29,
+          "top": 74,
+          "right": 681,
+          "bottom": 103,
+          "left": 279
+        },
+        "buttons": []
+      },
+      "settleWaitMs": 32,
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 476,
+          "top": 52,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "content": {
+          "x": 257,
+          "y": 103,
+          "width": 446,
+          "height": 424,
+          "top": 103,
+          "right": 703,
+          "bottom": 527,
+          "left": 257
+        },
+        "header": {
+          "x": 257,
+          "y": 53,
+          "width": 446,
+          "height": 50,
+          "top": 53,
+          "right": 703,
+          "bottom": 103,
+          "left": 257
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 888,
+          "height": 40,
+          "top": 0,
+          "right": 960,
+          "bottom": 40,
+          "left": 72
+        },
+        "controls": 6,
+        "outside": [],
+        "text": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewCon",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "24px",
+            "fontSizePhysical": 48,
+            "lineHeightCss": "34.8px",
+            "text": "MobileHidden"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Notes"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "Notes are only visible to you."
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "NewContact.Phone.Hidden.Text"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "lng_new_contact_share"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "AddContact.SharedContactExceptionInfo"
+          }
+        ]
+      },
+      "scrollBefore": {
+        "top": 0,
+        "height": 424,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 257,
+          "y": 103,
+          "width": 446,
+          "height": 424,
+          "top": 103,
+          "right": 703,
+          "bottom": 527,
+          "left": 257
+        }
+      },
+      "footerReachability": [
+        {
+          "text": "Done",
+          "rect": {
+            "x": 615.390625,
+            "y": 473.25,
+            "width": 63.609375,
+            "height": 35.1875,
+            "top": 473.25,
+            "right": 679,
+            "bottom": 508.4375,
+            "left": 615.390625
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        },
+        {
+          "text": "Cancel",
+          "rect": {
+            "x": 514.796875,
+            "y": 473.25,
+            "width": 84.59375,
+            "height": 35.1875,
+            "top": 473.25,
+            "right": 599.390625,
+            "bottom": 508.4375,
+            "left": 514.796875
+          },
+          "hitWithin": true,
+          "hitTag": "BUTTON",
+          "hitClass": "Button confirm-dialog-button default primary text",
+          "enabled": true
+        }
+      ],
+      "scrollAfter": {
+        "top": 143,
+        "height": 424,
+        "scrollHeight": 567,
+        "rect": {
+          "x": 257,
+          "y": 103,
+          "width": 446,
+          "height": 424,
+          "top": 103,
+          "right": 703,
+          "bottom": 527,
+          "left": 257
+        }
+      },
+      "screenshot": "display-scale-maintained-final-source-2-contact-edit-dpr2-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "maintained-final-source-2-chat-language-dpr2-dark",
+      "kind": "chat-language",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last() to be visible\u001b[22m\n",
+      "screenshot": "display-scale-maintained-final-source-2-chat-language-dpr2-dark-failure.png"
+    }
+  ],
+  "pageErrors": [],
+  "blockedRequests": 0,
+  "sourceHashesBefore": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963",
+    "src/components/ui/Modal.scss": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82",
+    "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+    "src/components/common/Titlebar.module.scss": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+    "src/components/App.module.scss": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+    "scripts/relay-ui-audit.server.mjs": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583",
+    "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+    "scripts/relay-ui-additional-modals.server.fixture.mjs": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+  },
+  "sourceHashesAfter": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963",
+    "src/components/ui/Modal.scss": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82",
+    "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+    "src/components/common/Titlebar.module.scss": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+    "src/components/App.module.scss": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+    "scripts/relay-ui-audit.server.mjs": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583",
+    "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+    "scripts/relay-ui-additional-modals.server.fixture.mjs": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+  },
+  "bootstrap": [
+    {
+      "url": "http://127.0.0.1:1268/relay-ui-additional-modals",
+      "state": {
+        "auth": "authorizationStateReady",
+        "connection": "connectionStateReady",
+        "chatCount": 2,
+        "settingsScreen": 0,
+        "leftContent": 0,
+        "isSynced": true,
+        "isSyncing": false
+      },
+      "chatIds": [
+        "101",
+        "-1000000000201"
+      ],
+      "explicitSyntheticSeed": false
+    },
+    {
+      "url": "http://127.0.0.1:1268/relay-ui-additional-modals",
+      "state": {
+        "auth": "authorizationStateReady",
+        "connection": "connectionStateReady",
+        "chatCount": 2,
+        "settingsScreen": 0,
+        "leftContent": 0,
+        "isSynced": true,
+        "isSyncing": false
+      },
+      "chatIds": [
+        "101",
+        "-1000000000201"
+      ],
+      "explicitSyntheticSeed": false
+    }
+  ],
+  "fixturePreconditions": [
+    {
+      "dpr": 1,
+      "chat101": true,
+      "message101Count": 3
+    },
+    {
+      "dpr": 2,
+      "chat101": true,
+      "message101Count": 3
+    }
+  ],
+  "sourceHashesUnchanged": true,
+  "summary": {
+    "total": 8,
+    "passed": 4,
+    "failed": 4,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "sourceHashesUnchanged": true
+  }
+}

@@ -28,7 +28,7 @@ const saveSync = (authed: boolean) => {
   }));
 };
 
-let lastTimeout: number | undefined;
+let lastTimeout: ReturnType<typeof setTimeout> | undefined;
 
 export const forceWebsync = (authed: boolean) => {
   if (IS_MOCKED_CLIENT || IS_TAURI) return undefined;

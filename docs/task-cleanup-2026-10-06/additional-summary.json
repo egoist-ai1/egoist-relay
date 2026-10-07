@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a10e5c-490e-7401-ab0c-09ec3a0b60b1",
+  "status": "completed",
+  "completedAt": "2026-10-06T19:18:21.129670+00:00",
+  "authorization": "Latest direct human cleanup instruction from source chat01a11123-7fde-7de1-91a2-10f84cb72276 was verified in userMessage: clear old build/cache work while retaining latest five versions. Current task scope is own work and cleanup delegated to documented native-present owners.",
+  "scope": "Additional cleanup after already-published installer1.6.1; excludes previous root cleanup and independent coordinator/native-absent/project-release cleanup.",
+  "totals": {
+    "files": 32365,
+    "logicalBytes": 965760435,
+    "nativeDataAllocationBytes": 988539376,
+    "physicalLowerBoundBytes": 977822192,
+    "physicalUpperBoundBytes": 1063020552
+  },
+  "physicalAccounting": {
+    "exactWholeVolumeFreedBytes": null,
+    "boundsAreConservativeDefaultStreamEstimates": true,
+    "nativeDataAllocationIsNotExactClusterFreeDelta": true,
+    "limitations": [
+      "NTFS resident bytes may be held in MFT records; per-owner bounds use documented resident adjustment.",
+      "No filesystem extent query retained; directory/MFT/journal/alternate-stream overhead excluded.",
+      "Whole-drive C: deltas include concurrent cleanup and are neither added nor attributed.",
+      "Owner scopes are distinct; shared links were retained and not counted as deleted."
+    ]
+  },
+  "owners": [
+    {
+      "owner": "root",
+      "taskId": "01a10e5c-490e-7401-ab0c-09ec3a0b60b1",
+      "files": 3757,
+      "logicalBytes": 88137424,
+      "nativeDataAllocationBytes": 94524952,
+      "physicalLowerBoundBytes": 94183424,
+      "physicalUpperBoundBytes": 94524952,
+      "receipt": {
+        "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\task-cleanup-2026-10-06\\additional-root-summary.json",
+        "sha256": "88e6f778ee0e9c3c111b85a70e0428891d5d441d7eb09ca562663ae35ad928da"
+      },
+      "remaining": {
+        "files": 5651,
+        "logicalBytes": 836811274,
+        "groups": {
+          "build-review-board.py": {
+            "files": 1,
+            "logicalBytes": 11842
+          },
+          "build-source-diff.py": {
+            "files": 1,
+            "logicalBytes": 6098
+          },
+          "cleanup-additional-complete.patch.json": {
+            "files": 1,
+            "logicalBytes": 10060
+          },
+          "cleanup-additional-start.patch.json": {
+            "files": 1,
+            "logicalBytes": 3977
+          },
+          "cleanup-root-complete.patch.json": {
+            "files": 1,
+            "logicalBytes": 8837
+          },
+          "compare-performance.mjs": {
+            "files": 1,
+            "logicalBytes": 8340
+          },
+          "environment-final.json": {
+            "files": 1,
+            "logicalBytes": 348
+          },
+          "file-channel-metrics.json": {
+            "files": 1,
+            "logicalBytes": 879
+          },
+          "frontend-cycle-2026-10-06": {
+            "files": 2723,
+            "logicalBytes": 35724263
+          },
+          "hotfix-1.6.1": {
+            "files": 30,
+            "logicalBytes": 538233
+          },
+          "implementation-baseline": {
+            "files": 2457,
+            "logicalBytes": 14402961
+          },
+          "implementation-baseline.json": {
+            "files": 1,
+            "logicalBytes": 450821
+          },
+          "implementation-handoff.patch.json": {
+            "files": 1,
+            "logicalBytes": 3283
+          },
+          "implementation-progress.patch.json": {
+            "files": 1,
+            "logicalBytes": 1225
+          },
+          "implementation-start.patch.json": {
+            "files": 1,
+            "logicalBytes": 2211
+          },
+          "operations-eslint-final.log": {
+            "files": 1,
+            "logicalBytes": 9080
+          },
+          "operations-eslint-first.log": {
+            "files": 1,
+            "logicalBytes": 8777
+          },
+          "operations-eslint-fresh.log": {
+            "files": 1,
+            "logicalBytes": 294
+          },
+          "operations-eslint-full.log": {
+            "files": 1,
+            "logicalBytes": 25694
+          },
+          "operations-eslint-keyboard.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "operations-eslint-loader.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "operations-eslint-partialsave.log": {
+            "files": 1,
+            "logicalBytes": 349
+          },
+          "operations-eslint-second.log": {
+            "files": 1,
+            "logicalBytes": 4364
+          },
+          "operations-eslint-third.log": {
+            "files": 1,
+            "logicalBytes": 298
+          },
+          "operations-eslint.json": {
+            "files": 1,
+            "logicalBytes": 159753
+          },
+          "operations-existing-ui.log": {
+            "files": 1,
+            "logicalBytes": 440
+          },
+          "operations-installer-accepted.log": {
+            "files": 1,
+            "logicalBytes": 1749
+          },
+          "operations-installer-build.log": {
+            "files": 1,
+            "logicalBytes": 2345
+          },
+          "operations-media-command-proof.log": {
+            "files": 1,
+            "logicalBytes": 5488
+          },
+          "operations-media-final.log": {
+            "files": 1,
+            "logicalBytes": 5487
+          },
+          "operations-native-accepted.log": {
+            "files": 1,
+            "logicalBytes": 11353
+          },
+          "operations-native-cache-rebuild.log": {
+            "files": 1,
+            "logicalBytes": 40
+          },
+          "operations-native-final.log": {
+            "files": 1,
+            "logicalBytes": 289823
+          },
+          "operations-native-first.log": {
+            "files": 1,
+            "logicalBytes": 18610
+          },
+          "operations-native-integrated.log": {
+            "files": 1,
+            "logicalBytes": 10293
+          },
+          "operations-performance-comparison.log": {
+            "files": 1,
+            "logicalBytes": 3931
+          },
+          "operations-preflight.json": {
+            "files": 1,
+            "logicalBytes": 889
+          },
+          "operations-preflight.log": {
+            "files": 1,
+            "logicalBytes": 86
+          },
+          "operations-production-frontend.log": {
+            "files": 1,
+            "logicalBytes": 60223
+          },
+          "operations-release-native-warm.log": {
+            "files": 1,
+            "logicalBytes": 14323
+          },
+          "operations-release-policy.log": {
+            "files": 1,
+            "logicalBytes": 1295
+          },
+          "operations-review-qa.log": {
+            "files": 1,
+            "logicalBytes": 1107
+          },
+          "operations-stylelint-final.log": {
+            "files": 1,
+            "logicalBytes": 66747
+          },
+          "operations-stylelint-full.log": {
+            "files": 1,
+            "logicalBytes": 67540
+          },
+          "operations-stylelint-panel.log": {
+            "files": 1,
+            "logicalBytes": 1536
+          },
+          "operations-stylelint-shell.log": {
+            "files": 1,
+            "logicalBytes": 325
+          },
+          "operations-stylelint-targeted.log": {
+            "files": 1,
+            "logicalBytes": 1909
+          },
+          "operations-tsc-final.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "operations-tsc-first.log": {
+            "files": 1,
+            "logicalBytes": 7240
+          },
+          "operations-tsc-script.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "operations-tsc-second.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "operations-tsc-test.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "operations-vitest-final.log": {
+            "files": 1,
+            "logicalBytes": 280
+          },
+          "operations-vitest-full.log": {
+            "files": 1,
+            "logicalBytes": 281
+          },
+          "pause-cleanup-complete.patch.json": {
+            "files": 1,
+            "logicalBytes": 6844
+          },
+          "pause-cleanup.patch.json": {
+            "files": 1,
+            "logicalBytes": 3856
+          },
+          "performance-comparison": {
+            "files": 7,
+            "logicalBytes": 65816
+          },
+          "planning-eslint-5120-baseline.log": {
+            "files": 1,
+            "logicalBytes": 294
+          },
+          "planning-eslint-baseline.log": {
+            "files": 1,
+            "logicalBytes": 1285
+          },
+          "planning-media-checks-final.log": {
+            "files": 1,
+            "logicalBytes": 4231
+          },
+          "planning-media-checks.log": {
+            "files": 1,
+            "logicalBytes": 12864
+          },
+          "planning-rust-baseline.log": {
+            "files": 1,
+            "logicalBytes": 17626
+          },
+          "planning-rust-target": {
+            "files": 294,
+            "logicalBytes": 781562944
+          },
+          "planning-stylelint-baseline.log": {
+            "files": 1,
+            "logicalBytes": 65256
+          },
+          "planning-types-baseline.log": {
+            "files": 1,
+            "logicalBytes": 0
+          },
+          "planning-ui-baseline": {
+            "files": 6,
+            "logicalBytes": 631762
+          },
+          "planning-ui-layout-states": {
+            "files": 10,
+            "logicalBytes": 666287
+          },
+          "planning-vitest-baseline.log": {
+            "files": 1,
+            "logicalBytes": 280
+          },
+          "publication-1.6.1": {
+            "files": 14,
+            "logicalBytes": 40432
+          },
+          "review-board-qa": {
+            "files": 45,
+            "logicalBytes": 1761623
+          },
+          "review-file-probe.mjs": {
+            "files": 1,
+            "logicalBytes": 1462
+          },
+          "social-operations-red.log": {
+            "files": 1,
+            "logicalBytes": 4056
+          },
+          "tauri-local-build.json": {
+            "files": 1,
+            "logicalBytes": 37
+          },
+          "verify-review-board.mjs": {
+            "files": 1,
+            "logicalBytes": 8992
+          }
+        },
+        "inventoryErrors": [],
+        "mode": "Own metadata only via extended Windows paths; includes cleanup checkpoint inputs"
+      }
+    },
+    {
+      "owner": "controls_settings",
+      "taskId": "01a110b9-e0fb-7b32-b25c-cd096182eb93",
+      "files": 719,
+      "logicalBytes": 54642058,
+      "nativeDataAllocationBytes": 56041968,
+      "physicalLowerBoundBytes": 53096944,
+      "physicalUpperBoundBytes": 56041968,
+      "receipt": {
+        "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\task-cleanup-2026-10-06\\children\\controls-settings.json",
+        "sha256": "1a0654a9293bdfcf5bf478c30595a92f2529c19fa2877102e0934a344a419ed0"
+      },
+      "remaining": {
+        "files": 16,
+        "logicalBytes": 36099
+      }
+    },
+    {
+      "owner": "shell_redesign",
+      "taskId": "01a110b9-92a2-79f2-a809-498c13becc2d",
+      "files": 735,
+      "logicalBytes": 53174101,
+      "nativeDataAllocationBytes": 54604824,
+      "physicalLowerBoundBytes": 51597312,
+      "physicalUpperBoundBytes": 54603776,
+      "receipt": {
+        "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\task-cleanup-2026-10-06\\children\\shell-redesign.json",
+        "sha256": "bda1d21ec4ab8d70f786bd67597a941125a85dabbe2b0b28708db2e8dbbf6e01"
+      },
+      "remaining": {
+        "files": 60,
+        "logicalBytes": 1477725
+      }
+    },
+    {
+      "owner": "neutral_theme",
+      "taskId": "01a110b9-5458-76a1-9b33-3b6385bde868",
+      "files": 27154,
+      "logicalBytes": 769806852,
+      "nativeDataAllocationBytes": 783367632,
+      "physicalLowerBoundBytes": 778944512,
+      "physicalUpperBoundBytes": 857849856,
+      "receipt": {
+        "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\task-cleanup-2026-10-06\\children\\neutral-theme.json",
+        "sha256": "a55d09c4b8c61e735030ab7a6dc0510d37a3c28e2de0fdd889fafde9f4a97823"
+      },
+      "remaining": {
+        "files": 199,
+        "logicalBytes": 19602974
+      }
+    }
+  ],
+  "retainedVersions": [
+    {
+      "version": "1.6.1",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.6.1\\Egoist Relay_1.6.1_x64-setup.exe",
+      "bytes": 567488354,
+      "exists": true,
+      "verification": "Existence/size only on cleanup; prior publication1.6.1 SHA retained, no repeated installer test"
+    },
+    {
+      "version": "1.6.0",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.6.0\\Egoist Relay_1.6.0_x64-setup.exe",
+      "bytes": 567485174,
+      "exists": true,
+      "verification": "Existence/size only on cleanup; prior publication1.6.1 SHA retained, no repeated installer test"
+    },
+    {
+      "version": "1.5.0",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.5.0\\Egoist Relay_1.5.0_x64-setup.exe",
+      "bytes": 567451859,
+      "exists": true,
+      "verification": "Existence/size only on cleanup; prior publication1.6.1 SHA retained, no repeated installer test"
+    },
+    {
+      "version": "1.4.7",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.4.7\\Egoist-Relay-1.4.7-x64-setup.exe",
+      "bytes": 567280908,
+      "exists": true,
+      "verification": "Existence/size only on cleanup; prior publication1.6.1 SHA retained, no repeated installer test"
+    },
+    {
+      "version": "1.4.6",
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.4.6\\Egoist Relay_1.4.6_x64-setup.exe",
+      "bytes": 570445845,
+      "exists": true,
+      "verification": "Existence/size only on cleanup; prior publication1.6.1 SHA retained, no repeated installer test"
+    }
+  ],
+  "publication": {
+    "receipt": {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\task-cleanup-2026-10-06\\..\\publication-1.6.1\\publication.json",
+      "sha256": "104a08103348b5d63a4abba6a1eb14b033e903054b44e6cf8547696d35d30ad0"
+    },
+    "release": {
+      "id": 404954317,
+      "tag": "relay-v1.6.1",
+      "url": "https://github.com/egoist-ai1/egoist-relay/releases/tag/relay-v1.6.1",
+      "draft": false,
+      "prerelease": true,
+      "targetCommitish": "c9e7ec94bedd0bb72a258a0ac73a7a1076c7ac74"
+    },
+    "installerAsset": {
+      "id": 616111149,
+      "name": "Egoist-Relay-1.6.1-x64-setup.exe",
+      "size": 567488354,
+      "digest": "sha256:3066963d99430ffa83a3b62c1f1c29e4db8b6040846932fd1bd9bfae8d121751",
+      "state": "uploaded",
+      "browser_download_url": "https://github.com/egoist-ai1/egoist-relay/releases/download/relay-v1.6.1/Egoist-Relay-1.6.1-x64-setup.exe",
+      "content_type": "application/octet-stream"
+    },
+    "newPublicationPerformed": false
+  },
+  "remainingRootGuards": {
+    "directory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-rust-target",
+    "hardlinkedFiles": 278,
+    "hardlinkedLogicalBytes": 781556208,
+    "action": "Retained; no guard bypass. Tiny generated manifests within same guarded directory retained."
+  },
+  "preserved": "Canonical sources, baselines, unique raw captures/logs/reproduction scripts, credentials/real profiles/data, accepted project evidence, history/checkpoints; five release installers.",
+  "prohibitedActionsPerformed": {
+    "development": false,
+    "builds": false,
+    "productTests": false,
+    "newDownloads": false,
+    "newPublication": false,
+    "foreignRuntimeReadOrDeleteByRoot": false,
+    "runtimeClose": false,
+    "guardBypass": false
+  },
+  "pendingActions": [],
+  "remainingTotals": {
+    "files": 5926,
+    "logicalBytes": 857928072
+  }
+}

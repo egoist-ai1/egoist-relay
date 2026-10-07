@@ -1,0 +1,12 @@
+{
+  "identifier": "relay-social-share",
+  "description": "Prepare user-selected social media only from the local main Relay renderer",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": [
+    "allow-multi-social-overlay",
+    "allow-multi-social-cancel-media",
+    "allow-multi-social-read-media",
+    "allow-multi-social-set-labels"
+  ]
+}

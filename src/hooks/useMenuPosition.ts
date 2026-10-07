@@ -19,6 +19,7 @@ interface StaticPositionOptions {
 
 interface DynamicPositionOptions {
   anchor: IAnchorPosition;
+  positionX?: 'left' | 'right';
   positionY?: 'top' | 'bottom';
   getTriggerElement: () => HTMLElement | undefined | null;
   getRootElement: () => HTMLElement | undefined | null;
@@ -121,6 +122,7 @@ function processDynamically(
   bubbleRef: ElementRef<HTMLDivElement>,
   {
     anchor,
+    positionX: requestedPositionX,
     positionY: requestedPositionY,
     getRootElement,
     getMenuElement,
@@ -162,7 +164,10 @@ function processDynamically(
 
   let positionX: 'left' | 'right';
   let positionY: 'top' | 'bottom';
-  if (isDense || (x + menuRect.width + extraPaddingX < rootRect.width + rootRect.left)) {
+  if (requestedPositionX) {
+    positionX = requestedPositionX;
+    x = requestedPositionX === 'left' ? anchorX + 3 : anchorX - anchorWidth - 3;
+  } else if (isDense || (x + menuRect.width + extraPaddingX < rootRect.width + rootRect.left)) {
     x += 3;
     positionX = 'left';
   } else if (x - anchorWidth - menuRect.width - rootRect.left > 0) {

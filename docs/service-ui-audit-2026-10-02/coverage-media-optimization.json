@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-media-optimization-2026-10-02",
+  "createdAt": "2026-10-02T02:14:26.529Z",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "deliveryState": "Source prepared and frozen for parent 1.4.2 build; no live app install performed by this agent",
+  "files": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\inline-media-resolver.mjs",
+      "sha256": "5da45370a395e2f9d8c2a7f9bfafbcbcb56f48d2ee74d2c499621bffac53340e"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\social-media-fetch.mjs",
+      "sha256": "6adc9ae2834d68ca9bef6020e2c7fead14f998b224465c2f1da84908c06bbd80"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\social-share-enhancer.js",
+      "sha256": "4cb6b7ebaeeaaf961eca2aa7bdeeeeabe1f42344336588ce44a8f85870395023"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\inline_media.rs",
+      "sha256": "8d1c3bbac115530d373131a2f7fc0b6b018aa73c8b8a6e5cf7e2a32980609808"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\social_share.rs",
+      "sha256": "76c9f37041453b0dcca6e510560895757a1c3fdde7f98f674b3ec3a69e2ead5b"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\README.md",
+      "sha256": "d24c8e157c3ce56a60ec0600169edb4059389f5c4a03ee146c9290717d9607ea"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\social-media-fetch.test.mjs",
+      "sha256": "c8da342a3d2c3755c02dc42a4237a3709b8869f6d178b92ff031082ad90b9f21"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\media-proxy.test.mjs",
+      "sha256": "dc0c75068f85ade663cd6da2e408af8c5b37a72dee42fdcde7745a259d3ed77b"
+    }
+  ],
+  "items": [
+    {
+      "id": "media-original-file-save",
+      "name": "Оригиналы сохраняются через файл",
+      "version": 1,
+      "content": "Native save commands сохраняют в Downloads без передачи полного файла через IPC. Используются streaming-to-disk, bounded memory, dynamic свободное место, create_new и UUID против перезаписи, cancellation и finite worker deadline."
+    },
+    {
+      "id": "media-source-quality",
+      "name": "Видео без ограничения 720p и 10 минут",
+      "version": 1,
+      "content": "Best available source video/audio выбираются без height/duration фильтров Relay. Merge source streams выполняется без re-encoding. Live/DRM/source authentication остаются в рамках доступности сервиса."
+    },
+    {
+      "id": "media-photo-original",
+      "name": "Фото в максимальном наблюдаемом размере",
+      "version": 1,
+      "content": "X фото запрашивает name=orig, сохраняя identity и формат. Instagram выбирает самый большой корректный observed srcset candidate с provider CDN whitelist; signed query string остаётся неизменным. Для malformed/mixed descriptors действует validated currentSrc/src fallback."
+    },
+    {
+      "id": "media-request-efficiency",
+      "name": "Загрузка без лишнего metadata retry",
+      "version": 1,
+      "content": "Empty download не запускает второй extractor metadata request. Fragment loading использует bounded concurrency 4. Existing direct CDN pipeline использует один GET, без HEAD/probe/сжатия."
+    }
+  ],
+  "api": {
+    "inlineSave": "relay_inline_save_media({url,requestId})",
+    "inlineCancel": "relay_inline_cancel_media({requestId})",
+    "selectedSave": "multi_social_save_media({requestId,index})",
+    "selectedCancel": "multi_social_cancel_media({requestId})",
+    "response": "{path,fileName,mimeType,size}",
+    "output": "Downloads with collision-safe create_new name"
+  },
+  "verification": {
+    "nodeExistingTests": {
+      "pass": 51,
+      "fail": 0,
+      "skipped": 0,
+      "note": "Only two existing tests updated from duration-limit/metadata-retry expectations to explicit final contract; no new project tests"
+    },
+    "syntaxAndTargetedEslint": "PASS",
+    "nativeCheck": "Offline locked cargo check release/custom-protocol: PASS, 4m16s; parent final production build still authoritative",
+    "streamFixture": "70MiB HTTP/1.1 and h2, SHA256 bytes unchanged, no full body Buffer; one GET each; local fixture timings are not ISP/platform benchmarks",
+    "resolverFixture": "Synthetic 70MiB file and duration1344s accepted; one download phase; ffprobe mocked for this fixture",
+    "photoFixture": "5/5: signed highest source, hostile/malformed fallback, mixed units fallback, density2x, Xorig"
+  },
+  "technicalBounds": {
+    "previewFrameBytes": 67108864,
+    "telegramAttachmentPreparationBatchBytes": 134217728,
+    "telegramAttachmentCount": 10,
+    "fileSaveUsesThoseBounds": false,
+    "dynamicDiskBudget": "(available cache disk bytes - 64MiB reserve) / 2, to allow source plus publishing/merge scratch",
+    "workerFileDeadlineSeconds": 900,
+    "nativePublishCopyBytes": 65536,
+    "sourceAndAccountPermissions": "Original origin/token/active selected post, CDN whitelist, cancellation and exact-owned-path checks preserved; no direct agent cookie/profile access"
+  },
+  "gaps": [
+    "No real account media downloaded or whole-service live quality measured",
+    "No finite download of indefinite livestreams; DRM/auth/source service restrictions remain",
+    "Parent owns final installer, UI integration and native production build",
+    "OwnedDirectory cleanup failure after a completed native publish currently returns cleanup error while complete destination file remains; parent notified for final ambiguity handling"
+  ],
+  "sources": [
+    {
+      "title": "yt-dlp official format selection and output stages",
+      "url": "https://github.com/yt-dlp/yt-dlp#format-selection"
+    }
+  ],
+  "reviewBoard": "Parent confirmed inclusion in consolidated companion review board; all new objects unreviewed by default"
+}

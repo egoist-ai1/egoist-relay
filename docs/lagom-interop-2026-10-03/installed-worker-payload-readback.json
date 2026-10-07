@@ -1,0 +1,32 @@
+{
+    "schemaVersion":  1,
+    "status":  "succeeded",
+    "atUtc":  "2026-10-03T14:01:07.2566998+00:00",
+    "mainPid":  30140,
+    "mainBornAtUtc":  "2026-10-03T13:40:39.7232030Z",
+    "mainImageVerified":  true,
+    "ordinaryUserVerified":  true,
+    "actualStartHiddenArgumentPresent":  true,
+    "workerPid":  7024,
+    "workerParentPid":  30140,
+    "workerBornAtUtc":  "2026-10-03T13:40:41.6075260Z",
+    "workerCachePath":  "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay\\public-media\\job-1658f8f5-6972-45af-a968-d2108fb1f829\\telegram-transport.cjs",
+    "workerBytes":  58338,
+    "workerSha256":  "6c9377f1992b3aa21061b25f523fd25c40b85cf4a24f0a3b20a84a053c6b8775",
+    "matchesExpectedEmbeddedWorker":  true,
+    "nodeSha256":  "ba4e6d110e8c1592a1ecd390f6b05f3da124b13871a5be62b341a07a853c6c32",
+    "establishedLocalLagomConnections":  4,
+    "startupTargetAndArgumentVerified":  true,
+    "windowVisibilityUserClarification":  {
+                                              "answer":  "Да, открывал сам",
+                                              "source":  "Direct human async reply in current task",
+                                              "meaning":  "Late visible window follows user opening, not evidence of spontaneous startup.show",
+                                              "immediateHiddenWindowObserved":  false
+                                          },
+    "networkSettingsMutations":  0,
+    "scmCommands":  0,
+    "processActions":  0,
+    "accountContentRead":  false,
+    "privateCredentialsExported":  false,
+    "initialReadbackScopeFailure":  "Windows extended-length path prefix was refused before reading the worker; exact owned path was then verified and normalized"
+}

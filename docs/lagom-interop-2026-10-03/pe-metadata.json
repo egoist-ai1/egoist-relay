@@ -1,0 +1,43 @@
+﻿{
+    "schemaVersion":  1,
+    "state":  "metadata_readback",
+    "recordedAt":  "2026-10-03T13:38:51.0879221Z",
+    "files":  [
+                  {
+                      "role":  "candidateInstaller",
+                      "path":  "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.4.6-lagom-interop\\Egoist Relay_1.4.6_x64-setup.exe",
+                      "bytes":  570618798,
+                      "version":  {
+                                      "productName":  "Egoist Relay",
+                                      "productVersion":  "1.4.6",
+                                      "fileVersion":  "1.4.6",
+                                      "fileDescription":  "Egoist Relay",
+                                      "originalFilename":  ""
+                                  },
+                      "signature":  {
+                                        "status":  "NotSigned",
+                                        "statusMessage":  "Файл C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.4.6-lagom-interop\\Egoist Relay_1.4.6_x64-setup.exe не имеет цифровой подписи. Невозможно выполнить сценарий в указанной системе. Для получения дополнительных сведений о выполнении сценариев и настройке политики выполнения см. about_Execution_Policies по адресу https:/go.microsoft.com/fwlink/?LinkID=135170",
+                                        "signer":  null
+                                    },
+                      "executionPerformed":  false
+                  },
+                  {
+                      "role":  "packedExe",
+                      "path":  "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\packed-payload-final\\Egoist Relay.exe",
+                      "bytes":  80960000,
+                      "version":  {
+                                      "productName":  "Egoist Relay",
+                                      "productVersion":  "1.4.6",
+                                      "fileVersion":  "1.4.6",
+                                      "fileDescription":  "Egoist Relay",
+                                      "originalFilename":  ""
+                                  },
+                      "signature":  {
+                                        "status":  "NotSigned",
+                                        "statusMessage":  "Файл C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\packed-payload-final\\Egoist Relay.exe не имеет цифровой подписи. Невозможно выполнить сценарий в указанной системе. Для получения дополнительных сведений о выполнении сценариев и настройке политики выполнения см. about_Execution_Policies по адресу https:/go.microsoft.com/fwlink/?LinkID=135170",
+                                        "signer":  null
+                                    },
+                      "executionPerformed":  false
+                  }
+              ]
+}

@@ -1,5 +1,5 @@
 import {
-  memo, useLayoutEffect, useRef,
+  memo, useEffect, useLayoutEffect, useRef, useState,
 } from '../../lib/teact/teact';
 import { getActions, withGlobal } from '../../global';
 
@@ -8,6 +8,7 @@ import type { GlobalState } from '../../global/types';
 import { STRICTERDOM_ENABLED } from '../../config';
 import { disableStrict, enableStrict } from '../../lib/fasterdom/stricterdom';
 import { selectSharedSettings } from '../../global/selectors/sharedState';
+import { animateEntrance } from '../../util/animations/gsapMotion';
 import buildClassName from '../../util/buildClassName';
 import { oldSetLanguage } from '../../util/oldLangProvider';
 import { createStyledQrCode } from '../../util/qrCode/buildStyledQrCode';
@@ -33,15 +34,15 @@ type StateProps = {
   language?: string;
 };
 
+const QR_SIZE = 260;
+const QR_PLANE_SIZE = 42;
+const QR_IMAGE_SIZE_RATIO = 0.22;
+const QR_CODE_MUTATION_DURATION = 150;
 const DATA_PREFIX = 'tg://login?token=';
-const QR_SIZE = 280;
-const QR_PLANE_SIZE = 54;
-const QR_IMAGE_SIZE_RATIO = 0.4;
-const QR_CODE_MUTATION_DURATION = 50; // The library is asynchronous and we need to wait for its mutation code
 
-const AuthCode = ({
-  connectionState,
+const AuthQrCode = ({
   auth,
+  connectionState,
   language,
 }: StateProps) => {
   const {
@@ -54,12 +55,23 @@ const AuthCode = ({
 
   const suggestedLanguage = getSuggestedLanguage();
   const lang = useLang();
+  const containerRef = useRef<HTMLDivElement>();
   const qrCodeRef = useRef<HTMLDivElement>();
+
+  useEffect(() => animateEntrance(containerRef.current), []);
 
   const isConnected = connectionState === 'connectionStateReady';
   const continueText = useLangString('AuthContinueOnThisLanguage', suggestedLanguage);
   const [isLoading, markIsLoading, unmarkIsLoading] = useFlag();
   const [isQrMounted, markQrMounted, unmarkQrMounted] = useFlag();
+  const [hasConnectionDelay, setHasConnectionDelay] = useState(false);
+
+  useEffect(() => {
+    setHasConnectionDelay(false);
+    if (isConnected && isQrMounted) return undefined;
+    const timeout = window.setTimeout(() => setHasConnectionDelay(true), 15000);
+    return () => window.clearTimeout(timeout);
+  }, [isConnected, isQrMounted]);
 
   const accountsInfo = useMultiaccountInfo();
   const hasActiveAccount = Object.values(accountsInfo).length > 0;
@@ -132,7 +144,7 @@ const AuthCode = ({
   const isAuthReady = state === 'authorizationStateWaitQrCode';
 
   return (
-    <div id="auth-qr-form" className="custom-scroll">
+    <div id="auth-qr-form" ref={containerRef} className="custom-scroll">
       {hasActiveAccount && (
         <Button
           size="smaller"
@@ -153,7 +165,6 @@ const AuthCode = ({
               key="qr-container"
               className="qr-container"
               ref={qrCodeRef}
-              style={`width: ${QR_SIZE}px; height: ${QR_SIZE}px`}
             />
             <AnimatedIcon
               tgsUrl={LOCAL_TGS_URLS.QrPlane}
@@ -166,6 +177,16 @@ const AuthCode = ({
           {!isQrMounted && <div className="qr-loading"><Loading /></div>}
         </div>
         <h1>{lang('LoginQRTitle')}</h1>
+        {!isQrMounted && (
+          <p className="note" role="status" aria-live="polite">
+            {lang(hasConnectionDelay ? 'RelayTgSlowConnection' : 'RelayTgConnecting')}
+          </p>
+        )}
+        {hasConnectionDelay && !isQrMounted && (
+          <Button className="auth-button" isText onClick={() => window.location.reload()}>
+            {lang('RelayRetry')}
+          </Button>
+        )}
         <ol>
           <li><span>{lang('LoginQRHelp1')}</span></li>
           <li><span>{lang('LoginQRHelp2', undefined, { withNodes: true, withMarkdown: true })}</span></li>
@@ -205,4 +226,4 @@ export default memo(withGlobal(
       language,
     };
   },
-)(AuthCode));
+)(AuthQrCode));

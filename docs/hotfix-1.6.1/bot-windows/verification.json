@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a110b9-92a2-79f2-a809-498c13becc2d",
+  "completedAt": "2026-10-06T14:17:00.490735+00:00",
+  "sourceFiles": 17,
+  "checks": [
+    {
+      "name": "TypeScript main configuration",
+      "command": "node node_modules/typescript/bin/tsc -p tsconfig.json --noEmit",
+      "exitCode": 0,
+      "evidence": "tsc.log"
+    },
+    {
+      "name": "Affected ESLint",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "heapMiB": 5120,
+      "cache": "Task-owned runtime",
+      "evidence": "eslint.log"
+    },
+    {
+      "name": "Native adapter lifecycle",
+      "command": "vitest run src/util/tauri/botWebApps.test.ts with task-owned config/cache",
+      "exitCode": 0,
+      "passed": 7,
+      "evidence": "adapter-test.log",
+      "scope": "Native IPC mocked; DOM real jsdom"
+    },
+    {
+      "name": "Injected protocol including exact official upstream SDK",
+      "command": "RELAY_MINI_APP_SDK_FIXTURE=<verified SDK> node --test scripts/mini-app-bridge.test.mjs",
+      "exitCode": 0,
+      "passed": 4,
+      "skipped": 0,
+      "evidence": "bridge-test.log",
+      "scope": "Actual official SDK in JSDOM; no live Telegram or WebView2"
+    },
+    {
+      "name": "Real product WebAppTab integration",
+      "exitCode": 0,
+      "passed": 9,
+      "uncovered": 1,
+      "pageErrors": 0,
+      "unhandled": 0,
+      "evidence": "integration-smoke.json",
+      "scope": "Real App JSX/hooks in headless Edge; isolated NativeMock; external requests aborted"
+    },
+    {
+      "name": "Native pure production guards",
+      "provider": "parent root",
+      "passed": 3,
+      "evidence": "../native-guards/mini-app-guards.json",
+      "scope": "Exact production helpers/tests; no COM/native UI assertion"
+    },
+    {
+      "name": "Final native production compilation",
+      "provider": "parent root",
+      "status": "reported passed",
+      "scope": "Parent root confirmed final frozen source compilation passed; NSIS completion belongs to the release receipt"
+    },
+    {
+      "name": "Scoped patch reverse applicability",
+      "exitCode": 0,
+      "evidence": "patch-check.log"
+    },
+    {
+      "name": "Companion review board load",
+      "exitCode": 0,
+      "items": 4,
+      "neutralAnswers": 4,
+      "pageErrors": 0,
+      "evidence": "review-load.json",
+      "scope": "Local standalone board; no product tests repeated"
+    }
+  ],
+  "unverified": [
+    "Real account InitData, live bot/store behavior and purchases",
+    "Actual Windows/PAC network route and physical WebView2 popup/opener/keyboard behavior",
+    "DPI/GPU and second Windows configuration",
+    "Actual reload menu trigger in this fixture (adapter reload is covered)"
+  ],
+  "patchSha256": "b34faac6fa0571fc38aa2d0d55338aac1415bece8a69d6550f5fc2f36b7973b4"
+}

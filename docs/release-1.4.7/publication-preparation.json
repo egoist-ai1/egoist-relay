@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-04T15:07:44.676Z",
+  "state": "sanitized_public_source_snapshot_ready",
+  "version": "1.4.7",
+  "destination": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a1073d-261b-7a33-8424-3717251dbc66/work/public-source-1.4.7",
+  "repository": "egoist-ai1/egoist-relay",
+  "baselineBranch": "codex/release-1.4.6",
+  "baselineCommit": "ac3724ea7f3f67d6d5669872014335798e3c24ba",
+  "baselineTree": "8c62aa2f56b18372fd35b5b1c77eb1766d73503b",
+  "baselineTrackedFiles": 3422,
+  "productionFiles": 3305,
+  "publicationFiles": 3426,
+  "productionFilesBytesMatched": true,
+  "productionPrivacyScanPassed": true,
+  "publicationPrivacyScanPassed": true,
+  "privateLocalPathsExcluded": true,
+  "snapshotNotFrozen": false,
+  "publicationExclusions": [
+    {
+      "path": "public/statoscope-report.html",
+      "reason": "Machine-generated bundle report contains host build paths"
+    },
+    {
+      "path": "public/installer.html",
+      "reason": "Standalone installer preview contains a local installation path"
+    },
+    {
+      "path": "public/build-stats.json",
+      "reason": "Machine-generated statistics contain host build paths"
+    }
+  ],
+  "preservedSupplementalFiles": 18,
+  "existingRemoteTestsRetained": true,
+  "publicGitLineagePreserved": true,
+  "localProjectGitHistoryCopied": false,
+  "binaryRuntimeIncluded": false,
+  "installerIncluded": false,
+  "accountDataIncluded": false,
+  "externalMutationPerformed": false,
+  "sourceZip": {
+    "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.4.7\\Egoist-Relay-1.4.7-sources.zip",
+    "bytes": 14928312,
+    "sha256": "3259a7c92f1ef7daad460376c4dd01f7a5c548c6d660bbd1c69a774817cf7696"
+  },
+  "sourceManifest": {
+    "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1073d-261b-7a33-8424-3717251dbc66\\work\\public-source-1.4.7\\docs\\source-manifest-1.4.7.json",
+    "sha256": "044ab3c9c3735c59008279d2c389bb15a23a7a5bc951680b983f4a139ccc919a"
+  },
+  "treePayload": {
+    "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1073d-261b-7a33-8424-3717251dbc66\\work\\public-source-1.4.7\\.git\\publication-tree-payload.json",
+    "sha256": "f44e2b2b4f47a9d77b9f27532ef7abd5035349fc5fc0cad33cf5298d1228bd6e",
+    "entries": 28
+  },
+  "rootReadmeSha256": "de926b14baa978ef43a0c20c57f718f413ebc191625f86e7cd1c1faa21f9e8a3",
+  "changes": [
+    {
+      "path": "BUILDING.md",
+      "state": "modified",
+      "bytes": 1849,
+      "sha256": "1d8ca4fedff5b4d705e3f51baa8a7cfb1688d5c241532ed5c11ecf73cd1286b4",
+      "baselineSha256": "c9ce12798beb2cbbad24d1416565ee6eb116f7e19ed571781bb7e289531e4135"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "state": "modified",
+      "bytes": 786,
+      "sha256": "8c7782021ade11971637fb0dcf22aa492c9eeb199c1abea76031f2e1df9e9d10",
+      "baselineSha256": "fffd1d51ce4a2d84ef5fb8eb3fd35d0d9efcbb727b5eb465b2c61222ba9676a9"
+    },
+    {
+      "path": "README.md",
+      "state": "modified",
+      "bytes": 4720,
+      "sha256": "605cc641ee1db54947b516e87c455a32c3ce9426481d73e6dd265535f8d55827",
+      "baselineSha256": "92820e5f3574d56b8703657c02523ea4d0b26d5961d83c075d647e62ff6f6329"
+    },
+    {
+      "path": "docs/RELEASE-1.4.7.md",
+      "state": "added",
+      "bytes": 1370,
+      "sha256": "5e4a4a0a869ca101159a215c85a9143eb009afc97739afd0b1471a7822e57c31"
+    },
+    {
+      "path": "docs/VERIFICATION.md",
+      "state": "modified",
+      "bytes": 2628,
+      "sha256": "2c16deb7ab526100b2d0d2c8a192f31837c5810739f3d123abf02c9ae7f26412",
+      "baselineSha256": "d0d775a35cf467dade897ac6bf80399cdce5c6d8e5200c5add6d98ee7ce6ca79"
+    },
+    {
+      "path": "docs/source-manifest-1.4.7.json",
+      "state": "added",
+      "bytes": 607150,
+      "sha256": "044ab3c9c3735c59008279d2c389bb15a23a7a5bc951680b983f4a139ccc919a"
+    },
+    {
+      "path": "docs/verification-1.4.7.json",
+      "state": "added",
+      "bytes": 3737,
+      "sha256": "5d3cbd684f1f571c4da2b13ed553d91a54ccd49aa6d085db0a75e0773dcaed97"
+    },
+    {
+      "path": "eslint.config.js",
+      "state": "modified",
+      "bytes": 8996,
+      "sha256": "59200d4482776a5025f3b34d45df3a47f1394a2b15bdae8b775ec4076a7a4a64",
+      "baselineSha256": "10925e4ff5bebde5cda5a415758c8c0b8f6b3e0e14de58dbc7eeed1da7a93470"
+    },
+    {
+      "path": "package-lock.json",
+      "state": "modified",
+      "bytes": 525166,
+      "sha256": "f67f42e5e9cd7bc3b5dd08087cb844630c1282556977431caa3cd29f91a28a78",
+      "baselineSha256": "79961a34a02fb5de5b9eb3660b827c4f88c262aa478a8ad2fdc589ef5c6de41b"
+    },
+    {
+      "path": "package.json",
+      "state": "modified",
+      "bytes": 6867,
+      "sha256": "ed34c87a34a8180ea5cd9ff0dd791cf8c3a87b8adbeeafa35bfcb4b4f39eeacf",
+      "baselineSha256": "bd2c71592ce2801ebbdfd998c12b2837a7af063418c88842d8e0ad602276ce05"
+    },
+    {
+      "path": "public/version.txt",
+      "state": "modified",
+      "bytes": 6,
+      "sha256": "794d9bfd2d064be2041cba080923b3e39ba3bec84c35794780482852b5f4007e",
+      "baselineSha256": "563d5c80c54e77e2f8454ecd5c14388f9ab3af77edc73b6f4736ada64527952c"
+    },
+    {
+      "path": "scripts/relay-ui-audit.server.mjs",
+      "state": "modified",
+      "bytes": 6506,
+      "sha256": "7c3e04e3c93f10268ea52a316b8d0cb2c0f9ab5732eac88466a171477c894557",
+      "baselineSha256": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583"
+    },
+    {
+      "path": "scripts/release-policy.mjs",
+      "state": "modified",
+      "bytes": 16221,
+      "sha256": "bf80346f8307094add0db5acdeecac4290b8a3f1f10900dd07b5bc2695758f8d",
+      "baselineSha256": "57e5548d9786b4a8278cfa2ea825e2a32978229f26a608475239e7c650bb7ae3"
+    },
+    {
+      "path": "scripts/social-share-enhancer.js",
+      "state": "modified",
+      "bytes": 20467,
+      "sha256": "e49856d0e702c8ba1cca12017e00bd3b4002feff0328e8b25527df5ad035abaf",
+      "baselineSha256": "17ecb40602ea3ed80eb161b3c2c9a37acd99a00b5d8234db9b30be15ad562024"
+    },
+    {
+      "path": "scripts/telegram-transport.mjs",
+      "state": "modified",
+      "bytes": 18265,
+      "sha256": "465cf8a23921b195bdc80f54336f8f5fa6070f45cba3627beebdab6a7d2e323e",
+      "baselineSha256": "f79f9d8959c19b00766ecaa607318d6fcb3d1faa576cae1054d769a45b155597"
+    },
+    {
+      "path": "src/components/App.tsx",
+      "state": "modified",
+      "bytes": 34883,
+      "sha256": "dc3897c4bd92b65ce3f47d4d1d6eac2ee3b4ab0642a755436298c87697326740",
+      "baselineSha256": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c"
+    },
+    {
+      "path": "src/components/gili/modal/Modal.tsx",
+      "state": "modified",
+      "bytes": 12387,
+      "sha256": "2e37525226b82f9d3f682b0f2760fbc9806f652c1501345b04332f92a1b565f5",
+      "baselineSha256": "ebd3c0ce3e3d75ddabc65d2cdc912f93812dab7ac20d16c15039fa3ae240e7d9"
+    },
+    {
+      "path": "src/components/ui/Modal.scss",
+      "state": "modified",
+      "bytes": 6594,
+      "sha256": "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32",
+      "baselineSha256": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82"
+    },
+    {
+      "path": "src/components/ui/Modal.tsx",
+      "state": "modified",
+      "bytes": 13103,
+      "sha256": "174c7f786ca0786bf8aa4f3ccf25ecc413a13fb83bc29c3e80a543d693a18c52",
+      "baselineSha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd"
+    },
+    {
+      "path": "src/hooks/useShowTransition.ts",
+      "state": "modified",
+      "bytes": 5565,
+      "sha256": "435d64f50c44b3e042f16527e85177d6d78102a8952289fc0ab7acbec7ed0ddc",
+      "baselineSha256": "d7e8454e1c2d76d6b72292677865d7e6dcb8e45982cd466350feff6fd3ca2f1e"
+    },
+    {
+      "path": "src/util/openModalState.ts",
+      "state": "added",
+      "bytes": 484,
+      "sha256": "bb7c494735bec99c15a3c5e1b251a6d598e4cd8f7fedf43b4e5942ea9d432728"
+    },
+    {
+      "path": "tauri/Cargo.lock",
+      "state": "modified",
+      "bytes": 167419,
+      "sha256": "7db29cc71c2f115c460ef7b893e0d6f05ced35e450eb39c7420f902996056cbd",
+      "baselineSha256": "b08680296f38bc6e45c478ba2473e81fb56cb4765f6651f10eeee9e4fb2f0c3c"
+    },
+    {
+      "path": "tauri/Cargo.toml",
+      "state": "modified",
+      "bytes": 1497,
+      "sha256": "16e3764752aa00282073a7bc65a889dc8d741ca57a8ef1b799ee8216931be1ba",
+      "baselineSha256": "0c927eb215b8e05490fe77e576466626366e414ea5390816c7fd6e86db94b1c0"
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "state": "modified",
+      "bytes": 19010,
+      "sha256": "3519218eef435c4c32edc9b4d5987b1aa274508fa3c9c4964b6d6cb532c40506",
+      "baselineSha256": "7956b8c01495c857f41da32ee50fa1d1bde3756136a644d858c5705936c582d8"
+    },
+    {
+      "path": "tauri/src/runtime.rs",
+      "state": "modified",
+      "bytes": 2337,
+      "sha256": "f51d9add8bd266d11744114259e92d70638e8c9ce5d5ec1dd20e1350e520893d",
+      "baselineSha256": "25b61448b0bad686df8ab67ed3c313f928751bb7254a4d0ca2248144579a96cd"
+    },
+    {
+      "path": "tauri/src/social_share.rs",
+      "state": "modified",
+      "bytes": 24124,
+      "sha256": "08ab590cca1e312022f681b6725ca014ed16de4444c28a6d5a9223ff908fa68f",
+      "baselineSha256": "76c9f37041453b0dcca6e510560895757a1c3fdde7f98f674b3ec3a69e2ead5b"
+    },
+    {
+      "path": "tauri/src/telegram_transport.rs",
+      "state": "modified",
+      "bytes": 8903,
+      "sha256": "ac7d9f521ee818fc729e16adc09e8731d9c38a65d47991b129d60dd7bd0ec59c",
+      "baselineSha256": "aa0426e350cb1c4118f364bdcb4f5c646bf870d76cc5263b8c002ee94410429b"
+    },
+    {
+      "path": "vite.config.ts",
+      "state": "modified",
+      "bytes": 10591,
+      "sha256": "5f55049b7c75e4f3deb7934bf0262db37a034cfee614b5f5a40740fda62f9a30",
+      "baselineSha256": "6fdedb4f89820faa94de3a21abc962a275bbd980797b86d897c0faca74612734"
+    }
+  ]
+}

@@ -57,24 +57,25 @@ export function getStickerDimensions(sticker: ApiSticker, isMobile?: boolean): A
     height = width;
   }
 
-  const aspectRatio = (height && width) && height / width;
+  const aspectRatio = typeof width === 'number' && Number.isFinite(width) && width > 0
+    && typeof height === 'number' && Number.isFinite(height) && height > 0 ? height / width : 1;
   const baseWidth = REM * (
     isMobile
       ? STICKER_SIZE_INLINE_MOBILE_FACTOR
       : STICKER_SIZE_INLINE_DESKTOP_FACTOR
   );
-  const calculatedHeight = aspectRatio ? baseWidth * aspectRatio : baseWidth;
+  const calculatedHeight = baseWidth * aspectRatio;
 
-  if (aspectRatio && calculatedHeight > baseWidth) {
+  if (calculatedHeight > baseWidth) {
     return {
-      width: Math.round(baseWidth / aspectRatio),
+      width: Math.max(1, Math.round(baseWidth / aspectRatio)),
       height: baseWidth,
     };
   }
 
   return {
     width: baseWidth,
-    height: calculatedHeight,
+    height: Math.max(1, calculatedHeight),
   };
 }
 

@@ -8,7 +8,7 @@ url("./icons.woff?050c3078b33cd07cd95b739685e0b980") format("woff");
 }
 
 .icon-char::before {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Unbounded", sans-serif;
   content: attr(data-char);
   width: 1em;
   text-align: center;

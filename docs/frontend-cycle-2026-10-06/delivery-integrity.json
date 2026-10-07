@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T12:55:18.304194+00:00",
+  "status": "pass",
+  "candidateSourceFiles": 2540,
+  "sourceChanges": [],
+  "installerHashMatches": true,
+  "previous1.5InstallerUnchanged": true,
+  "registryMatchesEmbeddedExactBytes": true,
+  "boardAndRunnerMatchQaReceipt": true,
+  "localLinksChecked": 78,
+  "brokenLinks": [],
+  "snapshotSha256": "85d5bda6d4cf1326e5237617a8aded75342d7a7b3c2499997bbff5ee35320439"
+}

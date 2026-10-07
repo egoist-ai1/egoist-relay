@@ -1,0 +1,599 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-remaining-modal-audit-2026-10-02",
+  "generatedAt": "2026-10-02T10:40:07.238889+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "status": "Scoped audit batch complete with one reproduced rem-root height finding and injection-only proposal; whole app audit remains active",
+  "authoritativeReceipt": {
+    "file": "ui-remaining-modal-settled-before-and-css-proof.json",
+    "sha256": "7bb4207b139b6db67a36268784398b37643483733584c98791e4998b4e495053"
+  },
+  "summary": {
+    "exactSourcePathTargets": 12,
+    "syntheticStateBranches": 17,
+    "beforeRaw": {
+      "total": 127,
+      "pass": 126,
+      "fail": 1,
+      "gate": 0,
+      "pageErrors": 0,
+      "sourceUnchanged": true
+    },
+    "bodyAssertions": 85,
+    "bodyPass": 84,
+    "bodyFail": 1,
+    "functionalControlAssertions": 40,
+    "functionalControlPass": 40,
+    "diagnosticAndCssProofCases": 2,
+    "productionEdits": 0,
+    "newHarnessFiles": 3,
+    "realAccountMutationDispatches": 0,
+    "pageErrors": 0,
+    "unhandledRejections": 0,
+    "sourceInputsUnchanged": 3307,
+    "ownedHashesUnchanged": 24
+  },
+  "sourcePathCoverage": [
+    {
+      "id": "modal-body:src/components/common/PrivacySettingsNoticeModal.tsx",
+      "source": "src/components/common/PrivacySettingsNoticeModal.tsx",
+      "sourceSha256": "5670a295466e01105e71170fc591851f1d8527d43f2db007186df31f7aa34e54",
+      "renderers": [
+        "Real App MiddleColumn async body via openPrivacySettingsNoticeModal"
+      ],
+      "bodyCases": [
+        "privacy-read-dark-fullhd-body",
+        "privacy-last-dark-fullhd-body",
+        "privacy-read-light-fullhd-body",
+        "privacy-last-light-fullhd-body",
+        "privacy-read-narrow-body",
+        "privacy-last-narrow-body",
+        "privacy-read-root32-body",
+        "privacy-last-root32-body",
+        "privacy-read-rtl-reduced-body",
+        "privacy-last-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "privacy-read-escape-zero",
+        "privacy-last-escape-zero",
+        "privacy-read-primary-once",
+        "privacy-last-primary-once"
+      ],
+      "bodyStatuses": {
+        "pass": 10,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 4,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/common/ReportAvatarModal.tsx",
+      "source": "src/components/common/ReportAvatarModal.tsx",
+      "sourceSha256": "612450d1a1f0b4a704c3717fb18746681c9224c892a0f76e5f722b66ca7939c2",
+      "renderers": [
+        "Actual imported body",
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "report-avatar-dark-fullhd-body",
+        "report-avatar-light-fullhd-body",
+        "report-avatar-narrow-body",
+        "report-avatar-root32-body",
+        "report-avatar-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "report-avatar-cancel-enter",
+        "report-avatar-cancel-space",
+        "report-avatar-reason-description-once",
+        "report-avatar-root32-scroll-boundary",
+        "report-avatar-root32-scoped-css-proof"
+      ],
+      "bodyStatuses": {
+        "pass": 4,
+        "fail": 1,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/common/SensitiveContentConfirmModal.tsx",
+      "source": "src/components/common/SensitiveContentConfirmModal.tsx",
+      "sourceSha256": "e4552f7a59f9062f7e1391f8d636d9c8ebf6e8290c654aaab620188d0565c7f0",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "sensitive-dark-fullhd-body",
+        "sensitive-light-fullhd-body",
+        "sensitive-narrow-body",
+        "sensitive-root32-body",
+        "sensitive-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "sensitive-cancel-enter",
+        "sensitive-cancel-space",
+        "sensitive-checkbox-space-confirm-once"
+      ],
+      "bodyStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 3,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/common/UnpinAllMessagesModal.tsx",
+      "source": "src/components/common/UnpinAllMessagesModal.tsx",
+      "sourceSha256": "853470cfbd385761e44c4ac84a717ad8aa6a1c2eb97387e7d7399eccc645f596",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "unpin-dark-fullhd-body",
+        "unpin-light-fullhd-body",
+        "unpin-narrow-body",
+        "unpin-root32-body",
+        "unpin-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "unpin-cancel-enter",
+        "unpin-cancel-space",
+        "unpin-pointer-once"
+      ],
+      "bodyStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 3,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/left/settings/BlockUserModal.tsx",
+      "source": "src/components/left/settings/BlockUserModal.tsx",
+      "sourceSha256": "9c84ec19bd4d4b524153ea321e1c71c62d1d01aedde4a5a3cbdd654025aec6ae",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "block-dark-fullhd-body",
+        "block-empty-dark-fullhd-body",
+        "block-light-fullhd-body",
+        "block-empty-light-fullhd-body",
+        "block-narrow-body",
+        "block-empty-narrow-body",
+        "block-root32-body",
+        "block-empty-root32-body",
+        "block-rtl-reduced-body",
+        "block-empty-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "block-escape-zero",
+        "block-picker-space-once"
+      ],
+      "bodyStatuses": {
+        "pass": 10,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 2,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/main/BotTrustModal.tsx",
+      "source": "src/components/main/BotTrustModal.tsx",
+      "sourceSha256": "6aa6885abd735f72011290a2bbca5a4451dc25c14f2ba9948ebcbfcb237400b8",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "bot-trust-dark-fullhd-body",
+        "bot-trust-light-fullhd-body",
+        "bot-trust-narrow-body",
+        "bot-trust-root32-body",
+        "bot-trust-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "bot-trust-cancel-enter",
+        "bot-trust-cancel-space",
+        "bot-trust-write-checkbox-once"
+      ],
+      "bodyStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 3,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/main/DeleteFolderDialog.tsx",
+      "source": "src/components/main/DeleteFolderDialog.tsx",
+      "sourceSha256": "0b5db72437c6992af87d424a4b5f3270f9634780643c0c6f1d5d64a808029b01",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "folder-dark-fullhd-body",
+        "folder-shared-dark-fullhd-body",
+        "folder-light-fullhd-body",
+        "folder-shared-light-fullhd-body",
+        "folder-narrow-body",
+        "folder-shared-narrow-body",
+        "folder-root32-body",
+        "folder-shared-root32-body",
+        "folder-rtl-reduced-body",
+        "folder-shared-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "folder-cancel-enter",
+        "folder-cancel-space",
+        "folder-shared-cancel-enter",
+        "folder-shared-cancel-space",
+        "folder-confirm-once",
+        "folder-shared-confirm-once"
+      ],
+      "bodyStatuses": {
+        "pass": 10,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 6,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/modals/autoDeleteTimer/AutoDeleteTimerModal.tsx",
+      "source": "src/components/modals/autoDeleteTimer/AutoDeleteTimerModal.tsx",
+      "sourceSha256": "fc8307f0d093e499c4964a5d1032e5d1cbfedf6e051f4f084b0aad11d90aa453",
+      "renderers": [
+        "Real App ModalContainer wrapped body via openAutoDeleteTimerModal"
+      ],
+      "bodyCases": [
+        "auto-delete-dark-fullhd-body",
+        "auto-delete-light-fullhd-body",
+        "auto-delete-narrow-body",
+        "auto-delete-root32-body",
+        "auto-delete-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "auto-delete-cancel-enter",
+        "auto-delete-cancel-space",
+        "auto-delete-unchanged-no-dispatch",
+        "auto-delete-radio-save-once"
+      ],
+      "bodyStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 4,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/modals/birthday/BirthdaySetupModal.tsx",
+      "source": "src/components/modals/birthday/BirthdaySetupModal.tsx",
+      "sourceSha256": "38fd1eeb3f005bcffd82c1742abe9124d07a0e77960741f903681352bb50883f",
+      "renderers": [
+        "Real App ModalContainer legacy body via openBirthdaySetupModal"
+      ],
+      "bodyCases": [
+        "birthday-dark-fullhd-body",
+        "birthday-empty-dark-fullhd-body",
+        "birthday-light-fullhd-body",
+        "birthday-empty-light-fullhd-body",
+        "birthday-narrow-body",
+        "birthday-empty-narrow-body",
+        "birthday-root32-body",
+        "birthday-empty-root32-body",
+        "birthday-rtl-reduced-body",
+        "birthday-empty-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "birthday-escape-zero",
+        "birthday-empty-disabled",
+        "birthday-month-menu-clamps-day-save-once"
+      ],
+      "bodyStatuses": {
+        "pass": 10,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 3,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/modals/prompt/PromptDialog.tsx",
+      "source": "src/components/modals/prompt/PromptDialog.tsx",
+      "sourceSha256": "32e71f9835f0a84d732ce91de10c913840d4a1a651de608b68708762188cafdd",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "prompt-dark-fullhd-body",
+        "prompt-light-fullhd-body",
+        "prompt-narrow-body",
+        "prompt-root32-body",
+        "prompt-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "prompt-cancel-enter",
+        "prompt-cancel-space",
+        "prompt-maxlength-save-once"
+      ],
+      "bodyStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 3,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/modals/rank/EditRankModal.tsx",
+      "source": "src/components/modals/rank/EditRankModal.tsx",
+      "sourceSha256": "1fd0729f390c45001a8cc0ec70d67e51dc55c77baabe03f5e81d9d415d40e1bf",
+      "renderers": [
+        "Real App ModalContainer legacy body via openEditRankModal"
+      ],
+      "bodyCases": [
+        "rank-dark-fullhd-body",
+        "rank-disabled-dark-fullhd-body",
+        "rank-light-fullhd-body",
+        "rank-disabled-light-fullhd-body",
+        "rank-narrow-body",
+        "rank-disabled-narrow-body",
+        "rank-root32-body",
+        "rank-disabled-root32-body",
+        "rank-rtl-reduced-body",
+        "rank-disabled-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "rank-escape-zero",
+        "rank-unchanged-disabled",
+        "rank-edited-enter-once",
+        "rank-denied-input-disabled"
+      ],
+      "bodyStatuses": {
+        "pass": 10,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 4,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    },
+    {
+      "id": "modal-body:src/components/right/management/RemoveGroupUserModal.tsx",
+      "source": "src/components/right/management/RemoveGroupUserModal.tsx",
+      "sourceSha256": "1bf28e7cbc3d1c90c5be35dd600ba8a7251997699418a955cd2d53bbd04efd9e",
+      "renderers": [
+        "Actual imported body in task-owned Teact root beside real App"
+      ],
+      "bodyCases": [
+        "remove-user-dark-fullhd-body",
+        "remove-user-light-fullhd-body",
+        "remove-user-narrow-body",
+        "remove-user-root32-body",
+        "remove-user-rtl-reduced-body"
+      ],
+      "controlCases": [
+        "remove-user-escape-zero",
+        "remove-user-picker-space-once"
+      ],
+      "bodyStatuses": {
+        "pass": 5,
+        "fail": 0,
+        "gate": 0
+      },
+      "controlStatuses": {
+        "pass": 2,
+        "fail": 0,
+        "gate": 0
+      },
+      "scope": "Actual component body and listed synthetic branches only; no server/live-account or independent-window certification"
+    }
+  ],
+  "modes": [
+    "1920x1080 dark-modern, actual shared setting and theme root-class readback",
+    "1920x1080 light-modern, actual shared setting and theme root-class readback",
+    "640x900 CSS narrow viewport (no physical touchscreen claim)",
+    "1920x1080 root16→32px rem emulation (actual body Radio label remains16px; not uniform200% text/DPI/zoom)",
+    "1920x1080 dir=rtl and prefers-reduced-motion=reduce readback (not translated locale or all animation timing certification)"
+  ],
+  "finding": {
+    "id": "ui-remaining-report-avatar-height",
+    "classification": "Reproduced layout height/cropping in actual imported ReportAvatar at root32 rem emulation; not a server/account/keyboard duplicate defect",
+    "source": "src/components/common/ReportAvatarModal.tsx",
+    "sourceSha256": "612450d1a1f0b4a704c3717fb18746681c9224c892a0f76e5f722b66ca7939c2",
+    "case": "report-avatar-root32-body",
+    "beforeDialog": {
+      "x": 640,
+      "y": -7.796875,
+      "width": 640,
+      "height": 1095.59375,
+      "top": -7.796875,
+      "right": 1280,
+      "bottom": 1087.796875,
+      "left": 640
+    },
+    "beforeHeaders": [
+      {
+        "className": "modal-header",
+        "text": "ReportPeer.Report",
+        "box": {
+          "x": 641,
+          "y": -6.796875,
+          "width": 638,
+          "height": 100,
+          "top": -6.796875,
+          "right": 1279,
+          "bottom": 93.203125,
+          "left": 641
+        }
+      },
+      {
+        "className": "modal-title",
+        "text": "ReportPeer.Report",
+        "box": {
+          "x": 685,
+          "y": 35.203125,
+          "width": 550,
+          "height": 58,
+          "top": 35.203125,
+          "right": 1235,
+          "bottom": 93.203125,
+          "left": 685
+        }
+      }
+    ],
+    "beforeFooter": "Initial footer bottom1108.390625px beyond1080px viewport; scrollIntoView aligns to content but leaves bottom1086.390625px",
+    "actualWheelClarification": "Actual mouse wheel reaches maxscroll59; both footer controls then fully reachable. Do not claim complete footer inaccessibility. Dialog still y-7.796875/bottom1087.796875; title y35.203125 partially beneath root32 titlebar80px.",
+    "proposal": "Ordinary-dialog bounded max-height calc(100vh/100dvh - 4rem) plus content min-height0; exact specialized-window exclusions and production ownership are parent work",
+    "proof": "Scoped exact ReportAvatar CSS injection only; no source edit; dialog y64/h952/bottom1016, actual header in viewport, scroll+CancelEnter protected0, reopened pointer submit localmock1",
+    "proofReceipt": "ui-remaining-modal-settled-before-and-css-proof.json",
+    "proofCase": "report-avatar-root32-scoped-css-proof",
+    "proofScreenshot": "ui-remaining-modal-settled-before-and-css-proof-report-avatar-root32-css-proof.png",
+    "productFixStatus": "NOT applied by this batch; parent decides integration separately"
+  },
+  "history": [
+    {
+      "file": "ui-remaining-modal-first.json",
+      "sha256": "8d798789a41726beb16e7f8897eadb1a30d0541ae323ccf390f0a618d0556a2e",
+      "summary": {
+        "total": 38,
+        "pass": 36,
+        "fail": 2,
+        "gate": 0,
+        "pageErrors": 0,
+        "sourceUnchanged": true
+      }
+    },
+    {
+      "file": "ui-remaining-modal-second.json",
+      "sha256": "3f64cfed962efea94a1427a887d7cebbae2f2d52db6c3c807baa687d7478b0f7",
+      "summary": {
+        "total": 125,
+        "pass": 121,
+        "fail": 4,
+        "gate": 0,
+        "pageErrors": 0,
+        "sourceUnchanged": true
+      }
+    },
+    {
+      "file": "ui-remaining-modal-targeted.json",
+      "sha256": "793ae5877318e450c28ea83e3b8d22c3aaad4aa2361a70694fc5ca3e03a36a5c",
+      "summary": {
+        "total": 5,
+        "pass": 3,
+        "fail": 2,
+        "gate": 0,
+        "pageErrors": 0,
+        "sourceUnchanged": true
+      }
+    },
+    {
+      "file": "ui-remaining-modal-scroll.json",
+      "sha256": "138afbeec62c89846f98ab64e71b0b0b6a5d1a980a8be529c477508cd8d4e95a",
+      "summary": {
+        "total": 1,
+        "pass": 1,
+        "fail": 0,
+        "gate": 0,
+        "pageErrors": 0,
+        "sourceUnchanged": true
+      }
+    },
+    {
+      "file": "ui-remaining-modal-final-before-and-css-proof.json",
+      "sha256": "17606973dc4e118a2197745312fae3875ddc44085f97dec72ad882e68099048a",
+      "summary": {
+        "total": 127,
+        "pass": 125,
+        "fail": 2,
+        "gate": 0,
+        "pageErrors": 0,
+        "sourceUnchanged": true
+      }
+    },
+    {
+      "file": "ui-remaining-modal-settled-before-and-css-proof.json",
+      "sha256": "7bb4207b139b6db67a36268784398b37643483733584c98791e4998b4e495053",
+      "summary": {
+        "total": 127,
+        "pass": 126,
+        "fail": 1,
+        "gate": 0,
+        "pageErrors": 0,
+        "sourceUnchanged": true
+      }
+    }
+  ],
+  "historicalTriage": [
+    "first2 auto-delete Cancel failures: test checked before declared closing animation completed; same actual callbacks0 and final transition wait PASS",
+    "second native Radio .check hit hidden input label rather than legitimate visible label; final actual label click+readback PASS",
+    "second AutoDelete immediate checked→Save raced Teact state; final actual focused Space+readback PASS",
+    "second Prompt fill read controlled stale value; final actual17-char pressSequentially→maxlength16+Save1 PASS",
+    "one later ReportAvatar description immediate fill/submit raced Teact render; final target action after2 RAF settlement checks descriptionLength27/other reason andmock1 PASS",
+    "root32 ReportAvatar layout failure remains a real measured emulation finding; no historical failure receipts overwritten or counted as final PASS"
+  ],
+  "gates": [
+    "No production height patch, build, installer or live acceptance by this subagent; candidate1.4.4 frozen read-only",
+    "New batch has no native Tab-host proof; earlier3distinct native Tab gates remain unresolved and are not promoted",
+    "Legacy untranslated keys/mixed English-Russian labels and synthetic missing images/blocked resources limit localization/assets polish evidence; no all-locales claim",
+    "Backend permission checks, update success, real blocking/reporting/deleting/trust/privacy/birthday/rank/TTL acceptance remain mock-only gates",
+    "No galleries, remaining roster, all settings, all modals, all media/upload/download or complete application certification",
+    "New TSX is excluded by existing typed ESLint scripts policy; whole production+newfixture TSC is0, two newJS ESLint0 errors0 warnings",
+    "Root32 does not make all text200%; representative Radio/description labels still16px23.2lineheight. Actual browserzoom/DPI/320CSS reflow/native devices not covered by this batch"
+  ],
+  "checksFile": "ui-remaining-modal-checks.json",
+  "sourceFreezeFile": "ui-remaining-modal-source-freeze.json",
+  "processesClosed": true,
+  "goalStatus": "broader_full_ui_audit_active"
+}

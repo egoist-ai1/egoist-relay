@@ -24,7 +24,7 @@ export type OwnProps = {
   withQuick?: boolean;
   editingMessage?: ApiMessage | undefined;
   onHide: NoneToVoidFunction;
-  onFileSelect: (files: File[]) => void;
+  onFileSelect: (files: File[], isQuick?: boolean) => void;
 };
 
 export enum DropAreaState {
@@ -47,6 +47,8 @@ const DropArea = ({
   useEffect(() => (isOpen ? captureEscKeyListener(onHide) : undefined), [isOpen, onHide]);
 
   const handleFilesDrop = useLastCallback(async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     const { dataTransfer: dt } = e;
     let files: File[] = [];
 
@@ -77,10 +79,12 @@ const DropArea = ({
 
     onHide();
     updateAttachmentSettings({ shouldCompress: withQuick ? false : undefined });
-    onFileSelect(files);
+    onFileSelect(files, false);
   });
 
   const handleQuickFilesDrop = useLastCallback(async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     const { dataTransfer: dt } = e;
 
     if (dt.files && dt.files.length > 0) {
@@ -102,7 +106,7 @@ const DropArea = ({
 
       onHide();
       updateAttachmentSettings({ shouldCompress: true });
-      onFileSelect(files);
+      onFileSelect(files, true);
     }
   });
 
@@ -123,17 +127,30 @@ const DropArea = ({
     }
   });
 
-  const handleDragOver = () => {
+  const handleDragOver = useLastCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'copy';
+    }
     if (hideTimeoutRef.current) {
       window.clearTimeout(hideTimeoutRef.current);
     }
-  };
+  });
+
+  const shouldRenderQuick = withQuick || prevWithQuick;
+
+  const handleContainerDrop = useLastCallback(async (e: React.DragEvent<HTMLDivElement>) => {
+    if (shouldRenderQuick) {
+      await handleQuickFilesDrop(e);
+    } else {
+      await handleFilesDrop(e);
+    }
+  });
 
   if (!shouldRender) {
     return undefined;
   }
-
-  const shouldRenderQuick = withQuick || prevWithQuick;
 
   const className = buildClassName(
     'DropArea',
@@ -146,8 +163,9 @@ const DropArea = ({
         className={className}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
-        onDrop={onHide}
+        onDrop={handleContainerDrop}
         onClick={onHide}
+        data-dropzone
       >
         <DropTarget onFileSelect={handleFilesDrop} isGeneric={!shouldRenderQuick} />
         {shouldRenderQuick && <DropTarget onFileSelect={handleQuickFilesDrop} isQuick />}

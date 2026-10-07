@@ -1,0 +1,92 @@
+{
+  "artifactId": "egoist-relay-app-quality-audit",
+  "updatedAt": "2026-10-02T13:08:15.132Z",
+  "schemaVersion": 1,
+  "version": "candidate-1.4.5-2",
+  "requirements": [
+    {
+      "status": "in_progress",
+      "evidence": "125 historical route attempts + bounded remaining modal receipts;138category files are not138complete live scenarios",
+      "id": "screens",
+      "requirement": "Каждый экран, окно, меню, диалог и панель; доступность всех переходов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Reels helper30/30 + actual recipient13/13; local callbacks only",
+      "id": "navigation",
+      "requirement": "Все переключения Telegram/X/Instagram, кнопки, иконки, клавиатура, загрузка, ошибки, повтор"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "composer-media32/32 with2gates + bounded historical chat/settings receipts",
+      "id": "chat-settings",
+      "requirement": "Чаты, история, поиск, composer, темы и все группы настроек"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical68/68 + finald46focused8/8; independentCSS7objects; no nativeDPI claim",
+      "id": "visual-fullhd",
+      "requirement": "FullHD, темы, типографика, выравнивание, отсутствие обрезок/наложений, масштаб и RTL"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical timing/reduced-motion + bounded display settled/opening; full native/GPU stress remains",
+      "id": "animation-performance",
+      "requirement": "Плавные анимации, reduced motion, отсутствие блокировки интерфейса"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "selected local outputs1280x853/2560x1706/original3000x2000; actualCDN/liveupload gates remain",
+      "id": "media-quality",
+      "requirement": "Быстрая загрузка оригинальных фото/видео/рилсов без снижения качества"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical transferbytes/cancel + localmedia mocks; no new real upload proof",
+      "id": "telegram-transfer",
+      "requirement": "Отправка/скачивание файлов, отмена, повторы, прогресс и независимость запросов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical28-operation matrix; current179fullMCP source checks and attributionhelper14/native43/regression40; liveactivation separate; native-instagram-pilot.json confirms interrupted partial outcome, not successful native operation",
+      "id": "mcp-operations",
+      "requirement": "Каждая зарегистрированная операция каждого сервиса, результаты/ошибки/частичный вывод"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "finite selected public corpus + exactUTF16/4MiBrole-map pipeline; no platform completeness",
+      "id": "research-mass",
+      "requirement": "Большие исследования, поиск, продолжение, дедупликация, экспорт и происхождение"
+    },
+    {
+      "status": "verified_selected_corpus",
+      "evidence": "selected same-byte shard revision/rebuild; page description excluded from postbody/FTS",
+      "id": "research-index",
+      "requirement": "Быстрый точный локальный поиск/индексирование выбранных исследовательских материалов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical bounded research/IPC + attributionpartialerror/composerretry fixtures",
+      "id": "failure-recovery",
+      "requirement": "Отказы сети/файлов/диска/аккаунта, зависания, отмена, восстановление и долгий стресс"
+    },
+    {
+      "status": "verified_current_1.4.5_live_gates_separate",
+      "evidence": "installed1.4.5; historical1.4.4immutable; candidate1.4.5state=installed_all_three_bridges_ready_mcp_current",
+      "id": "release-invariants",
+      "requirement": "Правильный установщик, версии, runtime; DNS/DoH/Lagom без изменений"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Existing account readiness3/3 and current daemon identity confirmed; subsequent native selected Instagram pilot DEADLINE45s/accepted0/partial, not successful reading; exhaustive operations remain gates",
+      "id": "all-services-live",
+      "requirement": "Живые сессии всех трёх сервисов и исследовательские сценарии"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "109 neutral objects; native Instagram pilot interrupted/DEADLINE45s accepted0/partial; aggregate audit remains in_progress",
+      "id": "complete-audit",
+      "requirement": "Сопоставить каждый пункт исходной цели с текущими доказательствами; не объявлять непроверенное готовым"
+    }
+  ]
+}

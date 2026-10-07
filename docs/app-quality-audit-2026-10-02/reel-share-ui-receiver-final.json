@@ -1,0 +1,662 @@
+{
+  "schemaVersion": 1,
+  "label": "final",
+  "generatedAt": "2026-10-02T11:40:21.278Z",
+  "renderer": "Actual App boot -> trusted Instagram service switch -> existing native multi-social-share listener -> SocialShareModal -> RecipientPicker",
+  "sourceHashes": {
+    "src/components/App.tsx": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+    "src/components/multi/SocialShareModal.tsx": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4",
+    "src/components/multi/socialShare.ts": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a",
+    "src/components/common/RecipientPicker.tsx": "d2fe5e772e543226d452b7096da11fa17e8641915a340c0d108dc307c2c22810",
+    "src/components/common/pickers/ChatOrUserPicker.tsx": "17dd01cdd244907d1f87a2cbb607428f65cedf364a20400eaf079aa53ef0900e"
+  },
+  "evidenceScope": "Existing MockClient synthetic state; native mock only. Only sendMessageLocal/sendMessage with socialShareRandomId stop at local callback; no real account/message transport.",
+  "cases": [
+    {
+      "id": "disabled-send-without-recipient",
+      "status": "pass",
+      "detail": {
+        "disabled": true,
+        "localProtectedActions": 0
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "search-no-results-and-select-recipient",
+      "status": "pass",
+      "detail": {
+        "emptyResults": true,
+        "recipientSelected": true,
+        "localProtectedActions": 0
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "cancel-enter-zero-send",
+      "status": "pass",
+      "detail": {
+        "cancelClosed": true,
+        "localProtectedActions": 0
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "cancel-space-zero-send",
+      "status": "pass",
+      "detail": {
+        "cancelClosed": true,
+        "localProtectedActions": 0
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "duplicate-native-request-single-overlay",
+      "status": "pass",
+      "detail": {
+        "overlays": 1,
+        "duplicateOpens": 0
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "invalid-request-rejected",
+      "status": "pass",
+      "detail": {
+        "overlays": 0,
+        "localProtectedActions": 0
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "confirm-pointer-exactly-once",
+      "status": "pass",
+      "detail": {
+        "callbackCount": 1,
+        "localMessageCount": 1,
+        "realMessages": 0
+      },
+      "localCalls": [
+        {
+          "method": "sendMessageLocal",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        },
+        {
+          "method": "sendMessage",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "id": "confirm-enter-exactly-once",
+      "status": "pass",
+      "detail": {
+        "callbackCount": 1,
+        "localMessageCount": 1,
+        "realMessages": 0
+      },
+      "localCalls": [
+        {
+          "method": "sendMessageLocal",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        },
+        {
+          "method": "sendMessage",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "id": "confirm-space-exactly-once",
+      "status": "pass",
+      "detail": {
+        "callbackCount": 1,
+        "localMessageCount": 1,
+        "realMessages": 0
+      },
+      "localCalls": [
+        {
+          "method": "sendMessageLocal",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        },
+        {
+          "method": "sendMessage",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "id": "busy-double-click-no-duplicate-send",
+      "status": "pass",
+      "detail": {
+        "callbackCount": 1,
+        "realMessages": 0
+      },
+      "localCalls": [
+        {
+          "method": "sendMessageLocal",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        },
+        {
+          "method": "sendMessage",
+          "peerId": "900101",
+          "text": "https://www.instagram.com/reel/ReelA123/",
+          "hasSocialShareRandomId": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "id": "geometry-dark-fullhd",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "dark-fullhd",
+          "theme": "dark-modern",
+          "width": 1920,
+          "height": 1080,
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "geometry": {
+          "box": {
+            "x": 736,
+            "y": 276,
+            "width": 448,
+            "height": 576,
+            "top": 276,
+            "right": 1184,
+            "bottom": 852,
+            "left": 736
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "label": "",
+              "box": {
+                "x": 759,
+                "y": 291,
+                "width": 28,
+                "height": 28,
+                "top": 291,
+                "right": 787,
+                "bottom": 319,
+                "left": 759
+              }
+            },
+            {
+              "tag": "INPUT",
+              "label": "",
+              "box": {
+                "x": 753,
+                "y": 333,
+                "width": 414,
+                "height": 44,
+                "top": 333,
+                "right": 1167,
+                "bottom": 377,
+                "left": 753
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Instagramhttps://www.instagram.com/reel/ReelA123/",
+              "box": {
+                "x": 753,
+                "y": 704.15625,
+                "width": 414,
+                "height": 44,
+                "top": 704.15625,
+                "right": 1167,
+                "bottom": 748.15625,
+                "left": 753
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Отменить",
+              "box": {
+                "x": 924.484375,
+                "y": 791,
+                "width": 102.53125,
+                "height": 44,
+                "top": 791,
+                "right": 1027.015625,
+                "bottom": 835,
+                "left": 924.484375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Отправить",
+              "box": {
+                "x": 1035.015625,
+                "y": 791,
+                "width": 131.984375,
+                "height": 44,
+                "top": 791,
+                "right": 1167,
+                "bottom": 835,
+                "left": 1035.015625
+              }
+            }
+          ],
+          "themeClass": "theme-dark theme-variant-dark-modern",
+          "direction": "ltr",
+          "reducedMotion": false
+        },
+        "screenshot": "reel-share-ui-receiver-final-dark-fullhd.png"
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "geometry-light-fullhd",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "light-fullhd",
+          "theme": "light-modern",
+          "width": 1920,
+          "height": 1080,
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "geometry": {
+          "box": {
+            "x": 736,
+            "y": 276,
+            "width": 448,
+            "height": 576,
+            "top": 276,
+            "right": 1184,
+            "bottom": 852,
+            "left": 736
+          },
+          "viewport": {
+            "width": 1920,
+            "height": 1080
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "label": "",
+              "box": {
+                "x": 759,
+                "y": 291,
+                "width": 28,
+                "height": 28,
+                "top": 291,
+                "right": 787,
+                "bottom": 319,
+                "left": 759
+              }
+            },
+            {
+              "tag": "INPUT",
+              "label": "",
+              "box": {
+                "x": 753,
+                "y": 333,
+                "width": 414,
+                "height": 44,
+                "top": 333,
+                "right": 1167,
+                "bottom": 377,
+                "left": 753
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Instagramhttps://www.instagram.com/reel/ReelA123/",
+              "box": {
+                "x": 753,
+                "y": 704.15625,
+                "width": 414,
+                "height": 44,
+                "top": 704.15625,
+                "right": 1167,
+                "bottom": 748.15625,
+                "left": 753
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Отменить",
+              "box": {
+                "x": 924.484375,
+                "y": 790,
+                "width": 102.53125,
+                "height": 44,
+                "top": 790,
+                "right": 1027.015625,
+                "bottom": 834,
+                "left": 924.484375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Отправить",
+              "box": {
+                "x": 1035.015625,
+                "y": 791,
+                "width": 131.984375,
+                "height": 44,
+                "top": 791,
+                "right": 1167,
+                "bottom": 835,
+                "left": 1035.015625
+              }
+            }
+          ],
+          "themeClass": "theme-light theme-variant-light-modern",
+          "direction": "ltr",
+          "reducedMotion": false
+        },
+        "screenshot": "reel-share-ui-receiver-final-light-fullhd.png"
+      },
+      "localCalls": [],
+      "errors": []
+    },
+    {
+      "id": "geometry-narrow-rtl-reduced",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow-rtl-reduced",
+          "theme": "dark-modern",
+          "width": 640,
+          "height": 900,
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "geometry": {
+          "box": {
+            "x": 96,
+            "y": 186,
+            "width": 448,
+            "height": 576,
+            "top": 186,
+            "right": 544,
+            "bottom": 762,
+            "left": 96
+          },
+          "viewport": {
+            "width": 640,
+            "height": 900
+          },
+          "controls": [
+            {
+              "tag": "BUTTON",
+              "label": "",
+              "box": {
+                "x": 493,
+                "y": 201,
+                "width": 28,
+                "height": 28,
+                "top": 201,
+                "right": 521,
+                "bottom": 229,
+                "left": 493
+              }
+            },
+            {
+              "tag": "INPUT",
+              "label": "",
+              "box": {
+                "x": 113,
+                "y": 243,
+                "width": 414,
+                "height": 44,
+                "top": 243,
+                "right": 527,
+                "bottom": 287,
+                "left": 113
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Instagramhttps://www.instagram.com/reel/ReelA123/",
+              "box": {
+                "x": 113,
+                "y": 614.15625,
+                "width": 414,
+                "height": 44,
+                "top": 614.15625,
+                "right": 527,
+                "bottom": 658.15625,
+                "left": 113
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Отменить",
+              "box": {
+                "x": 252.984375,
+                "y": 701,
+                "width": 102.53125,
+                "height": 44,
+                "top": 701,
+                "right": 355.515625,
+                "bottom": 745,
+                "left": 252.984375
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "label": "Отправить",
+              "box": {
+                "x": 113,
+                "y": 701,
+                "width": 131.984375,
+                "height": 44,
+                "top": 701,
+                "right": 244.984375,
+                "bottom": 745,
+                "left": 113
+              }
+            }
+          ],
+          "themeClass": "theme-dark theme-variant-dark-modern",
+          "direction": "rtl",
+          "reducedMotion": true
+        },
+        "screenshot": "reel-share-ui-receiver-final-narrow-rtl-reduced.png"
+      },
+      "localCalls": [],
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": 0,
+  "apiBoundary": {
+    "sourceFile": "src/api/gramjs/worker/connector.ts",
+    "sourceSha256": "48748050ec90623b0029cbab2f399490256325eee997b43f7fd8913ee52aaca5",
+    "opcodeWhitelist": [
+      "sendMessageLocal",
+      "sendMessage"
+    ],
+    "requiresSocialShareRandomId": true,
+    "original": "function callApi(fnName, ...args) {",
+    "replacement": "function callApi(fnName, ...args) {\n  if (typeof window !== \"undefined\" && window.__reelShareApi && [\"sendMessageLocal\", \"sendMessage\"].includes(fnName) && args[0]?.socialShareRandomId) return window.__reelShareApi(fnName, ...args);",
+    "compiledExactCount": 1,
+    "compiledSha256": "9da150ee46d2ffbcf857368f0f0e1720abf0690129f933f995cf75e1535ad907",
+    "servedSha256": "8ba96bdb246a48586f377745527afb4189f92bdb30e3d4de171c1c52893b504e"
+  },
+  "nativeSummary": [
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": true
+    },
+    {
+      "command": "multi_social_cancel_media"
+    },
+    {
+      "command": "multi_social_overlay",
+      "visible": false
+    }
+  ],
+  "unhandled": [],
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+    "src/components/multi/SocialShareModal.tsx": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4",
+    "src/components/multi/socialShare.ts": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a",
+    "src/components/common/RecipientPicker.tsx": "d2fe5e772e543226d452b7096da11fa17e8641915a340c0d108dc307c2c22810",
+    "src/components/common/pickers/ChatOrUserPicker.tsx": "17dd01cdd244907d1f87a2cbb607428f65cedf364a20400eaf079aa53ef0900e"
+  },
+  "sourcesUnchanged": true,
+  "summary": {
+    "total": 13,
+    "pass": 13,
+    "fail": 0,
+    "pageErrors": 0,
+    "unhandled": 0
+  }
+}

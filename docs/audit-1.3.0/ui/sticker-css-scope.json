@@ -1,0 +1,8 @@
+{
+  "responsive": [
+    "html.theme-dark .message-content.custom-shape.sticker-message > .content-inner",
+    "html.theme-dark .message-content.custom-shape.sticker-message > .content-inner > .media-inner",
+    "html.theme-dark .message-content.custom-shape.sticker-message > .content-inner > .media-inner > .full-media,\nhtml.theme-dark .message-content.custom-shape.sticker-message > .content-inner > .media-inner > .full-media > .tlottie-canvas"
+  ],
+  "transparencyGroupPreserved": true
+}

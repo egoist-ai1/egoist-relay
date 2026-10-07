@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-02T16:06:12.425Z",
+  "schemaVersion": 1,
+  "repository": "egoist-ai1/egoist-relay",
+  "branch": "codex/release-1.4.6",
+  "previousCommit": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51",
+  "commit": "ac3724ea7f3f67d6d5669872014335798e3c24ba",
+  "tagCommitPreserved": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51",
+  "manifestHash": "2cfcf1feb3eb68f7307c21b3f0872ef88ff0703a01167be82ec4964fe642cfe9",
+  "files": 3422,
+  "exactProductionFiles": 3304,
+  "cleanHistoryCommits": 2,
+  "remoteGitBlobsMatched": true,
+  "remoteManifestMatched": true,
+  "sourceOnly": true,
+  "installerUploaded": false,
+  "accountDataIncluded": false,
+  "additionalFileChecks": {
+    "passed": 3,
+    "skipped": 9
+  },
+  "changes": [
+    "docs/VERIFICATION.md",
+    "docs/source-manifest-1.4.6.json",
+    "scripts/relay-media-audit-file.test.mjs"
+  ],
+  "releaseId": 401957181,
+  "releaseUrl": "https://github.com/egoist-ai1/egoist-relay/releases/tag/relay-v1.4.6"
+}

@@ -82,7 +82,7 @@ type TelegramClientParams = {
   shouldDebugExportedSenders: boolean;
 };
 
-type TimeoutId = number;
+type TimeoutId = ReturnType<typeof setTimeout>;
 
 export type Update = (
     Api.TypeUpdate | Api.TypeUpdates
@@ -96,7 +96,7 @@ type EventBuilder = {
 const DEFAULT_DC_ID = 2;
 const DEFAULT_WEBDOCUMENT_DC_ID = 4;
 const EXPORTED_SENDER_RECONNECT_TIMEOUT = 1000; // 1 sec
-const EXPORTED_SENDER_RELEASE_TIMEOUT = 30000; // 30 sec
+const EXPORTED_SENDER_RELEASE_TIMEOUT = 120000; // 120 sec - keep connections alive for burst transfers
 const WEBDOCUMENT_REQUEST_PART_SIZE = 131072; // 128kb
 const STATIC_MAP_REQUEST_PART_SIZE = 524288; // 512kb
 
@@ -963,7 +963,9 @@ class TelegramClient {
     return data;
   }
 
-  _downloadPhoto(media: Api.MessageMediaPhoto | Api.TypePhoto, args: DownloadMediaParams) {
+  _downloadPhoto(
+    media: Api.MessageMediaPhoto | Api.TypePhoto, args: DownloadMediaParams & Partial<DownloadFileParams>,
+  ) {
     let photo = media;
     if (media instanceof Api.MessageMediaPhoto && media.photo instanceof Api.Photo) {
       photo = media.photo;
@@ -1006,6 +1008,10 @@ class TelegramClient {
         dcId: photo.dcId,
         fileSize,
         progressCallback: args.progressCallback,
+        start: args.isResearchRequest ? args.start : undefined,
+        end: args.isResearchRequest ? args.end : undefined,
+        partSizeKb: args.isResearchRequest ? args.partSizeKb : undefined,
+        isResearchRequest: args.isResearchRequest,
       },
     );
   }
@@ -1048,6 +1054,7 @@ class TelegramClient {
         end: args.end,
         dcId: doc.dcId,
         workers: args.workers,
+        isResearchRequest: args.isResearchRequest,
       },
     );
   }
@@ -1192,6 +1199,7 @@ class TelegramClient {
 
   async invoke<R extends Api.AnyRequest>(
     request: R, dcId?: number, abortSignal?: AbortSignal, shouldRetryOnTimeout?: boolean,
+    isResearchRequest?: boolean,
   ): Promise<R['__response']> {
     if (request.classType !== 'request') {
       throw new Error('You can only invoke MTProtoRequests');
@@ -1201,9 +1209,42 @@ class TelegramClient {
     let sender = (!isExported ? this._sender : await this.getSender(dcId))!;
     this._lastRequest = Date.now();
 
-    await this._connectedDeferred.promise;
+    if (isResearchRequest && abortSignal) {
+      await new Promise<void>((resolve, reject) => {
+        const onAbort = () => {
+          abortSignal.removeEventListener('abort', onAbort);
+          reject(abortSignal.reason);
+        };
+        abortSignal.addEventListener('abort', onAbort, { once: true });
+        this._connectedDeferred.promise.then(() => {
+          abortSignal.removeEventListener('abort', onAbort);
+          if (abortSignal.aborted) reject(abortSignal.reason);
+          else resolve();
+        }, (err: unknown) => {
+          abortSignal.removeEventListener('abort', onAbort);
+          reject(err);
+        });
+        if (abortSignal.aborted) onAbort();
+      });
+    } else {
+      await this._connectedDeferred.promise;
+    }
 
-    const state = new RequestState(request, abortSignal);
+    const state = new RequestState(request, abortSignal, isResearchRequest);
+    if (isResearchRequest && abortSignal) {
+      const onAbort = () => {
+        const hasBeenSent = state.msgId !== undefined;
+        const reason = abortSignal.reason instanceof Error ? abortSignal.reason.message : 'CANCELLED';
+        const error = Object.assign(new Error(reason), { completionUncertain: hasBeenSent });
+        if (state.msgId !== undefined && sender._pendingState.get(state.msgId) === state) {
+          sender._pendingState.getAndDelete(state.msgId);
+        }
+        state.reject?.(error);
+      };
+      abortSignal.addEventListener('abort', onAbort, { once: true });
+      void state.finished.promise.then(() => abortSignal.removeEventListener('abort', onAbort));
+      if (abortSignal.aborted) onAbort();
+    }
 
     let attempt;
     for (attempt = 0; attempt < this._requestRetries; attempt++) {
@@ -1214,6 +1255,11 @@ class TelegramClient {
         if (isExported) this.releaseExportedSender(sender);
         return result;
       } catch (e: unknown) {
+        if (isResearchRequest) {
+          state.finished.resolve();
+          if (isExported) this.releaseExportedSender(sender);
+          throw e;
+        }
         if (e instanceof ServerError
           || (e instanceof RPCError && (
             e.errorMessage === 'RPC_CALL_FAIL'

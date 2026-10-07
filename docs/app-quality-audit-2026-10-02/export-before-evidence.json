@@ -1,0 +1,286 @@
+[
+  {
+    "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+    "count": 3,
+    "jsonlSha256": "0b9a6bc1fae4a53dd5197e639a69f94e17f16977be005c299d0c07aedfd63ac0",
+    "markdownBytes": 84,
+    "htmlBytes": 11433,
+    "records": [
+      {
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "type": "reel",
+        "textFields": {
+          "text": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "caption": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "description": {
+            "characters": 89,
+            "preservedInMarkdown": false
+          },
+          "observedText": {
+            "characters": 31,
+            "preservedInMarkdown": false
+          }
+        },
+        "sourceLinkInMarkdown": false,
+        "mediaItems": 1
+      },
+      {
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "type": "reel",
+        "textFields": {
+          "text": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "caption": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "description": {
+            "characters": 89,
+            "preservedInMarkdown": false
+          },
+          "observedText": {
+            "characters": 31,
+            "preservedInMarkdown": false
+          }
+        },
+        "sourceLinkInMarkdown": false,
+        "mediaItems": 1
+      },
+      {
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "type": "reel",
+        "textFields": {
+          "text": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "caption": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "description": {
+            "characters": 89,
+            "preservedInMarkdown": false
+          },
+          "observedText": {
+            "characters": 31,
+            "preservedInMarkdown": false
+          }
+        },
+        "sourceLinkInMarkdown": false,
+        "mediaItems": 1
+      }
+    ]
+  },
+  {
+    "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+    "count": 3,
+    "jsonlSha256": "9d8d03061b33389b922c4bdb46510a53455f1d18c682982dad173cf9a7904e50",
+    "markdownBytes": 84,
+    "htmlBytes": 8918,
+    "records": [
+      {
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "type": "reel",
+        "textFields": {
+          "text": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "caption": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "description": {
+            "characters": 89,
+            "preservedInMarkdown": false
+          },
+          "observedText": {
+            "characters": 4,
+            "preservedInMarkdown": false
+          }
+        },
+        "sourceLinkInMarkdown": false,
+        "mediaItems": 1
+      },
+      {
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "type": "reel",
+        "textFields": {
+          "text": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "caption": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "description": {
+            "characters": 89,
+            "preservedInMarkdown": false
+          },
+          "observedText": {
+            "characters": 4,
+            "preservedInMarkdown": false
+          }
+        },
+        "sourceLinkInMarkdown": false,
+        "mediaItems": 1
+      },
+      {
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "type": "reel",
+        "textFields": {
+          "text": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "caption": {
+            "characters": 0,
+            "preservedInMarkdown": null
+          },
+          "description": {
+            "characters": 89,
+            "preservedInMarkdown": false
+          },
+          "observedText": {
+            "characters": 4,
+            "preservedInMarkdown": false
+          }
+        },
+        "sourceLinkInMarkdown": false,
+        "mediaItems": 1
+      }
+    ]
+  },
+  {
+    "syntheticActualProvider": true,
+    "descriptionPreserved": false,
+    "observedTextPreserved": false,
+    "sourcePreserved": false,
+    "markdownBytes": 21,
+    "fixtureDirectory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\source-reproduction-053757e1-4255-41ca-bc56-e0ba0281ae84"
+  }
+]

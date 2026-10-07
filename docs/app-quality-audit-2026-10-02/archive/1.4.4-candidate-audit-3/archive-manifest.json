@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.4-candidate-audit-3",
+  "items": 74,
+  "installedVersionAtFreeze": "1.4.2",
+  "frozenCandidate": "1.4.4",
+  "status": "historical_immutable_not_installed",
+  "note": "Exact original bytes. Archived HTML embedded snapshotFile is the historical canonical locator; use copied Реестр.json plus manifest for historical analysis. Do not apply archived feedback to current canonical snapshot.",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 7032,
+      "sha256": "32921de9f6ce1a3df9071fee25f3b27e65bf098ca6a703e031333dd8277d3763"
+    },
+    {
+      "file": "Реестр.json",
+      "bytes": 58127,
+      "sha256": "cb8c2d13890e72135ad47572188054ae756e9d37f5000ab4d18ebda3e9048b96"
+    },
+    {
+      "file": "requirements.json",
+      "bytes": 5094,
+      "sha256": "f709ff9592a93f495f47f4486b5aa7cc98bf84af8e4c5e0ede505e86703313f3"
+    },
+    {
+      "file": "validation-summary.json",
+      "bytes": 8690,
+      "sha256": "c73b8cc7467cf006a9940fb236df98f3c9a7ffa25d87116dc0fcac9529368a3a"
+    },
+    {
+      "file": "review.html",
+      "bytes": 52123,
+      "sha256": "e56e531ca870e5fa71eb85e70d74266be4aa79868a8fd9a24d58f1eed086f661"
+    },
+    {
+      "file": "review-validation.json",
+      "bytes": 793,
+      "sha256": "7fd40074e2ae70d0de41256ce5f7c962d8ad29612bb6e59a5ba935dd2156919f"
+    },
+    {
+      "file": "review.css",
+      "bytes": 897,
+      "sha256": "6a3193c1b6f93d30a7c22ba6e4575fc71fc29815e0dab6e29333bdcf5d963128"
+    },
+    {
+      "file": "review-feedback.js",
+      "bytes": 11066,
+      "sha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b"
+    }
+  ]
+}

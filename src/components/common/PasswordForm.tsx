@@ -14,6 +14,7 @@ import stopEvent from '../../util/stopEvent';
 import useTimeout from '../../hooks/schedulers/useTimeout';
 import useAppLayout from '../../hooks/useAppLayout';
 import useLang from '../../hooks/useLang';
+import useLastCallback from '../../hooks/useLastCallback';
 
 import Button from '../ui/Button';
 import Icon from './icons/Icon';
@@ -100,6 +101,12 @@ const PasswordForm: FC<OwnProps> = ({
     onChangePasswordVisibility(!isPasswordVisible);
   }
 
+  const handlePasswordVisibilityKeyDown = useLastCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    if (!event.repeat) togglePasswordVisibility();
+  });
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -125,9 +132,11 @@ const PasswordForm: FC<OwnProps> = ({
   }
 
   return (
-    <form action="" onSubmit={onSubmit ? handleSubmit : stopEvent} autoComplete="off">
+    <form className="form" action="" onSubmit={onSubmit ? handleSubmit : stopEvent} autoComplete="off">
       <div
-        className={buildClassName('input-group password-input', password && 'touched', error && 'error')}
+        className={buildClassName(
+          'input-group password-input', (password || inputRef.current?.value) && 'touched', error && 'error',
+        )}
         dir={lang.isRtl ? 'rtl' : undefined}
       >
         {shouldDisablePasswordManager && renderFakeInput()}
@@ -143,10 +152,11 @@ const PasswordForm: FC<OwnProps> = ({
           maxLength={256}
           dir="auto"
         />
-        <label>{error || hint || placeholder || lang('PasswordFormPlaceholder')}</label>
+        <label>{error || placeholder || lang('PasswordFormPlaceholder')}</label>
         <div
           className="div-button toggle-password"
           onClick={togglePasswordVisibility}
+          onKeyDown={handlePasswordVisibilityKeyDown}
           role="button"
           tabIndex={0}
           title={lang('AriaPasswordToggle')}
@@ -155,10 +165,22 @@ const PasswordForm: FC<OwnProps> = ({
           <Icon name={isPasswordVisible ? 'eye' : 'eye-crossed'} />
         </div>
       </div>
+      {hint && !error && (
+        <div className="password-hint">
+          <span className="hint-label">Подсказка:</span>
+          <span className="hint-value">{hint}</span>
+        </div>
+      )}
       {description && <p className="description">{description}</p>}
       {onSubmit && (canSubmit || shouldShowSubmit) && (
-        <Button type="submit" ripple={!noRipple} isLoading={isLoading} disabled={!canSubmit}>
-          {submitLabel || lang('PasswordFormSubmit')}
+        <Button
+          type="submit"
+          className="auth-button"
+          ripple={!noRipple}
+          isLoading={isLoading}
+          disabled={!canSubmit}
+        >
+          {submitLabel || lang('Next')}
         </Button>
       )}
     </form>

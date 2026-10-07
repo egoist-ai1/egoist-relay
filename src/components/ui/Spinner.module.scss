@@ -45,7 +45,7 @@
     background-image: var(--spinner-blue-data);
 
     :global(.theme-dark) & {
-      background-image: var(--spinner-dark-blue-data);
+      background-image: var(--spinner-white-data) !important;
     }
   }
 

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T15:09:23.622Z",
+  "synthetic": true,
+  "sourceHashes": {
+    "script": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+    "native": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7"
+  },
+  "passed": 7,
+  "observations": [
+    {
+      "name": "installed helper and transport produce exact account proof",
+      "passed": true,
+      "authEvents": 1
+    },
+    {
+      "name": "native optional dispatch succeeds silently when helper is absent",
+      "passed": true,
+      "absentHelperEvalThrew": false,
+      "eventsBeforeExplicitRetry": 0,
+      "eventsAfterExplicitRetry": 1,
+      "nativeDuplicateGateExecutedHere": false
+    },
+    {
+      "name": "missing invoke transport drops auth and error without a host-visible rejection",
+      "passed": true,
+      "authEvents": 0,
+      "startPromiseRejected": false
+    },
+    {
+      "name": "rejected invoke transport retries only its error reply and drops both",
+      "passed": true,
+      "attemptedInvokes": 2,
+      "authEvents": 0,
+      "startPromiseRejected": false
+    },
+    {
+      "name": "missing-inbox settles into explicit proof reason rather than pending",
+      "passed": true,
+      "reason": "DOM_ACCOUNT_INBOX_NAV_UNAVAILABLE"
+    },
+    {
+      "name": "content-only settles into explicit proof reason rather than pending",
+      "passed": true,
+      "reason": "DOM_ACCOUNT_PROFILE_NAV_UNAVAILABLE"
+    },
+    {
+      "name": "ambiguous settles into explicit proof reason rather than pending",
+      "passed": true,
+      "reason": "DOM_ACCOUNT_IDENTITY_AMBIGUOUS"
+    }
+  ],
+  "productionMutations": 0,
+  "liveCalls": 0,
+  "networkRequests": 0,
+  "scope": "Real social-read.js and extracted native eval expression ran in an offline VM; no WebView2 callback/COM execution. Root separately observed official production pending-to-ready transitions. Dispatch blindspot is synthetic only and is not an observed production fault.",
+  "updatedAt": "2026-10-02T15:13:43.961Z",
+  "productionConclusion": "Persistent native Instagram readiness failure is not supported by root official measurements. Pending changes to ready within the same 20-second warmup and recurs at periodic refresh. No production change is indicated.",
+  "rootObservation": {
+    "reportedBy": "/root",
+    "inspectedByThisSubagent": false,
+    "rootEvidenceFileName": "instagram-status-window-1.4.6.json",
+    "intervalUtc": [
+      "2026-10-02T15:11:39Z",
+      "2026-10-02T15:12:07Z"
+    ],
+    "instagramStatusByElapsedSeconds": [
+      {
+        "seconds": 0.492,
+        "state": "pending"
+      },
+      {
+        "seconds": 3.461,
+        "state": "ready"
+      },
+      {
+        "seconds": 7.487,
+        "state": "ready"
+      },
+      {
+        "seconds": 12.494,
+        "state": "ready"
+      },
+      {
+        "seconds": 18.479,
+        "state": "pending",
+        "context": "Both X and Instagram periodic refresh"
+      },
+      {
+        "seconds": 24.699,
+        "state": "ready"
+      },
+      {
+        "seconds": 28.499,
+        "state": "ready"
+      }
+    ],
+    "queued": 0,
+    "running": 0,
+    "daemonPid": 32796,
+    "daemonSourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+    "publicationOwnedByRoot": true
+  }
+}

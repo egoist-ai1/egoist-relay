@@ -112,6 +112,14 @@ const FloatingActionButtons = ({
       return;
     }
 
+    const currentMiddleContainer = document.querySelector<HTMLElement>('.MessageList.custom-scroll');
+    if (currentMiddleContainer) {
+      currentMiddleContainer.scrollTo({
+        top: currentMiddleContainer.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+
     if (messageListType === 'thread') {
       focusNextReply();
     } else {

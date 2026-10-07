@@ -1,0 +1,10 @@
+{
+  "humanResponse": "Relay закрыт — разрешаю установить 1.4.5",
+  "scope": "Install exact verified1.4.5package and verify/start installedRelay",
+  "freshNormalExitConfirmed": true,
+  "recordedAt": "2026-10-02T12:39:08.7324672+00:00",
+  "schemaVersion": 1,
+  "installerSha256": "c04202d8ad49d6f9379f8c64a3b9b7de01f1b8b9fa7d163fc9b04847e2d4897c",
+  "dnsAndLagomChangesAuthorized": false,
+  "version": "1.4.5"
+}

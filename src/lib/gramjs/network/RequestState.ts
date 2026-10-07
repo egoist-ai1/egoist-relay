@@ -30,12 +30,13 @@ export default class RequestState<T extends CallableRequest = CallableRequest> {
   public promise: Promise<RequestResponse<T> | undefined> | undefined;
 
   public abortSignal: AbortSignal | undefined;
+  public isResearchRequest?: boolean;
 
   public resolve?: (value?: RequestResponse<T>) => void;
 
   public reject?: (reason?: Error) => void;
 
-  constructor(request: T, abortSignal?: AbortSignal) {
+  constructor(request: T, abortSignal?: AbortSignal, isResearchRequest?: boolean) {
     this.containerId = undefined;
     this.msgId = undefined;
     this.seqNo = undefined;
@@ -46,6 +47,7 @@ export default class RequestState<T extends CallableRequest = CallableRequest> {
     this.after = undefined;
     this.result = undefined;
     this.abortSignal = abortSignal;
+    this.isResearchRequest = isResearchRequest;
     this.finished = new Deferred();
 
     this.resetPromise();

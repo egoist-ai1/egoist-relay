@@ -1,0 +1,3455 @@
+{
+  "errors": [],
+  "focus": [
+    {
+      "stage": "checkbox",
+      "tag": "INPUT",
+      "id": "audit-checkbox",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"checkbox\" id=\"audit-checkbox\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-0",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "RangeSlider__input",
+      "text": "",
+      "html": "<input min=\"0\" max=\"100\" step=\"2\" type=\"range\" aria-label=\"Масштаб текста\" class=\"RangeSlider__input\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-1",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button default primary",
+      "text": "Готово",
+      "html": "<button type=\"button\" class=\"Button default primary\">Готово</button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-2",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button tiny translucent round",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-3",
+      "tag": "INPUT",
+      "id": "audit-name",
+      "classes": "form-control",
+      "text": "",
+      "html": "<input class=\"form-control\" type=\"text\" id=\"audit-name\" dir=\"auto\" autocomplete=\"off\" spellcheck=\"false\" aria-label=\"Имя профиля\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-4",
+      "tag": "TEXTAREA",
+      "id": "audit-bio",
+      "classes": "form-control",
+      "text": "",
+      "html": "<textarea class=\"form-control\" id=\"audit-bio\" dir=\"auto\" spellcheck=\"false\" aria-label=\"Описание\" style=\"height: 153px;\"></textarea>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-5",
+      "tag": "INPUT",
+      "id": "audit-checkbox",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"checkbox\" id=\"audit-checkbox\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-6",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "RangeSlider__input",
+      "text": "",
+      "html": "<input min=\"0\" max=\"100\" step=\"2\" type=\"range\" aria-label=\"Масштаб текста\" class=\"RangeSlider__input\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-7",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button default primary",
+      "text": "Готово",
+      "html": "<button type=\"button\" class=\"Button default primary\">Готово</button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-8",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button tiny translucent round",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-9",
+      "tag": "INPUT",
+      "id": "audit-name",
+      "classes": "form-control",
+      "text": "",
+      "html": "<input class=\"form-control\" type=\"text\" id=\"audit-name\" dir=\"auto\" autocomplete=\"off\" spellcheck=\"false\" aria-label=\"Имя профиля\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-10",
+      "tag": "TEXTAREA",
+      "id": "audit-bio",
+      "classes": "form-control",
+      "text": "",
+      "html": "<textarea class=\"form-control\" id=\"audit-bio\" dir=\"auto\" spellcheck=\"false\" aria-label=\"Описание\" style=\"height: 153px;\"></textarea>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-11",
+      "tag": "INPUT",
+      "id": "audit-checkbox",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"checkbox\" id=\"audit-checkbox\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-12",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "RangeSlider__input",
+      "text": "",
+      "html": "<input min=\"0\" max=\"100\" step=\"2\" type=\"range\" aria-label=\"Масштаб текста\" class=\"RangeSlider__input\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-13",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button default primary",
+      "text": "Готово",
+      "html": "<button type=\"button\" class=\"Button default primary\">Готово</button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-14",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button tiny translucent round",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Button tiny translucent round\" aria-label=\"Close\" title=\"Close\"><div class=\"animated-close-icon\"></div></button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-15",
+      "tag": "INPUT",
+      "id": "audit-name",
+      "classes": "form-control",
+      "text": "",
+      "html": "<input class=\"form-control\" type=\"text\" id=\"audit-name\" dir=\"auto\" autocomplete=\"off\" spellcheck=\"false\" aria-label=\"Имя профиля\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "confirm",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button confirm-dialog-button default primary text",
+      "text": "Отмена",
+      "html": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\" autofocus=\"\">Отмена</button>",
+      "modals": [
+        {
+          "tag": "DIALOG",
+          "title": "Удаление тестового объекта"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "theme": {
+        "id": "egoist-dark",
+        "name": "Egoist Lagom (OLED Pure Black)",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-egoist-dark",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "egoist-dark",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 18.809942912131476
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 18.5122215181228
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 18.809942912131476
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 18.5122215181228
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 17.77347040201507
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 15.776133826778695
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 17.77347040201507
+        }
+      ],
+      "variant": "egoist-dark",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "dark-modern",
+        "name": "Dark Modern",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-dark-modern",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "dark-modern",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 11.712814207866423
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 11.527425268090239
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 11.712814207866423
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 11.527425268090239
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 11.067410338260594
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 9.82368342608418
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            204,
+            204,
+            204
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 11.067410338260594
+        }
+      ],
+      "variant": "dark-modern",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "dark-plus",
+        "name": "Dark+ (Default Dark)",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-dark-plus",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "dark-plus",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 12.689990355636182
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 12.489134795558966
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 12.689990355636182
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 12.489134795558966
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 11.990741760427724
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 10.643253254209984
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            212,
+            212,
+            212
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 11.990741760427724
+        }
+      ],
+      "variant": "dark-plus",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "tokyo-night",
+        "name": "Tokyo Night",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-tokyo-night",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "tokyo-night",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 11.651433862892045
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 11.467016443441887
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 11.651433862892045
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 11.467016443441887
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 11.009412196014027
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 9.772202964863585
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            192,
+            202,
+            245
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 11.009412196014027
+        }
+      ],
+      "variant": "tokyo-night",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "monokai",
+        "name": "Monokai Pro Charcoal",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-monokai",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "monokai",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 17.645888125586968
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 17.36659124330443
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 17.645888125586968
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 17.36659124330443
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 16.673557797728048
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.799826552481525
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            248,
+            248,
+            242
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 16.673557797728048
+        }
+      ],
+      "variant": "monokai",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "abyss",
+        "name": "Abyss Navy",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-abyss",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "abyss",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 10.566510203524796
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 10.399264818342294
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 10.566510203524796
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 10.399264818342294
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 9.984270405935908
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 8.862263954310963
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            176,
+            196,
+            222
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 9.984270405935908
+        }
+      ],
+      "variant": "abyss",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "solarized-dark",
+        "name": "Solarized Dark",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-solarized-dark",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "solarized-dark",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 7.034200533020384
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 6.922864097912082
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            11.479999999999999,
+            13.12,
+            18.04
+          ],
+          "ratio": 19.411390895495593
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            15.44,
+            17.44,
+            23.08
+          ],
+          "ratio": 7.034200533020384
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            17.240000000000002,
+            19.42,
+            25.060000000000002
+          ],
+          "ratio": 6.922864097912082
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 6.646599384139723
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            40.92,
+            43.800000000000004,
+            47.64
+          ],
+          "ratio": 12.587007478762652
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            239,
+            243,
+            244
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 14.12092593411333
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            32,
+            35,
+            39
+          ],
+          "ratio": 5.899671758267584
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            231,
+            233,
+            234
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 14.59240246409329
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            147,
+            161,
+            161
+          ],
+          "background": [
+            22,
+            24,
+            28
+          ],
+          "ratio": 6.646599384139723
+        }
+      ],
+      "variant": "solarized-dark",
+      "radioMatches": true,
+      "status": "pass",
+      "contrastFailures": []
+    },
+    {
+      "theme": {
+        "id": "light-modern",
+        "name": "Light Modern",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-light-modern",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "light-modern",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(31, 31, 31)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(31, 31, 31)",
+          "background": "rgb(229, 235, 241)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(31, 31, 31)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.4725635863294204
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            52.70000000000001,
+            55.42000000000001,
+            61.42000000000001
+          ],
+          "ratio": 1.391272230668452
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.4725635863294204
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            52.70000000000001,
+            55.42000000000001,
+            61.42000000000001
+          ],
+          "ratio": 1.391272230668452
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 16.48297747532879
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 16.48297747532879
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            219,
+            245,
+            205
+          ],
+          "ratio": 14.092578826873217
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            229,
+            235,
+            241
+          ],
+          "ratio": 13.724127149091709
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            229,
+            235,
+            241
+          ],
+          "ratio": 13.724127149091709
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 16.48297747532879
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 16.48297747532879
+        }
+      ],
+      "variant": "light-modern",
+      "radioMatches": true,
+      "status": "fail",
+      "contrastFailures": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.4725635863294204
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            52.70000000000001,
+            55.42000000000001,
+            61.42000000000001
+          ],
+          "ratio": 1.391272230668452
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.4725635863294204
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            31,
+            31,
+            31
+          ],
+          "background": [
+            52.70000000000001,
+            55.42000000000001,
+            61.42000000000001
+          ],
+          "ratio": 1.391272230668452
+        }
+      ]
+    },
+    {
+      "theme": {
+        "id": "light-plus",
+        "name": "Light+ (Default Light)",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-light-plus",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "light-plus",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(243, 243, 243)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(239, 246, 252)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(243, 243, 243)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            55.220000000000006,
+            56.86000000000001,
+            61.78000000000001
+          ],
+          "ratio": 1.815254492403116
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            54.50000000000001,
+            57.40000000000001,
+            63.40000000000001
+          ],
+          "ratio": 1.8255019577881086
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            55.220000000000006,
+            56.86000000000001,
+            61.78000000000001
+          ],
+          "ratio": 1.815254492403116
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            54.50000000000001,
+            57.40000000000001,
+            63.40000000000001
+          ],
+          "ratio": 1.8255019577881086
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            243,
+            243,
+            243
+          ],
+          "ratio": 18.925387067485325
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            243,
+            243,
+            243
+          ],
+          "ratio": 18.925387067485325
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            219,
+            245,
+            205
+          ],
+          "ratio": 17.95453253559908
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            239,
+            246,
+            252
+          ],
+          "ratio": 19.258106343132575
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            239,
+            246,
+            252
+          ],
+          "ratio": 19.258106343132575
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            243,
+            243,
+            243
+          ],
+          "ratio": 18.925387067485325
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            243,
+            243,
+            243
+          ],
+          "ratio": 18.925387067485325
+        }
+      ],
+      "variant": "light-plus",
+      "radioMatches": true,
+      "status": "fail",
+      "contrastFailures": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            55.220000000000006,
+            56.86000000000001,
+            61.78000000000001
+          ],
+          "ratio": 1.815254492403116
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            54.50000000000001,
+            57.40000000000001,
+            63.40000000000001
+          ],
+          "ratio": 1.8255019577881086
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            55.220000000000006,
+            56.86000000000001,
+            61.78000000000001
+          ],
+          "ratio": 1.815254492403116
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            0,
+            0,
+            0
+          ],
+          "background": [
+            54.50000000000001,
+            57.40000000000001,
+            63.40000000000001
+          ],
+          "ratio": 1.8255019577881086
+        }
+      ]
+    },
+    {
+      "theme": {
+        "id": "quiet-light",
+        "name": "Quiet Light",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-quiet-light",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "quiet-light",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(51, 51, 51)",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(51, 51, 51)",
+          "background": "rgb(228, 223, 232)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(51, 51, 51)",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.128760379692051
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            52.52000000000001,
+            53.260000000000005,
+            59.80000000000001
+          ],
+          "ratio": 1.039416735985227
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.128760379692051
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            52.52000000000001,
+            53.260000000000005,
+            59.80000000000001
+          ],
+          "ratio": 1.039416735985227
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 12.63465434445799
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 12.63465434445799
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            219,
+            245,
+            205
+          ],
+          "ratio": 10.802348214458059
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            228,
+            223,
+            232
+          ],
+          "ratio": 9.637898209955
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            228,
+            223,
+            232
+          ],
+          "ratio": 9.637898209955
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 12.63465434445799
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "ratio": 12.63465434445799
+        }
+      ],
+      "variant": "quiet-light",
+      "radioMatches": true,
+      "status": "fail",
+      "contrastFailures": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.128760379692051
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            52.52000000000001,
+            53.260000000000005,
+            59.80000000000001
+          ],
+          "ratio": 1.039416735985227
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            57.38000000000001,
+            59.02000000000001,
+            63.94000000000001
+          ],
+          "ratio": 1.128760379692051
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            51,
+            51,
+            51
+          ],
+          "background": [
+            52.52000000000001,
+            53.260000000000005,
+            59.80000000000001
+          ],
+          "ratio": 1.039416735985227
+        }
+      ]
+    },
+    {
+      "theme": {
+        "id": "solarized-light",
+        "name": "Solarized Light",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-solarized-light",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "solarized-light",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "color(srgb 0.310588 0.388235 0.412941)",
+          "background": "rgb(238, 232, 213)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "color(srgb 0.310588 0.388235 0.412941)",
+          "background": "rgb(232, 223, 201)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "color(srgb 0.310588 0.388235 0.412941)",
+          "background": "rgb(238, 232, 213)"
+        }
+      ],
+      "contrastSamples": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            54.32000000000001,
+            54.88000000000001,
+            56.38000000000001
+          ],
+          "ratio": 1.8879772749043877
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            53.24000000000001,
+            53.260000000000005,
+            54.220000000000006
+          ],
+          "ratio": 1.9322269951841904
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:10",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "custom-shape",
+          "text": "19:11",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            45.50000000000001,
+            50.02000000000001,
+            43.24000000000001
+          ],
+          "ratio": 13.078574743218564
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            54.32000000000001,
+            54.88000000000001,
+            56.38000000000001
+          ],
+          "ratio": 1.8879772749043877
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            53.24000000000001,
+            53.260000000000005,
+            54.220000000000006
+          ],
+          "ratio": 1.9322269951841904
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            238,
+            232,
+            213
+          ],
+          "ratio": 5.155913004293401
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:10",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            238,
+            232,
+            213
+          ],
+          "ratio": 5.155913004293401
+        },
+        {
+          "selector": "embedded-sender",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Марина Волкова",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            219,
+            245,
+            205
+          ],
+          "ratio": 5.401282813698299
+        },
+        {
+          "selector": "text-content clearfix with-meta with-outgoing-icon",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            232,
+            223,
+            201
+          ],
+          "ratio": 4.762049148867173
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": false,
+          "text": "19:11",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            232,
+            223,
+            201
+          ],
+          "ratio": 4.762049148867173
+        },
+        {
+          "selector": "text-content clearfix with-meta",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "Отлично ❤4🔥219:12",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            238,
+            232,
+            213
+          ],
+          "ratio": 5.155913004293401
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": false,
+          "text": "19:12",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            238,
+            232,
+            213
+          ],
+          "ratio": 5.155913004293401
+        }
+      ],
+      "variant": "solarized-light",
+      "radioMatches": true,
+      "status": "fail",
+      "contrastFailures": [
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:10",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            54.32000000000001,
+            54.88000000000001,
+            56.38000000000001
+          ],
+          "ratio": 1.8879772749043877
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "media-no-footer",
+          "text": "19:11",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            53.24000000000001,
+            53.260000000000005,
+            54.220000000000006
+          ],
+          "ratio": 1.9322269951841904
+        },
+        {
+          "selector": "message-time",
+          "own": false,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:10",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            54.32000000000001,
+            54.88000000000001,
+            56.38000000000001
+          ],
+          "ratio": 1.8879772749043877
+        },
+        {
+          "selector": "message-time",
+          "own": true,
+          "mediaOverlay": true,
+          "overlayVariant": "invoice-photo",
+          "text": "19:11",
+          "foreground": [
+            79.19994,
+            98.999925,
+            105.299955
+          ],
+          "background": [
+            53.24000000000001,
+            53.260000000000005,
+            54.220000000000006
+          ],
+          "ratio": 1.9322269951841904
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "label": "before",
+  "generatedAt": "2026-10-02T11:22:21.947Z",
+  "helperSource": "scripts/social-share-enhancer.js",
+  "sourceSha256": "4cb6b7ebaeeaaf961eca2aa7bdeeeeabe1f42344336588ce44a8f85870395023",
+  "injectedSha256": "8c7a26ec6d88461543451af4a4cbe6ad4f8c18e6dac94fbc19adb86ac443957a",
+  "boundary": {
+    "original": "window.location.href = `egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`;",
+    "replacement": "window.__reelShareTransport.push(`egoist-relay-share://request?token=${encodeURIComponent(token)}&payload=${encodeURIComponent(JSON.stringify(payload))}`);",
+    "exactCount": 1,
+    "service": "instagram",
+    "token": "synthetic fixture token; no native token",
+    "label": "Отправить в Telegram"
+  },
+  "evidenceScope": "Actual helper bytes and DOM observer; trusted Playwright clicks. Only final native transport assignment mocked. HTTPS Instagram document fulfilled locally; all other network blocked. No account/session/native process.",
+  "blockedRequests": 24,
+  "errors": [],
+  "cases": [
+    {
+      "id": "reels-feed-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-reels-feed-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "single-reel-no-article",
+      "status": "pass",
+      "detail": {
+        "payload": {
+          "requestId": "bba9d905-ce67-4ee7-93cb-b18da316f61d",
+          "service": "instagram",
+          "url": "https://www.instagram.com/reel/ReelA123/",
+          "media": [
+            {
+              "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+              "type": "video"
+            }
+          ],
+          "unavailableMedia": false
+        },
+        "screenshot": "reel-share-ui-before-single-fullhd.png",
+        "noArticle": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        }
+      }
+    },
+    {
+      "id": "handle-reel-no-article",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-handle-reel-no-article.png",
+      "transports": []
+    },
+    {
+      "id": "dm-dialog-own-reel-permalink",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-dm-dialog-own-reel-permalink.png",
+      "transports": []
+    },
+    {
+      "id": "existing-article-post",
+      "status": "pass",
+      "detail": {
+        "articlePreserved": true
+      }
+    },
+    {
+      "id": "single-reel-current-url-fallback",
+      "status": "pass",
+      "detail": {
+        "currentRouteFallback": true
+      }
+    },
+    {
+      "id": "feed-two-independent-reels",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 2\n",
+      "screenshot": "reel-share-ui-before-feed-two-independent-reels.png",
+      "transports": []
+    },
+    {
+      "id": "feed-no-permalink-no-fallback",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "ambiguous-multiple-videos-no-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-ambiguous-multiple-videos-no-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "ed373b83-441b-40dd-b7e1-cced80b17fa5",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              },
+              {
+                "url": "https://scontent.cdninstagram.com/AnotherVideo.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "hidden-video-no-wrong-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-hidden-video-no-wrong-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "7f555c73-38af-4d3f-9813-728beec0ab97",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "offscreen-video-no-wrong-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-offscreen-video-no-wrong-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "0624538e-644f-48d5-a930-af3a84ec328f",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [
+              {
+                "url": "https://scontent.cdninstagram.com/ReelA123.mp4?fixture=local",
+                "type": "video"
+              }
+            ],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "removed-video-no-stale-share",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Ambiguous/unavailable reel must not produce a share\n\n1 !== 0\n",
+      "screenshot": "reel-share-ui-before-removed-video-no-stale-share.png",
+      "transports": [
+        {
+          "token": "synthetic-reel-token",
+          "payload": {
+            "requestId": "2212d4b7-28b5-407a-8693-5b3ac72bc8b6",
+            "service": "instagram",
+            "url": "https://www.instagram.com/reel/ReelA123/",
+            "media": [],
+            "unavailableMedia": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "malicious-permalink-origin-rejected",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "malicious-page-origin-not-initialized",
+      "status": "pass",
+      "detail": {
+        "buttonCount": 0
+      }
+    },
+    {
+      "id": "untrusted-click-rejected",
+      "status": "pass",
+      "detail": {
+        "transportCount": 0,
+        "isTrusted": false
+      }
+    },
+    {
+      "id": "forged-data-attribute-not-authorized",
+      "status": "pass",
+      "detail": {
+        "forgedOwnership": false,
+        "transportCount": 0
+      }
+    },
+    {
+      "id": "spa-current-video-and-permalink-change",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-spa-current-video-and-permalink-change.png",
+      "transports": []
+    },
+    {
+      "id": "spa-action-row-replaced",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Exactly one helper button for selected reel\n\n0 !== 1\n",
+      "screenshot": "reel-share-ui-before-spa-action-row-replaced.png",
+      "transports": []
+    },
+    {
+      "id": "mutation-no-duplicate-buttons",
+      "status": "pass",
+      "detail": {
+        "count": 1,
+        "transportCount": 1
+      }
+    },
+    {
+      "id": "label-update-registered-buttons",
+      "status": "pass",
+      "detail": {
+        "label": "Send to Telegram",
+        "geometry": {
+          "x": 157,
+          "y": 627,
+          "width": 44,
+          "height": 44
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "pass": 10,
+    "fail": 10,
+    "pageErrors": 0
+  }
+}

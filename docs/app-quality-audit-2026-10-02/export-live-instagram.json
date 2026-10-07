@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-export-live-instagram",
+  "version": "1",
+  "date": "2026-10-02T04:04:45.090Z",
+  "jobId": "036b4b92-9226-4cf1-bc5a-5101757adb05",
+  "daemon": {
+    "pid": 9116,
+    "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+    "version": "1.0.0",
+    "accountSource": "relay_owned_bridge",
+    "relay_process_dependency": true
+  },
+  "request": {
+    "provider": "instagram",
+    "operation": "chat_export",
+    "input": {
+      "channel": "openai",
+      "limit": 3,
+      "pageSize": 3,
+      "deadlineMs": 90000,
+      "includeMedia": false,
+      "exportFormats": [
+        "jsonl",
+        "markdown",
+        "html"
+      ]
+    },
+    "idempotencyKey": "export-format-live-instagram-01a0faa3-20261002-v1"
+  },
+  "job": {
+    "state": "partial",
+    "count": 3,
+    "outcome": "partial",
+    "truncated": true,
+    "coverage": "channel",
+    "cursorAvailable": true,
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\036b4b92-9226-4cf1-bc5a-5101757adb05",
+    "files": [
+      "records.jsonl",
+      "export.md",
+      "export.html",
+      "export-manifest.json"
+    ]
+  },
+  "readinessProbes": 2,
+  "validation": {
+    "records": [
+      {
+        "line": 1,
+        "type": "reel",
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "recordSha256": "3172b7b09bd66f7da9f619c0703da0b33a54323132a764be0e2e19477c3b830b",
+        "sourceUrl": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+        "bodyFields": {
+          "description": {
+            "characters": 89,
+            "markdownPreserved": true,
+            "htmlPreserved": true
+          },
+          "observedText": {
+            "characters": 31,
+            "markdownPreserved": true,
+            "htmlPreserved": true
+          }
+        },
+        "sourceLinked": true,
+        "fieldLimitations": [
+          "api_only_fields_not_observed",
+          "caption_not_observed",
+          "timestamp_not_observed"
+        ],
+        "mediaItems": 1
+      },
+      {
+        "line": 2,
+        "type": "reel",
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "recordSha256": "0003df7aeacfaca0c8ea11689d34dae7071831ca3c6c8f964d510ef31869053a",
+        "sourceUrl": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp",
+        "bodyFields": {
+          "description": {
+            "characters": 89,
+            "markdownPreserved": true,
+            "htmlPreserved": true
+          },
+          "observedText": {
+            "characters": 31,
+            "markdownPreserved": true,
+            "htmlPreserved": true
+          }
+        },
+        "sourceLinked": true,
+        "fieldLimitations": [
+          "api_only_fields_not_observed",
+          "caption_not_observed",
+          "timestamp_not_observed"
+        ],
+        "mediaItems": 1
+      },
+      {
+        "line": 3,
+        "type": "reel",
+        "keys": [
+          "access",
+          "author",
+          "description",
+          "extractedAt",
+          "extraction",
+          "fieldEvidence",
+          "id",
+          "links",
+          "media",
+          "metrics",
+          "observedAt",
+          "observedText",
+          "provider",
+          "schemaVersion",
+          "source",
+          "sourceUrl",
+          "type",
+          "unresolvedFields"
+        ],
+        "recordSha256": "ec8e6bb4b530a112b5a00c686c174384fdbb6f84aeea70703f949a3d4fa003c6",
+        "sourceUrl": "https://www.instagram.com/openai/reel/Daii7UapatI",
+        "bodyFields": {
+          "description": {
+            "characters": 89,
+            "markdownPreserved": true,
+            "htmlPreserved": true
+          },
+          "observedText": {
+            "characters": 31,
+            "markdownPreserved": true,
+            "htmlPreserved": true
+          }
+        },
+        "sourceLinked": true,
+        "fieldLimitations": [
+          "api_only_fields_not_observed",
+          "caption_not_observed",
+          "timestamp_not_observed"
+        ],
+        "mediaItems": 1
+      }
+    ],
+    "formatFiles": [
+      {
+        "name": "records.jsonl",
+        "bytes": 8351,
+        "sha256": "3d5cc0740c379ceccccb104d3628e99b5057a8b37f9f23a8efd521c544327976"
+      },
+      {
+        "name": "export.md",
+        "bytes": 8175,
+        "sha256": "e361966f8a25e288370b205aaeaf90891ba40a5a995f554cc09e3f88d47c17d3"
+      },
+      {
+        "name": "export.html",
+        "bytes": 10604,
+        "sha256": "5b146f2a123d34850a3534cabef4488599986d51e2f80ea2e94470b1316abd28"
+      },
+      {
+        "name": "export-manifest.json",
+        "bytes": 1373,
+        "sha256": "738d1db0a9e5b1d078f6bd63236cc8a65d2c6532f952faa7f571b62877712892"
+      }
+    ],
+    "authoritativeJsonlUnchangedDuringCheck": true,
+    "manifestPartial": true,
+    "scopeLabel": "Частичный результат",
+    "sourceCompletenessClaimed": false,
+    "rawFieldsRetainedInJsonl": true,
+    "networkConfigurationChanged": false,
+    "renderedBrowser": {
+      "cases": [
+        {
+          "format": "html",
+          "allObservedBodiesVisible": true,
+          "sourceLinks": 3,
+          "activeEmbeds": 0,
+          "scopePartialVisible": true
+        },
+        {
+          "format": "markdown",
+          "allObservedBodiesVisible": true,
+          "sourceLinks": 3,
+          "activeEmbeds": 0,
+          "scopePartialVisible": true
+        }
+      ],
+      "networkRequests": 0,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "isolatedHeadless": true
+    }
+  },
+  "reviewObject": {
+    "id": "export-fresh-instagram-live",
+    "name": "Свежий экспорт Instagram через обновлённый daemon",
+    "version": "1",
+    "decision": "unreviewed",
+    "action": "Принять доказательство подключения нового форматтера к действующей сессии.",
+    "content": "Три выбранные публичные записи; поля JSONL сохранены в Markdown/HTML, источники доступны как ссылки, частичность указана. Это проверка конкретного профиля и задания, а не полноты Instagram."
+  }
+}

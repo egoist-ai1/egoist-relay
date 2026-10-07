@@ -1,0 +1,1788 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-public-operation-pilots-2026-10-02",
+  "version": 1,
+  "createdAt": "2026-10-02T04:19:46.264Z",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "taskId": "01a0fa86-1469-78d2-bc41-4e1073e07bb3",
+  "scope": {
+    "operationCount": 5,
+    "publicOnly": true,
+    "limitPerJob": 2,
+    "pageSize": 2,
+    "deadlineMs": 45000,
+    "networkSettingsChanged": false,
+    "accountMutations": false,
+    "privateEnumeration": false,
+    "foregroundAccess": false,
+    "automaticRetries": 0,
+    "productionEdits": 0,
+    "methods": [
+      "status",
+      "capabilities",
+      "submit",
+      "get"
+    ]
+  },
+  "identity": {
+    "daemonPid": 9116,
+    "sourceSha256": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+    "sourceByteCount": 193975,
+    "hashContract": "SHA256 of each listed basename then exact file bytes in configured order",
+    "sourceFiles": [
+      {
+        "name": "config.mjs",
+        "bytes": 3690,
+        "sha256": "d1efba553fb724d1e51737fe999165ec74c43acc019a202d56f821b11b114e73"
+      },
+      {
+        "name": "client.mjs",
+        "bytes": 4721,
+        "sha256": "eec61daae0ae3d1a1714a6b352f26923389770fe5e4ac0a5883102b5ee42332a"
+      },
+      {
+        "name": "daemon.mjs",
+        "bytes": 1821,
+        "sha256": "4ea50c7baa363ac0faa3d460dcf49c91f320e6c42233ba29a4bc80f7122c51d4"
+      },
+      {
+        "name": "ipc.mjs",
+        "bytes": 10259,
+        "sha256": "0c1fc28a3577eed0adcd0506f1d439e17df4a21d3a1b8b6e80b65ff5bab8e8f2"
+      },
+      {
+        "name": "mcp.mjs",
+        "bytes": 20879,
+        "sha256": "554bba01483d0928bb1b2b45341aadf21b2c19629bd6eec8de9855f520f167e2"
+      },
+      {
+        "name": "broker.mjs",
+        "bytes": 34846,
+        "sha256": "e795c2b76929a2acf220c9e63c4855afc4e217212c6f0192ec5674d7ba7aec03"
+      },
+      {
+        "name": "job-store.mjs",
+        "bytes": 10527,
+        "sha256": "d6087faa65d1f250a691d98bd64e574670e0728856374dd9f8aca7c8a115c063"
+      },
+      {
+        "name": "bridge-client.mjs",
+        "bytes": 11061,
+        "sha256": "70440725ce07d39614ad97a4029ba0414077a7c4bf74ba92c291553706d199ef"
+      },
+      {
+        "name": "bridge-provider.mjs",
+        "bytes": 20633,
+        "sha256": "9c2454c190fbcc23704b4cc4621cc542c052853017716c9403e35f445b59a952"
+      },
+      {
+        "name": "bridge-start.mjs",
+        "bytes": 7206,
+        "sha256": "c47285bb287d414496b93d4fdea46ee6a04d3da741eaf89849e14a1369ca089a"
+      },
+      {
+        "name": "transcribe-media.mjs",
+        "bytes": 25431,
+        "sha256": "5070d35350d864a6dd5c850c15a67b9f32242b77a899fac6f28a006d8387189f"
+      },
+      {
+        "name": "local-index.mjs",
+        "bytes": 30578,
+        "sha256": "fb68ce70c3eb26720f000d9ee4759d794762ef1d33c0564a353c3c6e503e9598"
+      },
+      {
+        "name": "export-format.mjs",
+        "bytes": 12323,
+        "sha256": "0a9309007f67855653108b43ae5acd2809b2cefe73a031313e9215db53d35a4f"
+      }
+    ],
+    "installedRelayVersion": "1.4.2",
+    "relayVersionEvidence": "Parent-verified installed runtime; this pilot does not independently attest installed binary version"
+  },
+  "observationWindow": {
+    "startedAt": "2026-10-02T04:16:39.535Z",
+    "finishedAt": "2026-10-02T04:17:06.860Z"
+  },
+  "readiness": [
+    {
+      "at": "2026-10-02T04:16:41.666Z",
+      "daemon": {
+        "pid": 9116,
+        "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+        "version": "1.0.0",
+        "accountSource": "relay_owned_bridge",
+        "relay_process_dependency": true
+      },
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready",
+          "operations": [
+            "discover",
+            "chat_info",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "join_chat",
+            "transcribe"
+          ]
+        },
+        {
+          "provider": "x",
+          "state": "unavailable",
+          "reason": "dom_account_proof_pending",
+          "operations": [
+            "discover",
+            "profile",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "article",
+            "read_thread"
+          ]
+        },
+        {
+          "provider": "instagram",
+          "state": "unavailable",
+          "reason": "dom_account_proof_pending",
+          "operations": [
+            "discover",
+            "profile",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "read_thread"
+          ]
+        }
+      ],
+      "queues": [
+        {
+          "provider": "telegram",
+          "queued": 0,
+          "running": null
+        },
+        {
+          "provider": "x",
+          "queued": 0,
+          "running": null
+        },
+        {
+          "provider": "instagram",
+          "queued": 0,
+          "running": null
+        }
+      ]
+    },
+    {
+      "at": "2026-10-02T04:16:42.916Z",
+      "daemon": {
+        "pid": 9116,
+        "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+        "version": "1.0.0",
+        "accountSource": "relay_owned_bridge",
+        "relay_process_dependency": true
+      },
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready",
+          "operations": [
+            "discover",
+            "chat_info",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "join_chat",
+            "transcribe"
+          ]
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed",
+          "operations": [
+            "discover",
+            "profile",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "article",
+            "read_thread",
+            "transcribe"
+          ]
+        },
+        {
+          "provider": "instagram",
+          "state": "unavailable",
+          "reason": "dom_account_proof_pending",
+          "operations": [
+            "discover",
+            "profile",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "read_thread"
+          ]
+        }
+      ],
+      "queues": [
+        {
+          "provider": "telegram",
+          "queued": 0,
+          "running": null
+        },
+        {
+          "provider": "x",
+          "queued": 0,
+          "running": null
+        },
+        {
+          "provider": "instagram",
+          "queued": 0,
+          "running": null
+        }
+      ]
+    },
+    {
+      "at": "2026-10-02T04:16:44.144Z",
+      "daemon": {
+        "pid": 9116,
+        "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+        "version": "1.0.0",
+        "accountSource": "relay_owned_bridge",
+        "relay_process_dependency": true
+      },
+      "providers": [
+        {
+          "provider": "telegram",
+          "state": "ready",
+          "reason": "ready",
+          "operations": [
+            "discover",
+            "chat_info",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "join_chat",
+            "transcribe"
+          ]
+        },
+        {
+          "provider": "x",
+          "state": "ready",
+          "reason": "dom_account_confirmed",
+          "operations": [
+            "discover",
+            "profile",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "article",
+            "read_thread",
+            "transcribe"
+          ]
+        },
+        {
+          "provider": "instagram",
+          "state": "ready",
+          "reason": "dom_account_confirmed",
+          "operations": [
+            "discover",
+            "profile",
+            "read",
+            "search",
+            "channel_history",
+            "chat_export",
+            "download",
+            "read_thread",
+            "transcribe"
+          ]
+        }
+      ],
+      "queues": [
+        {
+          "provider": "telegram",
+          "queued": 0,
+          "running": null
+        },
+        {
+          "provider": "x",
+          "queued": 0,
+          "running": null
+        },
+        {
+          "provider": "instagram",
+          "queued": 0,
+          "running": null
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "schemaVersion": 1,
+    "providers": [
+      {
+        "provider": "telegram",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "chat_info",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "join_chat",
+          "transcribe"
+        ],
+        "reason": "ready"
+      },
+      {
+        "provider": "x",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "article",
+          "read_thread",
+          "transcribe"
+        ],
+        "reason": "dom_account_confirmed"
+      },
+      {
+        "provider": "instagram",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "read_thread",
+          "transcribe"
+        ],
+        "reason": "dom_account_confirmed"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "name": "telegram-history-durov",
+      "request": {
+        "provider": "telegram",
+        "operation": "channel_history",
+        "input": {
+          "channel": "durov",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000,
+          "includeMedia": false
+        },
+        "idempotencyKey": "relay-public-pilots-01a0fa86-v1-telegram-history-durov"
+      },
+      "submittedAt": "2026-10-02T04:16:44.616Z",
+      "readiness": {
+        "provider": "telegram",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "chat_info",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "join_chat",
+          "transcribe"
+        ],
+        "reason": "ready"
+      },
+      "dateFilters": {
+        "used": false,
+        "reason": "No selected earlier source timestamp supplied; no invented boundaries"
+      },
+      "jobId": "a714a123-1530-494c-b972-5b3fcd81c498",
+      "submission": {
+        "schemaVersion": 1,
+        "id": "a714a123-1530-494c-b972-5b3fcd81c498",
+        "provider": "telegram",
+        "operation": "channel_history",
+        "state": "queued",
+        "createdAt": "2026-10-02T04:16:45.089Z",
+        "updatedAt": "2026-10-02T04:16:45.089Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "empty",
+          "count": 0,
+          "files": [],
+          "evidence": [],
+          "truncated": false
+        },
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\a714a123-1530-494c-b972-5b3fcd81c498"
+      },
+      "observations": [
+        {
+          "at": "2026-10-02T04:16:45.099Z",
+          "state": "queued",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:45.860Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:46.612Z",
+          "state": "partial",
+          "count": 2
+        }
+      ],
+      "final": {
+        "schemaVersion": 1,
+        "id": "a714a123-1530-494c-b972-5b3fcd81c498",
+        "provider": "telegram",
+        "operation": "channel_history",
+        "state": "partial",
+        "createdAt": "2026-10-02T04:16:45.089Z",
+        "updatedAt": "2026-10-02T04:16:46.268Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "partial",
+          "count": 2,
+          "files": [
+            "records.jsonl",
+            "export-manifest.json"
+          ],
+          "evidence": [],
+          "truncated": true,
+          "evidenceTruncated": false,
+          "coverage": "channel",
+          "nextCursor": "eyJ2ZXJzaW9uIjoxLCJzY29wZSI6ImMyNGFmOWI5ZmE2N2FmMGM5Yzk3NDk0MTE1YTM5YjQxZmMwMGVjYTMzZDcwNThmOGEyYjQ4OGIwYzhkOTM5Y2UiLCJlcG9jaCI6IjcwNjYwOTRjLWZlZjgtNDVkOS1hNmVmLWFhYWRhYTRmOWY1OSIsIm9mZnNldElkIjo1NDcsIm9mZnNldFJhdGUiOjAsIm9mZnNldERhdGUiOjE3ODg3MTY0MzksIm9mZnNldFBlZXJJZCI6Ii0xMDAxMDA2NTAzMTIyIn0="
+        },
+        "startedAt": "2026-10-02T04:16:45.571Z",
+        "finishedAt": "2026-10-02T04:16:46.268Z",
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\a714a123-1530-494c-b972-5b3fcd81c498"
+      },
+      "terminalConfirmed": true,
+      "finishedAt": "2026-10-02T04:16:46.613Z",
+      "artifacts": [
+        {
+          "name": "records.jsonl",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\a714a123-1530-494c-b972-5b3fcd81c498\\records.jsonl",
+          "bytes": 13117,
+          "sha256": "7202cc8f394a23e6bee5bb4a00e436ae7284dc264f64a4f9e72ceb9bbe3f0dbb"
+        },
+        {
+          "name": "export-manifest.json",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\a714a123-1530-494c-b972-5b3fcd81c498\\export-manifest.json",
+          "bytes": 1200,
+          "sha256": "6df27e96d15ad573a1e7c4dd124401498734940fbc473e81bc5abdc06996d1f7"
+        }
+      ],
+      "records": [
+        {
+          "id": "-1001006503122:548",
+          "type": "telegram.message",
+          "sourceLocator": "telegram:peer:-1001006503122:message:548",
+          "date": 1789142642,
+          "omittedFields": [
+            "accessHash",
+            "fileReference",
+            "authKey",
+            "phone",
+            "session",
+            "auth_key",
+            "keys"
+          ],
+          "observedFields": [
+            "date",
+            "extractedAt",
+            "id",
+            "messageId",
+            "observedAt",
+            "observedFields",
+            "omittedFields",
+            "peerId",
+            "provider",
+            "schemaVersion",
+            "sourceLocator",
+            "text",
+            "type"
+          ],
+          "dateIso": "2026-09-11T16:04:02.000Z"
+        },
+        {
+          "id": "-1001006503122:547",
+          "type": "telegram.message",
+          "sourceLocator": "telegram:peer:-1001006503122:message:547",
+          "date": 1788716439,
+          "omittedFields": [
+            "accessHash",
+            "fileReference",
+            "authKey",
+            "phone",
+            "session",
+            "auth_key",
+            "keys"
+          ],
+          "observedFields": [
+            "date",
+            "extractedAt",
+            "id",
+            "messageId",
+            "observedAt",
+            "observedFields",
+            "omittedFields",
+            "peerId",
+            "provider",
+            "schemaVersion",
+            "sourceLocator",
+            "text",
+            "type"
+          ],
+          "dateIso": "2026-09-06T17:40:39.000Z"
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "provider": "telegram",
+        "operation": "channel_history",
+        "jobId": "a714a123-1530-494c-b972-5b3fcd81c498",
+        "provenance": {
+          "provider": "telegram",
+          "operation": "channel_history",
+          "sources": [
+            "durov"
+          ],
+          "filters": {
+            "includeMedia": false
+          },
+          "limits": {
+            "limit": 2,
+            "pageSize": 2,
+            "deadlineMs": 45000
+          },
+          "accountScope": {
+            "accountRef": "0f1f08f9-a977-433e-bd18-d0cf58c452e0",
+            "accountEpoch": "7066094c-fef8-45d9-a6ef-aaadaa4f9f59"
+          }
+        },
+        "count": 2,
+        "coverage": "channel",
+        "sourceCoverage": {
+          "accessible": true,
+          "completeness": "partial",
+          "mode": "accessible_chat",
+          "scope": "channel"
+        },
+        "partial": true,
+        "nextCursor": "eyJ2ZXJzaW9uIjoxLCJzY29wZSI6ImMyNGFmOWI5ZmE2N2FmMGM5Yzk3NDk0MTE1YTM5YjQxZmMwMGVjYTMzZDcwNThmOGEyYjQ4OGIwYzhkOTM5Y2UiLCJlcG9jaCI6IjcwNjYwOTRjLWZlZjgtNDVkOS1hNmVmLWFhYWRhYTRmOWY1OSIsIm9mZnNldElkIjo1NDcsIm9mZnNldFJhdGUiOjAsIm9mZnNldERhdGUiOjE3ODg3MTY0MzksIm9mZnNldFBlZXJJZCI6Ii0xMDAxMDA2NTAzMTIyIn0=",
+        "accountScopeBound": true,
+        "files": [
+          "records.jsonl"
+        ],
+        "extractionFinishedAt": "2026-10-02T04:16:46.257Z",
+        "mediaBytes": 0
+      },
+      "elapsedMs": 697,
+      "acceptance": "actual_public_partial_records_persisted",
+      "fullSourceCompletenessVerified": false
+    },
+    {
+      "name": "telegram-discover-durov",
+      "request": {
+        "provider": "telegram",
+        "operation": "discover",
+        "input": {
+          "query": "durov",
+          "scope": "public_groups",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "idempotencyKey": "relay-public-pilots-01a0fa86-v1-telegram-discover-durov"
+      },
+      "submittedAt": "2026-10-02T04:16:46.616Z",
+      "readiness": {
+        "provider": "telegram",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "chat_info",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "join_chat",
+          "transcribe"
+        ],
+        "reason": "ready"
+      },
+      "jobId": "d0f765b2-ec5e-4965-ae6f-cb523ba4fb26",
+      "submission": {
+        "schemaVersion": 1,
+        "id": "d0f765b2-ec5e-4965-ae6f-cb523ba4fb26",
+        "provider": "telegram",
+        "operation": "discover",
+        "state": "queued",
+        "createdAt": "2026-10-02T04:16:47.182Z",
+        "updatedAt": "2026-10-02T04:16:47.182Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "empty",
+          "count": 0,
+          "files": [],
+          "evidence": [],
+          "truncated": false
+        },
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\d0f765b2-ec5e-4965-ae6f-cb523ba4fb26"
+      },
+      "observations": [
+        {
+          "at": "2026-10-02T04:16:47.194Z",
+          "state": "queued",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:47.950Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:48.704Z",
+          "state": "partial",
+          "count": 2
+        }
+      ],
+      "final": {
+        "schemaVersion": 1,
+        "id": "d0f765b2-ec5e-4965-ae6f-cb523ba4fb26",
+        "provider": "telegram",
+        "operation": "discover",
+        "state": "partial",
+        "createdAt": "2026-10-02T04:16:47.182Z",
+        "updatedAt": "2026-10-02T04:16:48.406Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "partial",
+          "count": 2,
+          "files": [
+            "records.jsonl",
+            "export-manifest.json"
+          ],
+          "evidence": [
+            {
+              "url": "https://t.me/durov_russia",
+              "kind": "post"
+            }
+          ],
+          "truncated": true,
+          "evidenceTruncated": false,
+          "coverage": "public_channels"
+        },
+        "startedAt": "2026-10-02T04:16:47.707Z",
+        "finishedAt": "2026-10-02T04:16:48.406Z",
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\d0f765b2-ec5e-4965-ae6f-cb523ba4fb26"
+      },
+      "terminalConfirmed": true,
+      "finishedAt": "2026-10-02T04:16:48.705Z",
+      "artifacts": [
+        {
+          "name": "records.jsonl",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\d0f765b2-ec5e-4965-ae6f-cb523ba4fb26\\records.jsonl",
+          "bytes": 4041,
+          "sha256": "bda410f405cc9095b3489f4017b488c680a8aa8bf6f1a8bc96e78f3f9777bc2b"
+        },
+        {
+          "name": "export-manifest.json",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\d0f765b2-ec5e-4965-ae6f-cb523ba4fb26\\export-manifest.json",
+          "bytes": 985,
+          "sha256": "390e4ab3bccba86a435f00b4ee319f6054b48d905f43cc1d2c7bf16709151cc3"
+        }
+      ],
+      "records": [
+        {
+          "id": "-1001006503122",
+          "type": "telegram.chat",
+          "sourceLocator": "telegram:peer:-1001006503122",
+          "observedFields": [
+            "extractedAt",
+            "id",
+            "observedAt",
+            "observedFields",
+            "provider",
+            "schemaVersion",
+            "sourceLocator",
+            "type"
+          ]
+        },
+        {
+          "id": "-1001364081847",
+          "type": "telegram.chat",
+          "sourceUrl": "https://t.me/durov_russia",
+          "sourceLocator": "telegram:peer:-1001364081847",
+          "observedFields": [
+            "extractedAt",
+            "id",
+            "observedAt",
+            "observedFields",
+            "provider",
+            "schemaVersion",
+            "sourceLocator",
+            "sourceUrl",
+            "type"
+          ]
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "provider": "telegram",
+        "operation": "discover",
+        "jobId": "d0f765b2-ec5e-4965-ae6f-cb523ba4fb26",
+        "provenance": {
+          "provider": "telegram",
+          "operation": "discover",
+          "sources": [],
+          "query": "durov",
+          "querySha256": "77eebba80a66462bcb8587d2b98d0d22edcd236a9617ef031bcf588fd7384e63",
+          "filters": {
+            "scope": "public_groups"
+          },
+          "limits": {
+            "limit": 2,
+            "pageSize": 2,
+            "deadlineMs": 45000
+          },
+          "accountScope": {
+            "accountRef": "0f1f08f9-a977-433e-bd18-d0cf58c452e0",
+            "accountEpoch": "7066094c-fef8-45d9-a6ef-aaadaa4f9f59"
+          }
+        },
+        "count": 2,
+        "coverage": "public_channels",
+        "sourceCoverage": {
+          "accessible": true,
+          "completeness": "partial",
+          "mode": "account_server_search",
+          "scope": "public_channels"
+        },
+        "partial": true,
+        "accountScopeBound": true,
+        "files": [
+          "records.jsonl"
+        ],
+        "extractionFinishedAt": "2026-10-02T04:16:48.395Z",
+        "mediaBytes": 0
+      },
+      "elapsedMs": 699,
+      "acceptance": "actual_public_partial_records_persisted",
+      "fullSourceCompletenessVerified": false
+    },
+    {
+      "name": "x-discover-openai",
+      "request": {
+        "provider": "x",
+        "operation": "discover",
+        "input": {
+          "query": "OpenAI",
+          "scope": "profiles",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "idempotencyKey": "relay-public-pilots-01a0fa86-v1-x-discover-openai"
+      },
+      "submittedAt": "2026-10-02T04:16:44.617Z",
+      "readiness": {
+        "provider": "x",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "article",
+          "read_thread",
+          "transcribe"
+        ],
+        "reason": "dom_account_confirmed"
+      },
+      "jobId": "51ec3a51-3c3d-4697-9f71-eedade0830b1",
+      "submission": {
+        "schemaVersion": 1,
+        "id": "51ec3a51-3c3d-4697-9f71-eedade0830b1",
+        "provider": "x",
+        "operation": "discover",
+        "state": "queued",
+        "createdAt": "2026-10-02T04:16:45.573Z",
+        "updatedAt": "2026-10-02T04:16:45.573Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "empty",
+          "count": 0,
+          "files": [],
+          "evidence": [],
+          "truncated": false
+        },
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\51ec3a51-3c3d-4697-9f71-eedade0830b1"
+      },
+      "observations": [
+        {
+          "at": "2026-10-02T04:16:45.586Z",
+          "state": "queued",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:46.347Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:47.102Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:47.856Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:48.610Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:49.363Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:50.116Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:50.874Z",
+          "state": "partial",
+          "count": 2
+        }
+      ],
+      "final": {
+        "schemaVersion": 1,
+        "id": "51ec3a51-3c3d-4697-9f71-eedade0830b1",
+        "provider": "x",
+        "operation": "discover",
+        "state": "partial",
+        "createdAt": "2026-10-02T04:16:45.573Z",
+        "updatedAt": "2026-10-02T04:16:50.166Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "partial",
+          "count": 2,
+          "files": [
+            "records.jsonl",
+            "export-manifest.json"
+          ],
+          "evidence": [
+            {
+              "url": "https://x.com/OpenAI",
+              "kind": "channel"
+            },
+            {
+              "url": "https://x.com/OpenAIDevs",
+              "kind": "channel"
+            }
+          ],
+          "truncated": true,
+          "evidenceTruncated": false,
+          "coverage": "platform_search",
+          "nextCursor": "{\"schemaVersion\":1,\"provider\":\"x\",\"operation\":\"discover\",\"sourceKey\":\"e18f3e0013f26118\",\"accountEpoch\":\"f93e0037-cf75-414f-8f4c-43aff0fb3f73:1\",\"targetIndex\":0,\"anchor\":\"https://x.com/OpenAIDevs\",\"offset\":2}"
+        },
+        "startedAt": "2026-10-02T04:16:46.083Z",
+        "finishedAt": "2026-10-02T04:16:50.166Z",
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\51ec3a51-3c3d-4697-9f71-eedade0830b1"
+      },
+      "terminalConfirmed": true,
+      "finishedAt": "2026-10-02T04:16:50.875Z",
+      "artifacts": [
+        {
+          "name": "records.jsonl",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\51ec3a51-3c3d-4697-9f71-eedade0830b1\\records.jsonl",
+          "bytes": 1780,
+          "sha256": "7a11fae710536b12c354c2fd213a29e2f4f8e0ef0a858993c9cf61cc809e0a33"
+        },
+        {
+          "name": "export-manifest.json",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\51ec3a51-3c3d-4697-9f71-eedade0830b1\\export-manifest.json",
+          "bytes": 1383,
+          "sha256": "13593adf748250950edfab8e9b2539302646c18e63f17ad8635cdec1eba13aca"
+        }
+      ],
+      "records": [
+        {
+          "id": "x:profile:/OpenAI",
+          "type": "profile",
+          "source": "https://x.com/OpenAI",
+          "sourceUrl": "https://x.com/OpenAI",
+          "access": "accessible_dom",
+          "extraction": "first_party_dom",
+          "unresolvedFields": [
+            "search_result_profile_preview"
+          ],
+          "observedFields": [
+            "access",
+            "extractedAt",
+            "extraction",
+            "id",
+            "links",
+            "media",
+            "observedAt",
+            "provider",
+            "schemaVersion",
+            "source",
+            "sourceUrl",
+            "text",
+            "type",
+            "unresolvedFields"
+          ]
+        },
+        {
+          "id": "x:profile:/OpenAIDevs",
+          "type": "profile",
+          "source": "https://x.com/OpenAIDevs",
+          "sourceUrl": "https://x.com/OpenAIDevs",
+          "access": "accessible_dom",
+          "extraction": "first_party_dom",
+          "unresolvedFields": [
+            "search_result_profile_preview"
+          ],
+          "observedFields": [
+            "access",
+            "extractedAt",
+            "extraction",
+            "id",
+            "links",
+            "media",
+            "observedAt",
+            "provider",
+            "schemaVersion",
+            "source",
+            "sourceUrl",
+            "text",
+            "type",
+            "unresolvedFields"
+          ]
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "provider": "x",
+        "operation": "discover",
+        "jobId": "51ec3a51-3c3d-4697-9f71-eedade0830b1",
+        "provenance": {
+          "provider": "x",
+          "operation": "discover",
+          "sources": [],
+          "query": "OpenAI",
+          "querySha256": "8b7d1a3187ab355dc31bc683aaa71ab5ed217940c12196a9cd5f4ca984babfa4",
+          "filters": {
+            "scope": "profiles"
+          },
+          "limits": {
+            "limit": 2,
+            "pageSize": 2,
+            "deadlineMs": 45000
+          },
+          "accountScope": {
+            "accountRef": "15bdb28a-af95-46f0-a574-b56bcb9d9f3d",
+            "accountEpoch": "f93e0037-cf75-414f-8f4c-43aff0fb3f73:1"
+          }
+        },
+        "count": 2,
+        "coverage": "platform_search",
+        "sourceCoverage": {
+          "accessible": true,
+          "completeness": "partial",
+          "extraction": "visible_dom",
+          "pagesRead": 1,
+          "recordsObserved": 2,
+          "scope": "platform_search",
+          "sourcesRead": 1,
+          "sourcesRequested": 1,
+          "unresolved": [
+            "virtualized_dom_history_incomplete"
+          ]
+        },
+        "partial": true,
+        "nextCursor": "{\"schemaVersion\":1,\"provider\":\"x\",\"operation\":\"discover\",\"sourceKey\":\"e18f3e0013f26118\",\"accountEpoch\":\"f93e0037-cf75-414f-8f4c-43aff0fb3f73:1\",\"targetIndex\":0,\"anchor\":\"https://x.com/OpenAIDevs\",\"offset\":2}",
+        "accountScopeBound": true,
+        "files": [
+          "records.jsonl"
+        ],
+        "extractionFinishedAt": "2026-10-02T04:16:50.153Z",
+        "mediaBytes": 0
+      },
+      "elapsedMs": 4083,
+      "acceptance": "actual_public_partial_records_persisted",
+      "fullSourceCompletenessVerified": false
+    },
+    {
+      "name": "instagram-discover-openai",
+      "request": {
+        "provider": "instagram",
+        "operation": "discover",
+        "input": {
+          "query": "openai",
+          "scope": "profiles",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "idempotencyKey": "relay-public-pilots-01a0fa86-v1-instagram-discover-openai"
+      },
+      "submittedAt": "2026-10-02T04:16:44.617Z",
+      "readiness": {
+        "provider": "instagram",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "read_thread",
+          "transcribe"
+        ],
+        "reason": "dom_account_confirmed"
+      },
+      "jobId": "bc489fef-e833-403f-ac44-4d31769519d3",
+      "submission": {
+        "schemaVersion": 1,
+        "id": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "provider": "instagram",
+        "operation": "discover",
+        "state": "queued",
+        "createdAt": "2026-10-02T04:16:46.085Z",
+        "updatedAt": "2026-10-02T04:16:46.085Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "empty",
+          "count": 0,
+          "files": [],
+          "evidence": [],
+          "truncated": false
+        },
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3"
+      },
+      "observations": [
+        {
+          "at": "2026-10-02T04:16:46.097Z",
+          "state": "queued",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:46.849Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:47.604Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:48.360Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:49.126Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:16:49.880Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:50.637Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:51.394Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:52.161Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:52.916Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:53.674Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:54.429Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:55.185Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:55.937Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:56.690Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:57.443Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:58.209Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:58.967Z",
+          "state": "running",
+          "count": 1
+        },
+        {
+          "at": "2026-10-02T04:16:59.732Z",
+          "state": "partial",
+          "count": 1
+        }
+      ],
+      "final": {
+        "schemaVersion": 1,
+        "id": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "provider": "instagram",
+        "operation": "discover",
+        "state": "partial",
+        "createdAt": "2026-10-02T04:16:46.085Z",
+        "updatedAt": "2026-10-02T04:16:59.136Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "partial",
+          "count": 1,
+          "files": [
+            "records.jsonl",
+            "export-manifest.json"
+          ],
+          "evidence": [
+            {
+              "url": "https://www.instagram.com/openai",
+              "kind": "channel"
+            }
+          ],
+          "truncated": true,
+          "evidenceTruncated": false,
+          "coverage": "platform_search"
+        },
+        "startedAt": "2026-10-02T04:16:46.559Z",
+        "finishedAt": "2026-10-02T04:16:59.136Z",
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3"
+      },
+      "terminalConfirmed": true,
+      "finishedAt": "2026-10-02T04:16:59.733Z",
+      "artifacts": [
+        {
+          "name": "records.jsonl",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\records.jsonl",
+          "bytes": 5315,
+          "sha256": "b3b9f35043412f5586781a8195329f4a59a68c379ce01a9be787cf7d8d0a7461"
+        },
+        {
+          "name": "export-manifest.json",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\export-manifest.json",
+          "bytes": 1146,
+          "sha256": "431fc83e9075ae811d211bf406443aed1a4ed40841285b7fe42475eef387d4b7"
+        }
+      ],
+      "records": [
+        {
+          "id": "instagram:profile:/openai",
+          "type": "profile",
+          "source": "https://www.instagram.com/openai",
+          "sourceUrl": "https://www.instagram.com/openai",
+          "access": "accessible_dom",
+          "extraction": "first_party_dom",
+          "fieldEvidence": {
+            "description": "profile description or og:description",
+            "title": "profile header or og:title"
+          },
+          "unresolvedFields": [
+            "api_only_profile_fields_not_observed"
+          ],
+          "observedFields": [
+            "access",
+            "description",
+            "extractedAt",
+            "extraction",
+            "fieldEvidence",
+            "handle",
+            "id",
+            "links",
+            "media",
+            "metrics",
+            "observedAt",
+            "provider",
+            "schemaVersion",
+            "source",
+            "sourceUrl",
+            "text",
+            "title",
+            "type",
+            "unresolvedFields"
+          ]
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "provider": "instagram",
+        "operation": "discover",
+        "jobId": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "provenance": {
+          "provider": "instagram",
+          "operation": "discover",
+          "sources": [],
+          "query": "openai",
+          "querySha256": "7d3194f79e645c42e4396dda38be04766810ec6a00d00aced3ffc2a0a1f1a9ef",
+          "filters": {
+            "scope": "profiles"
+          },
+          "limits": {
+            "limit": 2,
+            "pageSize": 2,
+            "deadlineMs": 45000
+          },
+          "accountScope": {
+            "accountRef": "b472ec2e-4097-4bf5-8eda-5054639f69c3",
+            "accountEpoch": "b44c1741-4d13-4d91-b14e-caa3a951a781:1"
+          }
+        },
+        "count": 1,
+        "coverage": "platform_search",
+        "sourceCoverage": {
+          "accessible": true,
+          "completeness": "partial",
+          "extraction": "visible_dom",
+          "pagesRead": 2,
+          "recordsObserved": 1,
+          "scope": "platform_search",
+          "sourcesRead": 1,
+          "sourcesRequested": 1,
+          "unresolved": [
+            "virtualized_dom_history_incomplete"
+          ]
+        },
+        "partial": true,
+        "accountScopeBound": true,
+        "files": [
+          "records.jsonl"
+        ],
+        "extractionFinishedAt": "2026-10-02T04:16:59.124Z",
+        "mediaBytes": 0
+      },
+      "elapsedMs": 12577,
+      "acceptance": "actual_public_partial_records_persisted",
+      "fullSourceCompletenessVerified": false
+    },
+    {
+      "name": "instagram-history-openai",
+      "request": {
+        "provider": "instagram",
+        "operation": "channel_history",
+        "input": {
+          "channel": "openai",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000,
+          "includeMedia": false
+        },
+        "idempotencyKey": "relay-public-pilots-01a0fa86-v1-instagram-history-openai"
+      },
+      "submittedAt": "2026-10-02T04:16:59.736Z",
+      "readiness": {
+        "provider": "instagram",
+        "configured": true,
+        "state": "ready",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "read_thread",
+          "transcribe"
+        ],
+        "reason": "dom_account_confirmed"
+      },
+      "jobId": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+      "submission": {
+        "schemaVersion": 1,
+        "id": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "provider": "instagram",
+        "operation": "channel_history",
+        "state": "queued",
+        "createdAt": "2026-10-02T04:17:00.228Z",
+        "updatedAt": "2026-10-02T04:17:00.228Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "empty",
+          "count": 0,
+          "files": [],
+          "evidence": [],
+          "truncated": false
+        },
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358"
+      },
+      "observations": [
+        {
+          "at": "2026-10-02T04:17:00.237Z",
+          "state": "queued",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:00.999Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:01.754Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:02.519Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:03.272Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:04.025Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:04.781Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:05.535Z",
+          "state": "running",
+          "count": 0
+        },
+        {
+          "at": "2026-10-02T04:17:06.291Z",
+          "state": "partial",
+          "count": 2
+        }
+      ],
+      "final": {
+        "schemaVersion": 1,
+        "id": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "provider": "instagram",
+        "operation": "channel_history",
+        "state": "partial",
+        "createdAt": "2026-10-02T04:17:00.228Z",
+        "updatedAt": "2026-10-02T04:17:06.164Z",
+        "limits": {
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "result": {
+          "outcome": "partial",
+          "count": 2,
+          "files": [
+            "records.jsonl",
+            "export-manifest.json"
+          ],
+          "evidence": [
+            {
+              "url": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+              "kind": "post"
+            },
+            {
+              "url": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp",
+              "kind": "post"
+            }
+          ],
+          "truncated": true,
+          "evidenceTruncated": false,
+          "coverage": "channel",
+          "nextCursor": "{\"schemaVersion\":1,\"provider\":\"instagram\",\"operation\":\"channel_history\",\"sourceKey\":\"9dd8b48fc9146a31\",\"accountEpoch\":\"b44c1741-4d13-4d91-b14e-caa3a951a781:1\",\"targetIndex\":0,\"anchor\":\"https://www.instagram.com/chatgpt/reel/DalMyY0t0lp\",\"offset\":2}"
+        },
+        "startedAt": "2026-10-02T04:17:00.690Z",
+        "finishedAt": "2026-10-02T04:17:06.164Z",
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358"
+      },
+      "terminalConfirmed": true,
+      "finishedAt": "2026-10-02T04:17:06.292Z",
+      "artifacts": [
+        {
+          "name": "records.jsonl",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\records.jsonl",
+          "bytes": 5581,
+          "sha256": "591bb7a532b01f5feb7d33d2b9d3adafa78dbce60d1f4aeaa27fe921bbf0ade7"
+        },
+        {
+          "name": "export-manifest.json",
+          "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\export-manifest.json",
+          "bytes": 1350,
+          "sha256": "757c7e6ce135de481a5f8b4402fb180243adecc29191b9aa5f7725e88da50c0c"
+        }
+      ],
+      "records": [
+        {
+          "id": "instagram:Dc1ldDJyZDj",
+          "type": "reel",
+          "source": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+          "sourceUrl": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+          "author": {},
+          "access": "accessible_dom",
+          "extraction": "first_party_dom",
+          "fieldEvidence": {
+            "media": "img/video/source/track",
+            "text": "article h1 or meta[og:description]"
+          },
+          "unresolvedFields": [
+            "api_only_fields_not_observed",
+            "caption_not_observed",
+            "timestamp_not_observed"
+          ],
+          "observedFields": [
+            "access",
+            "author",
+            "description",
+            "extractedAt",
+            "extraction",
+            "fieldEvidence",
+            "id",
+            "links",
+            "media",
+            "metrics",
+            "observedAt",
+            "observedText",
+            "provider",
+            "schemaVersion",
+            "source",
+            "sourceUrl",
+            "type",
+            "unresolvedFields"
+          ]
+        },
+        {
+          "id": "instagram:DalMyY0t0lp",
+          "type": "reel",
+          "source": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp",
+          "sourceUrl": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp",
+          "author": {},
+          "access": "accessible_dom",
+          "extraction": "first_party_dom",
+          "fieldEvidence": {
+            "media": "img/video/source/track",
+            "text": "article h1 or meta[og:description]"
+          },
+          "unresolvedFields": [
+            "api_only_fields_not_observed",
+            "caption_not_observed",
+            "timestamp_not_observed"
+          ],
+          "observedFields": [
+            "access",
+            "author",
+            "description",
+            "extractedAt",
+            "extraction",
+            "fieldEvidence",
+            "id",
+            "links",
+            "media",
+            "metrics",
+            "observedAt",
+            "observedText",
+            "provider",
+            "schemaVersion",
+            "source",
+            "sourceUrl",
+            "type",
+            "unresolvedFields"
+          ]
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "provider": "instagram",
+        "operation": "channel_history",
+        "jobId": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "provenance": {
+          "provider": "instagram",
+          "operation": "channel_history",
+          "sources": [
+            "openai"
+          ],
+          "filters": {
+            "includeMedia": false
+          },
+          "limits": {
+            "limit": 2,
+            "pageSize": 2,
+            "deadlineMs": 45000
+          },
+          "accountScope": {
+            "accountRef": "b472ec2e-4097-4bf5-8eda-5054639f69c3",
+            "accountEpoch": "b44c1741-4d13-4d91-b14e-caa3a951a781:1"
+          }
+        },
+        "count": 2,
+        "coverage": "channel",
+        "sourceCoverage": {
+          "accessible": true,
+          "completeness": "partial",
+          "extraction": "visible_dom",
+          "pagesRead": 1,
+          "recordsObserved": 2,
+          "scope": "channel",
+          "sourcesRead": 1,
+          "sourcesRequested": 1,
+          "unresolved": [
+            "virtualized_dom_history_incomplete"
+          ]
+        },
+        "partial": true,
+        "nextCursor": "{\"schemaVersion\":1,\"provider\":\"instagram\",\"operation\":\"channel_history\",\"sourceKey\":\"9dd8b48fc9146a31\",\"accountEpoch\":\"b44c1741-4d13-4d91-b14e-caa3a951a781:1\",\"targetIndex\":0,\"anchor\":\"https://www.instagram.com/chatgpt/reel/DalMyY0t0lp\",\"offset\":2}",
+        "accountScopeBound": true,
+        "files": [
+          "records.jsonl"
+        ],
+        "extractionFinishedAt": "2026-10-02T04:17:06.154Z",
+        "mediaBytes": 0
+      },
+      "elapsedMs": 5474,
+      "acceptance": "actual_public_partial_records_persisted",
+      "fullSourceCompletenessVerified": false
+    }
+  ],
+  "finalStatus": {
+    "at": "2026-10-02T04:17:06.860Z",
+    "daemon": {
+      "pid": 9116,
+      "sourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+      "version": "1.0.0",
+      "accountSource": "relay_owned_bridge",
+      "relay_process_dependency": true
+    },
+    "providers": [
+      {
+        "provider": "telegram",
+        "state": "ready",
+        "reason": "ready",
+        "operations": [
+          "discover",
+          "chat_info",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "join_chat",
+          "transcribe"
+        ]
+      },
+      {
+        "provider": "x",
+        "state": "unavailable",
+        "reason": "dom_account_proof_pending",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "article",
+          "read_thread"
+        ]
+      },
+      {
+        "provider": "instagram",
+        "state": "ready",
+        "reason": "dom_account_confirmed",
+        "operations": [
+          "discover",
+          "profile",
+          "read",
+          "search",
+          "channel_history",
+          "chat_export",
+          "download",
+          "read_thread",
+          "transcribe"
+        ]
+      }
+    ],
+    "queues": [
+      {
+        "provider": "telegram",
+        "queued": 0,
+        "running": null
+      },
+      {
+        "provider": "x",
+        "queued": 0,
+        "running": null
+      },
+      {
+        "provider": "instagram",
+        "queued": 0,
+        "running": null
+      }
+    ]
+  },
+  "summary": {
+    "submitted": 5,
+    "terminalReadbacks": 5,
+    "partial": 5,
+    "acceptedRecords": 9,
+    "errors": 0,
+    "allReturnedFileHashesRechecked": true,
+    "mediaDownloadedBytes": 0,
+    "providerQueuesIdle": true,
+    "acceptance": "bounded_actual_public_operations_verified_with_coverage_gaps"
+  },
+  "limitations": [
+    "All five results are partial. Returned records prove these selected bounded operations only, not platform-wide access, completeness or unlimited throughput.",
+    "No cursor continuation, timestamp-filtered Telegram history, joins, private dialogs, DM reading, sends, uploads, account settings or media downloads are attempted in these five jobs.",
+    "Telegram history exposes observed peer/message locators and dates but sourceUrl is absent. Telegram discovery scope public_groups is implemented as account_server_search/public_channels and returns two public chat records; public handle evidence is absent on one returned record.",
+    "X profile discovery yields profile previews for OpenAI and OpenAIDevs; API-only profile fields are not verified. Final X readiness returns dom_account_proof_pending even though the exact discovery job settled with records.",
+    "Instagram discover selected handle openai yields one observed profile. It does not prove exhaustive Instagram profile search.",
+    "Instagram channel openai history yields two reel links under chatgpt. The source account association/collaboration is unverified; author objects are empty and captions/timestamps are unobserved. Do not attribute those reels to openai based only on this receipt.",
+    "X and Instagram manifests preserve visible_dom and virtualized_dom_history_incomplete. Source DOM extraction does not establish source completeness.",
+    "Elapsed durations measure these small live operations including provider execution. They are not media transfer throughput or ISP speed benchmarks."
+  ],
+  "receiptIntegrity": {
+    "bytes": 47821,
+    "sha256": "e11f56b0ddfa5ce0ed7eec44520bc02f4073dab072f4dae103d1e9639b3f644e"
+  },
+  "reviewObjects": [
+    {
+      "id": "public-operation-selected-live-evidence",
+      "name": "Пять выбранных публичных live операций",
+      "version": 1,
+      "content": "Daemon 9116 и точный source hash подтверждены. Пять уникальных заданий завершены partial; сохранены девять записей, точные курсоры, файлы и SHA256. Ошибок и повторов нет.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "confirmationAction": "Принять ограниченные live receipts как доказательство именно этих пяти операций, сохранив частичность и ограничения."
+    },
+    {
+      "id": "public-operation-instagram-source-association",
+      "name": "Связь Instagram openai и найденных reel источников",
+      "version": 1,
+      "content": "История выбранного openai содержит ссылки /chatgpt/reel с пустым author и без наблюдённых captions/timestamps. Ассоциация источников или совместная публикация этим пилотом не установлена.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "confirmationAction": "Сохранить связь выбранного профиля и авторов reel как непроверенный пункт финальной приёмки."
+    }
+  ]
+}

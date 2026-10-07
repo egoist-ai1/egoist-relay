@@ -33,7 +33,6 @@ import {
   selectThreadLocalStateParam, selectThreadMessagesCount,
 } from '../../global/selectors/threads';
 import { IS_TAURI } from '../../util/browser/globalEnvironment';
-import { IS_MAC_OS } from '../../util/browser/windowEnvironment';
 import buildClassName from '../../util/buildClassName';
 import { isUserId } from '../../util/entities/ids';
 
@@ -370,7 +369,7 @@ const MiddleHeader = ({
     <div
       className="MiddleHeader"
       ref={componentRef}
-      data-tauri-drag-region={IS_TAURI && IS_MAC_OS ? true : undefined}
+      data-tauri-drag-region={IS_TAURI ? true : undefined}
     >
       <Transition
         name={shouldSkipHistoryAnimations ? 'none' : 'slideFade'}

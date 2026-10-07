@@ -27,9 +27,65 @@
   }
 
   > .Button {
+    position: relative !important;
+
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 2.25rem !important;
+    min-width: 2.25rem !important;
+    height: 2.25rem !important;
+    padding: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-radius: 50% !important;
+
+    color: #000000 !important;
+
+    background-color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+
+    &:hover {
+      background-color: #F0F0F2 !important;
+    }
+
     .icon-new-chat-filled,
     .icon-close {
+      pointer-events: none;
+
       position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      width: 1.125rem !important;
+      height: 1.125rem !important;
+      margin: auto;
+
+      font-size: 1.125rem !important;
+      line-height: 1 !important;
+      color: #000000 !important;
+
+      fill: #000000 !important;
+    }
+
+    .icon-new-chat-filled::before {
+      transform: translate(0.5px, 0.5px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-close::before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     &:not(.active) {

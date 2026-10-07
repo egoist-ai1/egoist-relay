@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "manifestSha256": "877c3cc7fb33426c3a701cc8e90a89cf024d683305d5295e4838e334d66fcba8",
+  "verdict": "PUBLISH",
+  "reviewedFiles": 3422,
+  "listedEntries": 3421,
+  "exactProductionFiles": 3304,
+  "reviewedSourceFreezeFiles": 3307,
+  "adaptedSupplementalTests": 6,
+  "explicitExclusions": 5,
+  "embeddedPrivateKeys": 0,
+  "realAccountCredentials": 0,
+  "currentPrivateHostPaths": 0,
+  "sessionDatabaseLogExportFiles": 0,
+  "symlinks": 0,
+  "reservedNegativeUserinfoFixtures": 5,
+  "decodedBase64Checked": true,
+  "gzipTgsAssetsChecked": 58,
+  "limitation": "Two preserved Lottie WASM assets contain inherited Rust build-toolchain source paths belonging to upstream build hosts, without user account data; exact production bytes are retained.",
+  "scope": "Prepared public source snapshot; real account/profile stores were neither read nor published."
+}

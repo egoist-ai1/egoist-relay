@@ -1,0 +1,32 @@
+[
+  {
+    "path": "src/components/multi/AppSidebar.tsx",
+    "baselineSha256": "7d30fe6ca8a02da9f4e621748fc02052aa7262fac9fd864431372664799dad10",
+    "candidateSha256": "b4fe22d27135d50c0687e39f5febd1975186336bc4ea4212d9adddfd7127b71e"
+  },
+  {
+    "path": "src/components/multi/AppSidebar.module.scss",
+    "baselineSha256": "5f7ef60ca3397d02ad2dbc04fa42813f9417ca7b4c89b4bef0deacf35d68982d",
+    "candidateSha256": "3c26bc42436113a227cd5084d216bf7099d4f6afde978de8b57d21b83fcb711e"
+  },
+  {
+    "path": "src/components/multi/AppSidebar.test.tsx",
+    "baselineSha256": "50eac4e236d24c941dfadab98dcd69ed12b0b794aeb4f18b17a2552b66459171",
+    "candidateSha256": "c00c305dd97fb585563e5f6f84c8c324e7f1f3295ababae73ce073e83c5712cd"
+  },
+  {
+    "path": "src/components/common/Titlebar.tsx",
+    "baselineSha256": "fedc8d16e4e12cb6e2a7f08049b8f9ceb89f5c57b0ad1288e6f656f35cc72c64",
+    "candidateSha256": "9392a9952b7630401af00cdc9698d926a4f4c2f5a87097662b5601ee9e573d60"
+  },
+  {
+    "path": "src/components/common/Titlebar.module.scss",
+    "baselineSha256": "141c78962718a67cc9c1e4d559b301adc5bc64524661b97acb6fd6036f81fe0b",
+    "candidateSha256": "ab8cbd838016300229ecdfb9df77b5757c308f1f5ac17bfea488955e34ade4a2"
+  },
+  {
+    "path": "src/components/common/Titlebar.test.tsx",
+    "baselineSha256": "b21280624145b7c8ceaf42c3be53d0cde3b1492d195c8ce6bdb80856a34ef83e",
+    "candidateSha256": "30f3ee182da812bcf0f644e85170ac7be82187a51ed3bc24cefb305631ec7e0d"
+  }
+]

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T11:25:10.679Z",
+  "status": "Frozen source 1.5.0 with common isolated harness",
+  "data": "Same existing MockClient chats and synthetic operation set",
+  "externalRequests": "aborted",
+  "records": [
+    {
+      "name": "before-chat",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-chat.png"
+    },
+    {
+      "name": "before-current",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-current.png"
+    },
+    {
+      "name": "before-history",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-history.png"
+    },
+    {
+      "name": "before-share",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-share.png"
+    },
+    {
+      "name": "before-settings",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-settings.png"
+    },
+    {
+      "name": "before-settings-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-settings-light.png"
+    },
+    {
+      "name": "before-history-light",
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "image": "comparison-before/before-history-light.png"
+    },
+    {
+      "name": "before-compact-light",
+      "viewport": {
+        "width": 800,
+        "height": 560
+      },
+      "image": "comparison-before/before-compact-light.png"
+    },
+    {
+      "variant": "before",
+      "compactGeometry": {
+        "panel": {
+          "x": 72,
+          "y": 40,
+          "width": 728,
+          "height": 520
+        },
+        "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+        "htmlClass": "theme-light theme-variant-light-modern",
+        "caption": "2.5rem"
+      }
+    }
+  ],
+  "errors": []
+}

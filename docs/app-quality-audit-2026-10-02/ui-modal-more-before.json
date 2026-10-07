@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T04:46:36.739Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "environment": {
+    "transport": "existing MockClient + terminal native mocks",
+    "remoteRequests": "blocked",
+    "browserExecutable": "C:\\Users\\Egoist\\AppData\\Local\\ms-playwright\\chromium_headless_shell-1243\\chrome-headless-shell-win64\\chrome-headless-shell.exe",
+    "viewport": "FullHD baseline and explicit emulation; no physical DPI claim"
+  },
+  "cases": [
+    {
+      "id": "modal-more-menu-div",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "kind": "menu-div",
+        "relation": {
+          "insideModal": false,
+          "nativeModal": false,
+          "ancestors": [
+            "DIV.MenuItem audit-menu-first compact text-only",
+            "DIV.bubble menu-container custom-scroll opacity-transition fast shown right top open",
+            "DIV.Menu compact in-portal",
+            "DIV.",
+            "DIV.",
+            "BODY.is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog"
+          ]
+        },
+        "keyboard": [
+          "ArrowDown",
+          "Tab",
+          "Enter",
+          "Escape"
+        ],
+        "callbackOnly": true,
+        "screenshot": "ui-visuals/modal-more-menu-div-closed.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-more-menu-native",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: {\"insideModal\":false,\"nativeModal\":true,\"ancestors\":[\"DIV.MenuItem audit-menu-first compact text-only\",\"DIV.bubble menu-container custom-scroll opacity-transition fast shown right top open\",\"DIV.Menu compact in-portal\",\"DIV.\",\"DIV.\",\"BODY.is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog\"]}\n\nfalse !== true\n",
+      "stack": "AssertionError [ERR_ASSERTION]: {\"insideModal\":false,\"nativeModal\":true,\"ancestors\":[\"DIV.MenuItem audit-menu-first compact text-only\",\"DIV.bubble menu-container custom-scroll opacity-transition fast shown right top open\",\"DIV.Menu compact in-portal\",\"DIV.\",\"DIV.\",\"BODY.is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog\"]}\n\nfalse !== true\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.mjs:311:32\n    at async caseRun (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.mjs:31:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-ui-audit.mjs:306:49",
+      "screenshot": "ui-visuals/failure-modal-more-menu-native.png",
+      "pageErrors": []
+    }
+  ],
+  "errors": [
+    {
+      "type": "console",
+      "message": "{message: Cannot read properties of undefined (reading 'map')}"
+    },
+    {
+      "type": "console",
+      "message": "{message: Cannot read properties of undefined (reading 'map')}"
+    }
+  ],
+  "gates": [
+    "Settings routes requiring privacy/session data can render loading/empty in existing MockClient; screenshot + controls establish layout only, not server operation",
+    "Mock native ready events contain no X/Instagram website content; ready page functional verification is separate",
+    "Uploads/media/calls/payment are source catalogued and tested by separate root/media work; this runner sends no messages"
+  ],
+  "defects": [],
+  "unhandled": [
+    "[object Object]",
+    "[object Object]"
+  ],
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 1,
+    "gated": 0,
+    "sourceComponents": 774,
+    "renderedEvidenceComponents": 2
+  }
+}

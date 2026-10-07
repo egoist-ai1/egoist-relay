@@ -80,7 +80,12 @@ export function buildStickerFromDocument(document: GramJs.TypeDocument,
   ) : undefined;
   const previewPhotoSizes = document.thumbs && buildApiPhotoPreviewSizes(document.thumbs);
 
-  const { w: width, h: height } = cachedThumb as GramJs.PhotoCachedSize || sizeAttribute || {};
+  const hasValidSize = (size?: { w: number; h: number }) => Boolean(size
+    && Number.isFinite(size.w) && size.w > 0
+    && Number.isFinite(size.h) && size.h > 0);
+  const intrinsicSize = hasValidSize(sizeAttribute) ? sizeAttribute : undefined;
+  const fallbackSize = hasValidSize(cachedThumb) ? cachedThumb : undefined;
+  const { w: width, h: height } = intrinsicSize || fallbackSize || {};
 
   const hasEffect = !isNoPremium && videoThumbs && compact(videoThumbs
     ?.filter((thumb) => thumb instanceof GramJs.VideoSize))

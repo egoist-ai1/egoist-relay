@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T08:19:44.852034+00:00",
+  "production": [
+    {
+      "file": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "beforeSha256": "c02bade1a6d7de8aa02806d4aa18fb6024f07f83721ed65716c411761b972578",
+      "afterSha256": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852"
+    },
+    {
+      "file": "src/components/common/CountryPickerModal.tsx",
+      "beforeSha256": "88ba19615312afad3560bfc346812117042a72707bd6ba4d8da8021d13560cba",
+      "afterSha256": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d"
+    },
+    {
+      "file": "src/components/common/PasswordConfirmModal.tsx",
+      "beforeSha256": "ac0cac75ad2d1256db15356a02823ec1642cd6b837d10156a76f364642e54f96",
+      "afterSha256": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692"
+    },
+    {
+      "file": "src/components/common/PasswordForm.tsx",
+      "beforeSha256": "e929e9a1b706947fbe2dea62e1cbba0860aef91d78edfeb9a38cde83988de8a0",
+      "afterSha256": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4"
+    }
+  ],
+  "newHarness": [
+    {
+      "file": "scripts/relay-ui-additional-modals.fixture.tsx",
+      "sha256": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801"
+    },
+    {
+      "file": "scripts/relay-ui-additional-modals.server.fixture.mjs",
+      "sha256": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+    },
+    {
+      "file": "scripts/relay-ui-additional-modals.test.mjs",
+      "sha256": "d0b296b4b819c8c63d5dd5fea15aca6dcf29b9c5836ea95d2a195d760cb5a51b"
+    }
+  ],
+  "preservedPriorFreezeCount": 24,
+  "preservedPriorFreezeMismatches": [],
+  "sourceFrozen": true,
+  "noProductEditsOutsideFour": true,
+  "processes": "All owned test browser/server/check sessions complete; no user process controlled",
+  "releaseOwner": "Parent owns1.4.4 build/installer; this audit does not install"
+}

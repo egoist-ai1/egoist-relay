@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-02T16:08:14.200Z",
+  "version": "1.4.6",
+  "repository": "egoist-ai1/egoist-relay",
+  "branch": "codex/release-1.4.6",
+  "branchCommit": "ac3724ea7f3f67d6d5669872014335798e3c24ba",
+  "tag": "relay-v1.4.6",
+  "tagCommit": "42da26d2ef76cf67901f09d8d39ee1a7b0b22e51",
+  "manifestSha256": "2cfcf1feb3eb68f7307c21b3f0872ef88ff0703a01167be82ec4964fe642cfe9",
+  "fileCount": 3422,
+  "exactReviewedProductionFiles": 3304,
+  "cleanNewHistoryCommits": 2,
+  "remoteGitBlobsMatched": true,
+  "remoteManifestMatched": true,
+  "independentPrivacyInitialSnapshot": "877c3cc7fb33426c3a701cc8e90a89cf024d683305d5295e4838e334d66fcba8",
+  "currentStrictSecretScanAndIncrementalReview": true,
+  "additionalPublicationChecks": {
+    "passed": 40,
+    "skipped": 16
+  },
+  "installerUploaded": false,
+  "socialAccountDataPublished": false,
+  "localHistoryPublished": false,
+  "canonicalSourceFreezeUnchanged": true,
+  "systemNetworkMutations": false,
+  "repoUrl": "https://github.com/egoist-ai1/egoist-relay",
+  "branchUrl": "https://github.com/egoist-ai1/egoist-relay/tree/codex/release-1.4.6",
+  "releaseUrl": "https://github.com/egoist-ai1/egoist-relay/releases/tag/relay-v1.4.6",
+  "scope": "Source publication. Tag preserves initial source snapshot; branch adds test-only fixture skip correction. Third-party binary source gate remains pending."
+}

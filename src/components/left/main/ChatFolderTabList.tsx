@@ -26,10 +26,13 @@ const ChatFolderTabList = ({
   onFileHoverOpen,
 }: OwnProps) => {
   const renderExtra = useLastCallback((tab: TabWithProperties) => {
-    if (!tab.badgeCount) return undefined;
     return (
-      <span className={buildClassName(styles.badge, tab.isBadgeActive && styles.badgeActive)}>
-        {tab.badgeCount}
+      <span className={styles.tabExtra}>
+        {Boolean(tab.badgeCount) && (
+          <span className={buildClassName(styles.badge, tab.isBadgeActive && styles.badgeActive)}>
+            {tab.badgeCount}
+          </span>
+        )}
       </span>
     );
   });
@@ -42,6 +45,7 @@ const ChatFolderTabList = ({
         withFadeMask
         renderExtra={renderExtra}
         className={buildClassName(styles.tabList, className)}
+        tabClassName={styles.folderTab}
         onSwitchTab={onSwitchTab}
         onFileHoverOpen={onFileHoverOpen}
       />

@@ -1,0 +1,1191 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-display-scale-review-2026-10-02",
+  "createdAt": "2026-10-02T10:31:16.929347+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.json",
+  "taskId": "01a0f9d0-40af-7032-b182-4902e7517e9b",
+  "scope": "Read-only source/cascade review and parent-controlled project receipts; worker wrote only these new review JSON/MD files.",
+  "workerProductionEdits": 0,
+  "workerAppMcpAccountNativeCalls": 0,
+  "workerPaymentExecution": 0,
+  "inputs": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\ui\\Modal.scss",
+      "sha256": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+      "originalBeforeSha256": "ef53ea8c5eb115c5f8d6d50fd106c881fe58ace1704be42a5266dcce4275a4ac",
+      "controlledSettledTestSha256": "63c9116de63533ce623793dbb69f42549d0a0fe1b0529b439ea6a1bd5bf1aa5a"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\ui\\Modal.tsx",
+      "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\main\\NewContactModal.tsx",
+      "sha256": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\main\\NewContactModal.scss",
+      "sha256": "8e69d558d29be866849a407951bcaaa0ac981949603fd4bf9ff747f60e4c0d9c"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\middle\\ChatLanguageModal.tsx",
+      "sha256": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\middle\\ChatLanguageModal.module.scss",
+      "sha256": "026789576b833cfc8d143822c451ca71776fab64eb3a7f500d7e40583c0bf83f"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\main\\GameModal.tsx",
+      "sha256": "f82c11a7dd9f8400774af38b0fa03e91fa42fd38880b75809c621c40938249cc"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\main\\GameModal.scss",
+      "sha256": "cbf21023ba35bf3ea4510fb8f09245d7ff0dbdd0abef60f3db4e2b47f97c6d7d"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\modals\\browser\\BrowserModal.module.scss",
+      "sha256": "739602a3d8d6547a0b037ea8977b2013078e89f5d18993a348e5290415fc13e7"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\modals\\browser\\BrowserModal.tsx",
+      "sha256": "c9e790db556a7ebf9f614963c6c29f9af29b634f81019f7071fcbdcf29bbcf27"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\main\\premium\\PremiumMainModal.module.scss",
+      "sha256": "c2d9ca104c02d9d4c9be3f6a5d931896fc4ada3c0a8a96c275522ed50a52d7b3"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\styles\\reboot.css",
+      "sha256": "9fcf70e004e5588ce91e32c889b7012fce9d2594e8ee19719695145a35adda13"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\common\\Titlebar.module.scss",
+      "sha256": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\App.module.scss",
+      "sha256": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\global\\actions\\ui\\initial.ts",
+      "sha256": "97c894477bb128362cdf452664f641da7cfde15fce1bc9ab45707f1f709d720b"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\ui\\Portal.ts",
+      "sha256": "d37e8ea4beba6af2b860093e65bee331d3eb850dcf2ef0629ed84966b9ee6c5d"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\index.html",
+      "sha256": "645e3812ce15501a664535d34ed388858cbfc1911714e76e19afa3a562a61d44"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\common\\Titlebar.tsx",
+      "sha256": "f75e649ab61c39bc21ec25924b77b2e3ee4d523e0115066428b223c5a203519b"
+    }
+  ],
+  "receipts": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-before.json",
+      "sha256": "888b8505b96ca8752829b8b8753854e44e9a775e186909a11f75b5a2c00fe48c",
+      "summary": {
+        "total": 68,
+        "passed": 58,
+        "failed": 10,
+        "pageErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-ready-before.json",
+      "sha256": "d549acdb3d47f5a07d68e0346e6efd23bc865c69fa09b9727118464fd13b6f7d",
+      "summary": {
+        "total": 68,
+        "passed": 64,
+        "failed": 4,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-css-proof.json",
+      "sha256": "d28eef8fe8cc825772a7bc235bf3c53e95ada7ce5f428b532dea20756ec0bab9",
+      "summary": {
+        "total": 68,
+        "passed": 68,
+        "failed": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-reachability-proof.json",
+      "sha256": "8725affdf60a43ab9b43bcbb97dfaab45e1ab2e5957b12dbb2fb15fd3036b173",
+      "summary": {
+        "total": 8,
+        "passed": 8,
+        "failed": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+      "reviewDisposition": "8 controlled scroll/hit cases; no source mutations or account actions."
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-shell-centering-proof.json",
+      "sha256": "bf7b24c69bedc25930cd2e95b8e05fc9c3515c215da3108f5d7990d5128c21f1",
+      "summary": {
+        "total": 68,
+        "passed": 60,
+        "failed": 8,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+      "reviewDisposition": "Exploratory60/68; eight footer assertions targeted deliberately disabled controls with pointer-events:none. Parent corrected driver retains disabled state/valid rect and performs no trial activation. Subsequent settled source68/68 passes."
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-source-after.json",
+      "sha256": "8f044d9fb39249539afa6520266191df62d5cc4dcfc0b0d411325c8f2723d770",
+      "summary": {
+        "total": 68,
+        "passed": 67,
+        "failed": 1,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+      "reviewDisposition": "Intermediate67/68: lightLanguage early-opening header rect assertion; stable settlement later passes. This is not an account/native or persistent layout failure proof."
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-settled-source-after.json",
+      "sha256": "0f291de613bacc55c7d32230ca52a7985fe01de6910a8a792168d3464e4bb657",
+      "summary": {
+        "total": 68,
+        "passed": 68,
+        "failed": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "sourceHashesUnchanged": true
+      },
+      "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+      "reviewDisposition": "Actual compiled source63c, settled68/68, zero page/console errors, Modal/Titlebar/App source guards exact unchanged. Opening frame sampled separately; animations retained."
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-source-change.json",
+      "sha256": "d5eb7d3038a5da849194524eafb0c26fdebcbf6496ade81a848c9181bff1949a",
+      "summary": null,
+      "scope": "Parent candidate source-change receipt",
+      "reviewDisposition": "Parent source-change provenance; worker made no production edit. Final current source may be the later selector-only portability scope."
+    }
+  ],
+  "recommendation": {
+    "owner": "root",
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\ui\\Modal.scss",
+    "insertBefore": "src/components/ui/Modal.scss:142, before existing &.open .modal-dialog",
+    "compiledDialogSelector": ".Modal:not(.GameModal) .modal-dialog:not(.browser-modal-dialog):not(.premium-main-modal-dialog)",
+    "compiledContentSelector": ".Modal:not(.GameModal) .modal-dialog:not(.browser-modal-dialog):not(.premium-main-modal-dialog) > .modal-content",
+    "fallback": "calc(100vh - 4rem)",
+    "dynamic": "calc(100dvh - 4rem)",
+    "contentMinHeight": "0, only direct content inside ordinary dialog branch",
+    "diff": "diff --git a/src/components/ui/Modal.scss b/src/components/ui/Modal.scss\n--- a/src/components/ui/Modal.scss\n+++ b/src/components/ui/Modal.scss\n@@\n-    &.open .modal-dialog {\n+    &:not(.GameModal) .modal-dialog:not(.browser-modal-dialog):not(.premium-main-modal-dialog) {\n+      body.is-windows.is-tauri & {\n+        top: calc(var(--relay-shell-caption-height, 2.5rem) / 2);\n+      }\n+      max-height: calc(100vh - 4rem);\n+      max-height: calc(100dvh - 4rem);\n+\n+      > .modal-content {\n+        min-height: 0;\n+      }\n+    }\n+\n+    &.open .modal-dialog {\n",
+    "productionAppliedByWorker": false,
+    "captionReserve": "Not included: conflicts with surviving unlayered ChatLanguage min-height at this tested viewport.",
+    "finalGate": "Controlled Windows source63c68/68 accepted. ac4 differs only by explicit Windows/Tauri selector on offset; source-equivalence reviewed, no same-hash68claim. Native installed WindowsDPI/text-scale/very-short-height gates remain.",
+    "captionOffset": "Only body.is-windows.is-tauri: calc(var(--relay-shell-caption-height, 2.5rem) / 2)",
+    "compiledOffsetSelector": "body.is-windows.is-tauri .Modal:not(.GameModal) .modal-dialog:not(.browser-modal-dialog):not(.premium-main-modal-dialog)",
+    "finalSourceSha256": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+    "appliedByParentToNextCandidateSource": true
+  },
+  "measurements": {
+    "model": {
+      "physicalWidth": 1920,
+      "physicalHeight": 1080,
+      "dpr": 2,
+      "logicalWidth": 960,
+      "logicalHeight": 540,
+      "rootRemCssPixels": 16
+    },
+    "editContact": {
+      "lightHeight": 546.796875,
+      "darkHeight": 548.796875,
+      "lightTop": -3.390625,
+      "darkTop": -4.390625,
+      "buttonsY": [
+        559.859375,
+        595.046875
+      ]
+    },
+    "chatLanguage": {
+      "lightHeight": 546.796875,
+      "darkHeight": 548.796875,
+      "topNegative": true,
+      "explicitMinHeightCssPixels": 405
+    },
+    "genericCssProof": {
+      "dialogHeight": 476,
+      "editContactTop": 32,
+      "editContactBottom": 508,
+      "lightLanguageAnimationTop": 19.53609848022461,
+      "geometryCasesPassed": 68
+    }
+  },
+  "cascade": {
+    "baseLayer": "ui.modal",
+    "componentOverrides": "unlayered; normal declarations override layered normal declarations regardless of specificity",
+    "header": "flex-shrink0 unchanged",
+    "content": "overflow-y:auto / flex-grow1 / max-height min92vh,50rem unchanged; min-height0 only ordinary direct content",
+    "outerDialog": "dialog.Modal fullviewport backdrop unchanged",
+    "modernGili": "separate dialog/container class system; not targeted by .Modal legacy selector",
+    "darkBorder": "unlayered1px border on .Modal .modal-dialog explains +2px before"
+  },
+  "scrollVerification": {
+    "status": "Parent project controlled actual-component receipt: 8/8 pass; independently read and hashed by worker.",
+    "receipt": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-reachability-proof.json",
+    "cases": [
+      {
+        "id": "reachability-proof-contact-edit-dpr2-light",
+        "status": "pass",
+        "scrollBefore": {
+          "top": 0,
+          "height": 426,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 256,
+            "y": 82,
+            "width": 448,
+            "height": 426,
+            "top": 82,
+            "right": 704,
+            "bottom": 508,
+            "left": 256
+          }
+        },
+        "scrollAfter": {
+          "top": 141,
+          "height": 426,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 256,
+            "y": 82,
+            "width": 448,
+            "height": 426,
+            "top": 82,
+            "right": 704,
+            "bottom": 508,
+            "left": 256
+          }
+        },
+        "footerReachability": [
+          {
+            "text": "Done",
+            "rect": {
+              "x": 616.390625,
+              "y": 454.25,
+              "width": 63.609375,
+              "height": 35.1875,
+              "top": 454.25,
+              "right": 680,
+              "bottom": 489.4375,
+              "left": 616.390625
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text"
+          },
+          {
+            "text": "Cancel",
+            "rect": {
+              "x": 515.796875,
+              "y": 454.25,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 454.25,
+              "right": 600.390625,
+              "bottom": 489.4375,
+              "left": 515.796875
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text"
+          }
+        ],
+        "lastLanguage": null
+      },
+      {
+        "id": "reachability-proof-chat-language-dpr2-light",
+        "status": "pass",
+        "scrollBefore": {
+          "top": 0,
+          "height": 426,
+          "scrollHeight": 426,
+          "rect": {
+            "x": 270,
+            "y": 75.20742797851562,
+            "width": 420,
+            "height": 426,
+            "top": 75.20742797851562,
+            "right": 690,
+            "bottom": 501.2074279785156,
+            "left": 270
+          }
+        },
+        "scrollAfter": {
+          "top": 0,
+          "height": 426,
+          "scrollHeight": 426,
+          "rect": {
+            "x": 270,
+            "y": 82,
+            "width": 420,
+            "height": 426,
+            "top": 82,
+            "right": 690,
+            "bottom": 508,
+            "left": 270
+          }
+        },
+        "footerReachability": [],
+        "lastLanguage": {
+          "rect": {
+            "x": 294,
+            "y": 433,
+            "width": 372,
+            "height": 56,
+            "top": 433,
+            "right": 666,
+            "bottom": 489,
+            "left": 294
+          },
+          "text": "зулузулу"
+        }
+      },
+      {
+        "id": "reachability-proof-contact-edit-dpr2-dark",
+        "status": "pass",
+        "scrollBefore": {
+          "top": 0,
+          "height": 424,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 257,
+            "y": 83,
+            "width": 446,
+            "height": 424,
+            "top": 83,
+            "right": 703,
+            "bottom": 507,
+            "left": 257
+          }
+        },
+        "scrollAfter": {
+          "top": 143,
+          "height": 424,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 257,
+            "y": 83,
+            "width": 446,
+            "height": 424,
+            "top": 83,
+            "right": 703,
+            "bottom": 507,
+            "left": 257
+          }
+        },
+        "footerReachability": [
+          {
+            "text": "Done",
+            "rect": {
+              "x": 615.390625,
+              "y": 453.25,
+              "width": 63.609375,
+              "height": 35.1875,
+              "top": 453.25,
+              "right": 679,
+              "bottom": 488.4375,
+              "left": 615.390625
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text"
+          },
+          {
+            "text": "Cancel",
+            "rect": {
+              "x": 514.796875,
+              "y": 453.25,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 453.25,
+              "right": 599.390625,
+              "bottom": 488.4375,
+              "left": 514.796875
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text"
+          }
+        ],
+        "lastLanguage": null
+      },
+      {
+        "id": "reachability-proof-chat-language-dpr2-dark",
+        "status": "pass",
+        "scrollBefore": {
+          "top": 0,
+          "height": 424,
+          "scrollHeight": 424,
+          "rect": {
+            "x": 271,
+            "y": 83,
+            "width": 418,
+            "height": 424,
+            "top": 83,
+            "right": 689,
+            "bottom": 507,
+            "left": 271
+          }
+        },
+        "scrollAfter": {
+          "top": 0,
+          "height": 424,
+          "scrollHeight": 424,
+          "rect": {
+            "x": 271,
+            "y": 83,
+            "width": 418,
+            "height": 424,
+            "top": 83,
+            "right": 689,
+            "bottom": 507,
+            "left": 271
+          }
+        },
+        "footerReachability": [],
+        "lastLanguage": {
+          "rect": {
+            "x": 295,
+            "y": 432,
+            "width": 370,
+            "height": 56,
+            "top": 432,
+            "right": 665,
+            "bottom": 488,
+            "left": 295
+          },
+          "text": "зулузулу"
+        }
+      }
+    ],
+    "meaning": "EditContact Done/Cancel are accessible after internal scroll, not guaranteed initially visible. Language last item visible after list scroll. This receipt contains no retained-search/header hit acceptance.",
+    "excludedActions": "No account edit/save/send, payments, external network or production source edits."
+  },
+  "limitations": [
+    "Only new review JSON/MD written by worker. No production/config/release/account/MCP/native/foreground/CDP/network actions or payment execution.",
+    "68/68 controlled settled source receipt binds63c, not finalac4. Selector-only Windows/Tauri scope reviewed separately; do not imply same tested bytes.",
+    "Initial EditContact Done/Cancel may require internal scroll; actual post-scroll hit proved. This is not initial visibility.",
+    "OpeningLanguageLight panel top36 intersects caption by4px but measured title57/close57.5 remainbelow40 andenabledclosehitWithintrue; not an interaction failure.",
+    "Closing+1rem source calculation may place fadingpanel4px beyond540; closing visualframe not measured here.",
+    "Caption-reserve cap436 conflicts with unlayeredChatLanguage minimum405 by19/21px; not included in accepted design.",
+    "Native installedWindowsDPI/text-only scale, smaller-height/header/rem conflicts and all special/nonshell/otherplatform windows remain unverified.",
+    "No functional execution of premium/payment/game, accounts or native modal actions; original six readiness failures and exploratory eight disabled-control assertions are harness dispositions."
+  ],
+  "reviewObjects": [
+    {
+      "id": "display-scale-review-ordinary-cap",
+      "name": "Ограничение обычных модальных окон",
+      "version": 3,
+      "content": "Ограничение высоты панели через 100vh/100dvh − 4rem сохраняет существующие overflow и анимации. При logical 540 / root 16 панель имеет 476px, content 426/424px вместо измеренных 546.8/548.8px. Контролируемая проверка исходника 63c после завершения CSS-анимаций прошла 68/68, ошибок 0. Final ac4 отличается только условием Windows/Tauri для top.",
+      "confirmationAction": "Принять узкое ограничение и контролируемую source acceptance; не заявлять исправление установленного native DPI.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#ordinary-cap"
+    },
+    {
+      "id": "display-scale-review-special-layouts",
+      "name": "Исключения специальных окон",
+      "version": 3,
+      "content": "Точные классы GameModal, browser-modal-dialog и premium-main-modal-dialog проверены в исходниках и исключаются целиком. Fullscreen, mobile, height, overflow, transition rules и outer dialog не меняются. Современный Gili Modal использует отдельные классы.",
+      "confirmationAction": "Принять три точных исключения; не распространять результат на функциональные game/premium/payment сценарии.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#special-layouts"
+    },
+    {
+      "id": "display-scale-review-cascade-minimum",
+      "name": "Cascade и минимальная высота",
+      "version": 3,
+      "content": "Modal.scss находится в CSS layer ui.modal, а component overrides — unlayered. Общий min-height: 0 не отменяет ChatLanguage min(75vh,32rem)=405px. При cap 476 доступно 424–426px. Вычитание всей caption height дало бы cap 436 и content 384–386px: конфликт 19/21px.",
+      "confirmationAction": "Сохранить minimum ChatLanguage; не добавлять вычитание caption или широкий !important override.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#cascade-minimum"
+    },
+    {
+      "id": "display-scale-review-scroll-reachability",
+      "name": "Прокрутка и кнопки действий",
+      "version": 3,
+      "content": "В settled DPR2 light EditContact content 426 / scroll 567, scrollTop 141; dark 424/567, scrollTop 143. Done/Cancel после прокрутки: y 474.25–509.44 / light и 473.25–508.44 / dark; enabled и hitWithin=true. Последний язык виден: y 453–509 / light и 452–508 / dark. Отключённые кнопки остаются отключёнными.",
+      "confirmationAction": "Принять подтверждённую доступность после прокрутки; не обещать первоначальную видимость или выполнение аккаунтного save.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#scroll-reachability"
+    },
+    {
+      "id": "display-scale-review-evidence-scope",
+      "name": "Границы проверки",
+      "version": 3,
+      "content": "Corrected before 64/68 → settled source 63c 68/68. Шесть первых отказов были readiness harness; восемь промежуточных footer assertions касались отключённых controls. Проверка 67/68 снимала header до завершения CSS animation. Tested 63c и final ac4 разделены; worker не вызывал accounts/native/network.",
+      "confirmationAction": "Сохранить provenance и границы controlled/native проверки; canonical package не менялся worker.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#evidence-scope"
+    },
+    {
+      "id": "display-scale-review-caption-tradeoff",
+      "name": "Заголовок приложения и анимация",
+      "version": 2,
+      "content": "При cap 476 и offset 20 settled панель имеет границы 52–528, titlebar 40, content 424–426. В opening LanguageLight panel top 36, title 57, close 57.5 с hitWithin=true; settlement 201ms до top 52. Closing +1rem может дать bottom 544: это source calculation, не measured visual regression.",
+      "confirmationAction": "Принять измеренную доступность settled и opening controls; сохранить отдельные closing/native DPI/short-height ограничения.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#caption-tradeoff"
+    },
+    {
+      "id": "display-scale-review-portability",
+      "name": "Сдвиг только в Windows/Tauri",
+      "version": 1,
+      "content": "Final ac4 переносит только top под body.is-windows.is-tauri; эти классы уже устанавливает initial.ts. Portal вне App.multiRoot использует caption fallback 2.5rem. Windows offset остаётся 20px, другие body classes не получают новый сдвиг. Mac/Linux/legacyElectron не исполнялись.",
+      "confirmationAction": "Принять узкое условие Windows/Tauri; cap/min-height остаются platform neutral, cross-platform live QA не заявляется.",
+      "evidence": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-review.md#portability"
+    }
+  ],
+  "reviewContract": {
+    "choices": [
+      "approve",
+      "reject",
+      "question",
+      "unreviewed"
+    ],
+    "defaultDecision": "unreviewed",
+    "perObjectComment": true,
+    "generalComment": true,
+    "responsesStoredSeparately": true,
+    "applyMeans": "Return exact decisions/comments to parent companion board. Confirmation accepts reviewed recommendation/evidence within current scope; no automatic install/account/payment/native action."
+  },
+  "updatedAt": "2026-10-02T11:05:08.671161+00:00",
+  "inputSemantics": "inputs are final reviewed source bytes; EF53 original and63c controlled-test byte hashes remain separate below. Parent alone edited next-candidate source; canonical package/live installed acceptance is outside this review.",
+  "sourcePreimagesMatchAtFinalReadback": true,
+  "captionTradeoff": {
+    "sourceLocations": [
+      "src/components/common/Titlebar.module.scss:5-14",
+      "src/components/App.module.scss:25"
+    ],
+    "captionVariable": "--relay-shell-caption-height: 2.5rem",
+    "logical540Root16": {
+      "captionHeight": 40,
+      "recommendedCap": 476,
+      "settledTop": 32,
+      "settledBottom": 508,
+      "roundedPanelCaptionOverlap": 8,
+      "contentLight": 426,
+      "contentDark": 424,
+      "chatLanguageMin": 405
+    },
+    "captionReserveCandidate": {
+      "formula": "calc(100dvh - 4rem - var(--relay-shell-caption-height, 0px))",
+      "capAt540": 436,
+      "settledTop": 52,
+      "contentLight": 386,
+      "contentDark": 384,
+      "chatLanguageMinimumOverflowLight": 19,
+      "chatLanguageMinimumOverflowDark": 21,
+      "disposition": "Not recommended for measured fix without separately authorizing and verifying responsive ChatLanguage minimum shrink."
+    },
+    "optionalShiftCandidate": {
+      "formula": "Keep cap476 and shift ordinary panel center by half caption height, without modifying all modal-container layouts.",
+      "settledTop": 52,
+      "settledBottom": 528,
+      "bottomSlack": 12,
+      "existingEvidence": "Settled compiled-source63c68/68; affected panels top52/bottom528. Early lightLanguage paneltop36, title57/closebutton57.5 belowcaption40, opening hitWithin=true. Eight exploratory failures were disabled-control driver assertions, not product findings.",
+      "disposition": "Parent applied half-caption relative top with unchanged4remcap, then scoped offset to Windows/Tauri. Controlled measured source63c passes68/68; portability-only final ac4 separately source-reviewed."
+    },
+    "requiredGate": "Controlled tested source63c accepted; finalselectorac4 needs honest provenance, native installedDPI/text-scale/short-height and closing visuals remain separate.",
+    "currentRecommendation": "Accept root-owned4remcap + Windows/Tauri half-caption relative offset + scoped direct content min0 with exact exclusions. Do not subtract full caption from cap or remove componentminimum.",
+    "animationBounds": {
+      "sourcePreserved": "open transform0 / initial−1rem / closing+1rem",
+      "openingObserved": "DPR2 lightLanguage panel36 (4px undercaption), title57 and enabledclose57.5 hitWithin=true; settles52 after201ms.",
+      "closingSourceCalculation": "At capped476/half-caption20, settledbottom528 plus closing16 could extend fadingpanel to544 at540. Not sampled here; no claim all animationframes are fully contained."
+    }
+  },
+  "status": "readonly_source_acceptance_with_explicit_controlled_vs_native_gates",
+  "sourceDelta": {
+    "originalSha256": "ef53ea8c5eb115c5f8d6d50fd106c881fe58ace1704be42a5266dcce4275a4ac",
+    "controlledSettledSha256": "63c9116de63533ce623793dbb69f42549d0a0fe1b0529b439ea6a1bd5bf1aa5a",
+    "finalReviewedSha256": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+    "controlledToFinal": "Only nest existing top declaration under body.is-windows.is-tauri &. The tested Windows/Tauri condition retains20px offset; other body classes get no offset. Max-height/min-height/exclusions/open/closing transform unchanged.",
+    "notClaimed": "No same-hash68/68 receipt for final ac4 selector delta; no installed repair/nativeDPI certification."
+  },
+  "settledAcceptance": {
+    "receipt": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\display-scale-audit-settled-source-after.json",
+    "sha256": "0f291de613bacc55c7d32230ca52a7985fe01de6910a8a792168d3464e4bb657",
+    "summary": {
+      "total": 68,
+      "passed": 68,
+      "failed": 0,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "sourceHashesUnchanged": true
+    },
+    "styleBefore": "63c9116de63533ce623793dbb69f42549d0a0fe1b0529b439ea6a1bd5bf1aa5a",
+    "styleAfter": "63c9116de63533ce623793dbb69f42549d0a0fe1b0529b439ea6a1bd5bf1aa5a",
+    "titlebarBefore": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+    "titlebarAfter": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+    "appBefore": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+    "appAfter": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+    "settleWaitRangeMs": [
+      7,
+      227
+    ],
+    "affectedDpr2": [
+      {
+        "id": "settled-source-after-contact-edit-dpr2-light",
+        "status": "pass",
+        "openingSample": {
+          "panel": {
+            "x": 256,
+            "y": 52,
+            "width": 448,
+            "height": 476,
+            "top": 52,
+            "right": 704,
+            "bottom": 528,
+            "left": 256
+          },
+          "titlebarBottom": 40,
+          "title": {
+            "x": 278,
+            "y": 73,
+            "width": 404,
+            "height": 29,
+            "top": 73,
+            "right": 682,
+            "bottom": 102,
+            "left": 278
+          },
+          "buttons": []
+        },
+        "settleWaitMs": 21,
+        "modal": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 476,
+          "top": 52,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "content": {
+          "x": 256,
+          "y": 102,
+          "width": 448,
+          "height": 426,
+          "top": 102,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "header": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 50,
+          "top": 52,
+          "right": 704,
+          "bottom": 102,
+          "left": 256
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 888,
+          "height": 40,
+          "top": 0,
+          "right": 960,
+          "bottom": 40,
+          "left": 72
+        },
+        "scrollBefore": {
+          "top": 0,
+          "height": 426,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 256,
+            "y": 102,
+            "width": 448,
+            "height": 426,
+            "top": 102,
+            "right": 704,
+            "bottom": 528,
+            "left": 256
+          }
+        },
+        "scrollAfter": {
+          "top": 141,
+          "height": 426,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 256,
+            "y": 102,
+            "width": 448,
+            "height": 426,
+            "top": 102,
+            "right": 704,
+            "bottom": 528,
+            "left": 256
+          }
+        },
+        "footerReachability": [
+          {
+            "text": "Done",
+            "rect": {
+              "x": 616.390625,
+              "y": 474.25,
+              "width": 63.609375,
+              "height": 35.1875,
+              "top": 474.25,
+              "right": 680,
+              "bottom": 509.4375,
+              "left": 616.390625
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text",
+            "enabled": true
+          },
+          {
+            "text": "Cancel",
+            "rect": {
+              "x": 515.796875,
+              "y": 474.25,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 474.25,
+              "right": 600.390625,
+              "bottom": 509.4375,
+              "left": 515.796875
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text",
+            "enabled": true
+          }
+        ],
+        "lastLanguage": null
+      },
+      {
+        "id": "settled-source-after-chat-language-dpr2-light",
+        "status": "pass",
+        "openingSample": {
+          "panel": {
+            "x": 270,
+            "y": 36,
+            "width": 420,
+            "height": 476,
+            "top": 36,
+            "right": 690,
+            "bottom": 512,
+            "left": 270
+          },
+          "titlebarBottom": 40,
+          "title": {
+            "x": 336,
+            "y": 57,
+            "width": 316,
+            "height": 29,
+            "top": 57,
+            "right": 652,
+            "bottom": 86,
+            "left": 336
+          },
+          "buttons": [
+            {
+              "enabled": true,
+              "rect": {
+                "x": 292,
+                "y": 57.5,
+                "width": 28,
+                "height": 28,
+                "top": 57.5,
+                "right": 320,
+                "bottom": 85.5,
+                "left": 292
+              },
+              "hitWithin": true
+            }
+          ]
+        },
+        "settleWaitMs": 201,
+        "modal": {
+          "x": 270,
+          "y": 52,
+          "width": 420,
+          "height": 476,
+          "top": 52,
+          "right": 690,
+          "bottom": 528,
+          "left": 270
+        },
+        "content": {
+          "x": 270,
+          "y": 102,
+          "width": 420,
+          "height": 426,
+          "top": 102,
+          "right": 690,
+          "bottom": 528,
+          "left": 270
+        },
+        "header": {
+          "x": 270,
+          "y": 52,
+          "width": 420,
+          "height": 50,
+          "top": 52,
+          "right": 690,
+          "bottom": 102,
+          "left": 270
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 888,
+          "height": 40,
+          "top": 0,
+          "right": 960,
+          "bottom": 40,
+          "left": 72
+        },
+        "scrollBefore": {
+          "top": 0,
+          "height": 426,
+          "scrollHeight": 426,
+          "rect": {
+            "x": 270,
+            "y": 102,
+            "width": 420,
+            "height": 426,
+            "top": 102,
+            "right": 690,
+            "bottom": 528,
+            "left": 270
+          }
+        },
+        "scrollAfter": {
+          "top": 0,
+          "height": 426,
+          "scrollHeight": 426,
+          "rect": {
+            "x": 270,
+            "y": 102,
+            "width": 420,
+            "height": 426,
+            "top": 102,
+            "right": 690,
+            "bottom": 528,
+            "left": 270
+          }
+        },
+        "footerReachability": [],
+        "lastLanguage": {
+          "rect": {
+            "x": 294,
+            "y": 453,
+            "width": 372,
+            "height": 56,
+            "top": 453,
+            "right": 666,
+            "bottom": 509,
+            "left": 294
+          },
+          "text": "зулузулу"
+        }
+      },
+      {
+        "id": "settled-source-after-contact-edit-dpr2-dark",
+        "status": "pass",
+        "openingSample": {
+          "panel": {
+            "x": 256,
+            "y": 52,
+            "width": 448,
+            "height": 476,
+            "top": 52,
+            "right": 704,
+            "bottom": 528,
+            "left": 256
+          },
+          "titlebarBottom": 40,
+          "title": {
+            "x": 279,
+            "y": 74,
+            "width": 402,
+            "height": 29,
+            "top": 74,
+            "right": 681,
+            "bottom": 103,
+            "left": 279
+          },
+          "buttons": []
+        },
+        "settleWaitMs": 28,
+        "modal": {
+          "x": 256,
+          "y": 52,
+          "width": 448,
+          "height": 476,
+          "top": 52,
+          "right": 704,
+          "bottom": 528,
+          "left": 256
+        },
+        "content": {
+          "x": 257,
+          "y": 103,
+          "width": 446,
+          "height": 424,
+          "top": 103,
+          "right": 703,
+          "bottom": 527,
+          "left": 257
+        },
+        "header": {
+          "x": 257,
+          "y": 53,
+          "width": 446,
+          "height": 50,
+          "top": 53,
+          "right": 703,
+          "bottom": 103,
+          "left": 257
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 888,
+          "height": 40,
+          "top": 0,
+          "right": 960,
+          "bottom": 40,
+          "left": 72
+        },
+        "scrollBefore": {
+          "top": 0,
+          "height": 424,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 257,
+            "y": 103,
+            "width": 446,
+            "height": 424,
+            "top": 103,
+            "right": 703,
+            "bottom": 527,
+            "left": 257
+          }
+        },
+        "scrollAfter": {
+          "top": 143,
+          "height": 424,
+          "scrollHeight": 567,
+          "rect": {
+            "x": 257,
+            "y": 103,
+            "width": 446,
+            "height": 424,
+            "top": 103,
+            "right": 703,
+            "bottom": 527,
+            "left": 257
+          }
+        },
+        "footerReachability": [
+          {
+            "text": "Done",
+            "rect": {
+              "x": 615.390625,
+              "y": 473.25,
+              "width": 63.609375,
+              "height": 35.1875,
+              "top": 473.25,
+              "right": 679,
+              "bottom": 508.4375,
+              "left": 615.390625
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text",
+            "enabled": true
+          },
+          {
+            "text": "Cancel",
+            "rect": {
+              "x": 514.796875,
+              "y": 473.25,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 473.25,
+              "right": 599.390625,
+              "bottom": 508.4375,
+              "left": 514.796875
+            },
+            "hitWithin": true,
+            "hitTag": "BUTTON",
+            "hitClass": "Button confirm-dialog-button default primary text",
+            "enabled": true
+          }
+        ],
+        "lastLanguage": null
+      },
+      {
+        "id": "settled-source-after-chat-language-dpr2-dark",
+        "status": "pass",
+        "openingSample": {
+          "panel": {
+            "x": 270,
+            "y": 52,
+            "width": 420,
+            "height": 476,
+            "top": 52,
+            "right": 690,
+            "bottom": 528,
+            "left": 270
+          },
+          "titlebarBottom": 40,
+          "title": {
+            "x": 337,
+            "y": 74,
+            "width": 314,
+            "height": 29,
+            "top": 74,
+            "right": 651,
+            "bottom": 103,
+            "left": 337
+          },
+          "buttons": [
+            {
+              "enabled": true,
+              "rect": {
+                "x": 293,
+                "y": 74.5,
+                "width": 28,
+                "height": 28,
+                "top": 74.5,
+                "right": 321,
+                "bottom": 102.5,
+                "left": 293
+              },
+              "hitWithin": true
+            }
+          ]
+        },
+        "settleWaitMs": 29,
+        "modal": {
+          "x": 270,
+          "y": 52,
+          "width": 420,
+          "height": 476,
+          "top": 52,
+          "right": 690,
+          "bottom": 528,
+          "left": 270
+        },
+        "content": {
+          "x": 271,
+          "y": 103,
+          "width": 418,
+          "height": 424,
+          "top": 103,
+          "right": 689,
+          "bottom": 527,
+          "left": 271
+        },
+        "header": {
+          "x": 271,
+          "y": 53,
+          "width": 418,
+          "height": 50,
+          "top": 53,
+          "right": 689,
+          "bottom": 103,
+          "left": 271
+        },
+        "titlebar": {
+          "x": 72,
+          "y": 0,
+          "width": 888,
+          "height": 40,
+          "top": 0,
+          "right": 960,
+          "bottom": 40,
+          "left": 72
+        },
+        "scrollBefore": {
+          "top": 0,
+          "height": 424,
+          "scrollHeight": 424,
+          "rect": {
+            "x": 271,
+            "y": 103,
+            "width": 418,
+            "height": 424,
+            "top": 103,
+            "right": 689,
+            "bottom": 527,
+            "left": 271
+          }
+        },
+        "scrollAfter": {
+          "top": 0,
+          "height": 424,
+          "scrollHeight": 424,
+          "rect": {
+            "x": 271,
+            "y": 103,
+            "width": 418,
+            "height": 424,
+            "top": 103,
+            "right": 689,
+            "bottom": 527,
+            "left": 271
+          }
+        },
+        "footerReachability": [],
+        "lastLanguage": {
+          "rect": {
+            "x": 295,
+            "y": 452,
+            "width": 370,
+            "height": 56,
+            "top": 452,
+            "right": 665,
+            "bottom": 508,
+            "left": 295
+          },
+          "text": "зулузулу"
+        }
+      }
+    ],
+    "meaning": "After finite CSS animation settlement the exact tested source has68/68 controlled component/viewport/theme cases passing; internal content containment, caption/header bounds and enabled-control scroll/hit verified by parent harness. Disabled controls remain disabled.",
+    "notMeaning": "Not live native WindowsDPI, text-only scale, all viewport heights or special-layout/account/payment functional acceptance."
+  },
+  "portability": {
+    "classEvidence": [
+      "src/global/actions/ui/initial.ts:174-175 is-windows",
+      "src/global/actions/ui/initial.ts:182-183 is-tauri",
+      "src/global/actions/ui/initial.ts:185-186 legacyElectron also is-tauri"
+    ],
+    "captionEvidence": "Titlebar.tsx:115 returnsundefined onMac/nonTauri. Modal Portal.ts:16 mounts into#portals (index.html:70), outside App.multiRoot customprop inheritance; fallback2.5rem supplies tested Windows20px.",
+    "reviewedChange": "Scope only relative offset tobody.is-windows.is-tauri; cap anddirectchildmin0 stayneutral; no flags/classes/new state added.",
+    "remaining": "Mac/Linux/legacyElectron and nonshell rendering not executed; no universal multi-platform certification."
+  }
+}

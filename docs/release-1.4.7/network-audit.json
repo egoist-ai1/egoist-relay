@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay/network-audit/release-1.4.7",
+  "releaseVersion": "1.4.7",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\release-1.4.7\\network-audit.json",
+  "createdAt": "2026-10-04T14:20:10.491040+00:00",
+  "status": "focused_fixes_verified",
+  "scope": {
+    "modifiedFiles": [
+      "tauri/src/social_share.rs",
+      "tauri/src/runtime.rs"
+    ],
+    "otherProductionFilesModified": false,
+    "newTestsAdded": false,
+    "accountOrNetworkConfigurationMutations": false
+  },
+  "defects": [
+    {
+      "id": "network.mediaDeadline",
+      "priority": "P2",
+      "status": "fixed",
+      "originalEvidence": "social_share.rs read_media started its relative timer only after runtime discovery, synchronous PAC resolution, process spawn and stdin setup; cancelled queued jobs could still run those stages.",
+      "currentSource": "tauri/src/social_share.rs:370"
+    },
+    {
+      "id": "network.nodeProbe",
+      "priority": "P2",
+      "status": "fixed",
+      "originalEvidence": "runtime.rs used command.status() for node --version without any timeout and repeated exact duplicate candidates.",
+      "currentSource": "tauri/src/runtime.rs:31"
+    }
+  ],
+  "sourceHashes": [
+    {
+      "path": "tauri/src/social_share.rs",
+      "sha256": "08ab590cca1e312022f681b6725ca014ed16de4444c28a6d5a9223ff908fa68f",
+      "role": "modified"
+    },
+    {
+      "path": "tauri/src/runtime.rs",
+      "sha256": "f51d9add8bd266d11744114259e92d70638e8c9ce5d5ec1dd20e1350e520893d",
+      "role": "modified"
+    },
+    {
+      "path": "tauri/src/worker_job.rs",
+      "sha256": "e5e659a6e0db8c399f1e0c4a733158ad16faf85526c7b616e655c325f05a1f2d",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "tauri/src/inline_media.rs",
+      "sha256": "8d1c3bbac115530d373131a2f7fc0b6b018aa73c8b8a6e5cf7e2a32980609808",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "tauri/src/system_proxy.rs",
+      "sha256": "8815244a164b1b4dcb785fdfa255bd1fc4f38537b02984acfa831a2484aa5b3f",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "tauri/src/telegram_transport.rs",
+      "sha256": "ac7d9f521ee818fc729e16adc09e8731d9c38a65d47991b129d60dd7bd0ec59c",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "scripts/telegram-transport.mjs",
+      "sha256": "465cf8a23921b195bdc80f54336f8f5fa6070f45cba3627beebdab6a7d2e323e",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "scripts/media-proxy.mjs",
+      "sha256": "827c9735fb667ddd86b18ed77e2a84049f8b18a6f86a4b112b1fbb3372174644",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "scripts/social-media-fetch.mjs",
+      "sha256": "7b1b91ed9ada51e895889ca101792a154d47f1e9f2337e2e341875f53622c36b",
+      "role": "audited_read_only"
+    },
+    {
+      "path": "scripts/inline-media-resolver.mjs",
+      "sha256": "8e86ae8afb5ba82f8c94f29ca9d68f265d463c0bd4792d93d27d964637c4b1dd",
+      "role": "audited_read_only"
+    }
+  ],
+  "checks": [
+    {
+      "id": "media-proxy-fixtures",
+      "command": "runtime/node.exe --test scripts/media-proxy.test.mjs scripts/social-media-fetch.test.mjs",
+      "environment": {
+        "EGOIST_RELAY_AUDIT_WORK": "own task work directory"
+      },
+      "exit_code": 0,
+      "passed": 51,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": [
+        "tests 51",
+        "pass 51",
+        "fail 0",
+        "skipped 0",
+        "exit_code=0"
+      ]
+    },
+    {
+      "id": "native-social-share",
+      "command": "C:/Users/Egoist/.cargo/bin/cargo.exe test --manifest-path tauri/Cargo.toml --lib social_share::tests --offline",
+      "exit_code": 0,
+      "passed": 2,
+      "failed": 0,
+      "filtered": 41,
+      "duration_seconds": 193,
+      "target_directory": "tauri/target",
+      "evidence": [
+        "Finished test profile [unoptimized + debuginfo] target(s) in 3m 13s",
+        "cancellation_remains_latched_before_the_first_media_read ... ok",
+        "media_urls_reject_controls_and_unrelated_hosts ... ok",
+        "test result: ok. 2 passed; 0 failed; 41 filtered out",
+        "exit_code=0"
+      ]
+    }
+  ],
+  "limitations": [
+    "WinHTTP PAC resolution remains synchronous. Its phase timeouts are not a total wall-clock deadline; cancellation is observed after the call returns, not during it.",
+    "The two-second Node deadline bounds polling after process creation. OS process creation, termination and reap calls are not themselves interruptible by this helper.",
+    "Original-file save through the existing inline_media::save_public_media fallback retains its existing worker-local timeout. The direct CDN save path now includes spawn_blocking queue time.",
+    "Existing native tests validate cancellation latching and URL boundaries. They do not simulate stalled runtime probes or delayed PAC calls; those new paths were checked by source review and successful compilation.",
+    "Local fixtures exercise media/proxy paths without real account data. Live authenticated Telegram, X, Instagram and Lagom network behavior was not exercised by this audit.",
+    "Native verification used the debug test profile and default tauri/target. Release build, packaging, signing and publication belong to the parent release task and are not certified by this receipt."
+  ],
+  "reviewObjects": [
+    {
+      "id": "network.mediaDeadline",
+      "name": "Media deadline and staged cancellation",
+      "version": "1.4.7",
+      "content": "Direct CDN preview and original-file save create an absolute deadline before spawn_blocking. Runtime/PAC/worker setup do not reset it. Cancel/deadline guards run before runtime, after runtime and PAC, before spawn and before stdin; polling and post-join checks use the same Instant. Job termination precedes reader joins; error/timeout paths terminate and reap the owned child.",
+      "source": "tauri/src/social_share.rs:370",
+      "confirmationAction": "Accept the implemented deadline, cancellation and worker cleanup change.",
+      "defaultDecision": "unreviewed"
+    },
+    {
+      "id": "network.nodeProbe",
+      "name": "Bounded bundled Node runtime probe",
+      "version": "1.4.7",
+      "content": "Bundled Node --version uses spawn/try_wait with a two-second deadline and polling capped by the remaining time. Timeout or poll error kills and reaps the owned process. Exact duplicate candidate paths are skipped while preserving search priority.",
+      "source": "tauri/src/runtime.rs:7",
+      "confirmationAction": "Accept the implemented runtime probe change.",
+      "defaultDecision": "unreviewed"
+    },
+    {
+      "id": "network.scopeLimitations",
+      "name": "Remaining PAC and verification limits",
+      "version": "1.4.7",
+      "content": [
+        "WinHTTP PAC resolution remains synchronous. Its phase timeouts are not a total wall-clock deadline; cancellation is observed after the call returns, not during it.",
+        "The two-second Node deadline bounds polling after process creation. OS process creation, termination and reap calls are not themselves interruptible by this helper.",
+        "Original-file save through the existing inline_media::save_public_media fallback retains its existing worker-local timeout. The direct CDN save path now includes spawn_blocking queue time.",
+        "Existing native tests validate cancellation latching and URL boundaries. They do not simulate stalled runtime probes or delayed PAC calls; those new paths were checked by source review and successful compilation.",
+        "Local fixtures exercise media/proxy paths without real account data. Live authenticated Telegram, X, Instagram and Lagom network behavior was not exercised by this audit.",
+        "Native verification used the debug test profile and default tauri/target. Release build, packaging, signing and publication belong to the parent release task and are not certified by this receipt."
+      ],
+      "source": "docs/release-1.4.7/network-audit.md#limitations",
+      "confirmationAction": "Acknowledge the documented limits when assessing release readiness.",
+      "defaultDecision": "unreviewed"
+    }
+  ],
+  "reviewBoard": {
+    "companion": "Parent release review board",
+    "snapshotHashAlgorithm": "SHA-256 of the exact UTF-8 bytes of network-audit.json",
+    "defaultDecision": "unreviewed",
+    "requiredControls": [
+      "approve",
+      "reject",
+      "question",
+      "per-object comment",
+      "general comment",
+      "apply"
+    ],
+    "responsesStoredSeparately": true
+  }
+}

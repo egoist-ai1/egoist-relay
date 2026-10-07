@@ -213,7 +213,7 @@ function createElement(
   source: string | FC | typeof Fragment,
   props: Props,
   ...children: any[]
-): VirtualElementParent | VirtualElementChildren {
+): VirtualElementParent {
   if (source === Fragment) {
     return buildFragmentElement(children);
   } else if (typeof source === 'function') {

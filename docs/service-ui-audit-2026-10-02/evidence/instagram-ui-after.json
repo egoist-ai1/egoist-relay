@@ -1,0 +1,15 @@
+{
+  "evidence": "Task-owned Chromium fixture; actual Instagram enhancer source; mocked media playback state; synthesized wheel input; no remote network or account access",
+  "variant": "after",
+  "inactivePreload": {
+    "paused": true,
+    "preload": "metadata"
+  },
+  "reparentResume": {
+    "paused": false,
+    "plays": 1
+  },
+  "wheelClicks": [
+    "visibleNext"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "steps": [
+    {
+      "step": "chat",
+      "caption": [
+        {
+          "text": "Relay",
+          "color": "rgb(245, 245, 245)",
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "bounds": {
+            "x": 88,
+            "y": 11.796875,
+            "width": 50.09375,
+            "height": 15.390625
+          }
+        },
+        {
+          "text": "Telegram",
+          "color": "rgb(160, 160, 160)",
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "bounds": {
+            "x": 150.09375,
+            "y": 11.09375,
+            "width": 53.515625,
+            "height": 16.796875
+          }
+        }
+      ]
+    },
+    {
+      "step": "settings500",
+      "caption": [
+        {
+          "text": "Relay",
+          "color": "rgb(245, 245, 245)",
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "bounds": {
+            "x": 88,
+            "y": 11.796875,
+            "width": 50.09375,
+            "height": 15.390625
+          }
+        },
+        {
+          "text": "Telegram",
+          "color": "rgb(160, 160, 160)",
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "bounds": {
+            "x": 150.09375,
+            "y": 11.09375,
+            "width": 53.515625,
+            "height": 16.796875
+          }
+        }
+      ]
+    },
+    {
+      "step": "settings3500",
+      "caption": [
+        {
+          "text": "Relay",
+          "color": "rgb(245, 245, 245)",
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "bounds": {
+            "x": 88,
+            "y": 11.796875,
+            "width": 50.09375,
+            "height": 15.390625
+          }
+        },
+        {
+          "text": "Telegram",
+          "color": "rgb(160, 160, 160)",
+          "display": "block",
+          "visibility": "visible",
+          "opacity": "1",
+          "bounds": {
+            "x": 150.09375,
+            "y": 11.09375,
+            "width": 53.515625,
+            "height": 16.796875
+          }
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

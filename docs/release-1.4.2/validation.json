@@ -1,0 +1,61 @@
+{
+  "version": "1.4.2",
+  "typescript": {
+    "exitCode": 0
+  },
+  "eslint": {
+    "exitCode": 0,
+    "baselineWarnings": 1
+  },
+  "stylelint": {
+    "exitCode": 0
+  },
+  "native": {
+    "researchPassed": 15,
+    "inlinePassed": 3,
+    "socialSharePassed": 2
+  },
+  "existingMedia": {
+    "passed": 51
+  },
+  "ui": {
+    "existingPassed": 35,
+    "shellPassed": 17,
+    "responsiveCases": 54
+  },
+  "mcp": {
+    "existingPassed": 47
+  },
+  "packaging": {
+    "releaseTestsPassed": 15
+  },
+  "synthetic": {
+    "telegramUpload": 5,
+    "inlineDownloadCancel": "PASS",
+    "manageBotWidthRtlCases": 8,
+    "pipeMediaFrames": 200,
+    "singleGetCases": 7,
+    "streamingOriginalBytes": 73400320,
+    "photoCases": 5
+  },
+  "publicMedia": {
+    "jobId": "2a9bae1c-2ece-4820-b487-2ed9b6d30e23",
+    "provider": "telegram",
+    "selectedPublicSource": "https://t.me/durov/546",
+    "fileName": "media-001-933e849e37f61985.mp4",
+    "bytes": 10837502,
+    "sha256": "9fa7e38caffb356d5b6d0e16881f250db6ae282b1f0487ece6f3576e549796c9",
+    "readback": {
+      "container": "mp4",
+      "video": "h264",
+      "audio": "aac",
+      "width": 1920,
+      "height": 1920,
+      "durationSeconds": 20.031
+    },
+    "receiptCorrection": "Initial summary filtered media/ prefix; actual writer output file and manifest verified by exact job path."
+  },
+  "actualUploadToUserChat": false,
+  "allServiceSettingsLiveAudit": false,
+  "sourceHashesFile": "source-hashes.json"
+}

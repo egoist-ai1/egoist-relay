@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-service-ui-audit-2026-10-02",
+  "createdAt": "2026-10-02T01:42:32.609Z",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "scope": "X/Instagram injected presentation, story navigation, media lifecycle and share source selection; native social_share.rs read-only audit",
+  "files": [
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\x-enhancer.js",
+      "sha256": "ec7f65e4509472fa634d5e45ce283040e48a2eb8d92acb19ab0da31bb76fe707",
+      "baselineStatus": "Existing untracked project file; unchanged portions preserved"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-enhancer.js",
+      "sha256": "e6729631e9e7862f403afc4393aac097154d20cf71eb33c6694e02dbfa66b66e",
+      "baselineStatus": "Existing untracked project file; unchanged portions preserved"
+    },
+    {
+      "path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\social-share-enhancer.js",
+      "sha256": "8dc6ecc46baf024211068720c25885846f7a2ff10392cd2ccd2bb784437ecc57",
+      "baselineStatus": "Existing untracked project file; unchanged portions preserved"
+    }
+  ],
+  "items": [
+    {
+      "id": "instagram-background-preload",
+      "name": "Instagram: загрузка видео в фоне",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "При переключении сервиса играющее видео приостанавливается и получает metadata вместо auto preload. Оригинальный preload сохраняется и восстанавливается для видимого видео при активации.",
+      "evidence": [
+        "evidence/instagram-ui-before.json",
+        "evidence/instagram-ui-after.json"
+      ],
+      "file": "scripts/instagram-enhancer.js"
+    },
+    {
+      "id": "instagram-video-reparent",
+      "name": "Instagram: продолжение видео после перестройки страницы",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "Перемещение существующего video DOM node не сбрасывает факт паузы, поставленной Relay. Возобновляются только видео, которые Relay приостановил и которые остаются видимыми.",
+      "evidence": [
+        "evidence/instagram-ui-before.json",
+        "evidence/instagram-ui-after.json"
+      ],
+      "file": "scripts/instagram-enhancer.js"
+    },
+    {
+      "id": "instagram-story-navigation",
+      "name": "Instagram: колесо мыши и доступная навигация историй",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "Колесо выбирает видимую доступную кнопку истории в viewport, пропускает inert/aria-hidden и не вмешивается в editable поля, комментарии со своим scroll, горизонтальные trackpad gestures и неактивный сервис.",
+      "evidence": [
+        "evidence/instagram-ui-before.json",
+        "evidence/instagram-ui-after.json",
+        "evidence/instagram-ui-edges.json"
+      ],
+      "file": "scripts/instagram-enhancer.js"
+    },
+    {
+      "id": "x-video-dom-cleanup",
+      "name": "X: освобождение удалённых видео",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "После удаления video DOM node он удаляется из набора временно приостановленных видео, сохраняя воспроизведение для подключённых к документу узлов.",
+      "evidence": [
+        "evidence/x-ui-before.json",
+        "evidence/x-ui-after.json"
+      ],
+      "file": "scripts/x-enhancer.js"
+    },
+    {
+      "id": "instagram-share-permalink",
+      "name": "Instagram: ссылка выбранного поста",
+      "version": 1,
+      "finding": "reproduced-fixture",
+      "content": "При наличии caption ссылки на другой пост share prioritizes permalink, содержащий timestamp основного поста. Fallback для постов без timestamp сохранён. CDN whitelist и нативная проверка source не менялись.",
+      "evidence": [
+        "evidence/share-ui-before.json",
+        "evidence/share-ui-after.json"
+      ],
+      "file": "scripts/social-share-enhancer.js"
+    }
+  ],
+  "verification": {
+    "syntax": "node --check: 3/3 PASS",
+    "lint": "Project targeted ESLint: PASS",
+    "browser": "Task-owned Chromium 1243; synthetic fixtures only; mocked playback for lifecycle; terminal share navigation stubbed; trusted click on task-owned fixture",
+    "existingMediaChecks": {
+      "command": "node --test scripts/social-media-fetch.test.mjs scripts/media-proxy.test.mjs",
+      "pass": 51,
+      "fail": 0,
+      "skipped": 0
+    },
+    "detector": "Only existing Inter typography advisory; preserved project identity"
+  },
+  "nativePipeline": {
+    "inspected": "tauri/src/social_share.rs",
+    "changed": false,
+    "maximumSingleFileBytes": 67108864,
+    "maximumBatchBytes": 134217728,
+    "maximumAttachments": 10,
+    "requestTtlSeconds": 600,
+    "permissionsPreserved": [
+      "Exact service origin and active WebView",
+      "Per-view token",
+      "Explicit selected post",
+      "CDN whitelist",
+      "Cancel latch",
+      "Output size and MIME validation",
+      "Worker environment sanitization",
+      "No account mutation"
+    ]
+  },
+  "gaps": [
+    "No live inspection of every authenticated X/Instagram screen or account setting",
+    "No live media download; fixtures cover transport and size/error/cancel behavior",
+    "Arbitrary private messages and unavailable media cannot be promised outside access granted by the service",
+    "Native build, installer and current application live verification belong to parent task"
+  ],
+  "reviewBoard": "Included by parent task in the final consolidated companion review board; these items remain unreviewed by default"
+}

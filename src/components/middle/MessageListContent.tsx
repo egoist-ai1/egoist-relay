@@ -175,7 +175,7 @@ const MessageListContent = ({
 
   const areDatesClickable = !isSavedDialog && !isSchedule;
   const isPrivate = isUserId(chatId);
-  const shouldRenderSponsoredMessage = canShowAds && isViewportNewest;
+  const shouldRenderSponsoredMessage = false;
   const shouldHideComments = hasLinkedChat === false || !isChannelChat || Boolean(isChatMonoforum);
 
   const {
@@ -407,7 +407,8 @@ const MessageListContent = ({
               noAvatars={noAvatars && !shouldShowGuestAvatar}
               withAvatar={position.isLastInGroup && (withUsers || shouldShowGuestAvatar)
                 && !isOwn && (!isThreadTopMessage || !isComments)}
-              withSenderName={position.isFirstInGroup && (withUsers || shouldShowGuestAvatar) && !isOwn}
+              withSenderName={position.isFirstInGroup && (!isPrivate || shouldShowGuestAvatar)
+                && (withUsers || shouldShowGuestAvatar) && !isOwn}
               threadId={threadId}
               messageListType={type}
               noComments={shouldHideComments}
@@ -522,16 +523,23 @@ const MessageListContent = ({
 
       const withAvatar = (withUsers || shouldShowGuestAvatar) && !isOwn && (!isThreadTopMessage || !isComments);
       return compact([
-        <SenderGroupContainer
-          key={key}
-          id={id}
-          message={lastMessage}
-          withAvatar={withAvatar}
-          appearanceOrder={lastAppearanceOrder}
-          canPost={canPost}
-        >
-          {senderGroupElements}
-        </SenderGroupContainer>,
+        isChannelChat ? (
+          <SenderGroupContainer
+            key={key}
+            id={id}
+            message={lastMessage}
+            withAvatar={withAvatar}
+            isOwn={isOwn}
+            appearanceOrder={lastAppearanceOrder}
+            canPost={canPost}
+          >
+            {senderGroupElements}
+          </SenderGroupContainer>
+        ) : (
+          <div key={key} id={id} className="sender-group-container">
+            {senderGroupElements}
+          </div>
+        ),
         isThreadTopMessage && (
           <div className="local-action-message" key={`discussion-started-${lastMessageId}`}>
             <span>

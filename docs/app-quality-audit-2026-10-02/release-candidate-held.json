@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.3-held-1",
+  "recordedAt": "2026-10-02T07:52:38.174Z",
+  "state": "retained_candidate_not_for_installation",
+  "installedVersion": "1.4.2",
+  "reason": "Later exact modal tests proved four product defects; broker readiness handling and native early dispatch need scoped remediation before final version1.4.4.",
+  "retainedInstaller": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/release/1.4.3/Egoist Relay_1.4.3_x64-setup.exe",
+  "installerSha256": "41fecacd82d90b877a68ff5964c3fac0345baefa3763bd5ada15152b4923f08b",
+  "originalPayloadAndSmokeProofsPreserved": true,
+  "nextCandidate": "1.4.4",
+  "nextCandidateState": "scoped_fixes_in_progress",
+  "reviewObjects": [
+    {
+      "id": "quality-held-143-candidate",
+      "name": "Сохранённая сборка1.4.3 и следующий кандидат1.4.4",
+      "version": "1",
+      "content": "1.4.3 прошла упаковку и отдельную тестовую установку, но дополнительная проверка выявила4ошибки диалогов и риски очередиMCP. Пакет сохранён и не устанавливается. Исправления готовятся для1.4.4; установлена1.4.2.",
+      "action": "Принять точный текущий статус; не запускает установку или действия с аккаунтами."
+    }
+  ]
+}

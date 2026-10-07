@@ -1,0 +1,1563 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-additional-modal-audit-2026-10-02",
+  "generatedAt": "2026-10-02T08:19:44.890762+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "status": "Scoped corrections verified; broader full-UI audit remains in progress",
+  "summary": {
+    "sourcePathTargets": 14,
+    "renderStateBranches": 17,
+    "layoutAssertions": 68,
+    "afterRaw": {
+      "total": 123,
+      "pass": 117,
+      "fail": 0,
+      "pageErrors": 0,
+      "gates": 6
+    },
+    "distinctNativeTabGates": 3,
+    "targetedFunctional": {
+      "total": 16,
+      "pass": 16,
+      "fail": 0,
+      "pageErrors": 0,
+      "gates": 0
+    },
+    "primitiveRegression": {
+      "total": 31,
+      "pass": 31,
+      "fail": 0,
+      "errors": 0
+    },
+    "typographyProbe": {
+      "total": 17,
+      "pass": 17,
+      "fail": 0,
+      "pageErrors": 0,
+      "gates": 0
+    },
+    "productionFixFiles": 4,
+    "newHarnessFiles": 3
+  },
+  "changes": [
+    {
+      "id": "ui-additional-browser-close",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "beforeCases": [
+        "browser-close-cancel-enter",
+        "browser-close-confirm-once"
+      ],
+      "before": "Focused Cancel Enter calls protected closeBrowserModal once; focused Confirm Enter calls it twice",
+      "after": "Actual Cancel Enter/Space and default focused Cancel call zero protected actions; Confirm Enter/pointer call once; existing ConfirmDialog and checkbox/callbacks reused"
+    },
+    {
+      "id": "ui-additional-country-enter",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "beforeCases": [
+        "country-close-enter-safe"
+      ],
+      "before": "Focused header Close Enter calls countrySubmit once",
+      "after": "Exact search-input-owned dialog delegates interactive controls via existing keyboard sentinel; Close Enter/Space0, checkbox Enter0/Space selects, filter Enter1, OK Enter1"
+    },
+    {
+      "id": "ui-additional-password-guard",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "beforeCases": [
+        "password-loading-confirm-disabled"
+      ],
+      "before": "Loading confirmation is enabled and actual pointer sends empty synthetic password to protected checkPassword",
+      "after": "Native disabled and handler guard block loading or empty value; nonempty loading0, empty0, existing synthetic password with surrounding spaces preserved and submits once; no new minLength or trim"
+    },
+    {
+      "id": "ui-additional-password-visibility",
+      "source": "src/components/common/PasswordForm.tsx",
+      "beforeCases": [
+        "password-visibility-keyboard"
+      ],
+      "before": "Actual focused rolebutton Enter does not change password visibility",
+      "after": "Direct existing useLastCallback handles Enter/Space once, prevents default scroll and ignores held-key repeat; pointer and keyboard activate real toggle without simulated click"
+    }
+  ],
+  "sourceCoverage": [
+    {
+      "id": "ui-additional-component-NewContactModal",
+      "source": "src/components/main/NewContactModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "contact",
+        "contact-edit",
+        "contact-edit-rtl",
+        "contact-rtl"
+      ],
+      "layoutCases": [
+        "contact-fullhd-body",
+        "contact-edit-fullhd-body",
+        "contact-narrow-body",
+        "contact-edit-narrow-body",
+        "contact-text200-body",
+        "contact-edit-text200-body",
+        "contact-rtl-reduced-body",
+        "contact-edit-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "contact-cancel-enter",
+        "contact-cancel-space",
+        "contact-edit-cancel-enter",
+        "contact-edit-cancel-space",
+        "contact-empty-disabled",
+        "contact-valid-submit-once",
+        "contact-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-ReportModal",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "report-comment",
+        "report-comment-rtl",
+        "report-options",
+        "report-options-rtl"
+      ],
+      "layoutCases": [
+        "report-options-fullhd-body",
+        "report-comment-fullhd-body",
+        "report-options-narrow-body",
+        "report-comment-narrow-body",
+        "report-options-text200-body",
+        "report-comment-text200-body",
+        "report-options-rtl-reduced-body",
+        "report-comment-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "report-comment-empty-disabled",
+        "report-comment-valid-once",
+        "report-option-once",
+        "report-comment-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-CountryPickerModal",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "country",
+        "country-rtl"
+      ],
+      "layoutCases": [
+        "country-fullhd-body",
+        "country-narrow-body",
+        "country-text200-body",
+        "country-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "country-close-enter-safe",
+        "country-search-and-limit",
+        "country-tab-contained",
+        "country-close-space-safe",
+        "country-filter-enter-once",
+        "country-checkbox-enter-zero",
+        "country-confirm-enter-once"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-PasswordConfirmModal",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "password",
+        "password-rtl"
+      ],
+      "layoutCases": [
+        "password-fullhd-body",
+        "password-narrow-body",
+        "password-text200-body",
+        "password-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "password-cancel-enter",
+        "password-cancel-space",
+        "password-loading-confirm-disabled",
+        "password-visibility-keyboard",
+        "password-tab-contained",
+        "password-visibility-pointer",
+        "password-empty-confirm-zero",
+        "password-whitespace-preserved-once",
+        "password-visibility-space-repeat-once"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-RemoveFormattingModal",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "formatting",
+        "formatting-rtl"
+      ],
+      "layoutCases": [
+        "formatting-fullhd-body",
+        "formatting-narrow-body",
+        "formatting-text200-body",
+        "formatting-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "formatting-confirm-once",
+        "formatting-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-SafeLinkModal",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "safe-link",
+        "safe-link-rtl"
+      ],
+      "layoutCases": [
+        "safe-link-fullhd-body",
+        "safe-link-narrow-body",
+        "safe-link-text200-body",
+        "safe-link-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "safe-link-cancel-enter",
+        "safe-link-cancel-space",
+        "safe-link-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-BrowserCloseConfirmationModal",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "browser-close",
+        "browser-close-rtl"
+      ],
+      "layoutCases": [
+        "browser-close-fullhd-body",
+        "browser-close-narrow-body",
+        "browser-close-text200-body",
+        "browser-close-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "browser-close-cancel-enter",
+        "browser-close-cancel-space",
+        "browser-close-confirm-once",
+        "browser-close-tab-contained",
+        "browser-close-default-focus-safe",
+        "browser-close-pointer-once"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-MuteChatModal",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "mute",
+        "mute-rtl"
+      ],
+      "layoutCases": [
+        "mute-fullhd-body",
+        "mute-narrow-body",
+        "mute-text200-body",
+        "mute-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "mute-cancel-enter",
+        "mute-cancel-space",
+        "mute-confirm-once",
+        "mute-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-PinMessageModal",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "pin",
+        "pin-rtl"
+      ],
+      "layoutCases": [
+        "pin-fullhd-body",
+        "pin-narrow-body",
+        "pin-text200-body",
+        "pin-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "pin-cancel-enter",
+        "pin-cancel-space",
+        "pin-confirm-once",
+        "pin-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-DeleteChatModal",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "renderer": "Additional fixture direct actual component import",
+      "branches": [
+        "delete-chat",
+        "delete-chat-rtl"
+      ],
+      "layoutCases": [
+        "delete-chat-fullhd-body",
+        "delete-chat-narrow-body",
+        "delete-chat-text200-body",
+        "delete-chat-rtl-reduced-body"
+      ],
+      "functionalCases": [
+        "delete-chat-cancel-enter",
+        "delete-chat-cancel-space",
+        "delete-chat-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-AttachmentModalItem",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "renderer": "Actual preview child inside existing Modal; does not certify AttachmentModal parent/editor/upload",
+      "branches": [
+        "attachment-file",
+        "attachment-file-rtl",
+        "attachment-photo",
+        "attachment-photo-rtl"
+      ],
+      "layoutCases": [
+        "attachment-photo-fullhd-body",
+        "attachment-file-fullhd-body",
+        "attachment-photo-narrow-body",
+        "attachment-file-narrow-body",
+        "attachment-photo-text200-body",
+        "attachment-file-text200-body",
+        "attachment-photo-rtl-reduced-body",
+        "attachment-file-rtl-reduced-body"
+      ],
+      "functionalCases": [],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-DocumentReaderModal",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "renderer": "Existing Main actual DocumentReaderModal via public openDocumentReader with local text/Markdown Blob",
+      "branches": [
+        "document",
+        "document-rtl"
+      ],
+      "layoutCases": [
+        "document-fullhd-body",
+        "document-narrow-body",
+        "document-text200-body",
+        "document-rtl-reduced-body",
+        "document-markdown-body"
+      ],
+      "functionalCases": [
+        "document-search-copy-and-close",
+        "document-tab-contained"
+      ],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-ChatLanguageModal",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "renderer": "Existing MiddleColumn actual ChatLanguageModal via public synthetic openChatLanguageModal",
+      "branches": [
+        "chat-language",
+        "chat-language-rtl"
+      ],
+      "layoutCases": [
+        "chat-language-fullhd-body",
+        "chat-language-narrow-body",
+        "chat-language-text200-body",
+        "chat-language-rtl-reduced-body"
+      ],
+      "functionalCases": [],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    },
+    {
+      "id": "ui-additional-component-DeleteMessageModal",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "renderer": "Existing Main actual DeleteMessageModal via source-valid synthetic selected message and public open action",
+      "branches": [
+        "delete-message",
+        "delete-message-rtl"
+      ],
+      "layoutCases": [
+        "delete-message-fullhd-body",
+        "delete-message-narrow-body",
+        "delete-message-text200-body",
+        "delete-message-rtl-reduced-body"
+      ],
+      "functionalCases": [],
+      "scope": "Only named render/layout/input/callback assertions; no all-functions certification"
+    }
+  ],
+  "nestedChildCoverage": {
+    "source": "src/components/common/PasswordForm.tsx",
+    "parent": "src/components/common/PasswordConfirmModal.tsx",
+    "renderer": "Actual PasswordForm rendered by actual PasswordConfirmModal",
+    "assertions": [
+      "Enter/Space actual focused visibility toggle",
+      "held-key repeat ignored",
+      "pointer toggle",
+      "original synthetic password whitespace preserved"
+    ],
+    "notAnIndependentModal": true
+  },
+  "coverageUnionNote": "14 additional source-path targets overlap older7-path receipts at DeleteMessageModal; do not add7+14 as independent windows. This report does not modify the old coverage registry. AttachmentModalItem is child preview, PasswordForm nested child.",
+  "nativeTabGates": {
+    "sourcePaths": [
+      "src/components/common/CountryPickerModal.tsx",
+      "src/components/common/RemoveFormattingModal.tsx",
+      "src/components/main/SafeLinkModal.tsx"
+    ],
+    "receiptEntries": 6,
+    "distinctFlows": 3,
+    "finding": "Native Chromium Tab can leave document focus to host browser UI (activeElement body, document.hasFocus false, dialog.open true). Inertness prevents background composer focus. Three boundary-proof entries support the same three Tab gates; they are not six independent prerequisites.",
+    "productionDefect": false
+  },
+  "text200Scope": {
+    "method": "CSS root document.documentElement.style.fontSize16px→32px; no browser zoom/device DPI/system font change",
+    "viewport": "1920×1080, existing default mocked theme; separate640×900 and RTL/reduced-motion geometry snapshots",
+    "measured": "Root-rem layout emulation and matching p/h1/h2/h3/button/label/input/textarea computed values. BrowserClose paragraph/button remain16px although root is32px; this is not uniformly200% text.",
+    "notCertified": [
+      "All typography at physical200%DPI or browser zoom",
+      "All locales/font glyphs/text expansion",
+      "Every modal/theme contrast combination",
+      "Uniform200% text: root-rem change leaves several explicit px fonts unchanged; title tag coverage is incomplete"
+    ],
+    "samples": [
+      {
+        "id": "contact-text200-body",
+        "source": "src/components/main/NewContactModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "lng_contact_phone",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "FirstName",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "LastName",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary disabled text",
+            "text": "Done",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "Cancel",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "contact-edit-text200-body",
+        "source": "src/components/main/NewContactModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "P",
+            "className": "NewContactModal__phone-number",
+            "text": "MobileHidden",
+            "fontSize": "48px",
+            "lineHeight": "69.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "FirstName",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "LastName",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "TEXTAREA",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "42px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "Notes",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "P",
+            "className": "NewContactModal__help-text NewContactModal__help-text__edit",
+            "text": "Notes are only visible to you.",
+            "fontSize": "30px",
+            "lineHeight": "43.5px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "P",
+            "className": "NewContactModal__help-text",
+            "text": "NewContact.Phone.Hidden.Text",
+            "fontSize": "30px",
+            "lineHeight": "43.5px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox dialog-checkbox",
+            "text": "lng_new_contact_share",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "P",
+            "className": "NewContactModal__help-text",
+            "text": "AddContact.SharedContactExceptionInfo",
+            "fontSize": "30px",
+            "lineHeight": "43.5px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          }
+        ]
+      },
+      {
+        "id": "report-options-text200-body",
+        "source": "src/components/modals/reportModal/ReportModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "H3",
+            "className": "ReportModal-module__title",
+            "text": "Report",
+            "fontSize": "38px",
+            "lineHeight": "55.1px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "H3",
+            "className": "ReportModal-module__sectionTitle",
+            "text": "Synthetic report options",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button secondary-icon smaller translucent round disabled non-interactive",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button secondary-icon smaller translucent round disabled non-interactive",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "report-comment-text200-body",
+        "source": "src/components/modals/reportModal/ReportModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "H3",
+            "className": "ReportModal-module__title",
+            "text": "Synthetic report comment",
+            "fontSize": "38px",
+            "lineHeight": "55.1px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "TEXTAREA",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "42px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "Report2Comment",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button default primary disabled",
+            "text": "ReportSend",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "700"
+          }
+        ]
+      },
+      {
+        "id": "country-text200-body",
+        "source": "src/components/common/CountryPickerModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button Modal-module__closeButton tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox onlyInput",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "20px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "20px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox onlyInput",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "20px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "20px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox onlyInput",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "20px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "20px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button default primary",
+            "text": "ОК",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "700"
+          }
+        ]
+      },
+      {
+        "id": "password-text200-body",
+        "source": "src/components/common/PasswordConfirmModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "",
+            "text": "Пароль",
+            "fontSize": "32px",
+            "lineHeight": "46.4px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default danger disabled text inline",
+            "text": "Confirm",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "Отмена",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "formatting-text200-body",
+        "source": "src/components/common/RemoveFormattingModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button Modal-module__closeButton tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "P",
+            "className": "",
+            "text": "This message uses rich formatting, which requires Telegram P",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button smaller primary fluid",
+            "text": "Subscribe to Premium",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "700"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button smaller primary fluid text",
+            "text": "Remove Formatting",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "safe-link-text200-body",
+        "source": "src/components/main/SafeLinkModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button smaller primary fluid text",
+            "text": "Отмена",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button smaller primary fluid text",
+            "text": "Open",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "browser-close-text200-body",
+        "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "P",
+            "className": "",
+            "text": "Are you sure you want to close all browser tabs?",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox dialog-checkbox",
+            "text": "Don't ask again",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default danger text inline",
+            "text": "Confirm",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "Отмена",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "mute-text200-body",
+        "source": "src/components/left/MuteChatModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "LABEL",
+            "className": "Radio",
+            "text": "MuteFor.Hours",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Radio",
+            "text": "MuteFor.Hours",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Radio",
+            "text": "MuteFor.Hours",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Radio",
+            "text": "MuteFor.Days",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Radio",
+            "text": "MuteFor.Days",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Radio",
+            "text": "MuteFor.Forever",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          }
+        ]
+      },
+      {
+        "id": "pin-text200-body",
+        "source": "src/components/common/PinMessageModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "P",
+            "className": "",
+            "text": "PinMessageAlertChat",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox dialog-checkbox",
+            "text": "Conversation.PinMessagesFor",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "DialogPin",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "Cancel",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "delete-chat-text200-body",
+        "source": "src/components/common/DeleteChatModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "H3",
+            "className": "modal-title",
+            "text": "DeleteChatUser",
+            "fontSize": "40px",
+            "lineHeight": "58px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "P",
+            "className": "",
+            "text": "ChatList.DeleteChatConfirmation",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default danger text",
+            "text": "ChatList.DeleteForEveryone",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default danger text",
+            "text": "ChatList.DeleteForCurrentUser",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "Cancel",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "attachment-photo-text200-body",
+        "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "attachment-file-text200-body",
+        "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      },
+      {
+        "id": "document-text200-body",
+        "source": "src/components/common/DocumentReaderModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "className": "DocumentReaderModal-module__searchInput",
+            "text": "",
+            "fontSize": "26px",
+            "lineHeight": "37.7px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "DocumentReaderModal-module__actionBtn",
+            "text": "Копировать текст",
+            "fontSize": "26px",
+            "lineHeight": "37.7px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "DocumentReaderModal-module__actionBtn",
+            "text": "Скачать оригинал",
+            "fontSize": "26px",
+            "lineHeight": "37.7px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "DocumentReaderModal-module__closeBtn",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          }
+        ]
+      },
+      {
+        "id": "chat-language-text200-body",
+        "source": "src/components/middle/ChatLanguageModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "className": "Button tiny translucent round",
+            "text": "",
+            "fontSize": "28px",
+            "lineHeight": "33.6px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "INPUT",
+            "className": "form-control",
+            "text": "",
+            "fontSize": "32px",
+            "lineHeight": "40px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          }
+        ]
+      },
+      {
+        "id": "delete-message-text200-body",
+        "source": "src/components/common/DeleteMessageModal.tsx",
+        "rootFontSize": "32px",
+        "modalFontSize": "16px",
+        "samples": [
+          {
+            "tag": "H3",
+            "className": "DeleteMessageModal-module__singleTitle",
+            "text": "Chat.DeleteMessagesConfirmation",
+            "fontSize": "18.72px",
+            "lineHeight": "27.144px",
+            "fontFamily": "Unbounded, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "500"
+          },
+          {
+            "tag": "P",
+            "className": "",
+            "text": "Are you sure you want to delete this message?",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "LABEL",
+            "className": "Checkbox dialog-checkbox",
+            "text": "DeleteMessagesOptionAlso",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "INPUT",
+            "className": "",
+            "text": "",
+            "fontSize": "16px",
+            "lineHeight": "23.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "400"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default danger text",
+            "text": "Delete",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          },
+          {
+            "tag": "BUTTON",
+            "className": "Button confirm-dialog-button default primary text",
+            "text": "Cancel",
+            "fontSize": "16px",
+            "lineHeight": "19.2px",
+            "fontFamily": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "fontWeight": "600"
+          }
+        ]
+      }
+    ],
+    "legacyDivTitleGate": "The metadata query excludes legacy div.modal-title; its computed title value is not certified by this receipt",
+    "browserCloseReadback": {
+      "root": "32px",
+      "modal": "16px",
+      "paragraphFontSize": "16px",
+      "paragraphLineHeight": "23.2px",
+      "buttonFontSize": "16px",
+      "buttonLineHeight": "19.2px"
+    }
+  },
+  "checks": {
+    "tscExit": 0,
+    "eslintExit": 0,
+    "runnerSyntaxExit": 0,
+    "serverSyntaxExit": 0,
+    "tsxEslintGate": "scripts/*.tsx ignored by unmodified project configuration; not a lint PASS",
+    "fullCheckTsCommandEquivalent": "existing Node tsc --noEmit -p ownwork/tsconfig.json + existing Node eslint selected4sources2JS",
+    "tscScope": "whole source + new fixture incl imported frozen fixtures",
+    "eslintFiles": 6,
+    "eslintErrors": 0,
+    "eslintWarnings": 0,
+    "sourceFourSha256": {
+      "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+      "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+      "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+      "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4"
+    }
+  },
+  "boundaries": [
+    "No real accounts/profile/cookies/rawCDP/foreground/network/DNS/Lagom/priority/install/dependency operations",
+    "Callbacks for report/delete/password/pin/mute/browser-close/translation and external-open/clipboard are local sinks in fresh test browser",
+    "No account/server acceptance, uploads/full AttachmentModal rich editor, payment/premium/OTP or actual document download coverage",
+    "DocumentReader text/Markdown preview/search/copy only; PDF/DOCX gate",
+    "Report message-option/comment only; story/depth-back/API acceptance gate",
+    "ChatLanguage body/layout only; translation server acceptance and selection flow not certified",
+    "RTL/root-font/reduced-motion are CSS/browser fixture emulations; no physical device/locale claim",
+    "Fixture blocked remote assets/lang requests can produce missing flags/images/raw mixed keys; not classified as production localization/assets defects"
+  ],
+  "history": [
+    "Initial bootstrap action snapshot and wrapper-visible locator were fixture failures, not product findings; preserved first/third diagnostics",
+    "Third false ChatLanguage offscreen-row failures are legitimate bounded scroll lists; corrected geometry excludes scroll-clipped rows without product CSS",
+    "Fourth102PASS8FAIL contains five confirmed product-fail cases and three native-platform Tab gates; raw receipt preserved",
+    "First targeted after14PASS2FAIL reflects missing RAF wait and unreleased held Enter crossing into next test; exact source unchanged, finally key cleanup and render wait yield16PASS",
+    "Primitive cold30PASS1FAIL is missing mocked message readiness at fixed350ms; unchanged warm31 repeat passes all31. Both receipts preserved"
+  ],
+  "receipts": [
+    {
+      "file": "ui-additional-modal-first.json",
+      "sha256": "97fbf9792a6cbf40c1c7ea246a490a06696796b9eb7b6a0fdf0ce6e84bb1a1ac",
+      "summary": {
+        "total": 0,
+        "pass": 0,
+        "fail": 0,
+        "pageErrors": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-third.json",
+      "sha256": "43d71ffc5efadcde49d332338fdd73dc7b55edd324b44acffb794cb9ce0ac139",
+      "summary": {
+        "total": 99,
+        "pass": 87,
+        "fail": 12,
+        "pageErrors": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-fourth.json",
+      "sha256": "619a3013d5224698898504800d674b12e0f0cbf53913a461ab525041ccc17c13",
+      "summary": {
+        "total": 110,
+        "pass": 102,
+        "fail": 8,
+        "pageErrors": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-focused-proof.json",
+      "sha256": "9c3457afaadfc2fc863dab0232c148b44051df8814951a18bbee002b2f7f64c2",
+      "summary": {
+        "total": 8,
+        "pass": 3,
+        "fail": 5,
+        "pageErrors": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-native-focus-proof.json",
+      "sha256": "c0e061370d81ab80e0d417266e1be424136e0af0507091259998bc58ec66d5c5",
+      "summary": {
+        "total": 3,
+        "pass": 0,
+        "fail": 0,
+        "pageErrors": 0,
+        "gates": 3
+      }
+    },
+    {
+      "file": "ui-additional-modal-after-targeted.json",
+      "sha256": "4d66bbf778b149733fb94cccef386d00b7555a25ef5ae2b64ceda24cb89331b2",
+      "summary": {
+        "total": 16,
+        "pass": 14,
+        "fail": 2,
+        "pageErrors": 0,
+        "gates": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-after-targeted-clean.json",
+      "sha256": "52b8e21171958880cdeb2a9617c0de916a75d6fa66b1ca6bb69d428880ca86f2",
+      "summary": {
+        "total": 16,
+        "pass": 16,
+        "fail": 0,
+        "pageErrors": 0,
+        "gates": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-after-full.json",
+      "sha256": "ccb6060fd87c63e7f9c05d5e01b79d421e48b3c8982bb5fde631dbae0790e523",
+      "summary": {
+        "total": 123,
+        "pass": 117,
+        "fail": 0,
+        "pageErrors": 0,
+        "gates": 6
+      }
+    },
+    {
+      "file": "ui-additional-modal-text200-computed.json",
+      "sha256": "12c1bc125e071e099b58df2f4d1ae9a26d5d4935c586bdc8054e4b0ab60190b9",
+      "summary": {
+        "total": 17,
+        "pass": 17,
+        "fail": 0,
+        "pageErrors": 0,
+        "gates": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-primitive-cold.json",
+      "sha256": "43ae2d1134cc89e470ba084253701d6c1e2d8da3e3772b1da844b8be57871f5b",
+      "summary": {
+        "total": 31,
+        "pass": 30,
+        "fail": 1,
+        "errors": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-primitive-regression.json",
+      "sha256": "e926b062e212827e0a679c6094df34672e093ca8eaedfa8564448d31a0e978a4",
+      "summary": {
+        "total": 31,
+        "pass": 31,
+        "fail": 0,
+        "errors": 0
+      }
+    },
+    {
+      "file": "ui-additional-modal-checks.json",
+      "sha256": "c315ca1a69aa551e2cdc1f9628d9be4d8fcc6e03d20a75f2a59eee01126775f7",
+      "summary": null
+    },
+    {
+      "file": "ui-additional-modal-source-freeze.json",
+      "sha256": "bad502cb90341ce9b6685528e13e14392f70ae7550a92b759259aedead185152",
+      "summary": null
+    }
+  ],
+  "sourceFreeze": "ui-additional-modal-source-freeze.json",
+  "diff": "ui-additional-modal-product-diff.md",
+  "visuallyInspected": [
+    "ui-additional-modal-fourth-country-narrow.png",
+    "ui-additional-modal-fourth-document-text200.png"
+  ],
+  "noBroadCertification": true
+}

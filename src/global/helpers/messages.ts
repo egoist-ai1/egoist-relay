@@ -63,6 +63,7 @@ export function getMessageOriginalId(message: ApiMessage) {
 }
 
 export function getMessageTranscription(message: ApiMessage) {
+  if (message.isTranscriptionError) return undefined;
   const { transcriptionId } = message;
   const global = getGlobal();
 
@@ -176,7 +177,19 @@ export function getMessageTextWithFallback(lang: LangFn, message: MediaContainer
     ? getRichMessagePreviewText(message.content.richMessage)
     : undefined;
 
-  return { text: richMessageText || lang('MessageUnsupported') };
+  let fallback: string = richMessageText || '';
+  if (!fallback) {
+    const { storyData, giveaway, giveawayResults, paidMedia, invoice, game } = message.content;
+    if (storyData) fallback = 'История';
+    else if (giveaway) fallback = 'Розыгрыш призов';
+    else if (giveawayResults) fallback = 'Итоги розыгрыша';
+    else if (paidMedia) fallback = 'Платный контент';
+    else if (invoice) fallback = 'Счёт на оплату';
+    else if (game) fallback = `🎮 ${game.title || 'Игра'}`;
+    else fallback = lang('MessageUnsupported');
+  }
+
+  return { text: fallback };
 }
 
 export function getMessageCustomShape(message: ApiMessage): boolean {

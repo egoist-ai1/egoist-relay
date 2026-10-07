@@ -1,0 +1,1118 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-next-source-qa",
+  "version": "source-qa-v1",
+  "createdAt": "2026-10-02T12:19:39.844Z",
+  "taskId": "01a0fc75-a0c3-7de2-841a-07905859430b",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "socialMcpProjectPath": "C:/Users/Egoist/Desktop/Проекты/Инфраструктура/Egoist Social MCP",
+  "state": "source_qa_passed",
+  "candidate": "NEXT working tree; immutable canonical package 1.4.4 is separate; installed app 1.4.2",
+  "sourceMetadata": {
+    "packageVersion": "1.4.4",
+    "lockVersion": "1.4.4",
+    "nativeVersion": null,
+    "cargoVersion": "1.4.4",
+    "nativeVersionField": "not specified in tauri.conf.json",
+    "publicVersion": "1.4.4",
+    "files": [
+      {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/package.json",
+        "bytes": 6867,
+        "sha256": "eb3606ae9a13bc24694348779add0ef88b9810866a042ac7445f487dd4cffc29"
+      },
+      {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/package-lock.json",
+        "bytes": 525166,
+        "sha256": "bba385536d1214c2120f39db22ec87106b1dcb6f626b376c879e61e8aed3a8a2"
+      },
+      {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tauri/tauri.conf.json",
+        "bytes": 6766,
+        "sha256": "e42efa50e8a6f469dd78ff7e7c3acf370534ad599e6043d87cd137b5ccb0fc8f"
+      },
+      {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tauri/Cargo.toml",
+        "bytes": 1497,
+        "sha256": "d6a3a33c9b6e2fde4f586ed0d9c9750dc503cc2961f4105c599200ac75eba6c0"
+      },
+      {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tauri/Cargo.lock",
+        "bytes": 167419,
+        "sha256": "3efa737d6dd911791b0da50ae3b33f27cf78c5f45ede5a9f256cb82157a446f1"
+      }
+    ]
+  },
+  "toolchain": {
+    "node": "v24.19.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.11",
+    "eslint": "10.6.0"
+  },
+  "sourceIntegrity": {
+    "trackedEntryCount": 3183,
+    "scope": "Relay src/scripts/dev/plugins/tests/deploy/.github/tauri sources, capabilities, permissions, root source/config/metadata files, relevant runtime code; Social MCP src/scripts/tests/test and root source/config files",
+    "exclusions": [
+      "node_modules",
+      "docs",
+      "dist",
+      "release",
+      "scratch",
+      "tauri/target",
+      "tauri/vendor",
+      "public assets",
+      "runtime binary assets"
+    ],
+    "beforeCanonicalEntriesSha256": "effa3b3a75ffbd40c572b52ccb47332fb9c04ce052b95ed69130711f9f1a3425",
+    "initialAfterCanonicalEntriesSha256": "effa3b3a75ffbd40c572b52ccb47332fb9c04ce052b95ed69130711f9f1a3425",
+    "beforeFinalLintCanonicalEntriesSha256": "b64d6236ab19fdabe5e9cf14408ebbc74e970db52cf31aa4262a49b58b69d375",
+    "afterCanonicalEntriesSha256": "b64d6236ab19fdabe5e9cf14408ebbc74e970db52cf31aa4262a49b58b69d375",
+    "productionConfigMetadataUnchanged": true,
+    "initialChecksUnchanged": true,
+    "finalLintUnchanged": true,
+    "rootAuthorizedTestOnlyChanges": [
+      {
+        "project": "relay",
+        "file": "scripts/instagram-attribution-audit.test.mjs",
+        "before": {
+          "project": "relay",
+          "file": "scripts/instagram-attribution-audit.test.mjs",
+          "bytes": 11415,
+          "sha256": "ca380a124689811199732525e36a6e78d8447c628e199d7bd7e28b6c4f367953"
+        },
+        "after": {
+          "project": "relay",
+          "file": "scripts/instagram-attribution-audit.test.mjs",
+          "bytes": 11458,
+          "sha256": "341fb741ec2ae46d77bc56badff087c7e3f470a324d958d9186847f8b2bf5beb"
+        }
+      },
+      {
+        "project": "relay",
+        "file": "scripts/instagram-attribution-next.test.mjs",
+        "before": {
+          "project": "relay",
+          "file": "scripts/instagram-attribution-next.test.mjs",
+          "bytes": 20755,
+          "sha256": "b173b04afa2913f1eb1f2d6b2808e117b07a00524dc6012a90fe67d57e79874a"
+        },
+        "after": {
+          "project": "relay",
+          "file": "scripts/instagram-attribution-next.test.mjs",
+          "bytes": 20777,
+          "sha256": "a2f8da1ddeccc217603c3b138fbf96d89feffeca2dcdff13cfa32f0043d96ea2"
+        }
+      },
+      {
+        "project": "relay",
+        "file": "scripts/relay-composer-media.test.mjs",
+        "before": {
+          "project": "relay",
+          "file": "scripts/relay-composer-media.test.mjs",
+          "bytes": 44670,
+          "sha256": "48ebac65c3088f376a52eca00ccd044376edfe5c8299bf1fba00d4e7cf4dabc7"
+        },
+        "after": {
+          "project": "relay",
+          "file": "scripts/relay-composer-media.test.mjs",
+          "bytes": 44698,
+          "sha256": "cfc8eafe41ee58b79bd5e197e7bafa462e131c77860122544cc5b757cd408744"
+        }
+      }
+    ],
+    "manifestArtifacts": {
+      "before": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/source-before.json",
+        "bytes": 645738,
+        "sha256": "bd93f31c0bdf2b83fe45e144b468ef627353b0820756ec371c7f3b750ac174ca"
+      },
+      "initialAfter": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/source-after-initial-checks.json",
+        "bytes": 645738,
+        "sha256": "91b8b4e9a1b465af6b006ce34ba05395a4a463bf9299845519ac363620d6c9d4"
+      },
+      "beforeFinalLint": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/source-before-final-lint.json",
+        "bytes": 645738,
+        "sha256": "d440651dcbb0d5bba0858d2422b49a77e87e6a0520f4fdcb8cf556253a225545"
+      },
+      "after": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/source-after-final.json",
+        "bytes": 645738,
+        "sha256": "44f5e7177edf5dfd573ae4a2abd6aeb3da3ea1b13b00772cb1fa3b3501caaa1d"
+      }
+    },
+    "relevantProductionFiles": [
+      {
+        "project": "relay",
+        "file": "src/components/common/Composer.tsx",
+        "expectedSha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a",
+        "before": {
+          "project": "relay",
+          "file": "src/components/common/Composer.tsx",
+          "bytes": 117810,
+          "sha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a"
+        },
+        "after": {
+          "project": "relay",
+          "file": "src/components/common/Composer.tsx",
+          "bytes": 117810,
+          "sha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "src/components/middle/composer/AttachmentModal.tsx",
+        "expectedSha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc",
+        "before": {
+          "project": "relay",
+          "file": "src/components/middle/composer/AttachmentModal.tsx",
+          "bytes": 33671,
+          "sha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc"
+        },
+        "after": {
+          "project": "relay",
+          "file": "src/components/middle/composer/AttachmentModal.tsx",
+          "bytes": 33671,
+          "sha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "src/components/ui/mediaEditor/MediaEditor.tsx",
+        "expectedSha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c",
+        "before": {
+          "project": "relay",
+          "file": "src/components/ui/mediaEditor/MediaEditor.tsx",
+          "bytes": 30258,
+          "sha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c"
+        },
+        "after": {
+          "project": "relay",
+          "file": "src/components/ui/mediaEditor/MediaEditor.tsx",
+          "bytes": 30258,
+          "sha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "src/components/ui/mediaEditor/MediaEditor.module.scss",
+        "expectedSha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468",
+        "before": {
+          "project": "relay",
+          "file": "src/components/ui/mediaEditor/MediaEditor.module.scss",
+          "bytes": 14328,
+          "sha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468"
+        },
+        "after": {
+          "project": "relay",
+          "file": "src/components/ui/mediaEditor/MediaEditor.module.scss",
+          "bytes": 14328,
+          "sha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "src/components/middle/composer/hooks/useAttachmentModal.ts",
+        "expectedSha256": "b9f51779c7da54f380b284583c69226692a8b307600536a1760cfcf1568eefcd",
+        "before": {
+          "project": "relay",
+          "file": "src/components/middle/composer/hooks/useAttachmentModal.ts",
+          "bytes": 6350,
+          "sha256": "b9f51779c7da54f380b284583c69226692a8b307600536a1760cfcf1568eefcd"
+        },
+        "after": {
+          "project": "relay",
+          "file": "src/components/middle/composer/hooks/useAttachmentModal.ts",
+          "bytes": 6350,
+          "sha256": "b9f51779c7da54f380b284583c69226692a8b307600536a1760cfcf1568eefcd"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "src/components/ui/Modal.scss",
+        "expectedSha256": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82",
+        "before": {
+          "project": "relay",
+          "file": "src/components/ui/Modal.scss",
+          "bytes": 6273,
+          "sha256": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82"
+        },
+        "after": {
+          "project": "relay",
+          "file": "src/components/ui/Modal.scss",
+          "bytes": 6273,
+          "sha256": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "scripts/social-share-enhancer.js",
+        "expectedSha256": "814f9c99aa491e0acbd10841be3eb8277f40d30f89ab11f8ca269353f197b856",
+        "before": {
+          "project": "relay",
+          "file": "scripts/social-share-enhancer.js",
+          "bytes": 14425,
+          "sha256": "814f9c99aa491e0acbd10841be3eb8277f40d30f89ab11f8ca269353f197b856"
+        },
+        "after": {
+          "project": "relay",
+          "file": "scripts/social-share-enhancer.js",
+          "bytes": 14425,
+          "sha256": "814f9c99aa491e0acbd10841be3eb8277f40d30f89ab11f8ca269353f197b856"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "runtime/research/social-read.js",
+        "expectedSha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+        "before": {
+          "project": "relay",
+          "file": "runtime/research/social-read.js",
+          "bytes": 36508,
+          "sha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e"
+        },
+        "after": {
+          "project": "relay",
+          "file": "runtime/research/social-read.js",
+          "bytes": 36508,
+          "sha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "relay",
+        "file": "tauri/src/research_social.rs",
+        "expectedSha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7",
+        "before": {
+          "project": "relay",
+          "file": "tauri/src/research_social.rs",
+          "bytes": 97533,
+          "sha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7"
+        },
+        "after": {
+          "project": "relay",
+          "file": "tauri/src/research_social.rs",
+          "bytes": 97533,
+          "sha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "socialMcp",
+        "file": "src/research/bridge-provider.mjs",
+        "expectedSha256": "0adb7ef9b96c561b3ccf296c66bbb6138a21cac59cbc9ac6bdc5f5d5b0f6e64d",
+        "before": {
+          "project": "socialMcp",
+          "file": "src/research/bridge-provider.mjs",
+          "bytes": 21220,
+          "sha256": "0adb7ef9b96c561b3ccf296c66bbb6138a21cac59cbc9ac6bdc5f5d5b0f6e64d"
+        },
+        "after": {
+          "project": "socialMcp",
+          "file": "src/research/bridge-provider.mjs",
+          "bytes": 21220,
+          "sha256": "0adb7ef9b96c561b3ccf296c66bbb6138a21cac59cbc9ac6bdc5f5d5b0f6e64d"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "socialMcp",
+        "file": "src/research/local-index.mjs",
+        "expectedSha256": "55f500026e03c1b3d1256e80ced799b4e3a91198011c2039c245af75fb4a8add",
+        "before": {
+          "project": "socialMcp",
+          "file": "src/research/local-index.mjs",
+          "bytes": 31998,
+          "sha256": "55f500026e03c1b3d1256e80ced799b4e3a91198011c2039c245af75fb4a8add"
+        },
+        "after": {
+          "project": "socialMcp",
+          "file": "src/research/local-index.mjs",
+          "bytes": 31998,
+          "sha256": "55f500026e03c1b3d1256e80ced799b4e3a91198011c2039c245af75fb4a8add"
+        },
+        "matchesExpected": true
+      },
+      {
+        "project": "socialMcp",
+        "file": "src/research/export-format.mjs",
+        "expectedSha256": "5941b7af41135153c685cb8890c4215b00325dde76f448f7cbdd89a1c83e1186",
+        "before": {
+          "project": "socialMcp",
+          "file": "src/research/export-format.mjs",
+          "bytes": 15676,
+          "sha256": "5941b7af41135153c685cb8890c4215b00325dde76f448f7cbdd89a1c83e1186"
+        },
+        "after": {
+          "project": "socialMcp",
+          "file": "src/research/export-format.mjs",
+          "bytes": 15676,
+          "sha256": "5941b7af41135153c685cb8890c4215b00325dde76f448f7cbdd89a1c83e1186"
+        },
+        "matchesExpected": true
+      }
+    ]
+  },
+  "requiredChecks": [
+    {
+      "id": "tsc-main",
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-02T12:06:12.281Z",
+      "finishedAt": "2026-10-02T12:06:39.553Z",
+      "durationMs": 27272,
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-main.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "tsc-test",
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-02T12:06:39.554Z",
+      "finishedAt": "2026-10-02T12:06:59.216Z",
+      "durationMs": 19662,
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-test.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "tsc-script",
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-02T12:06:59.216Z",
+      "finishedAt": "2026-10-02T12:07:21.621Z",
+      "durationMs": 22405,
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-script.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "vitest-full",
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-02T12:07:23.913Z",
+      "finishedAt": "2026-10-02T12:07:50.262Z",
+      "durationMs": 26349,
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/vitest-full.log",
+        "bytes": 46833,
+        "sha256": "0bb612a834878bcf03ae8f7afe89ca23a1c9c7c3dffb8ba715aa5660a2be5a82"
+      }
+    },
+    {
+      "id": "tsc-fixtures-corrected",
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-02T12:09:39.778Z",
+      "finishedAt": "2026-10-02T12:10:09.231Z",
+      "durationMs": 29453,
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-fixtures-corrected.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "eslint-full-corrected",
+      "status": "passed",
+      "exitCode": 0,
+      "startedAt": "2026-10-02T12:12:37.732Z",
+      "finishedAt": "2026-10-02T12:13:33.525Z",
+      "durationMs": 55793,
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/eslint-full-corrected.log",
+        "bytes": 829708,
+        "sha256": "6dc0dc2a16c40dd2449aa72320f4f53141ba2dad6661a221ecf37051a982a695"
+      }
+    }
+  ],
+  "commands": [
+    {
+      "id": "tsc-main",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/typescript/bin/tsc",
+        "-p",
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tsconfig.json",
+        "--noEmit",
+        "--tsBuildInfoFile",
+        "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/main.tsbuildinfo",
+        "--pretty",
+        "false"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 45948,
+      "startedAt": "2026-10-02T12:06:12.281Z",
+      "finishedAt": "2026-10-02T12:06:39.553Z",
+      "durationMs": 27272,
+      "exitCode": 0,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-main.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-main.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-main.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-main.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "tsc-test",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/typescript/bin/tsc",
+        "-p",
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tsconfig.test.json",
+        "--noEmit",
+        "--tsBuildInfoFile",
+        "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/test.tsbuildinfo",
+        "--pretty",
+        "false"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 43616,
+      "startedAt": "2026-10-02T12:06:39.554Z",
+      "finishedAt": "2026-10-02T12:06:59.216Z",
+      "durationMs": 19662,
+      "exitCode": 0,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-test.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-test.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-test.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-test.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "tsc-script",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/typescript/bin/tsc",
+        "-p",
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tsconfig.script.json",
+        "--noEmit",
+        "--tsBuildInfoFile",
+        "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/script.tsbuildinfo",
+        "--pretty",
+        "false"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 32484,
+      "startedAt": "2026-10-02T12:06:59.216Z",
+      "finishedAt": "2026-10-02T12:07:21.621Z",
+      "durationMs": 22405,
+      "exitCode": 0,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-script.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-script.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-script.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-script.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "tsc-fixtures",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/typescript/bin/tsc",
+        "-p",
+        "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/tsconfig.fixtures.json",
+        "--noEmit",
+        "--pretty",
+        "false"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 36476,
+      "startedAt": "2026-10-02T12:07:21.622Z",
+      "finishedAt": "2026-10-02T12:07:23.909Z",
+      "durationMs": 2287,
+      "exitCode": 2,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-fixtures.log",
+          "bytes": 404,
+          "sha256": "aa2890ac0a699f4e9cb9793bb5b6d69833e43a34909c3f2f63b1bc068581a1a0"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-fixtures.stdout.log",
+          "bytes": 404,
+          "sha256": "aa2890ac0a699f4e9cb9793bb5b6d69833e43a34909c3f2f63b1bc068581a1a0"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\tsc-fixtures.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-fixtures.log",
+        "bytes": 404,
+        "sha256": "aa2890ac0a699f4e9cb9793bb5b6d69833e43a34909c3f2f63b1bc068581a1a0"
+      }
+    },
+    {
+      "id": "vitest-full",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/vitest/vitest.mjs",
+        "run",
+        "--config",
+        "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/vitest.config.mts",
+        "--configLoader",
+        "runner",
+        "--maxWorkers",
+        "2",
+        "--no-cache",
+        "--silent=true",
+        "--reporter=verbose"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 23840,
+      "startedAt": "2026-10-02T12:07:23.913Z",
+      "finishedAt": "2026-10-02T12:07:50.262Z",
+      "durationMs": 26349,
+      "exitCode": 0,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\vitest-full.log",
+          "bytes": 46833,
+          "sha256": "0bb612a834878bcf03ae8f7afe89ca23a1c9c7c3dffb8ba715aa5660a2be5a82"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\vitest-full.stdout.log",
+          "bytes": 46833,
+          "sha256": "0bb612a834878bcf03ae8f7afe89ca23a1c9c7c3dffb8ba715aa5660a2be5a82"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\vitest-full.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/vitest-full.log",
+        "bytes": 46833,
+        "sha256": "0bb612a834878bcf03ae8f7afe89ca23a1c9c7c3dffb8ba715aa5660a2be5a82"
+      }
+    },
+    {
+      "id": "eslint-full",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/eslint/bin/eslint.js",
+        ".",
+        "--no-cache",
+        "--format",
+        "json"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 38344,
+      "startedAt": "2026-10-02T12:07:50.267Z",
+      "finishedAt": "2026-10-02T12:08:46.971Z",
+      "durationMs": 56704,
+      "exitCode": 1,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\eslint-full.log",
+          "bytes": 909205,
+          "sha256": "99ceb09df12a6125ee2ac79167aeb87ba260699f2cd085f8b70e634c3a8dbb19"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\eslint-full.stdout.log",
+          "bytes": 909205,
+          "sha256": "99ceb09df12a6125ee2ac79167aeb87ba260699f2cd085f8b70e634c3a8dbb19"
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc75-a0c3-7de2-841a-07905859430b\\work\\eslint-full.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/eslint-full.log",
+        "bytes": 909205,
+        "sha256": "99ceb09df12a6125ee2ac79167aeb87ba260699f2cd085f8b70e634c3a8dbb19"
+      }
+    },
+    {
+      "id": "tsc-fixtures-corrected",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/typescript/bin/tsc",
+        "-p",
+        "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/tsconfig.fixtures-corrected.json",
+        "--noEmit",
+        "--pretty",
+        "false"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 43472,
+      "startedAt": "2026-10-02T12:09:39.778Z",
+      "finishedAt": "2026-10-02T12:10:09.231Z",
+      "durationMs": 29453,
+      "exitCode": 0,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/tsc-fixtures-corrected.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/tsc-fixtures-corrected.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/tsc-fixtures-corrected.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsc-fixtures-corrected.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "eslint-full-corrected",
+      "executable": "C:/Users/Egoist/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+      "args": [
+        "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/node_modules/eslint/bin/eslint.js",
+        ".",
+        "--no-cache",
+        "--format",
+        "json"
+      ],
+      "cwd": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+      "envOverrides": {
+        "APP_ENV": "test",
+        "FORCE_COLOR": "0",
+        "NO_COLOR": "1",
+        "TEMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "TMP": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work",
+        "NODE_OPTIONS": "--max-old-space-size=8192"
+      },
+      "pid": 26952,
+      "startedAt": "2026-10-02T12:12:37.732Z",
+      "finishedAt": "2026-10-02T12:13:33.525Z",
+      "durationMs": 55793,
+      "exitCode": 0,
+      "signal": null,
+      "logs": [
+        {
+          "file": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/eslint-full-corrected.log",
+          "bytes": 829708,
+          "sha256": "6dc0dc2a16c40dd2449aa72320f4f53141ba2dad6661a221ecf37051a982a695"
+        },
+        {
+          "file": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/eslint-full-corrected.stdout.log",
+          "bytes": 829708,
+          "sha256": "6dc0dc2a16c40dd2449aa72320f4f53141ba2dad6661a221ecf37051a982a695"
+        },
+        {
+          "file": "C:/Users/Egoist/Projects/.agent-brain/chat-runtime/tasks/01a0fc75-a0c3-7de2-841a-07905859430b/work/eslint-full-corrected.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "fullLogArtifact": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/eslint-full-corrected.log",
+        "bytes": 829708,
+        "sha256": "6dc0dc2a16c40dd2449aa72320f4f53141ba2dad6661a221ecf37051a982a695"
+      }
+    }
+  ],
+  "vitest": {
+    "suiteFiles": 26,
+    "passedSuites": 26,
+    "tests": 322,
+    "passedTests": 322,
+    "failedTests": 0,
+    "allConfiguredSuites": true,
+    "maxWorkers": 2,
+    "appEnv": "test",
+    "actualProjectConfigImported": true,
+    "cacheDirConfinedToOwnWork": true,
+    "noCache": true
+  },
+  "eslint": {
+    "files": 1875,
+    "errors": 0,
+    "warnings": 1,
+    "fatalErrors": 0,
+    "messages": [
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\common\\DocumentReaderModal.tsx",
+        "ruleId": "@eslint-react/dom-no-dangerously-set-innerhtml",
+        "severity": 1,
+        "message": "Using 'dangerouslySetInnerHTML' may have security implications.",
+        "line": 307,
+        "column": 19,
+        "messageId": "default",
+        "endLine": 307,
+        "endColumn": 81
+      }
+    ],
+    "fullConfiguredScope": true,
+    "noCache": true,
+    "noFix": true,
+    "initialFailure": {
+      "files": 1875,
+      "errors": 7,
+      "warnings": 1,
+      "fatalErrors": 0,
+      "messages": [
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-attribution-audit.test.mjs",
+          "ruleId": "no-unused-vars",
+          "severity": 2,
+          "message": "'source' is defined but never used.",
+          "line": 125,
+          "column": 29,
+          "messageId": "unusedVar",
+          "endLine": 125,
+          "endColumn": 35,
+          "suggestions": [
+            {
+              "messageId": "removeVar",
+              "data": {
+                "varName": "source"
+              },
+              "fix": {
+                "range": [
+                  10506,
+                  10513
+                ],
+                "text": ""
+              },
+              "desc": "Remove unused variable 'source'."
+            }
+          ]
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-attribution-next.test.mjs",
+          "ruleId": "no-undef",
+          "severity": 2,
+          "message": "'AbortController' is not defined.",
+          "line": 60,
+          "column": 216,
+          "messageId": "undef",
+          "endLine": 60,
+          "endColumn": 231
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-attribution-next.test.mjs",
+          "ruleId": "no-undef",
+          "severity": 2,
+          "message": "'AbortController' is not defined.",
+          "line": 201,
+          "column": 180,
+          "messageId": "undef",
+          "endLine": 201,
+          "endColumn": 195
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-composer-media.test.mjs",
+          "ruleId": "no-undef",
+          "severity": 2,
+          "message": "'File' is not defined.",
+          "line": 530,
+          "column": 30,
+          "messageId": "undef",
+          "endLine": 530,
+          "endColumn": 34
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-composer-media.test.mjs",
+          "ruleId": "no-undef",
+          "severity": 2,
+          "message": "'crypto' is not defined.",
+          "line": 536,
+          "column": 124,
+          "messageId": "undef",
+          "endLine": 536,
+          "endColumn": 130
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-composer-media.test.mjs",
+          "ruleId": "no-undef",
+          "severity": 2,
+          "message": "'File' is not defined.",
+          "line": 539,
+          "column": 30,
+          "messageId": "undef",
+          "endLine": 539,
+          "endColumn": 34
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-composer-media.test.mjs",
+          "ruleId": "no-undef",
+          "severity": 2,
+          "message": "'crypto' is not defined.",
+          "line": 545,
+          "column": 124,
+          "messageId": "undef",
+          "endLine": 545,
+          "endColumn": 130
+        },
+        {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\components\\common\\DocumentReaderModal.tsx",
+          "ruleId": "@eslint-react/dom-no-dangerously-set-innerhtml",
+          "severity": 1,
+          "message": "Using 'dangerouslySetInnerHTML' may have security implications.",
+          "line": 307,
+          "column": 19,
+          "messageId": "default",
+          "endLine": 307,
+          "endColumn": 81
+        }
+      ],
+      "exitCode": 1,
+      "resolvedBy": "root only; exact3test MJS edits recorded in sourceIntegrity.rootAuthorizedTestOnlyChanges",
+      "fullLog": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/eslint-full.log",
+        "bytes": 909205,
+        "sha256": "99ceb09df12a6125ee2ac79167aeb87ba260699f2cd085f8b70e634c3a8dbb19"
+      }
+    }
+  },
+  "fixtureCompilation": {
+    "extends": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/tsconfig.script.json",
+    "fixtureCount": 7,
+    "include": [
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-composer-media.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-payment-modal.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-social-share-reels.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-ui-additional-modals.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-ui-audit.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/relay-ui-remaining-modals.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/scripts/ui-regression.fixture.tsx",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/@types/global.d.ts",
+      "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/src/types/tauri.ts"
+    ],
+    "absolutePathsAndTypeRoots": true,
+    "deprecatedBaseUrlUsed": false,
+    "productionConfigUnchanged": true,
+    "buildInfoOnlyOwnWork": true,
+    "initialConfigIssue": "Reviewer runtime config referenced nonexistent jest-dom/index.d.ts; TS2688 occurs before source compilation. Corrected to installed package types/index.d.ts; all 7fixture TSX passed without project changes.",
+    "configArtifacts": {
+      "initialFixture": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsconfig.fixtures.initial.json",
+        "bytes": 2947,
+        "sha256": "9783eae4ff4a92e035c4bb66df7a0b2427ebad6f2f3690523b09b1f245eec0cc"
+      },
+      "finalFixture": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/tsconfig.fixtures.final.json",
+        "bytes": 2953,
+        "sha256": "aeda78aff664f80bc3da645d4eb00aa6acacc5d0f05221f97c0d5968fada309d"
+      },
+      "vitest": {
+        "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/vitest.config.mts",
+        "bytes": 396,
+        "sha256": "8bd12b89e35f985a81535f283077a8f13daac7f1012628dfa70ae7927fa8d749"
+      }
+    }
+  },
+  "notRepeatedAfterRootTestFixes": {
+    "checks": [
+      "tsc-main",
+      "tsc-test",
+      "tsc-script",
+      "tsc-fixtures-corrected",
+      "vitest-full"
+    ],
+    "reason": "Only3 standalone MJS test harness files changed. They are outside passed TypeScript configurations and fixtures; Vitest actual configured excludes scripts/**/*.test.mjs. Changes qualify existing Node/browser globals and remove an unused derivative source field parameter; full ESLint was rerun against final bytes."
+  },
+  "processReconciliation": {
+    "capturedAt": "2026-10-02T12:14:24.3026032Z",
+    "taskId": "01a0fc75-a0c3-7de2-841a-07905859430b",
+    "knownJobPids": [
+      45948,
+      43616,
+      32484,
+      36476,
+      23840,
+      38344,
+      43472,
+      26952
+    ],
+    "remainingKnownJobProcesses": [],
+    "remainingTaskNodeProcesses": [],
+    "action": "read-only process reconciliation; no process stops",
+    "artifact": {
+      "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1-evidence/process-reconciliation.json",
+      "bytes": 370,
+      "sha256": "84074ad94c55af07dfee02598f1ac78be4b1cd506c2de150532d49e3b6d57779"
+    },
+    "allSpawnedCommandCloseEventsObserved": true,
+    "noProcessStops": true
+  },
+  "excludedActions": {
+    "productionWrites": 0,
+    "configMetadataWrites": 0,
+    "dependencyChanges": 0,
+    "networkLiveAccountActions": 0,
+    "paymentExecution": 0,
+    "daemonProcessStops": 0,
+    "installation": 0
+  },
+  "limitations": [
+    "This source QA does not certify a1.4.5 package, native build, installation, running-native platform sessions or account-side operations.",
+    "The retained dangerouslySetInnerHTML warning remains visible; this full lint result alone is not a security certification.",
+    "Full ESLint uses the existing project ignores and rules, including runtime exclusions."
+  ],
+  "reviewObjects": [
+    {
+      "id": "source-qa-required-checks",
+      "name": "Полные TypeScript и Vitest проверки NEXT",
+      "version": "source-qa-v1",
+      "decision": "unreviewed",
+      "action": "Подтвердить проверенные результаты текущего исходного кандидата.",
+      "content": "Main/test/script TypeScript и все7 browser fixture TSX прошли. Полный installed Vitest:26/26 suites,322/322 tests. Это локальная проверка исходников; упаковка, native installation и live account операции проверяются отдельно."
+    },
+    {
+      "id": "source-qa-full-eslint",
+      "name": "Полный ESLint и оставшееся предупреждение",
+      "version": "source-qa-v1",
+      "decision": "unreviewed",
+      "action": "Подтвердить полноту lint результата и зафиксировать оставшееся предупреждение.",
+      "content": "Полный uncached ESLint:1875 файлов,0 errors,1 предупреждение DocumentReaderModal.tsx:307 dangerouslySetInnerHTML. Первые7 ошибок были только в3 тестовых MJS и исправлены root. Их первичный полный log сохранён."
+    },
+    {
+      "id": "source-qa-source-freeze",
+      "name": "Точные source hashes и границы QA",
+      "version": "source-qa-v1",
+      "decision": "unreviewed",
+      "action": "Принять зафиксированный source snapshot как вход следующей сборки без изменения уже принятого пакета1.4.4.",
+      "content": "3183 source/config entries сверены; за время checks production/config/metadata неизменны. Единственные3 изменения — согласованные test-only lint fixes root. Share814f/Modald46/hookb9f,4media и5attribution источников совпадают с final manifest. Metadata на момент аудита1.4.4."
+    }
+  ],
+  "reviewBoard": {
+    "file": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/review.html",
+    "integrationOwner": "root",
+    "sourceSnapshotFile": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/docs/app-quality-audit-2026-10-02/next-source-qa-v1.json",
+    "defaultDecision": "unreviewed"
+  }
+}

@@ -1,0 +1,625 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-composer-media-audit-2026-10-02",
+  "version": 1,
+  "generatedAt": "2026-10-02T11:05:51.735Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "candidateVersion": "1.4.4",
+  "environment": {
+    "actualApp": true,
+    "transport": "existing MockClient + protected action recorder",
+    "headless": true,
+    "externalRequests": "blocked",
+    "viewport": "1920x1080 + 640x900 emulations",
+    "realUploads": 0,
+    "realMessages": 0,
+    "realDeletes": 0,
+    "realPayments": 0
+  },
+  "cases": [
+    {
+      "id": "editor-header-pointer-hit-test",
+      "status": "pass",
+      "detail": {
+        "hits": [
+          {
+            "icon": "icon icon-close",
+            "disabled": false,
+            "box": {
+              "x": 1456,
+              "y": 52,
+              "width": 40,
+              "height": 40,
+              "top": 52,
+              "right": 1496,
+              "bottom": 92,
+              "left": 1456
+            },
+            "actualHitClass": "icon icon-close",
+            "ownsHit": true
+          },
+          {
+            "icon": "icon icon-undo",
+            "disabled": true,
+            "box": {
+              "x": 1820,
+              "y": 52,
+              "width": 40,
+              "height": 40,
+              "top": 52,
+              "right": 1860,
+              "bottom": 92,
+              "left": 1820
+            },
+            "actualHitClass": "MediaEditor-module__headerActions",
+            "ownsHit": false
+          },
+          {
+            "icon": "icon icon-redo",
+            "disabled": true,
+            "box": {
+              "x": 1864,
+              "y": 52,
+              "width": 40,
+              "height": 40,
+              "top": 52,
+              "right": 1904,
+              "bottom": 92,
+              "left": 1864
+            },
+            "actualHitClass": "MediaEditor-module__headerActions",
+            "ownsHit": false
+          }
+        ],
+        "screenshot": "composer-media-editor-header-hit-test.png"
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-header-focus-owner",
+      "status": "pass",
+      "detail": {
+        "focus": {
+          "ownsFocus": true,
+          "activeClass": "Button smaller translucent round",
+          "activeAria": null,
+          "insideEditor": true
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-keyboard-tab-space-escape-ownership",
+      "status": "pass",
+      "detail": {
+        "tabTraces": [
+          {
+            "inside": true,
+            "activeClass": "Button smaller translucent round"
+          },
+          {
+            "inside": true,
+            "activeClass": "Button smaller translucent round"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch MediaEditor-module__selected"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch"
+          },
+          {
+            "inside": true,
+            "activeClass": "MediaEditor-module__colorSwatch MediaEditor-module__customColor"
+          },
+          {
+            "inside": true,
+            "activeClass": "RangeSlider__input"
+          },
+          {
+            "inside": true,
+            "activeClass": "ListItem-button"
+          },
+          {
+            "inside": true,
+            "activeClass": "ListItem-button"
+          }
+        ],
+        "escapeKeepsParent": true,
+        "spaceOwnCancel": true,
+        "result": {
+          "name": "sendMessage",
+          "text": "Escape keeps original caption",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "group-compression-quality-caption-independent-settings",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Independent selection controls",
+          "grouped": false,
+          "inverted": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": true,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+              "selectedBytes": 70908,
+              "selectedDimensions": {
+                "width": 2560,
+                "height": 1706
+              }
+            },
+            {
+              "filename": "owned-photo-two.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": true,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+              "selectedBytes": 70908,
+              "selectedDimensions": {
+                "width": 2560,
+                "height": 1706
+              }
+            }
+          ]
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "modal-add-real-filechooser-delete-and-cancel",
+      "status": "pass",
+      "detail": {
+        "append": 2,
+        "remaining": 1,
+        "sendDelta": 0,
+        "state": {
+          "parentClass": "Modal AttachmentModal-module__root low-priority opacity-transition fast shown not-open closing",
+          "open": false,
+          "rect": {
+            "x": 750,
+            "y": 467,
+            "width": 420,
+            "height": 218,
+            "top": 467,
+            "right": 1170,
+            "bottom": 685,
+            "left": 750
+          }
+        }
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "photo-editor-crop-rotate-undo-redo-save",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "Caption preserved through actual editor",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 180465,
+              "quick": {
+                "width": 2000,
+                "height": 3000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "47de9ed4241b0ee44b9878591c8e09f96ef29e6948a5132267bf3f676fb20096",
+              "selectedSha256": "c2dc5385865298df11a65f92e40b9d7994e0f91425d1ab985ea788e5b940c476",
+              "selectedBytes": 27461,
+              "selectedDimensions": {
+                "width": 853,
+                "height": 1280
+              }
+            }
+          ]
+        },
+        "pointerCrop": {
+          "beforeBox": {
+            "x": 89.078125,
+            "y": 99.390625,
+            "width": 1261.84375,
+            "height": 841.21875
+          },
+          "croppedBox": {
+            "x": 89.078125,
+            "y": 99.390625,
+            "width": 1190.84375,
+            "height": 790.21875
+          },
+          "undoneBox": {
+            "x": 89.078125,
+            "y": 99.390625,
+            "width": 1261.84375,
+            "height": 841.21875
+          }
+        },
+        "pointerUndoRedo": true,
+        "keyboardUndoRedo": true
+      },
+      "pageErrors": []
+    },
+    {
+      "id": "editor-cancel-keeps-original-and-zero-send",
+      "status": "pass",
+      "detail": {
+        "result": {
+          "name": "sendMessage",
+          "text": "",
+          "grouped": true,
+          "attachments": [
+            {
+              "filename": "owned-photo.png",
+              "mimeType": "image/png",
+              "size": 167866,
+              "quick": {
+                "width": 3000,
+                "height": 2000
+              },
+              "shouldSendAsFile": false,
+              "shouldSendAsSpoiler": false,
+              "shouldSendInHighQuality": false,
+              "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+              "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+              "selectedBytes": 27232,
+              "selectedDimensions": {
+                "width": 1280,
+                "height": 853
+              }
+            }
+          ]
+        },
+        "cancelSendDelta": 0,
+        "actualPointerCancel": true
+      },
+      "pageErrors": []
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "sources": {
+    "src/components/common/Composer.tsx": {
+      "bytes": 117810,
+      "sha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a"
+    },
+    "src/components/middle/composer/AttachMenu.tsx": {
+      "bytes": 11255,
+      "sha256": "f9f04df7ca769f6978bf5dd88213947ef535f3a7709bb2b1e5bd22e4bdfc1fea"
+    },
+    "src/components/middle/composer/AttachmentModal.tsx": {
+      "bytes": 33671,
+      "sha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc"
+    },
+    "src/components/middle/composer/AttachmentModalItem.tsx": {
+      "bytes": 5032,
+      "sha256": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4"
+    },
+    "src/components/middle/composer/hooks/useAttachmentModal.ts": {
+      "bytes": 5880,
+      "sha256": "b580e52dea5cff87f30acaf74199e69162aa0598122bcccbf3c27b8ae9752806"
+    },
+    "src/components/middle/composer/helpers/buildAttachment.ts": {
+      "bytes": 4747,
+      "sha256": "9fc3f5fbbc1dc3180d614b2cc52ea6a2ea72042f33d6c84ebf0ae1284f1eb8e5"
+    },
+    "src/components/ui/mediaEditor/MediaEditor.tsx": {
+      "bytes": 30258,
+      "sha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c"
+    },
+    "src/components/ui/mediaEditor/MediaEditor.module.scss": {
+      "bytes": 14328,
+      "sha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468"
+    },
+    "src/components/common/Titlebar.module.scss": {
+      "bytes": 4663,
+      "sha256": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69"
+    },
+    "src/components/common/Document.tsx": {
+      "bytes": 7085,
+      "sha256": "c1effa47ded5accecfa84d7c152d53092aaaa1ce5d6afbbad22facaa7acc0d4a"
+    },
+    "src/components/common/File.tsx": {
+      "bytes": 7335,
+      "sha256": "900a09fb436cca5433ed6f7d75beae8e9670eb460dc76c98a05354b6682f1a71"
+    },
+    "src/components/common/DocumentReaderModal.tsx": {
+      "bytes": 13444,
+      "sha256": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377"
+    },
+    "src/util/files.ts": {
+      "bytes": 3775,
+      "sha256": "bcef355f8b15e12751584d9cc648fa2f029849cd6d49628691f7a61f64782109"
+    },
+    "scripts/relay-composer-media.fixture.tsx": {
+      "bytes": 5036,
+      "sha256": "261e7107e11e78b94d4e704b5dc6fe31e52f2d3864819cb51605835aa90d69d5"
+    },
+    "scripts/relay-composer-media.server.fixture.mjs": {
+      "bytes": 1907,
+      "sha256": "d3cf0fe39a899fc91be9b21a8217118af0f316730c79076fbb579d1c83a295be"
+    },
+    "scripts/relay-composer-media.test.mjs": {
+      "bytes": 28206,
+      "sha256": "76194ca0f79da99cb192421f0afb19f4f112f80d84d0b58d8ffaec527f871998"
+    }
+  },
+  "inputs": [
+    {
+      "name": "owned-photo.png",
+      "mimeType": "image/png",
+      "bytes": 167866,
+      "sha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f"
+    },
+    {
+      "name": "owned-byte-integrity.bin",
+      "mimeType": "application/octet-stream",
+      "bytes": 65537,
+      "sha256": "3123afca912e156e19bcd2055eb92e944cf6e6fdb0eef16d65464342ad1f5a1a"
+    },
+    {
+      "name": "owned-video.mp4",
+      "mimeType": "video/mp4",
+      "bytes": 2678,
+      "sha256": "4b9da8e95e125d156ce3861fa6c3a2b25cbdc5f55be543280f6d1d1c89cafdec"
+    },
+    {
+      "name": "owned-audio.wav",
+      "mimeType": "audio/wav",
+      "bytes": 16078,
+      "sha256": "6b4ba3e7c40cfcf89d51b46f8d00a918a1b403712095181645ce24dd10ad9365"
+    }
+  ],
+  "gates": [
+    "Live upload/download/send acceptance and throughput remain unverified; no account effects run",
+    "Document upload/download progress is synthetic props on the actual Document/File components; actual network transfer is not measured"
+  ],
+  "blockedRequests": [],
+  "events": [
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Escape keeps original caption",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Independent selection controls",
+        "count": 2
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "Caption preserved through actual editor",
+        "count": 1
+      }
+    },
+    {
+      "name": "sendMessage",
+      "detail": {
+        "text": "",
+        "count": 1
+      }
+    }
+  ],
+  "captures": [
+    {
+      "name": "sendMessage",
+      "text": "Escape keeps original caption",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Independent selection controls",
+      "grouped": false,
+      "inverted": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": true,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+          "selectedBytes": 70908,
+          "selectedDimensions": {
+            "width": 2560,
+            "height": 1706
+          }
+        },
+        {
+          "filename": "owned-photo-two.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": true,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "66a65eb09d13f433b567e1279172997e125e29864b2e2d2f014a252ba46f8453",
+          "selectedBytes": 70908,
+          "selectedDimensions": {
+            "width": 2560,
+            "height": 1706
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "Caption preserved through actual editor",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 180465,
+          "quick": {
+            "width": 2000,
+            "height": 3000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "47de9ed4241b0ee44b9878591c8e09f96ef29e6948a5132267bf3f676fb20096",
+          "selectedSha256": "c2dc5385865298df11a65f92e40b9d7994e0f91425d1ab985ea788e5b940c476",
+          "selectedBytes": 27461,
+          "selectedDimensions": {
+            "width": 853,
+            "height": 1280
+          }
+        }
+      ]
+    },
+    {
+      "name": "sendMessage",
+      "text": "",
+      "grouped": true,
+      "attachments": [
+        {
+          "filename": "owned-photo.png",
+          "mimeType": "image/png",
+          "size": 167866,
+          "quick": {
+            "width": 3000,
+            "height": 2000
+          },
+          "shouldSendAsFile": false,
+          "shouldSendAsSpoiler": false,
+          "shouldSendInHighQuality": false,
+          "sourceSha256": "828a5f202ee7a6f07ddda701d71262264a6507077c9dbfdade578870e0e75e9f",
+          "selectedSha256": "682584b2206a728ae60247b19bdad1f3615a872a73121158c8e44ef63fc8fb3d",
+          "selectedBytes": 27232,
+          "selectedDimensions": {
+            "width": 1280,
+            "height": 853
+          }
+        }
+      ]
+    }
+  ],
+  "unhandled": [],
+  "readerRequests": {
+    "retry": 0,
+    "loading": 0,
+    "success": 0
+  },
+  "summary": {
+    "total": 7,
+    "pass": 7,
+    "fail": 0,
+    "gates": 2,
+    "pageErrors": 0,
+    "unhandled": 0
+  }
+}

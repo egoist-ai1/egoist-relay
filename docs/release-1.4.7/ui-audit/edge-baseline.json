@@ -1,0 +1,46 @@
+{
+  "phase": "baseline",
+  "parent": {
+    "bodyFlag": true,
+    "openCount": 1
+  },
+  "child": {
+    "bodyFlag": true,
+    "openCount": 2
+  },
+  "closedChild": {
+    "bodyFlag": false,
+    "openCount": 1,
+    "focus": ""
+  },
+  "reduced": {
+    "rootDuration": "0.15s",
+    "dialogDuration": "0.2s, 0.2s",
+    "ariaModal": null,
+    "ariaLabelledBy": null
+  },
+  "closingReduced": {
+    "closingCount": 1,
+    "elementAtCenter": "form-control"
+  },
+  "closingNormal": {
+    "closingCount": 1,
+    "elementAtCenter": "form-control"
+  },
+  "smallScaled": {
+    "left": -80,
+    "right": 480,
+    "width": 560,
+    "viewport": 400,
+    "height": 320,
+    "viewportHeight": 448,
+    "scrollWidth": 558,
+    "clientWidth": 558
+  },
+  "sources": {
+    "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+    "src/components/ui/Modal.scss": "d46ddb78daccbf5b53becd2107e48c4692d7572aec74f4cee683287652373e82",
+    "src/components/gili/modal/Modal.tsx": "ebd3c0ce3e3d75ddabc65d2cdc912f93812dab7ac20d16c15039fa3ae240e7d9",
+    "src/hooks/useShowTransition.ts": "acdc1d6be49c0006b0ecaf948161fc95992759934905daaa332c7163753fd2b0"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "artifactId": "egoist-relay-app-quality-audit",
+  "updatedAt": "2026-10-02T14:55:22.197Z",
+  "schemaVersion": 1,
+  "version": "candidate-1.4.6-1",
+  "requirements": [
+    {
+      "status": "in_progress",
+      "evidence": "125 historical route attempts + bounded remaining modal receipts;138category files are not138complete live scenarios",
+      "id": "screens",
+      "requirement": "Каждый экран, окно, меню, диалог и панель; доступность всех переходов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Current 1.4.6 alignment v2 4/4 and actual App dialog 20/20 on synthetic sessions; all earlier Reels/recipient suites historical, local callbacks only",
+      "id": "navigation",
+      "requirement": "Все переключения Telegram/X/Instagram, кнопки, иконки, клавиатура, загрузка, ошибки, повтор"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "composer-media32/32 with2gates + bounded historical chat/settings receipts",
+      "id": "chat-settings",
+      "requirement": "Чаты, история, поиск, composer, темы и все группы настроек"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "New alignmentv2 exact17ec4/4synthetic cases and acceptedTelegram-style dialog geometry; prior1.4.5bounds historical; nativeDPI not certified",
+      "id": "visual-fullhd",
+      "requirement": "FullHD, темы, типографика, выравнивание, отсутствие обрезок/наложений, масштаб и RTL"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical timing/reduced-motion + bounded display settled/opening; full native/GPU stress remains",
+      "id": "animation-performance",
+      "requirement": "Плавные анимации, reduced motion, отсутствие блокировки интерфейса"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "selected local outputs1280x853/2560x1706/original3000x2000; actualCDN/liveupload gates remain",
+      "id": "media-quality",
+      "requirement": "Быстрая загрузка оригинальных фото/видео/рилсов без снижения качества"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical transferbytes/cancel + localmedia mocks; no new real upload proof",
+      "id": "telegram-transfer",
+      "requirement": "Отправка/скачивание файлов, отмена, повторы, прогресс и независимость запросов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Historical 179 MCP source checks and bounded attribution suites; native Instagram pilot remains interrupted/partial. This narrow 1.4.6 UI work adds no exhaustive live-operation proof",
+      "id": "mcp-operations",
+      "requirement": "Каждая зарегистрированная операция каждого сервиса, результаты/ошибки/частичный вывод"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "finite selected public corpus + exactUTF16/4MiBrole-map pipeline; no platform completeness",
+      "id": "research-mass",
+      "requirement": "Большие исследования, поиск, продолжение, дедупликация, экспорт и происхождение"
+    },
+    {
+      "status": "verified_selected_corpus",
+      "evidence": "selected same-byte shard revision/rebuild; page description excluded from postbody/FTS",
+      "id": "research-index",
+      "requirement": "Быстрый точный локальный поиск/индексирование выбранных исследовательских материалов"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "historical bounded research/IPC + attributionpartialerror/composerretry fixtures",
+      "id": "failure-recovery",
+      "requirement": "Отказы сети/файлов/диска/аккаунта, зависания, отмена, восстановление и долгий стресс"
+    },
+    {
+      "status": "verified_current_1.4.6_candidate_separate",
+      "evidence": "Installed1.4.6; candidate1.4.6state=installed_verified_telegram_x_ready_instagram_mcp_pending; no inferred new installation permission",
+      "id": "release-invariants",
+      "requirement": "Правильный установщик, версии, runtime; DNS/DoH/Lagom без изменений"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "Historical 1.4.5 readiness 3/3 and MCP identity receipt; interrupted native Instagram pilot remains partial. Current 1.4.6: Telegram/X ready; Instagram UI human-confirmed, official MCP unavailable/dom_account_proof_pending. Source UI tests certify no live operations",
+      "id": "all-services-live",
+      "requirement": "Живые сессии всех трёх сервисов и исследовательские сценарии"
+    },
+    {
+      "status": "in_progress",
+      "evidence": "115neutral objects; new narrowly scoped1.4.6 UI receipts; full audit remains in_progress",
+      "id": "complete-audit",
+      "requirement": "Сопоставить каждый пункт исходной цели с текущими доказательствами; не объявлять непроверенное готовым"
+    }
+  ]
+}

@@ -1,0 +1,540 @@
+{
+  "baselineVersion": "1.5.0",
+  "candidateVersion": "1.6.0",
+  "baselineCount": 2534,
+  "baselineValidated": true,
+  "comparison": "Frozen working source bytes, not Git HEAD. New files explicit. Text patch normalizes CRLF; exact baseline bytes accompany hashes. Vitest config provenance separate.",
+  "changes": [
+    {
+      "path": "package-lock.json",
+      "status": "modified",
+      "baselineSha256": "eaf0d2024f2e4ecc315808f0a1ac404ac39abb679da4abaf85f94a851ca22cc9",
+      "candidateSha256": "6e52e6064bd5bbf7fe0585b6b297e2c510701c7ac6fc36da0cd3107b38c0dce8",
+      "baselineBytes": 525166,
+      "candidateBytes": 525166,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "package.json",
+      "status": "modified",
+      "baselineSha256": "7409c83f1ce1cc738f36854797ebd216bec500300a1d0400c39abf888bee9ae1",
+      "candidateSha256": "eea63c49d132404e6ca8e3cab8856f1864f2cc6dd1461fc3c071302ac3032a3b",
+      "baselineBytes": 7267,
+      "candidateBytes": 7267,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "public/version.txt",
+      "status": "modified",
+      "baselineSha256": "acb57a7135b2d7d6e665f67f056e21353023b93835f54def1ae523bf76f1bfb3",
+      "candidateSha256": "cb1d9a30bc4ab8a397f39b7d786bb82aca0b816077eefc35d7c822017d75f6a5",
+      "baselineBytes": 6,
+      "candidateBytes": 6,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "scripts/relay-frontend-acceptance.mjs",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "5103a8af1170c4eb8a5aa8a7b954c084362d22364986e820aaf135ce0a6f2b4b",
+      "baselineBytes": 0,
+      "candidateBytes": 13423,
+      "baselineProvenance": "New file"
+    },
+    {
+      "path": "scripts/relay-frontend-benchmark.mjs",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "252688e20d7968066289749f1d3f8e0866f630b3c8d0b58867f506da4bf797cd",
+      "baselineBytes": 0,
+      "candidateBytes": 42253,
+      "baselineProvenance": "New file"
+    },
+    {
+      "path": "scripts/relay-operations-ui-audit.mjs",
+      "status": "modified",
+      "baselineSha256": "e1e1940f4f7fc9999376dd17346dbdc14e29b9e9b8557939585a3ee34c392a88",
+      "candidateSha256": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b",
+      "baselineBytes": 30860,
+      "candidateBytes": 33345,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/assets/localization/fallback.strings",
+      "status": "modified",
+      "baselineSha256": "229b1411a275ff75d7ccf9fd8aeb3ea107ad5194821eaa728201595ec6e52692",
+      "candidateSha256": "c44e483cb65d477d6ca80a29a3f7035fc908139ca49eb5f6b7d3d90112f5a164",
+      "baselineBytes": 206964,
+      "candidateBytes": 203713,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/assets/localization/initialKeys.ts",
+      "status": "modified",
+      "baselineSha256": "5c22fa91fff031f740ec9e40af1301589f78cd0c8591a00182b92178268e62df",
+      "candidateSha256": "ad347b13ee4691e60eac9fe2be78fe44ddc8b271a7f6539afe5f63d91bfd336e",
+      "baselineBytes": 2555,
+      "candidateBytes": 2479,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/assets/localization/initialRussian.strings",
+      "status": "modified",
+      "baselineSha256": "545be74473f6a374d96f303555ab63a1f6d5bce16a128f8160ded836ee746b97",
+      "candidateSha256": "603318ac119c66cde252ae1b6339cb0deb0691cfc2c43988fc87da5a2f7743b9",
+      "baselineBytes": 6446,
+      "candidateBytes": 6550,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/assets/localization/initialStrings.ts",
+      "status": "modified",
+      "baselineSha256": "271d3eaa0fbcf6a2e3b83cbf5a1084d5c671b85d26a1146a1faba7e1193a6ede",
+      "candidateSha256": "5760b64d5a6ddbca00e4a88543e790cfff9c2d552aa4a52c46daed2eafff79cd",
+      "baselineBytes": 6731,
+      "candidateBytes": 6792,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/App.module.scss",
+      "status": "modified",
+      "baselineSha256": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+      "candidateSha256": "a5a5312a7c5e882e4691ce6b3e731e15f73020687c4af3919d01a109354d71e0",
+      "baselineBytes": 4767,
+      "candidateBytes": 4922,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/App.tsx",
+      "status": "modified",
+      "baselineSha256": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+      "candidateSha256": "ce01e429633c7c3a161b9dde1d01c4fe63e2986bcf3134b4eeedc1bec0032030",
+      "baselineBytes": 42383,
+      "candidateBytes": 41658,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/common/Avatar.scss",
+      "status": "modified",
+      "baselineSha256": "7cbbb0335c4ad3fd29e48c9d5e9a7f62230ab2415d8f189bdb5f31797d03d614",
+      "candidateSha256": "25817ca7142791657876a9423e63dac6f821512e619615fa49542816892a85b6",
+      "baselineBytes": 4697,
+      "candidateBytes": 5038,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/common/Titlebar.module.scss",
+      "status": "modified",
+      "baselineSha256": "141c78962718a67cc9c1e4d559b301adc5bc64524661b97acb6fd6036f81fe0b",
+      "candidateSha256": "ab8cbd838016300229ecdfb9df77b5757c308f1f5ac17bfea488955e34ade4a2",
+      "baselineBytes": 5574,
+      "candidateBytes": 6209,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/common/Titlebar.test.tsx",
+      "status": "modified",
+      "baselineSha256": "b21280624145b7c8ceaf42c3be53d0cde3b1492d195c8ce6bdb80856a34ef83e",
+      "candidateSha256": "30f3ee182da812bcf0f644e85170ac7be82187a51ed3bc24cefb305631ec7e0d",
+      "baselineBytes": 5968,
+      "candidateBytes": 9308,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/common/Titlebar.tsx",
+      "status": "modified",
+      "baselineSha256": "fedc8d16e4e12cb6e2a7f08049b8f9ceb89f5c57b0ad1288e6f656f35cc72c64",
+      "candidateSha256": "9392a9952b7630401af00cdc9698d926a4f4c2f5a87097662b5601ee9e573d60",
+      "baselineBytes": 9770,
+      "candidateBytes": 10001,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/common/profile/ProfilePhoto.scss",
+      "status": "modified",
+      "baselineSha256": "6bf57927c6827f49baa559ddbc59d372b5f2216be6199becfd32433f3d419e9a",
+      "candidateSha256": "ee612204fb51a9e3b95cfef9afd8d546cacc211113dffe26b1fd7dc06b0c53ee",
+      "baselineBytes": 967,
+      "candidateBytes": 1121,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/gili/layout/Island.module.scss",
+      "status": "modified",
+      "baselineSha256": "f3ec669c8fec1be285e9a15a5169c97481efc481759818c8fec0053436fd8467",
+      "candidateSha256": "f292d36871a925216486d9a2d6756b5fb7bbeea7f7f9884957c4f3a29d6b568a",
+      "baselineBytes": 1070,
+      "candidateBytes": 1099,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/left/main/Chat.scss",
+      "status": "modified",
+      "baselineSha256": "f32bab45ecb5fba0b09585954d38091b56d032d1556094d74e8c7a1a0068ad64",
+      "candidateSha256": "b5840223c374905dd03092a16acd108d9111971312ff121e4080301b60cb0b46",
+      "baselineBytes": 9793,
+      "candidateBytes": 9886,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/left/settings/Settings.scss",
+      "status": "modified",
+      "baselineSha256": "42a1d2130d91a4ac00e00bfc19b6e5233f0b2e719e40a279f9b47cff0b203420",
+      "candidateSha256": "67b31a3efb8fc8fd68f742d8b2633e349b29a5565412cf06bd3c4798dd6be061",
+      "baselineBytes": 6922,
+      "candidateBytes": 7255,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/left/settings/SettingsGeneral.module.scss",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "c83c5efd9767b569d2d2f2913a3cfa1158f3e2e1ef640e606e902f832dbedc40",
+      "baselineBytes": 0,
+      "candidateBytes": 258,
+      "baselineProvenance": "New file"
+    },
+    {
+      "path": "src/components/left/settings/SettingsGeneral.tsx",
+      "status": "modified",
+      "baselineSha256": "caf824433135e8d8f981d5956076431e30b980b13e40ee4544008305054dc474",
+      "candidateSha256": "70f89490f18be27178b764897508184968f62fdaf469a3f171ed68c328baa427",
+      "baselineBytes": 7541,
+      "candidateBytes": 6890,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/left/settings/SettingsHeader.tsx",
+      "status": "modified",
+      "baselineSha256": "7a45b5c4da4eff4dfa3ecefdfdd4063ef1a7d5cb9b9c9473a89c772f76ef2e67",
+      "candidateSha256": "59ea181c938620627adc3961fa1bb750a505032d0bb27fef61d934c65471e633",
+      "baselineBytes": 11892,
+      "candidateBytes": 11889,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/left/settings/SettingsMain.module.scss",
+      "status": "modified",
+      "baselineSha256": "df9e6e07e3b2475a26e929ae4a07a406ba23f4b9b0b9be63a7813160f6af6fa9",
+      "candidateSha256": "c9227c11c2e1c40fcf3019a1223a8dae2e4eddef4fc5026a6320ef4810bf1934",
+      "baselineBytes": 561,
+      "candidateBytes": 1139,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/main/Main.scss",
+      "status": "modified",
+      "baselineSha256": "d69608185a8e7ac765eecb45a1e1df03d4efc16b81d94872f202e10ed4f6019b",
+      "candidateSha256": "cf77ccaa3ca51138ce0fb6ec3eef55135e0ced20f02c10f18d4f304a684da3a6",
+      "baselineBytes": 6061,
+      "candidateBytes": 6139,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/middle/MiddleColumn.scss",
+      "status": "modified",
+      "baselineSha256": "f30acfdaf7ee5807608bead5dd9b874f543ae41911d44dc7bcb54c456dbe33f7",
+      "candidateSha256": "85505d42543451111a4d50bcfe0ce069406f5da11f3b2eeffd36bde9d099222d",
+      "baselineBytes": 5858,
+      "candidateBytes": 6030,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/middle/MiddleHeader.scss",
+      "status": "modified",
+      "baselineSha256": "476ed6879fa25e0f4beec772abe6127cfe818c14ad301c37107f4596bdfdf1a1",
+      "candidateSha256": "cda8da9a71997106bbf835d77c71623e861649dcfc9f135af452d08b56493acc",
+      "baselineBytes": 7080,
+      "candidateBytes": 6950,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/middle/message/MessageMeta.scss",
+      "status": "modified",
+      "baselineSha256": "9cc58cab3932616beb44c7758766bb129a22698808a8e01326f8154040b8a8fc",
+      "candidateSha256": "747c3ab0939281582434fdc5afaa25eec62baccd9f73f936bc6b34ddd4173a2b",
+      "baselineBytes": 5878,
+      "candidateBytes": 5878,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/multi/AppSidebar.module.scss",
+      "status": "modified",
+      "baselineSha256": "5f7ef60ca3397d02ad2dbc04fa42813f9417ca7b4c89b4bef0deacf35d68982d",
+      "candidateSha256": "3c26bc42436113a227cd5084d216bf7099d4f6afde978de8b57d21b83fcb711e",
+      "baselineBytes": 3958,
+      "candidateBytes": 3520,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/multi/AppSidebar.test.tsx",
+      "status": "modified",
+      "baselineSha256": "50eac4e236d24c941dfadab98dcd69ed12b0b794aeb4f18b17a2552b66459171",
+      "candidateSha256": "c00c305dd97fb585563e5f6f84c8c324e7f1f3295ababae73ce073e83c5712cd",
+      "baselineBytes": 3236,
+      "candidateBytes": 4570,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/multi/AppSidebar.tsx",
+      "status": "modified",
+      "baselineSha256": "7d30fe6ca8a02da9f4e621748fc02052aa7262fac9fd864431372664799dad10",
+      "candidateSha256": "b4fe22d27135d50c0687e39f5febd1975186336bc4ea4212d9adddfd7127b71e",
+      "baselineBytes": 8227,
+      "candidateBytes": 8407,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/multi/MediaOperationsPanel.module.scss",
+      "status": "modified",
+      "baselineSha256": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+      "candidateSha256": "5ffe85181db2f8cd0a5934ab62668558fd376c8c02ba204471dc36753ab809cb",
+      "baselineBytes": 4200,
+      "candidateBytes": 4517,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/multi/MediaOperationsPanel.tsx",
+      "status": "modified",
+      "baselineSha256": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea",
+      "candidateSha256": "d999d2e0e461050190cc378e9370f4b17258b42198d549df398428ecf68648c5",
+      "baselineBytes": 20225,
+      "candidateBytes": 20854,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/multi/SocialShareModal.module.scss",
+      "status": "modified",
+      "baselineSha256": "ad37d12d5f19827eea276369c4cc61b9b8fdfcca482e3397fbd5d9d3881aafc3",
+      "candidateSha256": "e18f6be782ef10ac33c69fd98270acd4e72b81609176883a930a50ef2c340440",
+      "baselineBytes": 5175,
+      "candidateBytes": 5221,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Button.scss",
+      "status": "modified",
+      "baselineSha256": "7e861d2aeacc7c04daa39ddc22545c4837efd95d1a65f7c45ef557968df2e00c",
+      "candidateSha256": "db3b31919ceaae4aa3319518b33fbd900550d508f15e020db873cd7027db67a2",
+      "baselineBytes": 12866,
+      "candidateBytes": 12385,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Checkbox.scss",
+      "status": "modified",
+      "baselineSha256": "1a0462bd750235c5e86fceba456dad7aac9fc1cf369748ebed0f75148191e83d",
+      "candidateSha256": "b7faa789ee7692e7a8f3a13a3e2a29520ffe13c136b34b3fba449092f6b31822",
+      "baselineBytes": 6687,
+      "candidateBytes": 6944,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/ListItem.scss",
+      "status": "modified",
+      "baselineSha256": "1478fcca834974c65a43b6111c6023add5d714b0784d163e9d40ded0434b6205",
+      "candidateSha256": "c246ddc61644146b9b3a25b3bd38bcd259d2312ab1325626ac93c7651f5fe3e0",
+      "baselineBytes": 8059,
+      "candidateBytes": 8479,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/ListItem.tsx",
+      "status": "modified",
+      "baselineSha256": "8e9fe6fb421eeddac9056ae15308f1a5121f9c1efe7a6f8d3ef95088940ea63a",
+      "candidateSha256": "4325b4d4a563afd725ab5dde56de64ac27c397983c4e511e6817cd753593a4c4",
+      "baselineBytes": 9591,
+      "candidateBytes": 10449,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Menu.scss",
+      "status": "modified",
+      "baselineSha256": "bcf45503c4c83a4462de3d2887c1755f91759215987bc0da0e1f1ca3f94d15a7",
+      "candidateSha256": "9c8d999cc756c43cf5f231e7447be5a7f1099206497be7789a2be2adead2edfe",
+      "baselineBytes": 2707,
+      "candidateBytes": 2621,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/MenuItem.scss",
+      "status": "modified",
+      "baselineSha256": "9dc9615f6361b33df708405f6d03d3822e12d083c9a527414f4eec1f5c2b56d7",
+      "candidateSha256": "0f12d232e6f8847ab22fb51eeb54dbcae7c9ffddc41d8593ce20425ca29dba12",
+      "baselineBytes": 3726,
+      "candidateBytes": 3969,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Modal.scss",
+      "status": "modified",
+      "baselineSha256": "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32",
+      "candidateSha256": "1665c30ae0ef020f7f0d40f7b7bfda7c1365b46796655d96ee1f66fd9079d19a",
+      "baselineBytes": 6594,
+      "candidateBytes": 6724,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Radio.scss",
+      "status": "modified",
+      "baselineSha256": "02c1707f88cc5cf3422d7091893b04c456229ec45b05f9943995a924a3536cc1",
+      "candidateSha256": "96b33605057c6061f49a4d582caf809497be153d7c6cf1716033f5233c259626",
+      "baselineBytes": 3685,
+      "candidateBytes": 4246,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/SearchInput.scss",
+      "status": "modified",
+      "baselineSha256": "7e904131429c2a614572c8a497603f82f12f311ccdd731d49d7c101d1d226fb3",
+      "candidateSha256": "e5ffcc239e3a7f89c8c164bf75fff749a2c3f99cfcd3655b204cc6f1fc70fe44",
+      "baselineBytes": 2147,
+      "candidateBytes": 2472,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Switcher.scss",
+      "status": "modified",
+      "baselineSha256": "88bbe72fd16dd5d65778faaca357094b22ee52154f03ae24d249c43ddaabdf69",
+      "candidateSha256": "e663389e819e021dc9eab8201fac5832d5c01732476f5bd8f205ede3a2ef768e",
+      "baselineBytes": 1675,
+      "candidateBytes": 1871,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/components/ui/Switcher.tsx",
+      "status": "modified",
+      "baselineSha256": "48f0458eab70e60f465b803320e5f9d8db4a29e074cc91d4c0e35faffc7c1f88",
+      "candidateSha256": "d64ce29742f8c2550cdcef0c6604633340573fad4357c09279adda5b8c1b02fd",
+      "baselineBytes": 1168,
+      "candidateBytes": 1252,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/global/actions/ui/initial.ts",
+      "status": "modified",
+      "baselineSha256": "97c894477bb128362cdf452664f641da7cfde15fce1bc9ab45707f1f709d720b",
+      "candidateSha256": "5ae5ad65886915cfad4c7c5b97adf48b5612647685ee3234e0c084efd9217c88",
+      "baselineBytes": 9664,
+      "candidateBytes": 9517,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/global/actions/ui/settings.ts",
+      "status": "modified",
+      "baselineSha256": "6240e19dfe8e826e760aac8d6a4b67a2eb4c602d7a0a55ffd0204ae2b20b0070",
+      "candidateSha256": "896cb2411fbb2417a4280705e65c49e93a032d6a4b73bf165eb4ec6af84f90de",
+      "baselineBytes": 9560,
+      "candidateBytes": 9112,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/styles/_forms.scss",
+      "status": "modified",
+      "baselineSha256": "37304552fae6831f5005cabe989752ed4b75c4c21b858b126d9e75de5b60a535",
+      "candidateSha256": "f9cbf9d435c85b38d64523f24042ed62ffa956a2c556521071d207b0cfa678c8",
+      "baselineBytes": 5081,
+      "candidateBytes": 5747,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/styles/_variables.scss",
+      "status": "modified",
+      "baselineSha256": "ec74237168207a30bbff2e4a109bfc9fb9abf364acca536d5861e767e429ce04",
+      "candidateSha256": "123d155818cf26b24ed29eb2df5dd49fc01fcdc4d2fb18843c1171935c8f801b",
+      "baselineBytes": 16088,
+      "candidateBytes": 16233,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/styles/index.scss",
+      "status": "modified",
+      "baselineSha256": "59ac3f33081fa679d043e49f3b14831f90384684fa56debd59d62db540d7bd81",
+      "candidateSha256": "4bbf4913645699ec7d65d8c1ae75c332f6d6b1fc95d76e67956064c151c9cfde",
+      "baselineBytes": 63045,
+      "candidateBytes": 62766,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/types/language.d.ts",
+      "status": "modified",
+      "baselineSha256": "8600dca3baa6606030b4ed8f84d48ba9bf2bb0581af6654090d8b5f9339daa3f",
+      "candidateSha256": "7913ac63f3549118a7b35beb606c6137e82e1442584bbe64567daafb41636729",
+      "baselineBytes": 134130,
+      "candidateBytes": 134255,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/util/antigravityThemes.test.ts",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "09c607f96afec0ec52d6ef5c8eb919238c6106853905ee7c1e2631c00fbe6d24",
+      "baselineBytes": 0,
+      "candidateBytes": 10307,
+      "baselineProvenance": "New file"
+    },
+    {
+      "path": "src/util/antigravityThemes.ts",
+      "status": "modified",
+      "baselineSha256": "735e5ad2d14d1ddf727b10c1eba6548690c6ba5e1cdffb2b140bba4e1c10dc2b",
+      "candidateSha256": "e183736d4ef40cedf3a651ce3baf96fc605ff35afab6bd115cc7664246d45aee",
+      "baselineBytes": 12506,
+      "candidateBytes": 18133,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/util/applyMessageTextSize.ts",
+      "status": "added",
+      "baselineSha256": null,
+      "candidateSha256": "2cd5eff4692f195946225ed8c3177e3e9b06efe0b746feeb82c95f5f412b22c9",
+      "baselineBytes": 0,
+      "candidateBytes": 715,
+      "baselineProvenance": "New file"
+    },
+    {
+      "path": "src/util/localization/relayOperationsStrings.ts",
+      "status": "modified",
+      "baselineSha256": "2392affc12d7b4c86b3a727bbfc946e447f1542f7e19cc7fcb8dc844172a18f7",
+      "candidateSha256": "5a3e9e11d6adfc867162fb60ddaed5417dbb6038cc11c94b3ea848b3e30dc8f3",
+      "baselineBytes": 13497,
+      "candidateBytes": 13553,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "src/util/themeStyle.ts",
+      "status": "modified",
+      "baselineSha256": "95771e1baec20a7f6c2d0daec775961d8df9802e212e4aee6bd73546385b1cce",
+      "candidateSha256": "b1994dc84fdc307ee83cfb5e814e60fddb7e1b7511a035c74f04fd771a987777",
+      "baselineBytes": 3280,
+      "candidateBytes": 3338,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "tauri/Cargo.lock",
+      "status": "modified",
+      "baselineSha256": "becba562d3edadc6245e3d9a7106e3bb48a905710dac166ea8ccde7706c04f13",
+      "candidateSha256": "9e23616e64ec6a8809ba8a4844fc6ae39eba1501f92275e2344e98a9f063fe76",
+      "baselineBytes": 167419,
+      "candidateBytes": 167419,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "tauri/Cargo.toml",
+      "status": "modified",
+      "baselineSha256": "17af4fa809bd1e4edaffc10277c98d3569846e8b8c277560a27a9f79e19aad22",
+      "candidateSha256": "5b51e4985ea6964ed3aea521138babbd1d06f0a7a569e1e0a0f9cecb20078eaf",
+      "baselineBytes": 1497,
+      "candidateBytes": 1497,
+      "baselineProvenance": "frozen-2534"
+    },
+    {
+      "path": "vitest.config.ts",
+      "status": "modified",
+      "baselineSha256": "2d4bd2da22557c32056f9b6105c51b93f9fc83bd779e4a1396ec28b935c435a4",
+      "candidateSha256": "aa8fff0c06bb7df352b0143b5a8768e2f3dca504cbe05377f9105f6f80e60e4e",
+      "baselineBytes": 574,
+      "candidateBytes": 563,
+      "baselineProvenance": "Single-literal reconstruction from observed pre-edit config, outside frozen manifest"
+    }
+  ]
+}

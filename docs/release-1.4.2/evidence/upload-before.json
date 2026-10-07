@@ -1,0 +1,59 @@
+{
+  "results": [
+    {
+      "name": "pre-cancel",
+      "outcome": "resolved",
+      "requests": 1,
+      "releases": 1,
+      "senders": 0,
+      "senderReleases": 0,
+      "reads": 0,
+      "sends": 0,
+      "maxActive": 1,
+      "active": 0,
+      "unhandled": []
+    },
+    {
+      "name": "retry-reads-release",
+      "outcome": "resolved",
+      "requests": 1,
+      "releases": 1,
+      "senders": 2,
+      "senderReleases": 1,
+      "reads": 2,
+      "sends": 2,
+      "maxActive": 1,
+      "active": 0,
+      "unhandled": []
+    },
+    {
+      "name": "failed-part-stops-queue",
+      "outcome": "rejected",
+      "error": "FAILED",
+      "requests": 5,
+      "releases": 4,
+      "senders": 5,
+      "senderReleases": 4,
+      "reads": 5,
+      "sends": 5,
+      "maxActive": 1,
+      "active": 1,
+      "unhandled": [
+        "Error: FAILED"
+      ]
+    },
+    {
+      "name": "cancel-pending-send",
+      "outcome": "timeout",
+      "requests": 1,
+      "releases": 0,
+      "senders": 1,
+      "senderReleases": 0,
+      "reads": 1,
+      "sends": 1,
+      "maxActive": 1,
+      "active": 1,
+      "unhandled": []
+    }
+  ]
+}

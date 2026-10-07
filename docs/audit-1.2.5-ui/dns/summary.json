@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-09-29T12:51:39.453Z",
+  "matrixCases": 16,
+  "stateChecks": 8,
+  "dpiCases": 3,
+  "beforeSemanticFailures": 25,
+  "afterFailures": 0,
+  "browserErrors": 0,
+  "titlebarSha256": "45686FA273DBA66CB82BA753D48EEF301480F2D5A676BD0F7CAF26EE7B2725EA",
+  "testSha256": "B8E791D645895EA2BAAC71F699C88842D64320B7DA018616A10ABF1B4C82634A",
+  "unitTests": 8,
+  "eslintExitCode": 0,
+  "limits": [
+    "Synthetic Teact components and native mocks; no personal DNS address or account",
+    "DOM title attributes checked; native tooltip popup rendering not captured",
+    "No screen reader session; no live DNS or external connectivity claim"
+  ]
+}

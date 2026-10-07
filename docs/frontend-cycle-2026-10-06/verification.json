@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-frontend-1.6.0",
+  "generatedAt": "2026-10-06T12:41:25.387881+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "status": "local-candidate-ready-manual-acceptance-pending",
+  "baselineVersion": "1.5.0",
+  "candidateVersion": "1.6.0",
+  "sourceHashesFile": "candidate-source-hashes.json",
+  "sourceHashesSha256": "a25671b5ec6ec50b91c74eb4beb9f9303121e3c104dcde265ba66c3a9ff823fe",
+  "sourceStillMatchesFrozenCandidate": true,
+  "sourceDiff": {
+    "file": "source-diff.json",
+    "sha256": "bd805dda928b55638b5876008d468eda80050258ab10f6028d5484203043626a"
+  },
+  "patch": {
+    "file": "changes-from-1.5.0.patch",
+    "sha256": "4d8219ebb3527822d61223d334fb2f032b97e3f6eb8799e1bc6458bd463f5bb2"
+  },
+  "installer": {
+    "buildLogs": [
+      "../../docs/frontend-cycle-2026-10-06/verification-logs/production-delivery.log",
+      "../../docs/frontend-cycle-2026-10-06/verification-logs/nsis-delivery.log"
+    ],
+    "generatedAt": "2026-10-06T12:27:21.8802353Z",
+    "version": "1.6.0",
+    "preflightReport": "../../docs/frontend-cycle-2026-10-06/verification-logs/preflight-delivery.json",
+    "nativeProfileAccessed": false,
+    "schemaVersion": 1,
+    "updaterEnabled": false,
+    "executable": {
+      "bytes": 78098944,
+      "fileName": "Egoist Relay.exe",
+      "sha256": "4c8a8e9933f6dcf8be98f8e96105cc7ba11d1bc53ba1072005d486bf9dd1f759",
+      "authenticode": "NotSigned",
+      "productVersion": "1.6.0",
+      "fileVersion": "1.6.0"
+    },
+    "installer": {
+      "fileName": "Egoist Relay_1.6.0_x64-setup.exe",
+      "sha256": "0b85b606686e25cad55b7690014a0c9691a4bc02faeea250a5dc413130c1f7d9",
+      "installed": false,
+      "authenticode": "NotSigned",
+      "bytes": 567485174
+    },
+    "package": "NSIS",
+    "architecture": "x64",
+    "sourceHashesSha256": "a25671b5ec6ec50b91c74eb4beb9f9303121e3c104dcde265ba66c3a9ff823fe",
+    "sourceHashesFile": "../../docs/frontend-cycle-2026-10-06/candidate-source-hashes.json",
+    "limitations": [
+      "Unsigned local candidate; not installed in user profile",
+      "No live Telegram/media acceptance or physical DPI/GPU validation",
+      "Build hook overridden only in task config; preflight and production build executed separately"
+    ],
+    "product": "Egoist Relay"
+  },
+  "checks": [
+    {
+      "id": "vitest",
+      "status": "pass",
+      "tests": 416,
+      "files": 30,
+      "log": "verification-logs/vitest-candidate.log",
+      "scope": "Full suite after initial.ts restart and panel resize-focus changes; the final two Solarized foreground constants were followed by the affected 43-theme-test suite, not a second full-suite run"
+    },
+    {
+      "id": "theme-final",
+      "status": "pass",
+      "tests": 43,
+      "log": "verification-logs/theme-selected-contrast-final.log",
+      "scope": "Final palette constants, managed theme properties, storage and contrast contracts"
+    },
+    {
+      "id": "native",
+      "status": "pass",
+      "tests": 111,
+      "log": "verification-logs/native-tests.log",
+      "scope": "Local Rust unit/integration checks, including async PAC; native backend has no functional change in this frontend cycle"
+    },
+    {
+      "id": "media-release",
+      "status": "pass",
+      "tests": 80,
+      "log": "verification-logs/media-release-tests.log",
+      "scope": "Local transport and release checks; no live account send"
+    },
+    {
+      "id": "typescript",
+      "status": "pass",
+      "configs": [
+        "tsconfig.json",
+        "tsconfig.script.json",
+        "tsconfig.test.json"
+      ],
+      "evidence": "verification-logs/typescript-candidate.json",
+      "scope": "After boot/focus changes, before final two CSS role constants; no type/interface delta after run"
+    },
+    {
+      "id": "eslint",
+      "status": "pass",
+      "errors": 0,
+      "warnings": 1,
+      "heapMiB": 5120,
+      "log": "verification-logs/eslint-complete.log",
+      "affectedFinalLog": "verification-logs/theme-selected-contrast-lint.log",
+      "scope": "Full source/scripts lint plus affected final lint; existing DocumentReaderModal dangerouslySetInnerHTML warning"
+    },
+    {
+      "id": "stylelint",
+      "status": "pass",
+      "errors": 0,
+      "warnings": 509,
+      "log": "verification-logs/stylelint-complete.log",
+      "affectedFinalLog": "verification-logs/contrast-stylelint-final.log",
+      "affectedWarnings": 68,
+      "scope": "Full SCSS check plus affected styles; warnings are existing migration/ordering conventions"
+    },
+    {
+      "id": "ui",
+      "status": "pass-with-gate",
+      "summary": {
+        "total": 64,
+        "pass": 63,
+        "fail": 0,
+        "gated": 1,
+        "sourceComponents": 775,
+        "renderedEvidenceComponents": 37
+      },
+      "file": "candidate-ui-release/ui-scenario-results.json",
+      "sha256": "f3538de5ac77f79ebdb65cf351942834ca18308fb14666841ddb3164bab07c5d",
+      "scope": "Actual App on existing MockClient/native terminal mocks; ActiveWebsites gated by absent fresh fixture. Rendered37/source775; no assertion of exhaustive component execution"
+    },
+    {
+      "id": "operations-ui",
+      "status": "pass",
+      "summary": {
+        "passed": 21,
+        "failed": 0,
+        "total": 21
+      },
+      "file": "candidate-operations-release/operations-ui-audit-2026-10-06T11-09-39-487Z.json",
+      "sha256": "c3afd73ba768f4ca17712edc41dd48b85edca56f0ec950bc38883bc8693a64c8",
+      "scope": "21 local operations UI cases. Later resize-focus change independently covered by final acceptance"
+    },
+    {
+      "id": "frontend-acceptance",
+      "status": "pass",
+      "passed": 8,
+      "failed": 0,
+      "file": "candidate-acceptance-verified/frontend-acceptance.json",
+      "sha256": "f07a2a445da161dc8aa36356e23a28c316810108d9d7d91c88300acf1073f7f0",
+      "scope": "Latest boot/focus changes; subsequent two Solarized role constants affect other themes only"
+    },
+    {
+      "id": "all-themes",
+      "status": "pass",
+      "summary": {
+        "variantsObserved": 11,
+        "consistencyChecksPassed": 11,
+        "primaryContrastPassed": 11,
+        "savedGlyphContrastPassed": 11,
+        "selectedChatTitlePassed": 11,
+        "selectedChatSubtitlePassed": 11,
+        "primaryStateChecks": 12,
+        "primaryStateChecksPassed": 12
+      },
+      "file": "theme/actual-variants.json",
+      "sha256": "825471f56bc04f9ada0715d11fc5cf4592c343cda17db27bb73df186a9f5ef55",
+      "scope": "Composite actual UI evidence: retain nine observed variants on original identities; replace only Solarized Dark/Light with fresh stored-profile actual UI observations on the selected-foreground fix. All per-run named sources remain stable. This is color/UI QA, not a resource benchmark or a full eleven-theme run on the final source identity.",
+      "limitations": [
+        "Headless installed Edge with synthetic MockClient and terminal native mocks; native WebView/GPU/DPI and live accounts not checked",
+        "Fixture scenario hash is restored before every reload because chat navigation replaces the startup scenario hash; loadChats/simulateConnected are replayed",
+        "Seven retained themes have quick cached reload plus6s coverage; dark-modern/monokai retained rows and both affected Solarized final rows use fresh stored-profile startup plus6s. These four rows do not independently verify cached restart. Nine retained UI observations reference their original source identities; only two Solarized rows are reobserved after the scoped foreground fix. User profiles and Windows theme are untouched",
+        "Button is actual default primary component in existing callback-only overlay. Four bright black-foreground palettes also cover hover/focus/no-ripple-active; no-page-transitions body class is set only in isolated browser and immediately restored. Disabled states are outside this check",
+        "Contrast values are mathematical color observations with task-provided4.5/3 thresholds, not a claim of complete WCAG conformance. Own subtitle opacity is composited; native GPU and physical display appearance are unverified",
+        "SavedMessages raster sidebands cover CSS icon vertical bounds conservatively; anti-aliasing, user zoom and physical display calibration are outside measurement",
+        "Before role-change product contrast was not measured by this subagent; unsuccessful reload bootstrap attempts are excluded"
+      ]
+    },
+    {
+      "id": "preflight",
+      "status": "pass",
+      "runtimeResources": 40,
+      "updaterEnabled": false,
+      "report": "verification-logs/preflight-delivery.json"
+    },
+    {
+      "id": "production",
+      "status": "pass",
+      "log": "verification-logs/production-delivery.log"
+    },
+    {
+      "id": "nsis",
+      "status": "pass",
+      "log": "verification-logs/nsis-delivery.log",
+      "architecture": "x64"
+    },
+    {
+      "id": "patch",
+      "status": "pass",
+      "changedFiles": 59,
+      "addedFiles": 5,
+      "baselineFiles": 2534,
+      "reverseCheckExitCode": 0,
+      "log": "verification-logs/source-diff-check.log",
+      "scope": "Frozen working source bytes, not Git HEAD. New files explicit. Text patch normalizes CRLF; exact baseline bytes accompany hashes. Vitest config provenance separate."
+    },
+    {
+      "id": "paired-benchmark",
+      "status": "completed",
+      "file": "benchmark/2026-10-06T12-27-37-098Z-ea6a13ef/results.json",
+      "sha256": "97c0cceaf4b0a8ccc6f711236eb16a6088c3f8782e1e5f1a38c57e5849355f11",
+      "summary": {
+        "batches": 6,
+        "actions": 1200,
+        "regressionsOutsideObservedSpread": [],
+        "unavailableMetrics": [
+          "browser-tree-cpu",
+          "browser-cdp-cpu-crosscheck"
+        ]
+      },
+      "regressionAssessmentFile": "benchmark-assessment.md"
+    },
+    {
+      "id": "gallery",
+      "status": "pass",
+      "captures": 8,
+      "pageErrors": 0,
+      "file": "candidate-render.json",
+      "sha256": "a48b392dad9c112e5cb0cf46bf571c2f9fb2f1680ed37fbb2888c5fbe9f18864",
+      "scope": "Latest frozen source, same baseline fixture; 8 before/after PNG pairs and one video per version; real App without CSS probes"
+    },
+    {
+      "id": "companion-feedback",
+      "status": "pass",
+      "checks": 17,
+      "file": "review-result-verification.json",
+      "sha256": "6043936f08aa12d8948e63a7c34f1492fe40b351af2e5fe0a70c21a251e230cf",
+      "scope": "Standalone file:// actual companion board, synthetic choices in isolated test contexts; mock bridge only, no actual user response or Codex follow-up transmission"
+    }
+  ],
+  "commands": {
+    "node": "Bundled Node24.19.0; locked dependencies already installed",
+    "typescript": "node node_modules/typescript/bin/tsc --project <config> --noEmit --incremental --tsBuildInfoFile <ownWork/file>",
+    "eslint": "node --max-old-space-size=5120 node_modules/eslint/bin/eslint.js src scripts --cache --cache-location <ownWork/eslint.cache>",
+    "stylelint": "node node_modules/stylelint/bin/stylelint.mjs src/**/*.scss --cache --cache-location <ownWork/stylelint.cache>",
+    "vitest": "node node_modules/vitest/vitest.mjs run --config <ownWork/vitest.task.config.mts> --configLoader runner",
+    "native": "cargo test --manifest-path tauri/Cargo.toml with CARGO_TARGET_DIR in own task work",
+    "preflight": "node scripts/release-preflight.mjs --report <ownWork/preflight-delivery.json>",
+    "production": "APP_ENV=production NODE_ENV=production node node_modules/vite/bin/vite.js build --config <ownWork/vite.task.config.mts> --configLoader runner",
+    "nsis": "node node_modules/@tauri-apps/cli/tauri.js build --config <ownWork/tauri-local-build.json> --bundles nsis --ci",
+    "buildOverride": "Only task-local beforeBuildCommand empty; preflight and production already ran. Project hook preserved. Wrapper changes cacheDir only",
+    "benchmark": "RELAY_FRONTEND_BASELINE=<frozen1.5.0> RELAY_FRONTEND_BENCHMARK_OUTPUT=<ownWork> RELAY_FRONTEND_BENCHMARK_READY=1 node scripts/relay-frontend-benchmark.mjs"
+  },
+  "buildRecovery": {
+    "firstLatestBuildFailed": "os112 disk full, see verification-logs/nsis-candidate.log",
+    "action": "Verified task-owned Cargo debug cache removed after writers ended; source, frozen baseline, retained release artifacts preserved",
+    "receipt": "verification-logs/own-cache-cleanup.json",
+    "finalBuildSucceeded": true
+  },
+  "limitations": [
+    "No live Telegram or disk/media end-to-end acceptance; user only own SavedMessages",
+    "No native installed Tauri/WebView2 process-tree timing, physical GPU/DPI, COM focus or Narrator validation",
+    "Second Windows device/participant not available; competitors were researched but not run locally",
+    "UI audit explicitly gated ActiveWebsites; 37 of775 source components observed through rendered evidence",
+    "All11theme aggregate retains row-level source identities; three variants have fresh stored-profile boot, not independently cached fixture restart",
+    "Headless source-overlay comparison uses current audit harness/dependencies/macros/configFile:false, not historical packaged1.5.0 runtime; baseline missing support configs explicit",
+    "Unsigned local installer; not installed or published; public signing and full corresponding source remain separate work"
+  ],
+  "feedback": {
+    "board": "review-result.html",
+    "snapshot": "Реестр-1.6.0.json",
+    "initialDecision": "unreviewed",
+    "responsesStoredInProduct": false,
+    "approvalMeaning": "Accept described implemented behavior for manual review; does not install, send or publish",
+    "snapshotSha256": "85d5bda6d4cf1326e5237617a8aded75342d7a7b3c2499997bbff5ee35320439",
+    "qa": "review-result-verification.json",
+    "actualCodexBridgeTested": false
+  },
+  "environment": {
+    "platform": "win32",
+    "release": "10.0.26200",
+    "node": "v24.19.0",
+    "processor": "AMD Ryzen 7 9800X3D 8-Core Processor           ",
+    "logicalProcessors": 16,
+    "browser": "msedge.exe",
+    "headless": true,
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "readingViewport": {
+      "width": 1100,
+      "height": 800
+    },
+    "rootFontSizePx": 16,
+    "theme": "egoist-dark",
+    "locale": "ru-RU",
+    "reducedMotion": "no-preference",
+    "serviceWorkers": "block",
+    "nativeMockDelayMs": 15,
+    "browserArgs": [
+      "--disable-background-networking",
+      "--disable-component-update",
+      "--disable-domain-reliability"
+    ],
+    "appVersionMacro": "1.6.0"
+  }
+}

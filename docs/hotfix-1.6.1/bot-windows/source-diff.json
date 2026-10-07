@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "baseline": "Exact own before bytes captured before source edits, preserving foreign 1.6.0 changes",
+  "paths": [
+    {
+      "path": "scripts/mini-app-bridge.js",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "a9048d4d528d4dd893066aa6d538d7ab0bb2ba7779a603d0f8c17f25dccf4f58",
+      "beforeBytes": 0,
+      "afterBytes": 2236
+    },
+    {
+      "path": "scripts/mini-app-bridge.test.mjs",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "fabd63aa63eb8ace710222610619aaf707b049fc49fe1b83ea4b16129a777008",
+      "beforeBytes": 0,
+      "afterBytes": 3930
+    },
+    {
+      "path": "src/assets/localization/fallback.strings",
+      "existed": true,
+      "sha256": "c44e483cb65d477d6ca80a29a3f7035fc908139ca49eb5f6b7d3d90112f5a164",
+      "beforeSha256": "c44e483cb65d477d6ca80a29a3f7035fc908139ca49eb5f6b7d3d90112f5a164",
+      "afterSha256": "67452d3d8bd5761c8fd11f53586374269a7e629a9050618942e56594e8a58fa3",
+      "beforeBytes": 203713,
+      "afterBytes": 203841
+    },
+    {
+      "path": "src/assets/localization/initialRussian.strings",
+      "existed": true,
+      "sha256": "603318ac119c66cde252ae1b6339cb0deb0691cfc2c43988fc87da5a2f7743b9",
+      "beforeSha256": "603318ac119c66cde252ae1b6339cb0deb0691cfc2c43988fc87da5a2f7743b9",
+      "afterSha256": "7bc640b9ce2e8f20d46d7ec8ad45fae566b11fb0e72c1dddbd4fe7f84fc429f6",
+      "beforeBytes": 6550,
+      "afterBytes": 6755
+    },
+    {
+      "path": "src/components/modals/browser/WebAppTab.tsx",
+      "existed": true,
+      "sha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb",
+      "beforeSha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb",
+      "afterSha256": "32376a21b7636a84438d532219ae911b1f38598fdcaab887fc5e8b69bc43762e",
+      "beforeBytes": 45438,
+      "afterBytes": 45628
+    },
+    {
+      "path": "src/components/modals/browser/hooks/useWebAppFrame.ts",
+      "existed": true,
+      "sha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a",
+      "beforeSha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a",
+      "afterSha256": "16a33cba328c18162ece55f5651fa36f24f5a35d24452478adc9d3561d58eb06",
+      "beforeBytes": 12023,
+      "afterBytes": 14389
+    },
+    {
+      "path": "src/types/language.d.ts",
+      "existed": true,
+      "sha256": "7913ac63f3549118a7b35beb606c6137e82e1442584bbe64567daafb41636729",
+      "beforeSha256": "7913ac63f3549118a7b35beb606c6137e82e1442584bbe64567daafb41636729",
+      "afterSha256": "b879da1a36e454a5d8b9712e5918085efbc54e8a7f778b029ff8de555b100f9c",
+      "beforeBytes": 134255,
+      "afterBytes": 134294
+    },
+    {
+      "path": "src/util/localization/relayOperationsStrings.ts",
+      "existed": true,
+      "sha256": "5a3e9e11d6adfc867162fb60ddaed5417dbb6038cc11c94b3ea848b3e30dc8f3",
+      "beforeSha256": "5a3e9e11d6adfc867162fb60ddaed5417dbb6038cc11c94b3ea848b3e30dc8f3",
+      "afterSha256": "f169c047839c48156634b98ae3a4eb0e0a208d2d2fbac0e77fc8c84495cc5fca",
+      "beforeBytes": 13553,
+      "afterBytes": 13900
+    },
+    {
+      "path": "src/util/tauri/botWebApps.test.ts",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "7d38c25c1030e0d67b514969b7313a9985f3f92b4f076d3bd2cbc662aa0ae7c5",
+      "beforeBytes": 0,
+      "afterBytes": 8735
+    },
+    {
+      "path": "src/util/tauri/botWebApps.ts",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "808a47786db2e9f6038fba4430f1cebf491c4321572ddfded4dc442c21e7973e",
+      "beforeBytes": 0,
+      "afterBytes": 7991
+    },
+    {
+      "path": "tauri/build.rs",
+      "existed": true,
+      "sha256": "1ae0a50bc2913380b757a4db68130063332d3bdca4a674abc6ac279d6e770493",
+      "beforeSha256": "1ae0a50bc2913380b757a4db68130063332d3bdca4a674abc6ac279d6e770493",
+      "afterSha256": "eacb4749164205903559694cc14dac6766f1514c1bc5c7fd8e03b2ac8d7e1876",
+      "beforeBytes": 3880,
+      "afterBytes": 4022
+    },
+    {
+      "path": "tauri/capabilities/bot-web-apps.json",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "6429d58dcf09fbc3dc703e380b306f9cc23978df0bd5441f7d29eb0528090945",
+      "beforeBytes": 0,
+      "afterBytes": 218
+    },
+    {
+      "path": "tauri/permissions/bot-web-apps.toml",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "b5bf5778086d883299a1a05181cb8f7b468e7d51ed6504252795f54194e5aa4a",
+      "beforeBytes": 0,
+      "afterBytes": 325
+    },
+    {
+      "path": "tauri/src/bot_web_apps.rs",
+      "existed": false,
+      "sha256": null,
+      "beforeSha256": null,
+      "afterSha256": "f371f213eb57069efc908129554c8bdebde61e214f50f915b970625ba1954159",
+      "beforeBytes": 0,
+      "afterBytes": 20753
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "existed": true,
+      "sha256": "da46ddf9b0276fc703b65fd23cfd9fe50492cd1191fe8e9458dcfa9bbe8a86da",
+      "beforeSha256": "da46ddf9b0276fc703b65fd23cfd9fe50492cd1191fe8e9458dcfa9bbe8a86da",
+      "afterSha256": "35aec0799577d5d9e55bf9d084d935bacf4b84e0ec7ea24e566a4bec3f3bee68",
+      "beforeBytes": 20374,
+      "afterBytes": 20592
+    },
+    {
+      "path": "tauri/src/multi_app.rs",
+      "existed": true,
+      "sha256": "9fc172db4a62b0e04642626b2e59335cd8cb9648a01a7e88e84f70f59f6d7c3b",
+      "beforeSha256": "9fc172db4a62b0e04642626b2e59335cd8cb9648a01a7e88e84f70f59f6d7c3b",
+      "afterSha256": "dd269ce0a6eac9c05fcda54192e50ff484bfc238e49a2af5104dc0984c9639f0",
+      "beforeBytes": 63421,
+      "afterBytes": 63925
+    },
+    {
+      "path": "tauri/src/multi_app_downloads.rs",
+      "existed": true,
+      "sha256": "f0542f24be4e232dbf955edb1e1b3652a345ab62e670ec25552e3026e74d7a5a",
+      "beforeSha256": "f0542f24be4e232dbf955edb1e1b3652a345ab62e670ec25552e3026e74d7a5a",
+      "afterSha256": "05600828e2322b895b9d4d5932f3be6b16bc5d88d6a2d00d23dbe2106f62c856",
+      "beforeBytes": 38121,
+      "afterBytes": 38253
+    }
+  ]
+}

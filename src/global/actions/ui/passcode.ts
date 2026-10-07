@@ -5,7 +5,7 @@ import { IS_SCREEN_LOCKED_CACHE_KEY } from '../../../config';
 import { getCurrentTabId, signalPasscodeHash } from '../../../util/establishMultitabRole';
 import { cloneDeep } from '../../../util/iteratees';
 import {
-  clearEncryptedSession, encryptSession, forgetPasscode, setupPasscode,
+  clearEncryptedSession, encryptSession, forgetPasscode, getPasscodeHash, setPasscodeHash, setupPasscode,
 } from '../../../util/passcode';
 import { onBeforeUnload } from '../../../util/schedulers';
 import { clearStoredSession, loadStoredSession, storeSession } from '../../../util/sessions';
@@ -31,18 +31,20 @@ addActionHandler('setPasscode', async (global, actions, payload): Promise<void> 
     isLoading: true,
   });
   setGlobal(global);
-  await setupPasscode(passcode);
-
-  const sessionJson = JSON.stringify({ ...loadStoredSession(), userId: global.currentUserId });
-  global = getGlobal();
-  const globalJson = serializeGlobal(updatePasscodeSettings(global, {
-    hasPasscode: true,
-    error: undefined,
-    isLoading: false,
-  }));
-  const sharedStateJson = serializeShared(global.sharedState);
+  const previousPasscodeHash = getPasscodeHash();
 
   try {
+    await setupPasscode(passcode);
+
+    const sessionJson = JSON.stringify({ ...loadStoredSession(), userId: global.currentUserId });
+    global = getGlobal();
+    const globalJson = serializeGlobal(updatePasscodeSettings(global, {
+      hasPasscode: true,
+      error: undefined,
+      isLoading: false,
+    }));
+    const sharedStateJson = serializeShared(global.sharedState);
+
     await encryptSession(sessionJson, globalJson, sharedStateJson);
 
     signalPasscodeHash();
@@ -55,8 +57,12 @@ addActionHandler('setPasscode', async (global, actions, payload): Promise<void> 
     setGlobal(global);
 
     forceUpdateCache(true);
-  } catch (err: any) {
-    forgetPasscode();
+  } catch (err) {
+    if (previousPasscodeHash) {
+      setPasscodeHash(previousPasscodeHash);
+    } else {
+      forgetPasscode();
+    }
 
     global = getGlobal();
     global = updatePasscodeSettings(global, {
@@ -65,18 +71,33 @@ addActionHandler('setPasscode', async (global, actions, payload): Promise<void> 
     setGlobal(global);
 
     actions.showNotification({
-      message: 'Failed to set passcode',
+      message: { key: 'GeneralError' },
       tabId,
     });
-    actions.openSettingsScreen({ screen: SettingsScreens.PasscodeDisabled, tabId });
+    actions.openSettingsScreen({
+      screen: global.passcode.hasPasscode ? SettingsScreens.PasscodeEnabled : SettingsScreens.PasscodeDisabled,
+      tabId,
+    });
   }
 });
 
-addActionHandler('clearPasscode', (global): ActionReturnType => {
-  void clearEncryptedSession();
+addActionHandler('clearPasscode', async (global, actions): Promise<void> => {
+  try {
+    await clearEncryptedSession();
+  } catch (err) {
+    actions.showNotification({ message: { key: 'GeneralError' }, tabId: getCurrentTabId() });
+    return;
+  }
 
-  localStorage.removeItem(IS_SCREEN_LOCKED_CACHE_KEY);
-  return clearPasscodeSettings(global);
+  try {
+    localStorage.removeItem(IS_SCREEN_LOCKED_CACHE_KEY);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[Passcode] Failed to remove the screen lock marker:', err);
+  }
+  global = getGlobal();
+  global = clearPasscodeSettings(global);
+  setGlobal(global);
 });
 
 addActionHandler('unlockScreen', (global, actions, payload): ActionReturnType => {

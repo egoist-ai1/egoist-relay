@@ -18,7 +18,7 @@
   --message-list-composer-gap: var(--composer-top-gap);
   --message-list-base-reserve: calc(var(--message-list-min-reserve) + var(--message-list-composer-gap));
   --message-list-bottom-inset: var(--message-list-base-reserve);
-  --message-list-fade-floor: rgba(0, 0, 0, 0.24);
+  --message-list-fade-floor: transparent;
   --message-list-top-fade-ramp: 1.5rem;
   --message-list-bottom-fade: var(--message-list-min-reserve);
 
@@ -104,11 +104,12 @@
     flex-direction: column;
     justify-content: flex-end;
 
+    box-sizing: border-box;
     width: 100%;
     max-width: var(--messages-container-width);
     min-height: 100%;
     margin: 0 auto;
-    padding: 1rem 1rem var(--message-list-bottom-inset) 1.125rem;
+    padding: 1rem 1.25rem var(--message-list-bottom-inset) 1.25rem;
 
     .force-messages-scroll & {
       margin-top: 100vh !important;

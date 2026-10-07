@@ -121,6 +121,13 @@ const AiTextTranslateEditor = ({
     }
   });
 
+  const handleTriggerKeyDown = useLastCallback((event: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleTriggerClick();
+    }
+  });
+
   const getTriggerElement = useLastCallback(() => triggerRef.current);
   const getRootElement = useLastCallback(() => document.body);
   const getMenuElement = useLastCallback(() => document.querySelector('.language-menu .bubble'));
@@ -185,6 +192,9 @@ const AiTextTranslateEditor = ({
             ref={triggerRef}
             className={styles.languageLink}
             onClick={handleTriggerClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={handleTriggerKeyDown}
           >
             {selectedLanguageName}
             <i className="icon icon-down" />

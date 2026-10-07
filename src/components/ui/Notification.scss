@@ -69,10 +69,22 @@
   .notification-button {
     width: auto;
     height: 2rem;
-    margin-inline-start: 0.125rem;
+    margin-inline-start: 0.5rem;
+    padding: 0 0.875rem !important;
+    border: 1px solid #2E2E34 !important;
+    border-radius: 1rem !important;
 
-    font-weight: var(--font-weight-medium);
-    color: var(--color-toast-action);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: #FFFFFF !important;
     text-transform: none;
+
+    background: #1C1C20 !important;
+
+    &:hover,
+    &:active {
+      border-color: #3E3E46 !important;
+      background: #2A2A30 !important;
+    }
   }
 }

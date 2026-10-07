@@ -1,0 +1,17 @@
+[
+  {
+    "exitCode": 0,
+    "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\tsconfig.json.candidate.log",
+    "id": "tsconfig.json"
+  },
+  {
+    "exitCode": 0,
+    "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\tsconfig.script.json.candidate.log",
+    "id": "tsconfig.script.json"
+  },
+  {
+    "exitCode": 0,
+    "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\tsconfig.test.json.candidate.log",
+    "id": "tsconfig.test.json"
+  }
+]

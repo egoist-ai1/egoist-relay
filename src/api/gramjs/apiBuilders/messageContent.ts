@@ -88,9 +88,7 @@ export function buildMessageContent(
     };
   }
 
-  const hasUnsupportedMedia = mtpMessage.media instanceof GramJs.MessageMediaUnsupported;
-
-  if (!richMessage && mtpMessage.message && !hasUnsupportedMedia
+  if (!richMessage && mtpMessage.message
     && !content.sticker && !content.todo && !content.contact && !content.video?.isRound) {
     const text = buildMessageTextContent(mtpMessage.message, mtpMessage.entities);
     const textWithTimestamps = addTimestampEntities(text);

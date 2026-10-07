@@ -1,4 +1,4 @@
-import type { PromisedWebSockets } from '../../extensions';
+import type { PacketReader } from './Connection';
 
 import { bufferFromHex, concat, readUint32LE } from '../../../../util/encoding/buffer';
 import { SecurityError } from '../../errors';
@@ -43,12 +43,12 @@ export class AbridgedPacketCodec extends PacketCodec {
     return concat(temp, data);
   }
 
-  async readPacket(reader: PromisedWebSockets) {
+  async readPacket(reader: PacketReader) {
     const readData = await reader.read(1);
     let length = readData[0];
     if (length >= 127) {
       const lengthBytes = new Uint8Array(4);
-      lengthBytes.set(await reader.read(3));
+      lengthBytes.set(await reader.readExactly(3));
       length = readUint32LE(lengthBytes);
     }
 
@@ -59,7 +59,7 @@ export class AbridgedPacketCodec extends PacketCodec {
       throw new SecurityError('Invalid abridged packet length');
     }
 
-    return reader.read(packetLength);
+    return reader.readExactly(packetLength);
   }
 }
 

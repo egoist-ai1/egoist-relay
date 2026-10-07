@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T05:33:50.760Z",
+  "label": "before",
+  "environment": "Actual custom components; destructive/delete/AI callbacks replaced only in fresh test browser; remote requests blocked; no account transport",
+  "cases": [],
+  "errors": [
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+  ],
+  "fatal": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "summary": {
+    "total": 0,
+    "pass": 0,
+    "fail": 0,
+    "errors": 1
+  }
+}

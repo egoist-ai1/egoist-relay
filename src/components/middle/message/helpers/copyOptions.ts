@@ -1,3 +1,5 @@
+import { getActions } from '../../../../global';
+
 import type { ApiMessage, StatefulMediaContent } from '../../../../api/types';
 import type { MessageListType, ThreadId } from '../../../../types';
 import type { IconName } from '../../../../types/icons';
@@ -36,7 +38,7 @@ export function getMessageCopyOptions(
   messageListType: MessageListType,
   href?: string,
   canCopy?: boolean,
-  afterEffect?: () => void,
+  afterEffect?: (kind?: 'image') => void,
   onCopyLink?: () => void,
   onCopyMessages?: (request: MessageCopyRequest, textFormat?: ClipboardTextFormat) => void,
   onCopyNumber?: () => void,
@@ -57,10 +59,12 @@ export function getMessageCopyOptions(
       label: 'lng_context_copy_image',
       icon: 'copy-media',
       handler: () => {
-        Promise.resolve(mediaHash ? mediaLoader.fetch(mediaHash, ApiMediaFormat.BlobUrl) : photo.blobUrl)
-          .then(copyImageToClipboard);
-
-        afterEffect?.();
+        void copyImageToClipboard(
+          Promise.resolve(mediaHash ? mediaLoader.fetch(mediaHash, ApiMediaFormat.BlobUrl) : photo.blobUrl),
+        ).then((isCopied) => {
+          if (isCopied) afterEffect?.('image');
+          else getActions().showNotification({ message: { key: 'RelayCopyImageError' } });
+        });
       },
     });
   }
@@ -70,7 +74,10 @@ export function getMessageCopyOptions(
       label: 'lng_context_copy_link',
       icon: 'copy',
       handler: () => {
-        copyTextToClipboard(href);
+        if (!copyTextToClipboard(href)) {
+          getActions().showNotification({ message: { key: 'GeneralError' } });
+          return;
+        }
 
         afterEffect?.();
       },

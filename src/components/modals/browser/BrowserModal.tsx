@@ -87,7 +87,7 @@ const IV_FONT_SIZE_ADJUST_PRECISION = 10;
 const IV_FONT_SIZE_ADJUST_TO_PERCENTAGE = 100;
 
 const MINIMIZED_STATE_SIZE = { width: 300, height: 40 };
-const DEFAULT_MAXIMIZED_STATE_SIZE = { width: 420, height: 730 };
+const DEFAULT_MAXIMIZED_STATE_SIZE = { width: 780, height: 800 };
 const MAXIMIZED_STATE_MINIMUM_SIZE = { width: 300, height: 300 };
 
 const BrowserModal = ({

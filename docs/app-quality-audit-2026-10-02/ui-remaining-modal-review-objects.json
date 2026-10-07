@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-remaining-modal-audit-2026-10-02",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-remaining-modal-report.json",
+  "snapshotSha256": "78fd716e1fcb96b8f52e5ecad98d949c8b64cfa9f553598f6e2feee12a26bafa",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "reviewObjects": [
+    {
+      "id": "ui-remaining-body-coverage",
+      "name": "12 новых concrete modal source paths /17 synthetic branches",
+      "version": 1,
+      "content": "84/85 body layout checks and40/40 functional checks PASS; one root32 height finding retained. 7state branches use actual App ModalContainer/MiddleColumn, others actual imported body. Exact source/assertion IDs in report.",
+      "evidence": [
+        "ui-remaining-modal-settled-before-and-css-proof.json",
+        "ui-remaining-modal-report.json"
+      ],
+      "confirmationAction": "Принять этот ограниченный batch evidence для общего audit; это не сертифицирует все окна или серверные функции."
+    },
+    {
+      "id": "ui-remaining-report-avatar-height",
+      "name": "ReportAvatar root32 height / CSS-injection proposal",
+      "version": 1,
+      "content": "Actual mouse wheel reaches maxscroll59; both footer controls then fully reachable. Do not claim complete footer inaccessibility. Dialog still y-7.796875/bottom1087.796875; title y35.203125 partially beneath root32 titlebar80px. Scoped exact ReportAvatar CSS injection only; no source edit; dialog y64/h952/bottom1016, actual header in viewport, scroll+CancelEnter protected0, reopened pointer submit localmock1",
+      "evidence": [
+        "ui-remaining-modal-settled-before-and-css-proof.json",
+        "ui-remaining-modal-settled-before-and-css-proof-report-avatar-root32-css-proof.png",
+        "ui-remaining-modal-report.json"
+      ],
+      "confirmationAction": "Принять воспроизведение и scoped CSS proof для отдельного parent source решения; текущий1.4.4 пакет этим batch не изменяется."
+    },
+    {
+      "id": "ui-remaining-boundaries",
+      "name": "Безопасность, границы и неизменность кандидата",
+      "version": 1,
+      "content": "No real account dispatch, remote network blocked; frozen3307inputs/24owned match, new3fixtures excluded by actual release selection; TSC0/JS lint0/syntax0. Backend, nativeTab, locales/zoom/galleries remain gates.",
+      "evidence": [
+        "ui-remaining-modal-checks.json",
+        "ui-remaining-modal-source-freeze.json"
+      ],
+      "confirmationAction": "Принять явно ограниченные проверки и сохранить оставшиеся gates в общем audit."
+    }
+  ],
+  "responses": [],
+  "generalComment": "",
+  "defaultDecision": "unreviewed",
+  "choices": [
+    "approve",
+    "reject",
+    "question",
+    "unreviewed"
+  ],
+  "applyAction": "Send exact neutral review objects to parent aggregate board; no standalone account/product operation"
+}

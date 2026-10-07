@@ -147,6 +147,7 @@ type OwnProps = {
   onShowSeenBy?: NoneToVoidFunction;
   onShowReactors?: NoneToVoidFunction;
   onTranslate?: NoneToVoidFunction;
+  onTranslateToLang?: (lang: string) => void;
   onTranslateWithTone?: (tone: TranslationTone) => void;
   onShowOriginal?: NoneToVoidFunction;
   onSelectLanguage?: NoneToVoidFunction;
@@ -257,6 +258,7 @@ const MessageContextMenu = ({
   onCopyMessages,
   onReactionPickerOpen,
   onTranslate,
+  onTranslateToLang,
   onTranslateWithTone,
   onShowOriginal,
   onSelectLanguage,
@@ -311,9 +313,9 @@ const MessageContextMenu = ({
     return ids.size;
   }, [seenByDates, message.reactors?.reactions]);
 
-  const handleAfterCopy = useLastCallback(() => {
+  const handleAfterCopy = useLastCallback((kind?: 'image') => {
     showNotification({
-      message: oldLang('Share.Link.Copied'),
+      message: kind === 'image' ? { key: 'RelayImageCopied' } : oldLang('Share.Link.Copied'),
     });
     onClose();
   });
@@ -488,7 +490,27 @@ const MessageContextMenu = ({
           <MenuItem icon="favorite" onClick={onUnfaveSticker}>{oldLang('Stickers.RemoveFromFavorites')}</MenuItem>
         )}
         {canTranslate && (
-          <MenuItem icon="language" onClick={() => onTranslate?.()}>{oldLang('TranslateMessage')}</MenuItem>
+          <NestedMenuItem
+            icon="language"
+            submenu={(
+              <>
+                <MenuItem
+                  icon="language"
+                  onClick={() => (onTranslateToLang ? onTranslateToLang('ru') : onTranslate?.())}
+                >
+                  На русский (RU)
+                </MenuItem>
+                <MenuItem
+                  icon="language"
+                  onClick={() => (onTranslateToLang ? onTranslateToLang('en') : onTranslate?.())}
+                >
+                  To English (EN)
+                </MenuItem>
+              </>
+            )}
+          >
+            {oldLang('TranslateMessage')}
+          </NestedMenuItem>
         )}
         {canShowOriginal && (
           <MenuItem icon="language" onClick={onShowOriginal}>

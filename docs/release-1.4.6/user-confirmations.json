@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "installation": {
+    "intent": "install_verified_1.4.6_after_normal_exit",
+    "humanText": "Relay закрыт — устанавливай 1.4.6",
+    "applied": true,
+    "receipt": "installation.json"
+  },
+  "instagramUi": {
+    "humanText": "Лента открыта под моим аккаунтом",
+    "reportedWorking": true,
+    "agentAutomaticMcpProofConfirmed": false
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-remaining-modal-source-after-2026-10-02",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-remaining-modal-source-after.json",
+  "snapshotSha256": "2cb3ff16946172f46e581cf6a10ae1da47dcc21f2677ef8d63e812fdf8c88398",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "reviewObjects": [
+    {
+      "id": "ui-remaining-report-avatar-source-after",
+      "name": "ReportAvatar: actual parent Modal source after",
+      "version": 1,
+      "content": "Current ac4686a9… source without injection: root32 FullHD both themes complete dialog/header in viewport, actual wheel+Cancel protected0+reopened pointer mock1; same proofs CSS960x540. Before failure immutable.",
+      "evidence": [
+        "ui-remaining-modal-source-after.json",
+        "ui-remaining-modal-source-after.md",
+        "ui-remaining-modal-source-after-report-avatar-root32-fullhd-dark-modern.png"
+      ],
+      "confirmationAction": "Принять bounded actual-source after proof в общий audit; не устанавливать пакет и не изменять аккаунт."
+    },
+    {
+      "id": "ui-remaining-ordinary-height-source-after",
+      "name": "11ordinary modal body paths: CSS960x540",
+      "version": 1,
+      "content": "22body geometry cases PASS, actual App/direct imported bodies and themes read back. Prior12source-path/40functional evidence maintained; unchanged GiliAutoDelete outside this old-Modal CSS scope. Broader gates remain.",
+      "evidence": [
+        "ui-remaining-modal-source-after.json",
+        "ui-remaining-modal-source-after.md"
+      ],
+      "confirmationAction": "Принять ограниченную геометрию перечисленных ordinary body paths и сохранить непроверенные gates."
+    },
+    {
+      "id": "ui-remaining-freeze-timestamp-semantics",
+      "name": "Historical frozen manifest readback",
+      "version": 1,
+      "content": "3307/24 unchanged was a snapshot at that readback, prior to intentional parent Modal.scss edit; it is NOT an assertion that current tree still matches old canonical freeze Finished 2026-10-02T10:36:19.972Z",
+      "evidence": [
+        "ui-remaining-modal-source-after.json",
+        "ui-remaining-modal-source-after.md"
+      ],
+      "confirmationAction": "Принять разграничение исторического before freeze и нового actual-source after; canonical package/release status определяет root."
+    }
+  ],
+  "responses": [],
+  "defaultDecision": "unreviewed",
+  "choices": [
+    "approve",
+    "reject",
+    "question",
+    "unreviewed"
+  ],
+  "generalComment": ""
+}

@@ -1,0 +1,1283 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a110b9-5458-76a1-9b33-3b6385bde868",
+  "status": "completed",
+  "startedAt": "2026-10-06T19:11:10.625581+00:00",
+  "completedAt": "2026-10-06T19:13:38.523535+00:00",
+  "scope": {
+    "ownedWork": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work",
+    "projectReceipt": "docs/task-cleanup-2026-10-06/children/neutral-theme.json",
+    "foreignRuntimeTouched": false,
+    "projectReleaseTouched": false,
+    "nativeHistoryChanged": false,
+    "brainSystemChanged": false
+  },
+  "authorization": "Parent cleanup task confirms direct user instruction to remove old reproducible build/QA cache while retaining five latest releases; this child owns only its own work",
+  "nativeObservation": {
+    "id": "01a110b9-5458-76a1-9b33-3b6385bde868",
+    "archived": 0,
+    "readOnly": true,
+    "observedAt": "2026-10-06T19:11:07.183119+00:00"
+  },
+  "nativeReadback": {
+    "id": "01a110b9-5458-76a1-9b33-3b6385bde868",
+    "archived": 0,
+    "readOnly": true,
+    "observedAt": "2026-10-06T19:13:38.525040+00:00"
+  },
+  "writerObservation": {
+    "queryStatus": "success",
+    "writerCount": 0,
+    "checkedAt": "2026-10-06T19:11:07.0642988+00:00",
+    "writers": [],
+    "commandLinesReported": false
+  },
+  "guards": {
+    "ownershipMarkerMatched": true,
+    "ancestorAndSubtreeHoldsAbsent": true,
+    "reparseAndHardlinksRejected": true,
+    "exclusiveFileHandles": true,
+    "fileIdentitySizeMtimeSha256Revalidated": true,
+    "guardedFileDispositionWithinHeldHandle": true,
+    "everyDeletedPathReadbackAbsent": true,
+    "resolvedBoundary": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work",
+    "unknownDataPreserved": true
+  },
+  "deleted": {
+    "files": 27154,
+    "directories": 1132,
+    "logicalBytes": 769806852,
+    "nativeAllocationBytes": 783367632,
+    "physicalDefaultStreamLowerBoundBytes": 778944512,
+    "physicalDefaultStreamUpperBoundBytes": 857849856,
+    "alignedNormalFiles": 6983,
+    "subClusterNativeAllocationFiles": 19264,
+    "subClusterNativeAllocationBytes": 4423120,
+    "zeroAllocationFiles": 907,
+    "compressedSparseEncryptedOrUnalignedFiles": 0
+  },
+  "physicalAllocation": {
+    "filesystem": "NTFS",
+    "bytesPerCluster": 4096,
+    "nativeFileStandardInfoAllocationBytes": 783367632,
+    "ntfsDefaultStreamPhysicalLowerBoundBytes": 778944512,
+    "ntfsDefaultStreamPhysicalUpperBoundBytes": 857849856,
+    "method": "Native AllocationSize is reported separately. On NTFS, normal cluster-aligned default-stream allocations contribute their native value; sub-cluster resident-like allocation contributes0 lower/one cluster upper per file. Sparse/compressed/encrypted or unaligned allocations contribute0 lower/rounded-up native value upper. These are conservative default-stream bounds without an extent query.",
+    "limitations": [
+      "Native sub-cluster allocation is not claimed as independently freed disk clusters",
+      "Directory/MFT/index/alternate-stream/journal overhead is excluded",
+      "No global C free-space delta is collected or attributed to this task"
+    ]
+  },
+  "targets": [
+    {
+      "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2073,
+      "directoriesDeleted": 72,
+      "logicalBytesDeleted": 51792752,
+      "nativeAllocationBytesDeleted": 52689568,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2216,
+      "directoriesDeleted": 92,
+      "logicalBytesDeleted": 55588605,
+      "nativeAllocationBytesDeleted": 56562008,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2217,
+      "directoriesDeleted": 92,
+      "logicalBytesDeleted": 55605071,
+      "nativeAllocationBytesDeleted": 56582496,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9835050,
+      "nativeAllocationBytesDeleted": 10102920,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2074,
+      "directoriesDeleted": 72,
+      "logicalBytesDeleted": 51794596,
+      "nativeAllocationBytesDeleted": 52689632,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\dark-modern\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2223,
+      "directoriesDeleted": 93,
+      "logicalBytesDeleted": 55620856,
+      "nativeAllocationBytesDeleted": 56602600,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2223,
+      "directoriesDeleted": 93,
+      "logicalBytesDeleted": 55621070,
+      "nativeAllocationBytesDeleted": 56602496,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2218,
+      "directoriesDeleted": 93,
+      "logicalBytesDeleted": 55600402,
+      "nativeAllocationBytesDeleted": 56578016,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9854498,
+      "nativeAllocationBytesDeleted": 10115312,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-59-24-526Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2255,
+      "directoriesDeleted": 91,
+      "logicalBytesDeleted": 64536498,
+      "nativeAllocationBytesDeleted": 65553752,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-59-24-526Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9854498,
+      "nativeAllocationBytesDeleted": 10115312,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-48-20-238Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2261,
+      "directoriesDeleted": 94,
+      "logicalBytesDeleted": 64543922,
+      "nativeAllocationBytesDeleted": 65559400,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-48-20-238Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9854498,
+      "nativeAllocationBytesDeleted": 10115312,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-45-03-666Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 1753,
+      "directoriesDeleted": 91,
+      "logicalBytesDeleted": 58417694,
+      "nativeAllocationBytesDeleted": 59381208,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-45-03-666Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9854498,
+      "nativeAllocationBytesDeleted": 10115312,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-42-35-261Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2256,
+      "directoriesDeleted": 94,
+      "logicalBytesDeleted": 60099387,
+      "nativeAllocationBytesDeleted": 61094048,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-42-35-261Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9854498,
+      "nativeAllocationBytesDeleted": 10115312,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-40-23-553Z\\browser-profile",
+      "category": "synthetic-edge-profile",
+      "recipe": "Owned headless Edge temporary persistent context with initializeAuditBrowser, MockClient and remote requests blocked; re-created from retained own QA runner and canonical audit harness",
+      "filesDeleted": 2256,
+      "directoriesDeleted": 91,
+      "logicalBytesDeleted": 60263958,
+      "nativeAllocationBytesDeleted": 61262288,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "actual-variants-2026-10-06T11-40-23-553Z\\server\\vite-cache",
+      "category": "vite-prebundle-cache",
+      "recipe": "startAuditServer(output/server,1290) creates Vite cache from canonical sources and installed dependencies; raw observations and images remain",
+      "filesDeleted": 137,
+      "directoriesDeleted": 2,
+      "logicalBytesDeleted": 9835050,
+      "nativeAllocationBytesDeleted": 10102920,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "benchmark-api-smoke\\2026-10-06T11-06-06-308Z-f706275b\\browser-profile",
+      "category": "synthetic-about-blank-profile",
+      "recipe": "Retained benchmark API smoke runner invokes isolated headless Edge about:blank only; no Relay or frozen baseline loaded",
+      "filesDeleted": 165,
+      "directoriesDeleted": 50,
+      "logicalBytesDeleted": 8694227,
+      "nativeAllocationBytesDeleted": 8736160,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "eslint-benchmark.cache",
+      "category": "compiler-linter-cache",
+      "recipe": "Existing ESLint --cache-location own-work or TypeScript --tsBuildInfoFile own-work checks; sources and receipts remain",
+      "filesDeleted": 1,
+      "directoriesDeleted": 0,
+      "logicalBytesDeleted": 487,
+      "nativeAllocationBytesDeleted": 488,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "eslint-theme.cache",
+      "category": "compiler-linter-cache",
+      "recipe": "Existing ESLint --cache-location own-work or TypeScript --tsBuildInfoFile own-work checks; sources and receipts remain",
+      "filesDeleted": 1,
+      "directoriesDeleted": 0,
+      "logicalBytesDeleted": 974,
+      "nativeAllocationBytesDeleted": 4096,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "tsconfig.json.tsbuildinfo",
+      "category": "compiler-linter-cache",
+      "recipe": "Existing ESLint --cache-location own-work or TypeScript --tsBuildInfoFile own-work checks; sources and receipts remain",
+      "filesDeleted": 1,
+      "directoriesDeleted": 0,
+      "logicalBytesDeleted": 726081,
+      "nativeAllocationBytesDeleted": 729088,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "tsconfig.script.json.tsbuildinfo",
+      "category": "compiler-linter-cache",
+      "recipe": "Existing ESLint --cache-location own-work or TypeScript --tsBuildInfoFile own-work checks; sources and receipts remain",
+      "filesDeleted": 1,
+      "directoriesDeleted": 0,
+      "logicalBytesDeleted": 1118128,
+      "nativeAllocationBytesDeleted": 1118208,
+      "exceptions": [],
+      "status": "complete"
+    },
+    {
+      "relative": "tsconfig.test.json.tsbuildinfo",
+      "category": "compiler-linter-cache",
+      "recipe": "Existing ESLint --cache-location own-work or TypeScript --tsBuildInfoFile own-work checks; sources and receipts remain",
+      "filesDeleted": 1,
+      "directoriesDeleted": 0,
+      "logicalBytesDeleted": 839554,
+      "nativeAllocationBytesDeleted": 839680,
+      "exceptions": [],
+      "status": "complete"
+    }
+  ],
+  "exactProjectEvidenceDuplicatesDeleted": 0,
+  "retention": {
+    "latestFiveQaObservationFoldersPreserved": [
+      "actual-variants-selected-fix-2026-10-06T12-13-21-080Z",
+      "actual-variants-retry-2026-10-06T12-04-52-599Z",
+      "actual-variants-2026-10-06T11-59-24-526Z",
+      "actual-variants-2026-10-06T11-48-20-238Z",
+      "actual-variants-2026-10-06T11-45-03-666Z"
+    ],
+    "olderUniqueObservationFoldersAlsoPreserved": [
+      "actual-variants-2026-10-06T11-42-35-261Z",
+      "actual-variants-2026-10-06T11-40-23-553Z"
+    ],
+    "projectReleaseRetention": "Not touched:1.6.1/1.6.0/1.5.0/1.4.7/1.4.6 belongs to another coordinator"
+  },
+  "preservedProjectThemeEvidence": [
+    {
+      "relative": "docs\\frontend-cycle-2026-10-06\\theme\\actual-variants-before-restore.json",
+      "sha256": "c8eae0090b386d3515569b022910c2d033479a1a16b5efbf893cc847799492c5",
+      "logicalBytes": 77292
+    },
+    {
+      "relative": "docs\\frontend-cycle-2026-10-06\\theme\\actual-variants.json",
+      "sha256": "825471f56bc04f9ada0715d11fc5cf4592c343cda17db27bb73df186a9f5ef55",
+      "logicalBytes": 279068
+    },
+    {
+      "relative": "docs\\frontend-cycle-2026-10-06\\theme\\before-selected-contrast-fix.json",
+      "sha256": "2db44efb80337e050c63fd99f3bea69ec8b82f6f547856dcbdeb7b9fb32f3009",
+      "logicalBytes": 267360
+    },
+    {
+      "relative": "docs\\frontend-cycle-2026-10-06\\theme\\checks.md",
+      "sha256": "11457fa0129e844d62937eff7ae567ebe8f55dd4a877c488429777bcd06c0c74",
+      "logicalBytes": 7374
+    },
+    {
+      "relative": "docs\\frontend-cycle-2026-10-06\\theme\\verification-neutral-theme.json",
+      "sha256": "330e8e89cb9200d2acc24dce8077a1dd9d75e32a06ec17daaa9cc608d658b056",
+      "logicalBytes": 4811
+    }
+  ],
+  "protectedOwnFilesReadback": {
+    "count": 196,
+    "logicalBytes": 19586257,
+    "sizeAndSha256Unchanged": true
+  },
+  "remaining": {
+    "files": 199,
+    "logicalBytes": 19602974,
+    "fileInventory": [
+      {
+        "relative": "actual-variant-probe.log",
+        "logicalBytes": 1005
+      },
+      {
+        "relative": "actual-variants-analyzer-input.json",
+        "logicalBytes": 152
+      },
+      {
+        "relative": "actual-variants-before-analysis-correction.json",
+        "logicalBytes": 267174
+      },
+      {
+        "relative": "actual-variants-combined-raw.json",
+        "logicalBytes": 137644
+      },
+      {
+        "relative": "actual-variants-fresh-retry.log",
+        "logicalBytes": 284
+      },
+      {
+        "relative": "actual-variants-fresh-retry.receipt.json",
+        "logicalBytes": 133
+      },
+      {
+        "relative": "actual-variants-latest.json",
+        "logicalBytes": 328
+      },
+      {
+        "relative": "actual-variants-retry-latest.json",
+        "logicalBytes": 340
+      },
+      {
+        "relative": "actual-variants-selected-final-input.json",
+        "logicalBytes": 158
+      },
+      {
+        "relative": "actual-variants-selected-final-raw.json",
+        "logicalBytes": 148381
+      },
+      {
+        "relative": "actual-variants-selected-fix-latest.json",
+        "logicalBytes": 354
+      },
+      {
+        "relative": "actual-variants-selected-fix.log",
+        "logicalBytes": 276
+      },
+      {
+        "relative": "actual-variants-selected-fix.receipt.json",
+        "logicalBytes": 287
+      },
+      {
+        "relative": "actual-variants-ui.log",
+        "logicalBytes": 1696
+      },
+      {
+        "relative": "actual-variants-ui.receipt.json",
+        "logicalBytes": 129
+      },
+      {
+        "relative": "analyze-actual-variants.py",
+        "logicalBytes": 11932
+      },
+      {
+        "relative": "analyze-selected-contrast-final.py",
+        "logicalBytes": 12679
+      },
+      {
+        "relative": "assemble-benchmark.py",
+        "logicalBytes": 624
+      },
+      {
+        "relative": "benchmark-api-smoke.log",
+        "logicalBytes": 1498
+      },
+      {
+        "relative": "benchmark-api-smoke.receipt.json",
+        "logicalBytes": 58
+      },
+      {
+        "relative": "benchmark-eslint-final.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "benchmark-eslint-final.receipt.json",
+        "logicalBytes": 183
+      },
+      {
+        "relative": "benchmark-eslint.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "benchmark-eslint.receipt.json",
+        "logicalBytes": 55
+      },
+      {
+        "relative": "benchmark-part-1.mjs",
+        "logicalBytes": 15645
+      },
+      {
+        "relative": "benchmark-part-2.mjs",
+        "logicalBytes": 12313
+      },
+      {
+        "relative": "benchmark-part-3.mjs",
+        "logicalBytes": 12042
+      },
+      {
+        "relative": "benchmark-syntax-final.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "benchmark-syntax-final.receipt.json",
+        "logicalBytes": 138
+      },
+      {
+        "relative": "benchmark-syntax.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "benchmark-syntax.receipt.json",
+        "logicalBytes": 55
+      },
+      {
+        "relative": "checkpoint-actual-theme-final.json",
+        "logicalBytes": 2271
+      },
+      {
+        "relative": "checkpoint-actual-variants-start.json",
+        "logicalBytes": 1164
+      },
+      {
+        "relative": "checkpoint-benchmark-ready.json",
+        "logicalBytes": 1261
+      },
+      {
+        "relative": "checkpoint-benchmark-start.json",
+        "logicalBytes": 1217
+      },
+      {
+        "relative": "checkpoint-own-cleanup-complete.json",
+        "logicalBytes": 1453
+      },
+      {
+        "relative": "checkpoint-own-cleanup-ready.json",
+        "logicalBytes": 1896
+      },
+      {
+        "relative": "checkpoint-selected-theme-pass.json",
+        "logicalBytes": 1896
+      },
+      {
+        "relative": "checkpoint-theme-evidence.json",
+        "logicalBytes": 2453
+      },
+      {
+        "relative": "checkpoint-theme-final.json",
+        "logicalBytes": 1444
+      },
+      {
+        "relative": "checkpoint-theme-start.json",
+        "logicalBytes": 1225
+      },
+      {
+        "relative": "correct-actual-variants-analysis.py",
+        "logicalBytes": 1679
+      },
+      {
+        "relative": "current-declared-theme-palettes.json",
+        "logicalBytes": 17506
+      },
+      {
+        "relative": "enhance-variant-analyzer.py",
+        "logicalBytes": 5175
+      },
+      {
+        "relative": "extract-declared-theme-palettes.mjs",
+        "logicalBytes": 2044
+      },
+      {
+        "relative": "implement-neutral-theme.py",
+        "logicalBytes": 7900
+      },
+      {
+        "relative": "merge-final-actual-variants.py",
+        "logicalBytes": 5202
+      },
+      {
+        "relative": "merge-selected-contrast-final.py",
+        "logicalBytes": 9094
+      },
+      {
+        "relative": "neutral-cleanup-apply.py",
+        "logicalBytes": 10535
+      },
+      {
+        "relative": "neutral-cleanup-core.py",
+        "logicalBytes": 6672
+      },
+      {
+        "relative": "neutral-cleanup-details.py",
+        "logicalBytes": 2319
+      },
+      {
+        "relative": "neutral-cleanup-finish.py",
+        "logicalBytes": 1985
+      },
+      {
+        "relative": "neutral-cleanup-inspect.py",
+        "logicalBytes": 2790
+      },
+      {
+        "relative": "neutral-cleanup-inventory.json",
+        "logicalBytes": 6105565
+      },
+      {
+        "relative": "neutral-cleanup-plan.json",
+        "logicalBytes": 11931342
+      },
+      {
+        "relative": "neutral-cleanup-plan.py",
+        "logicalBytes": 6622
+      },
+      {
+        "relative": "neutral-cleanup-progress.json",
+        "logicalBytes": 13279
+      },
+      {
+        "relative": "neutral-cleanup-update-guard.py",
+        "logicalBytes": 2070
+      },
+      {
+        "relative": "neutral-cleanup-writers.json",
+        "logicalBytes": 158
+      },
+      {
+        "relative": "patch-actual-variants-bootstrap.py",
+        "logicalBytes": 1096
+      },
+      {
+        "relative": "patch-final-actual-variants.py",
+        "logicalBytes": 1355
+      },
+      {
+        "relative": "patch-final-variant-states.py",
+        "logicalBytes": 3657
+      },
+      {
+        "relative": "prepare-fresh-variant-retry.py",
+        "logicalBytes": 2791
+      },
+      {
+        "relative": "prepare-selected-contrast-repeat.py",
+        "logicalBytes": 1241
+      },
+      {
+        "relative": "probe-actual-variant.mjs",
+        "logicalBytes": 12214
+      },
+      {
+        "relative": "probe-actual-variant.py",
+        "logicalBytes": 1314
+      },
+      {
+        "relative": "publish-before-restore.py",
+        "logicalBytes": 1559
+      },
+      {
+        "relative": "publish-benchmark-preflight.py",
+        "logicalBytes": 13274
+      },
+      {
+        "relative": "publish-theme-evidence.py",
+        "logicalBytes": 7827
+      },
+      {
+        "relative": "refine-benchmark-final.py",
+        "logicalBytes": 3797
+      },
+      {
+        "relative": "refine-benchmark-optional-configs.py",
+        "logicalBytes": 2822
+      },
+      {
+        "relative": "refine-benchmark.py",
+        "logicalBytes": 1572
+      },
+      {
+        "relative": "refine-theme-tests.py",
+        "logicalBytes": 1330
+      },
+      {
+        "relative": "refine-theme-types.py",
+        "logicalBytes": 660
+      },
+      {
+        "relative": "theme-eslint-final.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "theme-eslint-final.receipt.json",
+        "logicalBytes": 295
+      },
+      {
+        "relative": "theme-eslint.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "theme-eslint.receipt.json",
+        "logicalBytes": 283
+      },
+      {
+        "relative": "theme-green-final.log",
+        "logicalBytes": 269
+      },
+      {
+        "relative": "theme-green-final.receipt.json",
+        "logicalBytes": 193
+      },
+      {
+        "relative": "theme-green.log",
+        "logicalBytes": 1016
+      },
+      {
+        "relative": "theme-green.receipt.json",
+        "logicalBytes": 181
+      },
+      {
+        "relative": "theme-red-refined.log",
+        "logicalBytes": 9344
+      },
+      {
+        "relative": "theme-red-refined.receipt.json",
+        "logicalBytes": 193
+      },
+      {
+        "relative": "theme-red.log",
+        "logicalBytes": 8051
+      },
+      {
+        "relative": "theme-red.receipt.json",
+        "logicalBytes": 177
+      },
+      {
+        "relative": "theme-types-final.receipt.json",
+        "logicalBytes": 721
+      },
+      {
+        "relative": "theme-types.receipt.json",
+        "logicalBytes": 638
+      },
+      {
+        "relative": "tsconfig.json.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "tsconfig.script.json.final.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "tsconfig.script.json.log",
+        "logicalBytes": 1104
+      },
+      {
+        "relative": "tsconfig.test.json.final.log",
+        "logicalBytes": 0
+      },
+      {
+        "relative": "tsconfig.test.json.log",
+        "logicalBytes": 1104
+      },
+      {
+        "relative": "update-benchmark-preflight.py",
+        "logicalBytes": 5509
+      },
+      {
+        "relative": "verification-neutral-theme.json",
+        "logicalBytes": 2682
+      },
+      {
+        "relative": "verify-actual-variants.mjs",
+        "logicalBytes": 14216
+      },
+      {
+        "relative": "verify-fresh-variant-retry.mjs",
+        "logicalBytes": 15189
+      },
+      {
+        "relative": "verify-selected-contrast-fix.mjs",
+        "logicalBytes": 15196
+      },
+      {
+        "relative": "vitest-theme.config.mjs",
+        "logicalBytes": 510
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-40-23-553Z\\raw.json",
+        "logicalBytes": 11085
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-42-35-261Z\\diagnostic.png",
+        "logicalBytes": 70020
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-42-35-261Z\\raw.json",
+        "logicalBytes": 11615
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-45-03-666Z\\raw.json",
+        "logicalBytes": 14264
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\abyss-button.png",
+        "logicalBytes": 3838
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\abyss-saved.png",
+        "logicalBytes": 1376
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\abyss-selected.png",
+        "logicalBytes": 8144
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\dark-modern-button.png",
+        "logicalBytes": 3748
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\dark-modern-saved.png",
+        "logicalBytes": 1339
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\dark-modern-selected.png",
+        "logicalBytes": 6272
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\egoist-dark-button.png",
+        "logicalBytes": 3366
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\egoist-dark-saved.png",
+        "logicalBytes": 1103
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\egoist-dark-selected.png",
+        "logicalBytes": 6484
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\light-modern-button.png",
+        "logicalBytes": 2758
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\light-modern-saved.png",
+        "logicalBytes": 1243
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\light-modern-selected.png",
+        "logicalBytes": 5570
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\light-plus-button.png",
+        "logicalBytes": 2758
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\light-plus-saved.png",
+        "logicalBytes": 1243
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\light-plus-selected.png",
+        "logicalBytes": 6514
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\monokai-button.png",
+        "logicalBytes": 3862
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\monokai-saved.png",
+        "logicalBytes": 1404
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\monokai-selected.png",
+        "logicalBytes": 7889
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\quiet-light-button.png",
+        "logicalBytes": 2758
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\quiet-light-saved.png",
+        "logicalBytes": 1243
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\quiet-light-selected.png",
+        "logicalBytes": 6191
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\raw.json",
+        "logicalBytes": 76399
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\solarized-dark-button.png",
+        "logicalBytes": 3841
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\solarized-dark-saved.png",
+        "logicalBytes": 1379
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\solarized-dark-selected.png",
+        "logicalBytes": 7512
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\tokyo-night-button.png",
+        "logicalBytes": 3931
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\tokyo-night-saved.png",
+        "logicalBytes": 1350
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\tokyo-night-selected.png",
+        "logicalBytes": 7585
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\abyss-button.png",
+        "logicalBytes": 3838
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\abyss-saved.png",
+        "logicalBytes": 1376
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\abyss-selected.png",
+        "logicalBytes": 8144
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\dark-plus-button.png",
+        "logicalBytes": 3811
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\dark-plus-saved.png",
+        "logicalBytes": 1331
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\dark-plus-selected.png",
+        "logicalBytes": 7342
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\egoist-dark-button.png",
+        "logicalBytes": 3366
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\egoist-dark-saved.png",
+        "logicalBytes": 1103
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\egoist-dark-selected.png",
+        "logicalBytes": 6484
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\light-modern-button.png",
+        "logicalBytes": 3789
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\light-modern-saved.png",
+        "logicalBytes": 1305
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\light-modern-selected.png",
+        "logicalBytes": 6443
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\light-plus-button.png",
+        "logicalBytes": 3765
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\light-plus-saved.png",
+        "logicalBytes": 1309
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\light-plus-selected.png",
+        "logicalBytes": 6421
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\quiet-light-button.png",
+        "logicalBytes": 3768
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\quiet-light-saved.png",
+        "logicalBytes": 1323
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\quiet-light-selected.png",
+        "logicalBytes": 7859
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\raw.json",
+        "logicalBytes": 101172
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\solarized-dark-button-focus.png",
+        "logicalBytes": 4074
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\solarized-dark-button-hover.png",
+        "logicalBytes": 3796
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\solarized-dark-button-noRippleActive.png",
+        "logicalBytes": 3787
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\solarized-dark-button.png",
+        "logicalBytes": 3841
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\solarized-dark-saved.png",
+        "logicalBytes": 1379
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\solarized-dark-selected.png",
+        "logicalBytes": 7512
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\tokyo-night-button-focus.png",
+        "logicalBytes": 4151
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\tokyo-night-button-hover.png",
+        "logicalBytes": 3842
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\tokyo-night-button-noRippleActive.png",
+        "logicalBytes": 3790
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\tokyo-night-button.png",
+        "logicalBytes": 3931
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\tokyo-night-saved.png",
+        "logicalBytes": 1350
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\tokyo-night-selected.png",
+        "logicalBytes": 7585
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\dark-modern-button.png",
+        "logicalBytes": 3748
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\dark-modern-saved.png",
+        "logicalBytes": 1339
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\dark-modern-selected.png",
+        "logicalBytes": 6272
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai-button-focus.png",
+        "logicalBytes": 4149
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai-button-hover.png",
+        "logicalBytes": 3849
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai-button-noRippleActive.png",
+        "logicalBytes": 3789
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai-button.png",
+        "logicalBytes": 3862
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai-saved.png",
+        "logicalBytes": 1404
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\monokai-selected.png",
+        "logicalBytes": 7889
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\raw.json",
+        "logicalBytes": 40916
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light-button-focus.png",
+        "logicalBytes": 4142
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light-button-hover.png",
+        "logicalBytes": 3852
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light-button-noRippleActive.png",
+        "logicalBytes": 3762
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light-button.png",
+        "logicalBytes": 3793
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light-saved.png",
+        "logicalBytes": 1300
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\solarized-light-selected.png",
+        "logicalBytes": 7648
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\raw.json",
+        "logicalBytes": 30605
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark-button-focus.png",
+        "logicalBytes": 4074
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark-button-hover.png",
+        "logicalBytes": 3796
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark-button-noRippleActive.png",
+        "logicalBytes": 3787
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark-button.png",
+        "logicalBytes": 3841
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark-saved.png",
+        "logicalBytes": 1379
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-dark-selected.png",
+        "logicalBytes": 7701
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light-button-focus.png",
+        "logicalBytes": 4142
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light-button-hover.png",
+        "logicalBytes": 3852
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light-button-noRippleActive.png",
+        "logicalBytes": 3762
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light-button.png",
+        "logicalBytes": 3793
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light-saved.png",
+        "logicalBytes": 1300
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\solarized-light-selected.png",
+        "logicalBytes": 7918
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-40-23-553Z\\temporary\\cv_debug.log",
+        "logicalBytes": 123
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-42-35-261Z\\temporary\\cv_debug.log",
+        "logicalBytes": 123
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-45-03-666Z\\temporary\\cv_debug.log",
+        "logicalBytes": 123
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-48-20-238Z\\temporary\\cv_debug.log",
+        "logicalBytes": 123
+      },
+      {
+        "relative": "actual-variants-2026-10-06T11-59-24-526Z\\temporary\\cv_debug.log",
+        "logicalBytes": 123
+      },
+      {
+        "relative": "actual-variants-retry-2026-10-06T12-04-52-599Z\\temporary\\cv_debug.log",
+        "logicalBytes": 369
+      },
+      {
+        "relative": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z\\temporary\\cv_debug.log",
+        "logicalBytes": 246
+      },
+      {
+        "relative": "benchmark-api-smoke\\2026-10-06T11-06-06-308Z-f706275b\\api-smoke.json",
+        "logicalBytes": 1849
+      }
+    ],
+    "plannedTargetsStillPresent": [],
+    "includesCleanupManifestsAndCheckpointPatch": true
+  },
+  "exclusions": [],
+  "preservationExceptions": [
+    "All unique raw observations, screenshots, inputs, runners/source scripts, logs, receipts and cleanup manifest remain",
+    "Two older unique QA observation folders remain in addition to latest five",
+    "Synthetic profiles removed only where own raw metadata proves MockClient, headless and remote blocked; real profiles/credentials were never selected",
+    "No baseline directory or project release entered the deletion plan"
+  ],
+  "planSha256": "ce5d94d462d78da2d1e907b1fbb0628f13931d1482152415e2014e066eabadbe",
+  "cleanupCoreSha256": "1eb98cc10ff624a557aaadffaa7f2a61cb2ef2e3a78579967042a4b79d7edec4",
+  "qaProvenance": [
+    {
+      "run": "actual-variants-selected-fix-2026-10-06T12-13-21-080Z",
+      "rawSha256": "e4b7a5b15dd1a42da421f31be7c949828600da4ff0330f664d58ede904913c69",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": "2026-10-06T12:14:04.812Z",
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    },
+    {
+      "run": "actual-variants-retry-2026-10-06T12-04-52-599Z",
+      "rawSha256": "e18074f9ad2615cbdfd409154023a1ecccfe6cb399ebe356fabf5ba2cf8146e7",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": "2026-10-06T12:05:47.437Z",
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    },
+    {
+      "run": "actual-variants-2026-10-06T11-59-24-526Z",
+      "rawSha256": "8ec6d1178b1f1d1ca915dc20c31a0493eee5d4ffc7612e60cc9bbb18c9869242",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": "2026-10-06T12:02:04.008Z",
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    },
+    {
+      "run": "actual-variants-2026-10-06T11-48-20-238Z",
+      "rawSha256": "31b6f5028d509fc17b3f74618d8d34cf56ab4c4c6f841eda11283117d860880a",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": "2026-10-06T11:50:00.874Z",
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    },
+    {
+      "run": "actual-variants-2026-10-06T11-45-03-666Z",
+      "rawSha256": "e8f2de3c461f82c26e9001cec6f0d50b8c955ceb3fcac9737d1aaa03033827b5",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": null,
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    },
+    {
+      "run": "actual-variants-2026-10-06T11-42-35-261Z",
+      "rawSha256": "9da8744b7b2cb4d4151b742678ec4c4cf569a9ba756040f270ea6da8d06f0395",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": "2026-10-06T11:43:10.958Z",
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    },
+    {
+      "run": "actual-variants-2026-10-06T11-40-23-553Z",
+      "rawSha256": "84c4c91cd2cff00891be8b66702e6117add6e6598447d7e80abcaa668ada8ef8",
+      "realAccount": false,
+      "remoteRequestsBlocked": true,
+      "fixture": "Real App, MockClient, terminal native mocks, existing callback-only button-baseline overlay",
+      "finishedAt": null,
+      "writerCompletion": "Current scoped Edge/Node CIM observation shows no owner process; each file also requires an exclusive handle before plan and deletion"
+    }
+  ],
+  "prohibitedActionsPerformed": {
+    "build": false,
+    "tests": false,
+    "downloads": false,
+    "publication": false,
+    "newAgents": false,
+    "otherChatMessages": false
+  },
+  "checkpointRevision": 11
+}

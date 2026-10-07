@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-next-tests",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T11:21:56.854Z",
+  "helperSha256": "f17e01d405f7f608b3d4ef289f6f1e28d29c56a21e9f04af8442c619ea1df3e0",
+  "fixtureRoot": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\attribution-next-17349355-ad80-48de-a00c-91570d0a7375",
+  "wireFile": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\instagram-attribution-next-tests-v7-wire.json",
+  "wireSha256": "f2f85f2eeda116a92547f09501761b5ac78aeb437b4fcb06ed3ebdffd7867e61",
+  "nativeFixtureCount": 10,
+  "observations": [
+    {
+      "name": "metadata-80",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "metadata-9000",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "metadata-16000",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "surrogate",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "multi",
+      "recordsFrames": 3,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "alias-reel",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "alias-p",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "detail-no-link",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "detail",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "DEADLINE",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "four-mib",
+      "recordsFrames": 350,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "text-limit",
+      "recordsFrames": 0,
+      "error": "TEXT_LIMIT",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "text-limit",
+      "recordsFrames": 0,
+      "error": "TEXT_LIMIT",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "text-limit",
+      "recordsFrames": 0,
+      "error": "TEXT_LIMIT",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    }
+  ],
+  "liveAccess": false,
+  "mcpCalls": 0,
+  "releaseEdits": 0
+}

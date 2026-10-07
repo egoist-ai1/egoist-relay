@@ -1,0 +1,597 @@
+{
+  "schemaVersion": 1,
+  "state": "passed",
+  "version": "1.4.7",
+  "scope": "Representative isolated install → hidden launch → exact owned-process stop → uninstall of canonical packed EXE and all 40 runtime files",
+  "startedAt": "2026-10-04T15:02:11.8305832Z",
+  "completedAt": "2026-10-04T15:02:34.0647392Z",
+  "variant": "Separate product/manufacturer/registry identity; zlib; no protocol/shortcuts/WebView bootstrap/auto-launch/user-appdata removal; same final EXE/runtime; retained scoped project hooks",
+  "artifacts": {
+    "canonicalInstaller": {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1073d-261b-7a33-8424-3717251dbc66\\work\\native-target\\release\\bundle\\nsis\\Egoist Relay_1.4.7_x64-setup.exe",
+      "bytes": 567280908,
+      "sha256": "df28147ec2293d56f0139131df013f0b44ed29723151b0c39cb96e779e66de1f"
+    },
+    "canonicalPackedExe": {
+      "origin": "Extracted from final canonical installer; authoritative packed payload, distinct from mutable post-bundle standalone output",
+      "bytes": 77798912,
+      "sha256": "68ce83b8e12162a56fcfa2a801e0551ba3ff653b63ad829fbce657cbccc7baf7",
+      "productVersion": "1.4.7"
+    },
+    "representativeInstaller": {
+      "product": "Egoist Relay Test 01a1073f147",
+      "manufacturer": "egoist-smoke-01a1073f147",
+      "bytes": 391951587,
+      "sha256": "c9dc68e20d44e2ea17fd1eb4b3a54a59406293e7b33c46329045426df46046ce",
+      "nsiSha256": "0781a340983dd103e9c949edea43f958c7b49722b19b8a0573bc3549f01e6951",
+      "canonicalGeneratedNsiSha256": "78b7cf4995691eb8850a6d57b4e607b6ba1aa153cd67bd3a90eb474040c6c326"
+    }
+  },
+  "checks": {
+    "installExit": 0,
+    "uninstallExit": 0,
+    "runtimeCount": 40,
+    "appVersion": "1.4.7",
+    "launchAlive": true,
+    "appStopped": true,
+    "applicationRemoved": true,
+    "runtimeRemoved": true,
+    "testRegistryRemoved": true,
+    "testManufacturerRegistryRemoved": true,
+    "productionExeUnchanged": true,
+    "productionRegistryUnchanged": true,
+    "tgAssociationUnchanged": true,
+    "productionProcessStateUnchanged": true,
+    "productionProfileMetadataUnchanged": false,
+    "visibleWindowMaximum": 0,
+    "frameworkHelperVisibleMaximum": 2,
+    "foregroundCaptured": false,
+    "profileCreated": true,
+    "logCreated": true,
+    "outsideOwnSmokeDirectories": []
+  },
+  "ownedIdentities": {
+    "installer": {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1073f-8d6f-74d0-a278-66f646994134\\work\\installer-smoke-1.4.7.exe",
+      "pid": 23292,
+      "birthUtc": "2026-10-04T15:02:13.9296022Z"
+    },
+    "application": {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1073f-8d6f-74d0-a278-66f646994134\\work\\smoke-install-1.4.7\\Egoist Relay.exe",
+      "pid": 6612,
+      "birthUtc": "2026-10-04T15:02:20.5265530Z"
+    },
+    "uninstaller": {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1073f-8d6f-74d0-a278-66f646994134\\work\\smoke-install-1.4.7\\uninstall.exe",
+      "pid": 20600,
+      "birthUtc": "2026-10-04T15:02:32.3075703Z"
+    }
+  },
+  "productionPreservation": {
+    "exeBeforeSha256": "899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b",
+    "exeAfterSha256": "899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b",
+    "registryBefore": {
+      "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Egoist Relay": "ec6b164b3fff16042dcaabf5463d01bfaae00c96a16493306a6146bcdba82f73",
+      "Software\\egoist\\Egoist Relay": "763d30f4036c72cd2330656607978d4dccb4911bdc14bfddb4089dc29bd7b85b",
+      "Software\\Classes\\tg": "0bb2b718cb96eedf5a8f624a26e46af88580dc652faf242886d21ef259c29a57"
+    },
+    "registryAfter": {
+      "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Egoist Relay": "ec6b164b3fff16042dcaabf5463d01bfaae00c96a16493306a6146bcdba82f73",
+      "Software\\egoist\\Egoist Relay": "763d30f4036c72cd2330656607978d4dccb4911bdc14bfddb4089dc29bd7b85b",
+      "Software\\Classes\\tg": "0bb2b718cb96eedf5a8f624a26e46af88580dc652faf242886d21ef259c29a57"
+    },
+    "processBefore": [
+      {
+        "path": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\Egoist Relay.exe",
+        "pid": 16068,
+        "birthUtc": "2026-10-04T11:51:35.3544039Z"
+      }
+    ],
+    "processAfter": [
+      {
+        "path": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\Egoist Relay.exe",
+        "pid": 16068,
+        "birthUtc": "2026-10-04T11:51:35.3544039Z"
+      }
+    ],
+    "profileMetadataBefore": {
+      "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay": {
+        "metadataSha256": "6823582117ff5b53d7e904c3b0248a5750028fad26bcd0cd2364f6a7dbbd49a2",
+        "count": 25788,
+        "state": "present"
+      },
+      "C:\\Users\\Egoist\\AppData\\Roaming\\com.egoist.relay": {
+        "state": "absent"
+      }
+    },
+    "profileMetadataAfter": {
+      "C:\\Users\\Egoist\\AppData\\Local\\com.egoist.relay": {
+        "metadataSha256": "21be4dd89c62c719544d317b1fdc805f4ecfc56098105904f8466d371c3538b8",
+        "count": 25788,
+        "state": "present"
+      },
+      "C:\\Users\\Egoist\\AppData\\Roaming\\com.egoist.relay": {
+        "state": "absent"
+      }
+    },
+    "profileContentsRead": false,
+    "byteUnchangedProfileClaimed": false
+  },
+  "profileActivityControl": {
+    "intervalSeconds": 5,
+    "scope": "Read-only metadata control interval after smoke app/exe/runtime uninstall; no smoke launch",
+    "beforeFileCount": 25788,
+    "afterFileCount": 25789,
+    "metadataChangeCount": 2,
+    "changedStorageCategories": [
+      "IndexedDB log",
+      "ServiceWorker cache"
+    ],
+    "remainingOwnProcesses": [],
+    "productionIdentityPreserved": true,
+    "interpretation": "Existing production application continued writing its own profile with no smoke process running. This supports independent activity but is not byte-level noninterference proof."
+  },
+  "isolation": {
+    "profileInsideOwnWork": true,
+    "mainWebviewAndLogsInsideOwnProfile": true,
+    "privateResearchBridgeDisabled": "Existing SMOKE_TEST=1 guard with RESEARCH_TEST=0",
+    "nativeAccountConnectionsDisabled": "ProgramData and LOCALAPPDATA were process-only empty own-profile roots; no Lagom config/handoff available",
+    "externalWebviewHttpBlockedByProcessFlags": "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS proxy to closed127.0.0.1:1; localhost/127.0.0.1 bypass for app assets only",
+    "userNetworkSettingsModified": false,
+    "protocolRegistrationAndShortcutsDisabled": true,
+    "webviewBootstrapDisabled": true,
+    "startupAndOSAppdataDeletionDisabled": true,
+    "basenameProcessKillDisabled": "project installer.nsh undefines Tauri builtin macro, replaces with exact InstallDirectory process hook",
+    "remainingOwnProcesses": []
+  },
+  "windowProof": {
+    "sampledUserFacingVisibleWindowMaximum": 0,
+    "sampledForegroundCaptured": false,
+    "frameworkVisibleHelpers": 2,
+    "helperPredicate": "Only com.egoist.relay.smoke-sic and Tao Thread Event Target, rectangle0,0/16x16, exStyle0x080800a0; all other visible windows fail",
+    "interpretation": "Documented transparent layered NOACTIVATE TOOLWINDOW event targets; main Tauri Window and tray window were hidden",
+    "frames": [
+      {
+        "windows": [
+          {
+            "hwnd": 16189032,
+            "title": "",
+            "className": "tray_icon_app",
+            "visible": false,
+            "left": 312,
+            "top": 312,
+            "width": 1920,
+            "height": 1059,
+            "style": 79691776,
+            "exStyle": 134742432,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 18287040,
+            "title": "Egoist Relay",
+            "className": "Tauri Window",
+            "visible": false,
+            "left": 454,
+            "top": 140,
+            "width": 1668,
+            "height": 1169,
+            "style": 80674816,
+            "exStyle": 262416,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 11993638,
+            "title": "com.egoist.relay.smoke-siw",
+            "className": "com.egoist.relay.smoke-sic",
+            "visible": true,
+            "left": 0,
+            "top": 0,
+            "width": 16,
+            "height": 16,
+            "style": -1811939328,
+            "exStyle": 134742176,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 656454,
+            "title": "",
+            "className": "Tao Thread Event Target",
+            "visible": true,
+            "left": 0,
+            "top": 0,
+            "width": 16,
+            "height": 16,
+            "style": -1811939328,
+            "exStyle": 134742176,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 34670678,
+            "title": "Default IME",
+            "className": "IME",
+            "visible": false,
+            "left": 0,
+            "top": 0,
+            "width": 0,
+            "height": 0,
+            "style": -1946157056,
+            "exStyle": 0,
+            "ownerPid": 6612
+          }
+        ],
+        "sample": 0
+      },
+      {
+        "windows": [
+          {
+            "hwnd": 16189032,
+            "title": "",
+            "className": "tray_icon_app",
+            "visible": false,
+            "left": 312,
+            "top": 312,
+            "width": 1920,
+            "height": 1059,
+            "style": 79691776,
+            "exStyle": 134742432,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 18287040,
+            "title": "Egoist Relay",
+            "className": "Tauri Window",
+            "visible": false,
+            "left": 454,
+            "top": 140,
+            "width": 1668,
+            "height": 1169,
+            "style": 80674816,
+            "exStyle": 262416,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 11993638,
+            "title": "com.egoist.relay.smoke-siw",
+            "className": "com.egoist.relay.smoke-sic",
+            "visible": true,
+            "left": 0,
+            "top": 0,
+            "width": 16,
+            "height": 16,
+            "style": -1811939328,
+            "exStyle": 134742176,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 656454,
+            "title": "",
+            "className": "Tao Thread Event Target",
+            "visible": true,
+            "left": 0,
+            "top": 0,
+            "width": 16,
+            "height": 16,
+            "style": -1811939328,
+            "exStyle": 134742176,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 34670678,
+            "title": "Default IME",
+            "className": "IME",
+            "visible": false,
+            "left": 0,
+            "top": 0,
+            "width": 0,
+            "height": 0,
+            "style": -1946157056,
+            "exStyle": 0,
+            "ownerPid": 6612
+          }
+        ],
+        "sample": 20
+      },
+      {
+        "windows": [
+          {
+            "hwnd": 16189032,
+            "title": "",
+            "className": "tray_icon_app",
+            "visible": false,
+            "left": 312,
+            "top": 312,
+            "width": 1920,
+            "height": 1059,
+            "style": 79691776,
+            "exStyle": 134742432,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 18287040,
+            "title": "Egoist Relay",
+            "className": "Tauri Window",
+            "visible": false,
+            "left": 454,
+            "top": 140,
+            "width": 1668,
+            "height": 1169,
+            "style": 80674816,
+            "exStyle": 262416,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 11993638,
+            "title": "com.egoist.relay.smoke-siw",
+            "className": "com.egoist.relay.smoke-sic",
+            "visible": true,
+            "left": 0,
+            "top": 0,
+            "width": 16,
+            "height": 16,
+            "style": -1811939328,
+            "exStyle": 134742176,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 656454,
+            "title": "",
+            "className": "Tao Thread Event Target",
+            "visible": true,
+            "left": 0,
+            "top": 0,
+            "width": 16,
+            "height": 16,
+            "style": -1811939328,
+            "exStyle": 134742176,
+            "ownerPid": 0
+          },
+          {
+            "hwnd": 34670678,
+            "title": "Default IME",
+            "className": "IME",
+            "visible": false,
+            "left": 0,
+            "top": 0,
+            "width": 0,
+            "height": 0,
+            "style": -1946157056,
+            "exStyle": 0,
+            "ownerPid": 6612
+          }
+        ],
+        "sample": 39
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "path": "runtime/licenses/NODE-LICENSE.txt",
+      "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9",
+      "bytes": 160555
+    },
+    {
+      "path": "runtime/licenses/RELAY-GPL-LICENSE.txt",
+      "sha256": "37d2e5a629d31b79b3c0876a146c7d4c1f8d2cf70276dd4fac2d8d6abd3f0b32",
+      "bytes": 35795
+    },
+    {
+      "path": "runtime/media/FFMPEG-BUILD-README.txt",
+      "sha256": "0342de6bb39dd421cbec2c00d89ad274b640d75ad3f2cab09ffd647ce2d8f949",
+      "bytes": 41577
+    },
+    {
+      "path": "runtime/media/FFMPEG-LICENSE.txt",
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "bytes": 35147
+    },
+    {
+      "path": "runtime/media/ffmpeg.exe",
+      "sha256": "3256173f3f8bffd7df12227c68adf68025edb1832273a9530688a7bb1ed8edec",
+      "bytes": 105423872
+    },
+    {
+      "path": "runtime/media/ffprobe.exe",
+      "sha256": "f0d36ecbbdd3bcfac3efa078c96c7271c2e68b3810595552ac3b7f17e9a65c52",
+      "bytes": 105221120
+    },
+    {
+      "path": "runtime/NODE-LICENSE.txt",
+      "sha256": "ed34dd8e3f0a78dbaf00d0444ce8e285b015b765379c2e17880455f70370f8e9",
+      "bytes": 160555
+    },
+    {
+      "path": "runtime/node.exe",
+      "sha256": "ba4e6d110e8c1592a1ecd390f6b05f3da124b13871a5be62b341a07a853c6c32",
+      "bytes": 93580104
+    },
+    {
+      "path": "runtime/README.md",
+      "sha256": "d24c8e157c3ce56a60ec0600169edb4059389f5c4a03ee146c9290717d9607ea",
+      "bytes": 3776
+    },
+    {
+      "path": "runtime/research/bridge-server.mjs",
+      "sha256": "25d511684b6ee756e8ef2f7537f438e6470171c2c1ee9f881beac50e7ebf1eea",
+      "bytes": 21071
+    },
+    {
+      "path": "runtime/research/ensure-private-state.ps1",
+      "sha256": "bda59dbc764bca7019c876fc03eb0557ab2ee79eda5b359c3eaaf58432c7ce0e",
+      "bytes": 7736
+    },
+    {
+      "path": "runtime/research/social-read.js",
+      "sha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+      "bytes": 36508
+    },
+    {
+      "path": "runtime/transcription/ggml-base.dll",
+      "sha256": "a5241b52206f61c9dfd6f0f53a8ef19076f9528ead2db1e039a66d7e03817bfc",
+      "bytes": 689664
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-alderlake.dll",
+      "sha256": "5a5b11dcd38e321b13f85c95414940db9eab1132be3da6342f03dfb1d8e51bd5",
+      "bytes": 864256
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-cannonlake.dll",
+      "sha256": "2c858781450b52eda95c381232cc65c9e19cbf621cc7b254d8c44fdbab77791e",
+      "bytes": 908288
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-cascadelake.dll",
+      "sha256": "ddf49bb749b34800afcb3d6224544966a05c5d00f1d0b6565bee9f3b010dd53c",
+      "bytes": 904704
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-haswell.dll",
+      "sha256": "6b772e094b8976e22b4c043be86a1a8deda4b50511dc803a693b652c51b24944",
+      "bytes": 866304
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-icelake.dll",
+      "sha256": "bbd87ea5920edc401054848071ad2ef8c96bbf8007c4e4cd0ea82ba9b9e3bd10",
+      "bytes": 904704
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-sandybridge.dll",
+      "sha256": "de2ad5f84c7dfa557d515b3678d6452ce0216590268b2ca79cc537fe87cf239d",
+      "bytes": 860672
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-skylakex.dll",
+      "sha256": "9fa3f9d984ca42d568181dd345072299db2978b328800343218c2c7f000b7152",
+      "bytes": 908288
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-sse42.dll",
+      "sha256": "740fc769ef433985dfdb24a609a42d5acf188abda52287a4d89b89b567507c19",
+      "bytes": 846848
+    },
+    {
+      "path": "runtime/transcription/ggml-cpu-x64.dll",
+      "sha256": "43ccf32b9b70aa4c47d0a12ac2ed3c241e0045571acdad565ecd9d1f99ffc08b",
+      "bytes": 850432
+    },
+    {
+      "path": "runtime/transcription/ggml-silero-v6.2.0.bin",
+      "sha256": "2aa269b785eeb53a82983a20501ddf7c1d9c48e33ab63a41391ac6c9f7fb6987",
+      "bytes": 885098
+    },
+    {
+      "path": "runtime/transcription/ggml-small-q5_1.bin",
+      "sha256": "ae85e4a935d7a567bd102fe55afc16bb595bdb618e11b2fc7591bc08120411bb",
+      "bytes": 190085487
+    },
+    {
+      "path": "runtime/transcription/ggml.dll",
+      "sha256": "c6e88687d6aa0238f2e834a87958f38d2dc96075a6a7bf6fb8b9cd728a0faed2",
+      "bytes": 62464
+    },
+    {
+      "path": "runtime/transcription/MODEL-LICENSE.txt",
+      "sha256": "b5d65a59060e68c4ff940e1eddfa6f94b2d68fdf58ed7f4dd57721c997e35e9d",
+      "bytes": 1063
+    },
+    {
+      "path": "runtime/transcription/MSVC-BUILD-TOOLS-LICENSE.txt",
+      "sha256": "ec67643422c7f472298558f3a8660ec6c6e55dd3080040acf4c9bd250b5d4e93",
+      "bytes": 18381
+    },
+    {
+      "path": "runtime/transcription/MSVC-RUNTIME-LICENSE.txt",
+      "sha256": "c15f0776c632b97bc3b01dbc3090ae347bb406235ae7132601bbaba91624e4fc",
+      "bytes": 11945
+    },
+    {
+      "path": "runtime/transcription/msvcp140.dll",
+      "sha256": "7c26614e1d733892c2deac7e245ce115504b1d80592dd0a01b08e3e5a55f89ca",
+      "bytes": 643512
+    },
+    {
+      "path": "runtime/transcription/provenance.json",
+      "sha256": "c3df157b4d69d62169f40f2f2c2bfd9b7541db41e4a4d9dfe92cb2cf4352b777",
+      "bytes": 8958
+    },
+    {
+      "path": "runtime/transcription/VAD-LICENSE.txt",
+      "sha256": "2e63e9a38b6e8fc0c7bc37ce174caca1862870856c6daf5697cfb785e925520b",
+      "bytes": 1075
+    },
+    {
+      "path": "runtime/transcription/vcomp140.dll",
+      "sha256": "95d4ce4a6802d1e18b5e0e1722cc30ea72ca7e033f83828f05c0b7b993fe7cbf",
+      "bytes": 212920
+    },
+    {
+      "path": "runtime/transcription/vcruntime140_1.dll",
+      "sha256": "a7146c08f89fe5b04541ab507cdb59ff7b44534d4ba3c668a426c6450a03434e",
+      "bytes": 50112
+    },
+    {
+      "path": "runtime/transcription/vcruntime140.dll",
+      "sha256": "d1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7",
+      "bytes": 178616
+    },
+    {
+      "path": "runtime/transcription/whisper-cli.exe",
+      "sha256": "89051fdd1284ba34083d604960f16fbb8ef8186368b1bad4a2cdfb439f6b96c6",
+      "bytes": 479744
+    },
+    {
+      "path": "runtime/transcription/WHISPER-LICENSE.txt",
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+      "bytes": 1078
+    },
+    {
+      "path": "runtime/transcription/whisper.dll",
+      "sha256": "b7bb4ba92bd36b8afe0c00059ca6a0f69c6767193bfb5f0761e9ed27b1087803",
+      "bytes": 1368576
+    },
+    {
+      "path": "runtime/YT-DLP-LICENSE.txt",
+      "sha256": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+      "bytes": 1211
+    },
+    {
+      "path": "runtime/YT-DLP-THIRD-PARTY-LICENSES.txt",
+      "sha256": "472aefe951c7db35e1657c1d13fd337140511ed6f2b329205105ad441c5a02b7",
+      "bytes": 243550
+    },
+    {
+      "path": "runtime/yt-dlp.exe",
+      "sha256": "66674953fe251b89f4d08c5f0e35e0728679bd67ab3d7d05c0562af101dd3e7a",
+      "bytes": 17840399
+    }
+  ],
+  "diagnostics": {
+    "compilerExit": 0,
+    "compilerWarnings": [
+      "Unused Skip function (NSIS6010)"
+    ],
+    "firstAttempt": "Stopped before install because mutable standalone EXE output changed after bundling. Rebound to frozen canonical extracted payload.",
+    "broadVisibilityAssertion": "Initial assertion counted2transparent framework event windows. Exact class/style/rectangle investigation confirmed main window hidden; diagnostic installation uninstalled successfully.",
+    "identityCapture": "Startup MainModule race corrected by fresh PID/image/birth retry; only verified own process identities stopped",
+    "nsisPpo": "Attempted macro preprocess, unavailable due plugin SemverCompare resolution. Not claimed passed; source macro override inspected and lifecycle production process preserved."
+  },
+  "limitations": [
+    "Representative variant uses separate product/manufacturer identity and zlib; canonical wizard, upgrades, shortcuts, protocol setup, WebView bootstrap and signing are not validated by this smoke.",
+    "Fresh isolated profile; no live Telegram, Lagom, X, Instagram, Facebook, transcription or private research integration verified.",
+    "10-second hidden startup check and sampled native-window visibility; no production GUI walkthrough.",
+    "productionProfileMetadataUnchanged=false: active production profile changed during test and after all smoke processes exited; profile contents were not read and byte-unchanged profile is not claimed."
+  ],
+  "sources": {
+    "NSIS": "https://nsis.sourceforge.io/Docs/Chapter4.html",
+    "WebView": "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/webview-features-flags"
+  },
+  "sourceHashes": {
+    "tauri/installer.nsh": "bfd33807b0564e6b3fc97445d9089ed26a85cf5ea4dec18f3c5c87ef3579a73c",
+    "tauri/installer-processes.ps1": "00eac52c5c15bd2affb3e9e6e26977e28e8dc6d6161dd0bb3d99a2ceb3af754b",
+    "tauri/src/lib.rs": "3519218eef435c4c32edc9b4d5987b1aa274508fa3c9c4964b6d6cb532c40506",
+    "tauri/src/telegram_transport.rs": "ac7d9f521ee818fc729e16adc09e8731d9c38a65d47991b129d60dd7bd0ec59c",
+    "tauri/src/research_bridge.rs": "becd9d1a27506027d9cb585bf46ec66f2bf233c9f8144661c268761ba4c101f3",
+    "scripts/telegram-transport.mjs": "465cf8a23921b195bdc80f54336f8f5fa6070f45cba3627beebdab6a7d2e323e",
+    "scripts/release-runtime-manifest.json": "1d5f5fd6772406fd2d63583d4caed14917ae663e2cf7d412e30df4207427600a"
+  }
+}

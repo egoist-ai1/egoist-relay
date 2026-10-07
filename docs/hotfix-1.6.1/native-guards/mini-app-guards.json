@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "productionFile": "tauri/src/bot_web_apps.rs",
+  "productionSha256": "4dfe88a7caec97e3f0d969d8828a288f284838f0f72704fa77806a3cafcc88f8",
+  "harnessSha256": "b10fc1dac395b6e3825a1b44872d6bed2981abb50c054670863eb47ee4f08145",
+  "scope": "Exact production MiniApp struct, label/URL/bridge-event helpers and existing test bodies extracted verbatim; test annotations replaced with a stable panic=abort entry point matching production dependencies; Tauri/COM integration checked separately by production compilation",
+  "buildExit": 0,
+  "testExit": 0,
+  "assertionChecks": 3,
+  "externs": {
+    "serde_json": "libserde_json-246990be415744e0.rlib",
+    "url": "liburl-4f606128f707f8de.rlib",
+    "uuid": "libuuid-b3c8845a7df15fdd.rlib"
+  },
+  "output": "PASS host_permissions_are_not_uuid_label_permissions\nPASS source_accepts_https_and_keeps_init_fragment_without_credentials_or_controls\nPASS bridge_is_bound_to_current_top_level_origin_nonce_and_size\n",
+  "finalProductionSha256": "f371f213eb57069efc908129554c8bdebde61e214f50f915b970625ba1954159",
+  "finalSourceNote": "After these checks only the independent create_popup guard gained exact about:blank bootstrap; tested struct, helpers and test bodies unchanged. Final native compilation checks the complete source."
+}

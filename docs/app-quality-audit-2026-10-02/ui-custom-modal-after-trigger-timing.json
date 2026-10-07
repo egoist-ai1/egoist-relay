@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T05:42:03.028Z",
+  "label": "after",
+  "environment": "Actual custom components; destructive/delete/AI callbacks replaced only in fresh test browser; remote requests blocked; no account transport",
+  "cases": [
+    {
+      "id": "default-button-enter",
+      "sources": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "delta": 1
+      }
+    },
+    {
+      "id": "default-button-space",
+      "sources": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/Modal.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "delta": 1
+      }
+    },
+    {
+      "id": "default-button-pointer-once",
+      "sources": [
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": 1
+      }
+    },
+    {
+      "id": "default-button-disabled-zero",
+      "sources": [
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": 0
+      }
+    },
+    {
+      "id": "delete-photo-cancel-enter",
+      "sources": [
+        "src/components/common/DeleteProfilePhotoModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": {
+          "confirm": 0,
+          "deleted": 0,
+          "closed": 1
+        }
+      }
+    },
+    {
+      "id": "guard-bot-keep-enter",
+      "sources": [
+        "src/components/right/management/GuardReplaceBotModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Button.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "delta": {
+          "confirmed": 0,
+          "closed": 1
+        }
+      }
+    },
+    {
+      "id": "calendar-repeat-item-enter",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "calendarSubmitDelta": 0,
+        "selectedRepeatLabel": "Daily"
+      }
+    },
+    {
+      "id": "calendar-repeat-escape-child-only",
+      "sources": [
+        "src/components/common/CalendarModal.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx"
+      ],
+      "status": "pass",
+      "detail": {
+        "parentRemainsOpen": true,
+        "menuClosed": true
+      }
+    },
+    {
+      "id": "ai-portal-div-focus",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "owned": true,
+          "ancestor": "<div><div class=\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\" style=\"left: 753.688px; top: 6"
+        },
+        "focused": true
+      }
+    },
+    {
+      "id": "ai-portal-native-focus",
+      "sources": [
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "status": "pass",
+      "detail": {
+        "relation": {
+          "owned": true,
+          "ancestor": "<div><div class=\"Menu compact in-portal language-menu with-menu-transitions AiTextTranslateEditor-module__languageMenu\" style=\"left: 753.688px; top: 6"
+        },
+        "focused": true
+      }
+    }
+  ],
+  "errors": [
+    "[Teact] Error while rendering component Menu {id: 378, $element: Object, Component: , name: Menu, props: Object}",
+    "TypeError: Cannot read properties of undefined (reading 'querySelector')\n    at Object.current (http://127.0.0.1:1251/src/components/common/CalendarModal.tsx:43:68)\n    at Object.getTriggerElement (http://127.0.0.1:1251/src/hooks/useLastCallback.ts:7:47)\n    at Menu (http://127.0.0.1:1251/src/components/ui/Menu.tsx:27:82)\n    at http://127.0.0.1:1251/src/lib/teact/teact.ts:308:22\n    at safeExec (http://127.0.0.1:1251/src/util/safeExec.ts:10:10)\n    at renderComponent (http://127.0.0.1:1251/src/lib/teact/teact.ts:274:2)\n    at mountComponent (http://127.0.0.1:1251/src/lib/teact/teact.ts:355:2)\n    at initComponent (http://127.0.0.1:1251/src/lib/teact/teact-dom.ts:173:14)\n    at renderWithVirtual (http://127.0.0.1:1251/src/lib/teact/teact-dom.ts:95:12)\n    at mountChildren (http://127.0.0.1:1251/src/lib/teact/teact-dom.ts:202:26)",
+    "[Teact] Error while rendering component Menu {id: 436, $element: Object, Component: , name: Menu, props: Object}",
+    "TypeError: Cannot read properties of undefined (reading 'querySelector')\n    at Object.current (http://127.0.0.1:1251/src/components/common/CalendarModal.tsx:43:68)\n    at Object.getTriggerElement (http://127.0.0.1:1251/src/hooks/useLastCallback.ts:7:47)\n    at Menu (http://127.0.0.1:1251/src/components/ui/Menu.tsx:27:82)\n    at http://127.0.0.1:1251/src/lib/teact/teact.ts:308:22\n    at safeExec (http://127.0.0.1:1251/src/util/safeExec.ts:10:10)\n    at renderComponent (http://127.0.0.1:1251/src/lib/teact/teact.ts:274:2)\n    at mountComponent (http://127.0.0.1:1251/src/lib/teact/teact.ts:355:2)\n    at initComponent (http://127.0.0.1:1251/src/lib/teact/teact-dom.ts:173:14)\n    at renderWithVirtual (http://127.0.0.1:1251/src/lib/teact/teact-dom.ts:95:12)\n    at mountChildren (http://127.0.0.1:1251/src/lib/teact/teact-dom.ts:202:26)"
+  ],
+  "unhandled": [],
+  "summary": {
+    "total": 10,
+    "pass": 10,
+    "fail": 0,
+    "errors": 4
+  }
+}

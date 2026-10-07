@@ -9,10 +9,10 @@ import {
   useState,
 } from '../../../lib/teact/teact';
 
-import { requestMutation } from '../../../lib/fasterdom/fasterdom';
 import buildClassName from '../../../util/buildClassName';
 import captureKeyboardListeners from '../../../util/captureKeyboardListeners';
 import { waitForAnimationEnd } from '../../../util/cssAnimationEndListeners';
+import acquireOpenModal from '../../../util/openModalState';
 
 import useContext from '../../../hooks/data/useContext';
 import useFrozenProps from '../../../hooks/useFrozenProps';
@@ -28,8 +28,6 @@ import Surface from '../layout/Surface';
 import styles from './Modal.module.scss';
 
 const CLOSE_ANIMATION_DURATION = 200;
-
-let openModalCount = 0;
 
 export type ModalWidth = 'slim' | 'regular' | 'wide' | 'fullscreen';
 export type ModalHeight = 'auto' | 'regular' | 'tall' | 'fullscreen';
@@ -103,23 +101,6 @@ const HEIGHT_CLASS_NAME: Record<ModalHeight, string> = {
 
 function useModalContext() {
   return useContext(ModalContext);
-}
-
-function addBodyDialogClass() {
-  openModalCount += 1;
-  requestMutation(() => {
-    document.body.classList.add('has-open-dialog');
-  });
-
-  return () => {
-    openModalCount = Math.max(0, openModalCount - 1);
-
-    if (!openModalCount) {
-      requestMutation(() => {
-        document.body.classList.remove('has-open-dialog');
-      });
-    }
-  };
 }
 
 const Modal = ({
@@ -322,7 +303,7 @@ const Modal = ({
       return undefined;
     }
 
-    return addBodyDialogClass();
+    return acquireOpenModal();
   }, [shouldRender]);
 
   useEffect(() => {

@@ -1,0 +1,2501 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-1.5.0-operations-ui-acceptance",
+  "runId": "2026-10-06T10-40-19-573Z",
+  "generatedAt": "2026-10-06T10:40:19.575Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourceHashes": {
+    "src/components/App.tsx": "ce01e429633c7c3a161b9dde1d01c4fe63e2986bcf3134b4eeedc1bec0032030",
+    "src/components/App.module.scss": "a5a5312a7c5e882e4691ce6b3e731e15f73020687c4af3919d01a109354d71e0",
+    "src/components/multi/MediaOperationsPanel.tsx": "d526671b2e4124e808d3224e1764155f24f6cfaef90fa38dc28bd1839f1d67f1",
+    "src/components/multi/MediaOperationsPanel.module.scss": "dc807fc22b90918d2a9b6a937c2a5c3478ee8a4bb9fccf8e65b82373bcd094ba",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+    "scripts/relay-operations-ui-audit.mjs": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b"
+  },
+  "environment": {
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "transport": "Real App/Panel + existing MockClient + terminal native journal mocks",
+    "remoteRequests": "blocked",
+    "account": "Synthetic fixture user 1, chat 101",
+    "physicalDpi": "Not tested",
+    "limitations": [
+      "WebView2 COM transport, actual disk files and live Telegram delivery are outside this browser audit"
+    ]
+  },
+  "cases": [
+    {
+      "id": "ctrl-j-close-focus-native-toggle",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 42.49549865722656,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1082.4954986572266
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 58.49549865722656,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 94.49549865722656
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1555,
+                "y": 106.49549865722656,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 146.68299865722656
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 106.49549865722656,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 146.68299865722656
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 147.68299865722656,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1037.5579986572266
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 42.49549865722656,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 106.49549865722656
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1037.5579833984375,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1082.4954833984375
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/ctrl-j-close-focus-native-toggle.png",
+      "pageErrors": []
+    },
+    {
+      "id": "empty-current-explicit-selection",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/empty-current-explicit-selection.png",
+      "pageErrors": []
+    },
+    {
+      "id": "last-active-auto-history",
+      "status": "pass",
+      "detail": {
+        "operationId": "407f8594-5a12-43c8-ae06-e29aaf10338c",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1555,
+                "y": 1030,
+                "width": 140.875,
+                "height": 36,
+                "right": 1695.875,
+                "bottom": 1066
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 845.875,
+              "right": 1920,
+              "bottom": 991.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 991.0625,
+            "width": 383,
+            "height": 88.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/last-active-auto-history.png",
+      "pageErrors": []
+    },
+    {
+      "id": "adaptive-1920x1080",
+      "status": "pass",
+      "detail": {
+        "shouldFull": false,
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1555,
+                "y": 297.453125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1639.65625,
+                "bottom": 333.453125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        },
+        "historyGeometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 1569,
+                "y": 317.109375,
+                "width": 111.3125,
+                "height": 36,
+                "right": 1680.3125,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 1686.3125,
+                "y": 317.109375,
+                "width": 132.296875,
+                "height": 36,
+                "right": 1818.609375,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1555,
+                "y": 1030,
+                "width": 140.875,
+                "height": 36,
+                "right": 1695.875,
+                "bottom": 1066
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 845.875,
+              "right": 1920,
+              "bottom": 991.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 991.0625,
+            "width": 383,
+            "height": 88.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/adaptive-1920x1080.png",
+      "pageErrors": []
+    },
+    {
+      "id": "adaptive-800x560",
+      "status": "pass",
+      "detail": {
+        "shouldFull": true,
+        "geometry": {
+          "viewport": {
+            "width": 800,
+            "height": 560,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 728,
+            "height": 560,
+            "right": 800,
+            "bottom": 560
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 747,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 782,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 90,
+                "y": 104,
+                "width": 340,
+                "height": 40.1875,
+                "right": 430,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 442,
+                "y": 104,
+                "width": 340,
+                "height": 40.1875,
+                "right": 782,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 90,
+                "y": 297.453125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 174.65625,
+                "bottom": 333.453125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 145.1875,
+              "width": 728,
+              "height": 369.875,
+              "right": 800,
+              "bottom": 515.0625
+            },
+            "scrollHeight": 370,
+            "clientHeight": 370
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 64,
+            "right": 800,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 72,
+            "y": 515.0625,
+            "width": 728,
+            "height": 44.9375,
+            "right": 800,
+            "bottom": 560
+          }
+        },
+        "historyGeometry": {
+          "viewport": {
+            "width": 800,
+            "height": 560,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 728,
+            "height": 560,
+            "right": 800,
+            "bottom": 560
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 747,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 782,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 90,
+                "y": 104,
+                "width": 340,
+                "height": 40.1875,
+                "right": 430,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 442,
+                "y": 104,
+                "width": 340,
+                "height": 40.1875,
+                "right": 782,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 104,
+                "y": 317.109375,
+                "width": 111.3125,
+                "height": 36,
+                "right": 215.3125,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 221.3125,
+                "y": 317.109375,
+                "width": 132.296875,
+                "height": 36,
+                "right": 353.609375,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 90,
+                "y": 510,
+                "width": 140.875,
+                "height": 36,
+                "right": 230.875,
+                "bottom": 546
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 145.1875,
+              "width": 728,
+              "height": 325.875,
+              "right": 800,
+              "bottom": 471.0625
+            },
+            "scrollHeight": 326,
+            "clientHeight": 326
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 64,
+            "right": 800,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 72,
+            "y": 471.0625,
+            "width": 728,
+            "height": 88.9375,
+            "right": 800,
+            "bottom": 560
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/adaptive-800x560.png",
+      "pageErrors": []
+    },
+    {
+      "id": "adaptive-640x448",
+      "status": "pass",
+      "detail": {
+        "shouldFull": true,
+        "geometry": {
+          "viewport": {
+            "width": 640,
+            "height": 448,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 568,
+            "height": 448,
+            "right": 640,
+            "bottom": 448
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 587,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 622,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 90,
+                "y": 104,
+                "width": 260,
+                "height": 40.1875,
+                "right": 350,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 362,
+                "y": 104,
+                "width": 260,
+                "height": 40.1875,
+                "right": 622,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 90,
+                "y": 297.453125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 174.65625,
+                "bottom": 333.453125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 145.1875,
+              "width": 568,
+              "height": 257.875,
+              "right": 640,
+              "bottom": 403.0625
+            },
+            "scrollHeight": 258,
+            "clientHeight": 258
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 64,
+            "right": 640,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 72,
+            "y": 403.0625,
+            "width": 568,
+            "height": 44.9375,
+            "right": 640,
+            "bottom": 448
+          }
+        },
+        "historyGeometry": {
+          "viewport": {
+            "width": 640,
+            "height": 448,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 568,
+            "height": 448,
+            "right": 640,
+            "bottom": 448
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 587,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 622,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 90,
+                "y": 104,
+                "width": 260,
+                "height": 40.1875,
+                "right": 350,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 362,
+                "y": 104,
+                "width": 260,
+                "height": 40.1875,
+                "right": 622,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 104,
+                "y": 317.109375,
+                "width": 111.3125,
+                "height": 36,
+                "right": 215.3125,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 221.3125,
+                "y": 317.109375,
+                "width": 132.296875,
+                "height": 36,
+                "right": 353.609375,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 90,
+                "y": 398,
+                "width": 140.875,
+                "height": 36,
+                "right": 230.875,
+                "bottom": 434
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 145.1875,
+              "width": 568,
+              "height": 213.875,
+              "right": 640,
+              "bottom": 359.0625
+            },
+            "scrollHeight": 258,
+            "clientHeight": 214
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 64,
+            "right": 640,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 72,
+            "y": 359.0625,
+            "width": 568,
+            "height": 88.9375,
+            "right": 640,
+            "bottom": 448
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/adaptive-640x448.png",
+      "pageErrors": []
+    },
+    {
+      "id": "known-percent-unknown-stage",
+      "status": "pass",
+      "detail": {
+        "known": "93f91905-0fe9-490b-af0b-67f74007dc3e",
+        "unknown": "98170b08-7de1-444d-9cdc-5c489e71ccb0",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие2",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1555,
+                "y": 297.453125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1639.65625,
+                "bottom": 333.453125
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1555,
+                "y": 481.53125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1639.65625,
+                "bottom": 517.53125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/known-percent-unknown-stage.png",
+      "pageErrors": []
+    },
+    {
+      "id": "saved-visible-format-size-dimensions",
+      "status": "pass",
+      "detail": {
+        "operationId": "c0b28b44-db61-466d-9aab-500c2b31deeb",
+        "text": "Загрузка\nTelegram\n6 окт., 13:40\nВидео без расширения\n\nГотово\n\nВидео без расширения\n1.5 MiB · video/mp4 · 1280 × 720\nОткрыть файл\nПоказать в папке\n\nИсходное сообщение не определено",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 1569,
+                "y": 317.109375,
+                "width": 111.3125,
+                "height": 36,
+                "right": 1680.3125,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 1686.3125,
+                "y": 317.109375,
+                "width": 132.296875,
+                "height": 36,
+                "right": 1818.609375,
+                "bottom": 353.109375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1555,
+                "y": 1030,
+                "width": 140.875,
+                "height": 36,
+                "right": 1695.875,
+                "bottom": 1066
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 845.875,
+              "right": 1920,
+              "bottom": 991.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 991.0625,
+            "width": 383,
+            "height": 88.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/saved-visible-format-size-dimensions.png",
+      "pageErrors": []
+    },
+    {
+      "id": "prepared-send-metadata-without-url-or-path",
+      "status": "pass",
+      "detail": {
+        "operationId": "21bbb56a-128d-4a8c-82f6-21266ece9b63",
+        "text": "Пересылка\nInstagram\n6 окт., 13:40\nПодготовленное видео\n\nЛокальный тестовый чат · Медиа\n\nГотовим вложения\n\nПодтверждено 0 / 2\nПодготовленное видео\n1.5 MiB · video/mp4 · 1280 × 720\nОтменить\nК источнику\nПроверить чат",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1555,
+                "y": 353.484375,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1639.65625,
+                "bottom": 389.484375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "К источнику",
+              "rect": {
+                "x": 1645.65625,
+                "y": 353.484375,
+                "width": 100.046875,
+                "height": 36,
+                "right": 1745.703125,
+                "bottom": 389.484375
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Проверить чат",
+              "rect": {
+                "x": 1751.703125,
+                "y": 353.484375,
+                "width": 115.875,
+                "height": 36,
+                "right": 1867.578125,
+                "bottom": 389.484375
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/prepared-send-metadata-without-url-or-path.png",
+      "pageErrors": []
+    },
+    {
+      "id": "file-actions-known-id-missing-file",
+      "status": "pass",
+      "detail": {
+        "operationId": "652b6d73-7715-44b2-b122-8fd170934372",
+        "actions": [
+          {
+            "type": "open",
+            "id": "652b6d73-7715-44b2-b122-8fd170934372",
+            "index": 0,
+            "path": "C:/RelayAuditDownloads/1ba95d55-95d1-4c91-99ee-3dd577f3ef77/video.mp4"
+          },
+          {
+            "type": "reveal",
+            "id": "652b6d73-7715-44b2-b122-8fd170934372",
+            "index": 0,
+            "path": "C:/RelayAuditDownloads/1ba95d55-95d1-4c91-99ee-3dd577f3ef77/video.mp4"
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/file-actions-known-id-missing-file.png",
+      "pageErrors": []
+    },
+    {
+      "id": "canonical-source-x-known-id-full-close",
+      "status": "pass",
+      "detail": {
+        "operationId": "132569c8-201d-4774-afd2-9c5e7081b7de",
+        "call": {
+          "command": "relay_media_operation_source",
+          "args": {
+            "id": "132569c8-201d-4774-afd2-9c5e7081b7de"
+          },
+          "contentVisible": true,
+          "currentApp": "x",
+          "time": 22969.5
+        },
+        "sourceActions": [
+          {
+            "id": "132569c8-201d-4774-afd2-9c5e7081b7de",
+            "service": "x",
+            "url": "https://x.com/relay_audit/status/1234567890"
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/canonical-source-x-known-id-full-close.png",
+      "pageErrors": []
+    },
+    {
+      "id": "canonical-source-instagram-known-id-full-close",
+      "status": "pass",
+      "detail": {
+        "operationId": "b23f730c-87b9-46e0-bed4-2e471bc24c39",
+        "call": {
+          "command": "relay_media_operation_source",
+          "args": {
+            "id": "b23f730c-87b9-46e0-bed4-2e471bc24c39"
+          },
+          "contentVisible": true,
+          "currentApp": "instagram",
+          "time": 24307.69999999553
+        },
+        "sourceActions": [
+          {
+            "id": "132569c8-201d-4774-afd2-9c5e7081b7de",
+            "service": "x",
+            "url": "https://x.com/relay_audit/status/1234567890"
+          },
+          {
+            "id": "b23f730c-87b9-46e0-bed4-2e471bc24c39",
+            "service": "instagram",
+            "url": "https://www.instagram.com/p/RelayAudit/"
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/canonical-source-instagram-known-id-full-close.png",
+      "pageErrors": []
+    },
+    {
+      "id": "late-epoch-revision-lock-unlock",
+      "status": "pass",
+      "detail": {
+        "operationId": "7ef15153-079d-4859-aaf5-acd94fbb6fd4",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1555,
+                "y": 297.453125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1639.65625,
+                "bottom": 333.453125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/late-epoch-revision-lock-unlock.png",
+      "pageErrors": []
+    },
+    {
+      "id": "history-clear-keeps-files-no-late-resurrection",
+      "status": "pass",
+      "detail": {
+        "current": "aedce2d5-72cf-4fdd-b000-824181fe262f",
+        "cleared": "8eb173fd-7cff-4e96-8695-1cbff9ad4e0b",
+        "retainedFile": "C:/RelayAuditDownloads/048bd43b-dfa9-4b06-95a8-dfa1fc7ee332/video.mp4"
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/history-clear-keeps-files-no-late-resurrection.png",
+      "pageErrors": []
+    },
+    {
+      "id": "navigation-operation-continues-panel-close",
+      "status": "pass",
+      "detail": {
+        "operationId": "08ae97d6-5a36-44a7-905e-860952163ea1",
+        "nativeApp": "instagram",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1555,
+                "y": 297.453125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1639.65625,
+                "bottom": 333.453125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 1920,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/navigation-operation-continues-panel-close.png",
+      "pageErrors": []
+    },
+    {
+      "id": "full-panel-sidebar-switch-content-order",
+      "status": "pass",
+      "detail": {
+        "operationId": "1d142204-7d10-455b-ad16-d0c30769a9da",
+        "calls": [
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": true
+            },
+            "contentVisible": false,
+            "currentApp": "telegram",
+            "time": 31737.5
+          },
+          {
+            "command": "multi_set_active_app",
+            "args": {
+              "app": "x",
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 728,
+                "height": 520
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 31739.79999999702
+          },
+          {
+            "command": "multi_update_x_bounds",
+            "args": {
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 728,
+                "height": 520
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 31739.79999999702
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/full-panel-sidebar-switch-content-order.png",
+      "pageErrors": []
+    },
+    {
+      "id": "full-panel-check-chat-content-order",
+      "status": "pass",
+      "detail": {
+        "operationId": "fcee679b-bf86-4369-814b-e6a259c04a46",
+        "calls": [
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": true
+            },
+            "contentVisible": false,
+            "currentApp": "x",
+            "time": 33435.5
+          },
+          {
+            "command": "multi_set_active_app",
+            "args": {
+              "app": "telegram",
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 728,
+                "height": 520
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "x",
+            "time": 33439.19999999553
+          }
+        ],
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 0,
+          "isSynced": true,
+          "isSyncing": false,
+          "currentChatId": "101"
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/full-panel-check-chat-content-order.png",
+      "pageErrors": []
+    },
+    {
+      "id": "cancel-confirmed-file-warning-recovery",
+      "status": "pass",
+      "detail": {
+        "cancelled": "4f0dbe2b-aa14-4cfb-9de9-9b7617cb95ec",
+        "warning": "cf450f44-bdd0-42c1-834d-db66b593457e",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1867,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 1902,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1555,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1722.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1734.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 1902,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 1569,
+                "y": 465.1875,
+                "width": 111.3125,
+                "height": 36,
+                "right": 1680.3125,
+                "bottom": 501.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 1686.3125,
+                "y": 465.1875,
+                "width": 132.296875,
+                "height": 36,
+                "right": 1818.609375,
+                "bottom": 501.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1555,
+                "y": 1030,
+                "width": 140.875,
+                "height": 36,
+                "right": 1695.875,
+                "bottom": 1066
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 145.1875,
+              "width": 383,
+              "height": 845.875,
+              "right": 1920,
+              "bottom": 991.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 1920,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 1537,
+            "y": 991.0625,
+            "width": 383,
+            "height": 88.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/cancel-confirmed-file-warning-recovery.png",
+      "pageErrors": []
+    },
+    {
+      "id": "keyboard-tabs-rtl-long-text",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 0,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 384,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 0,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1848,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "rtl",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 18,
+                "y": 56,
+                "width": 35,
+                "height": 36,
+                "right": 53,
+                "bottom": 92
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 197.5,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 365,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 18,
+                "y": 104,
+                "width": 167.5,
+                "height": 40.1875,
+                "right": 185.5,
+                "bottom": 144.1875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 280.34375,
+                "y": 465.078125,
+                "width": 84.65625,
+                "height": 36,
+                "right": 365,
+                "bottom": 501.078125
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 0,
+              "y": 145.1875,
+              "width": 383,
+              "height": 889.875,
+              "right": 383,
+              "bottom": 1035.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 0,
+            "y": 40,
+            "width": 383,
+            "height": 64,
+            "right": 383,
+            "bottom": 104
+          },
+          "footer": {
+            "x": 0,
+            "y": 1035.0625,
+            "width": 383,
+            "height": 44.9375,
+            "right": 383,
+            "bottom": 1080
+          }
+        },
+        "operationId": "42f33e88-4563-4435-9768-c58673855e4d"
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/keyboard-tabs-rtl-long-text.png",
+      "pageErrors": []
+    },
+    {
+      "id": "text-200pct-reduced-motion-bounds",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 144,
+            "y": 80,
+            "width": 1776,
+            "height": 1000,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 144,
+            "y": 0,
+            "width": 1776,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 32,
+          "direction": "ltr",
+          "animation": "none",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 1814,
+                "y": 112,
+                "width": 70,
+                "height": 72,
+                "right": 1884,
+                "bottom": 184
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 180,
+                "y": 208,
+                "width": 840,
+                "height": 80.390625,
+                "right": 1020,
+                "bottom": 288.390625
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1044,
+                "y": 208,
+                "width": 840,
+                "height": 80.390625,
+                "right": 1884,
+                "bottom": 288.390625
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 180,
+                "y": 578.765625,
+                "width": 169.296875,
+                "height": 72,
+                "right": 349.296875,
+                "bottom": 650.765625
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 144,
+              "y": 290.390625,
+              "width": 1776,
+              "height": 699.71875,
+              "right": 1920,
+              "bottom": 990.109375
+            },
+            "scrollHeight": 700,
+            "clientHeight": 700
+          },
+          "header": {
+            "x": 144,
+            "y": 80,
+            "width": 1776,
+            "height": 128,
+            "right": 1920,
+            "bottom": 208
+          },
+          "footer": {
+            "x": 144,
+            "y": 990.109375,
+            "width": 1776,
+            "height": 89.890625,
+            "right": 1920,
+            "bottom": 1080
+          }
+        },
+        "nativeBoundsCalls": 1,
+        "calls": [
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": false
+            },
+            "contentVisible": true,
+            "currentApp": "x",
+            "time": 38726.09999999404
+          },
+          {
+            "command": "multi_update_x_bounds",
+            "args": {
+              "bounds": {
+                "x": 144,
+                "y": 80,
+                "width": 1776,
+                "height": 1000
+              }
+            },
+            "contentVisible": false,
+            "currentApp": "x",
+            "time": 38731.69999999553
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/text-200pct-reduced-motion-bounds.png",
+      "pageErrors": []
+    },
+    {
+      "id": "full-panel-hidden-profile-keyboard-restoration",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1280,
+            "height": 800,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 144,
+            "y": 80,
+            "width": 1136,
+            "height": 720,
+            "right": 1280,
+            "bottom": 800
+          },
+          "workspace": {
+            "x": 144,
+            "y": 0,
+            "width": 1136,
+            "height": 800,
+            "right": 1280,
+            "bottom": 800
+          },
+          "rem": 32,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 1174,
+                "y": 112,
+                "width": 70,
+                "height": 72,
+                "right": 1244,
+                "bottom": 184
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 180,
+                "y": 208,
+                "width": 520,
+                "height": 80.390625,
+                "right": 700,
+                "bottom": 288.390625
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 724,
+                "y": 208,
+                "width": 520,
+                "height": 80.390625,
+                "right": 1244,
+                "bottom": 288.390625
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 180,
+                "y": 510.1875,
+                "width": 169.296875,
+                "height": 72,
+                "right": 349.296875,
+                "bottom": 582.1875
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 144,
+              "y": 290.390625,
+              "width": 1136,
+              "height": 419.71875,
+              "right": 1280,
+              "bottom": 710.109375
+            },
+            "scrollHeight": 420,
+            "clientHeight": 420
+          },
+          "header": {
+            "x": 144,
+            "y": 80,
+            "width": 1136,
+            "height": 128,
+            "right": 1280,
+            "bottom": 208
+          },
+          "footer": {
+            "x": 144,
+            "y": 710.109375,
+            "width": 1136,
+            "height": 89.890625,
+            "right": 1280,
+            "bottom": 800
+          }
+        },
+        "hiddenFocus": [],
+        "preservedProfile": 1
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-40-19-573Z/full-panel-hidden-profile-keyboard-restoration.png",
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "ce01e429633c7c3a161b9dde1d01c4fe63e2986bcf3134b4eeedc1bec0032030",
+    "src/components/App.module.scss": "a5a5312a7c5e882e4691ce6b3e731e15f73020687c4af3919d01a109354d71e0",
+    "src/components/multi/MediaOperationsPanel.tsx": "d526671b2e4124e808d3224e1764155f24f6cfaef90fa38dc28bd1839f1d67f1",
+    "src/components/multi/MediaOperationsPanel.module.scss": "dc807fc22b90918d2a9b6a937c2a5c3478ee8a4bb9fccf8e65b82373bcd094ba",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+    "scripts/relay-operations-ui-audit.mjs": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b"
+  },
+  "sourcesChangedDuringRun": [],
+  "unhandled": [],
+  "summary": {
+    "passed": 21,
+    "failed": 0,
+    "total": 21
+  }
+}

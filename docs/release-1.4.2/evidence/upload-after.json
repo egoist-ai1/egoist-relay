@@ -1,0 +1,73 @@
+{
+  "results": [
+    {
+      "name": "pre-cancel",
+      "outcome": "rejected",
+      "error": "USER_CANCELED",
+      "requests": 0,
+      "releases": 0,
+      "senders": 0,
+      "senderReleases": 0,
+      "reads": 0,
+      "sends": 0,
+      "maxActive": 0,
+      "active": 0,
+      "unhandled": []
+    },
+    {
+      "name": "retry-reads-release",
+      "outcome": "resolved",
+      "requests": 1,
+      "releases": 1,
+      "senders": 2,
+      "senderReleases": 2,
+      "reads": 1,
+      "sends": 2,
+      "maxActive": 1,
+      "active": 0,
+      "unhandled": []
+    },
+    {
+      "name": "failed-part-stops-queue",
+      "outcome": "rejected",
+      "error": "FAILED",
+      "requests": 2,
+      "releases": 2,
+      "senders": 1,
+      "senderReleases": 1,
+      "reads": 1,
+      "sends": 1,
+      "maxActive": 1,
+      "active": 0,
+      "unhandled": []
+    },
+    {
+      "name": "cancel-pending-send",
+      "outcome": "rejected",
+      "error": "USER_CANCELED",
+      "requests": 1,
+      "releases": 1,
+      "senders": 1,
+      "senderReleases": 1,
+      "reads": 1,
+      "sends": 1,
+      "maxActive": 1,
+      "active": 0,
+      "unhandled": []
+    },
+    {
+      "name": "false-server-response",
+      "outcome": "rejected",
+      "error": "UPLOAD_PART_REJECTED",
+      "requests": 1,
+      "releases": 1,
+      "senders": 1,
+      "senderReleases": 1,
+      "reads": 1,
+      "sends": 1,
+      "maxActive": 1,
+      "active": 0,
+      "unhandled": []
+    }
+  ]
+}

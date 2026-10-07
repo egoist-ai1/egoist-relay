@@ -51,6 +51,7 @@ type OwnProps =
   {
     message: ApiMessage;
     withAvatar?: boolean;
+    isOwn?: boolean;
     children: React.ReactNode;
     id: string;
     appearanceOrder: number;
@@ -73,6 +74,7 @@ type StateProps = {
 const SenderGroupContainer: FC<OwnProps & StateProps> = ({
   message,
   withAvatar,
+  isOwn,
   children,
   id,
   appearanceOrder,
@@ -121,7 +123,7 @@ const SenderGroupContainer: FC<OwnProps & StateProps> = ({
 
   const shouldPreferOriginSender = forwardInfo
     && (isChatWithSelf || isRepliesChat || isAnonymousForwards || !messageSender);
-  const avatarPeer = shouldPreferOriginSender ? originSender : messageSender;
+  const avatarPeer = !isOwn ? (shouldPreferOriginSender ? originSender : messageSender) : undefined;
   const isAvatarPeerUser = avatarPeer && isApiPeerUser(avatarPeer);
 
   const handleOpenChat = useLastCallback(() => {
@@ -167,7 +169,7 @@ const SenderGroupContainer: FC<OwnProps & StateProps> = ({
     ref: avatarRef,
     shouldRender,
   } = useShowTransition({
-    isOpen: withAvatar && isShown,
+    isOpen: !isOwn && withAvatar && isShown,
     noMountTransition: isShown,
     withShouldRender: true,
   });
@@ -266,7 +268,7 @@ const SenderGroupContainer: FC<OwnProps & StateProps> = ({
 
   return (
     <div id={id} className={className}>
-      {shouldRender && (
+      {!isOwn && shouldRender && (
         <div ref={avatarRef} className={styles.avatarContainer}>
           {renderAvatar()}
           {shouldRenderContextMenu && renderContextMenu()}

@@ -1,0 +1,163 @@
+{
+  "sourceFiles": [
+    "src/components/ui/ListItem.scss",
+    "src/components/gili/layout/Island.module.scss",
+    "src/components/right/management/Management.scss",
+    "src/components/middle/composer/FormattedDateModal.module.scss"
+  ],
+  "scope": "Task-owned synthetic markup with actual SCSS compiled and module class names preserved literally; no live account operations",
+  "results": [
+    {
+      "width": 240,
+      "dir": "ltr",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 240,
+      "dir": "rtl",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 280,
+      "dir": "ltr",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 280,
+      "dir": "rtl",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 320,
+      "dir": "ltr",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 320,
+      "dir": "rtl",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 400,
+      "dir": "ltr",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    },
+    {
+      "width": 400,
+      "dir": "rtl",
+      "hintWidth": 46.203125,
+      "hintHeight": 1056,
+      "rowWidths": [
+        249,
+        223,
+        271
+      ],
+      "rowTops": [
+        559,
+        559,
+        559
+      ],
+      "horizontalOverflow": false,
+      "labelOverflow": false,
+      "documentOverflow": false
+    }
+  ]
+}

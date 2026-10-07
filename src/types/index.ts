@@ -799,6 +799,10 @@ export type ResaleGiftsFilterOptions = {
 };
 
 export type SendMessageParams = {
+  socialShareRandomId?: string;
+  shouldThrowOnSendError?: boolean;
+  shouldPreserveDraft?: boolean;
+  shouldSkipFocus?: boolean;
   chat?: ApiChat;
   attachments?: ApiAttachment[];
   lastMessageId?: number;

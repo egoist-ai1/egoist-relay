@@ -111,20 +111,13 @@ export function getDownloadPartSize(fileSize: number) {
   if (fileSize <= 65536) { // 64KB
     return 64;
   }
-  if (fileSize <= 104857600) { // 100MB
+  if (fileSize <= 262144) { // 256KB
     return 128;
   }
-  if (fileSize <= 786432000) { // 750MB
+  if (fileSize <= 1048576) { // 1MB
     return 256;
   }
-  if (fileSize <= 2097152000) { // 2000MB
-    return 512;
-  }
-  if (fileSize <= 4194304000) { // 4000MB
-    return 1024;
-  }
-
-  throw new Error('File size too large');
+  return 1024;
 }
 
 /**
@@ -134,20 +127,13 @@ export function getDownloadPartSize(fileSize: number) {
  * @returns {Number}
  */
 export function getUploadPartSize(fileSize: number) {
-  if (fileSize <= 104857600) { // 100MB
+  if (fileSize <= 262144) { // 256KB
     return 128;
   }
-  if (fileSize <= 786432000) { // 750MB
+  if (fileSize <= 1048576) { // 1MB
     return 256;
   }
-  if (fileSize <= 2097152000) { // 2000MB
-    return 512;
-  }
-  if (fileSize <= 4194304000) { // 4000MB
-    return 512;
-  }
-
-  throw new Error('File size too large');
+  return 512;
 }
 
 /**

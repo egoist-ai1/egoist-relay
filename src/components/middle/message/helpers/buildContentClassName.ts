@@ -198,7 +198,8 @@ export function buildContentClassName(
     classNames.push('force-sender-name');
   }
 
-  if (!isCustomShape) {
+  const isEmojiOnly = classNames.includes('emoji-only');
+  if (!isCustomShape && !isEmojiOnly) {
     classNames.push('has-shadow');
 
     if (isMedia && hasThread) {

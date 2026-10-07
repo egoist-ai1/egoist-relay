@@ -4,6 +4,8 @@ import { memo } from '../../lib/teact/teact';
 import type { ApiTopic } from '../../api/types';
 import type { ObserveFn } from '../../hooks/useIntersectionObserver';
 
+import useCustomEmoji from './hooks/useCustomEmoji';
+
 import CustomEmoji from './CustomEmoji';
 import TopicDefaultIcon from './TopicDefaultIcon';
 
@@ -29,16 +31,40 @@ const TopicIcon: FC<OwnProps> = ({
   observeIntersection,
   onClick,
 }) => {
-  if (topic.iconEmojiId && topic.iconEmojiId !== DEFAULT_ICON_ID) {
+  const hasEmojiId = Boolean(topic.iconEmojiId && topic.iconEmojiId !== DEFAULT_ICON_ID);
+  const { customEmoji } = useCustomEmoji(hasEmojiId ? topic.iconEmojiId : undefined);
+
+  if (hasEmojiId && customEmoji) {
     return (
       <CustomEmoji
-        documentId={topic.iconEmojiId}
+        documentId={topic.iconEmojiId!}
         className={className}
         size={size}
         observeIntersectionForPlaying={observeIntersection}
         loopLimit={!noLoopLimit ? LOOP_LIMIT : undefined}
         onClick={onClick}
+        forceAlways
+        shouldPreloadPreview
       />
+    );
+  }
+
+  if (hasEmojiId && !customEmoji) {
+    // While loading custom emoji in background, show default icon as fallback with CustomEmoji triggered
+    return (
+      <>
+        <div style="display: none;">
+          <CustomEmoji documentId={topic.iconEmojiId!} noPlaceholder forceAlways shouldPreloadPreview />
+        </div>
+        <TopicDefaultIcon
+          iconColor={topic.iconColor}
+          title={topic.title}
+          topicId={topic.id}
+          className={className}
+          letterClassName={letterClassName}
+          onClick={onClick}
+        />
+      </>
     );
   }
 

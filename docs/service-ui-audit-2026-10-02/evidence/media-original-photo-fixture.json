@@ -1,0 +1,25 @@
+{
+  "evidence": "Task-owned Chromium; trusted local clicks; share terminal navigation stubbed; synthetic CDN URLs and no remote network; signed query strings preserved verbatim",
+  "cases": [
+    {
+      "name": "signed-largest-whitelisted",
+      "passed": true
+    },
+    {
+      "name": "malformed-fallback",
+      "passed": true
+    },
+    {
+      "name": "mixed-descriptor-fallback",
+      "passed": true
+    },
+    {
+      "name": "density-largest",
+      "passed": true
+    },
+    {
+      "name": "x-original-rendition",
+      "passed": true
+    }
+  ]
+}

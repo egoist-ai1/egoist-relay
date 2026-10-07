@@ -14,6 +14,11 @@ interface ConnectionInterfaceParams {
   isTestServer?: boolean;
 }
 
+export interface PacketReader {
+  read(length: number): Promise<Uint8Array>;
+  readExactly(length: number): Promise<Uint8Array>;
+}
+
 /**
  * The `Connection` class is a wrapper around ``asyncio.open_connection``.
  *
@@ -46,11 +51,15 @@ export class Connection {
 
   private _recvTask?: Promise<void>;
 
+  private _connectionId = 0;
+
+  private _connectTask?: Promise<void>;
+
   protected _codec: any;
 
   protected _obfuscation: any;
 
-  _sendArray: AsyncQueue<Uint8Array>;
+  _sendArray: AsyncQueue<Uint8Array | undefined>;
 
   _recvArray: AsyncQueue<Uint8Array | undefined>;
 
@@ -73,7 +82,7 @@ export class Connection {
     this._recvTask = undefined;
     this._codec = undefined;
     this._obfuscation = undefined; // TcpObfuscated and MTProxy
-    this._sendArray = new AsyncQueue<Uint8Array>();
+    this._sendArray = new AsyncQueue<Uint8Array | undefined>();
     this._recvArray = new AsyncQueue<Uint8Array | undefined>();
     // this.socket = new PromiseSocket(new Socket())
 
@@ -92,28 +101,52 @@ export class Connection {
   async _connect() {
     this._log.debug('Connecting');
     this._codec = new this.PacketCodecClass!(this);
-    await this.socket.connect(this._port, this._ip, this._isTestServer, this._isPremium);
+    await this.socket.connect(this._port, this._ip, this._isTestServer, this._isPremium, this._dcId);
     this._log.debug('Finished connecting');
 
     await this._initConn();
   }
 
   async connect() {
-    await this._connect();
+    if (this._connected) return;
+    if (this._connectTask) return this._connectTask;
+    const connectTask = this._connectOnce();
+    this._connectTask = connectTask;
+    try {
+      await connectTask;
+    } finally {
+      this._connectTask = undefined;
+    }
+  }
+
+  private async _connectOnce() {
+    const connectionId = ++this._connectionId;
+    this._sendArray = new AsyncQueue<Uint8Array | undefined>();
+    this._recvArray = new AsyncQueue<Uint8Array | undefined>();
+    try {
+      await this._connect();
+    } catch (err) {
+      this.socket.close();
+      throw err;
+    }
+    if (connectionId !== this._connectionId) {
+      this.socket.close();
+      throw new Error('Not connected');
+    }
     this._connected = true;
 
-    if (!this._sendTask) {
-      this._sendTask = this._sendLoop();
-    }
-    this._recvTask = this._recvLoop();
+    this._sendTask = this._sendLoop(connectionId);
+    this._recvTask = this._recvLoop(connectionId);
   }
 
   disconnect(fromCallback = false) {
-    if (!this._connected) {
+    if (!this._connected && !this._connectTask) {
       return;
     }
 
     this._connected = false;
+    this._connectionId += 1;
+    void this._sendArray.push(undefined);
     void this._recvArray.push(undefined);
     if (!fromCallback) {
       this.socket.close();
@@ -121,15 +154,20 @@ export class Connection {
   }
 
   async send(data: Uint8Array) {
+    const connectionId = this._connectionId;
     if (!this._connected) {
       throw new Error('Not connected');
     }
     await this._sendArray.push(data);
+    if (!this._connected || connectionId !== this._connectionId) throw new Error('Not connected');
   }
 
   async recv() {
-    while (this._connected) {
-      const result = await this._recvArray.pop();
+    const connectionId = this._connectionId;
+    const recvArray = this._recvArray;
+    while (this._connected && connectionId === this._connectionId) {
+      const result = await recvArray.pop();
+      if (!this._connected || connectionId !== this._connectionId) break;
       // null = sentinel value = keep trying
       if (result) {
         return result;
@@ -138,25 +176,24 @@ export class Connection {
     throw new Error('Not connected');
   }
 
-  async _sendLoop() {
-    // TODO handle errors
+  async _sendLoop(connectionId = this._connectionId) {
+    const sendArray = this._sendArray;
     try {
-      while (this._connected) {
-        const data = await this._sendArray.pop();
-        if (!data) {
-          this._sendTask = undefined;
-          return;
-        }
-        this._send(data);
+      while (this._connected && connectionId === this._connectionId) {
+        const data = await sendArray.pop();
+        if (!data || !this._connected || connectionId !== this._connectionId) return;
+        await this._send(data);
       }
     } catch (e) {
       this._log.info('The server closed the connection while sending');
+      if (connectionId === this._connectionId) this.disconnect();
     }
   }
 
-  async _recvLoop() {
+  async _recvLoop(connectionId = this._connectionId) {
+    const recvArray = this._recvArray;
     let data;
-    while (this._connected) {
+    while (this._connected && connectionId === this._connectionId) {
       try {
         data = await this._recv();
         if (!data) {
@@ -164,12 +201,11 @@ export class Connection {
         }
       } catch (e) {
         this._log.info('connection closed');
-        // await this._recvArray.push()
-
-        this.disconnect();
+        if (connectionId === this._connectionId) this.disconnect();
         return;
       }
-      await this._recvArray.push(data);
+      if (!this._connected || connectionId !== this._connectionId) return;
+      await recvArray.push(data);
     }
   }
 
@@ -181,7 +217,7 @@ export class Connection {
 
   _send(data: Uint8Array) {
     const encodedPacket = this._codec.encodePacket(data);
-    this.socket.write(encodedPacket);
+    return this.socket.write(encodedPacket);
   }
 
   _recv() {
@@ -202,7 +238,7 @@ export class ObfuscatedConnection extends Connection {
   }
 
   _send(data: Uint8Array) {
-    this._obfuscation.write(this._codec.encodePacket(data));
+    return this._obfuscation.write(this._codec.encodePacket(data));
   }
 
   _recv() {
@@ -223,7 +259,7 @@ export class PacketCodec {
     // Override
   }
 
-  readPacket(reader: PromisedWebSockets) {
+  readPacket(reader: PacketReader) {
     // override
     throw new Error('Not Implemented');
   }

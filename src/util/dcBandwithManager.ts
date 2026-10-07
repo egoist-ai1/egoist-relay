@@ -111,6 +111,9 @@ class DcBandwidthManager {
   }
 
   async requestWorker(isPriority: boolean, requestSize: number): Promise<number> {
+    if (!Number.isFinite(requestSize) || requestSize <= 0 || requestSize > FOREMAN_MAX_HEAP_SIZE) {
+      throw new Error('Invalid bandwidth request size');
+    }
     // Check if adding this request would exceed the dcId size limit
     if (this.activeRequestSize + requestSize > this.maxActiveSize) {
       const deferred = new Deferred();
@@ -130,8 +133,8 @@ class DcBandwidthManager {
 
     const foremanIndex = this.getFreeForemanIndex(requestSize);
     const foreman = this.foremans[foremanIndex];
-    await foreman.requestWorker(requestSize, isPriority);
     this.activeRequestSize += requestSize;
+    await foreman.requestWorker(requestSize, isPriority);
     return foremanIndex;
   }
 
@@ -160,16 +163,25 @@ class DcBandwidthManager {
     }
   }
 
+  private lastForemanIndex = 0;
+
   private getFreeForemanIndex(requestSize: number): number {
+    // Round-robin worker distribution across all parallel TCP connections for maximum download speed
+    for (let offset = 0; offset < this.maxConnections; offset++) {
+      const idx = (this.lastForemanIndex + offset) % this.maxConnections;
+      const foreman = this.foremans[idx];
+      if (foreman.canAccept(requestSize)) {
+        this.lastForemanIndex = (idx + 1) % this.maxConnections;
+        return idx;
+      }
+    }
+
+    // If all connections currently have active load, select the connection with the least total load
     let minTotalHeapSize = Infinity;
     let minHeapForemanIndex = 0;
 
     for (let i = 0; i < this.maxConnections; i++) {
       const foreman = this.foremans[i];
-      if (foreman.canAccept(requestSize)) {
-        return i; // Prefer filling up free foremans to avoid unnecessary connections
-      }
-
       const totalHeapSize = foreman.activeRequestHeapSize + foreman.queuedRequestHeapSize;
       if (totalHeapSize < minTotalHeapSize) {
         minTotalHeapSize = totalHeapSize;
@@ -177,7 +189,7 @@ class DcBandwidthManager {
       }
     }
 
-    // If every foreman is busy, use the one with the smallest total heap size
+    this.lastForemanIndex = (minHeapForemanIndex + 1) % this.maxConnections;
     return minHeapForemanIndex;
   }
 

@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-10-02T11:09:27.017Z",
+  "scope": "NEXT candidate only; immutable 1.4.4 package untouched",
+  "sources": [
+    {
+      "file": "src/components/common/Composer.tsx",
+      "before": {
+        "bytes": 117825,
+        "sha256": "6535a387c16bbbb18097edd3bb941009d348e32a571ce3c60fab01ba7f34be4c"
+      },
+      "after": {
+        "bytes": 117810,
+        "sha256": "7ea10ff7ae98486ef2dbb00a0f2a059f9c65b1117251a526ca55a4ea391daa9a"
+      }
+    },
+    {
+      "file": "src/components/middle/composer/AttachmentModal.tsx",
+      "before": {
+        "bytes": 33198,
+        "sha256": "455decdb408a5ae525c3ba096373ade522b5f447d90e459eb250ca5e11c0369b"
+      },
+      "after": {
+        "bytes": 33671,
+        "sha256": "f3607be3a0d1481f504fbeef89b45fb7fe68eb739231c99ab0b6334465d377bc"
+      }
+    },
+    {
+      "file": "src/components/ui/mediaEditor/MediaEditor.tsx",
+      "before": {
+        "bytes": 29788,
+        "sha256": "fbf7da9d90495e9350d5a34eb16aec6aedd609f2901928b4df0864744d5552ec"
+      },
+      "after": {
+        "bytes": 30258,
+        "sha256": "a716b89c10f83d820cf9703c6bbeb2510d975db5af5c886a976915598225754c"
+      }
+    },
+    {
+      "file": "src/components/ui/mediaEditor/MediaEditor.module.scss",
+      "before": {
+        "bytes": 14081,
+        "sha256": "c14a06205a0fc3cd7fdaeeddf545cad6955270c80517a294cd86495a9dbd8064"
+      },
+      "after": {
+        "bytes": 14328,
+        "sha256": "f4a94e54c3cf793081045b57548ac44a3040d724cda32f4f459947d49354f468"
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "evidence": "Task-owned Chromium; actual share enhancer with terminal navigation transport stubbed; trusted fixture click; no live account or remote network",
+  "variant": "after",
+  "selectedUrl": "https://www.instagram.com/p/RIGHT123/",
+  "expectedUrl": "https://www.instagram.com/p/RIGHT123/",
+  "label": "Отправить в Telegram",
+  "width": 44,
+  "height": 44
+}

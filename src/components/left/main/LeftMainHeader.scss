@@ -109,6 +109,29 @@
     margin-left: 0.75rem;
   }
 
+  .left-header-menu-btn {
+    overflow: hidden !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+
+    .menu-user-avatar {
+      cursor: pointer;
+
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 50% !important;
+
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    &:hover .menu-user-avatar {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+  }
+
   .SearchInput--no-left-margin {
     margin-left: 0;
   }
@@ -199,15 +222,19 @@
     }
 
     .title {
-      overflow: hidden;
+      overflow: visible;
       min-width: 0;
     }
 
     .fullName {
+      overflow: visible;
+
       margin: 0;
-      padding-top: 0.1875rem;
+      padding-top: 0;
+      padding-bottom: 0.125rem;
+
       font-size: 1em;
-      line-height: 1;
+      line-height: 1.25;
     }
   }
 }

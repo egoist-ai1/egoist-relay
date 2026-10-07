@@ -1,9 +1,7 @@
 @layer ui.layout {
   .island {
-    padding: 0.5rem;
-    border-radius: var(--border-radius-island);
+    padding: 0.5rem 0;
     background-color: var(--color-background);
-    box-shadow: 0px 1px 4px 0px #0000000D;
   }
 
   .description {
@@ -12,7 +10,7 @@
     padding: 0.5rem 1rem;
 
     font-size: 0.875rem;
-    line-height: 1rem;
+    line-height: 1.4;
     color: var(--color-text-secondary);
     overflow-wrap: anywhere;
   }
@@ -22,6 +20,7 @@
 
     padding: 0 1rem;
 
+    font-family: var(--font-family-body);
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
     line-height: 1.25rem;
@@ -38,6 +37,8 @@
 
   .island + .island {
     margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 0.0625rem solid var(--color-borders);
   }
 
   .island + .description {

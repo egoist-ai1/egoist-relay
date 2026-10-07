@@ -4,6 +4,8 @@ const IV_LENGTH = 12;
 const SALT = 'harder better faster stronger';
 
 let currentPasscodeHash: ArrayBuffer | undefined;
+let sessionOperationPromise = Promise.resolve();
+let clearingSessionPromise: Promise<void> | undefined;
 
 export class UnrecoverablePasscodeError extends Error {}
 
@@ -26,18 +28,28 @@ export async function encryptSession(sessionJson?: string, globalJson?: string, 
     throw new Error('[api/passcode] Missing current passcode');
   }
 
-  await Promise.all([
-    storeEncrypted('sessionEncrypted', sessionJson),
-    storeEncrypted('globalEncrypted', globalJson),
-    storeEncrypted('sharedStateEncrypted', sharedStateJson),
-  ]);
+  if (clearingSessionPromise) throw new Error('[api/passcode] Session clearing is in progress');
+
+  const passcodeHash = currentPasscodeHash;
+  const operation = sessionOperationPromise.then(async () => {
+    const entries = await Promise.all([
+      buildEncryptedEntry('sessionEncrypted', sessionJson, passcodeHash),
+      buildEncryptedEntry('globalEncrypted', globalJson, passcodeHash),
+      buildEncryptedEntry('sharedStateEncrypted', sharedStateJson, passcodeHash),
+    ]);
+    await PASSCODE_IDB_STORE.setMany(entries.filter((entry) => entry !== undefined));
+  });
+  sessionOperationPromise = operation.catch(() => undefined);
+  return operation;
 }
 
-async function storeEncrypted(key: string, json?: string) {
+async function buildEncryptedEntry(
+  key: string, json: string | undefined, passcodeHash: ArrayBuffer,
+): Promise<[string, number[]] | undefined> {
   if (!json) return;
 
-  const encrypted = await aesEncrypt(json, currentPasscodeHash!);
-  await store(key, encrypted);
+  const encrypted = await aesEncrypt(json, passcodeHash);
+  return [key, Array.from(new Uint8Array(encrypted))];
 }
 
 export async function decryptSessionByCurrentHash() {
@@ -110,17 +122,20 @@ export function forgetPasscode() {
 }
 
 export function clearEncryptedSession() {
-  forgetPasscode();
-  return PASSCODE_IDB_STORE.clear();
+  if (clearingSessionPromise) return clearingSessionPromise;
+
+  clearingSessionPromise = sessionOperationPromise.then(async () => {
+    await PASSCODE_IDB_STORE.clear();
+    forgetPasscode();
+  }).finally(() => {
+    clearingSessionPromise = undefined;
+  });
+  sessionOperationPromise = clearingSessionPromise.catch(() => undefined);
+  return clearingSessionPromise;
 }
 
 function sha256(plaintext: string) {
   return crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${plaintext}${SALT}`));
-}
-
-function store(key: string, value: ArrayBuffer) {
-  const asArray = Array.from(new Uint8Array(value));
-  return PASSCODE_IDB_STORE.set(key, asArray);
 }
 
 export function hasEncryptedSession() {

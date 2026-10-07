@@ -4,6 +4,7 @@ import {
 } from '../../../lib/teact/teact';
 import { getActions, withGlobal } from '../../../global';
 
+import type { ApiUser } from '../../../api/types';
 import type { GlobalState } from '../../../global/types';
 import type { ThemeKey } from '../../../types';
 import { LeftColumnContent, SettingsScreens } from '../../../types';
@@ -15,6 +16,7 @@ import {
   selectIsForumPanelOpen,
   selectTabState,
   selectTheme,
+  selectUser,
 } from '../../../global/selectors';
 import { selectSharedSettings } from '../../../global/selectors/sharedState';
 import { IS_TAURI } from '../../../util/browser/globalEnvironment';
@@ -30,6 +32,7 @@ import useLang from '../../../hooks/useLang';
 import useLastCallback from '../../../hooks/useLastCallback';
 import useOldLang from '../../../hooks/useOldLang';
 
+import Avatar from '../../common/Avatar';
 import Icon from '../../common/icons/Icon';
 import MainMenuDropdown from '../../common/MainMenuDropdown';
 import PeerChip from '../../common/PeerChip';
@@ -54,6 +57,7 @@ type OwnProps = {
 };
 
 type StateProps = {
+  currentUser?: ApiUser;
   searchQuery?: string;
   isLoading: boolean;
   globalSearchChatId?: string;
@@ -66,6 +70,8 @@ type StateProps = {
   hasPasscode?: boolean;
   canSetPasscode?: boolean;
   isForumPanelOpen?: boolean;
+  activeChatFolder?: number;
+  orderedFolderIds?: number[];
 } & Pick<GlobalState, 'connectionState' | 'isSyncing' | 'isFetchingDifference'>;
 
 const CLEAR_DATE_SEARCH_PARAM = { date: undefined };
@@ -74,6 +80,7 @@ const CLEAR_CHAT_SEARCH_PARAM = { id: undefined };
 const IS_WITH_WINDOW_BUTTONS = IS_TAURI && IS_MAC_OS;
 
 const LeftMainHeader = ({
+  currentUser,
   shouldHideSearch,
   content,
   contactsFilter,
@@ -95,6 +102,8 @@ const LeftMainHeader = ({
   canSetPasscode,
   isFoldersSidebarShown,
   isForumPanelOpen,
+  activeChatFolder,
+  orderedFolderIds,
   onSearchQuery,
   onReset,
 }: OwnProps & StateProps) => {
@@ -160,24 +169,35 @@ const LeftMainHeader = ({
         ripple={hasMenu && !isMobile}
         size="smaller"
         color="translucent"
-        className={buildClassName(isOpen && 'active')}
-
+        className={buildClassName('left-header-menu-btn', isOpen && 'active')}
         onClick={isSearchButton ? handleForumSearchClick : hasMenu ? onTrigger : () => onReset()}
         ariaLabel={hasMenu ? lang('AriaLabelOpenMenu') : lang('AriaLabelBackChatList')}
       >
         {isSearchButton ? (
           <Icon name="search" />
+        ) : !hasMenu ? (
+          <div className={buildClassName(
+            'animated-menu-icon',
+            'state-back',
+            shouldSkipTransition && 'no-animation',
+          )}
+          />
+        ) : currentUser ? (
+          <Avatar
+            peer={currentUser}
+            size="tiny"
+            className="menu-user-avatar"
+          />
         ) : (
           <div className={buildClassName(
             'animated-menu-icon',
-            !hasMenu && 'state-back',
             shouldSkipTransition && 'no-animation',
           )}
           />
         )}
       </Button>
     );
-  }, [hasMenu, isSearchButton, isMobile, lang, onReset, shouldSkipTransition]);
+  }, [hasMenu, isSearchButton, isMobile, lang, onReset, shouldSkipTransition, currentUser]);
 
   const handleSearchFocus = useLastCallback(() => {
     if (!searchQuery) {
@@ -250,7 +270,7 @@ const LeftMainHeader = ({
       <div
         id="LeftMainHeader"
         className="left-header"
-        data-tauri-drag-region={IS_WITH_WINDOW_BUTTONS ? true : undefined}
+        data-tauri-drag-region={IS_TAURI ? true : undefined}
       >
         {lang.isRtl && <div className="DropdownMenuFiller" />}
         <MainMenuDropdown
@@ -329,6 +349,7 @@ export default memo(withGlobal<OwnProps>(
     const isForumPanelOpen = selectIsForumPanelOpen(global);
 
     return {
+      currentUser: global.currentUserId ? selectUser(global, global.currentUserId) : undefined,
       searchQuery,
       isLoading: fetchingStatus ? Boolean(fetchingStatus.chats
         || fetchingStatus.messages || fetchingStatus.publicPosts) : false,
@@ -345,6 +366,8 @@ export default memo(withGlobal<OwnProps>(
       hasPasscode: Boolean(global.passcode.hasPasscode),
       canSetPasscode: selectCanSetPasscode(global),
       isForumPanelOpen,
+      activeChatFolder: tabState.activeChatFolder,
+      orderedFolderIds: global.chatFolders.orderedIds,
     };
   },
 )(LeftMainHeader));

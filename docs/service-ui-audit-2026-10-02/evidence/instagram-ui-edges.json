@@ -1,0 +1,32 @@
+{
+  "evidence": "Task-owned Chromium; actual enhancer; synthesized wheel input; local fixture only",
+  "editable": {
+    "clicks": 0,
+    "prevented": false
+  },
+  "comments": {
+    "clicks": 0,
+    "prevented": false
+  },
+  "firstSmall": {
+    "clicks": 0,
+    "prevented": true
+  },
+  "secondSmall": {
+    "clicks": 1,
+    "prevented": true
+  },
+  "inactive": {
+    "clicks": 1,
+    "prevented": false
+  },
+  "horizontal": {
+    "clicks": 1,
+    "prevented": false
+  },
+  "verticalStories": {
+    "clicks": 1,
+    "prevented": true,
+    "scrollLeft": 100
+  }
+}

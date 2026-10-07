@@ -1,0 +1,10 @@
+{
+  "identifier": "relay-research-social",
+  "description": "Fixed reply command for the two hidden owned first-party research views",
+  "local": false,
+  "webviews": ["relay-research-x", "relay-research-instagram"],
+  "remote": {
+    "urls": ["https://x.com/*", "https://www.x.com/*", "https://twitter.com/*", "https://www.twitter.com/*", "https://instagram.com/*", "https://www.instagram.com/*"]
+  },
+  "permissions": ["relay-research-social"]
+}

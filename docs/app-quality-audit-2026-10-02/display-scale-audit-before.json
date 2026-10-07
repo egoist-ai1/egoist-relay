@@ -1,0 +1,4381 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T10:17:46.232Z",
+  "label": "controlled-fullhd-display-scale-before",
+  "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+  "limits": [
+    "Controlled headless DPR and responsive viewport, not native Windows WebView DPI or browser text-only zoom",
+    "No real account operations, uploads, external network, payments or product source edits",
+    "AttachmentModalItem is preview child only; full composer covered independently"
+  ],
+  "cases": [
+    {
+      "id": "contact-dpr1-light",
+      "kind": "contact",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 736,
+          "y": 380.90625,
+          "width": 448,
+          "height": 318.1875,
+          "top": 380.90625,
+          "right": 1184,
+          "bottom": 699.09375,
+          "left": 736
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "lng_contact_phone"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Done"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "contact-edit-dpr1-light",
+      "kind": "contact-edit",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 736,
+          "y": 479.90625,
+          "width": 448,
+          "height": 120.1875,
+          "top": 479.90625,
+          "right": 1184,
+          "bottom": 600.09375,
+          "left": 736
+        },
+        "controls": 2,
+        "outside": [],
+        "text": "NewContactDoneCancel",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Done"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "report-options-dpr1-light",
+      "kind": "report-options",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 776,
+          "y": 434.5,
+          "width": 368,
+          "height": 211,
+          "top": 434.5,
+          "right": 1144,
+          "bottom": 645.5,
+          "left": 776
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 19,
+            "lineHeightCss": "27.55px",
+            "text": "Report"
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Synthetic report options"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "report-comment-dpr1-light",
+      "kind": "report-comment",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 776,
+          "y": 368.453125,
+          "width": 368,
+          "height": 343.09375,
+          "top": 368.453125,
+          "right": 1144,
+          "bottom": 711.546875,
+          "left": 776
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Synthetic report commentReport2Comment512ReportSend",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 19,
+            "lineHeightCss": "27.55px",
+            "text": "Synthetic report comment"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Report2Comment"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "ReportSend"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "country-dpr1-light",
+      "kind": "country",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 9,
+        "outside": [],
+        "text": "Synthetic country selection Russia Germany JapanОК",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "ОК"
+          }
+        ]
+      },
+      "screenshot": "display-scale-country-dpr1-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "password-dpr1-light",
+      "kind": "password",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Пароль"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "screenshot": "display-scale-password-dpr1-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "formatting-dpr1-light",
+      "kind": "formatting",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to Pr",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "This message uses rich formatting, which requires "
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Subscribe to Premium"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Remove Formatting"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "safe-link-dpr1-light",
+      "kind": "safe-link",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 2,
+        "outside": [],
+        "text": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpe",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Open"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "browser-close-dpr1-light",
+      "kind": "browser-close",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Are you sure you want to close all browser tabs?"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Don't ask again"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "mute-dpr1-light",
+      "kind": "mute",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 768,
+          "y": 327.90625,
+          "width": 384,
+          "height": 424.1875,
+          "top": 327.90625,
+          "right": 1152,
+          "bottom": 752.09375,
+          "left": 768
+        },
+        "controls": 8,
+        "outside": [],
+        "text": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.Do",
+        "samples": [
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Forever"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "pin-dpr1-light",
+      "kind": "pin",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 768,
+          "y": 436.3125,
+          "width": 384,
+          "height": 207.375,
+          "top": 436.3125,
+          "right": 1152,
+          "bottom": 643.6875,
+          "left": 768
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessageAlert.PinAndNotifyMembersDialogPinCanc",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "PinMessageAlertChat"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Conversation.PinMessageAlert.PinAndNotifyMembers"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "DialogPin"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "delete-chat-dpr1-light",
+      "kind": "delete-chat",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last() to be visible\u001b[22m\n",
+      "screenshot": "display-scale-delete-chat-dpr1-light-failure.png"
+    },
+    {
+      "id": "attachment-photo-dpr1-light",
+      "kind": "attachment-photo",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 680,
+          "y": 358,
+          "width": 560,
+          "height": 364,
+          "top": 358,
+          "right": 1240,
+          "bottom": 722,
+          "left": 680
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment body",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "attachment-file-dpr1-light",
+      "kind": "attachment-file",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 680,
+          "y": 457.5,
+          "width": 560,
+          "height": 165,
+          "top": 457.5,
+          "right": 1240,
+          "bottom": 622.5,
+          "left": 680
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "document-dpr1-light",
+      "kind": "document",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlph",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 13,
+            "lineHeightCss": "18.85px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 13,
+            "lineHeightCss": "18.85px",
+            "text": "Копировать текст"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 13,
+            "lineHeightCss": "18.85px",
+            "text": "Скачать оригинал"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "screenshot": "display-scale-document-dpr1-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "chat-language-dpr1-light",
+      "kind": "chat-language",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'byId')\n    at AdditionalModals.audit.openChatLanguage (http://127.0.0.1:1268/scripts/relay-ui-additional-modals.fixture.tsx:185:65)\n    at eval (eval at evaluate (:303:30), <anonymous>:3:74)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "screenshot": "display-scale-chat-language-dpr1-light-failure.png"
+    },
+    {
+      "id": "delete-message-dpr1-light",
+      "kind": "delete-message",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "fail",
+      "error": "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'byId')\n    at AdditionalModals.audit.openDeleteMessage (http://127.0.0.1:1268/scripts/relay-ui-additional-modals.fixture.tsx:192:67)\n    at eval (eval at evaluate (:303:30), <anonymous>:4:75)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "screenshot": "display-scale-delete-message-dpr1-light-failure.png"
+    },
+    {
+      "id": "contact-dpr1-dark",
+      "kind": "contact",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 736,
+          "y": 379.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 379.90625,
+          "right": 1184,
+          "bottom": 700.09375,
+          "left": 736
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "lng_contact_phone"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Done"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "contact-edit-dpr1-dark",
+      "kind": "contact-edit",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 736,
+          "y": 478.90625,
+          "width": 448,
+          "height": 122.1875,
+          "top": 478.90625,
+          "right": 1184,
+          "bottom": 601.09375,
+          "left": 736
+        },
+        "controls": 2,
+        "outside": [],
+        "text": "NewContactDoneCancel",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Done"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "report-options-dpr1-dark",
+      "kind": "report-options",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 776,
+          "y": 433.5,
+          "width": 368,
+          "height": 213,
+          "top": 433.5,
+          "right": 1144,
+          "bottom": 646.5,
+          "left": 776
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 19,
+            "lineHeightCss": "27.55px",
+            "text": "Report"
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Synthetic report options"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "report-comment-dpr1-dark",
+      "kind": "report-comment",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 776,
+          "y": 367.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 367.453125,
+          "right": 1144,
+          "bottom": 712.546875,
+          "left": 776
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Synthetic report commentReport2Comment512ReportSend",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 19,
+            "lineHeightCss": "27.55px",
+            "text": "Synthetic report comment"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Report2Comment"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "ReportSend"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "country-dpr1-dark",
+      "kind": "country",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 9,
+        "outside": [],
+        "text": "Synthetic country selection Russia Germany JapanОК",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "ОК"
+          }
+        ]
+      },
+      "screenshot": "display-scale-country-dpr1-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "password-dpr1-dark",
+      "kind": "password",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Пароль"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "screenshot": "display-scale-password-dpr1-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "formatting-dpr1-dark",
+      "kind": "formatting",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to Pr",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "This message uses rich formatting, which requires "
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Subscribe to Premium"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Remove Formatting"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "safe-link-dpr1-dark",
+      "kind": "safe-link",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 2,
+        "outside": [],
+        "text": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpe",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Open"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "browser-close-dpr1-dark",
+      "kind": "browser-close",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Are you sure you want to close all browser tabs?"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Don't ask again"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "mute-dpr1-dark",
+      "kind": "mute",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 768,
+          "y": 326.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 326.90625,
+          "right": 1152,
+          "bottom": 753.09375,
+          "left": 768
+        },
+        "controls": 8,
+        "outside": [],
+        "text": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.Do",
+        "samples": [
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Forever"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "pin-dpr1-dark",
+      "kind": "pin",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 768,
+          "y": 435.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 435.3125,
+          "right": 1152,
+          "bottom": 644.6875,
+          "left": 768
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessageAlert.PinAndNotifyMembersDialogPinCanc",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "PinMessageAlertChat"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": "Conversation.PinMessageAlert.PinAndNotifyMembers"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "DialogPin"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "delete-chat-dpr1-dark",
+      "kind": "delete-chat",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last() to be visible\u001b[22m\n",
+      "screenshot": "display-scale-delete-chat-dpr1-dark-failure.png"
+    },
+    {
+      "id": "attachment-photo-dpr1-dark",
+      "kind": "attachment-photo",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 680,
+          "y": 357.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 357.5625,
+          "right": 1240,
+          "bottom": 722.4375,
+          "left": 680
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment body",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "attachment-file-dpr1-dark",
+      "kind": "attachment-file",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 680,
+          "y": 456.5,
+          "width": 560,
+          "height": 167,
+          "top": 456.5,
+          "right": 1240,
+          "bottom": 623.5,
+          "left": 680
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 14,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "document-dpr1-dark",
+      "kind": "document",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlph",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 13,
+            "lineHeightCss": "18.85px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 13,
+            "lineHeightCss": "18.85px",
+            "text": "Копировать текст"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 13,
+            "lineHeightCss": "18.85px",
+            "text": "Скачать оригинал"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 16,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "screenshot": "display-scale-document-dpr1-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "chat-language-dpr1-dark",
+      "kind": "chat-language",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "fail",
+      "error": "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'byId')\n    at AdditionalModals.audit.openChatLanguage (http://127.0.0.1:1268/scripts/relay-ui-additional-modals.fixture.tsx:185:65)\n    at eval (eval at evaluate (:303:30), <anonymous>:3:74)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "screenshot": "display-scale-chat-language-dpr1-dark-failure.png"
+    },
+    {
+      "id": "delete-message-dpr1-dark",
+      "kind": "delete-message",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "fail",
+      "error": "Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'byId')\n    at AdditionalModals.audit.openDeleteMessage (http://127.0.0.1:1268/scripts/relay-ui-additional-modals.fixture.tsx:192:67)\n    at eval (eval at evaluate (:303:30), <anonymous>:4:75)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+      "screenshot": "display-scale-delete-message-dpr1-dark-failure.png"
+    },
+    {
+      "id": "contact-dpr2-light",
+      "kind": "contact",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 256,
+          "y": 110.90625,
+          "width": 448,
+          "height": 318.1875,
+          "top": 110.90625,
+          "right": 704,
+          "bottom": 429.09375,
+          "left": 256
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "lng_contact_phone"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Done"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "contact-edit-dpr2-light",
+      "kind": "contact-edit",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 256,
+          "y": -3.390625,
+          "width": 448,
+          "height": 546.796875,
+          "top": -3.390625,
+          "right": 704,
+          "bottom": 543.40625,
+          "left": 256
+        },
+        "controls": 6,
+        "outside": [
+          {
+            "tag": "BUTTON",
+            "text": "Done",
+            "box": {
+              "x": 616.390625,
+              "y": 559.859375,
+              "width": 63.609375,
+              "height": 35.1875,
+              "top": 559.859375,
+              "right": 680,
+              "bottom": 595.046875,
+              "left": 616.390625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Cancel",
+            "box": {
+              "x": 515.796875,
+              "y": 559.859375,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 559.859375,
+              "right": 600.390625,
+              "bottom": 595.046875,
+              "left": 515.796875
+            }
+          }
+        ],
+        "text": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewCon",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "24px",
+            "fontSizePhysical": 48,
+            "lineHeightCss": "34.8px",
+            "text": "MobileHidden"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Notes"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "Notes are only visible to you."
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "NewContact.Phone.Hidden.Text"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "lng_new_contact_share"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "AddContact.SharedContactExceptionInfo"
+          }
+        ]
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Modal bounds outside controlled viewport",
+      "screenshot": "display-scale-contact-edit-dpr2-light-failure.png"
+    },
+    {
+      "id": "report-options-dpr2-light",
+      "kind": "report-options",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 296,
+          "y": 164.5,
+          "width": 368,
+          "height": 211,
+          "top": 164.5,
+          "right": 664,
+          "bottom": 375.5,
+          "left": 296
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 38,
+            "lineHeightCss": "27.55px",
+            "text": "Report"
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Synthetic report options"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "report-comment-dpr2-light",
+      "kind": "report-comment",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 296,
+          "y": 98.453125,
+          "width": 368,
+          "height": 343.09375,
+          "top": 98.453125,
+          "right": 664,
+          "bottom": 441.546875,
+          "left": 296
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Synthetic report commentReport2Comment512ReportSend",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 38,
+            "lineHeightCss": "27.55px",
+            "text": "Synthetic report comment"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Report2Comment"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ReportSend"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "country-dpr2-light",
+      "kind": "country",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 9,
+        "outside": [],
+        "text": "Synthetic country selection Russia Germany JapanОК",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ОК"
+          }
+        ]
+      },
+      "screenshot": "display-scale-country-dpr2-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "password-dpr2-light",
+      "kind": "password",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Пароль"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "screenshot": "display-scale-password-dpr2-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "formatting-dpr2-light",
+      "kind": "formatting",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to Pr",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "This message uses rich formatting, which requires "
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Subscribe to Premium"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Remove Formatting"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "safe-link-dpr2-light",
+      "kind": "safe-link",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 2,
+        "outside": [],
+        "text": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpe",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Open"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "browser-close-dpr2-light",
+      "kind": "browser-close",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Are you sure you want to close all browser tabs?"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Don't ask again"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "mute-dpr2-light",
+      "kind": "mute",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 288,
+          "y": 57.90625,
+          "width": 384,
+          "height": 424.1875,
+          "top": 57.90625,
+          "right": 672,
+          "bottom": 482.09375,
+          "left": 288
+        },
+        "controls": 8,
+        "outside": [],
+        "text": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.Do",
+        "samples": [
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Forever"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "pin-dpr2-light",
+      "kind": "pin",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 288,
+          "y": 166.3125,
+          "width": 384,
+          "height": 207.375,
+          "top": 166.3125,
+          "right": 672,
+          "bottom": 373.6875,
+          "left": 288
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "PinMessageAlertChat"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Conversation.PinMessagesFor"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "DialogPin"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "delete-chat-dpr2-light",
+      "kind": "delete-chat",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 320,
+          "y": 164.625,
+          "width": 320,
+          "height": 210.75,
+          "top": 164.625,
+          "right": 640,
+          "bottom": 375.375,
+          "left": 320
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUs",
+        "samples": [
+          {
+            "tag": "H3",
+            "fontSizeCss": "20px",
+            "fontSizePhysical": 40,
+            "lineHeightCss": "29px",
+            "text": "DeleteChatUser"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "ChatList.DeleteChatConfirmation"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ChatList.DeleteForEveryone"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ChatList.DeleteForCurrentUser"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "attachment-photo-dpr2-light",
+      "kind": "attachment-photo",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 200,
+          "y": 88,
+          "width": 560,
+          "height": 364,
+          "top": 88,
+          "right": 760,
+          "bottom": 452,
+          "left": 200
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment body",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "attachment-file-dpr2-light",
+      "kind": "attachment-file",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 200,
+          "y": 187.5,
+          "width": 560,
+          "height": 165,
+          "top": 187.5,
+          "right": 760,
+          "bottom": 352.5,
+          "left": 200
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "document-dpr2-light",
+      "kind": "document",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlph",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 26,
+            "lineHeightCss": "18.85px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 26,
+            "lineHeightCss": "18.85px",
+            "text": "Копировать текст"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 26,
+            "lineHeightCss": "18.85px",
+            "text": "Скачать оригинал"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "screenshot": "display-scale-document-dpr2-light.png",
+      "status": "pass"
+    },
+    {
+      "id": "chat-language-dpr2-light",
+      "kind": "chat-language",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 270,
+          "y": -18.255661010742188,
+          "width": 420,
+          "height": 546.796875,
+          "top": -18.255661010742188,
+          "right": 690,
+          "bottom": 528.5412139892578,
+          "left": 270
+        },
+        "controls": 113,
+        "outside": [],
+        "text": "LanguageEnglishанглийскийالعربيةарабскийбелорусскийбелорусскийcatalàкаталанский中文китайскийNederlands",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Modal bounds outside controlled viewport",
+      "screenshot": "display-scale-chat-language-dpr2-light-failure.png"
+    },
+    {
+      "id": "delete-message-dpr2-light",
+      "kind": "delete-message",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 300,
+          "y": 154.140625,
+          "width": 360,
+          "height": 231.703125,
+          "top": 154.140625,
+          "right": 660,
+          "bottom": 385.84375,
+          "left": 300
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlso",
+        "samples": [
+          {
+            "tag": "H3",
+            "fontSizeCss": "18.72px",
+            "fontSizePhysical": 37.44,
+            "lineHeightCss": "27.144px",
+            "text": "Chat.DeleteMessagesConfirmation"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Are you sure you want to delete this message?"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "DeleteMessagesOptionAlso"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Delete"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "contact-dpr2-dark",
+      "kind": "contact",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 256,
+          "y": 109.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 109.90625,
+          "right": 704,
+          "bottom": 430.09375,
+          "left": 256
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "lng_contact_phone"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Done"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "contact-edit-dpr2-dark",
+      "kind": "contact-edit",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 256,
+          "y": -4.390625,
+          "width": 448,
+          "height": 548.796875,
+          "top": -4.390625,
+          "right": 704,
+          "bottom": 544.40625,
+          "left": 256
+        },
+        "controls": 6,
+        "outside": [
+          {
+            "tag": "BUTTON",
+            "text": "Done",
+            "box": {
+              "x": 615.390625,
+              "y": 559.859375,
+              "width": 63.609375,
+              "height": 35.1875,
+              "top": 559.859375,
+              "right": 679,
+              "bottom": 595.046875,
+              "left": 615.390625
+            }
+          },
+          {
+            "tag": "BUTTON",
+            "text": "Cancel",
+            "box": {
+              "x": 514.796875,
+              "y": 559.859375,
+              "width": 84.59375,
+              "height": 35.1875,
+              "top": 559.859375,
+              "right": 599.390625,
+              "bottom": 595.046875,
+              "left": 514.796875
+            }
+          }
+        ],
+        "text": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewCon",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "24px",
+            "fontSizePhysical": 48,
+            "lineHeightCss": "34.8px",
+            "text": "MobileHidden"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "FirstName"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "LastName"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Notes"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "Notes are only visible to you."
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "NewContact.Phone.Hidden.Text"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "lng_new_contact_share"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "15px",
+            "fontSizePhysical": 30,
+            "lineHeightCss": "21.75px",
+            "text": "AddContact.SharedContactExceptionInfo"
+          }
+        ]
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Modal bounds outside controlled viewport",
+      "screenshot": "display-scale-contact-edit-dpr2-dark-failure.png"
+    },
+    {
+      "id": "report-options-dpr2-dark",
+      "kind": "report-options",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 296,
+          "y": 163.5,
+          "width": 368,
+          "height": 213,
+          "top": 163.5,
+          "right": 664,
+          "bottom": 376.5,
+          "left": 296
+        },
+        "controls": 5,
+        "outside": [],
+        "text": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 38,
+            "lineHeightCss": "27.55px",
+            "text": "Report"
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Synthetic report options"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "report-comment-dpr2-dark",
+      "kind": "report-comment",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 296,
+          "y": 97.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 97.453125,
+          "right": 664,
+          "bottom": 442.546875,
+          "left": 296
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Synthetic report commentReport2Comment512ReportSend",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "H3",
+            "fontSizeCss": "19px",
+            "fontSizePhysical": 38,
+            "lineHeightCss": "27.55px",
+            "text": "Synthetic report comment"
+          },
+          {
+            "tag": "TEXTAREA",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "21px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Report2Comment"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ReportSend"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "country-dpr2-dark",
+      "kind": "country",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 9,
+        "outside": [],
+        "text": "Synthetic country selection Russia Germany JapanОК",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ОК"
+          }
+        ]
+      },
+      "screenshot": "display-scale-country-dpr2-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "password-dpr2-dark",
+      "kind": "password",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Пароль"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "screenshot": "display-scale-password-dpr2-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "formatting-dpr2-dark",
+      "kind": "formatting",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to Pr",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "This message uses rich formatting, which requires "
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Subscribe to Premium"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Remove Formatting"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "safe-link-dpr2-dark",
+      "kind": "safe-link",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 2,
+        "outside": [],
+        "text": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpe",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Open"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "browser-close-dpr2-dark",
+      "kind": "browser-close",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Are you sure you want to close all browser tabs?"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Don't ask again"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Confirm"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Отмена"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "mute-dpr2-dark",
+      "kind": "mute",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 288,
+          "y": 56.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 56.90625,
+          "right": 672,
+          "bottom": 483.09375,
+          "left": 288
+        },
+        "controls": 8,
+        "outside": [],
+        "text": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.Do",
+        "samples": [
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Hours"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Days"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "MuteFor.Forever"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "pin-dpr2-dark",
+      "kind": "pin",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 288,
+          "y": 165.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 165.3125,
+          "right": 672,
+          "bottom": 374.6875,
+          "left": 288
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "samples": [
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "PinMessageAlertChat"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Conversation.PinMessagesFor"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "DialogPin"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "delete-chat-dpr2-dark",
+      "kind": "delete-chat",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 320,
+          "y": 163.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 163.625,
+          "right": 640,
+          "bottom": 376.375,
+          "left": 320
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUs",
+        "samples": [
+          {
+            "tag": "H3",
+            "fontSizeCss": "20px",
+            "fontSizePhysical": 40,
+            "lineHeightCss": "29px",
+            "text": "DeleteChatUser"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "ChatList.DeleteChatConfirmation"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ChatList.DeleteForEveryone"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "ChatList.DeleteForCurrentUser"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "attachment-photo-dpr2-dark",
+      "kind": "attachment-photo",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 200,
+          "y": 87.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 87.5625,
+          "right": 760,
+          "bottom": 452.4375,
+          "left": 200
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment body",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "attachment-file-dpr2-dark",
+      "kind": "attachment-file",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 200,
+          "y": 186.5,
+          "width": 560,
+          "height": 167,
+          "top": 186.5,
+          "right": 760,
+          "bottom": 353.5,
+          "left": 200
+        },
+        "controls": 1,
+        "outside": [],
+        "text": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "pass"
+    },
+    {
+      "id": "document-dpr2-dark",
+      "kind": "document",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 0,
+          "y": 0,
+          "width": 960,
+          "height": 540,
+          "top": 0,
+          "right": 960,
+          "bottom": 540,
+          "left": 0
+        },
+        "controls": 4,
+        "outside": [],
+        "text": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlph",
+        "samples": [
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 26,
+            "lineHeightCss": "18.85px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 26,
+            "lineHeightCss": "18.85px",
+            "text": "Копировать текст"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "13px",
+            "fontSizePhysical": 26,
+            "lineHeightCss": "18.85px",
+            "text": "Скачать оригинал"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          }
+        ]
+      },
+      "screenshot": "display-scale-document-dpr2-dark.png",
+      "status": "pass"
+    },
+    {
+      "id": "chat-language-dpr2-dark",
+      "kind": "chat-language",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 270,
+          "y": -4.390625,
+          "width": 420,
+          "height": 548.796875,
+          "top": -4.390625,
+          "right": 690,
+          "bottom": 544.40625,
+          "left": 270
+        },
+        "controls": 113,
+        "outside": [],
+        "text": "LanguageEnglishанглийскийالعربيةарабскийбелорусскийбелорусскийcatalàкаталанский中文китайскийNederlands",
+        "samples": [
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "14px",
+            "fontSizePhysical": 28,
+            "lineHeightCss": "16.8px",
+            "text": ""
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "20px",
+            "text": ""
+          }
+        ]
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Modal bounds outside controlled viewport",
+      "screenshot": "display-scale-chat-language-dpr2-dark-failure.png"
+    },
+    {
+      "id": "delete-message-dpr2-dark",
+      "kind": "delete-message",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "geometry": {
+        "viewport": {
+          "width": 960,
+          "height": 540,
+          "dpr": 2,
+          "physicalWidth": 1920,
+          "physicalHeight": 1080
+        },
+        "modal": {
+          "x": 300,
+          "y": 153.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 153.140625,
+          "right": 660,
+          "bottom": 386.84375,
+          "left": 300
+        },
+        "controls": 3,
+        "outside": [],
+        "text": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlso",
+        "samples": [
+          {
+            "tag": "H3",
+            "fontSizeCss": "18.72px",
+            "fontSizePhysical": 37.44,
+            "lineHeightCss": "27.144px",
+            "text": "Chat.DeleteMessagesConfirmation"
+          },
+          {
+            "tag": "P",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "Are you sure you want to delete this message?"
+          },
+          {
+            "tag": "LABEL",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": "DeleteMessagesOptionAlso"
+          },
+          {
+            "tag": "INPUT",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "23.2px",
+            "text": ""
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Delete"
+          },
+          {
+            "tag": "BUTTON",
+            "fontSizeCss": "16px",
+            "fontSizePhysical": 32,
+            "lineHeightCss": "19.2px",
+            "text": "Cancel"
+          }
+        ]
+      },
+      "status": "pass"
+    }
+  ],
+  "pageErrors": [],
+  "blockedRequests": 0,
+  "sourceHashesBefore": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963",
+    "scripts/relay-ui-audit.server.mjs": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583",
+    "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+    "scripts/relay-ui-additional-modals.server.fixture.mjs": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+  },
+  "sourceHashesAfter": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963",
+    "scripts/relay-ui-audit.server.mjs": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583",
+    "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+    "scripts/relay-ui-additional-modals.server.fixture.mjs": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+  },
+  "sourceHashesUnchanged": true,
+  "summary": {
+    "total": 68,
+    "passed": 58,
+    "failed": 10,
+    "pageErrors": 0,
+    "sourceHashesUnchanged": true
+  }
+}

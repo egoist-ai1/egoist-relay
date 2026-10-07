@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T05:21:15.296Z",
+  "environment": {
+    "viewport": "1920x1080",
+    "transport": "existing MockClient/task-only native mocks",
+    "network": "all remote requests blocked",
+    "timingScope": "Headless browser observations on a shared host; no physical GPU/DPI/60fps claim"
+  },
+  "cases": [
+    {
+      "id": "fullhd-sequential-48-service-switches",
+      "status": "pass",
+      "sources": [
+        "src/components/App.tsx",
+        "src/components/multi/AppSidebar.tsx"
+      ],
+      "detail": {
+        "switches": 48,
+        "elapsedMs": 4841,
+        "finalApp": "telegram"
+      }
+    },
+    {
+      "id": "fullhd-24-modal-lifecycle-cycles",
+      "status": "pass",
+      "sources": [
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts"
+      ],
+      "detail": {
+        "cycles": 24,
+        "remainingOpenModals": 0,
+        "outsideFocusAfterClose": true
+      }
+    }
+  ],
+  "errors": [],
+  "fatal": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(animations.length>0&&animations.every(name=>name==='none'))\n",
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "errors": 0
+  }
+}

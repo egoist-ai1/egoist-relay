@@ -1,0 +1,17 @@
+{
+  "capturedAt": "2026-10-02T12:14:24.3026032Z",
+  "taskId": "01a0fc75-a0c3-7de2-841a-07905859430b",
+  "knownJobPids": [
+    45948,
+    43616,
+    32484,
+    36476,
+    23840,
+    38344,
+    43472,
+    26952
+  ],
+  "remainingKnownJobProcesses": [],
+  "remainingTaskNodeProcesses": [],
+  "action": "read-only process reconciliation; no process stops"
+}

@@ -137,6 +137,7 @@ const PrivateChatInfo = ({
 }: OwnProps & StateProps) => {
   const {
     loadFullUser,
+    loadUser,
     openMediaViewer,
     loadMoreProfilePhotos,
   } = getActions();
@@ -149,10 +150,11 @@ const PrivateChatInfo = ({
 
   useEffect(() => {
     if (userId) {
-      if (withFullInfo && isSynced) loadFullUser({ userId });
+      loadFullUser({ userId });
+      loadUser({ userId });
       if (withMediaViewer) loadMoreProfilePhotos({ peerId: userId, isPreload: true });
     }
-  }, [userId, withFullInfo, withMediaViewer, isSynced]);
+  }, [userId, withMediaViewer]);
 
   useIntervalForceUpdate(UPDATE_INTERVAL);
 

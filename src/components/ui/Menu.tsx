@@ -46,6 +46,7 @@ type OwnProps =
     onMouseEnterBackdrop?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     onMouseLeave?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     withPortal?: boolean;
+    portalContainerSelector?: string;
     nested?: boolean;
     children?: React.ReactNode;
   }
@@ -73,6 +74,7 @@ const Menu = ({
   onMouseEnter,
   onMouseLeave,
   withPortal,
+  portalContainerSelector,
   onMouseEnterBackdrop,
   nested,
   ...positionOptions
@@ -87,11 +89,29 @@ const Menu = ({
     onCloseAnimationEnd,
   });
 
-  useMenuPosition(isOpen, containerRef, bubbleRef, positionOptions);
+  const triggerElement = withPortal && 'getTriggerElement' in positionOptions
+    ? positionOptions.getTriggerElement() : undefined;
+  const ownerContainer = withPortal ? triggerElement?.closest<HTMLElement>('.Modal .modal-container') : undefined;
+  const actualPortalContainerSelector = portalContainerSelector
+    || (ownerContainer?.id ? `#${ownerContainer.id}` : undefined);
+  const getOwnedMenuElement = useLastCallback(() => bubbleRef.current);
+  const actualPositionOptions = ownerContainer && 'getTriggerElement' in positionOptions
+    ? { ...positionOptions, getMenuElement: getOwnedMenuElement } : positionOptions;
+
+  useMenuPosition(isOpen, containerRef, bubbleRef, actualPositionOptions);
+
+  const handleEscape = useLastCallback((event?: KeyboardEvent) => {
+    const trigger = 'getTriggerElement' in positionOptions ? positionOptions.getTriggerElement() : undefined;
+    if (trigger?.closest('.Modal') || containerRef.current?.closest('.Modal')) {
+      event?.preventDefault();
+      trigger?.focus({ preventScroll: true });
+    }
+    onClose();
+  });
 
   useEffect(
-    () => (isOpen ? captureEscKeyListener(onClose) : undefined),
-    [isOpen, onClose],
+    () => (isOpen ? captureEscKeyListener(handleEscape) : undefined),
+    [isOpen, handleEscape],
   );
 
   useHistoryBack({
@@ -187,7 +207,10 @@ const Menu = ({
   );
 
   if (withPortal) {
-    return <Portal>{menu}</Portal>;
+    if ('getTriggerElement' in positionOptions && !triggerElement && !isOpen) return undefined;
+    return (
+      <Portal key={actualPortalContainerSelector} containerSelector={actualPortalContainerSelector}>{menu}</Portal>
+    );
   }
 
   return menu;

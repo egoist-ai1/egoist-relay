@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a10e5c-490e-7401-ab0c-09ec3a0b60b1",
+  "updatedAt": "2026-10-06T16:36:00.0394720Z",
+  "state": "user-authorized-pause",
+  "publicationPerformed": false,
+  "pendingExternalWrites": [],
+  "userPublishRequest": "опубликуй",
+  "pauseAuthorizationSourceThread": "01a11123-7fde-7de1-91a2-10f84cb72276",
+  "canonicalProject": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "candidateVersion": "1.6.1",
+  "installer": "release/1.6.1/Egoist Relay_1.6.1_x64-setup.exe",
+  "installerSha256": "3066963d99430ffa83a3b62c1f1c29e4db8b6040846932fd1bd9bfae8d121751",
+  "sourceSnapshot": "docs/hotfix-1.6.1/candidate-source-hashes.json",
+  "repository": "egoist-ai1/egoist-relay",
+  "publicationReadOnlyFindings": [
+    "GitHub repository public, owner profile and push/admin access verified before pause; recheck on resume",
+    "Canonical branch codex/relay-media-operations, baseline HEAD 9ec2abd83846195b2217edb47d5d42e8a6cf64f2, dirty changes retained and no remote; do not reset/clean/stash blindly",
+    "Existing public mirror Egoist Relay GitHub has clean historical source lineage; preserve lineage and canonical private settings",
+    "Previous release relay-v1.4.7 was an owner-requested prerelease with installer and explicit incomplete corresponding-source disclosure",
+    "CLI gh unavailable at read-only check; GitHub connector provides source Git operations, no release-create/asset-upload tool discovered; exact publish transport unresolved",
+    "Current release-sources.mjs records incomplete dependency source inventory/FFmpeg recipe; do not claim correspondingSourceComplete"
+  ],
+  "nextSteps": [
+    "Wait for explicit resumption; no publication, build, download or new checks during pause",
+    "On resume read own checkpoint and reconcile live canonical sources plus GitHub releases before mutations",
+    "Stage reviewed public source snapshot preserving public lineage, exclude local reports/profiles/credentials and verify imports/hash/privacy",
+    "Publish requested existing candidate with honest prerelease/unsigned and live-acceptance/source-inventory limits, then verify public release assets"
+  ],
+  "cleanupReceipt": "docs/task-cleanup-2026-10-06/receipt.json",
+  "retainedGuardedFiles": 300
+}

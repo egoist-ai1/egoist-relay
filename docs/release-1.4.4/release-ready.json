@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.4",
+  "state": "canonical_ready_for_normal_user_exit",
+  "installedVersion": "1.4.2",
+  "recordedAt": "2026-10-02T09:49:18.191Z",
+  "canonicalInstaller": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay/release/1.4.4/Egoist Relay_1.4.4_x64-setup.exe",
+  "installerSha256": "d9c4153a88f4e9ab663979b049da65a8a891f390e53cd06d5072fd5537903de7",
+  "exeSha256": "460bc609108faf558d1d056e97070d76b6041bc5d6e0b910b8e356e99525c212",
+  "sourceFreezeSha256": "cd7d1c8fd12a14062450aa7bb099952340e8326b023e8aed3ad2da6b409c4b09",
+  "productionInputCount": 3307,
+  "runtimeCount": 40,
+  "sourceValidationSha256": "b2cd4a4d89a04c3ab9bf6e3fe42f5cfb9eda728754621df86d3956ac66a6f13a",
+  "installerSmokeSha256": "f73d282913dd12caa961a9923be2d92d370b5e1774a74d55db97c403c230eec4",
+  "checks": {
+    "vitest": {
+      "files": 26,
+      "passed": 322,
+      "failed": 0
+    },
+    "native": {
+      "passed": 40,
+      "failed": 0,
+      "sourceStable": true,
+      "metadataAtRun": "1.4.3"
+    },
+    "mcp": {
+      "fullPassed": 178,
+      "independentJsPassed": 26,
+      "independentPureNativePassed": 5,
+      "liveOneRecordBrokerPassed": true,
+      "installedNativeAtLivePilot": "1.4.2"
+    },
+    "typeScript": "four_contexts_passed",
+    "eslint": {
+      "files": 1866,
+      "errors": 0,
+      "warnings": 1
+    },
+    "versionFixtures": "passed"
+  },
+  "paymentChanges": {
+    "state": "awaiting_explicit_human_permission",
+    "included": false,
+    "proposal": "../app-quality-audit-2026-10-02/ui-payment-modal-proposed.md"
+  },
+  "logs": [
+    {
+      "file": "release-1.4.4-all-vitest-fixed.log",
+      "bytes": 279,
+      "sha256": "8ab60960476df2a7bd0ea916aceb94e0b08a1057699b7c7dc38dbdb29ef45934"
+    },
+    {
+      "file": "release-1.4.4-vite-build.log",
+      "bytes": 60220,
+      "sha256": "e89a7d0b5b99a380318229d3c86a5dad7d5a461001acdb56cb383c9f82e70919"
+    },
+    {
+      "file": "release-1.4.4-version-fixture-tests.log",
+      "bytes": 1475,
+      "sha256": "b5fc8583e7ad42556fc3730c2f4a2a8a760cf6542f7d8c7f8d35dd3e131ba28d"
+    },
+    {
+      "file": "release-1.4.4-tauri-build.log",
+      "bytes": 1743,
+      "sha256": "2381a12ce9557282371a8cd607c5eb2354e8b270053d8bae75cae5b725c5916f"
+    }
+  ],
+  "liveNewBuildChecks": "pending_installation",
+  "normalUserExitRequired": true,
+  "reviewObjects": [
+    {
+      "id": "relay-1.4.4-canonical-package",
+      "name": "Проверенный кандидат Relay1.4.4",
+      "version": "1",
+      "content": "Canonical пакет собран по3307замороженнымinputs и40runtime; exactEXE/payload иотдельнаяsamepayloadустановка/запуск/удаление проверены. Сейчас установлен1.4.2. Платёжные draftправки не включены; новыйnative/live остаётсяпослеустановки.",
+      "confirmationAction": "Принять проверенный scoped пакет1.4.4; установка уже поручена, но требует фактического штатного выхода текущего Relay. Не разрешает платёжный патч."
+    }
+  ]
+}

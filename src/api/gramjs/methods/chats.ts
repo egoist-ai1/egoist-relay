@@ -291,8 +291,34 @@ export async function fetchChats({
   );
   const nextOffsetId = lastDialog?.topMessage;
   const nextOffsetPeerId = lastDialog ? getApiChatIdFromMtpPeer(lastDialog.peer) : undefined;
-  const nextOffsetDate = messages.reverse()
-    .find((message) => message.chatId === nextOffsetPeerId && message.id === nextOffsetId)?.date;
+
+  const rawOffsetMessage = nextOffsetId
+    ? result.messages.find((m): m is GramJs.Message | GramJs.MessageService => m.id === nextOffsetId && 'date' in m)
+    : undefined;
+  let nextOffsetDate = rawOffsetMessage?.date;
+
+  if (!nextOffsetDate && nextOffsetId && resultPinned?.messages) {
+    const rawPinnedMessage = resultPinned.messages.find(
+      (m): m is GramJs.Message | GramJs.MessageService => m.id === nextOffsetId && 'date' in m,
+    );
+    nextOffsetDate = rawPinnedMessage?.date;
+  }
+
+  if (!nextOffsetDate && nextOffsetId) {
+    nextOffsetDate = messages.slice().reverse()
+      .find((message) => message.id === nextOffsetId)?.date;
+  }
+
+  if (!nextOffsetDate && result.messages.length) {
+    const lastRawMessageWithDate = result.messages.slice().reverse()
+      .find((m): m is GramJs.Message | GramJs.MessageService => 'date' in m && typeof m.date === 'number');
+    nextOffsetDate = lastRawMessageWithDate?.date;
+  }
+
+  const isDialogsComplete = !(result instanceof GramJs.messages.DialogsSlice);
+  const isAllDialogsReceived = result.dialogs.length === 0 || chatIds.length === 0;
+  const isCountReached = Boolean(totalChatCount && chatIds.length >= totalChatCount);
+  const isFullyLoaded = isDialogsComplete || isAllDialogsReceived || isCountReached ? true : undefined;
 
   return {
     chatIds,
@@ -308,7 +334,7 @@ export async function fetchChats({
     nextOffsetId,
     nextOffsetPeerId,
     nextOffsetDate,
-    isFullyLoaded: nextOffsetDate === undefined ? true : undefined,
+    isFullyLoaded,
     threadReadStatesById,
     threadInfos,
   };

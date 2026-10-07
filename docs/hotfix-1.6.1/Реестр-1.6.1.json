@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-hotfix-1.6.1",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\hotfix-1.6.1\\Реестр-1.6.1.json",
+  "version": "1.6.1",
+  "createdAt": "2026-10-06T14:23:47.950027+00:00",
+  "items": [
+    {
+      "id": "overlaps",
+      "name": "Меню, темы форума и кнопка бота",
+      "version": "1.6.1",
+      "content": "Исправлены прозрачные меню и переносы внутри фиксированных строк. Выбранная тема и композиция сохранены.",
+      "evidence": "7/7 реальных UI-компонентных сценариев на синтетических данных; 0 page errors. Фон меню 96% opaque; темы1строка; русская кнопка22px.",
+      "confirmationAction": "Принять описанное поведение; комментарий задаёт конкретную дальнейшую доработку.",
+      "links": [
+        {
+          "name": "Отчёт и границы проверки",
+          "href": "README.md"
+        },
+        {
+          "name": "Снимки и измерения",
+          "href": "layout/README.md"
+        }
+      ]
+    },
+    {
+      "id": "bot-windows",
+      "name": "Открытие магазинов и Mini App на Windows",
+      "version": "1.6.1",
+      "content": "Вместо запрещённого iframe используется принадлежащий Relay WebView2; всплывающие окна сохраняют parent environment/opener и текущую сеть Windows. Никакие настройки Windows/Lagom не менялись.",
+      "evidence": "Native production compile/NSIS, SDK и изолированные сценарии пройдены. Реальный сайт, popup и маршрут вашего прокси требуют живой приёмки; обещание их фактической проверки не даётся.",
+      "confirmationAction": "Принять описанную организацию окон. Это не разрешение на покупки, установку, отправки или изменение сети.",
+      "links": [
+        {
+          "name": "Native/SDK проверка и источники",
+          "href": "bot-windows/REPORT.md"
+        },
+        {
+          "name": "Точный diff",
+          "href": "changes-from-1.6.0.patch"
+        }
+      ]
+    }
+  ]
+}

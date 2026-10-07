@@ -190,6 +190,10 @@ const Button = ({
     }, CLICKED_TIMEOUT);
   });
 
+  const handleKeyboardClick = useLastCallback((e: ReactMouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (e.detail === 0) handleClick(e);
+  });
+
   const handleMouseDown = useLastCallback((e: ReactMouseEvent<HTMLButtonElement>) => {
     if (!noPreventDefault) e.preventDefault();
 
@@ -277,7 +281,7 @@ const Button = ({
       id={id}
       type={type}
       className={fullClassName}
-      onClick={IS_TOUCH_ENV || noFastClick ? handleClick : undefined}
+      onClick={IS_TOUCH_ENV || noFastClick ? handleClick : handleKeyboardClick}
       onContextMenu={onContextMenu}
       onMouseDown={handleMouseDown}
       onMouseUp={onMouseUp}

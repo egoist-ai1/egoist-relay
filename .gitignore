@@ -11,3 +11,11 @@ dev/perf/screenshot*
 .DS_store
 .github/workflows/*
 !.github/workflows/package-and-publish.yml
+
+# Сборка, релизы и бинарники (пересоздаются сборкой; проверка — npm run release:preflight)
+dist/
+release/
+scratch/
+whisper-env.zip
+runtime/*.exe
+runtime/media/*.exe

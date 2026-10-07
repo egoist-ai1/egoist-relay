@@ -2,9 +2,9 @@ import type { QrCodeGradient } from 'qr-code-styling';
 
 import blankUrl from '../../assets/blank.png';
 
-const QR_MARGIN = 10;
-const QR_IMAGE_SIZE_RATIO = 0.3;
-const QR_IMAGE_MARGIN = 8;
+const QR_MARGIN = 20;
+const QR_IMAGE_SIZE_RATIO = 0.22;
+const QR_IMAGE_MARGIN = 4;
 const QR_GRADIENT_ROTATION = Math.PI / 4; // 45deg diagonal, matches the Telegram brand gradient direction
 
 export type QrGradientStops = {
@@ -55,13 +55,20 @@ export async function createStyledQrCode({
     height: size,
     image,
     margin: QR_MARGIN,
-    type: 'svg',
+    type: 'canvas',
     dotsOptions: {
       type: 'rounded',
+      color: '#000000',
       gradient: dotsGradient,
     },
     cornersSquareOptions: {
       type: 'extra-rounded',
+      color: '#000000',
+      gradient: dotsGradient,
+    },
+    cornersDotOptions: {
+      type: 'dot',
+      color: '#000000',
       gradient: dotsGradient,
     },
     imageOptions: {
@@ -69,7 +76,10 @@ export async function createStyledQrCode({
       margin: QR_IMAGE_MARGIN,
     },
     qrOptions: {
-      errorCorrectionLevel: 'M',
+      errorCorrectionLevel: 'Q',
     },
-  });
+    backgroundOptions: {
+      color: '#FFFFFF',
+    },
+  } as any);
 }

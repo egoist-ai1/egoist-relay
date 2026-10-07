@@ -382,6 +382,15 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .Transition,
+  .Transition * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 @keyframes fade-in-opacity {
   0% {
     opacity: 0;

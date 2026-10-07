@@ -14,6 +14,8 @@ function main() {
   const data = buildFallbackStrings(fileData);
 
   const selectedKeys = pick(data.langPack.strings, initialKeys);
+  const russianData = buildFallbackStrings(readFileSync('./src/assets/localization/initialRussian.strings', 'utf8'));
+  Object.assign(selectedKeys, pick(russianData.langPack.strings, initialKeys));
   const json = JSON.stringify(selectedKeys, undefined, 2);
   const text = `${HEADER}\nexport default ${json} as Record<LangKey, LangPackStringValue>;\n`;
   writeFileSync('./src/assets/localization/initialStrings.ts', text, 'utf8');

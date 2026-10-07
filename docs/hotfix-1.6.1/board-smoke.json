@@ -1,0 +1,27 @@
+{
+  "scope": "New board bindings/registry only; unchanged helper full suite not repeated",
+  "checks": [
+    {
+      "id": "neutral-and-exact-snapshot",
+      "pass": true
+    },
+    {
+      "id": "local-artifact-links",
+      "pass": true
+    },
+    {
+      "id": "answer-bindings-and-draft-restore",
+      "pass": true
+    },
+    {
+      "id": "standalone-export-without-external-action",
+      "pass": true
+    }
+  ],
+  "pageErrors": [],
+  "summary": {
+    "passed": 4,
+    "total": 4,
+    "pageErrors": 0
+  }
+}

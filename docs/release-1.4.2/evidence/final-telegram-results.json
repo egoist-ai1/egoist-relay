@@ -1,0 +1,60 @@
+[
+  {
+    "id": "7cb9c3df-fbc1-4868-ba95-72d75091f65a",
+    "operation": "chat_info",
+    "state": "completed",
+    "count": 1,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "coverage": "channel",
+    "truncated": false,
+    "hasCursor": false,
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\7cb9c3df-fbc1-4868-ba95-72d75091f65a"
+  },
+  {
+    "id": "7b8424d0-3be3-4b91-a11e-b7aef6fc29b3",
+    "operation": "read",
+    "state": "completed",
+    "count": 1,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "coverage": "channel",
+    "truncated": false,
+    "hasCursor": false,
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\7b8424d0-3be3-4b91-a11e-b7aef6fc29b3"
+  },
+  {
+    "id": "d3aca106-7ba4-452c-9cb2-4c7c23328ec5",
+    "operation": "search",
+    "state": "partial",
+    "count": 2,
+    "files": [
+      "records.jsonl",
+      "export-manifest.json"
+    ],
+    "coverage": "channel",
+    "truncated": true,
+    "hasCursor": true,
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\d3aca106-7ba4-452c-9cb2-4c7c23328ec5"
+  },
+  {
+    "id": "83340954-358a-4736-aff5-8013ccf3b456",
+    "operation": "chat_export",
+    "state": "partial",
+    "count": 3,
+    "files": [
+      "records.jsonl",
+      "export.md",
+      "export.html",
+      "export-manifest.json"
+    ],
+    "coverage": "channel",
+    "truncated": true,
+    "hasCursor": true,
+    "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\83340954-358a-4736-aff5-8013ccf3b456"
+  }
+]

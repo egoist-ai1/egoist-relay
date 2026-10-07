@@ -1,4 +1,5 @@
 import type { HttpStream, PromisedWebSockets } from '../../extensions';
+import type { PacketReader } from './Connection';
 
 import { bufferFromHex, buffersEqual, concat } from '../../../../util/encoding/buffer';
 import { CTR } from '../../crypto/CTR';
@@ -18,7 +19,7 @@ const FORBIDDEN_OBFUSCATED_PREFIXES = [
 ];
 const ZERO_INT = new Uint8Array(4);
 
-class ObfuscatedIO {
+class ObfuscatedIO implements PacketReader {
   header?: Uint8Array = undefined;
 
   private connection: PromisedWebSockets | HttpStream;
@@ -83,8 +84,12 @@ class ObfuscatedIO {
     return this._decrypt.encrypt(data);
   }
 
+  readExactly(n: number) {
+    return this.read(n);
+  }
+
   write(data: Uint8Array) {
-    this.connection.write(this._encrypt.encrypt(data));
+    return this.connection.write(this._encrypt.encrypt(data));
   }
 }
 

@@ -1,0 +1,120 @@
+{
+  "taskId": "01a110b9-5458-76a1-9b33-3b6385bde868",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "changedFiles": [
+    "src/util/antigravityThemes.ts",
+    "src/util/antigravityThemes.test.ts"
+  ],
+  "paletteRoles": 114,
+  "baselineSha256": "735e5ad2d14d1ddf727b10c1eba6548690c6ba5e1cdffb2b140bba4e1c10dc2b",
+  "finalFiles": [
+    {
+      "Path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\util\\antigravityThemes.ts",
+      "Hash": "3529AAE5EF1FCB13712F78E10E1492232BED97F4AFB63AA16835C75AB8245274"
+    },
+    {
+      "Path": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\src\\util\\antigravityThemes.test.ts",
+      "Hash": "76EA43CE6566A8C889D9B490AB8A2BD80D0316A923A41B0512CE7A13E1B813D7"
+    }
+  ],
+  "red": {
+    "stage": "red-refined",
+    "exitCode": 1,
+    "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work\\theme-red-refined.log"
+  },
+  "green": {
+    "stage": "green-final",
+    "exitCode": 0,
+    "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work\\theme-green-final.log"
+  },
+  "types": [
+    {
+      "config": "tsconfig.json",
+      "exitCode": 0,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work\\tsconfig.json.log",
+      "note": "Production files unchanged since successful main check"
+    },
+    {
+      "config": "tsconfig.script.json",
+      "exitCode": 0,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work\\tsconfig.script.json.final.log"
+    },
+    {
+      "config": "tsconfig.test.json",
+      "exitCode": 0,
+      "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work\\tsconfig.test.json.final.log"
+    }
+  ],
+  "eslint": {
+    "stage": "eslint-final",
+    "exitCode": 0,
+    "files": [
+      "src/util/antigravityThemes.ts",
+      "src/util/antigravityThemes.test.ts"
+    ],
+    "log": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a110b9-5458-76a1-9b33-3b6385bde868\\work\\theme-eslint-final.log"
+  },
+  "notes": [
+    "Full suite and integrated browser/build review are owned by root after all edits are integrated",
+    "Initial test typing issues corrected; final script/test TS runs pass",
+    "Initial bundle config emitted optional vite devtools warning; final runner config has no warnings",
+    "This receipt binds the delivered source/tests hashes. Later root edits require integrated verification; this publication does not rerun successful checks."
+  ],
+  "scope": "Isolated neutral theme implementation before root integrates spinner aliases and other frontend changes",
+  "publishedEvidence": [
+    {
+      "check": "red",
+      "excerptFile": "checks.md",
+      "sourceLogName": "theme-red-refined.log",
+      "sourceLogSha256": "0087cedd19e42dc7b55e5189c5cd62b89fc8ca68a563931a536ff777bbb66bf4",
+      "sourceLogBytes": 9344,
+      "exitCode": 1,
+      "sourceLogEmpty": false
+    },
+    {
+      "check": "green",
+      "excerptFile": "checks.md",
+      "sourceLogName": "theme-green-final.log",
+      "sourceLogSha256": "0cc9f1edd5ed473982af2720fa1fece6ec334554ca53c16a8cd4e2a7e4ee2f72",
+      "sourceLogBytes": 269,
+      "exitCode": 0,
+      "sourceLogEmpty": false
+    },
+    {
+      "check": "ts-main",
+      "excerptFile": "checks.md",
+      "sourceLogName": "tsconfig.json.log",
+      "sourceLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceLogBytes": 0,
+      "exitCode": 0,
+      "sourceLogEmpty": true
+    },
+    {
+      "check": "ts-script",
+      "excerptFile": "checks.md",
+      "sourceLogName": "tsconfig.script.json.final.log",
+      "sourceLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceLogBytes": 0,
+      "exitCode": 0,
+      "sourceLogEmpty": true
+    },
+    {
+      "check": "ts-tests",
+      "excerptFile": "checks.md",
+      "sourceLogName": "tsconfig.test.json.final.log",
+      "sourceLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceLogBytes": 0,
+      "exitCode": 0,
+      "sourceLogEmpty": true
+    },
+    {
+      "check": "eslint",
+      "excerptFile": "checks.md",
+      "sourceLogName": "theme-eslint-final.log",
+      "sourceLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceLogBytes": 0,
+      "exitCode": 0,
+      "sourceLogEmpty": true
+    }
+  ]
+}

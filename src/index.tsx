@@ -13,6 +13,7 @@ import {
 import { enableStrict, requestMutation } from './lib/fasterdom/fasterdom';
 import { selectChat, selectCurrentMessageList, selectPeerFullInfo, selectTabState } from './global/selectors';
 import { selectSharedSettings } from './global/selectors/sharedState';
+import { applyAntigravityTheme, getActiveThemeVariantId } from './util/antigravityThemes';
 import { betterView } from './util/betterView';
 import { IS_TAURI } from './util/browser/globalEnvironment';
 import listenOtherClients from './util/browser/listenOtherClients';
@@ -22,23 +23,30 @@ import { initGlobal } from './util/init';
 import { initLocalization } from './util/localization';
 import { MULTITAB_STORAGE_KEY } from './util/multiaccount';
 import { checkAndAssignPermanentWebVersion } from './util/permanentWebVersion';
+import { startRelayResearchBridge } from './util/relayResearchBridge';
 import { onBeforeUnload } from './util/schedulers';
 import initTauriApi from './util/tauri/initTauriApi';
 import setupTauriListeners from './util/tauri/setupTauriListeners';
 import updateWebmanifest from './util/updateWebmanifest';
 
 import App from './components/App';
+import YouTubePlayerSmoke from './components/test/YouTubePlayerSmoke';
 
 import './assets/fonts/roboto.css';
 import './styles/index.scss';
+
+// Apply active theme immediately on boot
+applyAntigravityTheme(getActiveThemeVariantId());
 
 if (STRICTERDOM_ENABLED) {
   enableStrict();
 }
 
 if (IS_TAURI) {
+  (window as any).isCompatTestPassed = true;
   initTauriApi();
   setupTauriListeners();
+  void startRelayResearchBridge();
 }
 
 init();
@@ -49,7 +57,7 @@ async function init() {
     console.log('>>> INIT');
   }
 
-  if (!(window as any).isCompatTestPassed) return;
+  if (!(window as any).isCompatTestPassed && !IS_TAURI) return;
 
   checkAndAssignPermanentWebVersion();
   listenOtherClients();
@@ -66,13 +74,20 @@ async function init() {
 
   await initGlobal();
   getActions().init();
+  applyAntigravityTheme(getActiveThemeVariantId());
 
   getActions().updateShouldEnableDebugLog();
   getActions().updateShouldDebugExportedSenders();
 
   const global = getGlobal();
 
-  initLocalization(selectSharedSettings(global).language, true);
+  let language = selectSharedSettings(global).language;
+  if (!language || language === 'en') {
+    language = 'ru';
+    getActions().setSharedSettingOption({ language: 'ru' });
+  }
+
+  initLocalization(language, true);
 
   subscribeToMasterChange((isMasterTab) => {
     getActions()
@@ -93,6 +108,13 @@ async function init() {
       <App />,
       document.getElementById('root')!,
     );
+
+    if (IS_TAURI && window.tauri.youtubePlayerSmoke) {
+      const fixtureRoot = document.createElement('div');
+      fixtureRoot.id = 'relay-youtube-smoke-root';
+      document.body.append(fixtureRoot);
+      TeactDOM.render(<YouTubePlayerSmoke />, fixtureRoot);
+    }
 
     betterView();
   });

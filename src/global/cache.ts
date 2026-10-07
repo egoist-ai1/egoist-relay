@@ -48,7 +48,7 @@ import { selectSharedSettings } from './selectors/sharedState';
 import { selectThreadInfo } from './selectors/threads';
 import { addActionHandler, getGlobal } from './index';
 import {
-  INITIAL_GLOBAL_STATE, SHARED_STATE_CACHE_VERSION,
+  INITIAL_GLOBAL_STATE, INITIAL_PERFORMANCE_STATE_MAX, SHARED_STATE_CACHE_VERSION,
 } from './initialState';
 import { clearGlobalForLockScreen, clearSharedStateForLockScreen } from './reducers';
 import {
@@ -103,7 +103,13 @@ export function removeSharedStateFromCache() {
 }
 
 function cacheIsScreenLocked(global: GlobalState) {
-  if (global?.passcode?.isScreenLocked) localStorage.setItem(IS_SCREEN_LOCKED_CACHE_KEY, 'true');
+  if (!global.passcode.isScreenLocked) return;
+
+  try {
+    localStorage.setItem(IS_SCREEN_LOCKED_CACHE_KEY, 'true');
+  } catch (err) {
+    handleCacheError(err);
+  }
 }
 
 export function initCache() {
@@ -113,8 +119,12 @@ export function initCache() {
 
   const resetCache = () => {
     isRemovingCache = true;
-    localStorage.removeItem(IS_SCREEN_LOCKED_CACHE_KEY);
-    removeGlobalFromCache().finally(() => {
+    try {
+      localStorage.removeItem(IS_SCREEN_LOCKED_CACHE_KEY);
+    } catch (err) {
+      handleCacheError(err);
+    }
+    void removeGlobalFromCache().catch(handleCacheError).finally(() => {
       isRemovingCache = false;
       if (!isCaching) {
         return;
@@ -157,6 +167,8 @@ export async function loadCache(initialState: GlobalState): Promise<GlobalState 
 }
 
 export function setupCaching() {
+  if (isCaching) return;
+
   isCaching = true;
   unsubscribeFromBeforeUnload = onBeforeUnload(updateCacheForced, true);
   window.addEventListener('blur', updateCacheForced);
@@ -164,11 +176,14 @@ export function setupCaching() {
 }
 
 export function clearCaching() {
+  if (!isCaching) return;
+
   isCaching = false;
   removeCallback(updateCacheThrottled);
   window.removeEventListener('blur', updateCacheForced);
   if (unsubscribeFromBeforeUnload) {
     unsubscribeFromBeforeUnload();
+    unsubscribeFromBeforeUnload = undefined;
   }
 }
 
@@ -178,12 +193,36 @@ async function readCache(initialState: GlobalState): Promise<GlobalState> {
     console.time('global-state-cache-read');
   }
 
-  const json = localStorage.getItem(GLOBAL_STATE_CACHE_KEY);
-  const cachedFromLocalStorage = json ? JSON.parse(json) as GlobalState : undefined;
-  if (cachedFromLocalStorage) localStorage.removeItem(GLOBAL_STATE_CACHE_KEY);
+  let json: string | undefined;
+  let cachedFromLocalStorage: GlobalState | undefined;
+  try {
+    json = localStorage.getItem(GLOBAL_STATE_CACHE_KEY) || undefined;
+    cachedFromLocalStorage = json ? JSON.parse(json) as GlobalState : undefined;
+  } catch (err) {
+    handleCacheError(err);
+  }
 
-  let cached = cachedFromLocalStorage || await loadCachedGlobal();
-  const cachedSharedState = await loadCachedSharedState();
+  let cached: GlobalState | undefined = cachedFromLocalStorage;
+  let cachedSharedState: SharedState | undefined;
+
+  try {
+    if (!cached) {
+      cached = await loadCachedGlobal();
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[Cache] Failed to load cached global state:', err);
+    cached = undefined;
+  }
+
+  try {
+    cachedSharedState = await loadCachedSharedState();
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[Cache] Failed to load cached shared state:', err);
+    cachedSharedState = undefined;
+  }
+
   const cachedAccountThemes = (cached as any)?.settings?.themes as (
     Partial<Record<ThemeKey, IThemeSettings>> | undefined
   );
@@ -195,13 +234,13 @@ async function readCache(initialState: GlobalState): Promise<GlobalState> {
     console.timeEnd('global-state-cache-read');
   }
 
-  if (cached) {
-    migrateCache(cached, initialState);
+  if (cached && !migrateCache(cached, initialState)) {
+    cached = undefined;
   }
 
   const sharedState = migrateSharedCache(
     cachedSharedState,
-    cached?.sharedState.settings.themes,
+    cached?.sharedState?.settings?.themes,
     initialState.sharedState,
   );
 
@@ -231,6 +270,20 @@ async function readCache(initialState: GlobalState): Promise<GlobalState> {
     },
   };
 
+  if (cachedFromLocalStorage && cached) {
+    try {
+      await MAIN_IDB_STORE.setMany([
+        [GLOBAL_STATE_CACHE_KEY, newState],
+        [SHARED_STATE_CACHE_KEY, reduceSharedState(newState.sharedState)],
+      ]);
+      if (localStorage.getItem(GLOBAL_STATE_CACHE_KEY) === json) {
+        localStorage.removeItem(GLOBAL_STATE_CACHE_KEY);
+      }
+    } catch (err) {
+      handleCacheError(err);
+    }
+  }
+
   return newState;
 }
 
@@ -256,6 +309,18 @@ function migrateSharedCache(
     };
   }
 
+  // Guarantee all animations and ultra-smooth performance features are enabled by default
+  migrated = {
+    ...migrated,
+    settings: {
+      ...migrated.settings,
+      performance: {
+        ...INITIAL_PERFORMANCE_STATE_MAX,
+        ...(migrated.settings?.performance || {}),
+      },
+    },
+  };
+
   return migrated;
 }
 
@@ -270,9 +335,11 @@ export function migrateCache(cached: GlobalState, initialState: GlobalState) {
     unsafeMigrateCache(cached, initialState);
     pruneExpiredEphemeralMessages(cached);
     clearCachedDraftLocalFlags(cached);
+    return true;
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err);
+    return false;
   }
 }
 
@@ -298,6 +365,27 @@ function unsafeMigrateCache(cached: GlobalState, initialState: GlobalState) {
     ...initialState.settings.byKey,
     ...cached.settings.byKey,
   };
+
+  if (!cached.settings.byKey.canTranslate) {
+    cached.settings.byKey.canTranslate = true;
+  }
+
+  // Ensure all Saved Messages are marked outgoing so they align on the right
+  if (cached.currentUserId && cached.messages.byChatId[cached.currentUserId]) {
+    const savedStore = cached.messages.byChatId[cached.currentUserId];
+    Object.values(savedStore.byId || {}).forEach((message) => {
+      message.isOutgoing = true;
+    });
+  }
+
+  // Prune any cached messages with completely empty content so they are refetched cleanly with full text
+  Object.values(cached.messages.byChatId).forEach((messageStore) => {
+    Object.values(messageStore.byId || {}).forEach((message) => {
+      if (!message.content || !Object.keys(message.content).length) {
+        delete messageStore.byId[message.id];
+      }
+    });
+  });
 
   if (!cached.emojiGroups) {
     cached.emojiGroups = initialState.emojiGroups;
@@ -444,18 +532,27 @@ export function forceUpdateCache(noEncrypt = false) {
   if (hasPasscode) {
     if (!isScreenLocked && !noEncrypt) {
       const serializedGlobal = serializeGlobal(global);
-      void encryptSession(undefined, serializedGlobal, serializeShared(global.sharedState));
+      void encryptSession(undefined, serializedGlobal, serializeShared(global.sharedState)).catch(handleCacheError);
     }
 
     cacheIsScreenLocked(global);
-    cacheGlobal(clearGlobalForLockScreen(global, false));
-    cacheSharedState(clearSharedStateForLockScreen(global.sharedState));
+    void MAIN_IDB_STORE.setMany([
+      [GLOBAL_STATE_CACHE_KEY, clearGlobalForLockScreen(global, false)],
+      [SHARED_STATE_CACHE_KEY, clearSharedStateForLockScreen(global.sharedState)],
+    ]).catch(handleCacheError);
     return;
   }
 
   cacheIsScreenLocked(global);
-  cacheGlobal(reduceGlobal(global));
-  cacheSharedState(reduceSharedState(global.sharedState));
+  void MAIN_IDB_STORE.setMany([
+    [GLOBAL_STATE_CACHE_KEY, reduceGlobal(global)],
+    [SHARED_STATE_CACHE_KEY, reduceSharedState(global.sharedState)],
+  ]).catch(handleCacheError);
+}
+
+function handleCacheError(err: unknown) {
+  // eslint-disable-next-line no-console
+  console.warn('[Cache] Failed to persist or restore cached state:', err);
 }
 
 function reduceGlobal<T extends GlobalState>(global: T) {

@@ -13,18 +13,19 @@
   flex-shrink: 0;
   align-items: center;
 
-  width: calc(100% - var(--middle-panel-inline-padding) * 2);
-  max-width: calc(var(--messages-container-width) - var(--middle-panel-inline-padding) * 2);
+  width: 100%;
+  max-width: none;
   height: var(--middle-header-height);
-  margin: calc(var(--middle-panel-inline-padding) + var(--middle-header-player-height, 0px)) auto 0;
+  margin: var(--middle-header-player-height, 0px) 0 0;
   padding-top: 0.25rem;
   padding-right: max(0.25rem, env(safe-area-inset-right));
   padding-bottom: 0.25rem;
   padding-left: max(0.25rem, env(safe-area-inset-left));
-  border-radius: 2rem;
+  border-bottom: 0.0625rem solid var(--color-borders);
+  border-radius: 0;
 
   background: var(--color-background);
-  box-shadow: var(--shadow-pane);
+  box-shadow: none;
 
   /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
   transition: var(--header-transform-transition), margin-top var(--top-stack-transition);
@@ -76,6 +77,12 @@
 
       &.active {
         background: var(--color-primary);
+
+        :global(.theme-dark) & {
+          font-weight: var(--font-weight-bold);
+          color: #000000 !important;
+          background: #FFFFFF !important;
+        }
       }
     }
 
@@ -245,9 +252,9 @@
   }
 
   .status {
-    color: var(--color-text-secondary);
+    color: #A0A5AC !important;
     &.online {
-      color: var(--color-primary);
+      color: #38BDF8 !important;
     }
   }
 
@@ -257,9 +264,12 @@
 
     margin: 0;
 
-    font-size: 0.875rem;
-    line-height: 1.125rem;
+    font-size: 0.9375rem !important;
+    font-weight: var(--font-weight-medium) !important;
+    line-height: 1.25rem !important;
+    color: #A0A5AC !important;
     text-overflow: ellipsis;
+    letter-spacing: -0.01em;
     white-space: nowrap;
 
     .ellipsis {
@@ -267,7 +277,7 @@
     }
 
     .font-emoji {
-      line-height: 1rem;
+      line-height: 1.25rem;
     }
   }
 
@@ -331,9 +341,8 @@
   }
 
   @media (min-width: 1276px) {
-    width: calc(100% - var(--right-column-width) - var(--middle-panel-inline-padding) * 2);
     #Main.right-column-open & {
-      transform: translate3d(calc(var(--right-column-width) / -2), 0, 0);
+      width: calc(100% - var(--right-column-width));
     }
   }
 
@@ -349,5 +358,11 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@container relayTelegram (max-width: 58rem) {
+  #Main.right-column-open .MiddleHeader {
+    width: 100%;
   }
 }

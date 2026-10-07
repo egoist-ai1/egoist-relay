@@ -17,15 +17,15 @@ impl Deeplink {
     app.deep_link().on_open_url(move |event| {
       // Store URLs to avoid calling event.urls() multiple times (it consumes the event)
       let urls = event.urls();
-      info!("Deep link received: {:?}", urls);
+      info!("Deep link received ({} URL entries)", urls.len());
 
-      // Get the main window
-      if let Some(window) = app_handle.get_webview_window("main") {
-        // Emit the deep link event to the frontend
-        if let Err(err) = window.emit("deeplink", &urls) {
+      if let Some(webview) = app_handle.get_webview("main") {
+        if let Err(err) = webview.emit("deeplink", &urls) {
           info!("Error emitting deeplink event: {:?}", err);
         }
+      }
 
+      if !crate::should_avoid_foreground() && let Some(window) = app_handle.get_window("main") {
         // Request user attention and focus the window
         if let Err(err) = window.request_user_attention(Some(UserAttentionType::Informational)) {
           info!("Error requesting user attention: {:?}", err);

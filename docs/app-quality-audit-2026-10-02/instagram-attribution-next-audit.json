@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-next-audit",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T11:38:37.573Z",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "state": "source_implemented_and_locally_verified_next_candidate_not_installed",
+  "authorizedSourceFiles": [
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+      "beforeSha256": "162335eccc2d6ff1676cd6fc069ce9b62bef077d89a4857ace392ade9450ddd8",
+      "afterSha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+      "beforeBytes": 34188,
+      "afterBytes": 36508
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+      "beforeSha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+      "afterSha256": "aa29637b67013239bfa735962a1656e55f7ac035f8d61f073607ecd7750028f7",
+      "beforeBytes": 88662,
+      "afterBytes": 97533
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\bridge-provider.mjs",
+      "beforeSha256": "9c2454c190fbcc23704b4cc4621cc542c052853017716c9403e35f445b59a952",
+      "afterSha256": "0adb7ef9b96c561b3ccf296c66bbb6138a21cac59cbc9ac6bdc5f5d5b0f6e64d",
+      "beforeBytes": 20633,
+      "afterBytes": 21220
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\local-index.mjs",
+      "beforeSha256": "fb68ce70c3eb26720f000d9ee4759d794762ef1d33c0564a353c3c6e503e9598",
+      "afterSha256": "55f500026e03c1b3d1256e80ced799b4e3a91198011c2039c245af75fb4a8add",
+      "beforeBytes": 30578,
+      "afterBytes": 31998
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\export-format.mjs",
+      "beforeSha256": "0a9309007f67855653108b43ae5acd2809b2cefe73a031313e9215db53d35a4f",
+      "afterSha256": "5941b7af41135153c685cb8890c4215b00325dde76f448f7cbdd89a1c83e1186",
+      "beforeBytes": 12323,
+      "afterBytes": 15676
+    }
+  ],
+  "newTest": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-attribution-next.test.mjs",
+    "sha256": "b173b04afa2913f1eb1f2d6b2808e117b07a00524dc6012a90fe67d57e79874a",
+    "bytes": 20755
+  },
+  "diff": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next.patch",
+    "sha256": "c2ce719c833dc153bd60c5b2d289ffd9e70486140e9c3e062de03d72832803c4",
+    "bytes": 64882
+  },
+  "before": {
+    "authoritativeHelperReceipt": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-test-receipt-v3.json",
+      "bytes": 16090,
+      "sha256": "8256e6dd9b7ce36d414d5f032a007c885f8c15927ba326031976cd26bec18758"
+    },
+    "independentReview": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-independent-review.json",
+      "bytes": 14930,
+      "sha256": "80df690de27ded6ea3cdfeed8e73c52123641550bc728ecab31ec8a1f731d848"
+    },
+    "failures": [
+      "Profile OG description lacked explicit page provenance.",
+      "Valid same-post owner alias lost OG caption.",
+      "Large description-only or multifield packing lost original text roles and contaminated body/FTS.",
+      "Record eligibility conflated p/reel by shortcode and start rejected valid p alias."
+    ]
+  },
+  "fieldRoles": {
+    "source": "Observed accepted permalink; absent-permalink detail may use validated current page. Invalid present permalink never replaced.",
+    "sourceContext": "Exact pageUrl is native-bound to event actual document; exact requestedSource is current selected target.",
+    "description": "Original document og:description; pageMetadata references this legacy field without duplicate wire bytes.",
+    "text": "Observed node h1 or document OG only on strict same-provider/kind/shortcode post.",
+    "observedText": "Literal observed node text, not a confirmed caption or publisher.",
+    "author": "Observed header text only; URL handles are never structured publisher/collaborator proof."
+  },
+  "transport": {
+    "schemaVersion": 1,
+    "offsetUnits": "UTF16 code units",
+    "chunkCodeUnits": 12000,
+    "utf8PayloadLimit": 4194304,
+    "knownRoles": [
+      "text",
+      "caption",
+      "description",
+      "observedText",
+      "title"
+    ],
+    "identicalRangesAllowed": true,
+    "partialOverlapUnknownKeysFractionalNegativeOutOfBoundsSurrogateCutsRejected": true,
+    "leadingUnassignedBytesRejected": true,
+    "restoration": "Combined payload expands original flat roles exactly once; transport-only textFields removed after restoration; original wire remains in record-parts.jsonl.",
+    "legacy": "Schema1 rows without optional provenance/maps remain readable as observed legacy data. Valid legacy combined maps normalize only derived views without rewriting accepted raw JSONL. Irrecoverably absent legacy role metadata is never invented."
+  },
+  "index": {
+    "schema": 2,
+    "normalizationRevision": "text-roles-1",
+    "selectedSameByteUpgrade": "Automatic only on explicitly passed indexJobs shards.",
+    "staleSearch": "INDEX_NORMALIZATION_CHANGED; no silent autoindex.",
+    "rawChange": "Existing replaceChanged guard unchanged.",
+    "metadataOnly": "Retained count1 record; contentText/text missing coverage remains explicit; page description excluded from post body and FTS.",
+    "unchanged": "Current revision + same verified snapshot reuses index."
+  },
+  "tests": {
+    "helper": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-tests-v9.json",
+      "bytes": 4714,
+      "sha256": "8dcbf2df835f5fa8ecc39b324190a9fbbd1cec4676736e5cc2abdd3f5bd13ab3",
+      "tap": {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-tests.tap",
+        "bytes": 1659,
+        "sha256": "f113b16bb8b672c38a41821c57c2d11fabf53528e3aef561d7abf7d371796804"
+      },
+      "passed": 14,
+      "failed": 0,
+      "actualNativeWireCases": 10,
+      "exact4MiBUtf8ThroughActualHelperBridgeIndex": true,
+      "localSyntheticNetworkOnly": true
+    },
+    "native": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-native-v2.json",
+      "bytes": 1908,
+      "sha256": "1f4f02132ed8e17dafd80fea413d980538e1cba5d00ffc57954f872e1c0494dc",
+      "passed": 43,
+      "failed": 0,
+      "actualFinalSource": true
+    },
+    "regression": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-regression.tap",
+      "bytes": 4441,
+      "sha256": "7634c30d848743362045a441137575117e4fdba4e2a8f387af8a7e1c57584074",
+      "passed": 40,
+      "failed": 0,
+      "largeCorpusRecords": 100000
+    },
+    "syntaxAndRustfmt": "Checked final source separately; see parent handoff."
+  },
+  "originalSelectedPublicCorpus": {
+    "pilot": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "bytes": 55299,
+      "sha256": "3ef04476dc880519e6db456e44a0b636eeda719dcd033185bfe9ccf63033f723"
+    },
+    "files": [
+      {
+        "jobId": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\records.jsonl",
+        "bytes": 5315,
+        "sha256": "b3b9f35043412f5586781a8195329f4a59a68c379ce01a9be787cf7d8d0a7461"
+      },
+      {
+        "jobId": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\export-manifest.json",
+        "bytes": 1146,
+        "sha256": "431fc83e9075ae811d211bf406443aed1a4ed40841285b7fe42475eef387d4b7"
+      },
+      {
+        "jobId": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\records.jsonl",
+        "bytes": 5581,
+        "sha256": "591bb7a532b01f5feb7d33d2b9d3adafa78dbce60d1f4aeaa27fe921bbf0ade7"
+      },
+      {
+        "jobId": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\export-manifest.json",
+        "bytes": 1350,
+        "sha256": "757c7e6ce135de481a5f8b4402fb180243adecc29191b9aa5f7725e88da50c0c"
+      }
+    ],
+    "unchanged": true
+  },
+  "independentFinalReview": {
+    "expectedFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-next-review.json",
+    "status": "Read-only reviewer completing separate exact-hash receipt."
+  },
+  "remainingGates": [
+    "Parent technical acceptance and package/version/source-hash integration.",
+    "Next candidate installation and actual running-native/platform/session proof.",
+    "Publisher/collaborator identity and real caption availability remain source-dependent and unverified for the original profile-grid corpus."
+  ],
+  "excludedActions": {
+    "mcpCalls": 0,
+    "liveAccountAccess": false,
+    "networkSettingsChanged": false,
+    "daemonInstallerConfigMetadataChanges": false,
+    "frozenReleaseArtifactEdits": false
+  },
+  "reviewObjects": [
+    {
+      "id": "ig-next-provenance",
+      "name": "Происхождение страницы и данных публикации",
+      "version": "next-v1",
+      "decision": "unreviewed",
+      "action": "Принять проверенное разделение pageMetadata/sourceContext для следующего кандидата.",
+      "content": "Описание страницы сохраняется без потери bytes; native проверяет exact pageUrl и selected requestedSource. Авторство и коллаборация остаются явно непроверенными."
+    },
+    {
+      "id": "ig-next-post-identity",
+      "name": "Строгая идентичность выбранного поста",
+      "version": "next-v1",
+      "decision": "unreviewed",
+      "action": "Принять общий strict comparator и native source guard.",
+      "content": "Origin, kind и shortcode проверяются согласованно; p и reel не смешиваются. Caption fallback работает для owner aliases и отсутствующего permalink, но отвергает присутствующие invalid-origin/credentials ссылки."
+    },
+    {
+      "id": "ig-next-text-roles",
+      "name": "Полные поля текста через части",
+      "version": "next-v1",
+      "decision": "unreviewed",
+      "action": "Принять UTF16 role-map восстановление до записи JSONL и производных форматов.",
+      "content": "9000/16000, несколько полей, совпадающие caption/description и emoji сохраняются точно; single description не становится text. Неверные диапазоны и незавершённые части сохраняют honest partial failure."
+    },
+    {
+      "id": "ig-next-selected-index",
+      "name": "Обновление выбранного поискового индекса",
+      "version": "next-v1",
+      "decision": "unreviewed",
+      "action": "Принять revision и перестроение только handed selected same-byte shards.",
+      "content": "Описание страницы не становится body/hasContentText/FTS. Search отвергает старую revision; indexJobs перестраивает только явно переданные задания без изменения raw UUID, SHA и locator. Changed raw всё ещё требует replaceChanged."
+    },
+    {
+      "id": "ig-next-verification-scope",
+      "name": "Проверки и границы следующей сборки",
+      "version": "next-v1",
+      "decision": "unreviewed",
+      "action": "Включить frozen diff в следующий кандидат после технического review родительской задачи.",
+      "content": "Final helper chain14/14, native43/43, regression40/40 PASS. Это локальная synthetic проверка; root отдельно собирает, устанавливает и проверяет реальные платформы."
+    }
+  ]
+}

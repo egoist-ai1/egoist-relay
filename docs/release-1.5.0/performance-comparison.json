@@ -1,0 +1,1348 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-1.5.0-browser-performance-comparison",
+  "generatedAt": "2026-10-06T01:37:45.159Z",
+  "conditions": {
+    "host": "Same Windows host, alternating fresh Edge process trees",
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "viewport": "1920x1080",
+    "data": "Same existing MockClient chats and isolated native transport",
+    "network": "All remote requests aborted",
+    "baseline": "Frozen actual 1.4.7 source files, not Git HEAD",
+    "scope": "Headless Edge browser subtree only. Not native Relay/Tauri process tree, physical DPI/GPU or live services.",
+    "scenario": "Warm-up 6 service switches and 2 modal cycles; measured 48 switches and 24 modal cycles",
+    "repeats": 3,
+    "metrics": "Latency includes click, aria-pressed confirmation and two real animation frames. CPU from Get-Process cumulative counters; private bytes from entire Edge subtree at 3 boundaries. Short-lived processes between samples can be missed.",
+    "coldStartupExcluded": "First baseline cold Vite optimizer startup logged transient main bundle preload failures before the first measurement boundary. All measured runs occur after auth, warm-up service switches, real modal render and document.fonts.ready. This is a warm UI comparison, not a cold launch benchmark.",
+    "nativeSourceChange": "Subsequent Requested-path journal failure fix is native-only; measured front-end source does not change.",
+    "hostEnvironment": {
+      "node": "v24.19.0",
+      "rust": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "edge": "154.0.4258.53",
+      "windows": {
+        "Caption": "Майкрософт Windows 11 Pro",
+        "Version": "10.0.26200",
+        "BuildNumber": "26200",
+        "OSArchitecture": "64-разрядная"
+      },
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor           "
+    }
+  },
+  "runs": [
+    {
+      "version": "1.4.7",
+      "iteration": 1,
+      "switches": 48,
+      "modalCycles": 24,
+      "switchLatencyMs": {
+        "minimum": 55.355500000001484,
+        "median": 61.127800000002026,
+        "p95": 81.49910000000091,
+        "maximum": 150.08130000000165,
+        "mean": 64.90462083333357
+      },
+      "switchesElapsedMs": 3115.6057,
+      "modalElapsedMs": 11679.2301,
+      "frameIntervalMs": {
+        "minimum": 4.900000000001455,
+        "median": 5.599999999998545,
+        "p95": 5.600000000002183,
+        "maximum": 11.799999999999272,
+        "mean": 5.559427609427609
+      },
+      "longTasks": [],
+      "jsHeapBytes": 71343731,
+      "edgeTree": {
+        "pid": 1032,
+        "cpuSeconds": 6.25,
+        "privateBytes": {
+          "minimum": 758087680,
+          "median": 786206720,
+          "p95": 791633920,
+          "maximum": 791633920,
+          "mean": 778642773.3333334
+        },
+        "samples": [
+          {
+            "at": "2026-10-06T01:38:01.667Z",
+            "processes": [
+              {
+                "pid": 1032,
+                "cpuSeconds": 4.109375,
+                "privateBytes": 62615552
+              },
+              {
+                "pid": 40840,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 2740224
+              },
+              {
+                "pid": 24736,
+                "cpuSeconds": 1.5625,
+                "privateBytes": 276541440
+              },
+              {
+                "pid": 28492,
+                "cpuSeconds": 2.34375,
+                "privateBytes": 66420736
+              },
+              {
+                "pid": 34424,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8151040
+              },
+              {
+                "pid": 30768,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 16756736
+              },
+              {
+                "pid": 17280,
+                "cpuSeconds": 3.671875,
+                "privateBytes": 308830208
+              },
+              {
+                "pid": 19092,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 7790592
+              },
+              {
+                "pid": 27500,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 8241152
+              }
+            ],
+            "privateBytes": 758087680
+          },
+          {
+            "at": "2026-10-06T01:38:05.348Z",
+            "processes": [
+              {
+                "pid": 1032,
+                "cpuSeconds": 4.46875,
+                "privateBytes": 62726144
+              },
+              {
+                "pid": 40840,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 2740224
+              },
+              {
+                "pid": 24736,
+                "cpuSeconds": 2.296875,
+                "privateBytes": 278532096
+              },
+              {
+                "pid": 28492,
+                "cpuSeconds": 2.40625,
+                "privateBytes": 67178496
+              },
+              {
+                "pid": 34424,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8151040
+              },
+              {
+                "pid": 30768,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 16756736
+              },
+              {
+                "pid": 17280,
+                "cpuSeconds": 4.890625,
+                "privateBytes": 339509248
+              },
+              {
+                "pid": 19092,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 7790592
+              },
+              {
+                "pid": 27500,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 8249344
+              }
+            ],
+            "privateBytes": 791633920
+          },
+          {
+            "at": "2026-10-06T01:38:17.764Z",
+            "processes": [
+              {
+                "pid": 1032,
+                "cpuSeconds": 4.78125,
+                "privateBytes": 62996480
+              },
+              {
+                "pid": 40840,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 3563520
+              },
+              {
+                "pid": 24736,
+                "cpuSeconds": 3.828125,
+                "privateBytes": 235474944
+              },
+              {
+                "pid": 28492,
+                "cpuSeconds": 2.53125,
+                "privateBytes": 74924032
+              },
+              {
+                "pid": 34424,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8085504
+              },
+              {
+                "pid": 30768,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 16756736
+              },
+              {
+                "pid": 17280,
+                "cpuSeconds": 6.765625,
+                "privateBytes": 368435200
+              },
+              {
+                "pid": 19092,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 7720960
+              },
+              {
+                "pid": 27500,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 8249344
+              }
+            ],
+            "privateBytes": 786206720
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "version": "1.5.0",
+      "iteration": 1,
+      "switches": 48,
+      "modalCycles": 24,
+      "switchLatencyMs": {
+        "minimum": 54.87479999999778,
+        "median": 60.75970000000234,
+        "p95": 77.44570000000385,
+        "maximum": 117.66530000000057,
+        "mean": 61.04917916666727
+      },
+      "switchesElapsedMs": 2930.488600000004,
+      "modalElapsedMs": 11775.372799999997,
+      "frameIntervalMs": {
+        "minimum": 4.100000000000364,
+        "median": 5.599999999998545,
+        "p95": 5.600000000002183,
+        "maximum": 12.5,
+        "mean": 5.559462219196732
+      },
+      "longTasks": [],
+      "jsHeapBytes": 73779187,
+      "edgeTree": {
+        "pid": 14916,
+        "cpuSeconds": 5.828125,
+        "privateBytes": {
+          "minimum": 779694080,
+          "median": 808148992,
+          "p95": 830291968,
+          "maximum": 830291968,
+          "mean": 806045013.3333334
+        },
+        "samples": [
+          {
+            "at": "2026-10-06T01:38:43.180Z",
+            "processes": [
+              {
+                "pid": 14916,
+                "cpuSeconds": 5.015625,
+                "privateBytes": 62496768
+              },
+              {
+                "pid": 39600,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 2727936
+              },
+              {
+                "pid": 33960,
+                "cpuSeconds": 1.953125,
+                "privateBytes": 275636224
+              },
+              {
+                "pid": 4412,
+                "cpuSeconds": 2.828125,
+                "privateBytes": 69967872
+              },
+              {
+                "pid": 32548,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8134656
+              },
+              {
+                "pid": 41484,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 19619840
+              },
+              {
+                "pid": 26424,
+                "cpuSeconds": 4.9375,
+                "privateBytes": 325115904
+              },
+              {
+                "pid": 23652,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 7741440
+              },
+              {
+                "pid": 33848,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 8253440
+              }
+            ],
+            "privateBytes": 779694080
+          },
+          {
+            "at": "2026-10-06T01:38:46.705Z",
+            "processes": [
+              {
+                "pid": 14916,
+                "cpuSeconds": 5.265625,
+                "privateBytes": 62554112
+              },
+              {
+                "pid": 39600,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 2727936
+              },
+              {
+                "pid": 33960,
+                "cpuSeconds": 2.6875,
+                "privateBytes": 277405696
+              },
+              {
+                "pid": 4412,
+                "cpuSeconds": 2.875,
+                "privateBytes": 71213056
+              },
+              {
+                "pid": 32548,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8134656
+              },
+              {
+                "pid": 41484,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 19619840
+              },
+              {
+                "pid": 26424,
+                "cpuSeconds": 6.03125,
+                "privateBytes": 350494720
+              },
+              {
+                "pid": 23652,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 7741440
+              },
+              {
+                "pid": 33848,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 8257536
+              }
+            ],
+            "privateBytes": 808148992
+          },
+          {
+            "at": "2026-10-06T01:38:59.063Z",
+            "processes": [
+              {
+                "pid": 14916,
+                "cpuSeconds": 5.640625,
+                "privateBytes": 62812160
+              },
+              {
+                "pid": 39600,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 3608576
+              },
+              {
+                "pid": 33960,
+                "cpuSeconds": 4.34375,
+                "privateBytes": 268521472
+              },
+              {
+                "pid": 4412,
+                "cpuSeconds": 2.953125,
+                "privateBytes": 78077952
+              },
+              {
+                "pid": 32548,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8101888
+              },
+              {
+                "pid": 41484,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 19619840
+              },
+              {
+                "pid": 26424,
+                "cpuSeconds": 7.609375,
+                "privateBytes": 373641216
+              },
+              {
+                "pid": 23652,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 7708672
+              },
+              {
+                "pid": 33848,
+                "cpuSeconds": 0.109375,
+                "privateBytes": 8200192
+              }
+            ],
+            "privateBytes": 830291968
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "version": "1.4.7",
+      "iteration": 2,
+      "switches": 48,
+      "modalCycles": 24,
+      "switchLatencyMs": {
+        "minimum": 55.18499999999767,
+        "median": 55.72219999998924,
+        "p95": 61.22969999999623,
+        "maximum": 72.25320000000647,
+        "mean": 58.3227333333316
+      },
+      "switchesElapsedMs": 2799.5497999999934,
+      "modalElapsedMs": 11336.549599999998,
+      "frameIntervalMs": {
+        "minimum": 5.300000000001091,
+        "median": 5.599999999998545,
+        "p95": 5.600000000002183,
+        "maximum": 5.799999999999272,
+        "mean": 5.553768115942029
+      },
+      "longTasks": [],
+      "jsHeapBytes": 68989517,
+      "edgeTree": {
+        "pid": 28696,
+        "cpuSeconds": 4.890625,
+        "privateBytes": {
+          "minimum": 745570304,
+          "median": 751833088,
+          "p95": 773832704,
+          "maximum": 773832704,
+          "mean": 757078698.6666666
+        },
+        "samples": [
+          {
+            "at": "2026-10-06T01:39:04.991Z",
+            "processes": [
+              {
+                "pid": 28696,
+                "cpuSeconds": 2.15625,
+                "privateBytes": 60153856
+              },
+              {
+                "pid": 13268,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2723840
+              },
+              {
+                "pid": 3772,
+                "cpuSeconds": 1.515625,
+                "privateBytes": 307474432
+              },
+              {
+                "pid": 15364,
+                "cpuSeconds": 1.359375,
+                "privateBytes": 58519552
+              },
+              {
+                "pid": 41280,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8138752
+              },
+              {
+                "pid": 38724,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 17100800
+              },
+              {
+                "pid": 15104,
+                "cpuSeconds": 2.15625,
+                "privateBytes": 271265792
+              },
+              {
+                "pid": 41812,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8212480
+              },
+              {
+                "pid": 3036,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 10035200
+              },
+              {
+                "pid": 42312,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8208384
+              }
+            ],
+            "privateBytes": 751833088
+          },
+          {
+            "at": "2026-10-06T01:39:08.167Z",
+            "processes": [
+              {
+                "pid": 28696,
+                "cpuSeconds": 2.421875,
+                "privateBytes": 60276736
+              },
+              {
+                "pid": 13268,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2723840
+              },
+              {
+                "pid": 3772,
+                "cpuSeconds": 2.046875,
+                "privateBytes": 291373056
+              },
+              {
+                "pid": 15364,
+                "cpuSeconds": 1.375,
+                "privateBytes": 59469824
+              },
+              {
+                "pid": 41280,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8155136
+              },
+              {
+                "pid": 38724,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 17100800
+              },
+              {
+                "pid": 15104,
+                "cpuSeconds": 3.34375,
+                "privateBytes": 308273152
+              },
+              {
+                "pid": 41812,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8212480
+              },
+              {
+                "pid": 3036,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 10039296
+              },
+              {
+                "pid": 42312,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 8208384
+              }
+            ],
+            "privateBytes": 773832704
+          },
+          {
+            "at": "2026-10-06T01:39:19.911Z",
+            "processes": [
+              {
+                "pid": 28696,
+                "cpuSeconds": 2.890625,
+                "privateBytes": 60968960
+              },
+              {
+                "pid": 13268,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2723840
+              },
+              {
+                "pid": 3772,
+                "cpuSeconds": 3.21875,
+                "privateBytes": 239517696
+              },
+              {
+                "pid": 15364,
+                "cpuSeconds": 1.4375,
+                "privateBytes": 65748992
+              },
+              {
+                "pid": 41280,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8155136
+              },
+              {
+                "pid": 38724,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 16740352
+              },
+              {
+                "pid": 15104,
+                "cpuSeconds": 4.515625,
+                "privateBytes": 335282176
+              },
+              {
+                "pid": 41812,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8212480
+              },
+              {
+                "pid": 42312,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 8220672
+              }
+            ],
+            "privateBytes": 745570304
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "version": "1.5.0",
+      "iteration": 2,
+      "switches": 48,
+      "modalCycles": 24,
+      "switchLatencyMs": {
+        "minimum": 54.84459999999672,
+        "median": 55.72219999998924,
+        "p95": 61.23769999999786,
+        "maximum": 66.034799999994,
+        "mean": 57.95952499999839
+      },
+      "switchesElapsedMs": 2782.1215999999986,
+      "modalElapsedMs": 11314.93849999999,
+      "frameIntervalMs": {
+        "minimum": 5.399999999997817,
+        "median": 5.599999999998545,
+        "p95": 5.600000000002183,
+        "maximum": 5.799999999999272,
+        "mean": 5.553790351831701
+      },
+      "longTasks": [],
+      "jsHeapBytes": 70223031,
+      "edgeTree": {
+        "pid": 36768,
+        "cpuSeconds": 4.984375,
+        "privateBytes": {
+          "minimum": 734924800,
+          "median": 738062336,
+          "p95": 774225920,
+          "maximum": 774225920,
+          "mean": 749071018.6666666
+        },
+        "samples": [
+          {
+            "at": "2026-10-06T01:39:26.046Z",
+            "processes": [
+              {
+                "pid": 36768,
+                "cpuSeconds": 2.8125,
+                "privateBytes": 61095936
+              },
+              {
+                "pid": 39408,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2736128
+              },
+              {
+                "pid": 34524,
+                "cpuSeconds": 1.578125,
+                "privateBytes": 287313920
+              },
+              {
+                "pid": 15260,
+                "cpuSeconds": 1.40625,
+                "privateBytes": 58847232
+              },
+              {
+                "pid": 26272,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8126464
+              },
+              {
+                "pid": 27336,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 17133568
+              },
+              {
+                "pid": 5132,
+                "cpuSeconds": 2.453125,
+                "privateBytes": 276815872
+              },
+              {
+                "pid": 36000,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7774208
+              },
+              {
+                "pid": 29184,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 10022912
+              },
+              {
+                "pid": 17612,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8196096
+              }
+            ],
+            "privateBytes": 738062336
+          },
+          {
+            "at": "2026-10-06T01:39:29.225Z",
+            "processes": [
+              {
+                "pid": 36768,
+                "cpuSeconds": 3.03125,
+                "privateBytes": 61206528
+              },
+              {
+                "pid": 39408,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2736128
+              },
+              {
+                "pid": 34524,
+                "cpuSeconds": 2.234375,
+                "privateBytes": 287318016
+              },
+              {
+                "pid": 15260,
+                "cpuSeconds": 1.40625,
+                "privateBytes": 59650048
+              },
+              {
+                "pid": 26272,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8142848
+              },
+              {
+                "pid": 27336,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 17133568
+              },
+              {
+                "pid": 5132,
+                "cpuSeconds": 3.390625,
+                "privateBytes": 312041472
+              },
+              {
+                "pid": 36000,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7774208
+              },
+              {
+                "pid": 29184,
+                "cpuSeconds": 0.078125,
+                "privateBytes": 10027008
+              },
+              {
+                "pid": 17612,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8196096
+              }
+            ],
+            "privateBytes": 774225920
+          },
+          {
+            "at": "2026-10-06T01:39:40.958Z",
+            "processes": [
+              {
+                "pid": 36768,
+                "cpuSeconds": 3.359375,
+                "privateBytes": 59420672
+              },
+              {
+                "pid": 39408,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 2736128
+              },
+              {
+                "pid": 34524,
+                "cpuSeconds": 3.453125,
+                "privateBytes": 225529856
+              },
+              {
+                "pid": 15260,
+                "cpuSeconds": 1.46875,
+                "privateBytes": 65916928
+              },
+              {
+                "pid": 26272,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8142848
+              },
+              {
+                "pid": 27336,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 16752640
+              },
+              {
+                "pid": 5132,
+                "cpuSeconds": 4.9375,
+                "privateBytes": 340443136
+              },
+              {
+                "pid": 36000,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7774208
+              },
+              {
+                "pid": 17612,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8208384
+              }
+            ],
+            "privateBytes": 734924800
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "version": "1.4.7",
+      "iteration": 3,
+      "switches": 48,
+      "modalCycles": 24,
+      "switchLatencyMs": {
+        "minimum": 53.048500000004424,
+        "median": 70.29669999999169,
+        "p95": 95.72999999999593,
+        "maximum": 96.52419999999984,
+        "mean": 70.89845624999968
+      },
+      "switchesElapsedMs": 3403.212400000004,
+      "modalElapsedMs": 11355.434899999993,
+      "frameIntervalMs": {
+        "minimum": 4.599999999999454,
+        "median": 5.599999999998545,
+        "p95": 5.600000000002183,
+        "maximum": 12,
+        "mean": 5.557503320053121
+      },
+      "longTasks": [],
+      "jsHeapBytes": 67575155,
+      "edgeTree": {
+        "pid": 7692,
+        "cpuSeconds": 6.53125,
+        "privateBytes": {
+          "minimum": 726593536,
+          "median": 742121472,
+          "p95": 765435904,
+          "maximum": 765435904,
+          "mean": 744716970.6666666
+        },
+        "samples": [
+          {
+            "at": "2026-10-06T01:39:47.030Z",
+            "processes": [
+              {
+                "pid": 7692,
+                "cpuSeconds": 2.78125,
+                "privateBytes": 57663488
+              },
+              {
+                "pid": 32048,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2715648
+              },
+              {
+                "pid": 41216,
+                "cpuSeconds": 1.390625,
+                "privateBytes": 284553216
+              },
+              {
+                "pid": 36936,
+                "cpuSeconds": 1.328125,
+                "privateBytes": 58744832
+              },
+              {
+                "pid": 39984,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8069120
+              },
+              {
+                "pid": 32076,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 17133568
+              },
+              {
+                "pid": 18560,
+                "cpuSeconds": 2.609375,
+                "privateBytes": 271728640
+              },
+              {
+                "pid": 17328,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7790592
+              },
+              {
+                "pid": 32172,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 9998336
+              },
+              {
+                "pid": 15900,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8196096
+              }
+            ],
+            "privateBytes": 726593536
+          },
+          {
+            "at": "2026-10-06T01:39:51.590Z",
+            "processes": [
+              {
+                "pid": 7692,
+                "cpuSeconds": 3.3125,
+                "privateBytes": 57913344
+              },
+              {
+                "pid": 32048,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2715648
+              },
+              {
+                "pid": 41216,
+                "cpuSeconds": 2.203125,
+                "privateBytes": 280526848
+              },
+              {
+                "pid": 36936,
+                "cpuSeconds": 1.40625,
+                "privateBytes": 60170240
+              },
+              {
+                "pid": 39984,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8089600
+              },
+              {
+                "pid": 32076,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 16773120
+              },
+              {
+                "pid": 18560,
+                "cpuSeconds": 4.21875,
+                "privateBytes": 313262080
+              },
+              {
+                "pid": 17328,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7790592
+              },
+              {
+                "pid": 32172,
+                "cpuSeconds": 0.09375,
+                "privateBytes": 9998336
+              },
+              {
+                "pid": 15900,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8196096
+              }
+            ],
+            "privateBytes": 765435904
+          },
+          {
+            "at": "2026-10-06T01:40:03.326Z",
+            "processes": [
+              {
+                "pid": 7692,
+                "cpuSeconds": 3.6875,
+                "privateBytes": 58576896
+              },
+              {
+                "pid": 32048,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2715648
+              },
+              {
+                "pid": 41216,
+                "cpuSeconds": 3.46875,
+                "privateBytes": 239771648
+              },
+              {
+                "pid": 36936,
+                "cpuSeconds": 1.5,
+                "privateBytes": 66437120
+              },
+              {
+                "pid": 39984,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8089600
+              },
+              {
+                "pid": 32076,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 16773120
+              },
+              {
+                "pid": 18560,
+                "cpuSeconds": 5.984375,
+                "privateBytes": 333766656
+              },
+              {
+                "pid": 17328,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7790592
+              },
+              {
+                "pid": 15900,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 8200192
+              }
+            ],
+            "privateBytes": 742121472
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "version": "1.5.0",
+      "iteration": 3,
+      "switches": 48,
+      "modalCycles": 24,
+      "switchLatencyMs": {
+        "minimum": 55.26850000000559,
+        "median": 61.06469999998808,
+        "p95": 63.671899999986636,
+        "maximum": 86.98709999999846,
+        "mean": 59.87604166666521
+      },
+      "switchesElapsedMs": 2874.1199999999953,
+      "modalElapsedMs": 11619.579599999997,
+      "frameIntervalMs": {
+        "minimum": 5.399999999997817,
+        "median": 5.599999999998545,
+        "p95": 5.600000000002183,
+        "maximum": 11.100000000000364,
+        "mean": 5.555733148019458
+      },
+      "longTasks": [],
+      "jsHeapBytes": 67375915,
+      "edgeTree": {
+        "pid": 30312,
+        "cpuSeconds": 5.59375,
+        "privateBytes": {
+          "minimum": 734081024,
+          "median": 743321600,
+          "p95": 770379776,
+          "maximum": 770379776,
+          "mean": 749260800
+        },
+        "samples": [
+          {
+            "at": "2026-10-06T01:40:08.857Z",
+            "processes": [
+              {
+                "pid": 30312,
+                "cpuSeconds": 2.265625,
+                "privateBytes": 58236928
+              },
+              {
+                "pid": 38228,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2740224
+              },
+              {
+                "pid": 36184,
+                "cpuSeconds": 1.109375,
+                "privateBytes": 289501184
+              },
+              {
+                "pid": 40688,
+                "cpuSeconds": 1.1875,
+                "privateBytes": 58482688
+              },
+              {
+                "pid": 15332,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8122368
+              },
+              {
+                "pid": 36208,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 17133568
+              },
+              {
+                "pid": 32632,
+                "cpuSeconds": 2.390625,
+                "privateBytes": 273797120
+              },
+              {
+                "pid": 41636,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7782400
+              },
+              {
+                "pid": 4288,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 10072064
+              },
+              {
+                "pid": 32872,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8212480
+              }
+            ],
+            "privateBytes": 734081024
+          },
+          {
+            "at": "2026-10-06T01:40:12.301Z",
+            "processes": [
+              {
+                "pid": 30312,
+                "cpuSeconds": 2.703125,
+                "privateBytes": 58281984
+              },
+              {
+                "pid": 38228,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2740224
+              },
+              {
+                "pid": 36184,
+                "cpuSeconds": 1.6875,
+                "privateBytes": 279085056
+              },
+              {
+                "pid": 40688,
+                "cpuSeconds": 1.203125,
+                "privateBytes": 59400192
+              },
+              {
+                "pid": 15332,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8138752
+              },
+              {
+                "pid": 36208,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 17133568
+              },
+              {
+                "pid": 32632,
+                "cpuSeconds": 3.53125,
+                "privateBytes": 319524864
+              },
+              {
+                "pid": 41636,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7782400
+              },
+              {
+                "pid": 4288,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 10076160
+              },
+              {
+                "pid": 32872,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8216576
+              }
+            ],
+            "privateBytes": 770379776
+          },
+          {
+            "at": "2026-10-06T01:40:24.419Z",
+            "processes": [
+              {
+                "pid": 30312,
+                "cpuSeconds": 3.109375,
+                "privateBytes": 59039744
+              },
+              {
+                "pid": 38228,
+                "cpuSeconds": 0.015625,
+                "privateBytes": 2740224
+              },
+              {
+                "pid": 36184,
+                "cpuSeconds": 3.171875,
+                "privateBytes": 230584320
+              },
+              {
+                "pid": 40688,
+                "cpuSeconds": 1.25,
+                "privateBytes": 65916928
+              },
+              {
+                "pid": 15332,
+                "cpuSeconds": 0.046875,
+                "privateBytes": 8138752
+              },
+              {
+                "pid": 36208,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 16773120
+              },
+              {
+                "pid": 32632,
+                "cpuSeconds": 5,
+                "privateBytes": 344121344
+              },
+              {
+                "pid": 41636,
+                "cpuSeconds": 0.03125,
+                "privateBytes": 7782400
+              },
+              {
+                "pid": 32872,
+                "cpuSeconds": 0.0625,
+                "privateBytes": 8224768
+              }
+            ],
+            "privateBytes": 743321600
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "comparison": {
+    "switchMedianMs": {
+      "before": {
+        "minimum": 55.72219999998924,
+        "median": 61.127800000002026,
+        "p95": 70.29669999999169,
+        "maximum": 70.29669999999169,
+        "mean": 62.382233333327655
+      },
+      "after": {
+        "minimum": 55.72219999998924,
+        "median": 60.75970000000234,
+        "p95": 61.06469999998808,
+        "maximum": 61.06469999998808,
+        "mean": 59.18219999999322
+      },
+      "changePercent": -0.6021810043869924,
+      "regressionOutsideThreeRunSpread": false
+    },
+    "switchP95Ms": {
+      "before": {
+        "minimum": 61.22969999999623,
+        "median": 81.49910000000091,
+        "p95": 95.72999999999593,
+        "maximum": 95.72999999999593,
+        "mean": 79.48626666666435
+      },
+      "after": {
+        "minimum": 61.23769999999786,
+        "median": 63.671899999986636,
+        "p95": 77.44570000000385,
+        "maximum": 77.44570000000385,
+        "mean": 67.45176666666278
+      },
+      "changePercent": -21.874106585243357,
+      "regressionOutsideThreeRunSpread": false
+    },
+    "switchesElapsedMs": {
+      "before": {
+        "minimum": 2799.5497999999934,
+        "median": 3115.6057,
+        "p95": 3403.212400000004,
+        "maximum": 3403.212400000004,
+        "mean": 3106.1226333333325
+      },
+      "after": {
+        "minimum": 2782.1215999999986,
+        "median": 2874.1199999999953,
+        "p95": 2930.488600000004,
+        "maximum": 2930.488600000004,
+        "mean": 2862.2433999999994
+      },
+      "changePercent": -7.750842797598068,
+      "regressionOutsideThreeRunSpread": false
+    },
+    "cpuSeconds": {
+      "before": {
+        "minimum": 4.890625,
+        "median": 6.25,
+        "p95": 6.53125,
+        "maximum": 6.53125,
+        "mean": 5.890625
+      },
+      "after": {
+        "minimum": 4.984375,
+        "median": 5.59375,
+        "p95": 5.828125,
+        "maximum": 5.828125,
+        "mean": 5.46875
+      },
+      "changePercent": -10.499999999999998,
+      "regressionOutsideThreeRunSpread": false
+    },
+    "privateBytes": {
+      "before": {
+        "minimum": 742121472,
+        "median": 751833088,
+        "p95": 786206720,
+        "maximum": 786206720,
+        "mean": 760053760
+      },
+      "after": {
+        "minimum": 738062336,
+        "median": 743321600,
+        "p95": 808148992,
+        "maximum": 808148992,
+        "mean": 763177642.6666666
+      },
+      "changePercent": -1.132098086111366,
+      "regressionOutsideThreeRunSpread": false
+    },
+    "peakPrivateBytes": {
+      "before": {
+        "minimum": 765435904,
+        "median": 773832704,
+        "p95": 791633920,
+        "maximum": 791633920,
+        "mean": 776967509.3333334
+      },
+      "after": {
+        "minimum": 770379776,
+        "median": 774225920,
+        "p95": 830291968,
+        "maximum": 830291968,
+        "mean": 791632554.6666666
+      },
+      "changePercent": 0.050814083970274204,
+      "regressionOutsideThreeRunSpread": false
+    },
+    "jsHeapBytes": {
+      "before": {
+        "minimum": 67575155,
+        "median": 68989517,
+        "p95": 71343731,
+        "maximum": 71343731,
+        "mean": 69302801
+      },
+      "after": {
+        "minimum": 67375915,
+        "median": 70223031,
+        "p95": 73779187,
+        "maximum": 73779187,
+        "mean": 70459377.66666667
+      },
+      "changePercent": 1.7879730916220193,
+      "regressionOutsideThreeRunSpread": false
+    }
+  }
+}

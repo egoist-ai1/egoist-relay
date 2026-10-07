@@ -1,8 +1,9 @@
 import type { ClipboardTextContent, ClipboardTextFormat } from '../types/messageCopy';
 
-import { DEBUG } from '../config';
-
 export const CLIPBOARD_ITEM_SUPPORTED = window.navigator.clipboard && window.ClipboardItem;
+
+const IMAGE_COPY_TIMEOUT = 15000;
+const MAX_IMAGE_COPY_PIXELS = 32 * 1024 * 1024;
 
 const textCopyEl = document.createElement('textarea');
 textCopyEl.setAttribute('readonly', '');
@@ -31,23 +32,73 @@ export const copyTextToClipboard = (str: string): boolean => {
   return isCopied;
 };
 
-export const copyImageToClipboard = (imageUrl?: string) => {
-  if (!imageUrl) return;
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const imageEl = new Image();
-  imageEl.onload = (e: Event) => {
-    if (ctx && e.currentTarget) {
-      const img = e.currentTarget as HTMLImageElement;
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0, img.width, img.height);
-      canvas.toBlob(copyBlobToClipboard, 'image/png', 1);
-    }
-  };
+export async function copyImageToClipboard(imageUrl?: string | Promise<string | undefined>): Promise<boolean> {
+  if (!imageUrl || !CLIPBOARD_ITEM_SUPPORTED || !navigator.clipboard.write) return false;
+  const controller = new AbortController();
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<never>((resolve, reject) => {
+    timeout = setTimeout(() => {
+      controller.abort();
+      reject(new Error('CLIPBOARD_IMAGE_TIMEOUT'));
+    }, IMAGE_COPY_TIMEOUT);
+  });
+  const pngPromise = Promise.resolve(imageUrl).then((url) => buildClipboardImage(url, controller.signal));
+  try {
+    // The clipboard write starts within the user gesture while the image is prepared
+    const writePromise = navigator.clipboard.write([new ClipboardItem({ 'image/png': pngPromise })]);
+    await Promise.race([Promise.all([pngPromise, writePromise]), deadline]);
+    return true;
+  } catch {
+    // A clipboard implementation can reject the promise item before consuming its data
+    void pngPromise.catch(() => {});
+    return false;
+  } finally {
+    clearTimeout(timeout);
+    controller.abort();
+  }
+}
 
-  imageEl.src = imageUrl;
-};
+function buildClipboardImage(imageUrl: string | undefined, signal: AbortSignal): Promise<Blob> {
+  if (!imageUrl || signal.aborted) return Promise.reject(new Error('EMPTY_CLIPBOARD_CONTENT'));
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    const cancel = () => finish();
+    function finish(blob?: Blob) {
+      signal.removeEventListener('abort', cancel);
+      image.onload = () => {};
+      image.onerror = () => {};
+      image.removeAttribute('src');
+      if (blob) resolve(blob);
+      else reject(new Error('CLIPBOARD_IMAGE_FAILED'));
+    }
+    image.onload = () => {
+      const width = image.naturalWidth;
+      const height = image.naturalHeight;
+      if (!width || !height || width * height > MAX_IMAGE_COPY_PIXELS) {
+        finish();
+        return;
+      }
+      try {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        if (!context) {
+          finish();
+          return;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        context.drawImage(image, 0, 0, width, height);
+        canvas.toBlob((blob) => finish(blob || undefined), 'image/png');
+      } catch {
+        finish();
+      }
+    };
+    image.onerror = () => finish();
+    signal.addEventListener('abort', cancel, { once: true });
+    image.crossOrigin = 'anonymous';
+    image.src = imageUrl;
+  });
+}
 
 export async function copyTextToClipboardFromPromise(
   getContentPromise: Promise<string | ClipboardTextContent | undefined>,
@@ -131,23 +182,4 @@ function buildPlainTextClipboardBlob(content: string | Promise<string>): Blob | 
   if (content instanceof Promise) return content.then(buildPlainTextClipboardBlob);
   if (!content) throw new Error('EMPTY_CLIPBOARD_CONTENT');
   return new Blob([content], { type: 'text/plain' });
-}
-
-async function copyBlobToClipboard(pngBlob: Blob | null) {
-  if (!pngBlob || !CLIPBOARD_ITEM_SUPPORTED) {
-    return;
-  }
-
-  try {
-    await window.navigator.clipboard.write?.([
-      new ClipboardItem({
-        [pngBlob.type]: pngBlob,
-      }),
-    ]);
-  } catch (error) {
-    if (DEBUG) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  }
 }

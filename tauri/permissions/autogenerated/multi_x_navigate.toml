@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-x-navigate"
+description = "Enables the multi_x_navigate command without any pre-configured scope."
+commands.allow = ["multi_x_navigate"]
+
+[[permission]]
+identifier = "deny-multi-x-navigate"
+description = "Denies the multi_x_navigate command without any pre-configured scope."
+commands.deny = ["multi_x_navigate"]

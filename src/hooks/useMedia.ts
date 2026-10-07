@@ -18,10 +18,15 @@ const useMedia = (
   const isStreaming = IS_PROGRESSIVE_SUPPORTED && mediaFormat === ApiMediaFormat.Progressive;
   const mediaData = mediaHash
     ? (isStreaming ? mediaLoader.getProgressiveUrl(mediaHash)
-      : mediaLoader.getFromMemory(mediaHash)) : undefined;
+      : mediaLoader.getFromMemory(mediaHash, mediaFormat)) : undefined;
 
   const forceUpdate = useForceUpdate();
   const isSynced = useSelector(selectIsSynced);
+
+  useEffect(() => {
+    if (!mediaHash) return undefined;
+    return mediaLoader.retainMedia(mediaHash, mediaFormat);
+  }, [mediaHash, mediaFormat]);
 
   useEffect(() => {
     if (!noLoad && mediaHash && !mediaData) {

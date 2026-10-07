@@ -1,0 +1,17 @@
+{
+  "path": "tsconfig.script.json",
+  "before": "14f5bc1a495eb677f76e8787f8f4e5fb581959e2696d1e51c288e076fcdbf292",
+  "after": "9fa6a22b293fd63e0d6b4405b7780369d9129557d178ce83e49d550083320917",
+  "originalIncludePreserved": true,
+  "removedOriginalRoots": 0,
+  "inheritedPathsPreserved": true,
+  "newLibraries": false,
+  "addedExistingTypes": 3,
+  "addedExistingDeclarations": [
+    "src/@types/global.d.ts",
+    "src/@types/qr-code-styling/index.d.ts",
+    "src/types/tauri.ts"
+  ],
+  "existingQrAliasReused": true,
+  "recordedAt": "2026-10-02T09:23:17.650Z"
+}

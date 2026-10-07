@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "snapshotSha256": "0f85b7161d4ddb9b549e3fd081483489dd96bef130b79df9e907951de72e6989",
+  "htmlSha256": "3fefc54a4cb045fb5e0b69bfd443fdce6329764b3ce9576690d2e1a158a30e1b",
+  "items": 3,
+  "neutralInitialState": true,
+  "javascriptSyntax": true,
+  "approveRejectQuestionComment": true,
+  "exportImport": true,
+  "repeatedBatchId": true,
+  "staleSnapshotRejected": true,
+  "standaloneFallback": "export",
+  "contractChecksPassed": 8,
+  "syntheticOnly": true,
+  "currentSnapshotSyntaxAndHashRevalidated": true,
+  "helperUnchanged": true
+}

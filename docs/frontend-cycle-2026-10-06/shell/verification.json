@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:50:56.669730+00:00",
+  "scope": "AppSidebar/Titlebar composition B, only the six source/test files in source-hashes.json",
+  "baseline": "Exact working bytes before this shell subtask; canonical source 1.5.0. This is not a diff against Git HEAD.",
+  "checks": [
+    {
+      "id": "baseline-vitest",
+      "exitCode": 0,
+      "files": 2,
+      "passed": 11,
+      "log": "shell-baseline-vitest.log"
+    },
+    {
+      "id": "candidate-vitest",
+      "exitCode": 0,
+      "files": 2,
+      "passed": 18,
+      "log": "shell-vitest-final.log"
+    },
+    {
+      "id": "typescript-main",
+      "exitCode": 0,
+      "config": "tsconfig.json",
+      "log": "shell-ts-main.log"
+    },
+    {
+      "id": "typescript-script",
+      "exitCode": 0,
+      "config": "tsconfig.script.json",
+      "log": "shell-ts-script.log"
+    },
+    {
+      "id": "typescript-test",
+      "exitCode": 0,
+      "config": "tsconfig.test.json",
+      "log": "shell-ts-test.log"
+    },
+    {
+      "id": "affected-eslint",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 0,
+      "heapMiB": 5120,
+      "log": "shell-eslint-final.log"
+    },
+    {
+      "id": "affected-stylelint",
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 2,
+      "warningReason": "Existing user-select baseline warnings in both components",
+      "log": "shell-stylelint-final.log"
+    },
+    {
+      "id": "actual-app-geometry-actions",
+      "exitCode": 0,
+      "passed": 12,
+      "pageErrors": 0,
+      "detail": "geometry/shell-browser-results.json",
+      "log": "shell-browser-final.log"
+    },
+    {
+      "id": "integrated-theme-fonts",
+      "exitCode": 0,
+      "passed": 2,
+      "pageErrors": 0,
+      "detail": "integration/shell-browser-results.json",
+      "log": "shell-integration.log"
+    },
+    {
+      "id": "active-download-counts-9-99",
+      "exitCode": 0,
+      "passed": 2,
+      "pageErrors": 0,
+      "detail": "counts/shell-browser-results.json",
+      "log": "shell-counts.log"
+    }
+  ],
+  "nativeDragRegression": {
+    "contractSource": "tauri/vendor/tauri/src/window/scripts/drag.js",
+    "contractSha256": "2d47d2e302512024af4ded95b89f8b1f5c8d83530d287c252052112901a59888",
+    "before": {
+      "exitCode": 1,
+      "expectedFailure": true,
+      "reason": "Caption text produces no start_dragging IPC",
+      "log": "shell-drag-before.log"
+    },
+    "after": {
+      "exitCode": 0,
+      "log": "shell-vitest-final.log",
+      "behavior": "Both caption spans start_dragging, double click toggles maximize, action buttons remain independent"
+    },
+    "transport": "Actual shipped JS handler with isolated IPC stub; not a physical window drag test"
+  },
+  "verifiedBehavior": [
+    "Three service actions, current pane relationships and arrow/Home/End focus browsing",
+    "X loading/error/auth-required and Instagram loading/error accessible labels without disabled service switching",
+    "Operations control, Ctrl+J, expanded state and preserved selected service after closing the panel",
+    "Window minimize/maximize/restore/close API calls in isolated unit tests",
+    "Caption drag and double-click contract fails before the direct text attributes and passes after them",
+    "9/99 visible active download counts retain reachable caption controls at 640x448 and root text 200%",
+    "Caption actions remain reachable at 640x448, 800x560, FullHD, root text 200%, RTL and reduced motion",
+    "Long synthetic service labels stay within their interactive button and may wrap vertically",
+    "Egoist Dark caption/rail rgb(0,0,0); light-modern caption/rail rgb(248,248,248)",
+    "Unbounded brand and Inter actions verified by computed browser styles after parent font migration"
+  ],
+  "limits": [
+    "Existing synthetic MockClient and native mocks; all remote traffic blocked",
+    "Headless installed Edge. Physical Tauri window, DPI, GPU and WebView2 native composition were not exercised",
+    "Screens contain synthetic conversation data, a missing remote fixture image and a fixture locale fallback marker",
+    "Geometry matrix runs before the final root style cleanup; targeted integration covers the updated global fonts/palette",
+    "This is a shell handoff package. Parent performs the full frontend acceptance matrix and installer build"
+  ]
+}

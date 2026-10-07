@@ -1,0 +1,73 @@
+{
+    "schemaVersion":  1,
+    "atUtc":  "2026-10-03T13:42:56.8154954+00:00",
+    "mainPid":  30140,
+    "mainBornAtUtc":  "2026-10-03T13:40:39.7232030Z",
+    "mainExeSha256":  "899d06548a994766d8dd70a55a10c6aaff4c307564f1d7bbed1127eafbff996b",
+    "mainWindowHandle":  264100,
+    "mainVisible":  true,
+    "mainIconic":  false,
+    "requestedStartHidden":  true,
+    "workers":  [
+                    {
+                        "pid":  16612,
+                        "parentPid":  30140,
+                        "bornAtUtc":  "2026-10-03T13:40:40.8907160Z",
+                        "path":  "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\node.exe",
+                        "kind":  "research-bridge",
+                        "listening":  [
+
+                                      ],
+                        "connectedToLagomProxy":  [
+
+                                                  ]
+                    },
+                    {
+                        "pid":  7024,
+                        "parentPid":  30140,
+                        "bornAtUtc":  "2026-10-03T13:40:41.6075260Z",
+                        "path":  "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\runtime\\node.exe",
+                        "kind":  "telegram-transport",
+                        "listening":  [
+                                          {
+                                              "address":  "127.0.0.1",
+                                              "port":  57319
+                                          }
+                                      ],
+                        "connectedToLagomProxy":  [
+                                                      {
+                                                          "localAddress":  "127.0.0.1",
+                                                          "localPort":  63568,
+                                                          "remoteAddress":  "127.0.0.1",
+                                                          "remotePort":  1443
+                                                      },
+                                                      {
+                                                          "localAddress":  "127.0.0.1",
+                                                          "localPort":  63130,
+                                                          "remoteAddress":  "127.0.0.1",
+                                                          "remotePort":  1443
+                                                      },
+                                                      {
+                                                          "localAddress":  "127.0.0.1",
+                                                          "localPort":  53513,
+                                                          "remoteAddress":  "127.0.0.1",
+                                                          "remotePort":  1443
+                                                      },
+                                                      {
+                                                          "localAddress":  "127.0.0.1",
+                                                          "localPort":  52237,
+                                                          "remoteAddress":  "127.0.0.1",
+                                                          "remotePort":  1443
+                                                      },
+                                                      {
+                                                          "localAddress":  "127.0.0.1",
+                                                          "localPort":  50197,
+                                                          "remoteAddress":  "127.0.0.1",
+                                                          "remotePort":  1443
+                                                      }
+                                                  ]
+                    }
+                ],
+    "networkOrServiceMutations":  0,
+    "accountContentRead":  false
+}

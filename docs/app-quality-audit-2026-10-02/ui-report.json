@@ -1,0 +1,791 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-ui-scenario-audit-2026-10-02",
+  "version": 1,
+  "appVersion": "1.4.3",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "generatedAt": "2026-10-02T06:40:49.575Z",
+  "phase": "audit_in_progress",
+  "sourceFreeze": {
+    "generatedAt": "2026-10-02T06:40:49.574Z",
+    "production": [
+      {
+        "file": "src/components/ui/RangeSlider.tsx",
+        "sha256": "0859997f137f10c0e750094b6cf3a5b80244b447193e3b2dcf059c20eb15da38"
+      },
+      {
+        "file": "src/lib/gramjs/client/MockClient.ts",
+        "sha256": "c7e9f966e96e9971fad8bc09b7bb9b3f03e28585a44c68ddcf9d420c5d968d20"
+      },
+      {
+        "file": "src/components/ui/Modal.tsx",
+        "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd"
+      },
+      {
+        "file": "src/util/trapFocus.ts",
+        "sha256": "8314b161a5716198d4137b37e5bfb92810da5f33c3c887a24bfd363d594edaa6"
+      },
+      {
+        "file": "src/components/ui/ConfirmDialog.tsx",
+        "sha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0"
+      },
+      {
+        "file": "src/components/middle/message/Message.scss",
+        "sha256": "45783b340c40994671d694c3c734e650e8b4a5a234c662b18ef95ca7fbb0bc38"
+      },
+      {
+        "file": "src/components/middle/message/MessageMeta.scss",
+        "sha256": "9cc58cab3932616beb44c7758766bb129a22698808a8e01326f8154040b8a8fc"
+      },
+      {
+        "file": "src/components/ui/Menu.tsx",
+        "sha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768"
+      },
+      {
+        "file": "src/util/captureKeyboardListeners.ts",
+        "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207"
+      },
+      {
+        "file": "src/components/ui/Button.tsx",
+        "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4"
+      },
+      {
+        "file": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+        "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f"
+      }
+    ],
+    "harness": [
+      {
+        "file": "scripts/relay-ui-audit.custom-modals.mjs",
+        "sha256": "8e39d5f66df67e0597d2d37b4b86c12e9394cacdf5a3d0f6edd5c3687bcbc1f4"
+      },
+      {
+        "file": "scripts/relay-ui-audit.enhancers.mjs",
+        "sha256": "2f3c10a4fa0f9ed5e978884ac786cec4d45c26319c0a80c3f1cf0e82cba4ce95"
+      },
+      {
+        "file": "scripts/relay-ui-audit.fixture.tsx",
+        "sha256": "d8965827b3188b2c25ee1ba22ba0e4ed1f68e49c577021a86c050ea0e21ae8cd"
+      },
+      {
+        "file": "scripts/relay-ui-audit.group-state.ts",
+        "sha256": "ba17bb749c984b50022160699b388ff972b87a4b2370ad060f48826a81fda3eb"
+      },
+      {
+        "file": "scripts/relay-ui-audit.groups.mjs",
+        "sha256": "e6b1c2b63ffdc36457dd42bb594c8722b1a1edaf384a681e5b9f921c94712cd9"
+      },
+      {
+        "file": "scripts/relay-ui-audit.inventory.mjs",
+        "sha256": "a45636332f03cf4c7ad9c0537e1fb9432d0680827f0e787e5583b1792548f3df"
+      },
+      {
+        "file": "scripts/relay-ui-audit.keyboard-contract.mjs",
+        "sha256": "784c23851c2dfe4dc7a7837cc6724925d9ca6555a52b3f9a8f603a67f0188963"
+      },
+      {
+        "file": "scripts/relay-ui-audit.mjs",
+        "sha256": "476c1def8a01864ebbc86a909fbc88cdeae81c87279e9553d4ecd7003d4e04c0"
+      },
+      {
+        "file": "scripts/relay-ui-audit.performance.mjs",
+        "sha256": "fd9695b92a0622a4b2d42865c496553905cfa64e3851ffabcc60f0ac91a5411a"
+      },
+      {
+        "file": "scripts/relay-ui-audit.probe.mjs",
+        "sha256": "af82da8ddcc7f366f96fc75c381beee3c94f2ccdf17169a0dc513b3eb4254f83"
+      },
+      {
+        "file": "scripts/relay-ui-audit.report.mjs",
+        "sha256": "b7382635dc3285c8608f87028e262651b465d6a084f8e5098394cfc281051d4d"
+      },
+      {
+        "file": "scripts/relay-ui-audit.server.mjs",
+        "sha256": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583"
+      },
+      {
+        "file": "scripts/relay-media-audit-file.test.mjs",
+        "sha256": "0fe4b05831e7006d210b6ba8984958cc80ac30d963c000b634b36cecf3254dcf"
+      }
+    ]
+  },
+  "environment": {
+    "runtime": "Actual original App bootstrap/router/components with existing MockClient and task-only terminal native mocks",
+    "browser": "Existing headless Chromium1243, Playwright1.61.1",
+    "remoteRequests": "blocked",
+    "viewport": "1920x1080 baseline;800/640 width;200%text;RTL;reduced-motion;DPR2 emulation",
+    "accountActions": "none; no real cookies/auth/CDP/foreground/network changes"
+  },
+  "checks": {
+    "main": {
+      "total": 64,
+      "pass": 63,
+      "fail": 0,
+      "gated": 1,
+      "sourceComponents": 774,
+      "renderedEvidenceComponents": 40
+    },
+    "groupedRouteRendering": {
+      "total": 125,
+      "pass": 109,
+      "gated": 16,
+      "errors": 0
+    },
+    "themeContrast": {
+      "totalThemes": 11,
+      "pass": 11,
+      "fail": 0,
+      "overlaySamples": 66,
+      "minimumContrast": 4.762049148867173
+    },
+    "keyboardCaptureCompatibility": {
+      "total": 7,
+      "pass": 7
+    },
+    "enhancers": {
+      "total": 7,
+      "pass": 7,
+      "fail": 0
+    },
+    "performance": {
+      "total": 3,
+      "pass": 3,
+      "errors": 0
+    },
+    "customModalSafety": {
+      "total": 31,
+      "pass": 31,
+      "fail": 0,
+      "errors": 0
+    },
+    "typeScript": {
+      "exitCode": 0,
+      "scope": "actual src + fixture + imported group-state"
+    },
+    "eslint": {
+      "exitCode": 0,
+      "scope": "9 owned production/test-only TS/TSX files;0 warnings/errors"
+    },
+    "scss": {
+      "exitCode": 0,
+      "errors": 0,
+      "warnings": 15,
+      "scope": "Message.scss andMessageMeta.scss; existing warnings"
+    },
+    "wholeProjectLint": {
+      "npm": "unavailable; direct Node equivalents used",
+      "typescriptExitCode": 0,
+      "defaultHeapAttempt": {
+        "exitCode": 134,
+        "reason": "V8 heap exhausted at4096MiB"
+      },
+      "completedBoundedAttempt": {
+        "receipt": "types-eslint-retry.json",
+        "heapMiB": 5120,
+        "exitCode": 1,
+        "errorCount": 27,
+        "warningCount": 1,
+        "filesEvaluated": 1862
+      },
+      "finalBoundedAttempt": {
+        "receipt": "types-eslint-final.json",
+        "exitCode": 0,
+        "errorCount": 0,
+        "warningCount": 1,
+        "filesEvaluated": 1862
+      },
+      "harnessCorrections": {
+        "command": "existing Node node_modules/eslint/bin/eslint.js scripts/relay-ui-audit.* scripts/relay-media-audit-file.test.mjs --format json --output-file own-runtime",
+        "filesEvaluated": 11,
+        "errors": 0,
+        "warnings": 0,
+        "exitCode": 0
+      },
+      "note": "Completed27-error bounded attempt is historical before namespace/unused corrections; current harness0errors. Root final full-project lint is a separate receipt; no configuration weakened."
+    },
+    "harnessNamespaceSmoke": {
+      "main": {
+        "total": 4,
+        "pass": 4,
+        "fail": 0,
+        "gated": 0
+      },
+      "groupCallback": {
+        "total": 2,
+        "pass": 2
+      },
+      "custom": {
+        "total": 1,
+        "pass": 1,
+        "fail": 0,
+        "errors": 0
+      },
+      "enhancers": {
+        "total": 7,
+        "pass": 7
+      },
+      "themes": {
+        "totalThemes": 11,
+        "pass": 11,
+        "fail": 0,
+        "overlaySamples": 66,
+        "minimumContrast": 4.762049148867173
+      },
+      "performance": {
+        "total": 3,
+        "pass": 3,
+        "errors": 0
+      }
+    },
+    "mediaNamespaceFixture": {
+      "total": 13,
+      "pass": 13,
+      "fail": 0,
+      "scope": "existing task-local synthetic http1/h2/disk/original MP4 fixtures; no device network edits",
+      "initialSetupGate": "First invocation omitted EGOIST_RELAY_AUDIT_WORK and failed setup; corrected task-local invocation passes13."
+    },
+    "sourceReferences": {
+      "validated": 83,
+      "missing": 0
+    }
+  },
+  "coverage": {
+    "components": 774,
+    "categories": {
+      "app-component": 393,
+      "authentication": 7,
+      "calls": 11,
+      "modal": 138,
+      "shared-ui": 67,
+      "settings": 51,
+      "media-viewer": 9,
+      "composer": 45,
+      "relay-social": 2,
+      "payment": 9,
+      "management": 21,
+      "stories": 18,
+      "first-party-enhancer": 3
+    },
+    "renderedEvidenceComponents": 46,
+    "routeRenderedComponents": 25,
+    "gatedComponents": 10,
+    "sourceOnlyComponents": 690,
+    "routeEnumCounts": {
+      "SettingsScreens": 91,
+      "LeftColumnContent": 9,
+      "GlobalSearchContent": 9,
+      "RightColumnContent": 12,
+      "ManagementScreens": 22
+    },
+    "modalReceipts": [
+      "src/components/common/CalendarModal.tsx",
+      "src/components/common/DeleteMessageModal.tsx",
+      "src/components/common/DeleteProfilePhotoModal.tsx",
+      "src/components/middle/composer/FormattedDateModal.tsx",
+      "src/components/right/management/GuardReplaceBotModal.tsx",
+      "src/components/ui/ConfirmDialog.tsx",
+      "src/components/ui/Modal.tsx"
+    ],
+    "levels": "Actual assertions, route-body rendering, enhancer-local fixtures and source-only entries remain separate. A route rendering PASS does not validate its submit/account operation."
+  },
+  "telemetry": {
+    "frameCount": 1096,
+    "frameIntervalMs": {
+      "median": 16.69999999999891,
+      "p95": 16.700000000000728,
+      "maximum": 16.80000000000291
+    },
+    "longTasks": [],
+    "memory": {
+      "usedJSHeapSize": 72200000,
+      "totalJSHeapSize": 76600000
+    },
+    "remainingModalDialogs": 0,
+    "portalChildCount": 1
+  },
+  "defects": [
+    {
+      "id": "ui-range-controls",
+      "files": [
+        "src/components/ui/RangeSlider.tsx"
+      ],
+      "before": "Three actual failures: disabled keyboard changed value; readOnly keyboard changed value; step2 mapped50/100 to25% fill.",
+      "after": "Native disabled/readOnly guard; change/option guards; value span normalization, clamped finite boundaries including0/1 option cases.",
+      "evidence": [
+        "ui-before-fixes.json",
+        "ui-scenario-results.json"
+      ]
+    },
+    {
+      "id": "ui-focus-confirmation",
+      "files": [
+        "src/components/ui/Modal.tsx",
+        "src/util/trapFocus.ts",
+        "src/components/ui/ConfirmDialog.tsx"
+      ],
+      "before": "Focus escaped nonnative modal; title autofocus was not focusable; nested/default selection could bypass visibility or disabled candidates; destructive confirmation default was unsafe.",
+      "after": "Post-ref topmost trap, eligible visible enabled targets, nested safe fallback/return, safe Cancel/neutral destructive-only default and no disabled keyboard confirmation.",
+      "evidence": [
+        "ui-modal-outside-before.json",
+        "ui-scenario-results.json",
+        "ui-focus-theme-after-probe.json"
+      ]
+    },
+    {
+      "id": "ui-modal-owned-menu",
+      "files": [
+        "src/components/ui/Menu.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/util/captureKeyboardListeners.ts"
+      ],
+      "before": "Native menu outside dialog was inert; div trap redirected outside-owned portal focus; after owned placement Enter triggered Modal.onEnter instead of item (0 item callbacks,+1 modal callback).",
+      "after": "Stable modal-owned viewport Portal with lazy lifecycle; explicit scoped capture sentinel blocks earlier handlers and preserves real MenuItem/Menu key events. Native/div Enter/Space callback once, onEnter0, contextmenu and first Escape menu-only, trigger focus restored; outside-menu modal Enter still works.",
+      "evidence": [
+        "ui-modal-more-before.json",
+        "ui-modal-menu-spy-before.json",
+        "ui-scenario-results.json",
+        "ui-keyboard-contract-results.json"
+      ]
+    },
+    {
+      "id": "ui-custom-native-actions",
+      "files": [
+        "src/components/ui/Button.tsx",
+        "src/components/ui/ConfirmDialog.tsx",
+        "src/components/ui/Modal.tsx",
+        "src/components/ui/Menu.tsx",
+        "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx"
+      ],
+      "before": "Actual DeleteProfilePhoto Cancel Enter invoked delete; Guard Keep Enter invoked confirm; Calendar repeat Enter submitted and Escape closed parent; default desktop Button keyboard was lost. Additional actual Confirm Enter invoked2 callbacks, Cancel confirmed1, DeleteMessage checkbox Enter deleted1. AI body portals outside native dialog were inert; two simultaneous Modal registrations intercepted Enter/Escape for the other owner.",
+      "after": "Native detail0 click once/pointer mousedown once; target-aware safe Confirm fallback; owned interactive/multiline controls delegate DOM while singleline input keeps submit. Exact dynamic trigger owns portal and bubble positioning; initial closed portal waits for trigger, Escape restores trigger. Two active owners route Enter/Escape by exact target; AI language button is keyboard-accessible using real anchor rect.31 actual isolated cases pass with0errors/unhandled and protected callbacks.",
+      "evidence": [
+        "ui-custom-modal-before.json",
+        "ui-custom-modal-additional-before.json",
+        "ui-custom-modal-after.json"
+      ]
+    },
+    {
+      "id": "ui-theme-solid-overlay",
+      "files": [
+        "src/components/middle/message/Message.scss",
+        "src/components/middle/message/MessageMeta.scss"
+      ],
+      "before": "Actual LightModern radio selected but hardcoded dark bubbles gave unreadable body/reply; actual same-element media/custom-shape/invoice overlay time had16 light failures at1.04–1.93 contrast.",
+      "after": "Existing themed backgrounds, scoped solid foreground/reply/time; SolarizedLight existing text90% black10% alias; white time kept only existing dark media overlay. All11 actual theme actions/readbacks, all solid samples and66 source-topology overlay samples meet4.5.",
+      "evidence": [
+        "ui-focus-theme-probe.json",
+        "ui-overlay-topology-before.json",
+        "ui-focus-theme-after-probe.json"
+      ]
+    },
+    {
+      "id": "ui-fixture-current-contract",
+      "files": [
+        "src/lib/gramjs/client/MockClient.ts",
+        "scripts/relay-ui-audit.group-state.ts"
+      ],
+      "before": "Mock start callback absent; GetDialogFilters returned legacy shape/string titles causing two undefined.map bootstrap errors; CreateTopic lacked matching default icon pack.",
+      "after": "Test-only connected callback/schema/title normalization preserving typed titles; exact synthetic default-topic pack. Clean full/grouped bootstrap and route errors0.",
+      "evidence": [
+        "ui-gate-triage.json",
+        "ui-scenario-results.json",
+        "ui-grouped-route-results.json"
+      ]
+    }
+  ],
+  "remainingGates": {
+    "main": [
+      {
+        "id": "settings-ActiveWebsites",
+        "reason": "Existing synthetic state triggers route reset; selected component is not verified",
+        "screenshot": "ui-visuals/settings-ActiveWebsites-gated.png"
+      }
+    ],
+    "grouped": [
+      {
+        "id": "settings-route-PrivacyAddByPhone",
+        "requested": "PrivacyAddByPhone",
+        "reached": {
+          "settings": "PrivacyAddByPhone",
+          "chatId": "101"
+        },
+        "sources": [
+          "src/components/left/settings/Settings.tsx"
+        ],
+        "reason": "Header-only screen; exact child content is not rendered for this standalone route",
+        "screenshot": "ui-visuals/settings-route-PrivacyAddByPhone-fullhd.png"
+      },
+      {
+        "id": "settings-route-PrivacyPhoneP2P",
+        "requested": "PrivacyPhoneP2P",
+        "reached": {
+          "settings": "PrivacyPhoneP2P",
+          "chatId": "101"
+        },
+        "sources": [
+          "src/components/left/settings/Settings.tsx"
+        ],
+        "reason": "Header-only screen; exact child content is not rendered for this standalone route",
+        "screenshot": "ui-visuals/settings-route-PrivacyPhoneP2P-fullhd.png"
+      },
+      {
+        "id": "management-route-GroupType",
+        "requested": "GroupType",
+        "reached": {
+          "settings": "Main",
+          "right": "Management",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/management/Management.tsx"
+        ],
+        "reason": "Enum is present but Management router has no corresponding content branch",
+        "screenshot": "ui-visuals/management-route-GroupType-fullhd.png"
+      },
+      {
+        "id": "management-route-GroupUserPermissions",
+        "requested": "GroupUserPermissions",
+        "reached": {
+          "settings": "Main",
+          "right": "Management",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/management/Management.tsx",
+          "src/components/right/management/ManageGroupUserPermissions.tsx"
+        ],
+        "reason": "Only loading/empty body reached; matching server payload fixture is absent",
+        "screenshot": "ui-visuals/management-route-GroupUserPermissions-fullhd.png"
+      },
+      {
+        "id": "management-route-GroupRecentActions",
+        "requested": "GroupRecentActions",
+        "reached": {
+          "settings": "Main",
+          "right": "Management",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/management/Management.tsx"
+        ],
+        "reason": "Enum is present but Management router has no corresponding content branch",
+        "screenshot": "ui-visuals/management-route-GroupRecentActions-fullhd.png"
+      },
+      {
+        "id": "management-route-ChatAdminRights",
+        "requested": "ChatAdminRights",
+        "reached": {
+          "settings": "Main",
+          "right": "Management",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/management/Management.tsx",
+          "src/components/right/management/ManageGroupAdminRights.tsx"
+        ],
+        "reason": "Only loading/empty body reached; matching server payload fixture is absent",
+        "screenshot": "ui-visuals/management-route-ChatAdminRights-fullhd.png"
+      },
+      {
+        "id": "management-route-ChatNewAdminRights",
+        "requested": "ChatNewAdminRights",
+        "reached": {
+          "settings": "Main",
+          "right": "Management",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/management/Management.tsx",
+          "src/components/right/management/ManageGroupAdminRights.tsx"
+        ],
+        "reason": "Only loading/empty body reached; matching server payload fixture is absent",
+        "screenshot": "ui-visuals/management-route-ChatNewAdminRights-fullhd.png"
+      },
+      {
+        "id": "management-route-JoinRequests",
+        "requested": "JoinRequests",
+        "reached": {
+          "settings": "Main",
+          "right": "Management",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/management/Management.tsx",
+          "src/components/right/management/ManageJoinRequests.tsx"
+        ],
+        "reason": "Only loading/empty body reached; matching server payload fixture is absent",
+        "screenshot": "ui-visuals/management-route-JoinRequests-fullhd.png"
+      },
+      {
+        "id": "right-route-Statistics",
+        "requested": "Statistics",
+        "reached": {
+          "settings": "Main",
+          "right": "Statistics",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/statistics/Statistics.tsx"
+        ],
+        "reason": "Only loading/empty body reached; matching server payload fixture is absent",
+        "screenshot": "ui-visuals/right-route-Statistics-fullhd.png"
+      },
+      {
+        "id": "right-route-BoostStatistics",
+        "requested": "BoostStatistics",
+        "reached": {
+          "settings": "Main",
+          "right": "BoostStatistics",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/statistics/BoostStatistics.tsx"
+        ],
+        "reason": "Body dataset is absent; header visibility does not verify this component",
+        "screenshot": "ui-visuals/right-route-BoostStatistics-fullhd.png"
+      },
+      {
+        "id": "right-route-MessageStatistics",
+        "requested": "MessageStatistics",
+        "reached": {
+          "settings": "Main",
+          "right": "MessageStatistics",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/statistics/MessageStatistics.tsx"
+        ],
+        "reason": "Body dataset is absent; header visibility does not verify this component",
+        "screenshot": "ui-visuals/right-route-MessageStatistics-fullhd.png"
+      },
+      {
+        "id": "right-route-StoryStatistics",
+        "requested": "StoryStatistics",
+        "reached": {
+          "settings": "Main",
+          "right": "StoryStatistics",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/statistics/StoryStatistics.tsx"
+        ],
+        "reason": "Body dataset is absent; header visibility does not verify this component",
+        "screenshot": "ui-visuals/right-route-StoryStatistics-fullhd.png"
+      },
+      {
+        "id": "right-route-PollResults",
+        "requested": "PollResults",
+        "reached": {
+          "settings": "Main",
+          "right": "PollResults",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/PollResults.tsx"
+        ],
+        "reason": "Body dataset is absent; header visibility does not verify this component",
+        "screenshot": "ui-visuals/right-route-PollResults-fullhd.png"
+      },
+      {
+        "id": "right-route-EditTopic",
+        "requested": "EditTopic",
+        "reached": {
+          "settings": "Main",
+          "right": "EditTopic",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/EditTopic.tsx"
+        ],
+        "reason": "Only loading/empty body reached; matching server payload fixture is absent",
+        "screenshot": "ui-visuals/right-route-EditTopic-fullhd.png"
+      },
+      {
+        "id": "right-route-MonetizationStatistics",
+        "requested": "MonetizationStatistics",
+        "reached": {
+          "settings": "Main",
+          "right": "MonetizationStatistics",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx",
+          "src/components/right/statistics/MonetizationStatistics.tsx"
+        ],
+        "reason": "Body dataset is absent; header visibility does not verify this component",
+        "screenshot": "ui-visuals/right-route-MonetizationStatistics-fullhd.png"
+      },
+      {
+        "id": "right-route-NewGroup",
+        "requested": "NewGroup",
+        "reached": {
+          "settings": "Main",
+          "chatId": "-1000000000201"
+        },
+        "sources": [
+          "src/components/right/RightColumn.tsx"
+        ],
+        "reason": "Router resolved empty instead of requested NewGroup",
+        "screenshot": "ui-visuals/right-route-NewGroup-fullhd.png"
+      }
+    ],
+    "broader": [
+      "Live X/Instagram account surfaces, DM/search/privacy/create/media playback rely on first-party UI; only enhancer fixtures below are covered",
+      "Real uploads, CDN downloads, delivery, account changes and calls are outside synthetic transport evidence",
+      "Physical Windows DPI, GPU/compositor performance, touch hardware and screen reader output are not certified by Chromium emulation",
+      "Every source component is enumerated; source-only rows are deliberately not labelled passed"
+    ],
+    "note": "Main ActiveWebsites is unseeded reset gate; grouped synthetic websession body is rendered. Neither proves real connected-website account operations. Statistics/poll/forum/member-rights/account/auth datasets and live functionality remain gated."
+  },
+  "visualEvidence": {
+    "inspected": [
+      "ui-visuals/actual-radio-theme-light-modern.png",
+      "ui-visuals/after-radio-theme-light-modern.png",
+      "ui-visuals/after-radio-theme-solarized-light.png",
+      "ui-visuals/modal-more-menu-native-open.png"
+    ],
+    "themeSnapshots": [
+      {
+        "theme": "egoist-dark",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 12.587007478762652,
+        "screenshot": "ui-visuals/after-radio-theme-egoist-dark.png"
+      },
+      {
+        "theme": "dark-modern",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 9.82368342608418,
+        "screenshot": "ui-visuals/after-radio-theme-dark-modern.png"
+      },
+      {
+        "theme": "dark-plus",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 10.643253254209984,
+        "screenshot": "ui-visuals/after-radio-theme-dark-plus.png"
+      },
+      {
+        "theme": "tokyo-night",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 9.772202964863585,
+        "screenshot": "ui-visuals/after-radio-theme-tokyo-night.png"
+      },
+      {
+        "theme": "monokai",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 12.587007478762652,
+        "screenshot": "ui-visuals/after-radio-theme-monokai.png"
+      },
+      {
+        "theme": "abyss",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 8.862263954310963,
+        "screenshot": "ui-visuals/after-radio-theme-abyss.png"
+      },
+      {
+        "theme": "solarized-dark",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 5.899671758267584,
+        "screenshot": "ui-visuals/after-radio-theme-solarized-dark.png"
+      },
+      {
+        "theme": "light-modern",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 11.193389289500915,
+        "screenshot": "ui-visuals/after-radio-theme-light-modern.png"
+      },
+      {
+        "theme": "light-plus",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 11.503685279770886,
+        "screenshot": "ui-visuals/after-radio-theme-light-plus.png"
+      },
+      {
+        "theme": "quiet-light",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 9.637898209955,
+        "screenshot": "ui-visuals/after-radio-theme-quiet-light.png"
+      },
+      {
+        "theme": "solarized-light",
+        "radioMatches": true,
+        "overlayCoverage": true,
+        "minimumContrast": 4.762049148867173,
+        "screenshot": "ui-visuals/after-radio-theme-solarized-light.png"
+      }
+    ]
+  },
+  "reproducibility": {
+    "environment": [
+      "RELAY_UI_AUDIT_OUTPUT=actual task work/ui-audit",
+      "RELAY_UI_AUDIT_EVIDENCE=exact project docs/app-quality-audit-2026-10-02",
+      "RELAY_UI_AUDIT_BROWSER=existing Chromium1243 executable"
+    ],
+    "commands": [
+      "node scripts/relay-ui-audit.mjs",
+      "node scripts/relay-ui-audit.groups.mjs",
+      "node scripts/relay-ui-audit.probe.mjs",
+      "node scripts/relay-ui-audit.keyboard-contract.mjs",
+      "node scripts/relay-ui-audit.enhancers.mjs",
+      "node scripts/relay-ui-audit.performance.mjs",
+      "node scripts/relay-ui-audit.custom-modals.mjs (RUN_LABEL=after)",
+      "node scripts/relay-ui-audit.report.mjs"
+    ],
+    "order": "Headless runners use own1251 sequentially; FILTER writes ui-focused-results, preserving full-suite evidence."
+  },
+  "reviewObjects": [
+    {
+      "id": "ui-audit-range",
+      "name": "Недоступные настройки и точный прогресс ползунка",
+      "version": 1,
+      "content": "3 reproduced failures corrected; disabled/readOnly cannot change via keyboard, fill honors min/max and finite0/1-option bounds.",
+      "evidence": "ui-report.md;ui-before-fixes.json;ui-scenario-results.json",
+      "confirmationAction": "Принять проверенное изменение RangeSlider; настройки аккаунтов не выполняются."
+    },
+    {
+      "id": "ui-audit-dialog-keyboard",
+      "name": "Фокус, безопасное подтверждение и меню диалога",
+      "version": 2,
+      "content": "31 actual custom safety cases pass: Cancel/Keep/checkbox never call protected destructive handler; default native Button and Confirm activate once. Two active Modal owners retain exact Enter/Escape routing; AI keyboard language trigger and owned body portal work. Native/div menu keyboard callbacks execute once without modal callback; owned portal remains focusable, Escape closes menu first and returns focus. Disabled/hidden controls skipped and destructive default is Cancel/neutral.",
+      "evidence": "ui-report.md;ui-custom-modal-before.json;ui-custom-modal-additional-before.json;ui-custom-modal-after.json;ui-scenario-results.json;ui-keyboard-contract-results.json",
+      "confirmationAction": "Принять проверенные UI-исправления; это не запуск удаления или действия аккаунта."
+    },
+    {
+      "id": "ui-audit-theme-contrast",
+      "name": "Читаемые сообщения во всех11 темах",
+      "version": 1,
+      "content": "Actual RadioGroup selection/readback, solid body/reply/time and66 actual-component dark media overlays pass4.5 contrast; minimum4.762. Existing palette/layout/media kept.",
+      "evidence": "ui-report.md;ui-focus-theme-after-probe.json;ui-visuals/after-radio-theme-light-modern.png",
+      "confirmationAction": "Принять проверенное изменение локальных стилей сообщений."
+    },
+    {
+      "id": "ui-audit-coverage",
+      "name": "Покрытие и оставшиеся экраны",
+      "version": 1,
+      "content": "64 scenarios:63PASS/0FAIL/1fixturegate;125 route requests:109bodyrendered/16gates/0errors. 774 source entries are catalogued, not all functionally certified. Live accounts/uploads/auth/calls/physicalGPU remain separate gates.",
+      "evidence": "ui-report.md;ui-coverage-manifest.json;ui-grouped-route-results.json",
+      "confirmationAction": "Принять отчёт как проверенный объём и сохранить перечисленные gates для дальнейшего аудита; это не подтверждение полной готовности всех функций."
+    }
+  ]
+}

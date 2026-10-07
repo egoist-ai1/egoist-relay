@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-export-fidelity-audit",
+  "version": "1",
+  "date": "2026-10-02T03:40:45.989Z",
+  "status": "source_and_fresh_live_instagram_verified",
+  "scope": "Markdown and HTML formatting only; original JSONL, transport, queue, account binding and checkpoint paths unchanged.",
+  "reproducedDefects": [
+    {
+      "id": "ig-content-omission",
+      "summary": "IG description and observedText omitted because Markdown used only text/caption.",
+      "selectedPublicJobs": [
+        {
+          "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+          "count": 3,
+          "markdownBytes": 84,
+          "jsonlSha256": "0b9a6bc1fae4a53dd5197e639a69f94e17f16977be005c299d0c07aedfd63ac0"
+        },
+        {
+          "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+          "count": 3,
+          "markdownBytes": 84,
+          "jsonlSha256": "9d8d03061b33389b922c4bdb46510a53455f1d18c682982dad173cf9a7904e50"
+        }
+      ]
+    },
+    {
+      "id": "human-readable-provenance",
+      "summary": "Previous derivatives omitted clickable original source, local media and visible field limitations; HTML without text/caption fell back to raw record JSON."
+    }
+  ],
+  "verification": {
+    "beforeActualWriterTests": {
+      "tests": 8,
+      "passed": 0,
+      "failed": 8
+    },
+    "afterActualWriterTests": {
+      "tests": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "existingWriterBrokerTests": {
+      "tests": 40,
+      "passed": 40,
+      "failed": 0
+    },
+    "publicReplays": [
+      {
+        "jobId": "daf03e0e-6795-47e6-a115-d362662c8d60",
+        "records": 3,
+        "bodyValues": 2,
+        "visibleHtmlBodiesPreserved": true,
+        "visibleMarkdownBodiesPreserved": true,
+        "localFilesLinked": 3,
+        "jsonlUnchanged": true,
+        "jsonlSha256": "0b9a6bc1fae4a53dd5197e639a69f94e17f16977be005c299d0c07aedfd63ac0",
+        "beforeMarkdownBytes": 84,
+        "afterMarkdownBytes": 8873,
+        "afterHtmlBytes": 11672
+      },
+      {
+        "jobId": "ed346049-694b-4574-9350-cdad2ec4a2c7",
+        "records": 3,
+        "bodyValues": 2,
+        "visibleHtmlBodiesPreserved": true,
+        "visibleMarkdownBodiesPreserved": true,
+        "localFilesLinked": 3,
+        "jsonlUnchanged": true,
+        "jsonlSha256": "9d8d03061b33389b922c4bdb46510a53455f1d18c682982dad173cf9a7904e50",
+        "beforeMarkdownBytes": 84,
+        "afterMarkdownBytes": 6358,
+        "afterHtmlBytes": 9175
+      }
+    ],
+    "browserCases": [
+      {
+        "width": 320,
+        "height": 1080,
+        "scroll": 320,
+        "viewport": 320,
+        "articles": 2,
+        "remoteEmbeds": 0,
+        "unsafeLinks": 0,
+        "state": "passed"
+      },
+      {
+        "width": 480,
+        "height": 1080,
+        "scroll": 480,
+        "viewport": 480,
+        "articles": 2,
+        "remoteEmbeds": 0,
+        "unsafeLinks": 0,
+        "state": "passed"
+      },
+      {
+        "width": 1280,
+        "height": 1080,
+        "scroll": 1280,
+        "viewport": 1280,
+        "articles": 2,
+        "remoteEmbeds": 0,
+        "unsafeLinks": 0,
+        "state": "passed"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "scroll": 1920,
+        "viewport": 1920,
+        "articles": 2,
+        "remoteEmbeds": 0,
+        "unsafeLinks": 0,
+        "state": "passed"
+      },
+      {
+        "format": "html",
+        "unsafeSourceText": true,
+        "remoteEmbeds": 0,
+        "unsafeLinks": 0,
+        "state": "passed"
+      },
+      {
+        "format": "markdown",
+        "unsafeSourceText": true,
+        "remoteEmbeds": 0,
+        "unsafeLinks": 0,
+        "state": "passed"
+      }
+    ],
+    "networkRequests": 0,
+    "screenshot": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-html-fullhd.png",
+    "sourceHashes": [
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\bridge-provider.mjs",
+        "bytes": 20633,
+        "sha256": "9c2454c190fbcc23704b4cc4621cc542c052853017716c9403e35f445b59a952"
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\export-format.mjs",
+        "bytes": 12323,
+        "sha256": "0a9309007f67855653108b43ae5acd2809b2cefe73a031313e9215db53d35a4f"
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\export-audit.test.mjs",
+        "bytes": 8850,
+        "sha256": "d9b8bc14f177cf5291658b070556be279c0703469746a2c1248914a2ab2cc9ab"
+      }
+    ]
+  },
+  "boundaries": [
+    "A page description is not relabelled as a recovered post caption.",
+    "No hidden API, additional account capability or private record is inferred.",
+    "All accepted fields remain in authoritative records.jsonl; the human view displays observed semantic content with its row number.",
+    "Returned partial results are labelled partial; terminal selected-job success never claims full platform/source coverage.",
+    "Failure-path accepted bytes remain in JSONL and partial-manifest.json, as before; this formatting-only patch does not generate derivatives after a failed operation.",
+    "Existing public exports were not overwritten; tests regenerated only local derivatives from the selected accepted snapshots.",
+    "Fresh Instagram generation through the updated daemon is verified for this exact public bounded job. Installed Relay remains 1.4.2; full coverage of all services and the native 1.4.3 release gates belong to the parent task."
+  ],
+  "changedFiles": [
+    "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\bridge-provider.mjs",
+    "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\export-format.mjs",
+    "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\src\\research\\export-audit.test.mjs"
+  ],
+  "reviewObjects": [
+    {
+      "id": "export-observed-content",
+      "name": "Сохранение наблюдаемого текста в экспорте",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Принять исправление форматирования в составе финального Relay/MCP.",
+      "content": "Markdown/HTML показывают уникальные text, caption, description, observedText и описания изображений. Описание страницы отмечено отдельно; JSONL сохраняется."
+    },
+    {
+      "id": "export-provenance-media",
+      "name": "Ссылки на источники и скачанные файлы",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Принять ссылки на точные источники и локальные принятые файлы.",
+      "content": "Показаны автор/время при наличии, номер строки JSONL, ссылки на источник/наблюдаемое медиа. Локальные файлы отмечены размером, MIME и SHA-256."
+    },
+    {
+      "id": "export-safe-layout",
+      "name": "Читаемые и безопасные производные документы",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Принять проверенный шаблон Markdown/HTML.",
+      "content": "HTML экранирует текст и не загружает удалённое медиа. Опасные схемы URL не интерактивны. На 320, 480, 1280 и 1920 px нет горизонтального переполнения."
+    },
+    {
+      "id": "export-honest-coverage",
+      "name": "Честное описание полноты результата",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Принять явное отображение частичности и отсутствующих полей.",
+      "content": "Частичный результат и отсутствие принятого текста видимы. Успех задания не объявляет полной выгрузки сервиса; ошибки сохраняют прежний JSONL/partial-manifest."
+    },
+    {
+      "id": "export-fresh-instagram-live",
+      "name": "Свежий экспорт Instagram через обновлённый daemon",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Принять доказательство подключения нового форматтера к действующей сессии.",
+      "content": "Три выбранные публичные записи; поля JSONL сохранены в Markdown/HTML, источники доступны как ссылки, частичность указана. Это проверка конкретного профиля и задания, а не полноты Instagram."
+    }
+  ],
+  "liveAcceptance": {
+    "receiptFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-live-instagram.json",
+    "jobId": "036b4b92-9226-4cf1-bc5a-5101757adb05",
+    "state": "partial",
+    "count": 3,
+    "daemonPid": 9116,
+    "daemonSourceHash": "8bbbb58e8063d507d121c96db644973b751a59cf3a593a8bde98b5b5615769c3",
+    "formatFiles": [
+      {
+        "name": "records.jsonl",
+        "bytes": 8351,
+        "sha256": "3d5cc0740c379ceccccb104d3628e99b5057a8b37f9f23a8efd521c544327976"
+      },
+      {
+        "name": "export.md",
+        "bytes": 8175,
+        "sha256": "e361966f8a25e288370b205aaeaf90891ba40a5a995f554cc09e3f88d47c17d3"
+      },
+      {
+        "name": "export.html",
+        "bytes": 10604,
+        "sha256": "5b146f2a123d34850a3534cabef4488599986d51e2f80ea2e94470b1316abd28"
+      },
+      {
+        "name": "export-manifest.json",
+        "bytes": 1373,
+        "sha256": "738d1db0a9e5b1d078f6bd63236cc8a65d2c6532f952faa7f571b62877712892"
+      }
+    ],
+    "renderedBrowser": {
+      "cases": [
+        {
+          "format": "html",
+          "allObservedBodiesVisible": true,
+          "sourceLinks": 3,
+          "activeEmbeds": 0,
+          "scopePartialVisible": true
+        },
+        {
+          "format": "markdown",
+          "allObservedBodiesVisible": true,
+          "sourceLinks": 3,
+          "activeEmbeds": 0,
+          "scopePartialVisible": true
+        }
+      ],
+      "networkRequests": 0,
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "isolatedHeadless": true
+    }
+  }
+}

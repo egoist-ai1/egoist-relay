@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "state": "installed_verified_telegram_x_ready_instagram_mcp_pending",
+  "recordedAt": "2026-10-02T14:52:47.704Z",
+  "exeSha256": "c7489e92a84eb8c691e90f39d6b88b7fed0d5dec412c1f0f0a79d7d340cfe4ab",
+  "runtimeCount": 40,
+  "relay": {
+    "pid": 2812,
+    "birthUtc": "2026-10-02T14:41:51.3089555Z",
+    "executablePath": "C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay\\Egoist Relay.exe",
+    "helperPid": 32756
+  },
+  "daemon": {
+    "pid": 32796,
+    "sourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+    "currentSourceHash": "dc80e54e7e3e27d2379c80eb3a324ff1f725b223256f73221bfdb89d0f14efe3",
+    "transport": "Authenticated Windows named pipe",
+    "forceStops": 0
+  },
+  "providers": [
+    {
+      "provider": "telegram",
+      "state": "ready",
+      "reason": "ready",
+      "operations": [
+        "discover",
+        "chat_info",
+        "read",
+        "search",
+        "channel_history",
+        "chat_export",
+        "download",
+        "join_chat",
+        "transcribe"
+      ]
+    },
+    {
+      "provider": "x",
+      "state": "ready",
+      "reason": "dom_account_confirmed",
+      "operations": [
+        "discover",
+        "profile",
+        "read",
+        "search",
+        "channel_history",
+        "chat_export",
+        "download",
+        "article",
+        "read_thread",
+        "transcribe"
+      ]
+    },
+    {
+      "provider": "instagram",
+      "state": "unavailable",
+      "reason": "dom_account_proof_pending",
+      "operations": [
+        "discover",
+        "profile",
+        "read",
+        "search",
+        "channel_history",
+        "chat_export",
+        "download",
+        "read_thread"
+      ]
+    }
+  ],
+  "queued": 0,
+  "running": 0,
+  "newSourceResearchJobs": 0,
+  "realMessagesSent": 0,
+  "accountContentsRead": 0,
+  "instagramUiHumanConfirmed": true,
+  "networkSettingsAndServicesPreserved": true,
+  "networkReceipt": "network-preservation-after-install.json",
+  "limits": [
+    "Instagram UI works according to the human; current automatic MCP account proof remains pending.",
+    "Readiness and finite focused tests do not certify every account feature, universal source parsing or maximum CDN/network throughput."
+  ]
+}

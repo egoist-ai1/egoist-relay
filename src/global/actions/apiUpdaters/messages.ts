@@ -268,7 +268,7 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
 
     case 'newMessage': {
       const {
-        chatId, id, message, shouldForceReply, wasDrafted, poll, webPages,
+        chatId, id, message, shouldForceReply, shouldSkipFocus, wasDrafted, poll, webPages,
       } = update;
       const chat = selectChat(global, chatId);
       const isLocal = isMessageLocal(message);
@@ -328,8 +328,8 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
         global = updateChatMediaLoadingState(global, newMessage, chatId, messageThreadId, tabId);
 
         if (selectIsMessageInCurrentMessageList(global, chatId, message, tabId)) {
-          if (isLocal && message.isOutgoing && !(message.content?.action) && !storyReplyInfo?.storyId
-            && !message.content?.storyData) {
+          if (isLocal && !shouldSkipFocus && message.isOutgoing && !(message.content?.action)
+            && !storyReplyInfo?.storyId && !message.content?.storyData) {
             const currentMessageList = selectCurrentMessageList(global, tabId);
             if (currentMessageList) {
               // We do not use `actions.focusLastMessage` as it may be set with a delay (see below)
@@ -1626,9 +1626,23 @@ export function deleteMessages<T extends GlobalState>(
 
     setTimeout(() => {
       global = getGlobal();
-      // Prevent local deletion of sent messages in case of desync
-      const stillDeletedIds = ids.filter((id) => selectChatMessage(global, chatId, id)?.isDeleting);
-      global = deleteChatMessages(global, chatId, stillDeletedIds);
+      const stillDeletedIds: number[] = [];
+      ids.forEach((id) => {
+        const msg = selectChatMessage(global, chatId, id);
+        if (!msg) return;
+        if (!msg.isOutgoing) {
+          // Anti-Delete: retain incoming messages deleted by peer
+          global = updateChatMessage(global, chatId, id, {
+            isDeleting: false,
+            isDeletedByPeer: true,
+          });
+        } else if (msg.isDeleting) {
+          stillDeletedIds.push(id);
+        }
+      });
+      if (stillDeletedIds.length) {
+        global = deleteChatMessages(global, chatId, stillDeletedIds);
+      }
       setGlobal(global);
     }, isAnimatingAsSnap ? SNAP_ANIMATION_DELAY : ANIMATION_DELAY);
 
@@ -1643,6 +1657,16 @@ export function deleteMessages<T extends GlobalState>(
     const commonBoxChatId = selectCommonBoxChatId(global, id);
     if (commonBoxChatId) {
       chatIdsToUpdate.push(commonBoxChatId);
+
+      const msg = selectChatMessage(global, commonBoxChatId, id);
+      if (msg && !msg.isOutgoing) {
+        // Anti-Delete: retain incoming messages deleted by peer
+        global = updateChatMessage(global, commonBoxChatId, id, {
+          isDeletedByPeer: true,
+          isDeleting: false,
+        });
+        return;
+      }
 
       global = updateChatMessage(global, commonBoxChatId, id, {
         isDeleting: true,

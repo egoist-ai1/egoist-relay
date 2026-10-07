@@ -50,8 +50,8 @@ const MAX_COMPLEX_LAYOUT_ROW_ITEMS = 3;
 const MAX_COMPLEX_LAYOUT_LAST_ROW_ITEMS = 4;
 const EXTENDED_LAYOUT_EXTRA_ROW_COUNT = 2;
 const MIN_EXTENDED_LAYOUT_ROW_COUNT = 5;
-const INTERNAL_LAYOUT_WIDTH = 464;
-const MIN_ITEM_WIDTH = 100;
+const INTERNAL_LAYOUT_WIDTH = 520;
+const MIN_ITEM_WIDTH = 160;
 
 function getProportions(ratios: number[]) {
   return ratios.map((ratio) => (ratio > 1.2 ? 'w' : (ratio < 0.8 ? 'n' : 'q'))).join('');
@@ -573,7 +573,11 @@ function layoutThreeTopAndOther(params: ILayoutParams) {
 }
 
 function layoutFour(params: ILayoutParams) {
-  const { proportions } = params;
+  const { proportions, ratios } = params;
+
+  if (proportions.includes('n') || ratios.some((r) => r < 0.85)) {
+    return layoutWithComplexLayouter(params);
+  }
 
   return proportions[0] === 'w'
     ? layoutFourTopAndOther(params)

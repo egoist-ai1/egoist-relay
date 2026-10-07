@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "configuration": {
+    "version": "1.4.2",
+    "tauriVersion": "2.12.0",
+    "taoVersion": "0.37.1",
+    "identifier": "com.egoist.relay",
+    "embeddedFrontend": true,
+    "updater": false,
+    "installerVariant": "generic",
+    "networkEnginesBundled": false
+  },
+  "runtime": {
+    "count": 40,
+    "retiredSourceFiles": 59,
+    "allowlistVerified": true,
+    "retiredFilesBundled": false
+  },
+  "packaging": {
+    "installerVariant": "generic",
+    "privateProvisioning": false,
+    "internalNetworkEngines": false
+  },
+  "installerPath": {
+    "fileChars": 50,
+    "directoryChars": 21,
+    "maxInstallDirectoryChars": 208,
+    "scope": "Classic Win32 path budget; no system long-path opt-in required"
+  },
+  "sources": {
+    "count": 3296,
+    "privacyScanPassed": true,
+    "scope": "Whitelisted production inputs; excludes standalone test fixtures"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "state": "current_configuration_preserved_during_isolated_smoke",
+  "recordedAt": "2026-10-02T14:39:58.717Z",
+  "comparisons": {
+    "files": true,
+    "services": true,
+    "serviceProcesses": true,
+    "lagomProcesses": true,
+    "dnsSettingsSha256": true,
+    "userProxySettingsSha256": true
+  },
+  "protectedFiles": 7,
+  "runningServices": 4,
+  "allObservedServiceBasePrioritiesUnchanged": true,
+  "lagomProcessPrioritiesAndIdentitiesUnchanged": true,
+  "systemDnsProbe": [
+    {
+      "status": "resolved",
+      "answerRecordCount": 1,
+      "domain": "www.microsoft.com",
+      "durationMs": 13
+    },
+    {
+      "status": "resolved",
+      "answerRecordCount": 1,
+      "domain": "web.telegram.org",
+      "durationMs": 75
+    },
+    {
+      "status": "resolved",
+      "answerRecordCount": 1,
+      "domain": "www.instagram.com",
+      "durationMs": 75
+    },
+    {
+      "status": "resolved",
+      "answerRecordCount": 1,
+      "domain": "x.com",
+      "durationMs": 190
+    }
+  ],
+  "mcpTransport": "Authenticated local Windows named pipes; unchanged sources; no TCP/UDP listener observed for matching MCP daemon process at this snapshot.",
+  "mutationsPerformed": [],
+  "limits": [
+    "Service PriorityClass accessor unavailable for protected service processes; CIM base Priority measured unchanged.",
+    "This before/after comparison covers the isolated installer test, not unrelated earlier host changes or future state."
+  ],
+  "sourceScope": "Frozen 3307 inputs differ from1.4.5 only4UI+5version metadata; network/Rust/MCP transports unchanged."
+}

@@ -1,0 +1,470 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-audit",
+  "version": "1",
+  "createdAt": "2026-10-02T10:16:02.717Z",
+  "status": "two_reproduced_source_quality_defects_no_production_change",
+  "scope": {
+    "selectedPublicJobs": [
+      "bc489fef-e833-403f-ac44-4d31769519d3",
+      "aa16e903-4198-4d59-bfe9-15ef4b78d358"
+    ],
+    "readOnly": true,
+    "mcpCalls": 0,
+    "relayCalls": 0,
+    "liveAccountAccess": false,
+    "networkSettingsChanges": false,
+    "productionEdits": false
+  },
+  "corpus": {
+    "pilot": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "bytes": 55299,
+      "sha256": "3ef04476dc880519e6db456e44a0b636eeda719dcd033185bfe9ccf63033f723"
+    },
+    "accepted": [
+      {
+        "operation": "discover",
+        "jobId": "bc489fef-e833-403f-ac44-4d31769519d3",
+        "input": {
+          "query": "openai",
+          "scope": "profiles",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000
+        },
+        "state": "partial",
+        "count": 1,
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3",
+        "corpus": {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\records.jsonl",
+          "bytes": 5315,
+          "sha256": "b3b9f35043412f5586781a8195329f4a59a68c379ce01a9be787cf7d8d0a7461"
+        },
+        "manifest": {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\bc489fef-e833-403f-ac44-4d31769519d3\\export-manifest.json",
+          "bytes": 1146,
+          "sha256": "431fc83e9075ae811d211bf406443aed1a4ed40841285b7fe42475eef387d4b7",
+          "sources": [],
+          "query": "openai",
+          "coverage": "platform_search",
+          "sourceCoverage": {
+            "accessible": true,
+            "completeness": "partial",
+            "extraction": "visible_dom",
+            "pagesRead": 2,
+            "recordsObserved": 1,
+            "scope": "platform_search",
+            "sourcesRead": 1,
+            "sourcesRequested": 1,
+            "unresolved": [
+              "virtualized_dom_history_incomplete"
+            ]
+          },
+          "partial": true,
+          "accountScopeBound": true
+        },
+        "records": [
+          {
+            "line": 1,
+            "lineSha256": "8490770eead63019d007babee97b9616d3b84a3469e3f4c3cb779b65b59e971e",
+            "id": "instagram:profile:/openai",
+            "type": "profile",
+            "source": "https://www.instagram.com/openai",
+            "sourceUrl": "https://www.instagram.com/openai",
+            "sourceHandle": "openai",
+            "authorObserved": false,
+            "fields": {
+              "text": {
+                "observed": true,
+                "characters": 89,
+                "sha256": "9cb15207388fb3886d6f532a5220fe1267a139fe97f0a4c89d8dea86e7db74aa"
+              },
+              "description": {
+                "observed": true,
+                "characters": 89,
+                "sha256": "9cb15207388fb3886d6f532a5220fe1267a139fe97f0a4c89d8dea86e7db74aa"
+              },
+              "observedText": {
+                "observed": false,
+                "characters": 0
+              },
+              "timestamp": {
+                "observed": false,
+                "characters": 0
+              }
+            },
+            "fieldEvidence": {
+              "description": "profile description or og:description",
+              "title": "profile header or og:title"
+            },
+            "unresolvedFields": [
+              "api_only_profile_fields_not_observed"
+            ],
+            "media": [
+              {
+                "kind": "img",
+                "descriptionCharacters": 19,
+                "descriptionSha256": "f9217f18a8d99acdc959f092927b61ae6697d95b5479a96bfe11f55850f8efb1",
+                "pageEvidence": "https://www.instagram.com/openai"
+              },
+              {
+                "kind": "img",
+                "descriptionCharacters": 0,
+                "pageEvidence": "https://www.instagram.com/openai"
+              },
+              {
+                "kind": "img",
+                "descriptionCharacters": 0,
+                "pageEvidence": "https://www.instagram.com/openai"
+              },
+              {
+                "kind": "img",
+                "descriptionCharacters": 0,
+                "pageEvidence": "https://www.instagram.com/openai"
+              }
+            ],
+            "publisherVerified": false,
+            "collaborationVerified": false
+          }
+        ]
+      },
+      {
+        "operation": "channel_history",
+        "jobId": "aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "input": {
+          "channel": "openai",
+          "limit": 2,
+          "pageSize": 2,
+          "deadlineMs": 45000,
+          "includeMedia": false
+        },
+        "state": "partial",
+        "count": 2,
+        "outputDirectory": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358",
+        "corpus": {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\records.jsonl",
+          "bytes": 5581,
+          "sha256": "591bb7a532b01f5feb7d33d2b9d3adafa78dbce60d1f4aeaa27fe921bbf0ade7"
+        },
+        "manifest": {
+          "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Материалы\\Социальные исследования\\aa16e903-4198-4d59-bfe9-15ef4b78d358\\export-manifest.json",
+          "bytes": 1350,
+          "sha256": "757c7e6ce135de481a5f8b4402fb180243adecc29191b9aa5f7725e88da50c0c",
+          "sources": [
+            "openai"
+          ],
+          "coverage": "channel",
+          "sourceCoverage": {
+            "accessible": true,
+            "completeness": "partial",
+            "extraction": "visible_dom",
+            "pagesRead": 1,
+            "recordsObserved": 2,
+            "scope": "channel",
+            "sourcesRead": 1,
+            "sourcesRequested": 1,
+            "unresolved": [
+              "virtualized_dom_history_incomplete"
+            ]
+          },
+          "partial": true,
+          "accountScopeBound": true
+        },
+        "records": [
+          {
+            "line": 1,
+            "lineSha256": "8b42a6a9ae06b321162bfc0f0e4d76bed23ff65a5352d10c8eda9f648546e897",
+            "id": "instagram:Dc1ldDJyZDj",
+            "type": "reel",
+            "source": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+            "sourceUrl": "https://www.instagram.com/chatgpt/reel/Dc1ldDJyZDj",
+            "sourceHandle": "chatgpt",
+            "authorObserved": false,
+            "author": {},
+            "fields": {
+              "text": {
+                "observed": false,
+                "characters": 0
+              },
+              "description": {
+                "observed": true,
+                "characters": 89,
+                "sha256": "9cb15207388fb3886d6f532a5220fe1267a139fe97f0a4c89d8dea86e7db74aa"
+              },
+              "observedText": {
+                "observed": true,
+                "characters": 31,
+                "sha256": "2d60abf9de7507d092db6e238e35dbbbec409238250e485ccae9624c69d526c4"
+              },
+              "timestamp": {
+                "observed": false,
+                "characters": 0
+              }
+            },
+            "fieldEvidence": {
+              "media": "img/video/source/track",
+              "text": "article h1 or meta[og:description]"
+            },
+            "unresolvedFields": [
+              "api_only_fields_not_observed",
+              "caption_not_observed",
+              "timestamp_not_observed"
+            ],
+            "media": [
+              {
+                "kind": "img",
+                "descriptionCharacters": 1555,
+                "descriptionSha256": "3f7889e22355c11ed4bf6e168d9a1eb93fd79610b8724c431f6ec3ebe28b3e51",
+                "pageEvidence": "https://www.instagram.com/openai"
+              }
+            ],
+            "publisherVerified": false,
+            "collaborationVerified": false
+          },
+          {
+            "line": 2,
+            "lineSha256": "0b87e831e1db9e6cf14fa55beaef75601e5f433c55d1386d63978557fa03873c",
+            "id": "instagram:DalMyY0t0lp",
+            "type": "reel",
+            "source": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp",
+            "sourceUrl": "https://www.instagram.com/chatgpt/reel/DalMyY0t0lp",
+            "sourceHandle": "chatgpt",
+            "authorObserved": false,
+            "author": {},
+            "fields": {
+              "text": {
+                "observed": false,
+                "characters": 0
+              },
+              "description": {
+                "observed": true,
+                "characters": 89,
+                "sha256": "9cb15207388fb3886d6f532a5220fe1267a139fe97f0a4c89d8dea86e7db74aa"
+              },
+              "observedText": {
+                "observed": true,
+                "characters": 31,
+                "sha256": "2d60abf9de7507d092db6e238e35dbbbec409238250e485ccae9624c69d526c4"
+              },
+              "timestamp": {
+                "observed": false,
+                "characters": 0
+              }
+            },
+            "fieldEvidence": {
+              "media": "img/video/source/track",
+              "text": "article h1 or meta[og:description]"
+            },
+            "unresolvedFields": [
+              "api_only_fields_not_observed",
+              "caption_not_observed",
+              "timestamp_not_observed"
+            ],
+            "media": [
+              {
+                "kind": "img",
+                "descriptionCharacters": 606,
+                "descriptionSha256": "f07a32775509a3c6901a53e9bd1284d923ea383f1cf7b5ab4339a619bb83034a",
+                "pageEvidence": "https://www.instagram.com/openai"
+              }
+            ],
+            "publisherVerified": false,
+            "collaborationVerified": false
+          }
+        ]
+      }
+    ],
+    "originalsUnchanged": true
+  },
+  "sources": {
+    "helpers": [
+      {
+        "label": "installed-1.4.2",
+        "file": "C:/Users/Egoist/AppData/Local/Egoist Relay/runtime/research/social-read.js",
+        "bytes": 31561,
+        "sha256": "892b7a56c9051212121beacf7e4cfc4b91956d2cbc91c072cd9d2091ab2b9338"
+      },
+      {
+        "label": "candidate-1.4.4",
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+        "bytes": 34188,
+        "sha256": "162335eccc2d6ff1676cd6fc069ce9b62bef077d89a4857ace392ade9450ddd8"
+      }
+    ],
+    "native": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+      "bytes": 88662,
+      "sha256": "c10f737215e3acafaec73d87aa88490dccc4cb45211eb03a58da3a696f7beaa8",
+      "executionVerifiedHere": false
+    },
+    "test": {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\instagram-attribution-audit.test.mjs",
+      "sha256": "ca380a124689811199732525e36a6e78d8447c628e199d7bd7e28b6c4f367953"
+    },
+    "references": [
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+        "line": 50,
+        "contract": "JS canonical preserves handle-shaped post pathname while enforcing first-party HTTPS."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+        "line": 285,
+        "contract": "Observed permalink, header text, h1/current-page OG text, time and unconditional page OG description."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+        "line": 374,
+        "contract": "Collect uses articles or main post/reel anchors; DOM relation to profile publisher/collaborator is not recorded."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\runtime\\research\\social-read.js",
+        "line": 591,
+        "contract": "Different page target is rejected; same shortcode reel navigation aliases are accepted."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+        "line": 321,
+        "contract": "Native canonical post locator strips optional handle; accepts only validated kind/shortcode."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+        "line": 662,
+        "contract": "Strict first-party HTTPS target route equality, with canonical same-post alias support."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+        "line": 1821,
+        "contract": "Record sources require first-party origin/provider/schema; publisher relation to selected profile is not asserted."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+        "line": 2051,
+        "contract": "Reply must match the actual app-owned document URL."
+      },
+      {
+        "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\tauri\\src\\research_social.rs",
+        "line": 2179,
+        "contract": "Post-auth data also require current phase, account/epoch/identity and expected source."
+      }
+    ]
+  },
+  "actualFindings": [
+    {
+      "id": "profile-context-vs-publisher",
+      "classification": "unverifiable_publisher_relationship",
+      "observed": "Selected channel openai produced two observed first-party /chatgpt/reel locators. Author, caption and timestamp are absent; no collaborator field exists.",
+      "conclusion": "The data prove accepted links collected under the selected profile-page job, not ownership, collaboration or a redirect. A different handle in URL alone cannot establish a real publisher.",
+      "fabricatedPublisherFound": false,
+      "collaborationVerified": false
+    },
+    {
+      "id": "page-metadata-provenance",
+      "classification": "reproduced_provenance_defect",
+      "profileDescriptionHash": "9cb15207388fb3886d6f532a5220fe1267a139fe97f0a4c89d8dea86e7db74aa",
+      "profileDescriptionRepeatedAcrossReels": true,
+      "observed": "Each reel.description equals the selected profile discovery description; fieldEvidence has no description page provenance, and captions are explicitly unobserved.",
+      "conclusion": "Observed page metadata was copied, not invented, but attaching it to reel.description without explicit profile-page provenance is ambiguous. Current human formatter labels it page description; raw record consumers still need a clear context field."
+    },
+    {
+      "id": "same-shortcode-caption-alias",
+      "classification": "reproduced_content_omission",
+      "observed": "Both actual helpers accept /reel/ID page for /chatgpt/reel/ID request, but drop the OG-caption text fallback when the observed anchor preserves the handle.",
+      "conclusion": "Canonical path comparison differs between target acceptance/native normalization and caption fallback. This loses an observed page-specific caption on an otherwise accepted same-post alias."
+    }
+  ],
+  "tests": {
+    "receiptFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-test-receipt-v3.json",
+    "receiptSha256": "8256e6dd9b7ce36d414d5f032a007c885f8c15927ba326031976cd26bec18758",
+    "cases": 12,
+    "pass": 8,
+    "fail": 4,
+    "exitCode": 1,
+    "expectedContractFailures": [
+      "profile-metadata-provenance-contract",
+      "same-shortcode-alias-caption-contract"
+    ],
+    "helpersExecuted": [
+      "installed-1.4.2",
+      "candidate-1.4.4"
+    ],
+    "outgoingNetworkRequests": 0,
+    "liveSourceClaims": false,
+    "fixtureTransport": "JSON serialization matches the app wire shape.",
+    "initialHarnessCorrection": "First receipt retained separately; synthetic transport originally retained JS undefined keys. It was corrected to JSON roundtrip before the v2 diagnostic count; those extra failures were fixture errors, not production defects. v3 also aligns fixture target envelopes with the inspected native canonical routing. Both real contract failures persist.",
+    "envelopeFidelity": "v3 requests use native canonical /reel/ID targets; profile target guard uses channel_history, as in the real operation contract."
+  },
+  "proposals": [
+    {
+      "id": "explicit-page-provenance",
+      "apply": false,
+      "change": "Keep observed profile metadata under pageMetadata with sourceUrl; add sourceContext with selected profile/document locator and collection kind. Expose publisher_unobserved/collaboration_unverified when there is no explicit detail evidence. Verify page locator against native document binding before accepting it.",
+      "preserve": [
+        "Original observed post URL",
+        "First-party origin/source guards",
+        "Account identity/epoch binding",
+        "No author inferred from URL prefix"
+      ]
+    },
+    {
+      "id": "bounded-detail-attribution",
+      "apply": false,
+      "change": "A future explicitly selected exact-post read may supply observed header/caption/time and collaboration evidence. Missing evidence must stay missing; no private API or automatic broad follow-up crawl.",
+      "preserve": [
+        "Selected public sources only",
+        "No claims of universal/full platform access",
+        "No account mutation"
+      ]
+    },
+    {
+      "id": "consistent-same-post-caption",
+      "apply": false,
+      "change": "Use one strict first-party same-post locator comparison for caption fallback, aligned with native validated kind/shortcode aliases. Only accept metadata for that same exact post; reject different IDs/origins or malformed routes.",
+      "preserve": [
+        "Native origin, source and author-evidence guards",
+        "Existing wrong-profile/wrong-shortcode rejection",
+        "No profile biography promoted to post caption"
+      ]
+    }
+  ],
+  "remainingGates": [
+    "Real publisher or collaboration relationship for the two observed public reels is not established by current saved evidence.",
+    "Potential recommendation-vs-profile-grid membership cannot be decided: collect accepts broad main articles/anchors and records do not identify grid membership. No claim is made that real recommendations caused this result.",
+    "Native rules are inspected and their existing tests located, but native WebView binding was not executed by this browser fixture audit.",
+    "Parent owns frozen release/manual installation decisions and any later fix; this investigation did not reopen or edit production sources."
+  ],
+  "reviewObjects": [
+    {
+      "id": "ig-profile-publisher-uncertainty",
+      "name": "Разделение страницы профиля и автора reel",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Сохранить авторство и совместную публикацию как непроверенные до отдельного точного доказательства.",
+      "content": "Выборка openai содержит наблюдённые /chatgpt/reel ссылки. Подпись, автор и дата отсутствуют; URL сам по себе не доказывает издателя или коллаборацию."
+    },
+    {
+      "id": "ig-page-description-provenance",
+      "name": "Происхождение описания страницы",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Рассмотреть явный pageMetadata/sourceContext в следующем исправлении после решения родительской задачи.",
+      "content": "Описание выбранного профиля копируется в description каждого reel без точной fieldEvidence. Поле реально наблюдалось, но его связь с постом не доказана."
+    },
+    {
+      "id": "ig-alias-caption-omission",
+      "name": "Потеря подписи при допустимом адресе того же reel",
+      "version": "1",
+      "decision": "unreviewed",
+      "action": "Рассмотреть строгое согласование сравнения одинакового поста с native binding.",
+      "content": "Оба helper принимают одинаковый shortcode по alias, но fallback OG caption может не попасть в text. Чужие профили и другие shortcode продолжают отвергаться."
+    }
+  ],
+  "proposal": {
+    "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-proposal.json",
+    "patchFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\instagram-attribution-proposal.patch",
+    "patchSha256": "a4d35e762c13a99d5c3c506c6a90c3e84acc8b48f5e2e36806d53b7fdbfe4c7b",
+    "applied": false,
+    "executed": false
+  }
+}

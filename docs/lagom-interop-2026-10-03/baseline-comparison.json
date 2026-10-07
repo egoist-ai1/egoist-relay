@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "baseline": "docs/release-1.4.6/source-freeze.json",
+  "candidate": "source-freeze-build-start.json",
+  "baselineInputCount": 3307,
+  "candidateInputCount": 3307,
+  "changedInputs": [
+    {
+      "path": "scripts/telegram-transport.mjs",
+      "beforeSha256": "f79f9d8959c19b00766ecaa607318d6fcb3d1faa576cae1054d769a45b155597",
+      "afterSha256": "465cf8a23921b195bdc80f54336f8f5fa6070f45cba3627beebdab6a7d2e323e"
+    },
+    {
+      "path": "src/components/App.tsx",
+      "beforeSha256": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+      "afterSha256": "dc3897c4bd92b65ce3f47d4d1d6eac2ee3b4ab0642a755436298c87697326740"
+    },
+    {
+      "path": "tauri/src/lib.rs",
+      "beforeSha256": "7956b8c01495c857f41da32ee50fa1d1bde3756136a644d858c5705936c582d8",
+      "afterSha256": "3519218eef435c4c32edc9b4d5987b1aa274508fa3c9c4964b6d6cb532c40506"
+    },
+    {
+      "path": "tauri/src/telegram_transport.rs",
+      "beforeSha256": "aa0426e350cb1c4118f364bdcb4f5c646bf870d76cc5263b8c002ee94410429b",
+      "afterSha256": "ac7d9f521ee818fc729e16adc09e8731d9c38a65d47991b129d60dd7bd0ec59c"
+    }
+  ],
+  "expectedOwnedPaths": [
+    "scripts/telegram-transport.mjs",
+    "tauri/src/telegram_transport.rs",
+    "tauri/src/lib.rs",
+    "src/components/App.tsx"
+  ],
+  "onlyExpectedOwnedPathsChanged": true
+}

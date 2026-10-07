@@ -1,0 +1,509 @@
+{
+  "state": "source_verified_package_pending",
+  "reviewObjects": [
+    {
+      "name": "Иконки Reels выровнены; Telegram после Поделиться",
+      "version": "1.4.6-alignment-v1",
+      "id": "relay-reels-action-rail-alignment",
+      "decision": "unreviewed",
+      "comment": ""
+    },
+    {
+      "name": "Короткая подпись Нравятся и сохранение числовых счётчиков",
+      "version": "1.4.6-label-v1",
+      "id": "relay-reels-short-like-label",
+      "decision": "unreviewed",
+      "comment": ""
+    }
+  ],
+  "sourceSha256": "17ecb40602ea3ed80eb161b3c2c9a37acd99a00b5d8234db9b30be15ad562024",
+  "recordedAt": "2026-10-02T13:36:56.5180789+00:00",
+  "fixtureSha256": "7071a79ed70929c9edd737db9ec4e62209afa6d8951ae3eb195ce13d7c2b7ff9",
+  "version": "reel-actions-alignment-1.4.6-v2",
+  "scope": "Synthetic trusted-click browser: feed,openedDM,narrow,RTLroot20; all outbound network blocked; no native account/media speed certification",
+  "schemaVersion": 1,
+  "baseline": {
+    "sourceSha256": "814f9c99aa491e0acbd10841be3eb8277f40d30f89ab11f8ca269353f197b856",
+    "scope": "same synthetic RussianUTF8 vertical rail geometry; expected original failure",
+    "summary": {
+      "pass": 0,
+      "fail": 4,
+      "pageErrors": 0
+    }
+  },
+  "final": {
+    "label": "1.4.6",
+    "sourceSha256": "17ecb40602ea3ed80eb161b3c2c9a37acd99a00b5d8234db9b30be15ad562024",
+    "cases": [
+      {
+        "id": "feed",
+        "result": "pass",
+        "geometry": {
+          "rail": {
+            "x": 408,
+            "y": 32,
+            "width": 72,
+            "height": 640,
+            "top": 32,
+            "right": 480,
+            "bottom": 672,
+            "left": 408
+          },
+          "telegram": {
+            "x": 422,
+            "y": 404,
+            "width": 44,
+            "height": 44,
+            "top": 404,
+            "right": 466,
+            "bottom": 448,
+            "left": 422
+          },
+          "parentId": "rail",
+          "icons": [
+            {
+              "x": 432,
+              "y": 168,
+              "width": 24,
+              "height": 24,
+              "top": 168,
+              "right": 456,
+              "bottom": 192,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 232,
+              "width": 24,
+              "height": 24,
+              "top": 232,
+              "right": 456,
+              "bottom": 256,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 296,
+              "width": 24,
+              "height": 24,
+              "top": 296,
+              "right": 456,
+              "bottom": 320,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 360,
+              "width": 24,
+              "height": 24,
+              "top": 360,
+              "right": 456,
+              "bottom": 384,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 414,
+              "width": 24,
+              "height": 24,
+              "top": 414,
+              "right": 456,
+              "bottom": 438,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 468,
+              "width": 24,
+              "height": 24,
+              "top": 468,
+              "right": 456,
+              "bottom": 492,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 512,
+              "width": 24,
+              "height": 24,
+              "top": 512,
+              "right": 456,
+              "bottom": 536,
+              "left": 432
+            }
+          ],
+          "label": {
+            "x": 417.6875,
+            "y": 198,
+            "width": 52.625,
+            "height": 14,
+            "top": 198,
+            "right": 470.3125,
+            "bottom": 212,
+            "left": 417.6875
+          },
+          "labelTitle": "",
+          "labelText": "Нравятся",
+          "counts": [
+            "4",
+            "31"
+          ]
+        }
+      },
+      {
+        "id": "dm",
+        "result": "pass",
+        "geometry": {
+          "rail": {
+            "x": 408,
+            "y": 32,
+            "width": 72,
+            "height": 640,
+            "top": 32,
+            "right": 480,
+            "bottom": 672,
+            "left": 408
+          },
+          "telegram": {
+            "x": 422,
+            "y": 404,
+            "width": 44,
+            "height": 44,
+            "top": 404,
+            "right": 466,
+            "bottom": 448,
+            "left": 422
+          },
+          "parentId": "rail",
+          "icons": [
+            {
+              "x": 432,
+              "y": 168,
+              "width": 24,
+              "height": 24,
+              "top": 168,
+              "right": 456,
+              "bottom": 192,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 232,
+              "width": 24,
+              "height": 24,
+              "top": 232,
+              "right": 456,
+              "bottom": 256,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 296,
+              "width": 24,
+              "height": 24,
+              "top": 296,
+              "right": 456,
+              "bottom": 320,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 360,
+              "width": 24,
+              "height": 24,
+              "top": 360,
+              "right": 456,
+              "bottom": 384,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 414,
+              "width": 24,
+              "height": 24,
+              "top": 414,
+              "right": 456,
+              "bottom": 438,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 468,
+              "width": 24,
+              "height": 24,
+              "top": 468,
+              "right": 456,
+              "bottom": 492,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 512,
+              "width": 24,
+              "height": 24,
+              "top": 512,
+              "right": 456,
+              "bottom": 536,
+              "left": 432
+            }
+          ],
+          "label": {
+            "x": 417.6875,
+            "y": 198,
+            "width": 52.625,
+            "height": 14,
+            "top": 198,
+            "right": 470.3125,
+            "bottom": 212,
+            "left": 417.6875
+          },
+          "labelTitle": "",
+          "labelText": "Нравятся",
+          "counts": [
+            "4",
+            "31"
+          ]
+        }
+      },
+      {
+        "id": "narrow",
+        "result": "pass",
+        "geometry": {
+          "rail": {
+            "x": 408,
+            "y": 32,
+            "width": 72,
+            "height": 640,
+            "top": 32,
+            "right": 480,
+            "bottom": 672,
+            "left": 408
+          },
+          "telegram": {
+            "x": 422,
+            "y": 404,
+            "width": 44,
+            "height": 44,
+            "top": 404,
+            "right": 466,
+            "bottom": 448,
+            "left": 422
+          },
+          "parentId": "rail",
+          "icons": [
+            {
+              "x": 432,
+              "y": 168,
+              "width": 24,
+              "height": 24,
+              "top": 168,
+              "right": 456,
+              "bottom": 192,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 232,
+              "width": 24,
+              "height": 24,
+              "top": 232,
+              "right": 456,
+              "bottom": 256,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 296,
+              "width": 24,
+              "height": 24,
+              "top": 296,
+              "right": 456,
+              "bottom": 320,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 360,
+              "width": 24,
+              "height": 24,
+              "top": 360,
+              "right": 456,
+              "bottom": 384,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 414,
+              "width": 24,
+              "height": 24,
+              "top": 414,
+              "right": 456,
+              "bottom": 438,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 468,
+              "width": 24,
+              "height": 24,
+              "top": 468,
+              "right": 456,
+              "bottom": 492,
+              "left": 432
+            },
+            {
+              "x": 432,
+              "y": 512,
+              "width": 24,
+              "height": 24,
+              "top": 512,
+              "right": 456,
+              "bottom": 536,
+              "left": 432
+            }
+          ],
+          "label": {
+            "x": 417.6875,
+            "y": 198,
+            "width": 52.625,
+            "height": 14,
+            "top": 198,
+            "right": 470.3125,
+            "bottom": 212,
+            "left": 417.6875
+          },
+          "labelTitle": "",
+          "labelText": "Нравятся",
+          "counts": [
+            "4",
+            "31"
+          ]
+        }
+      },
+      {
+        "id": "rtl-scaled",
+        "result": "pass",
+        "geometry": {
+          "rail": {
+            "x": 480,
+            "y": 32,
+            "width": 72,
+            "height": 640,
+            "top": 32,
+            "right": 552,
+            "bottom": 672,
+            "left": 480
+          },
+          "telegram": {
+            "x": 488.5,
+            "y": 398.5,
+            "width": 55,
+            "height": 55,
+            "top": 398.5,
+            "right": 543.5,
+            "bottom": 453.5,
+            "left": 488.5
+          },
+          "parentId": "rail",
+          "icons": [
+            {
+              "x": 504,
+              "y": 162.5,
+              "width": 24,
+              "height": 24,
+              "top": 162.5,
+              "right": 528,
+              "bottom": 186.5,
+              "left": 504
+            },
+            {
+              "x": 504,
+              "y": 226.5,
+              "width": 24,
+              "height": 24,
+              "top": 226.5,
+              "right": 528,
+              "bottom": 250.5,
+              "left": 504
+            },
+            {
+              "x": 504,
+              "y": 290.5,
+              "width": 24,
+              "height": 24,
+              "top": 290.5,
+              "right": 528,
+              "bottom": 314.5,
+              "left": 504
+            },
+            {
+              "x": 504,
+              "y": 354.5,
+              "width": 24,
+              "height": 24,
+              "top": 354.5,
+              "right": 528,
+              "bottom": 378.5,
+              "left": 504
+            },
+            {
+              "x": 501,
+              "y": 411,
+              "width": 30,
+              "height": 30,
+              "top": 411,
+              "right": 531,
+              "bottom": 441,
+              "left": 501
+            },
+            {
+              "x": 504,
+              "y": 473.5,
+              "width": 24,
+              "height": 24,
+              "top": 473.5,
+              "right": 528,
+              "bottom": 497.5,
+              "left": 504
+            },
+            {
+              "x": 504,
+              "y": 517.5,
+              "width": 24,
+              "height": 24,
+              "top": 517.5,
+              "right": 528,
+              "bottom": 541.5,
+              "left": 504
+            }
+          ],
+          "label": {
+            "x": 489.6875,
+            "y": 192.5,
+            "width": 52.625,
+            "height": 14,
+            "top": 192.5,
+            "right": 542.3125,
+            "bottom": 206.5,
+            "left": 489.6875
+          },
+          "labelTitle": "",
+          "labelText": "Нравятся",
+          "counts": [
+            "4",
+            "31"
+          ]
+        }
+      }
+    ],
+    "pageErrors": [],
+    "realMessages": 0,
+    "network": "all blocked; synthetic documents only",
+    "summary": {
+      "pass": 4,
+      "fail": 0,
+      "pageErrors": 0
+    }
+  },
+  "placeholderRerender": "NativeText.data sameplaceholder=>Нравятся; newnumeric17 retained; routecleanup restores ownclasses only"
+}

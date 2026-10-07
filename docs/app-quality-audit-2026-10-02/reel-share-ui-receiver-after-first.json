@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "label": "after-first",
+  "generatedAt": "2026-10-02T11:28:23.148Z",
+  "renderer": "Actual App boot -> trusted Instagram service switch -> existing native multi-social-share listener -> SocialShareModal -> RecipientPicker",
+  "sourceHashes": {
+    "src/components/App.tsx": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+    "src/components/multi/SocialShareModal.tsx": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4",
+    "src/components/multi/socialShare.ts": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a",
+    "src/components/common/RecipientPicker.tsx": "d2fe5e772e543226d452b7096da11fa17e8641915a340c0d108dc307c2c22810",
+    "src/components/common/pickers/ChatOrUserPicker.tsx": "17dd01cdd244907d1f87a2cbb607428f65cedf364a20400eaf079aa53ef0900e"
+  },
+  "evidenceScope": "Existing MockClient synthetic state; native mock only. Only sendMessageLocal/sendMessage with socialShareRandomId stop at local callback; no real account/message transport.",
+  "cases": [],
+  "errors": [],
+  "blockedRequests": 0,
+  "fatal": "Error: page.waitForFunction: TypeError: Cannot read properties of undefined (reading 'byId')\n    at Object.state (http://127.0.0.1:1261/scripts/relay-social-share-reels.fixture.tsx:10:43)\n    at eval (eval at predicate (eval at evaluate (:303:30)), <anonymous>:1:30)\n    at predicate (eval at evaluate (:303:30), <anonymous>:7:27)\n    at next (eval at evaluate (:303:30), <anonymous>:29:33)\n    at eval (eval at evaluate (:303:30), <anonymous>:42:13)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "16043412f774229178cbc383d2d4f38a86e8bec3347d658c96bd10a05c610b1c",
+    "src/components/multi/SocialShareModal.tsx": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4",
+    "src/components/multi/socialShare.ts": "7752d582d40b8ee3732ec843d6ad396889558a33ffd8e3464b42edf0508f975a",
+    "src/components/common/RecipientPicker.tsx": "d2fe5e772e543226d452b7096da11fa17e8641915a340c0d108dc307c2c22810",
+    "src/components/common/pickers/ChatOrUserPicker.tsx": "17dd01cdd244907d1f87a2cbb607428f65cedf364a20400eaf079aa53ef0900e"
+  },
+  "sourcesUnchanged": true,
+  "summary": {
+    "total": 0,
+    "pass": 0,
+    "fail": 0,
+    "pageErrors": 0,
+    "fatal": "Error: page.waitForFunction: TypeError: Cannot read properties of undefined (reading 'byId')\n    at Object.state (http://127.0.0.1:1261/scripts/relay-social-share-reels.fixture.tsx:10:43)\n    at eval (eval at predicate (eval at evaluate (:303:30)), <anonymous>:1:30)\n    at predicate (eval at evaluate (:303:30), <anonymous>:7:27)\n    at next (eval at evaluate (:303:30), <anonymous>:29:33)\n    at eval (eval at evaluate (:303:30), <anonymous>:42:13)\n    at UtilityScript.evaluate (<anonymous>:305:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)",
+    "unhandled": 0
+  }
+}

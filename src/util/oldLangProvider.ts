@@ -13,7 +13,7 @@ import { createCallbackManager } from './callbacks';
 import { loadAndChangeLanguage } from './localization';
 import { formatInteger } from './textFormat';
 
-const FALLBACK_LANG_CODE = 'en';
+const FALLBACK_LANG_CODE = 'ru';
 
 export interface LangFn {
   (key: string, value?: any, format?: 'i', pluralValue?: number): string;
@@ -127,6 +127,10 @@ function createLangFn() {
       if (cached) {
         return cached;
       }
+    }
+
+    if (key === 'MessageUnsupported') {
+      return 'Содержимое сообщения';
     }
 
     const langString = langPack?.[key];

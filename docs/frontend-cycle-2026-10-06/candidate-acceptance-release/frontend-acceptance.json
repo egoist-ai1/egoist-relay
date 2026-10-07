@@ -1,0 +1,1231 @@
+{
+  "generatedAt": "2026-10-06T11:09:38.080Z",
+  "sources": {
+    "src/styles/index.scss": "e85e58b80400ab34064889a8abe39c6a6d2b2b3ded46afcc7cc456c79ce47ebf",
+    "src/util/antigravityThemes.ts": "1d068eecf76599ae68ed32720403a354d20ce2f397339a585a2625b068e22d23",
+    "src/util/applyMessageTextSize.ts": "2cd5eff4692f195946225ed8c3177e3e9b06efe0b746feeb82c95f5f412b22c9",
+    "src/components/main/Main.scss": "cf77ccaa3ca51138ce0fb6ec3eef55135e0ced20f02c10f18d4f304a684da3a6",
+    "src/components/middle/MiddleHeader.scss": "cda8da9a71997106bbf835d77c71623e861649dcfc9f135af452d08b56493acc",
+    "src/components/middle/MiddleColumn.scss": "85505d42543451111a4d50bcfe0ce069406f5da11f3b2eeffd36bde9d099222d",
+    "src/components/multi/MediaOperationsPanel.module.scss": "5ffe85181db2f8cd0a5934ab62668558fd376c8c02ba204471dc36753ab809cb",
+    "scripts/relay-frontend-acceptance.mjs": "039e2a26d799e83bf19967de16bded35f5ac8dc66544d002f822ac101cf2ab5c"
+  },
+  "transport": "Actual App with existing MockClient and terminal native mocks",
+  "limitations": [
+    "No live Telegram/network/file effects",
+    "Headless Edge, not native WebView2/DPI/GPU"
+  ],
+  "cases": [
+    {
+      "id": "black-surfaces-aligned-header",
+      "status": "pass",
+      "detail": {
+        "body": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "bottom": 1080,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "bottom": 1080,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "header": {
+          "x": 408,
+          "y": 40,
+          "width": 1512,
+          "height": 48,
+          "bottom": 88,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "left": {
+          "x": 72,
+          "y": 40,
+          "width": 336,
+          "height": 1040,
+          "bottom": 1080,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "middle": {
+          "x": 408,
+          "y": 40,
+          "width": 1512,
+          "height": 1040,
+          "bottom": 1080,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "composer": {
+          "x": 800,
+          "y": 1008,
+          "width": 728,
+          "height": 56,
+          "bottom": 1064,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "background": {
+          "x": 408,
+          "y": 40,
+          "width": 1512,
+          "height": 1040,
+          "bottom": 1080,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "input": {
+          "x": 848,
+          "y": 1012,
+          "width": 544,
+          "height": 48,
+          "bottom": 1060,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(255, 255, 255)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "placeholder": {
+          "x": 852,
+          "y": 1021.5,
+          "width": 68.796875,
+          "height": 21,
+          "bottom": 1042.5,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(160, 160, 160)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "message": {
+          "x": 872,
+          "y": 920.328125,
+          "width": 152.484375,
+          "height": 66.671875,
+          "bottom": 987,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "clip"
+        },
+        "layers": [
+          {
+            "className": "messages-container",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "Transition_slide Transition_slide-active",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "Transition MessageList custom-scroll with-default-bg with-bottom-snap",
+            "bg": "rgb(0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "Transition_slide Transition_slide-active",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "Transition",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          }
+        ],
+        "nominalSize": "16"
+      }
+    },
+    {
+      "id": "reading-width-1100-with-panel",
+      "status": "pass",
+      "detail": {
+        "body": {
+          "x": 0,
+          "y": 0,
+          "width": 1100,
+          "height": 800,
+          "bottom": 800,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 1100,
+          "height": 800,
+          "bottom": 800,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "header": {
+          "x": 328,
+          "y": 40,
+          "width": 388,
+          "height": 48,
+          "bottom": 88,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "left": {
+          "x": 72,
+          "y": 40,
+          "width": 256,
+          "height": 760,
+          "bottom": 800,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "middle": {
+          "x": 328,
+          "y": 40,
+          "width": 388,
+          "height": 760,
+          "bottom": 800,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "composer": {
+          "x": 348,
+          "y": 728,
+          "width": 348,
+          "height": 56,
+          "bottom": 784,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "background": {
+          "x": 328,
+          "y": 40,
+          "width": 388,
+          "height": 760,
+          "bottom": 800,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "input": {
+          "x": 396,
+          "y": 732,
+          "width": 164,
+          "height": 48,
+          "bottom": 780,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(255, 255, 255)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "placeholder": {
+          "x": 408,
+          "y": 741.5,
+          "width": 68.796875,
+          "height": 21,
+          "bottom": 762.5,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(160, 160, 160)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "hidden"
+        },
+        "message": {
+          "x": 419.6875,
+          "y": 430.640625,
+          "width": 259.3125,
+          "height": 47.34375,
+          "bottom": 477.984375,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "clip"
+        },
+        "panel": {
+          "x": 716,
+          "y": 40,
+          "width": 384,
+          "height": 760,
+          "bottom": 800,
+          "bg": "rgb(16, 16, 16)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "visible"
+        },
+        "list": {
+          "x": 717,
+          "y": 145.1875,
+          "width": 383,
+          "height": 565.875,
+          "bottom": 711.0625,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "16px",
+          "overflow": "auto"
+        },
+        "footer": {
+          "x": 717,
+          "y": 711.0625,
+          "width": 383,
+          "height": 88.9375,
+          "bottom": 800,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(160, 160, 160)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "11px",
+          "overflow": "auto"
+        },
+        "layers": [
+          {
+            "className": "MediaOperationsPanel-module__file",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "MediaOperationsPanel-module__operation",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "MediaOperationsPanel-module__list",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "MediaOperationsPanel-module__content",
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none"
+          },
+          {
+            "className": "MediaOperationsPanel-module__root",
+            "bg": "rgb(16, 16, 16)",
+            "image": "none"
+          }
+        ],
+        "nominalSize": "16"
+      }
+    },
+    {
+      "id": "result-after-notification-duration",
+      "status": "pass",
+      "detail": {
+        "elapsedMs": 6200,
+        "result": "Сохранение\nInstagram\n6 окт., 14:09\nНабережная.jpg\n\nГотово\n\nНабережная.jpg\n3.0 MiB · image/jpeg · 3000 × 2000\nОткрыть файл\nПоказать в папке\nК источнику"
+      }
+    },
+    {
+      "id": "text-200-percent-and-configured-size",
+      "status": "pass",
+      "detail": {
+        "before": {
+          "body": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "header": {
+            "x": 408,
+            "y": 40,
+            "width": 1512,
+            "height": 48,
+            "bottom": 88,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "left": {
+            "x": 72,
+            "y": 40,
+            "width": 336,
+            "height": 1040,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "middle": {
+            "x": 408,
+            "y": 40,
+            "width": 1512,
+            "height": 1040,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "composer": {
+            "x": 800,
+            "y": 1008,
+            "width": 728,
+            "height": 56,
+            "bottom": 1064,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "background": {
+            "x": 408,
+            "y": 40,
+            "width": 1512,
+            "height": 1040,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "input": {
+            "x": 848,
+            "y": 1012,
+            "width": 544,
+            "height": 48,
+            "bottom": 1060,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(255, 255, 255)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "placeholder": {
+            "x": 852,
+            "y": 1021.5,
+            "width": 68.796875,
+            "height": 21,
+            "bottom": 1042.5,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(160, 160, 160)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "message": {
+            "x": 872,
+            "y": 777.984375,
+            "width": 383.703125,
+            "height": 23.671875,
+            "bottom": 801.65625,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "clip"
+          },
+          "layers": [
+            {
+              "className": "messages-container",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition MessageList custom-scroll with-default-bg with-bottom-snap",
+              "bg": "rgb(0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            }
+          ],
+          "nominalSize": "16"
+        },
+        "after": {
+          "body": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "header": {
+            "x": 659.03125,
+            "y": 80,
+            "width": 1260.96875,
+            "height": 96,
+            "bottom": 176,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "left": {
+            "x": 144,
+            "y": 80,
+            "width": 515.03125,
+            "height": 1000,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "middle": {
+            "x": 659.03125,
+            "y": 80,
+            "width": 1260.96875,
+            "height": 1000,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "composer": {
+            "x": 699.03125,
+            "y": 936,
+            "width": 1180.96875,
+            "height": 112,
+            "bottom": 1048,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "background": {
+            "x": 659.03125,
+            "y": 80,
+            "width": 1260.96875,
+            "height": 1000,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "input": {
+            "x": 795.03125,
+            "y": 944,
+            "width": 812.96875,
+            "height": 96,
+            "bottom": 1040,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(255, 255, 255)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "placeholder": {
+            "x": 803.03125,
+            "y": 963,
+            "width": 137.59375,
+            "height": 42,
+            "bottom": 1005,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(160, 160, 160)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "message": {
+            "x": 841.03125,
+            "y": 448.921875,
+            "width": 767.375,
+            "height": 47.359375,
+            "bottom": 496.28125,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "clip"
+          },
+          "layers": [
+            {
+              "className": "message-date-group first-message-date-group",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "messages-container",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition MessageList custom-scroll with-default-bg with-bottom-snap",
+              "bg": "rgb(0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            }
+          ],
+          "nominalSize": "16"
+        },
+        "changed": {
+          "body": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "header": {
+            "x": 659.03125,
+            "y": 80,
+            "width": 1260.96875,
+            "height": 96,
+            "bottom": 176,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "left": {
+            "x": 144,
+            "y": 80,
+            "width": 515.03125,
+            "height": 1000,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "middle": {
+            "x": 659.03125,
+            "y": 80,
+            "width": 1260.96875,
+            "height": 1000,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "composer": {
+            "x": 699.03125,
+            "y": 936,
+            "width": 1180.96875,
+            "height": 112,
+            "bottom": 1048,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "background": {
+            "x": 659.03125,
+            "y": 80,
+            "width": 1260.96875,
+            "height": 1000,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "hidden"
+          },
+          "input": {
+            "x": 795.03125,
+            "y": 944,
+            "width": 812.96875,
+            "height": 96,
+            "bottom": 1040,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(255, 255, 255)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "32px",
+            "overflow": "visible"
+          },
+          "placeholder": {
+            "x": 803.03125,
+            "y": 960.375,
+            "width": 154.796875,
+            "height": 47.25,
+            "bottom": 1007.625,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(160, 160, 160)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "36px",
+            "overflow": "hidden"
+          },
+          "message": {
+            "x": 841.03125,
+            "y": 417.9375,
+            "width": 851.453125,
+            "height": 53.265625,
+            "bottom": 471.203125,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(245, 245, 245)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "36px",
+            "overflow": "clip"
+          },
+          "layers": [
+            {
+              "className": "message-date-group first-message-date-group",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "messages-container",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition MessageList custom-scroll with-default-bg with-bottom-snap",
+              "bg": "rgb(0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            }
+          ],
+          "nominalSize": "18"
+        }
+      }
+    },
+    {
+      "id": "minimum-window-text-200-percent",
+      "status": "pass",
+      "detail": {
+        "body": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 448,
+          "bottom": 448,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "hidden"
+        },
+        "root": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 448,
+          "bottom": 448,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "hidden"
+        },
+        "header": {
+          "x": 144,
+          "y": 80,
+          "width": 496,
+          "height": 96,
+          "bottom": 176,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "visible"
+        },
+        "left": {
+          "x": -528,
+          "y": 112,
+          "width": 672,
+          "height": 384,
+          "bottom": 496,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "hidden"
+        },
+        "middle": {
+          "x": 144,
+          "y": 80,
+          "width": 496,
+          "height": 368,
+          "bottom": 448,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "visible"
+        },
+        "composer": {
+          "x": 184,
+          "y": 304,
+          "width": 416,
+          "height": 112,
+          "bottom": 416,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "visible"
+        },
+        "background": {
+          "x": 144,
+          "y": 80,
+          "width": 496,
+          "height": 368,
+          "bottom": 448,
+          "bg": "rgb(0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "hidden"
+        },
+        "input": {
+          "x": 280,
+          "y": 312,
+          "width": 48,
+          "height": 96,
+          "bottom": 408,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(255, 255, 255)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "visible"
+        },
+        "placeholder": {
+          "x": 288,
+          "y": 331,
+          "width": 38,
+          "height": 42,
+          "bottom": 373,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(160, 160, 160)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "hidden"
+        },
+        "message": {
+          "x": 325.34375,
+          "y": -645.5,
+          "width": 241.65625,
+          "height": 236.796875,
+          "bottom": -408.703125,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "clip"
+        },
+        "panel": {
+          "x": 144,
+          "y": 80,
+          "width": 496,
+          "height": 368,
+          "bottom": 448,
+          "bg": "rgb(16, 16, 16)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "visible"
+        },
+        "list": {
+          "x": 144,
+          "y": 267.59375,
+          "width": 496,
+          "height": 106.8125,
+          "bottom": 374.40625,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(245, 245, 245)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "32px",
+          "overflow": "auto"
+        },
+        "footer": {
+          "x": 144,
+          "y": 374.40625,
+          "width": 496,
+          "height": 73.59375,
+          "bottom": 448,
+          "bg": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "color": "rgb(160, 160, 160)",
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "size": "22px",
+          "overflow": "auto"
+        },
+        "layers": [],
+        "nominalSize": "16"
+      }
+    },
+    {
+      "id": "light-theme-retention-and-selected-text",
+      "status": "pass",
+      "detail": {
+        "colors": {
+          "color": "rgb(31, 31, 31)",
+          "primaryText": "rgb(31, 31, 31)",
+          "bg": "rgba(0, 0, 0, 0)"
+        },
+        "retainedTheme": "light-modern",
+        "layout": {
+          "body": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 1920,
+            "height": 1080,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "header": {
+            "x": 408,
+            "y": 40,
+            "width": 1512,
+            "height": 48,
+            "bottom": 88,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "left": {
+            "x": 72,
+            "y": 40,
+            "width": 336,
+            "height": 1040,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "middle": {
+            "x": 408,
+            "y": 40,
+            "width": 1512,
+            "height": 1040,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "composer": {
+            "x": 800,
+            "y": 1008,
+            "width": 728,
+            "height": 56,
+            "bottom": 1064,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "background": {
+            "x": 408,
+            "y": 40,
+            "width": 1512,
+            "height": 1040,
+            "bottom": 1080,
+            "bg": "rgb(0, 0, 0)",
+            "image": "none",
+            "color": "rgb(231, 233, 234)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "input": {
+            "x": 848,
+            "y": 1012,
+            "width": 544,
+            "height": 48,
+            "bottom": 1060,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(255, 255, 255)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "visible"
+          },
+          "placeholder": {
+            "x": 860,
+            "y": 1021.5,
+            "width": 68.796875,
+            "height": 21,
+            "bottom": 1042.5,
+            "bg": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "color": "rgb(113, 118, 123)",
+            "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+            "size": "16px",
+            "overflow": "hidden"
+          },
+          "layers": [
+            {
+              "className": "Loading",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition MessageList custom-scroll with-default-bg",
+              "bg": "rgb(0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition_slide Transition_slide-active",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            },
+            {
+              "className": "Transition",
+              "bg": "rgba(0, 0, 0, 0)",
+              "image": "none"
+            }
+          ],
+          "nominalSize": "16"
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "sourcesAfter": {
+    "src/styles/index.scss": "e85e58b80400ab34064889a8abe39c6a6d2b2b3ded46afcc7cc456c79ce47ebf",
+    "src/util/antigravityThemes.ts": "1d068eecf76599ae68ed32720403a354d20ce2f397339a585a2625b068e22d23",
+    "src/util/applyMessageTextSize.ts": "2cd5eff4692f195946225ed8c3177e3e9b06efe0b746feeb82c95f5f412b22c9",
+    "src/components/main/Main.scss": "cf77ccaa3ca51138ce0fb6ec3eef55135e0ced20f02c10f18d4f304a684da3a6",
+    "src/components/middle/MiddleHeader.scss": "cda8da9a71997106bbf835d77c71623e861649dcfc9f135af452d08b56493acc",
+    "src/components/middle/MiddleColumn.scss": "85505d42543451111a4d50bcfe0ce069406f5da11f3b2eeffd36bde9d099222d",
+    "src/components/multi/MediaOperationsPanel.module.scss": "5ffe85181db2f8cd0a5934ab62668558fd376c8c02ba204471dc36753ab809cb",
+    "scripts/relay-frontend-acceptance.mjs": "039e2a26d799e83bf19967de16bded35f5ac8dc66544d002f822ac101cf2ab5c"
+  },
+  "sourcesChanged": [],
+  "passed": 6,
+  "failed": 0
+}

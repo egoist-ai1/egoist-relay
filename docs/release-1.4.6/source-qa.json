@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.6",
+  "typescript": [
+    {
+      "config": "tsconfig.json",
+      "exitCode": 0
+    },
+    {
+      "config": "tsconfig.test.json",
+      "exitCode": 0
+    },
+    {
+      "config": "tsconfig.script.json",
+      "exitCode": 0
+    }
+  ],
+  "focusedUiEvidence": {
+    "existingShareHelperScenarioCount": 30,
+    "railScenarioReceipt": "docs/app-quality-audit-2026-10-02/reel-actions-alignment-1.4.6-v2.json",
+    "railScenarioCount": 4,
+    "nativeRecipientScenarioCount": 20,
+    "nativeRecipientScenarioReceipt": "docs/app-quality-audit-2026-10-02/native-share-root-final-1.4.6.json"
+  },
+  "sourceFreezeSha256": "dab2c58d728c0836315ceae8465d21548a16b2ac6df23e9598a6f3025889e12b",
+  "networkWritesPerformed": false,
+  "productionUi": [
+    {
+      "path": "scripts/social-share-enhancer.js",
+      "beforeSha256": "814f9c99aa491e0acbd10841be3eb8277f40d30f89ab11f8ca269353f197b856",
+      "afterSha256": "17ecb40602ea3ed80eb161b3c2c9a37acd99a00b5d8234db9b30be15ad562024",
+      "bytes": 20121,
+      "category": "production_ui"
+    },
+    {
+      "path": "src/components/common/RecipientPicker.tsx",
+      "beforeSha256": "d2fe5e772e543226d452b7096da11fa17e8641915a340c0d108dc307c2c22810",
+      "afterSha256": "f2ed1075e4de187e0a8003ce33c0bb0a586ccc94fc5b05b798ab3f4ed6d99aa9",
+      "bytes": 15216,
+      "category": "production_ui"
+    },
+    {
+      "path": "src/components/multi/SocialShareModal.module.scss",
+      "beforeSha256": "8bd3ea77f303e008ce70587930dc566478027ed4ffd8adae6dea866ce399a65f",
+      "afterSha256": "1167b388fb9247f7626fe2441ead64eca64065cd551cb4da6a69c2d0c9d4889c",
+      "bytes": 4756,
+      "category": "production_ui"
+    },
+    {
+      "path": "src/components/multi/SocialShareModal.tsx",
+      "beforeSha256": "a93693d6a92e63fc2435fb55a450a7474b6b2ea1b288e4e8b90cfa026af625d4",
+      "afterSha256": "501ebc7528fcf4aaee437517fcc5ec1767ecc6b82f4c017c08620b3a743893be",
+      "bytes": 19106,
+      "category": "production_ui"
+    }
+  ],
+  "state": "source_qa_passed",
+  "vitest": {
+    "tests": 322,
+    "suites": 26,
+    "durationSeconds": 20.28,
+    "failed": 0,
+    "exitCode": 0
+  },
+  "logs": [
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "name": "tsconfig.json.log"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "name": "tsconfig.test.json.log"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "name": "tsconfig.script.json.log"
+    },
+    {
+      "sha256": "c3f4015b2397113254177960f54ce1fa91cc8dc4892009bc44289b6e626944cb",
+      "bytes": 281,
+      "name": "vitest.log"
+    }
+  ],
+  "recordedAt": "2026-10-02T14:23:00.7465877+00:00",
+  "limits": [
+    "Headless synthetic account fixtures; no real recipient messages or shared clipboard used.",
+    "This receipt covers the final source checks, not every possible account/service scenario."
+  ]
+}

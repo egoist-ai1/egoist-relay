@@ -370,9 +370,7 @@ const MessageList = ({
   ) : undefined), [isViewportNewest, previousRenderMessageIds, renderMessageIds, renderMessagesById]);
   const { addedMessageIds, areAddedMessagesOutgoing, previousLastCurrentMessageId } = addedMessageInfo || {};
 
-  const isPrivate = isUserId(chatId);
-  const withUsers = Boolean((!isPrivate && !isChannelChat)
-    || isChatWithSelf || isSystemBotChat || isAnonymousForwards || isChannelWithAvatars);
+  const withUsers = Boolean(!isChannelChat || isChannelWithAvatars);
 
   const liveTailStartOriginalId = useMemo(() => {
     if (!messageIds?.length || !messagesById) {
@@ -458,7 +456,7 @@ const MessageList = ({
     memoFirstUnreadIdRef.current = firstUnreadId;
   }, [firstUnreadId]);
 
-  const canShowSponsoredMessages = Boolean(areAdsEnabled && type === 'thread');
+  const canShowSponsoredMessages = false;
 
   useEffect(() => {
     const canHaveAds = isChannelChat || isBot;
@@ -1295,6 +1293,9 @@ const MessageList = ({
     !isReady && 'is-animating',
     hasOpenChatButton && 'saved-dialog',
     isChatProtected && 'hide-on-print',
+    isChannelChat && 'is-channel-chat',
+    !canPost && !isUserId(chatId) && 'is-read-only-chat',
+    (isSavedDialog || isChatWithSelf) && 'is-saved-messages',
   );
 
   const hasMessages = Boolean((renderMessageIds && messageGroups) || lastMessage);
@@ -1351,7 +1352,7 @@ const MessageList = ({
       />
     ) : activeKey === Content.MessageList ? (
       <MessageListContent
-        canShowAds={canShowSponsoredMessages && isChannelChat}
+        canShowAds={false}
         chatId={chatId}
         isComments={isComments}
         isChannelChat={isChannelChat}

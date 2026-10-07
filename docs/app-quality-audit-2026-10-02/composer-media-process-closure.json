@@ -1,0 +1,7 @@
+{
+  "accountOrSharedProcessesStopped": 0,
+  "ownMatchingProcesses": [],
+  "ownMockListeners": [],
+  "expectedOwnMockPort": 1253,
+  "observedAt": "2026-10-02T11:39:28.3094032Z"
+}

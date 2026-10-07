@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useRef, useState } from '@teact';
-import { getActions } from '../../../global';
+import { getActions, getGlobal } from '../../../global';
 
 import type { GlobalState } from '../../../global/types';
 import type { FolderEditDispatch } from '../../../hooks/reducers/useFoldersReducer';
@@ -112,7 +112,24 @@ const ChatList = ({
   const chatListSlice = noVirtualization
     ? Math.max(CHAT_LIST_SLICE, orderedIds?.length || 0)
     : CHAT_LIST_SLICE;
-  const [viewportIds, getMore] = useInfiniteScroll(undefined, orderedIds, undefined, chatListSlice);
+
+  const listType = isSaved ? 'saved' : isArchived ? 'archived' : 'active';
+  const handleLoadMoreBackwards = useLastCallback(() => {
+    const global = getGlobal();
+    if (!global.chats.isFullyLoaded[listType]) {
+      getActions().loadAllChats({ listType });
+    }
+  });
+
+  const [viewportIds, getMore] = useInfiniteScroll(handleLoadMoreBackwards, orderedIds, undefined, chatListSlice);
+
+  useEffect(() => {
+    if (!isActive) return;
+    const global = getGlobal();
+    if (!global.chats.isFullyLoaded[listType] && (!orderedIds || orderedIds.length < chatListSlice)) {
+      getActions().loadAllChats({ listType });
+    }
+  }, [isActive, listType, orderedIds, chatListSlice]);
 
   // Support <Alt>+<Up/Down> to navigate between chats
   useHotkeys(useMemo(() => (isActive && orderedIds?.length ? {

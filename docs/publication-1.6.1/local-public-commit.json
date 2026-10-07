@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "branch": "codex/release-1.6.1",
+  "commit": "c9e7ec94bedd0bb72a258a0ac73a7a1076c7ac74",
+  "tree": "9daa3ea37393ac24f01956fb7e7b80bfdee72926",
+  "parent": "b646241472c5ddd305c3646d84ed240f424bd351",
+  "publicFiles": 3478,
+  "productionFiles": 3341,
+  "productionGitBlobBytesMatched": true,
+  "sourceZipGitTreeMatched": true,
+  "sourceAsset": {
+    "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\publication-1.6.1\\Egoist-Relay-1.6.1-sources.zip",
+    "name": "Egoist-Relay-1.6.1-sources.zip",
+    "bytes": 15617465,
+    "sha256": "d41320288d115dd3d4a2e37a12c04a0e6a5a4c02c660d1595850d1683a2923db"
+  },
+  "externalMutationPerformed": false
+}

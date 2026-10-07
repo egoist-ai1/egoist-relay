@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "productVersion": "1.6.1",
+  "scope": "Targeted hotfix only; successful1.6.0 full suites/benchmarks not repeated",
+  "layout": {
+    "passed": 7,
+    "total": 7,
+    "pageErrors": 0,
+    "report": "layout/verification.json"
+  },
+  "nativeGuards": {
+    "assertionChecks": 3,
+    "exit": 0,
+    "scope": "Exact production helper/test bodies with cached release dependencies; COM/IPC excluded from this harness",
+    "report": "native-guards/mini-app-guards.json",
+    "finalHelperBodiesUnchanged": true
+  },
+  "botWindows": {
+    "report": "bot-windows/REPORT.md",
+    "scope": "Frontend native mock and official Telegram SDK synthetic InitData; native release compilation separately. Actual Windows/PAC/live shop not exercised.",
+    "verification": "bot-windows/verification.json",
+    "checks": [
+      {
+        "name": "TypeScript main configuration",
+        "command": "node node_modules/typescript/bin/tsc -p tsconfig.json --noEmit",
+        "exitCode": 0,
+        "evidence": "tsc.log"
+      },
+      {
+        "name": "Affected ESLint",
+        "exitCode": 0,
+        "errors": 0,
+        "warnings": 0,
+        "heapMiB": 5120,
+        "cache": "Task-owned runtime",
+        "evidence": "eslint.log"
+      },
+      {
+        "name": "Native adapter lifecycle",
+        "command": "vitest run src/util/tauri/botWebApps.test.ts with task-owned config/cache",
+        "exitCode": 0,
+        "passed": 7,
+        "evidence": "adapter-test.log",
+        "scope": "Native IPC mocked; DOM real jsdom"
+      },
+      {
+        "name": "Injected protocol including exact official upstream SDK",
+        "command": "RELAY_MINI_APP_SDK_FIXTURE=<verified SDK> node --test scripts/mini-app-bridge.test.mjs",
+        "exitCode": 0,
+        "passed": 4,
+        "skipped": 0,
+        "evidence": "bridge-test.log",
+        "scope": "Actual official SDK in JSDOM; no live Telegram or WebView2"
+      },
+      {
+        "name": "Real product WebAppTab integration",
+        "exitCode": 0,
+        "passed": 9,
+        "uncovered": 1,
+        "pageErrors": 0,
+        "unhandled": 0,
+        "evidence": "integration-smoke.json",
+        "scope": "Real App JSX/hooks in headless Edge; isolated NativeMock; external requests aborted"
+      },
+      {
+        "name": "Scoped patch reverse applicability",
+        "exitCode": 0,
+        "evidence": "patch-check.log"
+      },
+      {
+        "name": "Companion review board load",
+        "exitCode": 0,
+        "items": 4,
+        "neutralAnswers": 4,
+        "pageErrors": 0,
+        "evidence": "review-load.json",
+        "scope": "Local standalone board; no product tests repeated"
+      }
+    ]
+  },
+  "stylelint": {
+    "errors": 0,
+    "existingWarnings": 65,
+    "scope": "3 affected SCSS files"
+  },
+  "preflight": {
+    "exit": 0,
+    "report": "verification-logs/preflight.json",
+    "runtimeResources": 40,
+    "updaterEnabled": false
+  },
+  "viteProduction": {
+    "exit": 0,
+    "log": "verification-logs/production-final.log"
+  },
+  "nativeNsis": {
+    "exit": 0,
+    "log": "verification-logs/nsis-final.log"
+  },
+  "diffReverseCheck": {
+    "exit": 0,
+    "log": "verification-logs/source-diff-check.log"
+  },
+  "notRepeated": [
+    "Full Vitest/Rust/media-transport suites already passed for1.6.0",
+    "Full lint and3 TypeScript configurations; affected TypeScript config/lint checked by subagent",
+    "Three-repeat performance benchmark; this hotfix has no new performance measurement"
+  ],
+  "notVerified": [
+    "Live Telegram account, real shop/login/payment",
+    "Actual WebView2 popup navigation and effective Windows/PAC/proxy route",
+    "Physical DPI/GPU, second Windows device",
+    "Reaction capsule absent in this UI fixture; shared corrected token inherited by source"
+  ],
+  "reviewBoard": {
+    "scope": "New2item bindings; unchanged helper full suite not repeated",
+    "checks": 4,
+    "pageErrors": 0,
+    "report": "board-smoke.json",
+    "syntheticResponsesAreNotUserAnswers": true
+  }
+}

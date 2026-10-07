@@ -49,6 +49,8 @@ const Switcher = ({
         value={value}
         checked={checked}
         disabled={disabled}
+        tabIndex={onCheck && !inactive ? undefined : -1}
+        aria-label={label}
         onChange={handleChange}
       />
       <span className="widget" />

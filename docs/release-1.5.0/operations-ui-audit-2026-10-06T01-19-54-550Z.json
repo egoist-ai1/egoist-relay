@@ -1,0 +1,3243 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-1.5.0-operations-ui-acceptance",
+  "runId": "2026-10-06T01-19-54-550Z",
+  "generatedAt": "2026-10-06T01:19:54.552Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourceHashes": {
+    "src/components/App.tsx": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "4247b02b25ea4046ae5400d7abe204be35d1ca0b35bc8b60544d5c935d472ac4",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "da13a82257451b2743bdca18af5132c65fda03b5d4cf285116ead782d99b97ce",
+    "scripts/relay-operations-ui-audit.mjs": "4927622e8125533978168c16d545f424b3e4cee526024464b372990ed3c61f2d"
+  },
+  "environment": {
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "transport": "Real App/Panel + existing MockClient + terminal native journal mocks",
+    "remoteRequests": "blocked",
+    "account": "Synthetic fixture user 1, chat 101",
+    "physicalDpi": "Not tested",
+    "limitations": [
+      "WebView2 COM transport, actual disk files and live Telegram delivery are outside this browser audit"
+    ]
+  },
+  "cases": [
+    {
+      "id": "ctrl-j-close-focus-native-toggle",
+      "status": "fail",
+      "error": "TimeoutError: locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#relay-media-operations') to be hidden\u001b[22m\n\u001b[2m    19 × locator resolved to visible <div role=\"region\" id=\"relay-media-operations\" data-relay-operations=\"true\" aria-labelledby=\"relay-operations-title\" class=\"MediaOperationsPanel-module__root\">…</div>\u001b[22m\n",
+      "stack": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#relay-media-operations') to be hidden\u001b[22m\n\u001b[2m    19 × locator resolved to visible <div role=\"region\" id=\"relay-media-operations\" data-relay-operations=\"true\" aria-labelledby=\"relay-operations-title\" class=\"MediaOperationsPanel-module__root\">…</div>\u001b[22m\n\n    at C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-operations-ui-audit.mjs:162:56\n    at async caseRun (C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\scripts\\relay-operations-ui-audit.mjs:129:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:157:3",
+      "detail": {
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 1,
+          "isSynced": true,
+          "isSyncing": false
+        },
+        "native": {
+          "contentVisible": true,
+          "currentApp": "telegram",
+          "calls": [
+            {
+              "command": "relay_research_ready",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2701.300000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2726.10000000149
+            },
+            {
+              "command": "multi_social_set_labels",
+              "args": {
+                "shareLabel": "Поделиться в Telegram"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2730.5
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "lock",
+                  "isLocked": false
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2731
+            },
+            {
+              "command": "multi_prewarm_x",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2731.400000002235
+            },
+            {
+              "command": "multi_prewarm_instagram",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2731.400000002235
+            },
+            {
+              "command": "relay_media_operations_list",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2731.5
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2801.5
+            },
+            {
+              "command": "relay_get_telegram_transport",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 2819
+            },
+            {
+              "command": "set_notifications_count",
+              "args": {
+                "amount": 0,
+                "isMuted": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 7240.400000002235
+            },
+            {
+              "command": "multi_social_set_labels",
+              "args": {
+                "shareLabel": "Поделиться в Telegram"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 7301.199999999255
+            },
+            {
+              "command": "set_window_title",
+              "args": {
+                "title": "Egoist Relay"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 7601.5
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 8533.300000000745
+            }
+          ],
+          "snapshot": {
+            "epoch": 2,
+            "operations": [],
+            "isLocked": false
+          }
+        },
+        "panel": "Загрузки и пересылки\nТекущие\nИстория\n\nЗдесь появятся сохранённые файлы и результаты пересылок. Журнал хранится на этом компьютере 30 дней.\n\nЛокальный журнал · 30 дней · до 500 завершённых операций",
+        "activeElement": {
+          "tag": "INPUT",
+          "id": "telegram-search-input",
+          "label": null
+        },
+        "unhandled": []
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/failure-ctrl-j-close-focus-native-toggle.png",
+      "pageErrors": []
+    },
+    {
+      "id": "empty-current-explicit-selection",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 890.0625,
+              "right": 1920,
+              "bottom": 1039.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1039.0625,
+            "width": 383,
+            "height": 40.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/empty-current-explicit-selection.png",
+      "pageErrors": []
+    },
+    {
+      "id": "last-active-auto-history",
+      "status": "pass",
+      "detail": {
+        "operationId": "87032d89-5534-4e84-8ad1-473a23d95571",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1553,
+                "y": 1032,
+                "width": 140.875,
+                "height": 36,
+                "right": 1693.875,
+                "bottom": 1068
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 846.0625,
+              "right": 1920,
+              "bottom": 995.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 995.0625,
+            "width": 383,
+            "height": 84.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/last-active-auto-history.png",
+      "pageErrors": []
+    },
+    {
+      "id": "adaptive-1920x1080",
+      "status": "pass",
+      "detail": {
+        "shouldFull": false,
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1553,
+                "y": 299.515625,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1637.65625,
+                "bottom": 335.515625
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 890.0625,
+              "right": 1920,
+              "bottom": 1039.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1039.0625,
+            "width": 383,
+            "height": 40.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        },
+        "historyGeometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 1567,
+                "y": 317.171875,
+                "width": 111.3125,
+                "height": 36,
+                "right": 1678.3125,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 1684.3125,
+                "y": 317.171875,
+                "width": 132.296875,
+                "height": 36,
+                "right": 1816.609375,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1553,
+                "y": 1032,
+                "width": 140.875,
+                "height": 36,
+                "right": 1693.875,
+                "bottom": 1068
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 846.0625,
+              "right": 1920,
+              "bottom": 995.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 995.0625,
+            "width": 383,
+            "height": 84.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/adaptive-1920x1080.png",
+      "pageErrors": []
+    },
+    {
+      "id": "adaptive-800x560",
+      "status": "pass",
+      "detail": {
+        "shouldFull": true,
+        "geometry": {
+          "viewport": {
+            "width": 800,
+            "height": 560,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 728,
+            "height": 560,
+            "right": 800,
+            "bottom": 560
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 749,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 784,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 88,
+                "y": 100,
+                "width": 344,
+                "height": 36,
+                "right": 432,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 440,
+                "y": 100,
+                "width": 344,
+                "height": 36,
+                "right": 784,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 88,
+                "y": 299.515625,
+                "width": 84.65625,
+                "height": 36,
+                "right": 172.65625,
+                "bottom": 335.515625
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 149,
+              "width": 728,
+              "height": 370.0625,
+              "right": 800,
+              "bottom": 519.0625
+            },
+            "scrollHeight": 370,
+            "clientHeight": 370
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 60,
+            "right": 800,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 72,
+            "y": 519.0625,
+            "width": 728,
+            "height": 40.9375,
+            "right": 800,
+            "bottom": 560
+          }
+        },
+        "historyGeometry": {
+          "viewport": {
+            "width": 800,
+            "height": 560,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 728,
+            "height": 560,
+            "right": 800,
+            "bottom": 560
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 749,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 784,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 88,
+                "y": 100,
+                "width": 344,
+                "height": 36,
+                "right": 432,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 440,
+                "y": 100,
+                "width": 344,
+                "height": 36,
+                "right": 784,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 102,
+                "y": 317.171875,
+                "width": 111.3125,
+                "height": 36,
+                "right": 213.3125,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 219.3125,
+                "y": 317.171875,
+                "width": 132.296875,
+                "height": 36,
+                "right": 351.609375,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 88,
+                "y": 512,
+                "width": 140.875,
+                "height": 36,
+                "right": 228.875,
+                "bottom": 548
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 149,
+              "width": 728,
+              "height": 326.0625,
+              "right": 800,
+              "bottom": 475.0625
+            },
+            "scrollHeight": 326,
+            "clientHeight": 326
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 60,
+            "right": 800,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 72,
+            "y": 475.0625,
+            "width": 728,
+            "height": 84.9375,
+            "right": 800,
+            "bottom": 560
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/adaptive-800x560.png",
+      "pageErrors": []
+    },
+    {
+      "id": "adaptive-640x448",
+      "status": "pass",
+      "detail": {
+        "shouldFull": true,
+        "geometry": {
+          "viewport": {
+            "width": 640,
+            "height": 448,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 568,
+            "height": 448,
+            "right": 640,
+            "bottom": 448
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 589,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 624,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 88,
+                "y": 100,
+                "width": 264,
+                "height": 36,
+                "right": 352,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 360,
+                "y": 100,
+                "width": 264,
+                "height": 36,
+                "right": 624,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 88,
+                "y": 299.515625,
+                "width": 84.65625,
+                "height": 36,
+                "right": 172.65625,
+                "bottom": 335.515625
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 149,
+              "width": 568,
+              "height": 258.0625,
+              "right": 640,
+              "bottom": 407.0625
+            },
+            "scrollHeight": 258,
+            "clientHeight": 258
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 60,
+            "right": 640,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 72,
+            "y": 407.0625,
+            "width": 568,
+            "height": 40.9375,
+            "right": 640,
+            "bottom": 448
+          }
+        },
+        "historyGeometry": {
+          "viewport": {
+            "width": 640,
+            "height": 448,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 568,
+            "height": 448,
+            "right": 640,
+            "bottom": 448
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 589,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 624,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 88,
+                "y": 100,
+                "width": 264,
+                "height": 36,
+                "right": 352,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 360,
+                "y": 100,
+                "width": 264,
+                "height": 36,
+                "right": 624,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 102,
+                "y": 317.171875,
+                "width": 111.3125,
+                "height": 36,
+                "right": 213.3125,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 219.3125,
+                "y": 317.171875,
+                "width": 132.296875,
+                "height": 36,
+                "right": 351.609375,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 88,
+                "y": 400,
+                "width": 140.875,
+                "height": 36,
+                "right": 228.875,
+                "bottom": 436
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 72,
+              "y": 149,
+              "width": 568,
+              "height": 214.0625,
+              "right": 640,
+              "bottom": 363.0625
+            },
+            "scrollHeight": 250,
+            "clientHeight": 214
+          },
+          "header": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 60,
+            "right": 640,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 72,
+            "y": 363.0625,
+            "width": 568,
+            "height": 84.9375,
+            "right": 640,
+            "bottom": 448
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/adaptive-640x448.png",
+      "pageErrors": []
+    },
+    {
+      "id": "known-percent-unknown-stage",
+      "status": "pass",
+      "detail": {
+        "known": "79842279-b891-4735-bfec-57300b98cd80",
+        "unknown": "67b314ba-9631-499d-988d-d2e643d75b53",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие2",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1553,
+                "y": 299.515625,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1637.65625,
+                "bottom": 335.515625
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1553,
+                "y": 479.84375,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1637.65625,
+                "bottom": 515.84375
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 890.0625,
+              "right": 1920,
+              "bottom": 1039.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1039.0625,
+            "width": 383,
+            "height": 40.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/known-percent-unknown-stage.png",
+      "pageErrors": []
+    },
+    {
+      "id": "saved-visible-format-size-dimensions",
+      "status": "pass",
+      "detail": {
+        "operationId": "c243dd57-87a5-47e5-bac3-673d4bf6a23e",
+        "text": "Загрузка\nTelegram\n6 окт., 04:20\nВидео без расширения\n\nГотово\n\nВидео без расширения\n1.5 MiB · video/mp4 · 1280 × 720\nОткрыть файл\nПоказать в папке\n\nИсходное сообщение не определено",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Открыть файл",
+              "rect": {
+                "x": 1567,
+                "y": 317.171875,
+                "width": 111.3125,
+                "height": 36,
+                "right": 1678.3125,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Показать в папке",
+              "rect": {
+                "x": 1684.3125,
+                "y": 317.171875,
+                "width": 132.296875,
+                "height": 36,
+                "right": 1816.609375,
+                "bottom": 353.171875
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Очистить историю",
+              "rect": {
+                "x": 1553,
+                "y": 1032,
+                "width": 140.875,
+                "height": 36,
+                "right": 1693.875,
+                "bottom": 1068
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 846.0625,
+              "right": 1920,
+              "bottom": 995.0625
+            },
+            "scrollHeight": 846,
+            "clientHeight": 846
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 995.0625,
+            "width": 383,
+            "height": 84.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/saved-visible-format-size-dimensions.png",
+      "pageErrors": []
+    },
+    {
+      "id": "file-actions-known-id-missing-file",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /не найден|недоступ|missing|unavailable/i. Input:\n\n'Файл перемещён или удалён. Запись в журнале не восстанавливает файл.'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /не найден|недоступ|missing|unavailable/i. Input:\n\n'Файл перемещён или удалён. Запись в журнале не восстанавливает файл.'\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:234:12\n    at async caseRun (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:129:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:221:3",
+      "detail": {
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 1,
+          "isSynced": true,
+          "isSyncing": false
+        },
+        "native": {
+          "contentVisible": true,
+          "currentApp": "telegram",
+          "calls": [
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 8533.300000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 16806.5
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 17630.900000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 18111.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 19108.199999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 19389
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 20574.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 21049.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 21885.199999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 22257.10000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "telegram",
+              "time": 22704.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 22947.199999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 23535.5
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 23923.199999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "telegram",
+              "time": 24370.199999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 24616.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 25395
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 25664.60000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 26651.699999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 26919.800000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 27922.10000000149
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "open",
+                  "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                  "index": 0
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28128.5
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "reveal",
+                  "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                  "index": 0
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28333.800000000745
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "open",
+                  "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                  "index": 0
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28539.10000000149
+            }
+          ],
+          "snapshot": {
+            "epoch": 18,
+            "operations": [
+              {
+                "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                "attempt": 1,
+                "revision": 1,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "Локальная проверка.mp4",
+                "stage": "completed",
+                "createdAt": 1791249622731,
+                "updatedAt": 1791249622731,
+                "files": [
+                  {
+                    "path": "C:/RelayAuditDownloads/fabf6841-ac3b-435d-8b4d-b5dd5364bdbd/video.mp4",
+                    "fileName": "Аудит.mp4",
+                    "mimeType": "video/mp4",
+                    "size": 1572864,
+                    "width": 1280,
+                    "height": 720
+                  }
+                ]
+              }
+            ],
+            "isLocked": false
+          }
+        },
+        "panel": "Загрузки и пересылки\nТекущие\nИстория\nЗагрузка\nTelegram\n6 окт., 04:20\nАудит.mp4\n\nГотово\n\nАудит.mp4\n1.5 MiB · video/mp4 · 1280 × 720\nОткрыть файл\nПоказать в папке\n\nФайл перемещён или удалён. Запись в журнале не восстанавливает файл.\n\nИсходное сообщение не определено\n\nЛокальный журнал · 30 дней · до 500 завершённых операций\n\nОчистить историю",
+        "activeElement": {
+          "tag": "BODY",
+          "id": "root",
+          "label": null
+        },
+        "unhandled": []
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/failure-file-actions-known-id-missing-file.png",
+      "pageErrors": []
+    },
+    {
+      "id": "canonical-source-known-id-full-close",
+      "status": "pass",
+      "detail": {
+        "operationId": "68718774-8549-4af6-a87d-90deed674901",
+        "call": {
+          "command": "relay_media_operation_source",
+          "args": {
+            "id": "68718774-8549-4af6-a87d-90deed674901"
+          },
+          "contentVisible": true,
+          "currentApp": "x",
+          "time": 30237.300000000745
+        },
+        "sourceActions": [
+          {
+            "id": "68718774-8549-4af6-a87d-90deed674901",
+            "service": "x",
+            "url": "https://x.com/relay_audit/status/1234567890"
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/canonical-source-known-id-full-close.png",
+      "pageErrors": []
+    },
+    {
+      "id": "late-epoch-revision-lock-unlock",
+      "status": "pass",
+      "detail": {
+        "operationId": "9f19e832-7dd5-4531-81ad-dc3ee4f28578",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1553,
+                "y": 299.515625,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1637.65625,
+                "bottom": 335.515625
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 890.0625,
+              "right": 1920,
+              "bottom": 1039.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1039.0625,
+            "width": 383,
+            "height": 40.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/late-epoch-revision-lock-unlock.png",
+      "pageErrors": []
+    },
+    {
+      "id": "history-clear-keeps-files-no-late-resurrection",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:281:69\n    at async caseRun (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:129:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:270:3",
+      "detail": {
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 1,
+          "isSynced": true,
+          "isSyncing": false
+        },
+        "native": {
+          "contentVisible": true,
+          "currentApp": "telegram",
+          "calls": [
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 25395
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 25664.60000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 26651.699999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 26919.800000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 27922.10000000149
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "open",
+                  "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                  "index": 0
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28128.5
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "reveal",
+                  "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                  "index": 0
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28333.800000000745
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "open",
+                  "id": "2169405d-727a-4a24-923a-4a9f18ef021d",
+                  "index": 0
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28539.10000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 28802.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 29616.199999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 30001
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "telegram",
+              "time": 30215.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 30217.199999999255
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "x",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 30221.400000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 30221.400000002235
+            },
+            {
+              "command": "relay_media_operation_source",
+              "args": {
+                "id": "68718774-8549-4af6-a87d-90deed674901"
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 30237.300000000745
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 30299.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 30306.60000000149
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 30310.699999999255
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 30510.5
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 31115.699999999255
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 32167.900000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 33159.199999999255
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "clear"
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 33621.10000000149
+            }
+          ],
+          "snapshot": {
+            "epoch": 28,
+            "operations": [
+              {
+                "id": "bcc6c523-46bf-43bc-818b-72414af23363",
+                "attempt": 1,
+                "revision": 1,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "Локальная проверка.mp4",
+                "stage": "downloading",
+                "createdAt": 1791249627966,
+                "updatedAt": 1791249627966,
+                "files": []
+              }
+            ],
+            "isLocked": false
+          }
+        },
+        "panel": "Загрузки и пересылки\nТекущие1\nИстория\n\nЗдесь появятся сохранённые файлы и результаты пересылок. Журнал хранится на этом компьютере 30 дней.\n\nЛокальный журнал · 30 дней · до 500 завершённых операций",
+        "activeElement": {
+          "tag": "BUTTON",
+          "id": "relay-operations-current",
+          "label": null
+        },
+        "unhandled": []
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/failure-history-clear-keeps-files-no-late-resurrection.png",
+      "pageErrors": []
+    },
+    {
+      "id": "navigation-operation-continues-panel-close",
+      "status": "pass",
+      "detail": {
+        "operationId": "bf266a85-92f0-4b2c-be7c-d2f2c35cbdd8",
+        "nativeApp": "instagram",
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 1536,
+            "y": 40,
+            "width": 384,
+            "height": 1040,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 72,
+            "y": 0,
+            "width": 1848,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 16,
+          "direction": "ltr",
+          "animation": "MediaOperationsPanel-module__reveal",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Закрыть панель",
+              "rect": {
+                "x": 1869,
+                "y": 54,
+                "width": 35,
+                "height": 36,
+                "right": 1904,
+                "bottom": 90
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 1553,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1724.5,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1732.5,
+                "y": 100,
+                "width": 171.5,
+                "height": 36,
+                "right": 1904,
+                "bottom": 136
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 1553,
+                "y": 299.515625,
+                "width": 84.65625,
+                "height": 36,
+                "right": 1637.65625,
+                "bottom": 335.515625
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 1537,
+              "y": 149,
+              "width": 383,
+              "height": 890.0625,
+              "right": 1920,
+              "bottom": 1039.0625
+            },
+            "scrollHeight": 890,
+            "clientHeight": 890
+          },
+          "header": {
+            "x": 1537,
+            "y": 40,
+            "width": 383,
+            "height": 60,
+            "right": 1920,
+            "bottom": 100
+          },
+          "footer": {
+            "x": 1537,
+            "y": 1039.0625,
+            "width": 383,
+            "height": 40.9375,
+            "right": 1920,
+            "bottom": 1080
+          }
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/navigation-operation-continues-panel-close.png",
+      "pageErrors": []
+    },
+    {
+      "id": "full-panel-sidebar-switch-content-order",
+      "status": "pass",
+      "detail": {
+        "operationId": "526f0148-5c6b-4c44-9c2a-7da2c6a001f4",
+        "calls": [
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": true
+            },
+            "contentVisible": false,
+            "currentApp": "telegram",
+            "time": 37674.60000000149
+          },
+          {
+            "command": "multi_set_active_app",
+            "args": {
+              "app": "x",
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 728,
+                "height": 520
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 37680.300000000745
+          },
+          {
+            "command": "multi_update_x_bounds",
+            "args": {
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 728,
+                "height": 520
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 37680.300000000745
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/full-panel-sidebar-switch-content-order.png",
+      "pageErrors": []
+    },
+    {
+      "id": "full-panel-check-chat-content-order",
+      "status": "pass",
+      "detail": {
+        "operationId": "466410dd-66f4-4c1d-b5c2-04d9a094f843",
+        "calls": [
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": true
+            },
+            "contentVisible": false,
+            "currentApp": "x",
+            "time": 39381.60000000149
+          },
+          {
+            "command": "multi_set_active_app",
+            "args": {
+              "app": "telegram",
+              "bounds": {
+                "x": 72,
+                "y": 40,
+                "width": 728,
+                "height": 520
+              }
+            },
+            "contentVisible": true,
+            "currentApp": "x",
+            "time": 39385
+          },
+          {
+            "command": "set_window_title",
+            "args": {
+              "title": "Марина Волкова"
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 39602
+          }
+        ],
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 1,
+          "isSynced": true,
+          "isSyncing": false,
+          "currentChatId": "101"
+        }
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/full-panel-check-chat-content-order.png",
+      "pageErrors": []
+    },
+    {
+      "id": "cancel-confirmed-file-warning-recovery",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /журнал|journal/i. Input:\n\n'Не удалось записать результат в защищённую историю. Он доступен, пока приложение открыто. После перезапуска проверьте файл или чат.'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /журнал|journal/i. Input:\n\n'Не удалось записать результат в защищённую историю. Он доступен, пока приложение открыто. После перезапуска проверьте файл или чат.'\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:333:12\n    at async caseRun (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:129:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:324:3",
+      "detail": {
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 1,
+          "isSynced": true,
+          "isSyncing": false,
+          "currentChatId": "101"
+        },
+        "native": {
+          "contentVisible": true,
+          "currentApp": "telegram",
+          "calls": [
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "instagram",
+              "time": 36230.60000000149
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "instagram",
+              "time": 36652.800000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37080.60000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37463.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "telegram",
+              "time": 37674.60000000149
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "x",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37680.300000000745
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37680.300000000745
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 37943.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 37948.199999999255
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 37952.199999999255
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38141.199999999255
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "x",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 38557.900000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38782.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38785.400000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38790.800000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 39168.400000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": false,
+              "currentApp": "x",
+              "time": 39174
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "x",
+              "time": 39381.60000000149
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 39385
+            },
+            {
+              "command": "set_window_title",
+              "args": {
+                "title": "Марина Волкова"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 39602
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 39723.10000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 40505.800000000745
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "cancel",
+                  "id": "777a9c30-235f-4d44-bd09-e07ebedcc186"
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 40724.699999999255
+            },
+            {
+              "command": "multi_social_cancel_media",
+              "args": {
+                "requestId": "777a9c30-235f-4d44-bd09-e07ebedcc186"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 40724.900000002235
+            }
+          ],
+          "snapshot": {
+            "epoch": 39,
+            "operations": [
+              {
+                "id": "777a9c30-235f-4d44-bd09-e07ebedcc186",
+                "attempt": 1,
+                "revision": 3,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "Локальная проверка.mp4",
+                "stage": "cancelled",
+                "createdAt": 1791249635313,
+                "updatedAt": 1791249635777,
+                "files": [],
+                "completedAt": 1791249635777
+              },
+              {
+                "id": "3942cfa1-4ee8-4633-8b0a-e6e8ee06ad98",
+                "attempt": 1,
+                "revision": 1,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "Локальная проверка.mp4",
+                "stage": "completed",
+                "createdAt": 1791249635313,
+                "updatedAt": 1791249635313,
+                "files": [
+                  {
+                    "path": "C:/RelayAuditDownloads/05b0d4f0-e897-4639-9261-97f40598f7d6/video.mp4",
+                    "fileName": "Аудит.mp4",
+                    "mimeType": "video/mp4",
+                    "size": 1572864,
+                    "width": 1280,
+                    "height": 720
+                  }
+                ],
+                "journalWarning": "MEDIA_JOURNAL_UNAVAILABLE"
+              }
+            ],
+            "isLocked": false
+          }
+        },
+        "panel": "Загрузки и пересылки\nТекущие\nИстория\nЗагрузка\nTelegram\n6 окт., 04:20\nЛокальная проверка.mp4\n\nОтменено\n\nИсходное сообщение не определено\n\nЗагрузка\nTelegram\n6 окт., 04:20\nАудит.mp4\n\nГотово\n\nАудит.mp4\n1.5 MiB · video/mp4 · 1280 × 720\nОткрыть файл\nПоказать в папке\n\nНе удалось записать результат в защищённую историю. Он доступен, пока приложение открыто. После перезапуска проверьте файл или чат.\n\nИсходное сообщение не определено\n\nЛокальный журнал · 30 дней · до 500 завершённых операций\n\nОчистить историю",
+        "activeElement": {
+          "tag": "BUTTON",
+          "id": "relay-operations-history",
+          "label": null
+        },
+        "unhandled": []
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/failure-cancel-confirmed-file-warning-recovery.png",
+      "pageErrors": []
+    },
+    {
+      "id": "keyboard-tabs-rtl-long-text",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'false' !== 'true'\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'false' !== 'true'\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:341:12\n    at async caseRun (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:129:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:337:3",
+      "detail": {
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 1,
+          "isSynced": true,
+          "isSyncing": false,
+          "currentChatId": "101"
+        },
+        "native": {
+          "contentVisible": true,
+          "currentApp": "telegram",
+          "calls": [
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37080.60000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37463.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "telegram",
+              "time": 37674.60000000149
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "x",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37680.300000000745
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 37680.300000000745
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 37943.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 37948.199999999255
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 37952.199999999255
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38141.199999999255
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "x",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 38557.900000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38782.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38785.400000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 38790.800000000745
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 39168.400000002235
+            },
+            {
+              "command": "multi_update_x_bounds",
+              "args": {
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": false,
+              "currentApp": "x",
+              "time": 39174
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": false,
+              "currentApp": "x",
+              "time": 39381.60000000149
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 728,
+                  "height": 520
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "x",
+              "time": 39385
+            },
+            {
+              "command": "set_window_title",
+              "args": {
+                "title": "Марина Волкова"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 39602
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 39723.10000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 40505.800000000745
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "cancel",
+                  "id": "777a9c30-235f-4d44-bd09-e07ebedcc186"
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 40724.699999999255
+            },
+            {
+              "command": "multi_social_cancel_media",
+              "args": {
+                "requestId": "777a9c30-235f-4d44-bd09-e07ebedcc186"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 40724.900000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 41072.400000002235
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 42078.699999999255
+            }
+          ],
+          "snapshot": {
+            "epoch": 41,
+            "operations": [
+              {
+                "id": "ba11d20a-06e3-406e-af41-35b2a7dbfa0e",
+                "attempt": 1,
+                "revision": 1,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "اسم الملف Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_",
+                "stage": "downloading",
+                "createdAt": 1791249636883,
+                "updatedAt": 1791249636883,
+                "files": []
+              },
+              {
+                "id": "f942cc78-15a9-4090-9f93-57a10c12ca4e",
+                "attempt": 1,
+                "revision": 1,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "Локальная проверка.mp4",
+                "stage": "completed",
+                "createdAt": 1791249636883,
+                "updatedAt": 1791249636883,
+                "files": []
+              }
+            ],
+            "isLocked": false
+          }
+        },
+        "panel": "Загрузки и пересылки\nТекущие1\nИстория\nЗагрузка\nTelegram\n6 окт., 04:20\nاسم الملف Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_Очень_длинное_имя_\n\nСкачиваем\n\nОтменить\n\nИсходное сообщение не определено\n\nЛокальный журнал · 30 дней · до 500 завершённых операций",
+        "activeElement": {
+          "tag": "BUTTON",
+          "id": "relay-operations-history",
+          "label": null
+        },
+        "unhandled": []
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/failure-keyboard-tabs-rtl-long-text.png",
+      "pageErrors": []
+    },
+    {
+      "id": "text-200pct-reduced-motion-bounds",
+      "status": "pass",
+      "detail": {
+        "geometry": {
+          "viewport": {
+            "width": 1920,
+            "height": 1080,
+            "dpr": 1
+          },
+          "surface": {
+            "x": 144,
+            "y": 80,
+            "width": 1776,
+            "height": 1000,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "workspace": {
+            "x": 144,
+            "y": 0,
+            "width": 1776,
+            "height": 1080,
+            "right": 1920,
+            "bottom": 1080
+          },
+          "rem": 32,
+          "direction": "ltr",
+          "animation": "none",
+          "horizontalOverflow": false,
+          "controls": [
+            {
+              "name": "Вернуться к сервису",
+              "rect": {
+                "x": 1818,
+                "y": 108,
+                "width": 70,
+                "height": 72,
+                "right": 1888,
+                "bottom": 180
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Текущие1",
+              "rect": {
+                "x": 176,
+                "y": 200,
+                "width": 848,
+                "height": 72,
+                "right": 1024,
+                "bottom": 272
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "История",
+              "rect": {
+                "x": 1040,
+                "y": 200,
+                "width": 848,
+                "height": 72,
+                "right": 1888,
+                "bottom": 272
+              },
+              "clippedX": false,
+              "visible": true
+            },
+            {
+              "name": "Отменить",
+              "rect": {
+                "x": 176,
+                "y": 586.875,
+                "width": 169.296875,
+                "height": 72,
+                "right": 345.296875,
+                "bottom": 658.875
+              },
+              "clippedX": false,
+              "visible": true
+            }
+          ],
+          "content": {
+            "rect": {
+              "x": 144,
+              "y": 298,
+              "width": 1776,
+              "height": 700.109375,
+              "right": 1920,
+              "bottom": 998.109375
+            },
+            "scrollHeight": 700,
+            "clientHeight": 700
+          },
+          "header": {
+            "x": 144,
+            "y": 80,
+            "width": 1776,
+            "height": 120,
+            "right": 1920,
+            "bottom": 200
+          },
+          "footer": {
+            "x": 144,
+            "y": 998.109375,
+            "width": 1776,
+            "height": 81.890625,
+            "right": 1920,
+            "bottom": 1080
+          }
+        },
+        "nativeBoundsCalls": 0,
+        "calls": [
+          {
+            "command": "multi_set_content_visible",
+            "args": {
+              "visible": false
+            },
+            "contentVisible": true,
+            "currentApp": "telegram",
+            "time": 43670.60000000149
+          }
+        ]
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T01-19-54-550Z/text-200pct-reduced-motion-bounds.png",
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "4247b02b25ea4046ae5400d7abe204be35d1ca0b35bc8b60544d5c935d472ac4",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "da13a82257451b2743bdca18af5132c65fda03b5d4cf285116ead782d99b97ce",
+    "scripts/relay-operations-ui-audit.mjs": "4927622e8125533978168c16d545f424b3e4cee526024464b372990ed3c61f2d"
+  },
+  "sourcesChangedDuringRun": [],
+  "unhandled": [],
+  "summary": {
+    "passed": 13,
+    "failed": 5,
+    "total": 18
+  }
+}

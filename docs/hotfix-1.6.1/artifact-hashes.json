@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T14:30:08.271907+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "scope": "Hotfix1.6.1 final report, exact baselines, diffs and local installer; excludes this manifest self hash",
+  "count": 95,
+  "entries": [
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/package-lock.json",
+      "bytes": 525166,
+      "sha256": "6e52e6064bd5bbf7fe0585b6b297e2c510701c7ac6fc36da0cd3107b38c0dce8"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/package.json",
+      "bytes": 7267,
+      "sha256": "eea63c49d132404e6ca8e3cab8856f1864f2cc6dd1461fc3c071302ac3032a3b"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/public/version.txt",
+      "bytes": 6,
+      "sha256": "cb1d9a30bc4ab8a397f39b7d786bb82aca0b816077eefc35d7c822017d75f6a5"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/README.md",
+      "bytes": 7113,
+      "sha256": "6a5af6f815de8d8b9b442dd0b784d66992286baed82ddb681721f7edb73d179a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/assets/localization/fallback.strings",
+      "bytes": 203713,
+      "sha256": "c44e483cb65d477d6ca80a29a3f7035fc908139ca49eb5f6b7d3d90112f5a164"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/assets/localization/initialRussian.strings",
+      "bytes": 6550,
+      "sha256": "603318ac119c66cde252ae1b6339cb0deb0691cfc2c43988fc87da5a2f7743b9"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/components/common/ChatForumLastMessage.module.scss",
+      "bytes": 3417,
+      "sha256": "44ab013ea326fe0d3d7820f0dd00f6511c45a8e703c4da527473ee9aaf0831de"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/components/left/main/ChatBadge.module.scss",
+      "bytes": 2392,
+      "sha256": "6c4ab8409bd2b7b26881956c23c36d6c14b40ce6dee7676c7a77d8bfdda91126"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/components/modals/browser/hooks/useWebAppFrame.ts",
+      "bytes": 12023,
+      "sha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/components/modals/browser/WebAppTab.tsx",
+      "bytes": 45438,
+      "sha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/styles/index.scss",
+      "bytes": 62766,
+      "sha256": "4bbf4913645699ec7d65d8c1ae75c332f6d6b1fc95d76e67956064c151c9cfde"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/types/language.d.ts",
+      "bytes": 134255,
+      "sha256": "7913ac63f3549118a7b35beb606c6137e82e1442584bbe64567daafb41636729"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/src/util/localization/relayOperationsStrings.ts",
+      "bytes": 13553,
+      "sha256": "5a3e9e11d6adfc867162fb60ddaed5417dbb6038cc11c94b3ea848b3e30dc8f3"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/build.rs",
+      "bytes": 3880,
+      "sha256": "1ae0a50bc2913380b757a4db68130063332d3bdca4a674abc6ac279d6e770493"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/Cargo.lock",
+      "bytes": 167419,
+      "sha256": "9e23616e64ec6a8809ba8a4844fc6ae39eba1501f92275e2344e98a9f063fe76"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/Cargo.toml",
+      "bytes": 1497,
+      "sha256": "5b51e4985ea6964ed3aea521138babbd1d06f0a7a569e1e0a0f9cecb20078eaf"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/gen/schemas/acl-manifests.json",
+      "bytes": 177089,
+      "sha256": "e9d77d2788c784744b262bfe26baa4850f598c38129b5666349a1aeedcbc8079"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/gen/schemas/capabilities.json",
+      "bytes": 3004,
+      "sha256": "ad9b8410d1b1864273da0f9e86269bd71a01f8c15439c3ec8b69ada16612138a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/gen/schemas/desktop-schema.json",
+      "bytes": 465128,
+      "sha256": "a1bab71da16aec04df25e8b03b5e215ce55799e9bc79080396134927311b5b0e"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/gen/schemas/windows-schema.json",
+      "bytes": 465128,
+      "sha256": "a1bab71da16aec04df25e8b03b5e215ce55799e9bc79080396134927311b5b0e"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/src/lib.rs",
+      "bytes": 20374,
+      "sha256": "da46ddf9b0276fc703b65fd23cfd9fe50492cd1191fe8e9458dcfa9bbe8a86da"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/src/multi_app.rs",
+      "bytes": 63421,
+      "sha256": "9fc172db4a62b0e04642626b2e59335cd8cb9648a01a7e88e84f70f59f6d7c3b"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/baseline-changed-sources/tauri/src/multi_app_downloads.rs",
+      "bytes": 38121,
+      "sha256": "f0542f24be4e232dbf955edb1e1b3652a345ab62e670ec25552e3026e74d7a5a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/board-smoke.json",
+      "bytes": 515,
+      "sha256": "9ffcdb40bf49bc63278a38861f54a18d798dd3c439fff4e1fe3373353da03edf"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/adapter-test.log",
+      "bytes": 267,
+      "sha256": "c0b59e109e77f2c52d054ae20d4ce99b599939d984f6d6af6a298b912ff927a8"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/src/assets/localization/fallback.strings",
+      "bytes": 203713,
+      "sha256": "c44e483cb65d477d6ca80a29a3f7035fc908139ca49eb5f6b7d3d90112f5a164"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/src/assets/localization/initialRussian.strings",
+      "bytes": 6550,
+      "sha256": "603318ac119c66cde252ae1b6339cb0deb0691cfc2c43988fc87da5a2f7743b9"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/src/components/modals/browser/hooks/useWebAppFrame.ts",
+      "bytes": 12023,
+      "sha256": "f28b4d430a11b53b7689f488dd83b78fea4996bbe6012197e7d8803ba599af2a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/src/components/modals/browser/WebAppTab.tsx",
+      "bytes": 45438,
+      "sha256": "2665b1f712c792271ec1034f78970b88d32c92556d8bcf28ce9d4c519e299bdb"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/src/types/language.d.ts",
+      "bytes": 134255,
+      "sha256": "7913ac63f3549118a7b35beb606c6137e82e1442584bbe64567daafb41636729"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/src/util/localization/relayOperationsStrings.ts",
+      "bytes": 13553,
+      "sha256": "5a3e9e11d6adfc867162fb60ddaed5417dbb6038cc11c94b3ea848b3e30dc8f3"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/tauri/build.rs",
+      "bytes": 3880,
+      "sha256": "1ae0a50bc2913380b757a4db68130063332d3bdca4a674abc6ac279d6e770493"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/tauri/src/lib.rs",
+      "bytes": 20374,
+      "sha256": "da46ddf9b0276fc703b65fd23cfd9fe50492cd1191fe8e9458dcfa9bbe8a86da"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/tauri/src/multi_app.rs",
+      "bytes": 63421,
+      "sha256": "9fc172db4a62b0e04642626b2e59335cd8cb9648a01a7e88e84f70f59f6d7c3b"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/baseline/tauri/src/multi_app_downloads.rs",
+      "bytes": 38121,
+      "sha256": "f0542f24be4e232dbf955edb1e1b3652a345ab62e670ec25552e3026e74d7a5a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/bridge-test.log",
+      "bytes": 1139,
+      "sha256": "b38bf4bc99fb0bc4df496db075358282d1a0cc9624c34e03a33c6dce7ca983fb"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/changes-from-1.6.0.patch",
+      "bytes": 61286,
+      "sha256": "b34faac6fa0571fc38aa2d0d55338aac1415bece8a69d6550f5fc2f36b7973b4"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/eslint.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/integration-smoke.json",
+      "bytes": 20909,
+      "sha256": "65389587697e31ed62831491f61ea34603c456bd0476aae8bf6e8831f0ed0a16"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/integration-smoke.mjs",
+      "bytes": 9058,
+      "sha256": "637bcec0c44b87a9cb8736132c292744d55cbb6626b395ac45d0c507703b8b0c"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/integration.log",
+      "bytes": 1154,
+      "sha256": "cf20c8c599bd75cca7cf1c7349ec46067873348ef32bcdbbc4367e995a8e4593"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/native-mock-closed.png",
+      "bytes": 44915,
+      "sha256": "cec601ff13ce3a5a1e4d12604a5081802ef8bbec5f19c78b481c1470dca57e99"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/native-mock-ctrl-j.png",
+      "bytes": 39597,
+      "sha256": "a85c35b6282656457f0c762c3527f6f2970ea3d43f779422dc34da87b99ecefc"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/native-mock-tabs.png",
+      "bytes": 30985,
+      "sha256": "695086e269acec29b6f9badd7141956b53eb01d2540ffdcdbae72965e0bbed48"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/patch-check.log",
+      "bytes": 144,
+      "sha256": "be329a4a70481ffcde0f6b13a0b53d6db6ea80916c547b7096a0a98ff0135d59"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/REPORT.md",
+      "bytes": 9157,
+      "sha256": "42a6483c78fed9af2fef58c482b3b078b334454bdb7c2ded7b46cd3a112560e8"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/review-load.json",
+      "bytes": 175,
+      "sha256": "4ff799d01faafd8026f09e2e3aff4b5f8352d877c301d5d71ffbb8eea79ae7f8"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/review-objects.json",
+      "bytes": 1709,
+      "sha256": "ac7db5f434a670d68358d91d91d352a8788d2f771b3e0347db541034c1e7f13c"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/review-snapshot.json",
+      "bytes": 3385,
+      "sha256": "1bcf8b8f65179d3ad59349ab53c96518b2ea250ae768eeaaf6fff6293f9e7e1c"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/review.html",
+      "bytes": 13623,
+      "sha256": "2d8246c1cb37e6f08166b26048099989cf3ee04e9b449962024daed20c36d7f9"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/sdk-source.json",
+      "bytes": 433,
+      "sha256": "d4353c87e5ddc6f731c95b59f8d9e407e5a05231c9ccbd7fb889cc6aed561324"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/shop-public-headers.json",
+      "bytes": 615,
+      "sha256": "e0485bfcc3321579e38e5ce014f2088d72f0d42e1035e0bb5efbf76e3217adce"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/source-diff.json",
+      "bytes": 6265,
+      "sha256": "9c168942abfa509d52c576fcb2f30849692124dbfe4f3b3c811e9e8221c0d0b8"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/tsc.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/bot-windows/verification.json",
+      "bytes": 2879,
+      "sha256": "3c877ff4ffa4da396c1c0c6ada8c206f7ecbeee6b70f591963af8cbbd68a6e0a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/candidate-source-hashes.json",
+      "bytes": 441997,
+      "sha256": "835e57c427eb1f326060fe0b55d27a6543c6f4d54938f3596464d582318bead4"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/changes-from-1.6.0.patch",
+      "bytes": 441158,
+      "sha256": "ed5c295ab83888f76e7d5c524829c395f6453604a664da389dff0f9c60a443b8"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/delivery.json",
+      "bytes": 414,
+      "sha256": "26f11093c4bcee7281de767d937ab806d98f28b70f920406584d7ec915b1993a"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/after-chat-context.png",
+      "bytes": 71294,
+      "sha256": "c053df1a5288dbe785f837b3f65f0754cb72fdac735f987b96de0a960fff7b8d"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/after-chat-preview-1100.png",
+      "bytes": 59176,
+      "sha256": "12f1f10c8d32f414aaeeb74e6ed4710030d2a5550f14df40ea5c83f5b28fa01e"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/after-chat-preview-800.png",
+      "bytes": 59052,
+      "sha256": "3f699a19943d202f3a5b962417479b5d088404cdc760e978e41ee0aeb139f003"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/after-main-menu.png",
+      "bytes": 42903,
+      "sha256": "7c4eaddb4bc7505699d41c8cc2d228088f44d35bfa7cd5a395d6856adbd53981"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/after-nested-menu.png",
+      "bytes": 52875,
+      "sha256": "3e5a919974cfc60cb96e3eacbb5230c82223a0d4b096ebc93d98a5db1fe43f8c"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/before-chat-preview-1100.png",
+      "bytes": 54841,
+      "sha256": "01ddd3ccfef9fcc133ea591a1cde5ef89c79c36df7f143eac9909de311a49a85"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/before-chat-preview-800.png",
+      "bytes": 54085,
+      "sha256": "94d212c85d055e1ff78bfcece73fe10088855685176fafa02d5c6742a855a869"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/before-main-menu.png",
+      "bytes": 44812,
+      "sha256": "8e2f7fba3603ae5d9560bfff4bdf23be202f1da1275d1773c7c46efa9f2c3b91"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/extra-message-context.png",
+      "bytes": 79469,
+      "sha256": "e8d600315c567b29422a8fb8693165573cb6e6dacdfd538d36aa07ba07a956e5"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/README.md",
+      "bytes": 1884,
+      "sha256": "47d3ec82f940fa577197724e051cfa72e3d11225a2fb4b1d4c76150a798ab282"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/russian-badge-russian-mini-app-caption.png",
+      "bytes": 56995,
+      "sha256": "1147c860ca8eae44c185342a8bff8f19679f7efbddf94eb8c01362c3fd480789"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/stylelint-badge-final.json",
+      "bytes": 239,
+      "sha256": "0d3c123e89105555dbdc24bbd08567517864a743422a9ce9a1c9a3d59228d0c6"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/stylelint.json",
+      "bytes": 13042,
+      "sha256": "118ba865043fe08b0cda399598ece9f0ee678a20a8c8de5043b0fb4b6c880591"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/verification.json",
+      "bytes": 8197,
+      "sha256": "c7f15eae6225d9daf18ac5f78492613823cfad61389f94f3dc17d894521a18a3"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/verify-overlaps.mjs",
+      "bytes": 10054,
+      "sha256": "f9cb048ff92d408aa69de5cddad488e068a88119a2bbfa15542aab850f3127ba"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/verify-overlays-extra.mjs",
+      "bytes": 6940,
+      "sha256": "88a3a78a5ed6155aabf1675e56e434fdf7d6f1418694846cbea989bcfd325068"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/layout/verify-russian-badge.mjs",
+      "bytes": 6042,
+      "sha256": "586fd5e55ae97b13773dff1689cdd75ece27d8cac4c95dd81de78edbaa8fad77"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/native-guards/mini-app-guards-build.log",
+      "bytes": 595,
+      "sha256": "9214ded06d6d6282e48c10c4d11ea53eb7a5a7a8bdd89aaf296398adaf6be269"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/native-guards/mini-app-guards.json",
+      "bytes": 1314,
+      "sha256": "58ed6121d8012950f2393fabc7a8eb7243084bcddeb14842dfac336ad1f310c6"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/native-guards/mini-app-guards.log",
+      "bytes": 202,
+      "sha256": "05397a5a222b206de221b2895d5898e6236baf674a16cc6687ea4fd6222fa0cb"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/native-guards/verify-native-guards.py",
+      "bytes": 2944,
+      "sha256": "6421404af2654636abf013c6881b6ab2882df27d310f0cd4f4a066bae236f9e3"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/README.md",
+      "bytes": 8052,
+      "sha256": "8de1249701e15f65a2478522c7a0cdfce9342003fb4bb0542ebf6490e192615f"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/review-feedback.js",
+      "bytes": 11066,
+      "sha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/review.html",
+      "bytes": 13325,
+      "sha256": "da00215e184463b8a92fbda7321b3b9cf5e6a31921015752b0d5c245a7c3c77c"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/source-diff.json",
+      "bytes": 11215,
+      "sha256": "9e1eac632212f46cf76d727b5e858ec22f29fdaa0dfe75b754fc388649692c0e"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verification-logs/nsis-final.log",
+      "bytes": 1749,
+      "sha256": "44b7e83a0ade516fbf1d7fe6161c8dc20746282cf5a0b36ca01f6390e4370c63"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verification-logs/preflight.json",
+      "bytes": 889,
+      "sha256": "63ba4cf276028fcf7a7b74d5679b89209317af7bf5701c2ec6aa1bfdd274bf7f"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verification-logs/preflight.log",
+      "bytes": 86,
+      "sha256": "92f1f73005d1065bf851fe4ac67cb3bc8e4e8574914e025438ec6f3fed46ebcb"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verification-logs/production-final.log",
+      "bytes": 60220,
+      "sha256": "84c145f7387447e2a36088a79d9ba156598449a38c1f7ed51e0a050741a24eb5"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verification-logs/source-diff-check.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verification.json",
+      "bytes": 4118,
+      "sha256": "fcdf3385fae425ec1150db401fd8beaf7a479f387a5073df71e637a8a93a13dc"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/verify-board.mjs",
+      "bytes": 3864,
+      "sha256": "46cc866b479d5f665091ca0de32154af5904285b7ccad2364d0a417790efb5b0"
+    },
+    {
+      "path": "docs/hotfix-1.6.1/Реестр-1.6.1.json",
+      "bytes": 2746,
+      "sha256": "e1eca3736a8984d77c0c130184ab43b417eebe153694a713a9a4d2914c4537fc"
+    },
+    {
+      "path": "release/1.6.1/Egoist Relay_1.6.1_x64-setup.exe",
+      "bytes": 567488354,
+      "sha256": "3066963d99430ffa83a3b62c1f1c29e4db8b6040846932fd1bd9bfae8d121751"
+    },
+    {
+      "path": "release/1.6.1/manifest.json",
+      "bytes": 1499,
+      "sha256": "e0ff357f9343e764c40eea460f026aaba39fdbefbf3f35ee750322a85142e3c6"
+    },
+    {
+      "path": "release/1.6.1/README.md",
+      "bytes": 1790,
+      "sha256": "c767a7260e07867de4b1c1a1dd960c62bb10431c8d06584ec1b4dab4bb83177c"
+    },
+    {
+      "path": "release/1.6.1/SHA256SUMS.txt",
+      "bytes": 99,
+      "sha256": "9221a2dda99b198966f73d856b30d989fe224f842317ee9f07bdfb3a23b6ff94"
+    }
+  ]
+}

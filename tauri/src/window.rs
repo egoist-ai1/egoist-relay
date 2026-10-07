@@ -5,6 +5,7 @@ use std::sync::LazyLock;
 pub struct WindowState {
   pub title: String,
   pub is_overlay: bool,
+  #[allow(dead_code)]
   pub is_mobile: bool,
 }
 

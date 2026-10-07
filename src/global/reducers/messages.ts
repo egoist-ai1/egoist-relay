@@ -24,6 +24,7 @@ import {
 } from '../../util/iteratees';
 import { isLocalMessageId, type MessageKey } from '../../util/keys/messageKey';
 import { unload } from '../../util/mediaLoader';
+import { recordUserActivity } from '../../util/realUserActivity';
 import {
   getAllMessageMediaHashes,
   getMessageStatefulContent,
@@ -168,6 +169,12 @@ export function addMessages<T extends GlobalState>(
     return messagesByChatId;
   }, {} as Record<string, Record<number, ApiMessage>>);
 
+  messages.forEach((message) => {
+    if (message.senderId && !message.isOutgoing && message.date) {
+      recordUserActivity(message.senderId, message.date);
+    }
+  });
+
   Object.keys(addedByChatId).forEach((chatId) => {
     global = addChatMessagesById(global, chatId, addedByChatId[chatId]);
   });
@@ -186,6 +193,12 @@ export function replaceMessages<T extends GlobalState>(
 
     return messagesByChatId;
   }, {} as Record<string, Record<number, ApiMessage>>);
+
+  messages.forEach((message) => {
+    if (message.senderId && !message.isOutgoing && message.date) {
+      recordUserActivity(message.senderId, message.date);
+    }
+  });
 
   Object.keys(updatedByChatId).forEach((chatId) => {
     const currentById = selectChatMessages(global, chatId) || {};

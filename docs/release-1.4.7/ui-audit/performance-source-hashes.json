@@ -1,0 +1,17 @@
+{
+    "exitCode":  0,
+    "hashesUnchangedDuringRun":  true,
+    "timingContext":  "Shared headless host; parent native release build concurrent or recently active. Browser/mock-IPC observations only; no physical GPU/DPI or 60fps claim.",
+    "sourceHashes":  {
+                         "src/components/multi/AppSidebar.tsx":  "7d30fe6ca8a02da9f4e621748fc02052aa7262fac9fd864431372664799dad10",
+                         "src/hooks/useShowTransition.ts":  "435d64f50c44b3e042f16527e85177d6d78102a8952289fc0ab7acbec7ed0ddc",
+                         "src/components/ui/Modal.tsx":  "174c7f786ca0786bf8aa4f3ccf25ecc413a13fb83bc29c3e80a543d693a18c52",
+                         "src/util/trapFocus.ts":  "8314b161a5716198d4137b37e5bfb92810da5f33c3c887a24bfd363d594edaa6",
+                         "src/util/openModalState.ts":  "bb7c494735bec99c15a3c5e1b251a6d598e4cd8f7fedf43b4e5942ea9d432728",
+                         "scripts/relay-ui-audit.performance.mjs":  "fd9695b92a0622a4b2d42865c496553905cfa64e3851ffabcc60f0ac91a5411a",
+                         "src/components/gili/modal/Modal.tsx":  "2e37525226b82f9d3f682b0f2760fbc9806f652c1501345b04332f92a1b565f5",
+                         "src/components/ui/Modal.scss":  "f68b413cdc459857981679e6f826a4f813906e67400dc612332b5dfab7562a32",
+                         "scripts/relay-ui-audit.server.mjs":  "7c3e04e3c93f10268ea52a316b8d0cb2c0f9ab5732eac88466a171477c894557",
+                         "src/components/App.tsx":  "dc3897c4bd92b65ce3f47d4d1d6eac2ee3b4ab0642a755436298c87697326740"
+                     }
+}

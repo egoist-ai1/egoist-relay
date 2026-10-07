@@ -42,6 +42,7 @@ const MESSAGE_STATE_NO_ACK_REQUIRED = 16;
 const MESSAGE_STATE_RECEIVED_ELSEWHERE = 128;
 const MAIN_CONNECTION_RETRY_DELAY_MULTIPLIERS = [1, 3, 6, 30, 60];
 const MAX_MAIN_CONNECTION_RETRY_DELAY = 600000;
+const MAX_INITIAL_FALLBACK_ATTEMPTS = 3;
 const SERVER_SALT_REFRESH_MARGIN = 60;
 const SERVER_SALT_REQUEST_RETRY_DELAY = 60000;
 const MILLISECONDS_PER_SECOND = 1000;
@@ -374,12 +375,22 @@ export default class MTProtoSender {
     this._fallbackConnection = fallbackConnection;
     let hasConnected = false;
     let connectionError: unknown;
+    let failedPrimaryAttempts = 0;
+    let failedFallbackAttempts = 0;
 
     for (let attempt = 0; attempt < this._retries + this._retriesToFallback; attempt++) {
       const hasAuthKey = Boolean(this.authKey.getKey());
       try {
-        if (attempt >= this._retriesToFallback && this._shouldAllowHttpTransport) {
+        if (!this._isFallback && failedPrimaryAttempts >= this._retriesToFallback && this._shouldAllowHttpTransport) {
           this._isFallback = true;
+        }
+        if (this._isFallback && !this._shouldForceHttpTransport
+          && failedFallbackAttempts >= MAX_INITIAL_FALLBACK_ATTEMPTS) {
+          this._isFallback = false;
+          failedPrimaryAttempts = 0;
+          failedFallbackAttempts = 0;
+        }
+        if (this._isFallback) {
           this.logWithIndex.warn('Using fallback connection');
           this._log.warn('Using fallback connection');
         }
@@ -401,6 +412,11 @@ export default class MTProtoSender {
           this._updateCallback?.(new UpdateConnectionState(UpdateConnectionState.disconnected));
         }
         this._log.error(`${this._isFallback ? 'HTTP' : 'WebSocket'} connection failed attempt: ${attempt + 1}`);
+        if (this._isFallback) {
+          failedFallbackAttempts += 1;
+        } else {
+          failedPrimaryAttempts += 1;
+        }
         // eslint-disable-next-line no-console
         console.error(err);
         await sleep(this._delay);
@@ -518,11 +534,37 @@ export default class MTProtoSender {
    * @param isLongPoll
    * @returns {RequestState}
    */
-  send<T extends CallableRequest>(request: T, abortSignal?: AbortSignal, isLongPoll = false) {
+  send<T extends CallableRequest>(
+    request: T, abortSignal?: AbortSignal, isLongPoll = false, isResearchRequest?: boolean,
+  ) {
     const states = this._splitMessageIdRequest(request)
-      .map((splitRequest) => new RequestState(splitRequest, abortSignal));
+      .map((splitRequest) => new RequestState(splitRequest, abortSignal, isResearchRequest));
     for (let index = 1; index < states.length; index++) {
       void states[index].promise!.catch(() => undefined);
+    }
+    if (abortSignal && (request instanceof Api.upload.GetFile
+      || request instanceof Api.upload.SaveFilePart || request instanceof Api.upload.SaveBigFilePart)) {
+      const onAbort = () => {
+        for (const state of states) {
+          this._sendQueue.remove(state);
+          this._sendQueueLongPoll.remove(state);
+          if (state.msgId !== undefined && this._pendingState.get(state.msgId) === state) {
+            this._pendingState.delete(state.msgId);
+          }
+          this._forgetSentState(state);
+          state.reject?.(Object.assign(new Error('Request aborted'), {
+            completionUncertain: state.msgId !== undefined,
+          }));
+        }
+      };
+      abortSignal.addEventListener('abort', onAbort, { once: true });
+      void Promise.allSettled(states.map((state) => state.promise!)).then(() => {
+        abortSignal.removeEventListener('abort', onAbort);
+      });
+      if (abortSignal.aborted) {
+        onAbort();
+        return states[0].promise as RequestState<T>['promise'];
+      }
     }
     if (!isLongPoll) {
       this.logWithIndex.debug(`Send ${request.className}`);
@@ -1280,7 +1322,7 @@ export default class MTProtoSender {
         }
       } catch (e) {
         if (e instanceof TypeNotFoundError) {
-          this._log.info(`Received response without parent request: ${result.body}`);
+          this._log.info(`Received response without parent request: ${result.reqMsgId}`);
           return;
         } else if (this._isFallback) {
           // If we're using HTTP transport, there might be a chance that the response comes through
@@ -1298,16 +1340,16 @@ export default class MTProtoSender {
     if (result.error) {
       const error = RPCMessageToError(result.error, state.request);
       state.reject?.(error);
-      throw error;
+      if (!state.isResearchRequest) throw error;
     } else {
       try {
         const reader = new BinaryReader(result.body);
         const read = state.request.readResult(reader);
-        this.logWithIndex.debug('Handling RPC result', read);
+        if (!state.isResearchRequest) this.logWithIndex.debug('Handling RPC result', read);
         state.resolve?.(read);
       } catch (err: any) {
         state.reject?.(err);
-        throw err;
+        if (!state.isResearchRequest) throw err;
       }
     }
   }

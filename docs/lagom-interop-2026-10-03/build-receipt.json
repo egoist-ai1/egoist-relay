@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-03T12:42:42.724383+00:00",
+  "version": "1.4.6",
+  "state": "full_installer_built_and_inspected",
+  "project": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "constraints": {
+    "noSystemNetworkChanges": true,
+    "noServiceChanges": true,
+    "noInstalledReplacement": true,
+    "noNewLibraries": true,
+    "historicalInstallerPreserved": true
+  },
+  "steps": [
+    {
+      "name": "release-preflight",
+      "exitCode": 0,
+      "elapsedSeconds": 3.375,
+      "log": "release-preflight.log",
+      "logBytes": 85
+    },
+    {
+      "name": "frontend-production",
+      "exitCode": 0,
+      "elapsedSeconds": 15.657,
+      "log": "frontend-production.log",
+      "logBytes": 125027
+    },
+    {
+      "name": "tauri-native-nsis",
+      "exitCode": 1,
+      "elapsedSeconds": 13.641,
+      "log": "tauri-native-nsis.log",
+      "logBytes": 19371
+    },
+    {
+      "name": "tauri-native-nsis-jobs1",
+      "exitCode": 1,
+      "elapsedSeconds": 4.531,
+      "log": "tauri-native-nsis-jobs1.log",
+      "logBytes": 1957
+    },
+    {
+      "name": "tauri-native-nsis-msvc1444",
+      "exitCode": 1,
+      "elapsedSeconds": 2.297,
+      "log": "tauri-native-nsis-msvc1444.log",
+      "logBytes": 317
+    },
+    {
+      "name": "tauri-native-nsis-msvc1444",
+      "exitCode": 1,
+      "elapsedSeconds": 4.891,
+      "log": "tauri-native-nsis-msvc1444.log",
+      "logBytes": 1942
+    },
+    {
+      "name": "tauri-native-nsis-msvc1444-sdk26100",
+      "exitCode": 0,
+      "elapsedSeconds": 1070.937,
+      "log": "tauri-native-nsis-msvc1444-sdk26100.log",
+      "logBytes": 14522
+    },
+    {
+      "name": "tauri-native-nsis-final-relative-dist",
+      "exitCode": 0,
+      "elapsedSeconds": 719.562,
+      "log": "tauri-native-nsis-final-relative-dist.log",
+      "logBytes": 1730
+    }
+  ],
+  "targetDir": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\native-build\\target",
+  "frontendDist": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\frontend-dist",
+  "webview2OfflinePayload": {
+    "path": "C:\\Users\\Egoist\\AppData\\Local\\tauri\\x64\\d7548c8b-0dc9-4e81-87dd-a346cc9b73a5\\MicrosoftEdgeWebView2RuntimeInstallerX64.exe",
+    "bytes": 212272848,
+    "sha256": "f6df8e4bc857786ff641cd01da1449169eaf8236c936ced485ea61685ba4da40",
+    "headOnly": true,
+    "downloaded": false
+  },
+  "retryReason": "Parallel MSVC linkers failed with Windows 0xc0000017 before changed Rust compilation",
+  "cargoBuildJobs": 1,
+  "existingMsvcSelection": {
+    "version": "14.44.35207",
+    "linker": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe",
+    "vcvarsActivatedInChildOnly": true
+  },
+  "existingSdkSelection": {
+    "version": "10.0.26100.0",
+    "directory": "C:\\Program Files (x86)\\Windows Kits\\10",
+    "childEnvironmentOnly": true
+  },
+  "completedAt": "2026-10-03T13:23:46.444022+00:00",
+  "frontendDistConfig": {
+    "build": {
+      "beforeBuildCommand": null,
+      "frontendDist": "../../../../../Projects/.agent-brain/chat-runtime/tasks/01a1019d-04bd-74f3-b951-50f9e9c7b8be/work/frontend-dist"
+    }
+  },
+  "installers": [
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\native-build\\target\\release\\bundle\\nsis\\Egoist Relay_1.4.6_x64-setup.exe",
+      "bytes": 570618798,
+      "sha256": "b521b6055d68bc930483b98b0952ae1a8c242f6d74511a1b76d380bcdaf6a2e8"
+    }
+  ],
+  "nativeExecutables": [
+    {
+      "path": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a1019d-04bd-74f3-b951-50f9e9c7b8be\\work\\native-build\\target\\release\\Egoist Relay.exe",
+      "bytes": 80960000,
+      "sha256": "f37412269dfbfa7bdcb1ad68efd71dcc21141e551828ba15d60d2ca29ac4e534"
+    }
+  ],
+  "inspectionReceipt": "release-ready.json",
+  "installedReplacementPerformed": false
+}

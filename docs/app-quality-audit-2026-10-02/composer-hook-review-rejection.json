@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-10-02T11:06:55.639Z",
+  "action": "Combined source edit of four reviewed files plus additional hook",
+  "outcome": "rejected-before-process-execution",
+  "reason": "The action changes an additional production hook file (useAttachmentModal.ts) beyond the explicitly authorized four files, and its broad text replacements could introduce unrelated behavior changes. Do not bypass this rejection through a workaround or indirect execution.",
+  "continuation": "Four accepted files applied separately with unique exact preimages; hook proposal only, no hook edits"
+}

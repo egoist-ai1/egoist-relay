@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-prewarm-instagram"
+description = "Enables the multi_prewarm_instagram command without any pre-configured scope."
+commands.allow = ["multi_prewarm_instagram"]
+
+[[permission]]
+identifier = "deny-multi-prewarm-instagram"
+description = "Denies the multi_prewarm_instagram command without any pre-configured scope."
+commands.deny = ["multi_prewarm_instagram"]

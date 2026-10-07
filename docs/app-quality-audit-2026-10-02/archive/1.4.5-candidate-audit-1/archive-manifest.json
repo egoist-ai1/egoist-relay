@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "version": "1.4.5-candidate-audit-1",
+  "objects": 108,
+  "state": "historical_frozen_before_native_pilot_addendum",
+  "snapshotSha256": "b9a55945697fe6eb6fcf9185ec663f6ef6afddc5d10e88756b79ab99f48453b0",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 11298,
+      "sha256": "d84ebcd5f52e714dd94b6d6bde446c2e7fd5bc1ba7e614b30edab8ec7f2e5258"
+    },
+    {
+      "file": "Реестр.json",
+      "bytes": 96422,
+      "sha256": "b9a55945697fe6eb6fcf9185ec663f6ef6afddc5d10e88756b79ab99f48453b0"
+    },
+    {
+      "file": "requirements.json",
+      "bytes": 5100,
+      "sha256": "65001d0cc9c6adf5181d21d3a2954b2c17ef32323e5f901742204bbcd3be6d59"
+    },
+    {
+      "file": "validation-summary.json",
+      "bytes": 16100,
+      "sha256": "aa197490fdc3ba899f04aa3987bd98246eb4a581316055a159ecc7986e5a6658"
+    },
+    {
+      "file": "review.html",
+      "bytes": 90792,
+      "sha256": "9e5afb6c62234e84b1e1bf138396ec72756d16060f3141e7df00475620f1374e"
+    },
+    {
+      "file": "review-validation.json",
+      "bytes": 1772,
+      "sha256": "993682406863b0849414969fdd3b1652e3273c87039f4e6c6b62665f4754803b"
+    }
+  ],
+  "note": "Six aggregate files preserved as exact original bytes. Archived HTML canonical snapshotFile is historical; current audit has a new hash, so historical choices must not be applied to it."
+}

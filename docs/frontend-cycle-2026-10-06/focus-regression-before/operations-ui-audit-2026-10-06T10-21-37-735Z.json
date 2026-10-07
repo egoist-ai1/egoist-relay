@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-1.5.0-operations-ui-acceptance",
+  "runId": "2026-10-06T10-21-37-735Z",
+  "generatedAt": "2026-10-06T10:21:37.737Z",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "sourceHashes": {
+    "src/components/App.tsx": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+    "scripts/relay-operations-ui-audit.mjs": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b"
+  },
+  "environment": {
+    "browserExecutable": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "transport": "Real App/Panel + existing MockClient + terminal native journal mocks",
+    "remoteRequests": "blocked",
+    "account": "Synthetic fixture user 1, chat 101",
+    "physicalDpi": "Not tested",
+    "limitations": [
+      "WebView2 COM transport, actual disk files and live Telegram delivery are outside this browser audit"
+    ]
+  },
+  "cases": [
+    {
+      "id": "full-panel-hidden-profile-keyboard-restoration",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Tab enters hidden Telegram/profile while full operations panel is open\n+ actual - expected\n\n+ [\n+   {\n+     label: 'Common.Close',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Edit',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Statistics',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'https://t.me/+relay-synthetic-fixtureSetUrlPlaceholder',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'Notifications',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: '',\n+     tag: 'INPUT'\n+   },\n+   {\n+     label: 'MembersMediaFilesLinksMusicGIFVoice',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'EREgoist RelayOwner',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'МВМарина ВолковаAdminLastSeen.AtDate',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'МВМарина ВолковаAdminLastSeen.AtDate',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'EREgoist RelayOwner',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'MembersMediaFilesLinksMusicGIFVoice',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: '',\n+     tag: 'INPUT'\n+   },\n+   {\n+     label: 'Notifications',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'https://t.me/+relay-synthetic-fixtureSetUrlPlaceholder',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'Statistics',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Edit',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Common.Close',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'МВМарина ВолковаAdminLastSeen.AtDate',\n+     tag: 'DIV'\n+   }\n+ ]\n- []\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Tab enters hidden Telegram/profile while full operations panel is open\n+ actual - expected\n\n+ [\n+   {\n+     label: 'Common.Close',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Edit',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Statistics',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'https://t.me/+relay-synthetic-fixtureSetUrlPlaceholder',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'Notifications',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: '',\n+     tag: 'INPUT'\n+   },\n+   {\n+     label: 'MembersMediaFilesLinksMusicGIFVoice',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'EREgoist RelayOwner',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'МВМарина ВолковаAdminLastSeen.AtDate',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'МВМарина ВолковаAdminLastSeen.AtDate',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'EREgoist RelayOwner',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'MembersMediaFilesLinksMusicGIFVoice',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: '',\n+     tag: 'INPUT'\n+   },\n+   {\n+     label: 'Notifications',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'https://t.me/+relay-synthetic-fixtureSetUrlPlaceholder',\n+     tag: 'DIV'\n+   },\n+   {\n+     label: 'Statistics',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Edit',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'Common.Close',\n+     tag: 'BUTTON'\n+   },\n+   {\n+     label: 'МВМарина ВолковаAdminLastSeen.AtDate',\n+     tag: 'DIV'\n+   }\n+ ]\n- []\n\n    at file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:411:12\n    at async caseRun (file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:129:20)\n    at async file:///C:/Users/Egoist/Desktop/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/%D0%9F%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F/Egoist%20Relay/scripts/relay-operations-ui-audit.mjs:386:3",
+      "detail": {
+        "state": {
+          "auth": "authorizationStateReady",
+          "currentUserId": "1",
+          "connection": "connectionStateReady",
+          "chatCount": 2,
+          "settingsScreen": 0,
+          "leftContent": 0,
+          "isSynced": true,
+          "isSyncing": true,
+          "currentChatId": "-1000000000201"
+        },
+        "native": {
+          "contentVisible": false,
+          "currentApp": "telegram",
+          "calls": [
+            {
+              "command": "relay_research_ready",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1472.2999999970198
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1527.3999999985099
+            },
+            {
+              "command": "multi_social_set_labels",
+              "args": {
+                "shareLabel": "Поделиться в Telegram"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1531.1000000014901
+            },
+            {
+              "command": "relay_media_operation_action",
+              "args": {
+                "action": {
+                  "type": "lock",
+                  "isLocked": false
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1531.2000000029802
+            },
+            {
+              "command": "multi_prewarm_x",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1531.2000000029802
+            },
+            {
+              "command": "multi_prewarm_instagram",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1531.2000000029802
+            },
+            {
+              "command": "relay_media_operations_list",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1531.2999999970198
+            },
+            {
+              "command": "multi_set_active_app",
+              "args": {
+                "app": "telegram",
+                "bounds": {
+                  "x": 72,
+                  "y": 40,
+                  "width": 1848,
+                  "height": 1040
+                }
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1536.6000000014901
+            },
+            {
+              "command": "relay_get_telegram_transport",
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 1629.7000000029802
+            },
+            {
+              "command": "set_notifications_count",
+              "args": {
+                "amount": 0,
+                "isMuted": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 4666.39999999851
+            },
+            {
+              "command": "set_window_title",
+              "args": {
+                "title": "Egoist Relay"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 5125.79999999702
+            },
+            {
+              "command": "multi_social_set_labels",
+              "args": {
+                "shareLabel": "Поделиться в Telegram"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 5131.20000000298
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": true
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 6400.70000000298
+            },
+            {
+              "command": "set_window_title",
+              "args": {
+                "title": "Марина Волкова"
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 6596.60000000149
+            },
+            {
+              "command": "multi_set_content_visible",
+              "args": {
+                "visible": false
+              },
+              "contentVisible": true,
+              "currentApp": "telegram",
+              "time": 6839.5
+            }
+          ],
+          "snapshot": {
+            "epoch": 3,
+            "operations": [
+              {
+                "id": "7347dad0-221b-4bc1-9ebd-8b8158aba35b",
+                "attempt": 1,
+                "revision": 1,
+                "kind": "download",
+                "service": "telegram",
+                "fileName": "Локальная проверка.mp4",
+                "stage": "downloading",
+                "createdAt": 1791282117746,
+                "updatedAt": 1791282117746,
+                "files": []
+              }
+            ],
+            "isLocked": false
+          }
+        },
+        "panel": "Загрузки и пересылки\nТекущие1\nИстория\nЗагрузка\nTelegram\n6 окт., 13:21\nЛокальная проверка.mp4\n\nСкачиваем\n\nОтменить\n\nИсходное сообщение не определено\n\nЛокальный журнал · 30 дней · до 500 завершённых операций",
+        "activeElement": {
+          "tag": "DIV",
+          "id": "",
+          "label": null
+        },
+        "unhandled": []
+      },
+      "screenshot": "ui-visuals/operations-2026-10-06T10-21-37-735Z/failure-full-panel-hidden-profile-keyboard-restoration.png",
+      "pageErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "sourceHashesAfter": {
+    "src/components/App.tsx": "9c87b27d7e3c158118e3bbac001619ed9cef59c4e27f758b63eaa18fafb39221",
+    "src/components/App.module.scss": "02510618c48a03f77358df0c3526680bf54a9fc49aadee4d65e482c7c6325de3",
+    "src/components/multi/MediaOperationsPanel.tsx": "0b5e533e3ec526065b0f24d339ac2dd5f8eff769a5024f77edc8816b8ddb8cea",
+    "src/components/multi/MediaOperationsPanel.module.scss": "7f809d4ae1f62c17433b54b11afd0d24f6bc14aee447b44196663e4f9974fed0",
+    "src/components/multi/mediaOperations.ts": "242df7cec047c7812f4744435034f0031f34be5ae880eeb1ec0a02eafd3e2b94",
+    "src/components/multi/mediaOperations.types.ts": "f91132be08b7d39a9966ef7c8cddcae5549f13f4a51ea8d05db74d898eaa34c2",
+    "scripts/relay-ui-audit.server.mjs": "219e2c7ac2cbe89b4a8c5c86b72a1fecae668eefcd3363af8ddc1646379150aa",
+    "scripts/relay-operations-ui-audit.mjs": "077644f33bbe8e7f23b2e3257ad3db883aacdedf416941f7ca94b1b82ee93c2b"
+  },
+  "sourcesChangedDuringRun": [],
+  "unhandled": [],
+  "summary": {
+    "passed": 0,
+    "failed": 1,
+    "total": 1
+  }
+}

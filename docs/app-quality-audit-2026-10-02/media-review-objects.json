@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-media-quality-audit-2026-10-02",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "reviewObjects": [
+    {
+      "id": "media-audit-transfer-integrity",
+      "name": "Целостность Telegram и дозапись крупных файлов",
+      "version": 1,
+      "content": "40 MiB normal/premium uploads, 128 seeded byte ranges, out-of-order responses and OPFS short writes pass. Valid partial writes finish byte-exactly; zero/invalid writes reject finitely and remove unfinished output. No false 100% after failed writes.",
+      "evidence": "media-report.md; media-evidence/media-vitest-final.json",
+      "confirmationAction": "Принять проверенное изменение исходников и результаты тестов; отправка сообщений не запускается."
+    },
+    {
+      "id": "media-audit-cancel-isolation",
+      "name": "Отмена, повторы и независимые запросы",
+      "version": 1,
+      "content": "1000 queued MTProto parts are canceled without retained media states. A sibling Ping in the same sent container remains resolvable; late replies do not resurrect canceled media. 100 mixed save/preview operations are serialized; 200 canceled queued saves do not enter native IPC.",
+      "evidence": "media-report.md; media-evidence/media-vitest-final.json",
+      "confirmationAction": "Принять результаты сценарных тестов; аккаунты и настройки не меняются."
+    },
+    {
+      "id": "media-audit-original-stream",
+      "name": "Потоковые оригиналы и Full HD без потери байтов",
+      "version": 1,
+      "content": "70 MiB synthetic originals stream byte-exactly with one GET over verified HTTP/1.1 and h2. An actual local H264 1920x1080 MP4 of 1210 seconds passes real bundled ffprobe and retains SHA256 through file output. CDN/engine download speed is not inferred from localhost fixtures.",
+      "evidence": "media-report.md; media-evidence/file-channel-metrics.json",
+      "confirmationAction": "Принять проверку файлового канала; это не подтверждение всех CDN или аккаунтов."
+    },
+    {
+      "id": "media-audit-disk-errors",
+      "name": "Точные сообщения об ошибках диска",
+      "version": 1,
+      "content": "Original CDN declared size and resolver file size above the dynamic free-disk budget produce MEDIA_DISK_FULL; buffered preview remains MEDIA_TOO_LARGE. Three original-mode regression cases fail before the patch and pass afterward; malformed length remains rejected without output.",
+      "evidence": "media-report.md; media-evidence/media-disk-before.json; media-evidence/media-file-final.log",
+      "confirmationAction": "Принять исправление классификации ошибки; лимиты сервисов и сетевые настройки не меняются."
+    }
+  ]
+}

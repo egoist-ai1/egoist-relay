@@ -1,0 +1,24 @@
+{
+  "templateSha256": "84a5f0fdbd7ba76d48acabfba3f408ae2ffd94f7106ed65b00ea85fc0b847f34",
+  "allOtherTemplateTextIdentical": true,
+  "actualMinimumWebview": "143.0.0.0",
+  "state": "existing_asset_offline_packaging_prepared",
+  "webviewSha256": "f6df8e4bc857786ff641cd01da1449169eaf8236c936ced485ea61685ba4da40",
+  "primarySources": [
+    "https://raw.githubusercontent.com/tauri-apps/tauri/tauri-cli-v2.11.4/crates/tauri-bundler/src/bundle/windows/util.rs",
+    "https://raw.githubusercontent.com/tauri-apps/tauri/tauri-cli-v2.11.4/crates/tauri-bundler/src/bundle/windows/nsis/mod.rs"
+  ],
+  "productionConfigUnchanged": true,
+  "schemaVersion": 1,
+  "networkSettingsUnchanged": true,
+  "buildWrapperLookupSkipped": true,
+  "webviewSignature": "Valid Microsoft Corporation",
+  "priorNsisSha256": "5815e22ac8fc376184ecb5d311650c155805ab92816b50519afc91a54b53d2dc",
+  "actualInstallerMode": "offlineInstaller",
+  "version": "1.4.6",
+  "templateChanges": [
+    "VERSION 1.4.5 to1.4.6",
+    "VERSIONWITHBUILD1.4.5.0 to1.4.6.0",
+    "EstimatedSize from actual compiled6 plus unchanged40runtime"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "tscExit": 0,
+  "eslintExit": 0,
+  "runnerSyntaxExit": 0,
+  "serverSyntaxExit": 0,
+  "tsxEslintGate": "scripts/*.tsx ignored by unmodified project configuration; not a lint PASS",
+  "fullCheckTsCommandEquivalent": "existing Node tsc --noEmit -p ownwork/tsconfig.json + existing Node eslint selected4sources2JS",
+  "tscScope": "whole source + new fixture incl imported frozen fixtures",
+  "eslintFiles": 6,
+  "eslintErrors": 0,
+  "eslintWarnings": 0,
+  "sourceFourSha256": {
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/PasswordForm.tsx": "116830e9c77fee5560b491ee809761b1fb4d8c995381da76e026f1a5e016a9f4"
+  }
+}

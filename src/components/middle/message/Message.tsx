@@ -48,9 +48,11 @@ import { MAIN_THREAD_ID } from '../../../api/types';
 import { AudioOrigin } from '../../../types';
 
 import { EMOJI_STATUS_LOOP_LIMIT, MESSAGE_APPEARANCE_DELAY } from '../../../config';
+import { requestMutation } from '../../../lib/fasterdom/fasterdom';
 import {
   areReactionsEmpty,
   getAllowedAttachmentOptions,
+  getCanPostInChat,
   getIsDownloading,
   getMainUsername,
   getMessageContent,
@@ -133,7 +135,12 @@ import { IS_TAURI } from '../../../util/browser/globalEnvironment';
 import { IS_ANDROID, IS_TRANSLATION_SUPPORTED } from '../../../util/browser/windowEnvironment';
 import buildClassName from '../../../util/buildClassName';
 import buildStyle from '../../../util/buildStyle';
+import { copyTextToClipboard } from '../../../util/clipboard';
 import { isUserId } from '../../../util/entities/ids';
+import {
+  findInlineSocialMediaUrl, hasNativeInlineSocialMediaPreview, INLINE_MEDIA_OPEN_EVENT,
+  parseInlineSocialMediaUrl, shouldUseNativeInlineSocialMediaPreview,
+} from '../../../util/inlineSocialMedia';
 import { getMessageKey } from '../../../util/keys/messageKey';
 import { parseTranslationCacheKey } from '../../../util/keys/translationKey';
 import { getServerTime } from '../../../util/serverTime';
@@ -144,6 +151,7 @@ import renderText from '../../common/helpers/renderText';
 import { getCustomEmojiSize } from '../composer/helpers/customEmoji';
 import { buildContentClassName } from './helpers/buildContentClassName';
 import getSingularPaidMedia from './helpers/getSingularPaidMedia';
+import { getMessageMediaLayout } from './helpers/mediaLayout';
 
 import useAppLayout from '../../../hooks/useAppLayout';
 import useContextMenuHandlers from '../../../hooks/useContextMenuHandlers';
@@ -199,6 +207,7 @@ import FactCheck from './FactCheck';
 import Game from './Game';
 import Giveaway from './Giveaway';
 import InlineButtons from './InlineButtons';
+import InlineSocialMedia, { stopInlineSocialMedia } from './InlineSocialMedia';
 import Invoice from './Invoice';
 import InvoiceMediaPreview from './InvoiceMediaPreview';
 import Location from './Location';
@@ -282,6 +291,9 @@ type StateProps = {
   noFocusHighlight?: boolean;
   scrollTargetPosition?: ScrollTargetPosition;
   isResizingContainer?: boolean;
+  currentUser?: ApiUser;
+  chat?: ApiChat;
+  canPost?: boolean;
   isForwarding?: boolean;
   isChatWithSelf?: boolean;
   isBotForum?: boolean;
@@ -304,6 +316,7 @@ type StateProps = {
   isMessagePrimaryEditedDateEnabled: boolean;
   canAutoLoadMedia?: boolean;
   canAutoPlayMedia?: boolean;
+  canAutoPlayInlineMedia?: boolean;
   hasLinkedChat?: boolean;
   shouldLoopStickers?: boolean;
   autoLoadFileMaxSizeMb: number;
@@ -422,6 +435,8 @@ const Message = ({
   isRepliesChat,
   isAnonymousForwards,
   isChannel,
+  chat,
+  canPost,
   isGroup,
   canReply,
   highlight,
@@ -444,6 +459,7 @@ const Message = ({
   isDownloading,
   canAutoLoadMedia,
   canAutoPlayMedia,
+  canAutoPlayInlineMedia,
   shouldLoopStickers,
   autoLoadFileMaxSizeMb,
   repliesThreadInfo,
@@ -489,6 +505,7 @@ const Message = ({
   observeIntersectionForPlaying,
   isMessageListActive,
   isQuickPreview,
+  currentUser,
   onMessageUnmount,
 }: OwnProps & StateProps) => {
   const {
@@ -509,6 +526,45 @@ const Message = ({
   } = getActions();
 
   const ref = useRef<HTMLDivElement>();
+  const [inlineMediaUrl, setInlineMediaUrl] = useState<string>();
+  const [inlineMediaActivation, setInlineMediaActivation] = useState(0);
+  const [inlineMediaLayout, setInlineMediaLayout] = useState<{
+    url: string; isVertical: boolean; aspectRatio: number;
+  }>();
+  const defaultInlineMediaUrl = useMemo(() => (
+    parseInlineSocialMediaUrl(webPage?.url) ? webPage?.url : findInlineSocialMediaUrl(message.content.text)
+  ), [webPage?.url, message.content.text]);
+  const inlineMediaSource = useMemo(() => (
+    parseInlineSocialMediaUrl(inlineMediaUrl || defaultInlineMediaUrl)
+  ), [inlineMediaUrl, defaultInlineMediaUrl]);
+  const hasNativePreviewMedia = hasNativeInlineSocialMediaPreview(webPage);
+  const shouldUseNativePreview = shouldUseNativeInlineSocialMediaPreview(
+    Boolean(hasNativePreviewMedia), webPage?.url, inlineMediaUrl,
+  );
+  const isInlineMediaVertical = inlineMediaLayout?.url === inlineMediaSource?.canonicalUrl
+    ? inlineMediaLayout?.isVertical : inlineMediaSource?.isVertical;
+  const inlineMediaAspectRatio = inlineMediaLayout?.url === inlineMediaSource?.canonicalUrl
+    ? inlineMediaLayout?.aspectRatio : undefined;
+  const handleInlineMediaLayout = useLastCallback((url: string, isVertical: boolean, aspectRatio: number) => {
+    setInlineMediaLayout({ url, isVertical, aspectRatio });
+  });
+  const handleInlineMediaOpen = useLastCallback((e: Event) => {
+    const url = (e as CustomEvent<{ url?: string }>).detail?.url;
+    if (isInSelectMode || !parseInlineSocialMediaUrl(url)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setInlineMediaUrl(url);
+    if (shouldUseNativeInlineSocialMediaPreview(Boolean(hasNativePreviewMedia), webPage?.url, url)) {
+      requestMutation(() => ref.current?.querySelector('.WebPage')?.scrollIntoView({ block: 'nearest' }));
+      return;
+    }
+    setInlineMediaActivation((current) => current + 1);
+  });
+  useEffect(() => {
+    const element = ref.current!;
+    element.addEventListener(INLINE_MEDIA_OPEN_EVENT, handleInlineMediaOpen);
+    return () => element.removeEventListener(INLINE_MEDIA_OPEN_EVENT, handleInlineMediaOpen);
+  }, [handleInlineMediaOpen]);
   const bottomMarkerRef = useRef<HTMLDivElement>();
   const quickReactionRef = useRef<HTMLDivElement>();
 
@@ -673,8 +729,9 @@ const Message = ({
   const messageSender = canShowSender ? sender : undefined;
 
   const shouldPreferOriginSender = forwardInfo
-    && (isChatWithSelf || isRepliesChat || isAnonymousForwards || !messageSender);
-  const avatarPeer = shouldPreferOriginSender ? originSender : messageSender;
+    && (isChatWithSelf || isRepliesChat || isAnonymousForwards || !sender);
+  const avatarPeer = shouldPreferOriginSender ? originSender : (sender || chat);
+  const isChannelPost = Boolean(isChannel);
 
   const messageColorPeer = asForwarded ? originSender : sender;
   const noUserColors = isOwn && !isCustomShape;
@@ -718,7 +775,7 @@ const Message = ({
     handleReplyClick,
     handleMediaClick,
     handleDocumentClick,
-    handleAudioPlay,
+    handleAudioPlay: handleNativeAudioPlay,
     handleAlbumMediaClick,
     handlePhotoMediaClick,
     handleVideoMediaClick,
@@ -756,6 +813,11 @@ const Message = ({
     isRepliesChat,
     isSavedMessages: isChatWithSelf,
     lastPlaybackTimestamp,
+  });
+
+  const handleAudioPlay = useLastCallback(() => {
+    stopInlineSocialMedia();
+    handleNativeAudioPlay();
   });
 
   useEffect(() => {
@@ -820,6 +882,7 @@ const Message = ({
 
   const containerClassName = buildClassName(
     'Message message-list-item',
+    isChannelPost && 'channel-post',
     isFirstInGroup && 'first-in-group',
     isProtected && 'hide-on-print',
     isProtected && !hasTextContent ? 'is-protected' : 'allow-selection',
@@ -932,6 +995,20 @@ const Message = ({
     theme,
   });
 
+  const hasInlineMedia = Boolean(inlineMediaSource && !shouldUseNativePreview
+    && !photo && !video && !audio && !document && !isAlbum);
+  const mediaLayout = !isCustomShape ? getMessageMediaLayout({
+    photo,
+    video,
+    isAlbum,
+    webPage,
+    messageWebPage: getMessageWebPage(message),
+    inlineSource: hasInlineMedia ? inlineMediaSource : undefined,
+    isInlineMediaVertical,
+    inlineMediaAspectRatio,
+  }) : undefined;
+  const mediaLayoutStyle = mediaLayout?.aspectRatio
+    ? `--message-media-aspect-ratio: ${mediaLayout.aspectRatio}` : undefined;
   const hasWideMedia = Boolean(
     (photo || video || isAlbum || invoice?.extendedMedia || invoice?.photo)
     && ((text?.text.length || 0) > MIN_MESSAGE_LENGTH_FOR_WIDE_MEDIA || isMediaWithCommentButton),
@@ -954,7 +1031,9 @@ const Message = ({
     withVoiceTranscription,
     peerColorClass,
     hasOutsideReactions,
-  }), hasWideMedia && 'with-wide-media');
+  }), hasWideMedia && 'with-wide-media', sticker && 'sticker-message', hasInlineMedia && 'with-inline-media',
+  hasInlineMedia && isInlineMediaVertical && 'with-vertical-inline-media',
+  mediaLayout && 'with-responsive-media');
 
   const withAppendix = contentClassName.includes('has-appendix');
   const emojiSize = getCustomEmojiSize(text?.emojiOnlyCount);
@@ -1504,7 +1583,7 @@ const Message = ({
             )}
             dir="auto"
           >
-            {(isTranscriptionError ? oldLang('NoWordsRecognized') : (
+            {(isTranscriptionError ? transcribedText || oldLang('NoWordsRecognized') : (
               isTranscribing && transcribedText ? <DotAnimation content={transcribedText} /> : transcribedText
             ))}
           </p>
@@ -1598,6 +1677,19 @@ const Message = ({
 
   function renderWebPage() {
     const messageWebPage = getMessageWebPage(message);
+    if (inlineMediaSource && !shouldUseNativePreview) {
+      return (
+        <InlineSocialMedia
+          key={inlineMediaSource.canonicalUrl}
+          source={inlineMediaSource}
+          activationKey={inlineMediaActivation}
+          canAutoLoad={Boolean(messageWebPage && !isProtected && canAutoLoadMedia)}
+          canAutoPlay={Boolean(messageWebPage && !isProtected && canAutoPlayInlineMedia)}
+          isMessageListActive={isMessageListActive}
+          onLayoutChange={handleInlineMediaLayout}
+        />
+      );
+    }
     if (!messageWebPage || !webPage) return undefined;
     return (
       <WebPage
@@ -1763,6 +1855,24 @@ const Message = ({
     setDeclineReason('');
   });
 
+  const handleDoubleClickCopy = useLastCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (isInSelectMode) return;
+    const textToCopy = text?.text || message.content?.text?.text;
+    if (textToCopy) {
+      e.stopPropagation();
+      const selection = window.getSelection();
+      const range = window.document.createRange();
+      const targetElement = (e.currentTarget.querySelector('.text-content') || e.currentTarget) as Node;
+      if (selection && targetElement) {
+        range.selectNodeContents(targetElement);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+      copyTextToClipboard(textToCopy);
+      getActions().showNotification({ message: 'Текст скопирован' });
+    }
+  });
+
   function renderSenderName(
     shouldSkipRenderForwardTitle: boolean = false, shouldSkipRenderAdminTitle: boolean = false,
   ) {
@@ -1926,6 +2036,10 @@ const Message = ({
 
   const additionalInlineButtons = suggestedPostButtons || openThreadButtons;
 
+  const shouldShowMessageAvatar = !isChannelPost && (!isChannel || isChatWithUser);
+  const shouldRenderIncomingAvatar = shouldShowMessageAvatar && !isOwn && !isInDocumentGroupNotLast;
+  const shouldRenderOwnAvatar = shouldShowMessageAvatar && isOwn && !isInDocumentGroupNotLast;
+
   return (
     <div
       ref={ref}
@@ -1970,16 +2084,35 @@ const Message = ({
           )}
         </div>
       )}
+      {shouldRenderIncomingAvatar && (
+        <Avatar
+          size="small"
+          peer={avatarPeer}
+          className="message-avatar message-avatar-incoming"
+          onClick={handleSenderClick}
+        />
+      )}
       <div
         className={buildClassName('message-content-wrapper',
           contentClassName.includes('text') && 'can-select-text',
-          contentClassName.includes('giveaway') && 'giveaway-result-content')}
+          contentClassName.includes('giveaway') && 'giveaway-result-content',
+          mediaLayout && 'with-responsive-media',
+          mediaLayout?.isPortrait && 'with-portrait-media',
+          mediaLayout?.isWebPage && 'with-webpage-media')}
+        style={mediaLayoutStyle}
       >
         <div
           className={contentClassName}
           style={contentStyle}
           dir="auto"
+          onDoubleClick={handleDoubleClickCopy}
         >
+          {message.isDeletedByPeer && (
+            <div className="ghost-deleted-badge" title="Удалено собеседником (сохранено Egoist Relay)">
+              <Icon name="delete" />
+              <span>Удалено собеседником</span>
+            </div>
+          )}
           {asForwarded && !isInDocumentGroupNotFirst && (
             <>
               {shouldRenderSenderName() && renderSenderName()}
@@ -2078,6 +2211,13 @@ const Message = ({
           />
         )}
       </div>
+      {shouldRenderOwnAvatar && (
+        <Avatar
+          size="small"
+          peer={currentUser || sender}
+          className="message-avatar message-avatar-own"
+        />
+      )}
       {contextMenuAnchor && (
         <ContextMenuContainer
           isOpen={isContextMenuOpen}
@@ -2158,7 +2298,7 @@ export default memo(withGlobal<OwnProps>(
     const isForwarding = forwardMessages.messageIds && forwardMessages.messageIds.includes(id);
     const forceSenderName = !isChatWithSelf && isAnonymousOwnMessage(message);
     const canShowSender = withSenderName || withAvatar || forceSenderName;
-    const sender = selectSender(global, message);
+    const sender = selectSender(global, message) || (isChatWithUser ? selectUser(global, chatId) : chat);
     const originSender = selectForwardedSender(global, message);
     const botSender = viaBotId ? selectUser(global, viaBotId) : undefined;
     const ephemeralBot = message.ephemeralBotId ? selectUser(global, message.ephemeralBotId) : undefined;
@@ -2253,7 +2393,7 @@ export default memo(withGlobal<OwnProps>(
     const requestedChatTranslationLanguage = selectRequestedChatTranslationLanguage(global, chatId);
     const requestedTranslationTone = selectRequestedChatTranslationTone(global, chatId);
 
-    const areTranslationsEnabled = IS_TRANSLATION_SUPPORTED && global.settings.byKey.canTranslate
+    const areTranslationsEnabled = IS_TRANSLATION_SUPPORTED && (global.settings.byKey.canTranslate ?? true)
       && !requestedChatTranslationLanguage; // Stop separate language detection if chat translation is requested
 
     const isConnected = global.connectionState === 'connectionStateReady';
@@ -2267,7 +2407,7 @@ export default memo(withGlobal<OwnProps>(
     const chatLevel = chat?.boostLevel || 0;
     const transcribeMinLevel = global.appConfig.groupTranscribeLevelMin;
     const canTranscribeVoice = !message.isEphemeral
-      && (isPremium || Boolean(transcribeMinLevel && chatLevel >= transcribeMinLevel));
+      && (IS_TAURI || isPremium || Boolean(transcribeMinLevel && chatLevel >= transcribeMinLevel));
 
     const viaBusinessBot = viaBusinessBotId ? selectUser(global, viaBusinessBotId) : undefined;
 
@@ -2286,11 +2426,15 @@ export default memo(withGlobal<OwnProps>(
     const isReplyMediaNsfw = replyMessage && selectIsMediaNsfw(global, replyMessage);
 
     const summary = selectMessageSummary(global, chatId, message.id, requestedTranslationLanguage);
-
+    const canPost = chat ? getCanPostInChat(chat, messageTopic) : true;
+    const currentUser = global.currentUserId ? selectUser(global, global.currentUserId) : undefined;
     const allowedAttachmentOptions = getAllowedAttachmentOptions(chat, chatFullInfo, isChatWithBot);
 
     return {
       theme: selectTheme(global),
+      currentUser,
+      chat,
+      canPost,
       forceSenderName,
       sender,
       canShowSender,
@@ -2338,6 +2482,7 @@ export default memo(withGlobal<OwnProps>(
       isMessagePrimaryEditedDateEnabled: Boolean(global.appConfig.isMessagePrimaryEditedDateEnabled),
       canAutoLoadMedia: selectCanAutoLoadMedia(global, message),
       canAutoPlayMedia: selectCanAutoPlayMedia(global, message),
+      canAutoPlayInlineMedia: selectPerformanceSettingsValue(global, 'autoplayVideos'),
       autoLoadFileMaxSizeMb: global.settings.byKey.autoLoadFileMaxSizeMb,
       shouldLoopStickers: selectShouldLoopStickers(global),
       repliesThreadInfo,

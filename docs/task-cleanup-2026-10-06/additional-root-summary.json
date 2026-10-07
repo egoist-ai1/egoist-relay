@@ -1,0 +1,1726 @@
+{
+  "schemaVersion": 1,
+  "taskId": "01a10e5c-490e-7401-ab0c-09ec3a0b60b1",
+  "state": "complete",
+  "completedAt": "2026-10-06T19:09:07.177576+00:00",
+  "scope": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work",
+  "sourceReceipts": [
+    "additional-root.json",
+    "additional-root-readonly.json"
+  ],
+  "removed": {
+    "files": 3757,
+    "logicalBytes": 88137424,
+    "nativeDataAllocationBytes": 94524952
+  },
+  "physicalVolumeAccounting": {
+    "exactBytes": null,
+    "ordinaryClusterAlignedNonresidentAllocationBytes": 94183424,
+    "nativeDataAllocationUpperBoundBytes": 94524952,
+    "reason": "NTFS resident allocation is part of retained MFT records. Concurrent cleanup makes whole-C free delta unattributable. Ordinary cluster-aligned allocations are reported separately; filesystem metadata savings excluded."
+  },
+  "remaining": {
+    "files": 5649,
+    "logicalBytes": 836792377,
+    "groups": {
+      "build-review-board.py": {
+        "files": 1,
+        "logicalBytes": 11842
+      },
+      "build-source-diff.py": {
+        "files": 1,
+        "logicalBytes": 6098
+      },
+      "cleanup-additional-start.patch.json": {
+        "files": 1,
+        "logicalBytes": 3977
+      },
+      "compare-performance.mjs": {
+        "files": 1,
+        "logicalBytes": 8340
+      },
+      "environment-final.json": {
+        "files": 1,
+        "logicalBytes": 348
+      },
+      "file-channel-metrics.json": {
+        "files": 1,
+        "logicalBytes": 879
+      },
+      "frontend-cycle-2026-10-06": {
+        "files": 2723,
+        "logicalBytes": 35724263
+      },
+      "hotfix-1.6.1": {
+        "files": 30,
+        "logicalBytes": 538233
+      },
+      "implementation-baseline": {
+        "files": 2457,
+        "logicalBytes": 14402961
+      },
+      "implementation-baseline.json": {
+        "files": 1,
+        "logicalBytes": 450821
+      },
+      "implementation-handoff.patch.json": {
+        "files": 1,
+        "logicalBytes": 3283
+      },
+      "implementation-progress.patch.json": {
+        "files": 1,
+        "logicalBytes": 1225
+      },
+      "implementation-start.patch.json": {
+        "files": 1,
+        "logicalBytes": 2211
+      },
+      "operations-eslint-final.log": {
+        "files": 1,
+        "logicalBytes": 9080
+      },
+      "operations-eslint-first.log": {
+        "files": 1,
+        "logicalBytes": 8777
+      },
+      "operations-eslint-fresh.log": {
+        "files": 1,
+        "logicalBytes": 294
+      },
+      "operations-eslint-full.log": {
+        "files": 1,
+        "logicalBytes": 25694
+      },
+      "operations-eslint-keyboard.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "operations-eslint-loader.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "operations-eslint-partialsave.log": {
+        "files": 1,
+        "logicalBytes": 349
+      },
+      "operations-eslint-second.log": {
+        "files": 1,
+        "logicalBytes": 4364
+      },
+      "operations-eslint-third.log": {
+        "files": 1,
+        "logicalBytes": 298
+      },
+      "operations-eslint.json": {
+        "files": 1,
+        "logicalBytes": 159753
+      },
+      "operations-existing-ui.log": {
+        "files": 1,
+        "logicalBytes": 440
+      },
+      "operations-installer-accepted.log": {
+        "files": 1,
+        "logicalBytes": 1749
+      },
+      "operations-installer-build.log": {
+        "files": 1,
+        "logicalBytes": 2345
+      },
+      "operations-media-command-proof.log": {
+        "files": 1,
+        "logicalBytes": 5488
+      },
+      "operations-media-final.log": {
+        "files": 1,
+        "logicalBytes": 5487
+      },
+      "operations-native-accepted.log": {
+        "files": 1,
+        "logicalBytes": 11353
+      },
+      "operations-native-cache-rebuild.log": {
+        "files": 1,
+        "logicalBytes": 40
+      },
+      "operations-native-final.log": {
+        "files": 1,
+        "logicalBytes": 289823
+      },
+      "operations-native-first.log": {
+        "files": 1,
+        "logicalBytes": 18610
+      },
+      "operations-native-integrated.log": {
+        "files": 1,
+        "logicalBytes": 10293
+      },
+      "operations-performance-comparison.log": {
+        "files": 1,
+        "logicalBytes": 3931
+      },
+      "operations-preflight.json": {
+        "files": 1,
+        "logicalBytes": 889
+      },
+      "operations-preflight.log": {
+        "files": 1,
+        "logicalBytes": 86
+      },
+      "operations-production-frontend.log": {
+        "files": 1,
+        "logicalBytes": 60223
+      },
+      "operations-release-native-warm.log": {
+        "files": 1,
+        "logicalBytes": 14323
+      },
+      "operations-release-policy.log": {
+        "files": 1,
+        "logicalBytes": 1295
+      },
+      "operations-review-qa.log": {
+        "files": 1,
+        "logicalBytes": 1107
+      },
+      "operations-stylelint-final.log": {
+        "files": 1,
+        "logicalBytes": 66747
+      },
+      "operations-stylelint-full.log": {
+        "files": 1,
+        "logicalBytes": 67540
+      },
+      "operations-stylelint-panel.log": {
+        "files": 1,
+        "logicalBytes": 1536
+      },
+      "operations-stylelint-shell.log": {
+        "files": 1,
+        "logicalBytes": 325
+      },
+      "operations-stylelint-targeted.log": {
+        "files": 1,
+        "logicalBytes": 1909
+      },
+      "operations-tsc-final.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "operations-tsc-first.log": {
+        "files": 1,
+        "logicalBytes": 7240
+      },
+      "operations-tsc-script.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "operations-tsc-second.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "operations-tsc-test.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "operations-vitest-final.log": {
+        "files": 1,
+        "logicalBytes": 280
+      },
+      "operations-vitest-full.log": {
+        "files": 1,
+        "logicalBytes": 281
+      },
+      "pause-cleanup-complete.patch.json": {
+        "files": 1,
+        "logicalBytes": 6844
+      },
+      "pause-cleanup.patch.json": {
+        "files": 1,
+        "logicalBytes": 3856
+      },
+      "performance-comparison": {
+        "files": 7,
+        "logicalBytes": 65816
+      },
+      "planning-eslint-5120-baseline.log": {
+        "files": 1,
+        "logicalBytes": 294
+      },
+      "planning-eslint-baseline.log": {
+        "files": 1,
+        "logicalBytes": 1285
+      },
+      "planning-media-checks-final.log": {
+        "files": 1,
+        "logicalBytes": 4231
+      },
+      "planning-media-checks.log": {
+        "files": 1,
+        "logicalBytes": 12864
+      },
+      "planning-rust-baseline.log": {
+        "files": 1,
+        "logicalBytes": 17626
+      },
+      "planning-rust-target": {
+        "files": 294,
+        "logicalBytes": 781562944
+      },
+      "planning-stylelint-baseline.log": {
+        "files": 1,
+        "logicalBytes": 65256
+      },
+      "planning-types-baseline.log": {
+        "files": 1,
+        "logicalBytes": 0
+      },
+      "planning-ui-baseline": {
+        "files": 6,
+        "logicalBytes": 631762
+      },
+      "planning-ui-layout-states": {
+        "files": 10,
+        "logicalBytes": 666287
+      },
+      "planning-vitest-baseline.log": {
+        "files": 1,
+        "logicalBytes": 280
+      },
+      "publication-1.6.1": {
+        "files": 14,
+        "logicalBytes": 40432
+      },
+      "review-board-qa": {
+        "files": 45,
+        "logicalBytes": 1761623
+      },
+      "review-file-probe.mjs": {
+        "files": 1,
+        "logicalBytes": 1462
+      },
+      "social-operations-red.log": {
+        "files": 1,
+        "logicalBytes": 4056
+      },
+      "tauri-local-build.json": {
+        "files": 1,
+        "logicalBytes": 37
+      },
+      "verify-review-board.mjs": {
+        "files": 1,
+        "logicalBytes": 8992
+      }
+    },
+    "hardlinks": [
+      {
+        "path": "planning-rust-target\\release\\app_lib.dll",
+        "links": 2,
+        "bytes": 474112
+      },
+      {
+        "path": "planning-rust-target\\release\\app_lib.dll.exp",
+        "links": 2,
+        "bytes": 886
+      },
+      {
+        "path": "planning-rust-target\\release\\app_lib.dll.lib",
+        "links": 2,
+        "bytes": 1536
+      },
+      {
+        "path": "planning-rust-target\\release\\app_lib.pdb",
+        "links": 2,
+        "bytes": 2822144
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build-script-build.exe",
+        "links": 2,
+        "bytes": 304128
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build_script_build-8bf9f33592b4c05d.exe",
+        "links": 2,
+        "bytes": 304128
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build_script_build-8bf9f33592b4c05d.pdb",
+        "links": 2,
+        "bytes": 1675264
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\anyhow-8bf9f33592b4c05d\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1675264
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build-script-build.exe",
+        "links": 2,
+        "bytes": 140288
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build_script_build-139ffc705ef27db4.exe",
+        "links": 2,
+        "bytes": 140288
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build_script_build-139ffc705ef27db4.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\av-scenechange-139ffc705ef27db4\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build-script-build.exe",
+        "links": 2,
+        "bytes": 274432
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build_script_build-cbe48091a68328af.exe",
+        "links": 2,
+        "bytes": 274432
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build_script_build-cbe48091a68328af.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\camino-cbe48091a68328af\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build-script-build.exe",
+        "links": 2,
+        "bytes": 302080
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build_script_build-6d563f85e56639ae.exe",
+        "links": 2,
+        "bytes": 302080
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build_script_build-6d563f85e56639ae.pdb",
+        "links": 2,
+        "bytes": 1667072
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\cookie-6d563f85e56639ae\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1667072
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build-script-build.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build_script_build-f175bcc66393fbd3.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build_script_build-f175bcc66393fbd3.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crc32fast-f175bcc66393fbd3\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build-script-build.exe",
+        "links": 2,
+        "bytes": 151040
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build_script_build-e57a5ca16a90307b.exe",
+        "links": 2,
+        "bytes": 151040
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build_script_build-e57a5ca16a90307b.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-deque-e57a5ca16a90307b\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build-script-build.exe",
+        "links": 2,
+        "bytes": 151040
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build_script_build-19991bae26d6e6f0.exe",
+        "links": 2,
+        "bytes": 151040
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build_script_build-19991bae26d6e6f0.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-epoch-19991bae26d6e6f0\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build-script-build.exe",
+        "links": 2,
+        "bytes": 171008
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build_script_build-bef4bc938d67d4a5.exe",
+        "links": 2,
+        "bytes": 171008
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build_script_build-bef4bc938d67d4a5.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\crossbeam-utils-bef4bc938d67d4a5\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build-script-build.exe",
+        "links": 2,
+        "bytes": 10009088
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build_script_build-224218549b6bc477.exe",
+        "links": 2,
+        "bytes": 10009088
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build_script_build-224218549b6bc477.pdb",
+        "links": 2,
+        "bytes": 11808768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-224218549b6bc477\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 11808768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build-script-build.exe",
+        "links": 2,
+        "bytes": 10009088
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build_script_build-5759ed8478acd0cd.exe",
+        "links": 2,
+        "bytes": 10009088
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build_script_build-5759ed8478acd0cd.pdb",
+        "links": 2,
+        "bytes": 11808768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-5759ed8478acd0cd\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 11808768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build-script-build.exe",
+        "links": 2,
+        "bytes": 10009088
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build_script_build-701ccda0aff426cb.exe",
+        "links": 2,
+        "bytes": 10009088
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build_script_build-701ccda0aff426cb.pdb",
+        "links": 2,
+        "bytes": 11808768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\egoist_relay-701ccda0aff426cb\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 11808768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build-script-build.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build_script_build-11f7ce59998ef217.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build_script_build-11f7ce59998ef217.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\erased-serde-11f7ce59998ef217\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build-script-build.exe",
+        "links": 2,
+        "bytes": 291328
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build_script_build-ba9d1bb016973615.exe",
+        "links": 2,
+        "bytes": 291328
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build_script_build-ba9d1bb016973615.pdb",
+        "links": 2,
+        "bytes": 1650688
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\generic-array-ba9d1bb016973615\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1650688
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build-script-build.exe",
+        "links": 2,
+        "bytes": 150528
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build_script_build-5de0ab7048e3abbd.exe",
+        "links": 2,
+        "bytes": 150528
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build_script_build-5de0ab7048e3abbd.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-5de0ab7048e3abbd\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build-script-build.exe",
+        "links": 2,
+        "bytes": 280576
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build_script_build-7009629acd97e0e4.exe",
+        "links": 2,
+        "bytes": 280576
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build_script_build-7009629acd97e0e4.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-7009629acd97e0e4\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build-script-build.exe",
+        "links": 2,
+        "bytes": 150528
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build_script_build-9c89fc0433ce9cf6.exe",
+        "links": 2,
+        "bytes": 150528
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build_script_build-9c89fc0433ce9cf6.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\getrandom-9c89fc0433ce9cf6\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build-script-build.exe",
+        "links": 2,
+        "bytes": 289792
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build_script_build-e7bb4e13fc7755d0.exe",
+        "links": 2,
+        "bytes": 289792
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build_script_build-e7bb4e13fc7755d0.pdb",
+        "links": 2,
+        "bytes": 1617920
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\httparse-e7bb4e13fc7755d0\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1617920
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build-script-build.exe",
+        "links": 2,
+        "bytes": 136704
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build_script_build-701d2b74e00e4387.exe",
+        "links": 2,
+        "bytes": 136704
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build_script_build-701d2b74e00e4387.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_normalizer_data-701d2b74e00e4387\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build-script-build.exe",
+        "links": 2,
+        "bytes": 136704
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build_script_build-a6c6b78307b008fe.exe",
+        "links": 2,
+        "bytes": 136704
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build_script_build-a6c6b78307b008fe.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\icu_properties_data-a6c6b78307b008fe\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build-script-build.exe",
+        "links": 2,
+        "bytes": 361472
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build_script_build-27a5c46f1a48d25b.exe",
+        "links": 2,
+        "bytes": 361472
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build_script_build-27a5c46f1a48d25b.pdb",
+        "links": 2,
+        "bytes": 1748992
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\indexmap-27a5c46f1a48d25b\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1748992
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build-script-build.exe",
+        "links": 2,
+        "bytes": 312320
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build_script_build-6989923ad5227ecc.exe",
+        "links": 2,
+        "bytes": 312320
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build_script_build-6989923ad5227ecc.pdb",
+        "links": 2,
+        "bytes": 1634304
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libc-6989923ad5227ecc\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1634304
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build-script-build.exe",
+        "links": 2,
+        "bytes": 187904
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build_script_build-2202e971eded8f79.exe",
+        "links": 2,
+        "bytes": 187904
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build_script_build-2202e971eded8f79.pdb",
+        "links": 2,
+        "bytes": 1331200
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\libm-2202e971eded8f79\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1331200
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build-script-build.exe",
+        "links": 2,
+        "bytes": 357376
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build_script_build-4f75ee2f1d1950c9.exe",
+        "links": 2,
+        "bytes": 357376
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build_script_build-4f75ee2f1d1950c9.pdb",
+        "links": 2,
+        "bytes": 1740800
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\matrixmultiply-4f75ee2f1d1950c9\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1740800
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build-script-build.exe",
+        "links": 2,
+        "bytes": 137728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build_script_build-af4ffeb2775d7dba.exe",
+        "links": 2,
+        "bytes": 137728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build_script_build-af4ffeb2775d7dba.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\muda-af4ffeb2775d7dba\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build-script-build.exe",
+        "links": 2,
+        "bytes": 357888
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build_script_build-97d1c2f773421c73.exe",
+        "links": 2,
+        "bytes": 357888
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build_script_build-97d1c2f773421c73.pdb",
+        "links": 2,
+        "bytes": 1740800
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\num-traits-97d1c2f773421c73\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1740800
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build-script-build.exe",
+        "links": 2,
+        "bytes": 151040
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build_script_build-9cff5de236d7dfd0.exe",
+        "links": 2,
+        "bytes": 151040
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build_script_build-9cff5de236d7dfd0.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\parking_lot_core-9cff5de236d7dfd0\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build-script-build.exe",
+        "links": 2,
+        "bytes": 260608
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build_script_build-e91b9d136535b68b.exe",
+        "links": 2,
+        "bytes": 260608
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build_script_build-e91b9d136535b68b.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\paste-e91b9d136535b68b\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build-script-build.exe",
+        "links": 2,
+        "bytes": 307200
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build_script_build-0d958e697e658c6e.exe",
+        "links": 2,
+        "bytes": 307200
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build_script_build-0d958e697e658c6e.pdb",
+        "links": 2,
+        "bytes": 1683456
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\proc-macro2-0d958e697e658c6e\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1683456
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build-script-build.exe",
+        "links": 2,
+        "bytes": 324608
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build_script_build-552247d21cf6707a.exe",
+        "links": 2,
+        "bytes": 324608
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build_script_build-552247d21cf6707a.pdb",
+        "links": 2,
+        "bytes": 1658880
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\pulp-552247d21cf6707a\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1658880
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build-script-build.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build_script_build-d6aa19daf81deccf.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build_script_build-d6aa19daf81deccf.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\quote-d6aa19daf81deccf\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build-script-build.exe",
+        "links": 2,
+        "bytes": 438784
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build_script_build-df64e0fbe64bcd42.exe",
+        "links": 2,
+        "bytes": 438784
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build_script_build-df64e0fbe64bcd42.pdb",
+        "links": 2,
+        "bytes": 1830912
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rav1e-df64e0fbe64bcd42\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1830912
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build-script-build.exe",
+        "links": 2,
+        "bytes": 134656
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build_script_build-de8be9c830913c71.exe",
+        "links": 2,
+        "bytes": 134656
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build_script_build-de8be9c830913c71.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rayon-core-de8be9c830913c71\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build-script-build.exe",
+        "links": 2,
+        "bytes": 1221120
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build_script_build-97de40d4a40896de.exe",
+        "links": 2,
+        "bytes": 1221120
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build_script_build-97de40d4a40896de.pdb",
+        "links": 2,
+        "bytes": 2641920
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-97de40d4a40896de\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 2641920
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\libring_core_0_17_14_.a",
+        "links": 2,
+        "bytes": 756426
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\libring_core_0_17_14__test.a",
+        "links": 2,
+        "bytes": 2998
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\ring_core_0_17_14_.lib",
+        "links": 2,
+        "bytes": 756426
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\ring-c6533a851aef1f6f\\out\\ring_core_0_17_14__test.lib",
+        "links": 2,
+        "bytes": 2998
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build-script-build.exe",
+        "links": 2,
+        "bytes": 126976
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build_script_build-3c3b2705413eb919.exe",
+        "links": 2,
+        "bytes": 126976
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build_script_build-3c3b2705413eb919.pdb",
+        "links": 2,
+        "bytes": 1265664
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\rustls-3c3b2705413eb919\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1265664
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build-script-build.exe",
+        "links": 2,
+        "bytes": 139264
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build_script_build-4b3b93379a563f3c.exe",
+        "links": 2,
+        "bytes": 139264
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build_script_build-4b3b93379a563f3c.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\schemars-4b3b93379a563f3c\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build-script-build.exe",
+        "links": 2,
+        "bytes": 256000
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build_script_build-7acac82c28b9a915.exe",
+        "links": 2,
+        "bytes": 256000
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build_script_build-7acac82c28b9a915.pdb",
+        "links": 2,
+        "bytes": 1429504
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\selectors-7acac82c28b9a915\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1429504
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build-script-build.exe",
+        "links": 2,
+        "bytes": 279552
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build_script_build-56ecb3a955b9def1.exe",
+        "links": 2,
+        "bytes": 279552
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build_script_build-56ecb3a955b9def1.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-56ecb3a955b9def1\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build-script-build.exe",
+        "links": 2,
+        "bytes": 279552
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build_script_build-8356c1567c59ff3d.exe",
+        "links": 2,
+        "bytes": 279552
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build_script_build-8356c1567c59ff3d.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde-8356c1567c59ff3d\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build-script-build.exe",
+        "links": 2,
+        "bytes": 281600
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build_script_build-2d452306ea092f7a.exe",
+        "links": 2,
+        "bytes": 281600
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build_script_build-2d452306ea092f7a.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-2d452306ea092f7a\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build-script-build.exe",
+        "links": 2,
+        "bytes": 281600
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build_script_build-a336aad7934d0c99.exe",
+        "links": 2,
+        "bytes": 281600
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build_script_build-a336aad7934d0c99.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_core-a336aad7934d0c99\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build-script-build.exe",
+        "links": 2,
+        "bytes": 137216
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build_script_build-ebb3b37999d5dd5d.exe",
+        "links": 2,
+        "bytes": 137216
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build_script_build-ebb3b37999d5dd5d.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-ebb3b37999d5dd5d\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build-script-build.exe",
+        "links": 2,
+        "bytes": 137216
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build_script_build-fe8631563c993db4.exe",
+        "links": 2,
+        "bytes": 137216
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build_script_build-fe8631563c993db4.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\serde_json-fe8631563c993db4\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build-script-build.exe",
+        "links": 2,
+        "bytes": 5830144
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build_script_build-e69bf350957f6f5e.exe",
+        "links": 2,
+        "bytes": 5830144
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build_script_build-e69bf350957f6f5e.pdb",
+        "links": 2,
+        "bytes": 7483392
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-e69bf350957f6f5e\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 7483392
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build-script-build.exe",
+        "links": 2,
+        "bytes": 5830144
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build_script_build-f0b7de5c1c5f2e7e.exe",
+        "links": 2,
+        "bytes": 5830144
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build_script_build-f0b7de5c1c5f2e7e.pdb",
+        "links": 2,
+        "bytes": 7483392
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-f0b7de5c1c5f2e7e\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 7483392
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6580224
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build_script_build-619d0e59b82bd25b.exe",
+        "links": 2,
+        "bytes": 6580224
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build_script_build-619d0e59b82bd25b.pdb",
+        "links": 2,
+        "bytes": 8310784
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-deep-link-619d0e59b82bd25b\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8310784
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6647296
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build_script_build-77666b6683c161c6.exe",
+        "links": 2,
+        "bytes": 6647296
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build_script_build-77666b6683c161c6.pdb",
+        "links": 2,
+        "bytes": 8376320
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-fs-77666b6683c161c6\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8376320
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6432768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build_script_build-4e8beb7f29748ce9.exe",
+        "links": 2,
+        "bytes": 6432768
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build_script_build-4e8beb7f29748ce9.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-log-4e8beb7f29748ce9\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6431744
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build_script_build-14e27225a41848e3.exe",
+        "links": 2,
+        "bytes": 6431744
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build_script_build-14e27225a41848e3.pdb",
+        "links": 2,
+        "bytes": 8204288
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-notification-14e27225a41848e3\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8204288
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6432256
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build_script_build-080f5408adc2e6fb.exe",
+        "links": 2,
+        "bytes": 6432256
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build_script_build-080f5408adc2e6fb.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-os-080f5408adc2e6fb\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6432256
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build_script_build-23871d653ab701b2.exe",
+        "links": 2,
+        "bytes": 6432256
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build_script_build-23871d653ab701b2.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-process-23871d653ab701b2\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6474752
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build_script_build-7c3406270e6fdc95.exe",
+        "links": 2,
+        "bytes": 6474752
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build_script_build-7c3406270e6fdc95.pdb",
+        "links": 2,
+        "bytes": 8220672
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-shell-7c3406270e6fdc95\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8220672
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build-script-build.exe",
+        "links": 2,
+        "bytes": 6433792
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build_script_build-9935197a80d16f80.exe",
+        "links": 2,
+        "bytes": 6433792
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build_script_build-9935197a80d16f80.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-plugin-updater-9935197a80d16f80\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 8212480
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build-script-build.exe",
+        "links": 2,
+        "bytes": 138752
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build_script_build-26c084d992b9fe2d.exe",
+        "links": 2,
+        "bytes": 138752
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build_script_build-26c084d992b9fe2d.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-26c084d992b9fe2d\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build-script-build.exe",
+        "links": 2,
+        "bytes": 138752
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build_script_build-86439d20fd048c77.exe",
+        "links": 2,
+        "bytes": 138752
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build_script_build-86439d20fd048c77.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tauri-runtime-wry-86439d20fd048c77\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1306624
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build-script-build.exe",
+        "links": 2,
+        "bytes": 321024
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build_script_build-f80e56cb391cd9fe.exe",
+        "links": 2,
+        "bytes": 321024
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build_script_build-f80e56cb391cd9fe.pdb",
+        "links": 2,
+        "bytes": 1683456
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\thiserror-f80e56cb391cd9fe\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1683456
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build-script-build.exe",
+        "links": 2,
+        "bytes": 137728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build_script_build-0f6944fd75305fb8.exe",
+        "links": 2,
+        "bytes": 137728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build_script_build-0f6944fd75305fb8.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\tray-icon-0f6944fd75305fb8\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1290240
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build-script-build.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build_script_build-ad5c6c44fb382619.exe",
+        "links": 2,
+        "bytes": 260096
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build_script_build-ad5c6c44fb382619.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\typeid-ad5c6c44fb382619\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1601536
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\vswhom-sys-26415f49dafb6628\\out\\libvswhom.a",
+        "links": 2,
+        "bytes": 49922
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\vswhom-sys-26415f49dafb6628\\out\\vswhom.lib",
+        "links": 2,
+        "bytes": 49922
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build-script-build.exe",
+        "links": 2,
+        "bytes": 1118720
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build_script_build-8d5358d46b1cbf48.exe",
+        "links": 2,
+        "bytes": 1118720
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build_script_build-8d5358d46b1cbf48.pdb",
+        "links": 2,
+        "bytes": 2576384
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\vswhom-sys-8d5358d46b1cbf48\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 2576384
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build-script-build.exe",
+        "links": 2,
+        "bytes": 177152
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build_script_build-5b9af5c3f4cca1a8.exe",
+        "links": 2,
+        "bytes": 177152
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build_script_build-5b9af5c3f4cca1a8.pdb",
+        "links": 2,
+        "bytes": 1372160
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\webview2-com-sys-5b9af5c3f4cca1a8\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1372160
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build-script-build.exe",
+        "links": 2,
+        "bytes": 748032
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build_script_build-266976a6c0eb989b.exe",
+        "links": 2,
+        "bytes": 748032
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build_script_build-266976a6c0eb989b.pdb",
+        "links": 2,
+        "bytes": 2142208
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\web_atoms-266976a6c0eb989b\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 2142208
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build-script-build.exe",
+        "links": 2,
+        "bytes": 145408
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build_script_build-a61a7451178c88c8.exe",
+        "links": 2,
+        "bytes": 145408
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build_script_build-a61a7451178c88c8.pdb",
+        "links": 2,
+        "bytes": 1323008
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-a61a7451178c88c8\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1323008
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build-script-build.exe",
+        "links": 2,
+        "bytes": 145408
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build_script_build-af39c05d7f0be121.exe",
+        "links": 2,
+        "bytes": 145408
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build_script_build-af39c05d7f0be121.pdb",
+        "links": 2,
+        "bytes": 1323008
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\windows_x86_64_msvc-af39c05d7f0be121\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1323008
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build-script-build.exe",
+        "links": 2,
+        "bytes": 218112
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build_script_build-f922c03dacc23ac8.exe",
+        "links": 2,
+        "bytes": 218112
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build_script_build-f922c03dacc23ac8.pdb",
+        "links": 2,
+        "bytes": 1396736
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\wry-f922c03dacc23ac8\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1396736
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build-script-build.exe",
+        "links": 2,
+        "bytes": 314880
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build_script_build-70646ff1a9117c76.exe",
+        "links": 2,
+        "bytes": 314880
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build_script_build-70646ff1a9117c76.pdb",
+        "links": 2,
+        "bytes": 1650688
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zerocopy-70646ff1a9117c76\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1650688
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build-script-build.exe",
+        "links": 2,
+        "bytes": 263168
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build_script_build-b9dd2a9a3fa20d18.exe",
+        "links": 2,
+        "bytes": 263168
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build_script_build-b9dd2a9a3fa20d18.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\build\\zmij-b9dd2a9a3fa20d18\\build_script_build.pdb",
+        "links": 2,
+        "bytes": 1609728
+      },
+      {
+        "path": "planning-rust-target\\release\\deps\\app_lib.dll",
+        "links": 2,
+        "bytes": 474112
+      },
+      {
+        "path": "planning-rust-target\\release\\deps\\app_lib.dll.exp",
+        "links": 2,
+        "bytes": 886
+      },
+      {
+        "path": "planning-rust-target\\release\\deps\\app_lib.dll.lib",
+        "links": 2,
+        "bytes": 1536
+      },
+      {
+        "path": "planning-rust-target\\release\\deps\\app_lib.pdb",
+        "links": 2,
+        "bytes": 2822144
+      },
+      {
+        "path": "planning-rust-target\\release\\deps\\egoist_relay.exe",
+        "links": 2,
+        "bytes": 78161408
+      },
+      {
+        "path": "planning-rust-target\\release\\deps\\egoist_relay.pdb",
+        "links": 2,
+        "bytes": 4214784
+      },
+      {
+        "path": "planning-rust-target\\release\\Egoist Relay.exe",
+        "links": 2,
+        "bytes": 78161408
+      },
+      {
+        "path": "planning-rust-target\\release\\egoist_relay.pdb",
+        "links": 2,
+        "bytes": 4214784
+      }
+    ],
+    "inventoryErrors": [],
+    "metadataScan": "Extended Windows paths resolve all former long-path errors; no reparse followed."
+  },
+  "retained": {
+    "guardedCargoDirectory": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\planning-rust-target",
+    "uniqueSourceBaselines": [
+      "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\implementation-baseline",
+      "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\frontend-cycle-2026-10-06\\baseline-source",
+      "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a10e5c-490e-7401-ab0c-09ec3a0b60b1\\work\\review-board-qa\\patch-reconstruction"
+    ],
+    "otherUniqueEvidence": "Unmatched raw captures, logs, reproduction scripts and task history/checkpoint retained"
+  },
+  "scopeBoundaries": {
+    "projectReleasesDeleted": false,
+    "projectSourcesChanged": false,
+    "newBuildsOrProductTests": false,
+    "newPublication": false,
+    "runtimeClosed": false
+  }
+}

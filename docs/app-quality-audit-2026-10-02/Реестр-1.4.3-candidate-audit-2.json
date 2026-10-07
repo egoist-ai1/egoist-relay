@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-app-quality-audit-2026-10-02",
+  "version": "1.4.3-candidate-audit-2",
+  "createdAt": "2026-10-02T07:04:49.739Z",
+  "phase": "audit_in_progress",
+  "installedVersion": "1.4.2",
+  "candidateState": "canonical_ready_for_normal_user_exit",
+  "items": [
+    {
+      "id": "media-audit-transfer-integrity",
+      "name": "Целостность Telegram и дозапись крупных файлов",
+      "version": 1,
+      "content": "40 MiB normal/premium uploads, 128 seeded byte ranges, out-of-order responses and OPFS short writes pass. Valid partial writes finish byte-exactly; zero/invalid writes reject finitely and remove unfinished output. No false 100% after failed writes.",
+      "action": "Принять проверенное изменение исходников и результаты тестов; отправка сообщений не запускается.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "media-audit-cancel-isolation",
+      "name": "Отмена, повторы и независимые запросы",
+      "version": 1,
+      "content": "1000 queued MTProto parts are canceled without retained media states. A sibling Ping in the same sent container remains resolvable; late replies do not resurrect canceled media. 100 mixed save/preview operations are serialized; 200 canceled queued saves do not enter native IPC.",
+      "action": "Принять результаты сценарных тестов; аккаунты и настройки не меняются.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "media-audit-original-stream",
+      "name": "Потоковые оригиналы и Full HD без потери байтов",
+      "version": 1,
+      "content": "70 MiB synthetic originals stream byte-exactly with one GET over verified HTTP/1.1 and h2. An actual local H264 1920x1080 MP4 of 1210 seconds passes real bundled ffprobe and retains SHA256 through file output. CDN/engine download speed is not inferred from localhost fixtures.",
+      "action": "Принять проверку файлового канала; это не подтверждение всех CDN или аккаунтов.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "media-audit-disk-errors",
+      "name": "Точные сообщения об ошибках диска",
+      "version": 1,
+      "content": "Original CDN declared size and resolver file size above the dynamic free-disk budget produce MEDIA_DISK_FULL; buffered preview remains MEDIA_TOO_LARGE. Three original-mode regression cases fail before the patch and pass afterward; malformed length remains rejected without output.",
+      "action": "Принять исправление классификации ошибки; лимиты сервисов и сетевые настройки не меняются.",
+      "link": "media-report.md"
+    },
+    {
+      "id": "export-observed-content",
+      "name": "Сохранение наблюдаемого текста в экспорте",
+      "version": "1",
+      "content": "Markdown/HTML показывают уникальные text, caption, description, observedText и описания изображений. Описание страницы отмечено отдельно; JSONL сохраняется.",
+      "action": "Принять исправление форматирования в составе финального Relay/MCP.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-provenance-media",
+      "name": "Ссылки на источники и скачанные файлы",
+      "version": "1",
+      "content": "Показаны автор/время при наличии, номер строки JSONL, ссылки на источник/наблюдаемое медиа. Локальные файлы отмечены размером, MIME и SHA-256.",
+      "action": "Принять ссылки на точные источники и локальные принятые файлы.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-safe-layout",
+      "name": "Читаемые и безопасные производные документы",
+      "version": "1",
+      "content": "HTML экранирует текст и не загружает удалённое медиа. Опасные схемы URL не интерактивны. На 320, 480, 1280 и 1920 px нет горизонтального переполнения.",
+      "action": "Принять проверенный шаблон Markdown/HTML.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-honest-coverage",
+      "name": "Честное описание полноты результата",
+      "version": "1",
+      "content": "Частичный результат и отсутствие принятого текста видимы. Успех задания не объявляет полной выгрузки сервиса; ошибки сохраняют прежний JSONL/partial-manifest.",
+      "action": "Принять явное отображение частичности и отсутствующих полей.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "export-fresh-instagram-live",
+      "name": "Свежий экспорт Instagram через обновлённый daemon",
+      "version": "1",
+      "content": "Три выбранные публичные записи; поля JSONL сохранены в Markdown/HTML, источники доступны как ссылки, частичность указана. Это проверка конкретного профиля и задания, а не полноты Instagram.",
+      "action": "Принять доказательство подключения нового форматтера к действующей сессии.",
+      "link": "export-fidelity-audit.md"
+    },
+    {
+      "id": "types-test-context",
+      "name": "Полная проверка типов тестов",
+      "version": "1",
+      "content": "tsconfig.test сохраняет браузерные декларации production и добавляет реальные Node/Vitest types и существующую Tauri augmentation. Все 26 тестов и 1720 исходных файлов зависимостей остаются в проверке; diagnostics 55→0.",
+      "action": "Принять уточнённое окружение типов и использовать scripts/relay-type-audit.mjs как воспроизводимый gate.",
+      "link": "types-report.md"
+    },
+    {
+      "id": "types-production-annotations",
+      "name": "Точные типы без изменения поведения",
+      "version": "2",
+      "content": "10 timer-handle annotation files, accurate Teact VirtualElementParent return and one unnecessary receiver assertion/type-import cleanup. Emitted JavaScript is byte-identical for all12productionfiles; fresh wholeproductionTSC0,wholetestcontext0 retains26tests/1721projectinputs,cleanup targetlint0.",
+      "action": "Принять точные аннотации типов, сохраняя runtime-реализацию.",
+      "link": "types-report.md"
+    },
+    {
+      "id": "types-test-fixtures",
+      "name": "Типизированные fixtures и сценарная проверка",
+      "version": "1",
+      "content": "Telegram union проверяется реальным instanceof, canvas fixture ограничена drawImage contract, progress-mock имеет ApiOnProgress, timer-spy использует реальный globalThis Node таймер.101 уникальный сценарий в 7 файлах проходит; 54 из них повторно проверены после финального уточнения fixtures. Адресный lint 16 файлов: 0 ошибок/ 0 предупреждений.",
+      "action": "Принять типизированные fixtures и результаты адресной проверки.",
+      "link": "types-report.md"
+    },
+    {
+      "id": "full-eslint-attempt",
+      "name": "Bounded full project ESLint result",
+      "version": 1,
+      "content": "Observed single full-scope no-fix ESLint attempt with own heap limit and task-local cache/output.",
+      "action": "Accept observed result and explicit remaining diagnostic/resource gates; no unrelated changes implied.",
+      "link": "types-eslint-final.md"
+    },
+    {
+      "id": "ui-triage-method",
+      "name": "Route-body evidence and existing PASS limits",
+      "version": 1,
+      "content": "Separate requested state/header/body/source-only inventory/missing fixture/protected submission; no pass promotion.",
+      "action": "Include this evidence rule in final audit and corrected rerun.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "ui-triage-fixtures",
+      "name": "Minimal synthetic fixture prerequisites",
+      "version": 1,
+      "content": "Folder/session/passkey/reaction/emoji/topic seeds and actual member row selection.",
+      "action": "Use synthetic preconditions within already authorized isolated audit.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "ui-triage-gaps",
+      "name": "Embedded, disabled and data-dependent route limits",
+      "version": 1,
+      "content": "5 enums cannot be standalone routes;7 right payload routes require data; auth/native/server submission separate.",
+      "action": "Retain and describe unresolved full-server coverage gates accurately.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "ui-triage-contract-errors",
+      "name": "Corrected-run mock response and topic picker prerequisites",
+      "version": 1,
+      "content": "Normalize mock DialogFilter title to current TextWithEntities; seed selected default topic icon pack. Preserve global bootstrap errors as gates until clean rerun.",
+      "action": "Use these minimal fixture contract repairs and require clean UI harness rerun within authorized isolated audit.",
+      "link": "ui-gate-triage.md"
+    },
+    {
+      "id": "modal-coverage-boundaries",
+      "name": "Exact modal bodies versus shared primitives",
+      "version": 1,
+      "content": "138 inventory entries;2 shared primitive proofs and1 specific partial body proof;135 exact components lack direct receipts.",
+      "action": "Keep these limits explicit in release evidence; do not promote inner forms from generic shell tests.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "modal-keyboard-source-risks",
+      "name": "Custom dialog Enter and Calendar repeat menu dispatch",
+      "version": 1,
+      "content": "Two source dispatch risks require safe callback-only exact-body checks; no account actions executed.",
+      "action": "Prioritize bounded tests/fixes under separate source ownership before broad keyboard-safety claims.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "modal-next-fixtures",
+      "name": "Top safe modal fixture coverage expansion",
+      "version": 1,
+      "content": "Calendar/custom confirmation/poll/todo/link/contact/report/attachment preconditions with explicit real-server gates.",
+      "action": "Use synthetic preconditions for future exact-body audit within authorized scope.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "modal-owned-body-portals",
+      "name": "Exact body-owned portal branches and inline exclusions",
+      "version": 1,
+      "content": "Desktop attachment SymbolMenu and AI translate language Menu portal to default #portals; Calendar repeat and header dropdowns are inline. Generic Modal.moreMenuItems has internal destination.",
+      "action": "Use these exact source paths in targeted ownership/focus regression fixtures; preserve unrelated-background exclusion.",
+      "link": "ui-modal-coverage.md"
+    },
+    {
+      "id": "keyboard-review-findings",
+      "name": "Contained-control and ConfirmDialog Enter dispatch",
+      "version": 2,
+      "content": "Previous Enter dispatch findings are resolved in final reviewed source and actual31/31 synthetic component receipt; bounded source hashes and original failures retained.",
+      "action": "Accept these bounded code-review conclusions as release evidence while preserving stated full-suite and live account/body coverage limits.",
+      "link": "ui-keyboard-code-review.md"
+    },
+    {
+      "id": "portal-closing-review",
+      "name": "Modal-owned body portal closing lifecycle",
+      "version": 2,
+      "content": "Exact modal-owned portal open/closing/reopen/cleanup and native Escape are supported by latest synthetic cases; intermediate failed probe retained separately.",
+      "action": "Accept these bounded code-review conclusions as release evidence while preserving stated full-suite and live account/body coverage limits.",
+      "link": "ui-keyboard-code-review.md"
+    },
+    {
+      "id": "public-operation-selected-live-evidence",
+      "name": "Пять выбранных публичных live операций",
+      "version": 1,
+      "content": "Daemon 9116 и точный source hash подтверждены. Пять уникальных заданий завершены partial; сохранены девять записей, точные курсоры, файлы и SHA256. Ошибок и повторов нет.",
+      "action": "Принять ограниченные live receipts как доказательство именно этих пяти операций, сохранив частичность и ограничения.",
+      "link": "public-operation-pilots.md"
+    },
+    {
+      "id": "public-operation-instagram-source-association",
+      "name": "Связь Instagram openai и найденных reel источников",
+      "version": 1,
+      "content": "История выбранного openai содержит ссылки /chatgpt/reel с пустым author и без наблюдённых captions/timestamps. Ассоциация источников или совместная публикация этим пилотом не установлена.",
+      "action": "Сохранить связь выбранного профиля и авторов reel как непроверенный пункт финальной приёмки.",
+      "link": "public-operation-pilots.md"
+    },
+    {
+      "id": "asr-local-known-answer",
+      "name": "Локальная проверка распознавания речи с известным текстом",
+      "version": "1",
+      "content": "Две синтетические фразы установленными голосами Windows: английская и русская. В отчёте есть фактический текст, сегменты, WER/CER, длительность, версии и SHA. Результат не утверждает точности на всех реальных видео.",
+      "action": "Принять измеренные результаты локального теста как ограниченное доказательство работы ASR.",
+      "link": "asr-known-answer.md"
+    },
+    {
+      "id": "local-index-selected-corpus",
+      "name": "Локальный поиск по выбранным выгрузкам",
+      "version": "3",
+      "content": "Принять явную индексацию принятых records.jsonl выбранных заданий и буквальный Unicode-поиск с AND, фразами и курсорами. Поиск не читает аккаунты, профили или посторонние каталоги.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "local-index-grounded-evidence",
+      "name": "Точные источники и честная полнота",
+      "version": "3",
+      "content": "Принять ссылки на физическую строку и байты JSONL, SHA-256 строки/файла, явные отсутствующие поля и отличие частичного, пустого, недоступного и изменённого источника. Объём найденного не заменяет анализ всей коллекции. observedText Instagram включён; отдельно показаны записи только с метаданными и отсутствие наблюдаемого текста.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "local-index-atomic-recovery",
+      "name": "Атомарность, отмена и восстановление",
+      "version": "3",
+      "content": "Принять проверенную транзакционную индексацию, повтор без дублей, явную замену изменённой версии, сохранение прежних записей при отмене/сбое и восстановление после реального завершения тестового процесса. Отмена и срок ожидания в очереди завершают ответ своевременно, не нарушая порядок и ограничение очереди.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "local-index-measured-performance",
+      "name": "Измеренная скорость и границы",
+      "version": "3",
+      "content": "Принять результаты стресс-теста 100 тысяч записей: индексация 4,00 с, поиски с SHA-проверкой исходников 0,55–0,75 с; ограниченные страницы продолжаются без потери через курсор. Это измерение на текущем ПК, не гарантия любой нагрузки.",
+      "action": "Подтверждение означает принять реализованную функцию и описанные проверенные границы; новых действий с аккаунтами, сетью или источниками не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-api.md"
+    },
+    {
+      "id": "mcp-local-index-identity",
+      "name": "Точный выбор источников MCP",
+      "version": "1",
+      "content": "Принять проверку совпадения ID каждого ответа get с выбранным ID до индексации; чужая возвращённая выгрузка отклоняется. Реальные запросы и активация сервера проверяются отдельно.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-integration-review.md"
+    },
+    {
+      "id": "mcp-local-index-flow",
+      "name": "Поток MCP и своевременная отмена",
+      "version": "1",
+      "content": "Принять ожидание callback/drain, конечную обработку закрытого/ошибочного канала и своевременное завершение отменённых запросов в очереди с сохранением порядка. Закрытие stdio не завершает общий daemon.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/app-quality-audit-2026-10-02/index-integration-review.md"
+    },
+    {
+      "id": "social-source-readiness",
+      "name": "Bounded source readiness and strict Instagram account proof",
+      "version": "Relay1.4.3",
+      "content": "Accept strict own-account DOM proof, bounded source readiness and precise pending-pause STALE_ACCOUNT versus explicit CANCELLED. Actual1.4.2 public source evidence is separate from new candidate live gates.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "research-stream-flow",
+      "name": "Bounded streaming backpressure with responsive native commands",
+      "version": "Relay1.4.3",
+      "content": "Accept await-drain/finite-close helper delivery, off-main validated native reply wrappers, existing directory stat reuse and a consistent finite 500 media-ID task bound; wire protocol, byte budgets and safety checks remain.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "research-live-gates",
+      "name": "Per-operation coverage and live acceptance gates",
+      "version": "Relay1.4.3",
+      "content": "Accept all28 provider operation rows with separate source, actual, synthetic and remaining gates; no universal access/completeness/throughput claim.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "media-request-ownership",
+      "name": "Exact ownership of cancelled media requests",
+      "version": "Relay1.4.3",
+      "content": "Accept sender-owned queue/pending/recent cleanup only for signaled GetFile/SaveFilePart/SaveBigFilePart; preserve unrelated RPCs, shared connection, queue order and original wrapper errors.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "social-photo-original-source",
+      "name": "Original photo source and honest observed dimensions",
+      "version": "Relay1.4.3",
+      "content": "Use exact Xpbs media path/format with name=orig or highest validated observed IG srcset preserving signed bytes. observedSourceUrl and dimensions evidence separate rendered metadata from requested media; actual pixels/hash remain a gate.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "social-cursor-recovery",
+      "name": "Strict no-progress cursor without confirmed-empty claims",
+      "version": "Relay1.4.3",
+      "content": "Keep unchanged source/account/operation/target/anchor/offset cursor after bounded observed anchor proof and explicit partial cursor_no_progress; all mutated/missing proof rejects. Actual next records remain a live gate.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "social-selected-reel-route",
+      "name": "Validated observed Instagram post/reel aliases",
+      "version": "Relay1.4.3",
+      "content": "Normalize validated same-origin optional handle+p/reel/reels/shortcode to exact case-sensitive canonical public post identity; keep source/account/epoch/DM boundaries.",
+      "action": "Принять описанный проверенный результат; новых действий с аккаунтами или сетью не запускает.",
+      "link": "../../../../Инфраструктура/Egoist Social MCP/docs/account-research-coverage.md"
+    },
+    {
+      "id": "ui-audit-range",
+      "name": "Недоступные настройки и точный прогресс ползунка",
+      "version": 1,
+      "content": "3 reproduced failures corrected; disabled/readOnly cannot change via keyboard, fill honors min/max and finite0/1-option bounds.",
+      "action": "Принять проверенное изменение RangeSlider; настройки аккаунтов не выполняются.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "ui-audit-dialog-keyboard",
+      "name": "Фокус, безопасное подтверждение и меню диалога",
+      "version": 2,
+      "content": "31 actual custom safety cases pass: Cancel/Keep/checkbox never call protected destructive handler; default native Button and Confirm activate once. Two active Modal owners retain exact Enter/Escape routing; AI keyboard language trigger and owned body portal work. Native/div menu keyboard callbacks execute once without modal callback; owned portal remains focusable, Escape closes menu first and returns focus. Disabled/hidden controls skipped and destructive default is Cancel/neutral.",
+      "action": "Принять проверенные UI-исправления; это не запуск удаления или действия аккаунта.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "ui-audit-theme-contrast",
+      "name": "Читаемые сообщения во всех11 темах",
+      "version": 1,
+      "content": "Actual RadioGroup selection/readback, solid body/reply/time and66 actual-component dark media overlays pass4.5 contrast; minimum4.762. Existing palette/layout/media kept.",
+      "action": "Принять проверенное изменение локальных стилей сообщений.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "ui-audit-coverage",
+      "name": "Покрытие и оставшиеся экраны",
+      "version": 1,
+      "content": "64 scenarios:63PASS/0FAIL/1fixturegate;125 route requests:109bodyrendered/16gates/0errors. 774 source entries are catalogued, not all functionally certified. Live accounts/uploads/auth/calls/physicalGPU remain separate gates.",
+      "action": "Принять отчёт как проверенный объём и сохранить перечисленные gates для дальнейшего аудита; это не подтверждение полной готовности всех функций.",
+      "link": "ui-report.md"
+    },
+    {
+      "id": "mcp-real-selected-corpus",
+      "name": "Настоящий MCP: поиск по выгрузкам трёх сервисов",
+      "version": "1",
+      "content": "Через stdio зарегистрированы 8 tools; индексированы 20 записей восьми точно выбранных публичных jobs. Telegram и OpenAI дают по 7 совпадений, четыре страницы без дублей. Все строки, байты и хеши проверены по исходникам. Индексация 77 мс, поиски 130–144 мс на этой небольшой коллекции. Это локальная проверка выбранных частичных снимков.",
+      "action": "Принять результат проверки реального MCP и точных источников.",
+      "link": "index-live-acceptance.json"
+    },
+    {
+      "id": "quality-candidate-installation",
+      "name": "Сборка и установка Relay 1.4.3",
+      "version": "2",
+      "content": "Relay 1.4.3 собран, извлечён и проверен: 40 файлов runtime, точный EXE с проверенными тремя байтами маркера Tauri и снимок исходников. Тот же payload прошёл отдельную установку, запуск и удаление. Установленная версия 1.4.2. Состояние canonical_ready_for_normal_user_exit. Новые live проверки выполняются после установки.",
+      "action": "Принять фактическую проверку указанного пакета; установка уже поручена и ждёт отдельного штатного выхода из работающего Relay.",
+      "link": "../release-1.4.3/README.md"
+    }
+  ],
+  "inputEvidence": [
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\media-review-objects.json",
+      "sha256": "6880c1e78fe7b5e5f1d9e44ff4f24c10b4017b4b375dd915d7e20e784c5e2ba9"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-fidelity-audit.json",
+      "sha256": "aaf3e52e12d94b77bf527367145ce2b2192e13d02ce2cd04e5e6be6ca1abd167"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-report.json",
+      "sha256": "a1a7a2c3bd023c49ee77cdbe004f71907372d1ce309bbd828b942de28193a357"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-eslint-retry.json",
+      "sha256": "4773d792a2b8f78dd37325c369c0a07dd4aa1c4e52cf33d4ec79bf472d1c560d"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-eslint-final.json",
+      "sha256": "efb08da7d32310d708742f6323469b4b0b31924ab9b6e5d30daef83b16d29040"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\release-1.4.3\\release-ready.json",
+      "sha256": "c4bfbd14b6951029585a5adaffed75168590f29fd7e74626399c733895106890"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-gate-triage.json",
+      "sha256": "0db4c658e2014011747b3a123ff9b01ee863887de909ef34b272027c30812402"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-modal-coverage.json",
+      "sha256": "ec97ad8050c2bcf5d22d87c860df5452252e091bb952d5848de4a8a2415d60f6"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-keyboard-code-review.json",
+      "sha256": "ad3e917490091481a30ab2e9b918a94c8116aed9ce21eed40fafd8b906e3413d"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\export-live-instagram.json",
+      "sha256": "405ecc6ab842829b298f0ff623559a86eae7f0636cd56916222f05ee6d85e732"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\public-operation-pilots.json",
+      "sha256": "3ef04476dc880519e6db456e44a0b636eeda719dcd033185bfe9ccf63033f723"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\asr-known-answer.json",
+      "sha256": "8a283904480f42d769be3f4bf8d9443b530c2594d2e79799d2e9d6c6354220f1"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\index-review.json",
+      "sha256": "53c2647412e2f589f3b9edb81f3d9740ea40afa8f2db2d1a35218ee5db116867"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\app-quality-audit-2026-10-02\\index-integration-review.json",
+      "sha256": "f7ba63895d6ce60d29c306d2e1628db3633444f54d5bd12b7f1825dd4c86d82e"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Инфраструктура\\Egoist Social MCP\\docs\\account-research-review.json",
+      "sha256": "89eae56e5ecbb927f444e43dd23d18f6ee91f1706795bad572354ac5cc159956"
+    },
+    {
+      "file": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\ui-review-objects.json",
+      "sha256": "5ecf3ba8cb961cb3b7d6af97fd99de94bce4cce9e6f2e7be6a1a8f94e66903b9"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay-146-live-readiness-proof",
+  "recordedAt": "2026-10-02T15:17:19.498Z",
+  "projectPath": "C:/Users/Egoist/Desktop/Проекты/Приложения/Egoist Relay",
+  "scope": "Узкое дополнение к установленной 1.4.6; не исчерпывающая сертификация всех возможностей или скорости CDN.",
+  "items": [
+    {
+      "id": "relay-146-final-live-readiness",
+      "name": "Relay 1.4.6 и готовность трёх MCP провайдеров",
+      "version": "1.4.6-proof-1",
+      "finding": "Установленный EXE имеет версию 1.4.6 и совпадает с проверенным пакетом. В ограниченной последовательности из семи статусов Telegram, X и Instagram подтвердили готовность. Instagram ready на 3.461/7.487/12.494 и 24.699/28.499 секунде. Проверка статусов не читала посты, сообщения или медиа и не создавала research jobs.",
+      "action": "Подтвердить точность этого ограниченного результата проверки; установка уже выполнена, новых действий с аккаунтами это не разрешает.",
+      "evidence": [
+        "installed-proof-identity.json",
+        "instagram-status-window-1.4.6.json",
+        "../release-1.4.6/source-qa.json"
+      ]
+    },
+    {
+      "id": "relay-146-periodic-proof-explanation",
+      "name": "Периодическое pending объяснено замером внутри warmup",
+      "version": "1.4.6-proof-1",
+      "finding": "Native status начинает новый 20-секундный warmup после возраста last_probe >15 секунд и сразу возвращает pending. Поэтому редкие замеры повторно попадали в начало проверки. В текущем замере pending сменяется ready в пределах одного warmup; постоянный production сбой не подтверждён. Семь offline сценариев характеризуют потенциальную слепую зону dispatch/transport, а не обнаруженный production отказ. Исходники, авторизация и provenance gates не изменялись.",
+      "action": "Принять объяснение наблюдавшегося pending; дополнительные изменения runtime или ослабление проверки аккаунта не выполняются.",
+      "evidence": [
+        "instagram-status-window-1.4.6.json",
+        "instagram-proof-diagnosis.json",
+        "instagram-proof-reproducer.mjs",
+        "README.md"
+      ]
+    },
+    {
+      "id": "relay-146-network-preservation-final",
+      "name": "Сохранённые DNS/DoH/Zapret и работа служб",
+      "version": "1.4.6-proof-1",
+      "finding": "DNS и user proxy settings, хеши семи защищённых файлов совпали с предустановочным снимком. Четыре службы Running/Auto, измеренные base priorities сохранились. SystemDoH сменил PID с 26316 на 38632 (birth 15:02:54 UTC); причина этим read-only замером не установлена. Службы и процессы не управлялись. Четыре домена разрешены через текущий DNS ОС за 0–212 мс; MCP PID32796 имеет ноль TCP/UDP listeners.",
+      "action": "Принять протокол проверки текущего состояния; подтверждение не разрешает изменение сети, служб или приоритетов.",
+      "evidence": [
+        "network-proof-comparison.json",
+        "network-preservation-after-proof.json"
+      ]
+    }
+  ],
+  "sourceHashes": {
+    "installed-proof-identity.json": "769652659b74f2e5bf53dd6850340c076f72c3f02576c2e0fe0eaffd7b82fe09",
+    "instagram-status-window-1.4.6.json": "dbc49ef7bb1990ce90f3cfbbe9cc74a479ca0127684d0b4ba9f307c401215bc7",
+    "../release-1.4.6/source-qa.json": "20b94cae2f00728fea159fa0f4ebebc8a0f8cba17083e5fd7c8af9ed89362bc3",
+    "instagram-proof-diagnosis.json": "d91154fb0d97e5e764d06a6c3acfa42781f57d624fe0d62cc9045dc693a5a80e",
+    "instagram-proof-reproducer.mjs": "9ffb4d44fa4260e6b2fe862e101cf8e40704056b58026333703e5cc2781dbcab",
+    "README.md": "390043639b7af72335be4e471c3578052e8007a8e8cdbde3762983d4708e7b4a",
+    "network-proof-comparison.json": "6b53dd6ac16e439c616c3417edf7bb95ed7c38e7fc85e03ce22d5c18d61f639e",
+    "network-preservation-after-proof.json": "e04797aa6be1b5e52841bb38ae8a1cb870ebd72e5a7760b65bff56c8d6dcfcc9",
+    "review-feedback.js": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b"
+  }
+}

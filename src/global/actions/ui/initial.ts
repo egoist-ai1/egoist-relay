@@ -5,6 +5,8 @@ import type { LangCode } from '../../../types';
 import type { ActionReturnType, GlobalState } from '../../types';
 
 import { requestMutation } from '../../../lib/fasterdom/fasterdom';
+import { applyAntigravityTheme, getActiveThemeVariantId } from '../../../util/antigravityThemes';
+import applyMessageTextSize from '../../../util/applyMessageTextSize';
 import { IS_ELECTRON, IS_MULTIACCOUNT_SUPPORTED, IS_TAURI } from '../../../util/browser/globalEnvironment';
 import {
   IS_ANDROID, IS_IOS, IS_LINUX,
@@ -155,12 +157,7 @@ addCallback((global: GlobalState) => {
   setLocalizedTimeFormat(timeFormat);
 
   requestMutation(() => {
-    document.documentElement.style.setProperty(
-      '--composer-text-size', `${Math.max(messageTextSize, IS_IOS ? 16 : 15)}px`,
-    );
-    document.documentElement.style.setProperty('--message-meta-height', `${Math.floor(messageTextSize * 1.25)}px`);
-    document.documentElement.style.setProperty('--message-text-size', `${messageTextSize}px`);
-    document.documentElement.setAttribute('data-message-text-size', messageTextSize.toString());
+    applyMessageTextSize(messageTextSize);
     document.body.classList.add('initial');
     document.body.classList.add(IS_TOUCH_ENV ? 'is-touch-env' : 'is-pointer-env');
     applyPerformanceSettings(performanceType);
@@ -190,6 +187,9 @@ addCallback((global: GlobalState) => {
   const canAnimate = selectCanAnimateInterface(global);
 
   switchTheme(theme, canAnimate);
+  requestMutation(() => {
+    applyAntigravityTheme(getActiveThemeVariantId());
+  });
   // Make sure global has the latest theme. Will cause `switchTheme` on change
   global = updateSharedSettings(global, { theme });
 

@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-instagram-attribution-next-tests",
+  "version": "next-v1",
+  "createdAt": "2026-10-02T11:30:59.724Z",
+  "helperSha256": "b4f0c13143c7aeffe93508e3166ef78a9757a13a5b369a9a343d51ecd25e368e",
+  "fixtureRoot": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\attribution-next-b7d8b135-7c89-4a61-acd2-1fba3e6f0814",
+  "wireFile": "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0faa3-d861-7562-8c06-22d5b6a98b1d\\work\\instagram-attribution-next-tests-v9-wire.json",
+  "wireSha256": "e14dbfdf27a733efa20cd62f18e8a6325c825903528f0e050978923d6af01347",
+  "nativeFixtureCount": 10,
+  "observations": [
+    {
+      "name": "metadata-80",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "metadata-9000",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "metadata-16000",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "surrogate",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "multi",
+      "recordsFrames": 3,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "alias-reel",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "alias-p",
+      "recordsFrames": 2,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "detail-no-link",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "detail",
+      "recordsFrames": 1,
+      "done": {
+        "count": 1,
+        "partial": false
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "SOURCE_CHANGED",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "DEADLINE",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "DEADLINE",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "source-reject",
+      "recordsFrames": 0,
+      "error": "DEADLINE",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "four-mib",
+      "recordsFrames": 350,
+      "done": {
+        "count": 1,
+        "partial": true
+      },
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "text-limit",
+      "recordsFrames": 0,
+      "error": "TEXT_LIMIT",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "text-limit",
+      "recordsFrames": 0,
+      "error": "TEXT_LIMIT",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    },
+    {
+      "name": "text-limit",
+      "recordsFrames": 0,
+      "error": "TEXT_LIMIT",
+      "outgoingRequests": 0,
+      "fulfilled": 1,
+      "aborted": 0
+    }
+  ],
+  "liveAccess": false,
+  "mcpCalls": 0,
+  "releaseEdits": 0
+}

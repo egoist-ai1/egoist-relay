@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-10-02T09:21:28.0786285+00:00",
+  "path": "eslint.config.js",
+  "historicalSourceUnchanged": true,
+  "historicalSha256": "f6f5156739145884f0e53d75a21692dcaa2a00505e6c31f54585e5ad927a5d11",
+  "after": "10925e4ff5bebde5cda5a415758c8c0b8f6b3e0e14de58dbc7eeed1da7a93470",
+  "supersedesAttempt": "Routing archived before-snapshot to current Node rules produced cosmetic escape plus two undeclared Node globals; archive is not maintained code and its exact before bytes remain immutable",
+  "before": "12ebf11ca4d4749ca246cd7dbb5975abc4532325e4ff382039a988096db7962c",
+  "change": "Exclude immutable historical Node audit receipts stored under docs from current source lint, matching Vitest historical-artifact exclusion; maintained src/scripts regression tests remain checked"
+}

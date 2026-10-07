@@ -1,0 +1,46 @@
+{
+  "ui": {
+    "instagramReadyAt": "2026-10-02T01:29:50Z",
+    "xReadyAt": "2026-10-02T01:29:42Z",
+    "instagram": "ready",
+    "confirmedByUser": true,
+    "x": "ready"
+  },
+  "exeSha256": "820e5e814a3029db3b6929d49d3ad56646488ad46419768d61f4407fa6cb3b7c",
+  "researchChecks": {
+    "xPublicProfileRead": {
+      "state": "partial",
+      "count": 0,
+      "errorCode": "ADAPTER_FAILED",
+      "jobId": "607fd162-2bd1-4ebe-98e6-6250ac8760c5"
+    },
+    "note": "Эти дополнительные research-проверки не подтверждают чтение профиля X или аккаунта Instagram через MCP. Загрузка обоих UI подтверждена отдельно.",
+    "instagramAccountProof": "unavailable",
+    "telegramPublicReadCount": 1,
+    "xAccountDomConfirmed": true
+  },
+  "summary": "X и Instagram загружаются в обновлённом Relay: подтверждены текущими native UI ready-состояниями и пользователем. Добавлена обработка семи доменов в действующем winws и узкая обработка CDN только в профиле X; настройки устройства и приоритеты Lagom сохранены.",
+  "preservation": {
+    "checkedAt": "2026-10-02T04:29:58.0110625+03:00",
+    "systemDnsUnchanged": true,
+    "relayProfilesUnchanged": true,
+    "dohProfileUnchanged": true,
+    "serviceXmlUnchanged": true,
+    "exclusionsUnchanged": true,
+    "zapretSameRunningProcess": true,
+    "dohSameRunningProcess": true
+  },
+  "compatibility": {
+    "runtimeUpgradeRequiresRecheck": true,
+    "dnsAliases": {
+      "abs.twimg.com": "ton.twimg.com",
+      "pbs.twimg.com": "ton.twimg.com"
+    },
+    "pinnedIps": false,
+    "resolverAliasScope": "Windows X UI/research/auth only",
+    "certificatesVerified": true
+  },
+  "verifiedAt": "2026-10-02T01:32:07.6853727+00:00",
+  "nativeTests": "15 passed, 0 failed",
+  "schemaVersion": 1
+}

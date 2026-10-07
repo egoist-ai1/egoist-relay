@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 
 use tauri::{
-  AppHandle, Manager, WebviewWindow,
+  AppHandle, Manager, Window,
   image::Image,
   menu::{Menu, MenuItem},
   tray::{MouseButton, MouseButtonState, TrayIcon, TrayIconBuilder, TrayIconEvent},
@@ -25,9 +25,9 @@ pub(crate) static TRAY_BASE_ICON: LazyLock<Image<'static>> =
 
 // Menu constants
 pub const MENU_ITEM_QUIT_ID: &str = "quit";
-pub const MENU_ITEM_QUIT_LABEL: &str = "Quit Telegram";
+pub const MENU_ITEM_QUIT_LABEL: &str = "Выйти из Egoist Relay";
 pub const MENU_ITEM_OPEN_ID: &str = "open";
-pub const MENU_ITEM_OPEN_LABEL: &str = "Open Telegram";
+pub const MENU_ITEM_OPEN_LABEL: &str = "Открыть Egoist Relay";
 
 static MENU_TRANSLATIONS: LazyLock<std::sync::Mutex<HashMap<String, String>>> =
   LazyLock::new(|| std::sync::Mutex::new(HashMap::new()));
@@ -108,65 +108,54 @@ fn tray_click_handler(tray: &TrayIcon, event: TrayIconEvent) {
 }
 
 fn handle_icon_click(app: &AppHandle, only_open: bool) {
-  let active_windows = app.windows();
+  if crate::is_background_control() {
+    return;
+  }
+  crate::mark_user_opened_relay();
 
-  if active_windows.is_empty() {
-    // No open windows, restore with last URL.
+  let Some(window) = app.get_window("main") else {
     let url = if let Ok(last_url) = LAST_URL.lock() {
       last_url.clone()
     } else {
       BASE_URL.to_string()
     };
 
-    if let Err(err) = crate::open_new_window(app.clone(), url) {
-      log::error!("Failed to open window from tray: {:?}", err);
-    }
-    return;
-  }
-
-  // Check if any window is visible (since clicking tray unfocuses windows).
-  let visible_window = active_windows.iter().find(|(_, window)| {
-    window.is_visible().unwrap_or(false) && !window.is_minimized().unwrap_or(false)
-  });
-
-  let Some((_, visible_window)) = visible_window else {
-    // No visible window, show and focus the first available window.
-    if let Some((_, window)) = active_windows.iter().next() {
-      if let Err(err) = window.unminimize() {
-        log::warn!("Failed to unminimize window: {:?}", err);
+    let app_clone = app.clone();
+    tauri::async_runtime::spawn(async move {
+      if let Err(err) = crate::open_new_window(app_clone, url) {
+        log::error!("Failed to open window from tray: {:?}", err);
       }
-      if let Err(err) = window.show() {
-        log::error!("Failed to show window: {:?}", err);
-      }
-      if let Err(err) = window.set_focus() {
-        log::error!("Failed to focus window: {:?}", err);
-      }
-
-      // Update icon with notification count
-      if let Some(webview_window) = window.get_webview_window(window.label()) {
-        if let Some(state) = app.try_state::<AppState>() {
-          if let Ok(app_state) = state.lock() {
-            if app_state.notification_count > 0 {
-              crate::tray::set_notifications_count(
-                &webview_window,
-                app_state.notification_count,
-                app_state.is_muted,
-              );
-            }
-          }
-        }
-      }
-    }
+    });
     return;
   };
 
-  if only_open {
+  let is_visible = window.is_visible().unwrap_or(false) && !window.is_minimized().unwrap_or(false);
+  if only_open || !is_visible {
+    if let Err(err) = window.unminimize() {
+      log::warn!("Failed to unminimize window: {:?}", err);
+    }
+    if let Err(err) = window.show() {
+      log::error!("Failed to show window: {:?}", err);
+    }
+    if let Err(err) = window.set_focus() {
+      log::error!("Failed to focus window: {:?}", err);
+    }
+
+    if let Some(state) = app.try_state::<AppState>()
+      && let Ok(app_state) = state.lock()
+      && app_state.notification_count > 0
+    {
+      crate::tray::set_notifications_count(
+        &window,
+        app_state.notification_count,
+        app_state.is_muted,
+      );
+    }
     return;
   }
 
-  // If there's a visible window, close it and remember its URL.
-  crate::save_window_url(&app, visible_window.label());
-  if let Err(err) = visible_window.close() {
+  crate::save_window_url(app, "main");
+  if let Err(err) = window.close() {
     log::error!("Failed to close visible window: {:?}", err);
   }
 }
@@ -177,7 +166,7 @@ fn handle_icon_click(app: &AppHandle, only_open: bool) {
 #[cfg(target_os = "macos")]
 mod platform {
   use super::*;
-  pub fn set_notifications_count(window: &WebviewWindow, amount: i32, is_muted: bool) {
+  pub fn set_notifications_count(window: &Window, amount: i32, is_muted: bool) {
     window
       .set_badge_count(if amount > 0 {
         Some(amount.into())
@@ -191,7 +180,7 @@ mod platform {
 #[cfg(not(target_os = "macos"))]
 mod platform {
   use super::*;
-  pub fn set_notifications_count(window: &WebviewWindow, amount: i32, is_muted: bool) {
+  pub fn set_notifications_count(window: &Window, amount: i32, is_muted: bool) {
     badge::set_badge_count_icon(window, amount, is_muted);
   }
 }

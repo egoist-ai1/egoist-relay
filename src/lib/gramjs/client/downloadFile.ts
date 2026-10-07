@@ -2,8 +2,7 @@ import type TelegramClient from './TelegramClient';
 import type { SizeType } from './TelegramClient';
 
 import { getDcBandwidthManager } from '../../../util/dcBandwithManager';
-import Deferred from '../../../util/Deferred';
-import { concat } from '../../../util/encoding/buffer';
+import waitForMediaTransfer from '../../../util/waitForMediaTransfer';
 import { FloodPremiumWaitError, FloodWaitError, RPCError } from '../errors';
 import Api from '../tl/api';
 
@@ -27,6 +26,7 @@ export interface DownloadFileParams {
   end?: number;
   progressCallback?: OnProgress;
   isPriority?: boolean;
+  isResearchRequest?: boolean;
 }
 
 export type DownloadFileWithDcParams = DownloadFileParams & { dcId: number };
@@ -38,7 +38,7 @@ export interface DownloadMediaParams {
 
 // Chunk sizes for `upload.getFile` must be multiple of the smallest size
 const MIN_CHUNK_SIZE = 4096;
-const DEFAULT_CHUNK_SIZE = 64; // kb
+const DEFAULT_CHUNK_SIZE = 1024; // KB
 const ONE_MB = 1024 * 1024;
 const DISCONNECT_SLEEP = 1000;
 
@@ -58,6 +58,12 @@ class FileView {
 
   private largeFileAccessHandle?: FileSystemSyncAccessHandle;
 
+  private downloadsFolder?: FileSystemDirectoryHandle;
+
+  private largeFileName?: string;
+
+  private chunks: Uint8Array[] = [];
+
   constructor(size?: number) {
     this.size = size;
 
@@ -66,12 +72,13 @@ class FileView {
 
   async init() {
     if (this.type === 'opfs') {
-      if (!FileSystemFileHandle?.prototype.createSyncAccessHandle) {
+      if (typeof FileSystemFileHandle === 'undefined' || !FileSystemFileHandle.prototype.createSyncAccessHandle) {
         throw new Error('`createSyncAccessHandle` is not available. Cannot download files larger than 2GB.');
       }
       const directory = await navigator.storage.getDirectory();
-      const downloadsFolder = await directory.getDirectoryHandle('downloads', { create: true });
-      this.largeFile = await downloadsFolder.getFileHandle(Math.random().toString(), { create: true });
+      this.downloadsFolder = await directory.getDirectoryHandle('downloads', { create: true });
+      this.largeFileName = Math.random().toString();
+      this.largeFile = await this.downloadsFolder.getFileHandle(this.largeFileName, { create: true });
       this.largeFileAccessHandle = await this.largeFile.createSyncAccessHandle();
     } else {
       this.buffer = new Uint8Array(this.size || 0);
@@ -80,7 +87,15 @@ class FileView {
 
   write(data: Uint8Array, offset: number) {
     if (this.type === 'opfs') {
-      this.largeFileAccessHandle!.write(data, { at: offset });
+      let writtenTotal = 0;
+      while (writtenTotal < data.byteLength) {
+        const remaining = data.subarray(writtenTotal);
+        const writtenBytes = this.largeFileAccessHandle!.write(remaining, { at: offset + writtenTotal });
+        if (!Number.isSafeInteger(writtenBytes) || writtenBytes <= 0 || writtenBytes > remaining.byteLength) {
+          throw new Error('DOWNLOAD_INCOMPLETE_WRITE');
+        }
+        writtenTotal += writtenBytes;
+      }
       return;
     }
 
@@ -97,14 +112,32 @@ class FileView {
       return;
     }
 
-    this.buffer = concat(this.buffer!, data);
+    this.chunks.push(data);
   }
 
   async getData(): Promise<Uint8Array | File> {
     if (this.type === 'opfs') {
+      this.largeFileAccessHandle!.flush();
+      this.largeFileAccessHandle!.close();
+      this.largeFileAccessHandle = undefined;
       return this.largeFile!.getFile();
-    } else {
-      return Promise.resolve(this.buffer!);
+    }
+    if (this.size !== undefined) return this.buffer!;
+    const size = this.chunks.reduce((total, chunk) => total + chunk.length, 0);
+    const buffer = new Uint8Array(size);
+    let offset = 0;
+    this.chunks.forEach((chunk) => {
+      buffer.set(chunk, offset);
+      offset += chunk.length;
+    });
+    return buffer;
+  }
+
+  async dispose(shouldRemove: boolean) {
+    this.largeFileAccessHandle?.close();
+    this.largeFileAccessHandle = undefined;
+    if (shouldRemove && this.downloadsFolder && this.largeFileName) {
+      await this.downloadsFolder.removeEntry(this.largeFileName);
     }
   }
 }
@@ -120,6 +153,7 @@ export async function downloadFile(
     try {
       return await downloadFile2(client, inputLocation, fileParams, shouldDebugExportedSenders);
     } catch (err: unknown) {
+      if (fileParams.isResearchRequest) throw err;
       if (err instanceof RPCError && (
         err.errorMessage.startsWith('SESSION_REVOKED')
         || err.errorMessage.startsWith('CONNECTION_NOT_INITED')
@@ -140,11 +174,9 @@ async function downloadFile2(
   fileParams: DownloadFileWithDcParams,
   shouldDebugExportedSenders?: boolean,
 ) {
-  let {
-    partSizeKb, end = 0,
-  } = fileParams;
+  let { partSizeKb, end } = fileParams;
   const {
-    fileSize, dcId, progressCallback, isPriority, start = 0,
+    fileSize, dcId, progressCallback, isPriority, isResearchRequest, start = 0,
   } = fileParams;
 
   const fileId = 'id' in inputLocation ? inputLocation.id : undefined;
@@ -157,174 +189,144 @@ async function downloadFile2(
   logWithId('Downloading file...');
   const isPremium = Boolean(client.isPremium);
 
-  if (fileSize) {
-    end = end && end < fileSize ? end : fileSize - 1;
+  if (!Number.isSafeInteger(start) || start < 0
+    || (end !== undefined && (!Number.isSafeInteger(end) || end < start))
+    || (fileSize !== undefined && (!Number.isSafeInteger(fileSize) || fileSize < 0))) {
+    throw new Error('Invalid download range');
   }
-
-  const rangeSize = end ? end - start + 1 : undefined;
+  if (fileSize !== undefined) {
+    if (fileSize === 0 || start >= fileSize) return new Uint8Array(0);
+    end = Math.min(end ?? fileSize - 1, fileSize - 1);
+  }
+  const rangeSize = end !== undefined ? end - start + 1 : undefined;
 
   if (!partSizeKb) {
     partSizeKb = fileSize ? getDownloadPartSize(rangeSize || fileSize) : DEFAULT_CHUNK_SIZE;
   }
 
   const partSize = partSizeKb * 1024;
-  const partsCount = rangeSize ? Math.ceil(rangeSize / partSize) : 1;
-  const noParallel = !end;
-  let deferred: Deferred | undefined;
+  const noParallel = end === undefined;
 
-  if (partSize % MIN_CHUNK_SIZE !== 0) {
+  if (!Number.isSafeInteger(partSize) || partSize <= 0 || partSize > ONE_MB
+    || partSize % MIN_CHUNK_SIZE !== 0 || ONE_MB % partSize !== 0) {
     throw new Error(`The part size must be evenly divisible by ${MIN_CHUNK_SIZE}`);
   }
 
   client._log.info(`Downloading file in chunks of ${partSize} bytes`);
 
   const fileView = new FileView(rangeSize);
-  const promises: Promise<any>[] = [];
+  const promises: Promise<void>[] = [];
   let offset = start;
   // Used for files with unknown size and for manual cancellations
   let hasEnded = false;
 
-  let progress = 0;
-  progressCallback?.(progress);
+  let downloadedSize = 0;
+  progressCallback?.(0);
 
   // Limit updates to one per file
   let isPremiumFloodWaitSent = false;
 
-  // Allocate memory
-  await fileView.init();
-
   const dcManager = getDcBandwidthManager(dcId, isPremium);
+  let downloadError: Error | undefined;
+  let isCompleted = false;
+  const isCanceled = () => Boolean(progressCallback?.isCanceled) || downloadError !== undefined;
 
-  while (true) {
-    let limit = partSize;
-    let isPrecise = false;
+  try {
+    await fileView.init();
+    while (!hasEnded && (end === undefined || offset <= end)) {
+      if (isCanceled()) throw downloadError ?? new Error('USER_CANCELED');
 
-    if (Math.floor(offset / ONE_MB) !== Math.floor((offset + limit - 1) / ONE_MB)) {
-      limit = ONE_MB - (offset % ONE_MB);
-      isPrecise = true;
-    }
+      // Telegram ranges align to 1 KB and stay inside a single 1 MB boundary
+      const requestOffset = Math.floor(offset / MIN_CHUNK_SIZE) * MIN_CHUNK_SIZE;
+      const limit = Math.min(partSize, ONE_MB - (requestOffset % ONE_MB));
+      const isPrecise = ONE_MB % limit !== 0;
+      const partStart = offset;
+      const partEnd = Math.min(requestOffset + limit - 1, end ?? Infinity);
+      const senderIndex = await waitForMediaTransfer(
+        dcManager.requestWorker(Boolean(isPriority), limit), isCanceled, undefined, undefined,
+        (index) => dcManager.releaseWorker(index, limit),
+      );
 
-    if (offset % MIN_CHUNK_SIZE !== 0 || limit % MIN_CHUNK_SIZE !== 0) {
-      isPrecise = true;
-    }
-
-    if (deferred) await deferred.promise;
-
-    if (noParallel) deferred = new Deferred();
-
-    if (hasEnded) {
-      break;
-    }
-
-    const senderIndex = await dcManager.requestWorker(Boolean(isPriority), limit);
-    const logWithSenderIndex = (...args: unknown[]) => {
-      logWithId(`[${senderIndex}/${dcId}]`, ...args);
-    };
-
-    // Check again after waiting for capacity
-    if (progressCallback?.isCanceled) {
-      dcManager.releaseWorker(senderIndex, limit);
-      deferred?.resolve();
-      break;
-    }
-
-    promises.push((async (offsetMemo: number, limitMemo: number, senderIndexMemo: number) => {
-      while (true) {
-        let sender;
+      const partPromise = (async () => {
         try {
-          let isDone = false;
-          if (shouldDebugExportedSenders) {
-            setTimeout(() => {
-              if (isDone) return;
-              logWithSenderIndex(`❗️️ getSender took too long ${offsetMemo}`);
-            }, 8000);
-          }
-          sender = await client.getSender(dcId, senderIndexMemo, isPremium);
-          isDone = true;
+          let retryCount = 0;
+          while (true) {
+            if (isCanceled()) throw new Error('USER_CANCELED');
+            let sender;
+            const abortController = new AbortController();
+            try {
+              sender = await waitForMediaTransfer(
+                client.getSender(dcId, senderIndex, isPremium), isCanceled, SENDER_TIMEOUT, undefined,
+                (lateSender) => client.releaseExportedSender(lateSender),
+              );
+              if (isCanceled()) throw new Error('USER_CANCELED');
+              const result = await waitForMediaTransfer(sender.send(new Api.upload.GetFile({
+                location: inputLocation,
+                offset: BigInt(requestOffset),
+                limit,
+                precise: isPrecise || undefined,
+              }), abortController.signal, false, isResearchRequest)!, isCanceled,
+              SENDER_TIMEOUT, () => abortController.abort());
 
-          let isDone2 = false;
-          if (shouldDebugExportedSenders) {
-            setTimeout(() => {
-              if (isDone2) return;
-              logWithSenderIndex(`❗️️ sender.send took too long ${offsetMemo}`);
-            }, 6000);
-          }
-          // sometimes a session is revoked and will cause this to hang.
-          const result = (await Promise.race([
-            sender.send(new Api.upload.GetFile({
-              location: inputLocation,
-              offset: BigInt(offsetMemo),
-              limit: limitMemo,
-              precise: isPrecise || undefined,
-            })),
-            sleep(SENDER_TIMEOUT).then(() => {
-              // If we're on the main DC we just cancel the download and let the user retry later
-              if (dcId === client.session.dcId) {
-                logWithSenderIndex(`Download timed out ${offsetMemo}`);
-                return Promise.reject(new Error('USER_CANCELED'));
-              } else {
-                logWithSenderIndex(`Download timed out [not main] ${offsetMemo}`);
-                return Promise.reject(new Error('SESSION_REVOKED'));
+              if (!result) throw new Error('DOWNLOAD_EMPTY_RESPONSE');
+              if (result instanceof Api.upload.FileCdnRedirect) throw new Error('CDN download not supported');
+              if (isCanceled()) throw new Error('USER_CANCELED');
+
+              const bytes = result.bytes.subarray(partStart - requestOffset, partEnd - requestOffset + 1);
+              if (rangeSize !== undefined && bytes.length !== partEnd - partStart + 1) {
+                throw new Error('DOWNLOAD_INCOMPLETE');
               }
-            }),
-          ]))!;
-          client.releaseExportedSender(sender);
-
-          if (result instanceof Api.upload.FileCdnRedirect) {
-            throw new Error('CDN download not supported');
-          }
-
-          isDone2 = true;
-          if (progressCallback) {
-            if (progressCallback.isCanceled) {
-              throw new Error('USER_CANCELED');
+              fileView.write(bytes, partStart - start);
+              downloadedSize += bytes.length;
+              if (noParallel && result.bytes.length < limit) hasEnded = true;
+              const progress = rangeSize !== undefined ? Math.min(downloadedSize / rangeSize, 1) : (hasEnded ? 1 : 0);
+              progressCallback?.(progress);
+              logWithId(`[${senderIndex}/${dcId}]`, `Downloaded ${downloadedSize} bytes`);
+              return;
+            } catch (err) {
+              if (isCanceled() || (err instanceof Error && err.message === 'USER_CANCELED')) throw err;
+              if (isResearchRequest) throw err;
+              if (err instanceof FloodWaitError) {
+                if (err instanceof FloodPremiumWaitError && !isPremiumFloodWaitSent) {
+                  sender?._updateCallback(new LocalUpdatePremiumFloodWait(false));
+                  isPremiumFloodWaitSent = true;
+                }
+                await waitForMediaTransfer(sleep(err.seconds * 1000), isCanceled);
+                continue;
+              }
+              if ((sender && !sender.isConnected()) || (err instanceof Error && err.message === 'DOWNLOAD_TIMEOUT')) {
+                if (++retryCount < SENDER_RETRIES) {
+                  await waitForMediaTransfer(sleep(DISCONNECT_SLEEP), isCanceled);
+                  continue;
+                }
+              }
+              throw err;
+            } finally {
+              if (sender) client.releaseExportedSender(sender);
             }
-
-            progress += (1 / partsCount);
-            logWithSenderIndex(`⬇️️ ${progress * 100}%`);
-            progressCallback(progress);
           }
-
-          if (!end && (result.bytes.length < limitMemo)) {
-            hasEnded = true;
-          }
-
-          dcManager.releaseWorker(senderIndexMemo, limitMemo);
-          if (deferred) deferred.resolve();
-
-          fileView.write(result.bytes, offsetMemo - start);
-
-          return;
         } catch (err) {
-          if (sender && !sender.isConnected()) {
-            await sleep(DISCONNECT_SLEEP);
-            continue;
-          } else if (err instanceof FloodWaitError) {
-            if (err instanceof FloodPremiumWaitError && !isPremiumFloodWaitSent) {
-              sender?._updateCallback(new LocalUpdatePremiumFloodWait(false));
-              isPremiumFloodWaitSent = true;
-            }
-            await sleep(err.seconds * 1000);
-            continue;
-          }
-
-          logWithSenderIndex(`Ended not gracefully ${offsetMemo}`);
-          dcManager.releaseWorker(senderIndexMemo, limitMemo);
-          if (deferred) deferred.resolve();
-
-          hasEnded = true;
-          if (sender) client.releaseExportedSender(sender);
-          throw err;
+          downloadError ??= err instanceof Error ? err : new Error('DOWNLOAD_FAILED', { cause: err });
+        } finally {
+          dcManager.releaseWorker(senderIndex, limit);
         }
-      }
-    })(offset, limit, senderIndex));
+      })();
 
-    offset += limit;
-
-    if (end && (offset > end)) {
-      break;
+      promises.push(partPromise);
+      offset = partEnd + 1;
+      if (noParallel) await partPromise;
     }
+    await Promise.all(promises);
+    if (isCanceled()) throw downloadError ?? new Error('USER_CANCELED');
+    const data = await fileView.getData();
+    isCompleted = true;
+    return data;
+  } catch (err) {
+    if (downloadError) throw downloadError;
+    throw err;
+  } finally {
+    downloadError ??= new Error('USER_CANCELED');
+    await Promise.all(promises);
+    await fileView.dispose(!isCompleted);
   }
-  await Promise.all(promises);
-  return fileView.getData();
 }

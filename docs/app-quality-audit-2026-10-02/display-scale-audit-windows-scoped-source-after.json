@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T10:56:28.447Z",
+  "label": "windows-scoped-source-after",
+  "scope": "Actual App/body components with MockClient and isolated native mocks; physical pixel model FullHD1920x1080 at DPR1/CSS1920x1080 and DPR2/CSS960x540",
+  "limits": [
+    "Controlled headless DPR and responsive viewport, not native Windows WebView DPI or browser text-only zoom",
+    "No real account operations, uploads, external network, payments or product source edits",
+    "AttachmentModalItem is preview child only; full composer covered independently"
+  ],
+  "cases": [
+    {
+      "id": "windows-scoped-source-after-contact-edit-dpr1-light",
+      "kind": "contact-edit",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-contact-edit-dpr1-light-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-chat-language-dpr1-light",
+      "kind": "chat-language",
+      "dpr": 1,
+      "themeId": "light-modern",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-chat-language-dpr1-light-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-contact-edit-dpr1-dark",
+      "kind": "contact-edit",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-contact-edit-dpr1-dark-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-chat-language-dpr1-dark",
+      "kind": "chat-language",
+      "dpr": 1,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-chat-language-dpr1-dark-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-contact-edit-dpr2-light",
+      "kind": "contact-edit",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-contact-edit-dpr2-light-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-chat-language-dpr2-light",
+      "kind": "chat-language",
+      "dpr": 2,
+      "themeId": "light-modern",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-chat-language-dpr2-light-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-contact-edit-dpr2-dark",
+      "kind": "contact-edit",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/main/NewContactModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-contact-edit-dpr2-dark-failure.png"
+    },
+    {
+      "id": "windows-scoped-source-after-chat-language-dpr2-dark",
+      "kind": "chat-language",
+      "dpr": 2,
+      "themeId": "egoist-dark",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "platformCssProbe": {
+        "actualBodyClasses": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg has-open-dialog",
+        "actualTop": "20px",
+        "nonTauriTop": "0px",
+        "macBodyClassTop": "0px"
+      },
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: No caption offset without native Tauri body class\n\n'0px' !== 'auto'\n",
+      "screenshot": "display-scale-windows-scoped-source-after-chat-language-dpr2-dark-failure.png"
+    }
+  ],
+  "pageErrors": [],
+  "blockedRequests": 0,
+  "sourceHashesBefore": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963",
+    "src/components/ui/Modal.scss": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+    "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+    "src/components/common/Titlebar.module.scss": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+    "src/components/App.module.scss": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+    "scripts/relay-ui-audit.server.mjs": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583",
+    "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+    "scripts/relay-ui-additional-modals.server.fixture.mjs": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+  },
+  "sourceHashesAfter": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963",
+    "src/components/ui/Modal.scss": "ac4686a9770528f9f113e51cbc2a0cdffad878f926490af71e38c0df5083012d",
+    "src/components/ui/Modal.tsx": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd",
+    "src/components/common/Titlebar.module.scss": "bc8aea4d50574e58cce10c76be42eed124e9a313ad46c70a44ad7f9f1966fc69",
+    "src/components/App.module.scss": "cd932ed690d8ac200fdcd632d4c0e5c0c33e196ff6549c3e702265f1da2e3596",
+    "scripts/relay-ui-audit.server.mjs": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583",
+    "scripts/relay-ui-additional-modals.fixture.tsx": "9ff874b6ee6f7f45f2c7fef4b5616120896cfe1033def361f687314d4f420801",
+    "scripts/relay-ui-additional-modals.server.fixture.mjs": "5b17a2d113639e594c7ddc0fe89f4f36c49b1234e65f8601174eab3fc47b6196"
+  },
+  "fixturePreconditions": [
+    {
+      "dpr": 1,
+      "chat101": true,
+      "message101Count": 3
+    },
+    {
+      "dpr": 2,
+      "chat101": true,
+      "message101Count": 3
+    }
+  ],
+  "sourceHashesUnchanged": true,
+  "summary": {
+    "total": 8,
+    "passed": 0,
+    "failed": 8,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "sourceHashesUnchanged": true
+  }
+}

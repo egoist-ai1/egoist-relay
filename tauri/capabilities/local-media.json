@@ -1,0 +1,12 @@
+{
+  "identifier": "relay-local-media",
+  "description": "Resolve selected public video and transcribe selected audio in the local main Relay renderer",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": [
+    "allow-relay-inline-resolve-media",
+    "allow-relay-inline-cancel-media",
+    "allow-transcribe-voice",
+    "allow-cancel-voice-transcription"
+  ]
+}

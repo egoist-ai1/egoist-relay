@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-mini-app-reload"
+description = "Enables the relay_mini_app_reload command without any pre-configured scope."
+commands.allow = ["relay_mini_app_reload"]
+
+[[permission]]
+identifier = "deny-relay-mini-app-reload"
+description = "Denies the relay_mini_app_reload command without any pre-configured scope."
+commands.deny = ["relay_mini_app_reload"]

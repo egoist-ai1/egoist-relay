@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-10-02T06:40:49.574Z",
+  "production": [
+    {
+      "file": "src/components/ui/RangeSlider.tsx",
+      "sha256": "0859997f137f10c0e750094b6cf3a5b80244b447193e3b2dcf059c20eb15da38"
+    },
+    {
+      "file": "src/lib/gramjs/client/MockClient.ts",
+      "sha256": "c7e9f966e96e9971fad8bc09b7bb9b3f03e28585a44c68ddcf9d420c5d968d20"
+    },
+    {
+      "file": "src/components/ui/Modal.tsx",
+      "sha256": "65c49d093d9e45cd25eea8d0c8f21e0bfcbc3dbe90561954c328b5ccdb2d29dd"
+    },
+    {
+      "file": "src/util/trapFocus.ts",
+      "sha256": "8314b161a5716198d4137b37e5bfb92810da5f33c3c887a24bfd363d594edaa6"
+    },
+    {
+      "file": "src/components/ui/ConfirmDialog.tsx",
+      "sha256": "d79524dc3ed17aabff744528f53e823c06cd87221c75062a4935ebf9f87ab8a0"
+    },
+    {
+      "file": "src/components/middle/message/Message.scss",
+      "sha256": "45783b340c40994671d694c3c734e650e8b4a5a234c662b18ef95ca7fbb0bc38"
+    },
+    {
+      "file": "src/components/middle/message/MessageMeta.scss",
+      "sha256": "9cc58cab3932616beb44c7758766bb129a22698808a8e01326f8154040b8a8fc"
+    },
+    {
+      "file": "src/components/ui/Menu.tsx",
+      "sha256": "0f3260175f6b4a64da0502675b3af0ee80b0105d9bf547527bce9d90d1907768"
+    },
+    {
+      "file": "src/util/captureKeyboardListeners.ts",
+      "sha256": "79dc4df2c069d49292f0119e7aa9b718fe381970eed5c15fdaf84d1562473207"
+    },
+    {
+      "file": "src/components/ui/Button.tsx",
+      "sha256": "6f042ec8d3f10f537978047d7834ac7d9638dec70a8de753d1e4449d8c9d10e4"
+    },
+    {
+      "file": "src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor.tsx",
+      "sha256": "6fc9461fa8482e7045f384138a4a4bf7a80a7b2cc2454c06a6bb80f4a9aa241f"
+    }
+  ],
+  "harness": [
+    {
+      "file": "scripts/relay-ui-audit.custom-modals.mjs",
+      "sha256": "8e39d5f66df67e0597d2d37b4b86c12e9394cacdf5a3d0f6edd5c3687bcbc1f4"
+    },
+    {
+      "file": "scripts/relay-ui-audit.enhancers.mjs",
+      "sha256": "2f3c10a4fa0f9ed5e978884ac786cec4d45c26319c0a80c3f1cf0e82cba4ce95"
+    },
+    {
+      "file": "scripts/relay-ui-audit.fixture.tsx",
+      "sha256": "d8965827b3188b2c25ee1ba22ba0e4ed1f68e49c577021a86c050ea0e21ae8cd"
+    },
+    {
+      "file": "scripts/relay-ui-audit.group-state.ts",
+      "sha256": "ba17bb749c984b50022160699b388ff972b87a4b2370ad060f48826a81fda3eb"
+    },
+    {
+      "file": "scripts/relay-ui-audit.groups.mjs",
+      "sha256": "e6b1c2b63ffdc36457dd42bb594c8722b1a1edaf384a681e5b9f921c94712cd9"
+    },
+    {
+      "file": "scripts/relay-ui-audit.inventory.mjs",
+      "sha256": "a45636332f03cf4c7ad9c0537e1fb9432d0680827f0e787e5583b1792548f3df"
+    },
+    {
+      "file": "scripts/relay-ui-audit.keyboard-contract.mjs",
+      "sha256": "784c23851c2dfe4dc7a7837cc6724925d9ca6555a52b3f9a8f603a67f0188963"
+    },
+    {
+      "file": "scripts/relay-ui-audit.mjs",
+      "sha256": "476c1def8a01864ebbc86a909fbc88cdeae81c87279e9553d4ecd7003d4e04c0"
+    },
+    {
+      "file": "scripts/relay-ui-audit.performance.mjs",
+      "sha256": "fd9695b92a0622a4b2d42865c496553905cfa64e3851ffabcc60f0ac91a5411a"
+    },
+    {
+      "file": "scripts/relay-ui-audit.probe.mjs",
+      "sha256": "af82da8ddcc7f366f96fc75c381beee3c94f2ccdf17169a0dc513b3eb4254f83"
+    },
+    {
+      "file": "scripts/relay-ui-audit.report.mjs",
+      "sha256": "b7382635dc3285c8608f87028e262651b465d6a084f8e5098394cfc281051d4d"
+    },
+    {
+      "file": "scripts/relay-ui-audit.server.mjs",
+      "sha256": "5004f550ceaec701fd30264f790bc3e085d821994f456e964529e73bca7a0583"
+    },
+    {
+      "file": "scripts/relay-media-audit-file.test.mjs",
+      "sha256": "0fe4b05831e7006d210b6ba8984958cc80ac30d963c000b634b36cecf3254dcf"
+    }
+  ]
+}

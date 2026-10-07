@@ -1,0 +1,96 @@
+{
+  "url": "http://127.0.0.1:1263/relay-ui-audit#mockScenario=relay-ui",
+  "documents": [
+    "http://127.0.0.1:1263/relay-ui-audit",
+    "http://127.0.0.1:1263/relay-ui-audit"
+  ],
+  "messages": [
+    {
+      "type": "warning",
+      "text": "AUDIT_DOCUMENT_BOOT http://127.0.0.1:1263/relay-ui-audit#mockScenario=relay-ui"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "warning",
+      "text": "AUDIT_ROUTING_CAPTURE #mockScenario=relay-ui true"
+    },
+    {
+      "type": "warning",
+      "text": "AUDIT_REPLACE_HISTORY #mockScenario=relay-ui /relay-ui-audit"
+    },
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "Cannot connect the Lagom Telegram transport"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "warning",
+      "text": "AUDIT_DOCUMENT_BOOT http://127.0.0.1:1263/relay-ui-audit"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "warning",
+      "text": "AUDIT_ROUTING_CAPTURE  true"
+    },
+    {
+      "type": "warning",
+      "text": "AUDIT_REPLACE_HISTORY  /relay-ui-audit"
+    },
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "warning",
+      "text": "Cannot connect the Lagom Telegram transport"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    }
+  ],
+  "scenarioRequests": [
+    "http://127.0.0.1:1263/src/lib/gramjs/client/__mocks__/relay-ui.json?import",
+    "http://127.0.0.1:1263/src/lib/gramjs/client/__mocks__/default.json?import"
+  ],
+  "state": {
+    "auth": "authorizationStateReady",
+    "currentUserId": "1",
+    "connection": "connectionStateReady",
+    "chatCount": 2,
+    "settingsScreen": 0,
+    "leftContent": 0,
+    "isSynced": true,
+    "isSyncing": false
+  },
+  "body": "Telegram\nX\nInstagram\nTelegram\nJD\nСоздать\nAll\nChats\nA\naass\nSCAM\nSavedMessages"
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "version": "1.5.0",
+  "createdAt": "2026-10-06T02:01:37.9132277Z",
+  "installerPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\release\\1.5.0\\Egoist Relay_1.5.0_x64-setup.exe",
+  "installerSha256": "ed14132386be8025bfb34b664f14fde77f210777758baf536fd6b162f20af6ca",
+  "installerBytes": 567451859,
+  "installerSignature": "NotSigned",
+  "applicationSha256": "2b726942d5c8c5903dd415bbe78a889860eacb523ce83a54beffb0f9a5f5dda0",
+  "applicationBytes": 78096896,
+  "applicationVersion": "1.5.0",
+  "applicationSignature": "NotSigned",
+  "buildExitCode": 0,
+  "nativeTests": 111,
+  "installPerformed": false,
+  "publicPublicationPerformed": false,
+  "buildHook": "Preflight and production Vite completed separately; task-local Tauri config sets beforeBuildCommand empty because npm is absent on host."
+}

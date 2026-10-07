@@ -54,3 +54,5 @@ export * from './forum';
 export * from './communities';
 
 export * from './misc';
+
+export { relayResearch } from './research';

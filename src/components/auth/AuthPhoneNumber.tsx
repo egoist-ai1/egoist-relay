@@ -7,6 +7,7 @@ import type { ApiCountryCode } from '../../api/types';
 import type { GlobalState } from '../../global/types';
 
 import { requestMeasure } from '../../lib/fasterdom/fasterdom';
+import { animateEntrance } from '../../util/animations/gsapMotion';
 import { IS_SAFARI, IS_TOUCH_ENV } from '../../util/browser/windowEnvironment';
 import { preloadImage } from '../../util/files';
 import preloadFonts from '../../util/fonts';
@@ -72,8 +73,11 @@ const AuthPhoneNumber = ({
   } = auth;
 
   const lang = useLang();
+  const containerRef = useRef<HTMLDivElement>();
   const inputRef = useRef<HTMLInputElement>();
   const suggestedLanguage = getSuggestedLanguage();
+
+  useEffect(() => animateEntrance(containerRef.current), []);
 
   const isConnected = connectionState === 'connectionStateReady';
   const continueText = useLangString('AuthContinueOnThisLanguage', suggestedLanguage);
@@ -241,7 +245,7 @@ const AuthPhoneNumber = ({
   const isAuthReady = state === 'authorizationStateWaitPhoneNumber';
 
   return (
-    <div id="auth-phone-number-form" className="custom-scroll">
+    <div id="auth-phone-number-form" ref={containerRef} className="custom-scroll">
       {hasActiveAccount && (
         <Button
           size="smaller"

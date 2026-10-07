@@ -1,7 +1,6 @@
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync, unlinkSync } from 'fs';
 import { dirname, resolve } from 'path';
 import type { NormalizedOutputOptions, OutputBundle, PluginContext } from 'rolldown';
-import { bundleStats } from 'rollup-plugin-bundle-stats';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { fileURLToPath } from 'url';
 import { defineConfig, loadEnv, normalizePath, type Plugin, type PluginOption, type UserConfig } from 'vite';
@@ -16,7 +15,6 @@ const PRODUCTION_URL = 'https://web.telegram.org/a';
 
 const { version: APP_VERSION } = packageJson;
 const BUNDLE_STATS_OUT_DIR = 'bundle-stats';
-const DEFAULT_BUNDLE_STATS_BASELINE_FILE = 'baseline.json';
 const BUNDLE_STATS_VISUALIZER_FILE = 'visualizer.html';
 const WORKER_BUNDLE_COLLECTOR_PLUGIN_NAME = 'telegram:collect-worker-report-bundle';
 const BUNDLE_REPORT_PLUGIN_SUFFIX = ':with-workers';
@@ -70,8 +68,6 @@ export default defineConfig(({ mode }): UserConfig => {
   setViteEnv(env);
   const {
     HEAD = '',
-    BUNDLE_STATS: bundleStatsValue = '',
-    BUNDLE_STATS_BASELINE_PATH: bundleStatsBaselinePath = '',
     BUNDLE_STATS_VISUALIZER: bundleStatsVisualizerValue = '',
     HTTPS_CERT_PATH: httpsCertPath = '',
     HTTPS_KEY_PATH: httpsKeyPath = '',
@@ -87,10 +83,14 @@ export default defineConfig(({ mode }): UserConfig => {
   const manifest = isProductionApp ? 'site.webmanifest' : 'site_dev.webmanifest';
   const csp = buildCsp(appEnv);
   const isDevelopmentMode = mode === 'development';
+  if (isProductionApp && (env.TEST_SESSION || appMockedClient === '1')) {
+    throw new Error('Production build rejects test sessions and mocked clients');
+  }
   const telegramApiId = env.TELEGRAM_API_ID || '';
   const telegramApiHash = env.TELEGRAM_API_HASH || '';
   const workerReportBundles: OutputBundle[] = [];
   const plugins: PluginOption[] = [
+    createBuildDiagnosticsExclusionPlugin(),
     buildGitInfoPlugin({
       appEnv,
       head: HEAD,
@@ -141,31 +141,7 @@ export default defineConfig(({ mode }): UserConfig => {
     })), workerReportBundles));
   }
 
-  if (bundleStatsValue === '1') {
-    plugins.push(createBundleReportPlugin(bundleStats({
-      html: true,
-      json: true,
-      compare: Boolean(bundleStatsBaselinePath),
-      baseline: !bundleStatsBaselinePath, // For master branch upload
-      baselineFilepath: bundleStatsBaselinePath || DEFAULT_BUNDLE_STATS_BASELINE_FILE,
-      outDir: BUNDLE_STATS_OUT_DIR,
-    }), workerReportBundles));
-
-    if (bundleStatsBaselinePath) {
-      // Write current PR stats for the compact GitHub comment
-      plugins.push(createBundleReportPlugin(bundleStats({
-        html: false,
-        json: false,
-        compare: false,
-        baseline: true,
-        baselineFilepath: DEFAULT_BUNDLE_STATS_BASELINE_FILE,
-        outDir: BUNDLE_STATS_OUT_DIR,
-        silent: true,
-      }), workerReportBundles));
-    }
-  }
-
-  const shouldCollectWorkerReportBundles = bundleStatsVisualizerValue === '1' || bundleStatsValue === '1';
+  const shouldCollectWorkerReportBundles = bundleStatsVisualizerValue === '1';
 
   if (appEnv !== 'test' && (!telegramApiId || !telegramApiHash)) {
     throw new Error('Missing required Telegram API credentials');
@@ -228,7 +204,7 @@ export default defineConfig(({ mode }): UserConfig => {
       },
     },
     build: {
-      sourcemap: true,
+      sourcemap: !isProductionApp,
       assetsInlineLimit: (filePath) => (IMAGE_ASSET_RE.test(filePath) ? false : undefined),
     },
     worker: {
@@ -299,7 +275,7 @@ function setViteEnv(env: Record<string, string>) {
 function buildCsp(appEnv: string) {
   return `
   default-src 'self';
-  connect-src 'self' wss://*.web.telegram.org blob: http: https: ${appEnv === 'development' ? 'wss: ipc:' : ''};
+  connect-src 'self' ws: wss: wss://*.web.telegram.org blob: http: https: ${appEnv === 'development' ? 'ipc:' : ''};
   script-src 'self' 'wasm-unsafe-eval'
     https://t.me/_websync_ https://telegram.me/_websync_ https://telegram.dog/_websync_;
   worker-src 'self'${appEnv === 'development' ? ' blob:' : ''};
@@ -334,5 +310,25 @@ function getHttpsConfig(httpsCertPath: string, httpsKeyPath: string) {
   return {
     cert: readFileSync(httpsCertPath),
     key: readFileSync(httpsKeyPath),
+  };
+}
+
+function createBuildDiagnosticsExclusionPlugin(): Plugin {
+  let outputDirectory: string;
+
+  return {
+    name: 'relay:exclude-build-diagnostics',
+    apply: 'build',
+    configResolved(config) {
+      outputDirectory = resolve(config.root, config.build.outDir);
+    },
+    closeBundle() {
+      for (const filename of ['build-stats.json', 'statoscope-report.html']) {
+        const filePath = resolve(outputDirectory, filename);
+        if (existsSync(filePath)) {
+          unlinkSync(filePath);
+        }
+      }
+    },
   };
 }

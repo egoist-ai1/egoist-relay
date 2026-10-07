@@ -97,11 +97,18 @@ const useFolderTabs = (params: Params) => {
   const folderUnreadChatsCountersById = useFolderManagerForUnreadChatsByFolder();
   const handleReadAllChats = useLastCallback((folderId: number) => {
     const unreadChatIds = folderUnreadChatsCountersById[folderId];
-    if (!unreadChatIds?.length) return;
-
-    unreadChatIds.forEach((chatId) => {
-      markChatMessagesRead({ id: chatId });
-    });
+    if (unreadChatIds?.length) {
+      unreadChatIds.forEach((chatId) => {
+        markChatMessagesRead({ id: chatId });
+      });
+      return;
+    }
+    const folder = chatFoldersById[folderId];
+    if (folder?.includedChatIds?.length) {
+      folder.includedChatIds.forEach((chatId) => {
+        markChatMessagesRead({ id: chatId });
+      });
+    }
   });
 
   const folderCountersById = useFolderManagerForUnreadCounters();
@@ -155,13 +162,11 @@ const useFolderTabs = (params: Params) => {
             },
           });
 
-          if (folderUnreadChatsCountersById[id]?.length) {
-            contextActions.push({
-              title: lang('ChatListMarkAllAsRead'),
-              icon: 'readchats',
-              handler: () => handleReadAllChats(folder.id),
-            });
-          }
+          contextActions.push({
+            title: lang('ChatListMarkAllAsRead') || 'Прочитать все',
+            icon: 'readchats',
+            handler: () => handleReadAllChats(folder.id),
+          });
         } else {
           contextActions.push({
             title: lang('EditFolder'),
@@ -171,13 +176,11 @@ const useFolderTabs = (params: Params) => {
             },
           });
 
-          if (folderUnreadChatsCountersById[id]?.length) {
-            contextActions.push({
-              title: lang('ChatListMarkAllAsRead'),
-              icon: 'readchats',
-              handler: () => handleReadAllChats(folder.id),
-            });
-          }
+          contextActions.push({
+            title: lang('ChatListMarkAllAsRead') || 'Прочитать все',
+            icon: 'readchats',
+            handler: () => handleReadAllChats(folder.id),
+          });
 
           contextActions.push({
             title: lang('FilterMenuDelete'),
@@ -244,7 +247,7 @@ const useFolderTabs = (params: Params) => {
     });
   }, [
     displayedFolders, maxFolders, folderCountersById, lang, chatFoldersById, maxChatLists, folderInvitesById,
-    maxFolderInvites, folderUnreadChatsCountersById, isReadOnly, sidebarMode, isMobile, noEmoticons,
+    maxFolderInvites, isReadOnly, sidebarMode, isMobile, noEmoticons,
   ]);
 
   return {

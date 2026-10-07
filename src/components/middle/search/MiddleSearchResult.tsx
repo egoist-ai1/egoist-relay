@@ -92,6 +92,7 @@ const MiddleSearchResult = ({
       role="button"
       tabIndex={0}
       className={buildClassName(styles.root, isActive && styles.active, className)}
+      data-relay-message-result="true"
       onClick={handleClick}
     >
       <Avatar

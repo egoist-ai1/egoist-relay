@@ -21,9 +21,10 @@ const MAX_ASPECT_RATIO = 20;
 const FILE_EXT_REGEX = /\.[^/.]+$/;
 
 export default async function buildAttachment(
-  filename: string, blob: Blob, options?: Partial<ApiAttachment>,
+  filename: string, blob: Blob, options?: Partial<ApiAttachment>, onObjectUrlCreated?: (url: string) => void,
 ): Promise<ApiAttachment> {
   const blobUrl = URL.createObjectURL(blob);
+  onObjectUrlCreated?.(blobUrl);
   const { type: mimeType, size } = blob;
   let quick;
   let audio;
@@ -46,11 +47,12 @@ export default async function buildAttachment(
         const resizedUrl = await scaleImage(
           blobUrl, shouldShrink ? maxQuickImgSize / Math.max(width, height) : 1, 'image/jpeg',
         );
+        onObjectUrlCreated?.(resizedUrl);
         URL.revokeObjectURL(blobUrl);
         return buildAttachment(filename, blob, {
           ...options,
           compressedBlobUrl: resizedUrl,
-        });
+        }, onObjectUrlCreated);
       }
 
       if (mimeType === 'image/jpeg') {
@@ -93,6 +95,8 @@ export default async function buildAttachment(
     };
     previewBlobUrl = coverUrl;
   }
+
+  if (previewBlobUrl) onObjectUrlCreated?.(previewBlobUrl);
 
   return {
     blob,

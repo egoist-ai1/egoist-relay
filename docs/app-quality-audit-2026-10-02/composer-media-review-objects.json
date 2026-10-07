@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "relay-composer-media-next-audit-2026-10-02",
+  "version": 1,
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "objects": [
+    {
+      "id": "composer-caption-settings-next",
+      "name": "Подпись и выбор группировки/качества",
+      "version": 1,
+      "content": "Принять проверенные NEXT изменения Composer и AttachmentModal: запрошенная подпись сохраняется без группировки, независимые настройки не сбрасывают выбор.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-after-results.json",
+      "sourceManifest": "composer-media-final-source-shas.json"
+    },
+    {
+      "id": "composer-editor-controls-next",
+      "name": "Фокус, клавиатура и размеры редактора",
+      "version": 1,
+      "content": "Принять NEXT изменения редактора: обычные pointer crop/rotate/Undo/Redo/Save/Cancel, Tab/Space/Escape, сохранение вложения и подписи, FullHD/узкие окна и scoped popover geometry проверены.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-after-results.json",
+      "sourceManifest": "composer-media-final-source-shas.json"
+    },
+    {
+      "id": "composer-malformed-initial-selection-next",
+      "name": "Ошибочный PNG и сохранение выбранных файлов",
+      "version": 1,
+      "content": "Принять отдельную atomic root правку только initial non-editing selection: invalid-alone, valid sibling, retained prior and retry проходят. Edited/appending/quality rejection остаются отдельным coverage gap.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-after-results.json",
+      "sourceManifest": "composer-media-final-source-shas.json"
+    },
+    {
+      "id": "composer-local-media-evidence",
+      "name": "Исходные байты и границы проверки передачи",
+      "version": 1,
+      "content": "Принять локальные результаты fidelity и UI controls. Нормальное фото1280×853, HQ2560×1706 и оригинал3000×2000 as-file проверены; server acceptance/реальная скорость не подтверждены и требуют отдельного разрешённого live пилота.",
+      "decision": "unreviewed",
+      "evidence": "composer-media-report.json"
+    }
+  ]
+}

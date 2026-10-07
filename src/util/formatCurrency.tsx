@@ -5,7 +5,7 @@ import type { LangFn } from './localization';
 import { STARS_CURRENCY_CODE, TON_CURRENCY_CODE } from '../config';
 import { formatStarsAsIcon, formatTonAsIcon } from './localization/format';
 
-const FALLBACK_LANG_CODE = 'en';
+const FALLBACK_LANG_CODE = 'ru';
 
 export function convertCurrencyFromBaseUnit(amount: number, currency: string) {
   return amount / 10 ** getCurrencyExp(currency);

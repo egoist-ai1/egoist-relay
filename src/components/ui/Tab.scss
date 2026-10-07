@@ -84,6 +84,12 @@
 
   &__badge--active {
     background: var(--color-primary) !important;
+
+    :global(.theme-dark) & {
+      font-weight: var(--font-weight-bold);
+      color: #000000 !important;
+      background: #FFFFFF !important;
+    }
   }
 
   .blocked {

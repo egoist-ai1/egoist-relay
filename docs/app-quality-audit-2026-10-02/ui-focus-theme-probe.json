@@ -1,0 +1,611 @@
+{
+  "errors": [],
+  "focus": [
+    {
+      "stage": "checkbox",
+      "tag": "INPUT",
+      "id": "audit-checkbox",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"checkbox\" id=\"audit-checkbox\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-0",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "RangeSlider__input",
+      "text": "",
+      "html": "<input min=\"0\" max=\"100\" step=\"2\" type=\"range\" aria-label=\"Масштаб текста\" class=\"RangeSlider__input\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-1",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button default primary",
+      "text": "Готово",
+      "html": "<button type=\"button\" class=\"Button default primary\">Готово</button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-2",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "AppSidebar-module__appButton AppSidebar-module__active",
+      "text": "Telegram",
+      "html": "<button type=\"button\" class=\"AppSidebar-module__appButton AppSidebar-module__active\" title=\"Переключиться на Telegram\" aria-label=\"Переключиться на Telegram\" aria-current=\"page\" aria-pressed=\"true\" aria-controls=\"relay-telegram-pane\" data-relay-app=\"telegram\" data-relay-service=\"main\"><span class=\"AppSidebar-module__activeIndicator\" aria-hidden=\"tr",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-3",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "AppSidebar-module__appButton",
+      "text": "X",
+      "html": "<button type=\"button\" class=\"AppSidebar-module__appButton\" title=\"Переключиться на X\" aria-label=\"Переключиться на X\" aria-pressed=\"false\" aria-busy=\"false\" aria-controls=\"relay-x-pane\" data-relay-app=\"x\" data-relay-service=\"x\"><span class=\"AppSidebar-module__activeIndicator\" aria-hidden=\"true\"></span><svg viewBox=\"0 0 24 24\" class=\"AppSidebar-modu",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-4",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "AppSidebar-module__appButton",
+      "text": "Instagram",
+      "html": "<button type=\"button\" class=\"AppSidebar-module__appButton\" title=\"Переключиться на Instagram\" aria-label=\"Переключиться на Instagram\" aria-pressed=\"false\" aria-busy=\"false\" aria-controls=\"relay-instagram-pane\" data-relay-app=\"instagram\" data-relay-service=\"instagram\"><span class=\"AppSidebar-module__activeIndicator\" aria-hidden=\"true\"></span><svg vi",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-5",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Titlebar-module__button",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Titlebar-module__button\" title=\"Свернуть\" aria-label=\"Свернуть\"><svg viewBox=\"0 0 12 12\" class=\"Titlebar-module__buttonIcon\" aria-hidden=\"true\" focusable=\"false\"><line x1=\"1\" y1=\"6\" x2=\"11\" y2=\"6\" stroke=\"currentColor\" strokeWidth=\"1.25\" strokeLinecap=\"round\"></line></svg></button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-6",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Titlebar-module__button",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Titlebar-module__button\" title=\"Развернуть\" aria-label=\"Развернуть\"><svg viewBox=\"0 0 12 12\" class=\"Titlebar-module__buttonIcon\" aria-hidden=\"true\" focusable=\"false\"><rect x=\"1.75\" y=\"1.75\" width=\"8.5\" height=\"8.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.2\"></rect></svg></button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-7",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Titlebar-module__button Titlebar-module__close",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Titlebar-module__button Titlebar-module__close\" title=\"Закрыть\" aria-label=\"Закрыть\"><svg viewBox=\"0 0 12 12\" class=\"Titlebar-module__buttonIcon\" aria-hidden=\"true\" focusable=\"false\"><line x1=\"2\" y1=\"2\" x2=\"10\" y2=\"10\" stroke=\"currentColor\" strokeWidth=\"1.25\" strokeLinecap=\"round\"></line><line x1=\"10\" y1=\"2\" x2=\"2\" y2=\"",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-8",
+      "tag": "BUTTON",
+      "id": "",
+      "classes": "Button smaller translucent round",
+      "text": "",
+      "html": "<button type=\"button\" class=\"Button smaller translucent round\" aria-label=\"AccDescrGoBack\" title=\"AccDescrGoBack\"><i class=\"icon icon-arrow-left\" aria-hidden=\"true\"></i></button>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-9",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "RangeSlider__input",
+      "text": "",
+      "html": "<input min=\"12\" max=\"20\" step=\"1\" type=\"range\" aria-label=\"Message Font Size\" class=\"RangeSlider__input\" style=\"\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-10",
+      "tag": "DIV",
+      "id": "",
+      "classes": "ListItem-button",
+      "text": "Chat Wallpaper",
+      "html": "<div class=\"ListItem-button\" role=\"button\" tabindex=\"0\"><i class=\"icon icon-photo ListItem-main-icon\" aria-hidden=\"true\"></i>Chat Wallpaper</div>",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-11",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"radio\" name=\"antigravityDark\" value=\"egoist-dark\" style=\"\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-12",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"radio\" name=\"antigravityLight\" value=\"solarized-light\" style=\"\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-13",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"radio\" name=\"timeformat\" value=\"24h\" style=\"\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-14",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"radio\" name=\"keyboard-send-settings\" value=\"enter\" style=\"\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "tab-15",
+      "tag": "INPUT",
+      "id": "",
+      "classes": "",
+      "text": "",
+      "html": "<input type=\"checkbox\" style=\"\">",
+      "modals": [
+        {
+          "tag": "DIV",
+          "title": "Проверка настоящих контролов Relay"
+        }
+      ]
+    },
+    {
+      "stage": "confirm",
+      "tag": "DIV",
+      "id": "",
+      "classes": "dialog-buttons mt-2",
+      "text": "Удалить тестовый объектОтмена",
+      "html": "<div class=\"dialog-buttons mt-2\" tabindex=\"-1\"><button type=\"button\" class=\"Button confirm-dialog-button default danger text inline\">Удалить тестовый объект</button><button type=\"button\" class=\"Button confirm-dialog-button default primary text\" autofocus=\"\">Отмена</button></div>",
+      "modals": [
+        {
+          "tag": "DIALOG",
+          "title": "Удаление тестового объекта"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "theme": {
+        "id": "egoist-dark",
+        "name": "Egoist Lagom (OLED Pure Black)",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-egoist-dark",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "egoist-dark",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "egoist-dark"
+    },
+    {
+      "theme": {
+        "id": "dark-modern",
+        "name": "Dark Modern",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-dark-modern",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "dark-modern",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "dark-modern"
+    },
+    {
+      "theme": {
+        "id": "dark-plus",
+        "name": "Dark+ (Default Dark)",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-dark-plus",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "dark-plus",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "dark-plus"
+    },
+    {
+      "theme": {
+        "id": "tokyo-night",
+        "name": "Tokyo Night",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-tokyo-night",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "tokyo-night",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "tokyo-night"
+    },
+    {
+      "theme": {
+        "id": "monokai",
+        "name": "Monokai Pro Charcoal",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-monokai",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "monokai",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "monokai"
+    },
+    {
+      "theme": {
+        "id": "abyss",
+        "name": "Abyss Navy",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-abyss",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "abyss",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "abyss"
+    },
+    {
+      "theme": {
+        "id": "solarized-dark",
+        "name": "Solarized Dark",
+        "base": "dark"
+      },
+      "rootClass": "theme-dark theme-variant-solarized-dark",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "solarized-dark",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(239, 243, 244)",
+          "background": "rgb(32, 35, 39)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(231, 233, 234)",
+          "background": "rgb(22, 24, 28)"
+        }
+      ],
+      "variant": "solarized-dark"
+    },
+    {
+      "theme": {
+        "id": "light-modern",
+        "name": "Light Modern",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-light-modern",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "light-modern",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(31, 31, 31)",
+          "background": "rgb(20, 23, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(31, 31, 31)",
+          "background": "rgb(28, 36, 51)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(31, 31, 31)",
+          "background": "rgb(20, 23, 28)"
+        }
+      ],
+      "variant": "light-modern"
+    },
+    {
+      "theme": {
+        "id": "light-plus",
+        "name": "Light+ (Default Light)",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-light-plus",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "light-plus",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(20, 23, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(28, 36, 51)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(0, 0, 0)",
+          "background": "rgb(20, 23, 28)"
+        }
+      ],
+      "variant": "light-plus"
+    },
+    {
+      "theme": {
+        "id": "quiet-light",
+        "name": "Quiet Light",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-quiet-light",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "quiet-light",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(51, 51, 51)",
+          "background": "rgb(20, 23, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(51, 51, 51)",
+          "background": "rgb(28, 36, 51)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(51, 51, 51)",
+          "background": "rgb(20, 23, 28)"
+        }
+      ],
+      "variant": "quiet-light"
+    },
+    {
+      "theme": {
+        "id": "solarized-light",
+        "name": "Solarized Light",
+        "base": "light"
+      },
+      "rootClass": "theme-light theme-variant-solarized-light",
+      "bodyClass": "is-pointer-env with-message-blur is-windows is-tauri App-module__bg",
+      "selected": [
+        "solarized-light",
+        "24h",
+        "enter"
+      ],
+      "bubbles": [
+        {
+          "text": "Привет! Проверим новый интерфейс Relay?19:10",
+          "color": "rgb(88, 110, 117)",
+          "background": "rgb(20, 23, 28)"
+        },
+        {
+          "text": "Да, всё выглядит спокойно и читается с первого взгляда.19:11",
+          "color": "rgb(88, 110, 117)",
+          "background": "rgb(28, 36, 51)"
+        },
+        {
+          "text": "Отлично ❤4🔥219:12",
+          "color": "rgb(88, 110, 117)",
+          "background": "rgb(20, 23, 28)"
+        }
+      ],
+      "variant": "solarized-light"
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-06T10:57:39.087Z",
+  "mode": "after",
+  "sourceHashes": {
+    "src/components/ui/Switcher.tsx": "d64ce29742f8c2550cdcef0c6604633340573fad4357c09279adda5b8c1b02fd",
+    "src/components/ui/Switcher.scss": "e663389e819e021dc9eab8201fac5832d5c01732476f5bd8f205ede3a2ef768e",
+    "src/components/ui/ListItem.tsx": "80769b2323d66529c9eaa8107104810059b21cd55885da6e6c414cc1650cde17",
+    "src/components/ui/Modal.tsx": "174c7f786ca0786bf8aa4f3ccf25ecc413a13fb83bc29c3e80a543d693a18c52"
+  },
+  "scope": "Actual Switcher and ListItem with local callbacks, rendered alongside isolated real App; before substitutes owned source subset, not the entire old application.",
+  "environment": {
+    "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "remoteRequests": "blocked",
+    "account": "existing synthetic MockClient user 1",
+    "physicalDpi": "unverified"
+  },
+  "cases": [
+    {
+      "id": "standalone-switcher-tab-space-callback-once",
+      "status": "pass",
+      "detail": {
+        "target": "switcher-standalone",
+        "callbacks": 1,
+        "focus": {
+          "outlineWidth": "2px",
+          "outlineStyle": "solid",
+          "outlineColor": "rgb(245, 245, 245)",
+          "track": "rgb(245, 245, 245)",
+          "thumb": "rgb(0, 0, 0)"
+        }
+      }
+    },
+    {
+      "id": "owned-row-switcher-no-second-tab-target",
+      "status": "pass",
+      "detail": {
+        "target": "switcher-end",
+        "callbackCount": 1,
+        "inactiveAndDisabledCallbacks": 0,
+        "ownerTabIndex": -1
+      }
+    },
+    {
+      "id": "switcher-reduced-motion",
+      "status": "pass",
+      "detail": {
+        "durations": [
+          [
+            "0s",
+            "0s"
+          ],
+          [
+            "0s",
+            "0s"
+          ],
+          [
+            "0s",
+            "0s"
+          ],
+          [
+            "0s",
+            "0s"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "listitem-enter-space-mouse-exactly-once",
+      "status": "pass",
+      "detail": {
+        "results": [
+          {
+            "action": "Enter",
+            "callbacks": 1
+          },
+          {
+            "action": "Space",
+            "callbacks": 1
+          },
+          {
+            "action": "mouse",
+            "callbacks": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "listitem-modal-owner-enter-not-modal-submit",
+      "status": "pass",
+      "detail": {
+        "ownerCallbacks": 1,
+        "modalSubmitCallbacks": 0
+      }
+    },
+    {
+      "id": "listitem-disabled-static-inactive-noninteractive-skip",
+      "status": "pass",
+      "detail": {
+        "details": [
+          {
+            "tabIndex": -1,
+            "text": "Disabled synthetic row"
+          },
+          {
+            "tabIndex": -1,
+            "text": "Static synthetic row"
+          },
+          {
+            "tabIndex": -1,
+            "text": "Inactive synthetic row"
+          },
+          {
+            "tabIndex": -1,
+            "text": "Noninteractive synthetic row"
+          }
+        ],
+        "callbacks": 0
+      }
+    },
+    {
+      "id": "listitem-repeat-composition-modifiers-no-action",
+      "status": "pass",
+      "detail": {
+        "details": [
+          {
+            "key": " ",
+            "repeat": true,
+            "defaultPrevented": true
+          },
+          {
+            "key": "Enter",
+            "repeat": true,
+            "defaultPrevented": false
+          },
+          {
+            "key": "Enter",
+            "isComposing": true,
+            "defaultPrevented": false
+          },
+          {
+            "key": "Enter",
+            "ctrlKey": true,
+            "defaultPrevented": false
+          },
+          {
+            "key": " ",
+            "shiftKey": true,
+            "defaultPrevented": false
+          }
+        ],
+        "callbacks": 0
+      }
+    },
+    {
+      "id": "listitem-nested-input-button-no-owner-action",
+      "status": "fail",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n",
+      "diagnostic": {
+        "activeId": "switcher-nested-button",
+        "callbacks": [
+          {
+            "standalone": true
+          },
+          {
+            "owner": true
+          },
+          {
+            "owner": false
+          },
+          {
+            "owner": true
+          },
+          {
+            "owner": false
+          },
+          {
+            "owner": true
+          },
+          {
+            "modalEnter": true
+          },
+          {
+            "nestedButton": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "primary-loading-spinner-theme-alias",
+      "status": "pass",
+      "detail": {
+        "usesPrimarySprite": true,
+        "usesBlackSprite": true,
+        "spriteRendered": true,
+        "background": "rgb(245, 245, 245)",
+        "text": "rgb(0, 0, 0)"
+      }
+    }
+  ],
+  "errors": [],
+  "nestedBefore": {
+    "callbacks": [
+      {
+        "standalone": true
+      },
+      {
+        "owner": true
+      },
+      {
+        "owner": false
+      },
+      {
+        "owner": true
+      },
+      {
+        "owner": false
+      },
+      {
+        "owner": true
+      },
+      {
+        "modalEnter": true
+      }
+    ],
+    "activeId": ""
+  },
+  "nestedInput": {
+    "callbacks": [
+      {
+        "standalone": true
+      },
+      {
+        "owner": true
+      },
+      {
+        "owner": false
+      },
+      {
+        "owner": true
+      },
+      {
+        "owner": false
+      },
+      {
+        "owner": true
+      },
+      {
+        "modalEnter": true
+      }
+    ],
+    "activeId": "switcher-nested-input"
+  },
+  "nestedAfter": {
+    "callbacks": [
+      {
+        "standalone": true
+      },
+      {
+        "owner": true
+      },
+      {
+        "owner": false
+      },
+      {
+        "owner": true
+      },
+      {
+        "owner": false
+      },
+      {
+        "owner": true
+      },
+      {
+        "modalEnter": true
+      },
+      {
+        "nestedButton": true
+      }
+    ],
+    "activeId": "switcher-nested-button"
+  },
+  "summary": {
+    "total": 9,
+    "pass": 8,
+    "fail": 1
+  }
+}

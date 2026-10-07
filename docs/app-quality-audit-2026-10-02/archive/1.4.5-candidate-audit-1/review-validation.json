@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "items": 108,
+  "snapshotSha256": "b9a55945697fe6eb6fcf9185ec663f6ef6afddc5d10e88756b79ab99f48453b0",
+  "cases": [
+    "neutral_defaults_and_exact_snapshot",
+    "yes_no_question_comments_and_general",
+    "draft_persistence",
+    "stale_snapshot_rejected",
+    "exact_import_batch_id_preserved",
+    "standalone_apply_exports_honest_json",
+    "simulated_host_transport_once_no_real_message",
+    "simulated_native_state_16KiB_honest_summary_full_comments_preserved"
+  ],
+  "actualHostBridge": false,
+  "fixtureOwnDraftReset": true,
+  "pageErrors": 0,
+  "networkRequests": 0,
+  "blockedExternalRequests": 0,
+  "ownedBrowserProfiles": [
+    "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc8d-28f1-7002-8707-7d6c68f5ef69\\work\\browser-standalone-1790945766636",
+    "C:\\Users\\Egoist\\Projects\\.agent-brain\\chat-runtime\\tasks\\01a0fc8d-28f1-7002-8707-7d6c68f5ef69\\work\\browser-simulated-1790945767912"
+  ],
+  "processCleanup": "All precisely owned persistent Playwright contexts closed in finally; no shared process stop or external browser profile used.",
+  "state": "passed",
+  "nativeStateBudget": {
+    "nativeBytes": 524,
+    "summaryOnly": true,
+    "fullCommentsPreserved": true,
+    "explicitWarning": true,
+    "hostSimulated": true
+  },
+  "pageErrorCount": 0,
+  "pageErrorDetails": [],
+  "processReconciliation": {
+    "scope": "Only this task ID in command line",
+    "state": "no_remaining_own_edge_or_node",
+    "capturedAt": "2026-10-02T12:56:40.1598555Z",
+    "forceStops": 0
+  },
+  "localLinkCheck": {
+    "items": 108,
+    "missing": 0,
+    "passed": 108
+  },
+  "sharedHelperSha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b"
+}

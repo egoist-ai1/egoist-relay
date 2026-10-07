@@ -58,6 +58,12 @@
 
   background-color: var(--color-active);
 
+  :global(.theme-dark) & {
+    font-weight: var(--font-weight-bold);
+    color: #000000 !important;
+    background-color: #FFFFFF !important;
+  }
+
   @media (max-width: 600px) {
     top: -0.6875rem;
     right: auto;

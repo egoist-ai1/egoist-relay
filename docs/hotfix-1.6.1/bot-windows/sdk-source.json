@@ -1,0 +1,8 @@
+{
+  "directFetch": "timeout",
+  "sha256": "FD5E505FA90DBA9312FDC2FA679F5E340C2F38A7FDDBF1DB8B53B26B32139159",
+  "url": "https://raw.githubusercontent.com/TelegramMessenger/TGMiniAppsJsSDK/e086c60734519ff816c3af5cf95def3edd7d12fc/telegram-web-app.js",
+  "fetchedAt": "2026-10-06T13:59:12.7618929Z",
+  "commit": "e086c60734519ff816c3af5cf95def3edd7d12fc",
+  "directOfficialUrl": "https://telegram.org/js/telegram-web-app.js"
+}

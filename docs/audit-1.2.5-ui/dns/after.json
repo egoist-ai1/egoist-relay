@@ -1,0 +1,4680 @@
+{
+  "timestamp": "2026-09-29T12:51:39.453Z",
+  "cases": [
+    {
+      "name": "waiting",
+      "viewport": {
+        "width": 800,
+        "height": 560,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 560,
+        "right": 72,
+        "bottom": 560
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 728,
+        "height": 40,
+        "right": 800,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 728,
+      "titlebarClientWidth": 728,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 313.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 347.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 347.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 381.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 381.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 415.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 415.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 449.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 457.5,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 581,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 620,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 654,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 662,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 708,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 708,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 754,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 754,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 800,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 354.75,
+            "y": 385.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 517.234375,
+            "bottom": 429.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "scrollWidth": 728,
+          "clientWidth": 728,
+          "scrollHeight": 520,
+          "clientHeight": 520
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: ожидает запроса",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "ready",
+      "viewport": {
+        "width": 800,
+        "height": 560,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 560,
+        "right": 72,
+        "bottom": 560
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 728,
+        "height": 40,
+        "right": 800,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 728,
+      "titlebarClientWidth": 728,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 313.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 347.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 347.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 381.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 381.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 415.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 415.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 449.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 457.5,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 581,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 620,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 654,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 662,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 708,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 708,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 754,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 754,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 800,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 354.75,
+            "y": 385.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 517.234375,
+            "bottom": 429.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "scrollWidth": 728,
+          "clientWidth": 728,
+          "scrollHeight": 520,
+          "clientHeight": 520
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: выбранный провайдер",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "unavailable",
+      "viewport": {
+        "width": 800,
+        "height": 560,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 560,
+        "right": 72,
+        "bottom": 560
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 728,
+        "height": 40,
+        "right": 800,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 728,
+      "titlebarClientWidth": 728,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 313.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 347.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 347.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 381.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 381.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 415.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 415.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 449.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 457.5,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 581,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 620,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 654,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 662,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 708,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 708,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 754,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 754,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 800,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 354.75,
+            "y": 385.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 517.234375,
+            "bottom": 429.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "scrollWidth": 728,
+          "clientWidth": 728,
+          "scrollHeight": 520,
+          "clientHeight": 520
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "remoteTunnel",
+      "viewport": {
+        "width": 800,
+        "height": 560,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 560,
+        "right": 72,
+        "bottom": 560
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 728,
+        "height": 40,
+        "right": 800,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 728,
+      "titlebarClientWidth": 728,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 313.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 347.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 347.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 381.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 381.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 415.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 415.5,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 449.5,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 457.5,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 581,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 620,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 654,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 662,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 708,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 708,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 754,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 754,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 800,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 354.75,
+            "y": 385.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 517.234375,
+            "bottom": 429.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 728,
+            "height": 520,
+            "right": 800,
+            "bottom": 560
+          },
+          "scrollWidth": 728,
+          "clientWidth": 728,
+          "scrollHeight": 520,
+          "clientHeight": 520
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "ariaLabel": "Локальные службы готовы\nDNS назначений: через туннель",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "waiting",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 768,
+        "right": 72,
+        "bottom": 768
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 952,
+        "height": 40,
+        "right": 1024,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 952,
+      "titlebarClientWidth": 952,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 423.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 457.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 457.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 491.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 491.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 525.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 525.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 559.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 567.9375,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 691.4375,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 844,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 878,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 886,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 932,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 932,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 978,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 978,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 1024,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 466.75,
+            "y": 489.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 629.234375,
+            "bottom": 533.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          },
+          "scrollWidth": 952,
+          "clientWidth": 952,
+          "scrollHeight": 728,
+          "clientHeight": 728
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: ожидает запроса",
+        "hasUnavailableMarker": false,
+        "labelHidden": false,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "ready",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 768,
+        "right": 72,
+        "bottom": 768
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 952,
+        "height": 40,
+        "right": 1024,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 952,
+      "titlebarClientWidth": 952,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 423.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 457.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 457.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 491.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 491.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 525.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 525.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 559.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 567.9375,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 691.4375,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 844,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 878,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 886,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 932,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 932,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 978,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 978,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 1024,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 466.75,
+            "y": 489.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 629.234375,
+            "bottom": 533.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          },
+          "scrollWidth": 952,
+          "clientWidth": 952,
+          "scrollHeight": 728,
+          "clientHeight": 728
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: выбранный провайдер",
+        "hasUnavailableMarker": false,
+        "labelHidden": false,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "unavailable",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 768,
+        "right": 72,
+        "bottom": 768
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 952,
+        "height": 40,
+        "right": 1024,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 952,
+      "titlebarClientWidth": 952,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 423.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 457.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 457.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 491.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 491.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 525.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 525.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 559.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 567.9375,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 691.4375,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 844,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 878,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 886,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 932,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 932,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 978,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 978,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 1024,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 466.75,
+            "y": 489.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 629.234375,
+            "bottom": 533.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          },
+          "scrollWidth": 952,
+          "clientWidth": 952,
+          "scrollHeight": 728,
+          "clientHeight": 728
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": false,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "remoteTunnel",
+      "viewport": {
+        "width": 1024,
+        "height": 768,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 768,
+        "right": 72,
+        "bottom": 768
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 952,
+        "height": 40,
+        "right": 1024,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 952,
+      "titlebarClientWidth": 952,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 423.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 457.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 457.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 491.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 491.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 525.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 525.9375,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 559.9375,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 567.9375,
+            "y": 5.5,
+            "width": 123.5,
+            "height": 28,
+            "right": 691.4375,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 844,
+            "y": 0,
+            "width": 34,
+            "height": 39,
+            "right": 878,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 886,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 932,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 932,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 978,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 978,
+            "y": 0,
+            "width": 46,
+            "height": 39,
+            "right": 1024,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 466.75,
+            "y": 489.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 629.234375,
+            "bottom": 533.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 952,
+            "height": 728,
+            "right": 1024,
+            "bottom": 768
+          },
+          "scrollWidth": 952,
+          "clientWidth": 952,
+          "scrollHeight": 728,
+          "clientHeight": 728
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "ariaLabel": "Локальные службы готовы\nDNS назначений: через туннель",
+        "hasUnavailableMarker": false,
+        "labelHidden": false,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "waiting",
+      "viewport": {
+        "width": 640,
+        "height": 448,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 448,
+        "right": 72,
+        "bottom": 448
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 568,
+        "height": 40,
+        "right": 640,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 568,
+      "titlebarClientWidth": 568,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 293,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 323,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 323,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 353,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 353,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 383,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 383,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 413,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 415,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 495,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 542,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 544,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 576,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 576,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 608,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 608,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 640,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 274.75,
+            "y": 329.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 437.234375,
+            "bottom": 373.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "scrollWidth": 568,
+          "clientWidth": 568,
+          "scrollHeight": 408,
+          "clientHeight": 408
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: ожидает запроса",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "ready",
+      "viewport": {
+        "width": 640,
+        "height": 448,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 448,
+        "right": 72,
+        "bottom": 448
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 568,
+        "height": 40,
+        "right": 640,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 568,
+      "titlebarClientWidth": 568,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 293,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 323,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 323,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 353,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 353,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 383,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 383,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 413,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 415,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 495,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 542,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 544,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 576,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 576,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 608,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 608,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 640,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 274.75,
+            "y": 329.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 437.234375,
+            "bottom": 373.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "scrollWidth": 568,
+          "clientWidth": 568,
+          "scrollHeight": 408,
+          "clientHeight": 408
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: выбранный провайдер",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "unavailable",
+      "viewport": {
+        "width": 640,
+        "height": 448,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 448,
+        "right": 72,
+        "bottom": 448
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 568,
+        "height": 40,
+        "right": 640,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 568,
+      "titlebarClientWidth": 568,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 293,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 323,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 323,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 353,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 353,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 383,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 383,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 413,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 415,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 495,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 542,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 544,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 576,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 576,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 608,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 608,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 640,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 274.75,
+            "y": 329.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 437.234375,
+            "bottom": 373.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "scrollWidth": 568,
+          "clientWidth": 568,
+          "scrollHeight": 408,
+          "clientHeight": 408
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "remoteTunnel",
+      "viewport": {
+        "width": 640,
+        "height": 448,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 448,
+        "right": 72,
+        "bottom": 448
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 568,
+        "height": 40,
+        "right": 640,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 568,
+      "titlebarClientWidth": 568,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 293,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 323,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 323,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 353,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 353,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 383,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 383,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 413,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 415,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 495,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 512,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 542,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 544,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 576,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 576,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 608,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 608,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 640,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 274.75,
+            "y": 329.28125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 437.234375,
+            "bottom": 373.28125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 568,
+            "height": 408,
+            "right": 640,
+            "bottom": 448
+          },
+          "scrollWidth": 568,
+          "clientWidth": 568,
+          "scrollHeight": 408,
+          "clientHeight": 408
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "ariaLabel": "Локальные службы готовы\nDNS назначений: через туннель",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "waiting",
+      "viewport": {
+        "width": 533,
+        "height": 373,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 373,
+        "right": 72,
+        "bottom": 373
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 461,
+        "height": 40,
+        "right": 533,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 461,
+      "titlebarClientWidth": 461,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 186,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 216,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 216,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 246,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 246,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 276,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 276,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 306,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 308,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 388,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 405,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 435,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 437,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 469,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 469,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 501,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 501,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 533,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 221.25,
+            "y": 291.78125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 383.734375,
+            "bottom": 335.78125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          },
+          "scrollWidth": 461,
+          "clientWidth": 461,
+          "scrollHeight": 333,
+          "clientHeight": 333
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: ожидает запроса",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "ready",
+      "viewport": {
+        "width": 533,
+        "height": 373,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 373,
+        "right": 72,
+        "bottom": 373
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 461,
+        "height": 40,
+        "right": 533,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 461,
+      "titlebarClientWidth": 461,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 186,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 216,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 216,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 246,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 246,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 276,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 276,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 306,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 308,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 388,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 405,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 435,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 437,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 469,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 469,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 501,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 501,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 533,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 221.25,
+            "y": 291.78125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 383.734375,
+            "bottom": 335.78125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          },
+          "scrollWidth": 461,
+          "clientWidth": 461,
+          "scrollHeight": 333,
+          "clientHeight": 333
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: выбранный провайдер",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "unavailable",
+      "viewport": {
+        "width": 533,
+        "height": 373,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 373,
+        "right": 72,
+        "bottom": 373
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 461,
+        "height": 40,
+        "right": 533,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 461,
+      "titlebarClientWidth": 461,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 186,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 216,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 216,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 246,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 246,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 276,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 276,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 306,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 308,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 388,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 405,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 435,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 437,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 469,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 469,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 501,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 501,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 533,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 221.25,
+            "y": 291.78125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 383.734375,
+            "bottom": 335.78125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          },
+          "scrollWidth": 461,
+          "clientWidth": 461,
+          "scrollHeight": 333,
+          "clientHeight": 333
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "remoteTunnel",
+      "viewport": {
+        "width": 533,
+        "height": 373,
+        "scale": 1
+      },
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 72,
+        "height": 373,
+        "right": 72,
+        "bottom": 373
+      },
+      "titlebar": {
+        "x": 72,
+        "y": 0,
+        "width": 461,
+        "height": 40,
+        "right": 533,
+        "bottom": 40
+      },
+      "titlebarScrollWidth": 461,
+      "titlebarClientWidth": 461,
+      "buttons": [
+        {
+          "label": "Переключиться на Telegram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 56,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 104
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на X. Вход напрямую в X",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 140.5,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 188.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Переключиться на Instagram",
+          "disabled": false,
+          "rect": {
+            "x": 11.5,
+            "y": 225,
+            "width": 48,
+            "height": 48,
+            "right": 59.5,
+            "bottom": 273
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Назад",
+          "disabled": true,
+          "rect": {
+            "x": 186,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 216,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вперёд",
+          "disabled": true,
+          "rect": {
+            "x": 216,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 246,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Главная",
+          "disabled": false,
+          "rect": {
+            "x": 246,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 276,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Обновить страницу",
+          "disabled": false,
+          "rect": {
+            "x": 276,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 306,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 308,
+            "y": 5.5,
+            "width": 80,
+            "height": 28,
+            "right": 388,
+            "bottom": 33.5
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Перезапустить локальные службы",
+          "disabled": false,
+          "rect": {
+            "x": 405,
+            "y": 0,
+            "width": 30,
+            "height": 39,
+            "right": 435,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Свернуть",
+          "disabled": false,
+          "rect": {
+            "x": 437,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 469,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Развернуть",
+          "disabled": false,
+          "rect": {
+            "x": 469,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 501,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Close",
+          "disabled": false,
+          "rect": {
+            "x": 501,
+            "y": 0,
+            "width": 32,
+            "height": 39,
+            "right": 533,
+            "bottom": 39
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        },
+        {
+          "label": "Вход по логину X",
+          "disabled": false,
+          "rect": {
+            "x": 221.25,
+            "y": 291.78125,
+            "width": 162.484375,
+            "height": 44,
+            "right": 383.734375,
+            "bottom": 335.78125
+          },
+          "font": "\"Inter Variable\", Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif"
+        }
+      ],
+      "panes": [
+        {
+          "id": "relay-telegram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "id": "relay-x-pane",
+          "visible": true,
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          }
+        },
+        {
+          "id": "relay-instagram-pane",
+          "visible": false,
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "right": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "content": [
+        {
+          "rect": {
+            "x": 72,
+            "y": 40,
+            "width": 461,
+            "height": 333,
+            "right": 533,
+            "bottom": 373
+          },
+          "scrollWidth": 461,
+          "clientWidth": 461,
+          "scrollHeight": 333,
+          "clientHeight": 333
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "ariaLabel": "Локальные службы готовы\nDNS назначений: через туннель",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    }
+  ],
+  "checks": [
+    "dns-reconnect-keyboard-focus-enter",
+    "four-dns-states-two-apps",
+    "dns-tooltip-accessible-label-marker",
+    "busy-helper-legacy-unknown-states"
+  ],
+  "errors": [],
+  "stateChecks": [
+    {
+      "name": "telegram-waiting",
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: ожидает запроса",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: ожидает запроса",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "telegram-ready",
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "ariaLabel": "Локальные службы готовы\nЗащищённый DNS: выбранный провайдер",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "telegram-unavailable",
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "telegram-remoteTunnel",
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "ariaLabel": "Локальные службы готовы\nDNS назначений: через туннель",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nDNS назначений: через туннель",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "busy-dns-unavailable",
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Проверяем локальные службы…\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": "true",
+        "reconnectDisabled": true,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "helper-unavailable-dns-ready",
+      "status": {
+        "title": "Мост Telegram: Недоступен (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "ariaLabel": "Часть локальных служб недоступна\nЗащищённый DNS: выбранный провайдер",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Недоступен (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nЗащищённый DNS: выбранный провайдер",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "legacy-without-dns",
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)",
+        "ariaLabel": "Локальные службы готовы",
+        "hasUnavailableMarker": false,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "name": "unknown-network",
+      "status": {
+        "title": "Состояние локальных служб недоступно",
+        "ariaLabel": "Состояние локальных служб недоступно",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nСостояние локальных служб недоступно",
+        "reconnectBusy": "false",
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    }
+  ],
+  "scaling": [
+    {
+      "scale": 1.25,
+      "buttons": [
+        {
+          "x": 11.5,
+          "y": 56,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 104
+        },
+        {
+          "x": 11.5,
+          "y": 140.5,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 188.5
+        },
+        {
+          "x": 11.5,
+          "y": 225,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 273
+        },
+        {
+          "x": 313.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 347.5,
+          "bottom": 39
+        },
+        {
+          "x": 347.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 381.5,
+          "bottom": 39
+        },
+        {
+          "x": 381.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 415.5,
+          "bottom": 39
+        },
+        {
+          "x": 415.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 449.5,
+          "bottom": 39
+        },
+        {
+          "x": 457.5,
+          "y": 5.5,
+          "width": 123.5,
+          "height": 28,
+          "right": 581,
+          "bottom": 33.5
+        },
+        {
+          "x": 620,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 654,
+          "bottom": 39
+        },
+        {
+          "x": 662,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 708,
+          "bottom": 39
+        },
+        {
+          "x": 708,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 754,
+          "bottom": 39
+        },
+        {
+          "x": 754,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 800,
+          "bottom": 39
+        },
+        {
+          "x": 354.75,
+          "y": 385.28125,
+          "width": 162.484375,
+          "height": 44,
+          "right": 517.234375,
+          "bottom": 429.28125
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": null,
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "scale": 1.5,
+      "buttons": [
+        {
+          "x": 11.5,
+          "y": 56,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 104
+        },
+        {
+          "x": 11.5,
+          "y": 140.5,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 188.5
+        },
+        {
+          "x": 11.5,
+          "y": 225,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 273
+        },
+        {
+          "x": 313.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 347.5,
+          "bottom": 39
+        },
+        {
+          "x": 347.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 381.5,
+          "bottom": 39
+        },
+        {
+          "x": 381.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 415.5,
+          "bottom": 39
+        },
+        {
+          "x": 415.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 449.5,
+          "bottom": 39
+        },
+        {
+          "x": 457.5,
+          "y": 5.5,
+          "width": 123.5,
+          "height": 28,
+          "right": 581,
+          "bottom": 33.5
+        },
+        {
+          "x": 620,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 654,
+          "bottom": 39
+        },
+        {
+          "x": 662,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 708,
+          "bottom": 39
+        },
+        {
+          "x": 708,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 754,
+          "bottom": 39
+        },
+        {
+          "x": 754,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 800,
+          "bottom": 39
+        },
+        {
+          "x": 354.75,
+          "y": 385.28125,
+          "width": 162.484375,
+          "height": 44,
+          "right": 517.234375,
+          "bottom": 429.28125
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": null,
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    },
+    {
+      "scale": 2,
+      "buttons": [
+        {
+          "x": 11.5,
+          "y": 56,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 104
+        },
+        {
+          "x": 11.5,
+          "y": 140.5,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 188.5
+        },
+        {
+          "x": 11.5,
+          "y": 225,
+          "width": 48,
+          "height": 48,
+          "right": 59.5,
+          "bottom": 273
+        },
+        {
+          "x": 313.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 347.5,
+          "bottom": 39
+        },
+        {
+          "x": 347.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 381.5,
+          "bottom": 39
+        },
+        {
+          "x": 381.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 415.5,
+          "bottom": 39
+        },
+        {
+          "x": 415.5,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 449.5,
+          "bottom": 39
+        },
+        {
+          "x": 457.5,
+          "y": 5.5,
+          "width": 123.5,
+          "height": 28,
+          "right": 581,
+          "bottom": 33.5
+        },
+        {
+          "x": 620,
+          "y": 0,
+          "width": 34,
+          "height": 39,
+          "right": 654,
+          "bottom": 39
+        },
+        {
+          "x": 662,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 708,
+          "bottom": 39
+        },
+        {
+          "x": 708,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 754,
+          "bottom": 39
+        },
+        {
+          "x": 754,
+          "y": 0,
+          "width": 46,
+          "height": 39,
+          "right": 800,
+          "bottom": 39
+        },
+        {
+          "x": 354.75,
+          "y": 385.28125,
+          "width": 162.484375,
+          "height": 44,
+          "right": 517.234375,
+          "bottom": 429.28125
+        }
+      ],
+      "status": {
+        "title": "Мост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "ariaLabel": "Часть локальных служб недоступна\nНе удалось запустить защищённый DNS",
+        "hasUnavailableMarker": true,
+        "labelHidden": true,
+        "reconnectTitle": "Перезапустить локальные службы\nМост Telegram: Готов (порт 17 884)\nПрокси Telegram: Готов (порт 17 880)\nПрокси социальных сетей: Готов (порт 17 880)\nНе удалось запустить защищённый DNS",
+        "reconnectBusy": null,
+        "reconnectDisabled": false,
+        "screenText": "Локальные службы"
+      },
+      "issues": []
+    }
+  ]
+}

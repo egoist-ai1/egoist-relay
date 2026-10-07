@@ -1,0 +1,3446 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T07:56:01.577Z",
+  "label": "after-full",
+  "environment": "Actual imported components in real App MockClient; fresh headless context; public requests blocked; destructive/account callbacks intercepted before opening; no product edits",
+  "cases": [
+    {
+      "id": "contact-fullhd-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 736,
+          "y": 379.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 379.90625,
+          "right": 1184,
+          "bottom": 700.09375,
+          "left": 736
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-fullhd-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 736,
+          "y": 230.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 230.28125,
+          "right": 1184,
+          "bottom": 849.71875,
+          "left": 736
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-edit-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-fullhd-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 776,
+          "y": 433.5,
+          "width": 368,
+          "height": 213,
+          "top": 433.5,
+          "right": 1144,
+          "bottom": 646.5,
+          "left": 776
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-options-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-fullhd-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 776,
+          "y": 367.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 367.453125,
+          "right": 1144,
+          "bottom": 712.546875,
+          "left": 776
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-comment-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-fullhd-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-country-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-fullhd-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-password-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-fullhd-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-formatting-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-fullhd-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-safe-link-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-fullhd-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-browser-close-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-fullhd-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 768,
+          "y": 326.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 326.90625,
+          "right": 1152,
+          "bottom": 753.09375,
+          "left": 768
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-mute-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-fullhd-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 768,
+          "y": 435.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 435.3125,
+          "right": 1152,
+          "bottom": 644.6875,
+          "left": 768
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-pin-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-fullhd-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 800,
+          "y": 433.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 433.625,
+          "right": 1120,
+          "bottom": 646.375,
+          "left": 800
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-chat-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-fullhd-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 680,
+          "y": 357.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 357.5625,
+          "right": 1240,
+          "bottom": 722.4375,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-photo-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-fullhd-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 680,
+          "y": 456.5,
+          "width": 560,
+          "height": 167,
+          "top": 456.5,
+          "right": 1240,
+          "bottom": 623.5,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-file-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-fullhd-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-document-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-fullhd-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 750,
+          "y": 210,
+          "width": 420,
+          "height": 628,
+          "top": 210,
+          "right": 1170,
+          "bottom": 838,
+          "left": 750
+        },
+        "bodyText": "LanguageEnglishанглийскийالعربيةарабскийбелорусскийбелорусскийcatalàкаталанский中文китайскийNederlandsнидерландскийfrançaisфранцузскийDeutschнемецкийIndonesiaиндонезийскийitalianoитальянский日本語японский한국어корейскийpolskiпольскийportuguêsпортугальскийрусскийрусскийespañolиспанскийукраїнськаукраинскийAfr",
+        "controls": 113,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-chat-language-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-fullhd-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "fullhd",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 780,
+          "y": 423.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 423.140625,
+          "right": 1140,
+          "bottom": 656.84375,
+          "left": 780
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-message-fullhd.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-narrow-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 96,
+          "y": 289.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 289.90625,
+          "right": 544,
+          "bottom": 610.09375,
+          "left": 96
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-narrow-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 96,
+          "y": 140.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 140.28125,
+          "right": 544,
+          "bottom": 759.71875,
+          "left": 96
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-edit-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-narrow-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 136,
+          "y": 343.5,
+          "width": 368,
+          "height": 213,
+          "top": 343.5,
+          "right": 504,
+          "bottom": 556.5,
+          "left": 136
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-options-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-narrow-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 136,
+          "y": 277.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 277.453125,
+          "right": 504,
+          "bottom": 622.546875,
+          "left": 136
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-comment-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-narrow-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-country-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-narrow-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-password-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-narrow-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-formatting-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-narrow-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-safe-link-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-narrow-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-browser-close-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-narrow-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 128,
+          "y": 236.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 236.90625,
+          "right": 512,
+          "bottom": 663.09375,
+          "left": 128
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-mute-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-narrow-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 128,
+          "y": 345.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 345.3125,
+          "right": 512,
+          "bottom": 554.6875,
+          "left": 128
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-pin-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-narrow-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 160,
+          "y": 343.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 343.625,
+          "right": 480,
+          "bottom": 556.375,
+          "left": 160
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-chat-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-narrow-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 40,
+          "y": 267.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 267.5625,
+          "right": 600,
+          "bottom": 632.4375,
+          "left": 40
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-photo-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-narrow-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 40,
+          "y": 366.5,
+          "width": 560,
+          "height": 167,
+          "top": 366.5,
+          "right": 600,
+          "bottom": 533.5,
+          "left": 40
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-file-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-narrow-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 900,
+          "top": 0,
+          "right": 640,
+          "bottom": 900,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-document-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-narrow-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 110,
+          "y": 136,
+          "width": 420,
+          "height": 628,
+          "top": 136,
+          "right": 530,
+          "bottom": 764,
+          "left": 110
+        },
+        "bodyText": "LanguageEnglishанглийскийالعربيةарабскийбелорусскийбелорусскийcatalàкаталанский中文китайскийNederlandsнидерландскийfrançaisфранцузскийDeutschнемецкийIndonesiaиндонезийскийitalianoитальянский日本語японский한국어корейскийpolskiпольскийportuguêsпортугальскийрусскийрусскийespañolиспанскийукраїнськаукраинскийAfr",
+        "controls": 113,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-chat-language-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-narrow-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "narrow",
+          "width": 640,
+          "height": 900,
+          "font": "16px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 140,
+          "y": 333.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 333.140625,
+          "right": 500,
+          "bottom": 566.84375,
+          "left": 140
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-message-narrow.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-text200-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 512,
+          "y": 230.40625,
+          "width": 896,
+          "height": 619.1875,
+          "top": 230.40625,
+          "right": 1408,
+          "bottom": 849.59375,
+          "left": 512
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-text200-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 512,
+          "y": -7.796875,
+          "width": 896,
+          "height": 1095.59375,
+          "top": -7.796875,
+          "right": 1408,
+          "bottom": 1087.796875,
+          "left": 512
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-edit-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-text200-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 592,
+          "y": 328,
+          "width": 736,
+          "height": 424,
+          "top": 328,
+          "right": 1328,
+          "bottom": 752,
+          "left": 592
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-options-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-text200-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 592,
+          "y": 245.90625,
+          "width": 736,
+          "height": 588.1875,
+          "top": 245.90625,
+          "right": 1328,
+          "bottom": 834.09375,
+          "left": 592
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-comment-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-text200-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-country-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-text200-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-password-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-text200-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-formatting-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-text200-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-safe-link-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-text200-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-browser-close-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-text200-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 576,
+          "y": 124.40625,
+          "width": 768,
+          "height": 831.1875,
+          "top": 124.40625,
+          "right": 1344,
+          "bottom": 955.59375,
+          "left": 576
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-mute-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-text200-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 576,
+          "y": 352.8125,
+          "width": 768,
+          "height": 374.375,
+          "top": 352.8125,
+          "right": 1344,
+          "bottom": 727.1875,
+          "left": 576
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-pin-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-text200-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 640,
+          "y": 371.625,
+          "width": 640,
+          "height": 336.75,
+          "top": 371.625,
+          "right": 1280,
+          "bottom": 708.375,
+          "left": 640
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-chat-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-text200-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 400,
+          "y": 175.5625,
+          "width": 1120,
+          "height": 728.875,
+          "top": 175.5625,
+          "right": 1520,
+          "bottom": 904.4375,
+          "left": 400
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-photo-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-text200-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 400,
+          "y": 374,
+          "width": 1120,
+          "height": 332,
+          "top": 374,
+          "right": 1520,
+          "bottom": 706,
+          "left": 400
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-file-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-text200-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-document-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-text200-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 540,
+          "y": -7.796875,
+          "width": 840,
+          "height": 1095.59375,
+          "top": -7.796875,
+          "right": 1380,
+          "bottom": 1087.796875,
+          "left": 540
+        },
+        "bodyText": "LanguageEnglishанглийскийالعربيةарабскийбелорусскийбелорусскийcatalàкаталанский中文китайскийNederlandsнидерландскийfrançaisфранцузскийDeutschнемецкийIndonesiaиндонезийскийitalianoитальянский日本語японский한국어корейскийpolskiпольскийportuguêsпортугальскийрусскийрусскийespañolиспанскийукраїнськаукраинскийAfr",
+        "controls": 113,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-chat-language-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-text200-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "text200",
+          "width": 1920,
+          "height": 1080,
+          "font": "32px",
+          "dir": "ltr",
+          "motion": "no-preference"
+        },
+        "box": {
+          "x": 600,
+          "y": 365.234375,
+          "width": 720,
+          "height": 349.515625,
+          "top": 365.234375,
+          "right": 1320,
+          "bottom": 714.75,
+          "left": 600
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "ltr",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-message-text200.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-rtl-reduced-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 736,
+          "y": 379.90625,
+          "width": 448,
+          "height": 320.1875,
+          "top": 379.90625,
+          "right": 1184,
+          "bottom": 700.09375,
+          "left": 736
+        },
+        "bodyText": "NewContactlng_contact_phoneFirstNameLastNameDoneCancel",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-rtl-reduced-body",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 736,
+          "y": 230.28125,
+          "width": 448,
+          "height": 619.4375,
+          "top": 230.28125,
+          "right": 1184,
+          "bottom": 849.71875,
+          "left": 736
+        },
+        "bodyText": "NewContactМВMobileHiddenLastSeen.AtDateFirstNameLastNameNotes128Notes are only visible to you.NewContact.Phone.Hidden.Textlng_new_contact_shareAddContact.SharedContactExceptionInfoDoneCancel",
+        "controls": 6,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-contact-edit-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-options-rtl-reduced-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 776,
+          "y": 433.5,
+          "width": 368,
+          "height": 213,
+          "top": 433.5,
+          "right": 1144,
+          "bottom": 646.5,
+          "left": 776
+        },
+        "bodyText": "ReportSynthetic report optionsSynthetic spamSynthetic other",
+        "controls": 5,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-options-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-rtl-reduced-body",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 776,
+          "y": 367.453125,
+          "width": 368,
+          "height": 345.09375,
+          "top": 367.453125,
+          "right": 1144,
+          "bottom": 712.546875,
+          "left": 776
+        },
+        "bodyText": "Synthetic report commentReport2Comment512ReportSend",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-report-comment-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-rtl-reduced-body",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Synthetic country selection Russia Germany JapanОК",
+        "controls": 9,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-country-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-rtl-reduced-body",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Enter PasswordПарольПодсказка:Synthetic hintConfirmОтмена",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-password-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-rtl-reduced-body",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Remove Formatting?This message uses rich formatting, which requires Telegram Premium.Subscribe to PremiumRemove Formatting",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-formatting-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-rtl-reduced-body",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Open LinkDo you want to open https://example.test/public/selected-source?fixture=synthetic?ОтменаOpen",
+        "controls": 2,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-safe-link-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-rtl-reduced-body",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "Close Browser TabsAre you sure you want to close all browser tabs?Don't ask againConfirmОтмена",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-browser-close-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-rtl-reduced-body",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 768,
+          "y": 326.90625,
+          "width": 384,
+          "height": 426.1875,
+          "top": 326.90625,
+          "right": 1152,
+          "bottom": 753.09375,
+          "left": 768
+        },
+        "bodyText": "NotificationsMuteFor.HoursMuteFor.HoursMuteFor.HoursMuteFor.DaysMuteFor.DaysMuteFor.ForeverCommon.DoneCancel",
+        "controls": 8,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-mute-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-rtl-reduced-body",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 768,
+          "y": 435.3125,
+          "width": 384,
+          "height": 209.375,
+          "top": 435.3125,
+          "right": 1152,
+          "bottom": 644.6875,
+          "left": 768
+        },
+        "bodyText": "PinMessageAlertTitlePinMessageAlertChatConversation.PinMessagesForDialogPinCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-pin-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-rtl-reduced-body",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 800,
+          "y": 433.625,
+          "width": 320,
+          "height": 212.75,
+          "top": 433.625,
+          "right": 1120,
+          "bottom": 646.375,
+          "left": 800
+        },
+        "bodyText": "МВDeleteChatUserChatList.DeleteChatConfirmationChatList.DeleteForEveryoneChatList.DeleteForCurrentUserCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-chat-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-photo-rtl-reduced-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 680,
+          "y": 357.5625,
+          "width": 560,
+          "height": 364.875,
+          "top": 357.5625,
+          "right": 1240,
+          "bottom": 722.4375,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment body",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-photo-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "attachment-file-rtl-reduced-body",
+      "source": "src/components/middle/composer/AttachmentModalItem.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 680,
+          "y": 456.5,
+          "width": 560,
+          "height": 167,
+          "top": 456.5,
+          "right": 1240,
+          "bottom": 623.5,
+          "left": 680
+        },
+        "bodyText": "Synthetic attachment bodytxtSynthetic research report — длинное имя.txt1.0KB",
+        "controls": 1,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-attachment-file-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-rtl-reduced-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 0,
+          "y": 0,
+          "width": 1920,
+          "height": 1080,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "left": 0
+        },
+        "bodyText": "txtsynthetic-research.txt63.0BКопировать текстСкачать оригинал1234Synthetic researchAlpha sourceAlpha comparisonEnd of fixture",
+        "controls": 4,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-document-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "chat-language-rtl-reduced-body",
+      "source": "src/components/middle/ChatLanguageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 750,
+          "y": 226,
+          "width": 420,
+          "height": 628,
+          "top": 226,
+          "right": 1170,
+          "bottom": 854,
+          "left": 750
+        },
+        "bodyText": "LanguageEnglishанглийскийالعربيةарабскийбелорусскийбелорусскийcatalàкаталанский中文китайскийNederlandsнидерландскийfrançaisфранцузскийDeutschнемецкийIndonesiaиндонезийскийitalianoитальянский日本語японский한국어корейскийpolskiпольскийportuguêsпортугальскийрусскийрусскийespañolиспанскийукраїнськаукраинскийAfr",
+        "controls": 113,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-chat-language-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-message-rtl-reduced-body",
+      "source": "src/components/common/DeleteMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "mode": {
+          "id": "rtl-reduced",
+          "width": 1920,
+          "height": 1080,
+          "font": "16px",
+          "dir": "rtl",
+          "motion": "reduce"
+        },
+        "box": {
+          "x": 780,
+          "y": 423.140625,
+          "width": 360,
+          "height": 233.703125,
+          "top": 423.140625,
+          "right": 1140,
+          "bottom": 656.84375,
+          "left": 780
+        },
+        "bodyText": "Chat.DeleteMessagesConfirmationAre you sure you want to delete this message?DeleteMessagesOptionAlsoDeleteCancel",
+        "controls": 3,
+        "outsideViewport": [],
+        "direction": "rtl",
+        "fontSize": "16px",
+        "screenshot": "ui-additional-modal-after-full-delete-message-rtl-reduced.png",
+        "exactBody": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-cancel-enter",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-cancel-space",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-cancel-enter",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact-edit"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-edit-cancel-space",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeNewContactDialog"
+          },
+          {
+            "name": "close",
+            "detail": "contact-edit"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-cancel-enter",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "password"
+          },
+          {
+            "name": "clearTwoFaError"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\" autofocus=\"\">Отмена</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-cancel-space",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "password"
+          },
+          {
+            "name": "clearTwoFaError"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\" autofocus=\"\">Отмена</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-cancel-enter",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "toggleSafeLinkModal"
+          },
+          {
+            "name": "close",
+            "detail": "safe-link"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button smaller primary fluid text\">Отмена</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-cancel-space",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "toggleSafeLinkModal"
+          },
+          {
+            "name": "close",
+            "detail": "safe-link"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button smaller primary fluid text\">Отмена</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-cancel-enter",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeBrowserCloseConfirmationModal"
+          },
+          {
+            "name": "close",
+            "detail": "browser-close"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\" autofocus=\"\">Отмена</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-cancel-space",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "closeBrowserCloseConfirmationModal"
+          },
+          {
+            "name": "close",
+            "detail": "browser-close"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\" autofocus=\"\">Отмена</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-cancel-enter",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "mute"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-cancel-space",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "mute"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-cancel-enter",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "pin"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-cancel-space",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "pin"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-cancel-enter",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Enter",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "delete-chat"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-cancel-space",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "key": "Space",
+        "activeTargetConfirmed": true,
+        "events": [
+          {
+            "name": "close",
+            "detail": "delete-chat"
+          }
+        ],
+        "protectedActionDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Cancel</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-empty-disabled",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "disabled": true,
+        "importDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-valid-submit-once",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "importDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-empty-disabled",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "reportDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-valid-once",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "reportDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-option-once",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "reportDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-close-enter-safe",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "submitDelta": 0
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button Modal-module__closeButton tiny translucent round\" aria-label=\"Закрыть\" title=\"Закрыть\"><div class=\"animated-close-icon\"></div></button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-search-and-limit",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "hiddenExcluded": true,
+        "filtered": true,
+        "limitDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-loading-confirm-disabled",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "isDisabled": true,
+        "checkDelta": 0
+      },
+      "interactionTarget": {
+        "inputMethod": "actual pointer click",
+        "isDisabled": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default danger disabled text inline\" disabled=\"\">Confirm</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-visibility-keyboard",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "toggled": true
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<div class=\"div-button toggle-password\" role=\"button\" tabindex=\"0\" title=\"Показать пароль\" aria-label=\"Показать пароль\"><i class=\"icon icon-eye-crossed\" aria-hidden=\"true\"></i></div>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-confirm-once",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "removeFormatting",
+        "delta": 1
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button smaller primary fluid text\">Remove Formatting</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-confirm-once",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "updateChatMutedState",
+        "delta": 1
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">Common.Done</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-confirm-once",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "pinMessage",
+        "delta": 1
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default primary text\">DialogPin</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-confirm-once",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callback": "closeBrowserModal",
+        "delta": 1
+      },
+      "interactionTarget": {
+        "focused": true,
+        "markup": "<button type=\"button\" class=\"Button confirm-dialog-button default danger text inline\">Confirm</button>"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-search-copy-and-close",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "matches": 2,
+        "copyDelta": 1,
+        "escapeClosed": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-markdown-body",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "actualMarkdown": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "contact-tab-contained",
+      "source": "src/components/main/NewContactModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "report-comment-tab-contained",
+      "source": "src/components/modals/reportModal/ReportModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-tab-contained",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "gate",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 1,
+        "isGate": true,
+        "reason": "Native Chromium host Tab boundary; no background control reached"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-tab-contained",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-tab-contained",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "gate",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 3,
+        "isGate": true,
+        "reason": "Native Chromium host Tab boundary; no background control reached"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-tab-contained",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "gate",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 3,
+        "isGate": true,
+        "reason": "Native Chromium host Tab boundary; no background control reached"
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-tab-contained",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "mute-tab-contained",
+      "source": "src/components/left/MuteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "pin-tab-contained",
+      "source": "src/components/common/PinMessageModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "delete-chat-tab-contained",
+      "source": "src/components/common/DeleteChatModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "document-tab-contained",
+      "source": "src/components/common/DocumentReaderModal.tsx",
+      "status": "pass",
+      "detail": {
+        "tabSteps": 8,
+        "reverseSteps": 4,
+        "hostBoundaryCount": 0,
+        "isGate": false
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-close-space-safe",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "submitDelta": 0,
+        "closed": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-visibility-pointer",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "actualPointerToggled": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-native-host-boundary-proof",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "gate",
+      "detail": {
+        "isGate": true,
+        "reason": "Native Chromium Tab can move to host browser UI; strict document containment needs platform-specific acceptance",
+        "trace": [
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "DIV",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "DIV",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "DIV",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "DIV",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "DIV",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "INPUT",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "DIV",
+            "dialogOpen": true
+          }
+        ],
+        "attemptedBackground": {
+          "backgroundFocused": false,
+          "inside": true,
+          "body": false
+        },
+        "noBackgroundControlFocused": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "formatting-native-host-boundary-proof",
+      "source": "src/components/common/RemoveFormattingModal.tsx",
+      "status": "gate",
+      "detail": {
+        "isGate": true,
+        "reason": "Native Chromium Tab can move to host browser UI; strict document containment needs platform-specific acceptance",
+        "trace": [
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          }
+        ],
+        "attemptedBackground": {
+          "backgroundFocused": false,
+          "inside": true,
+          "body": false
+        },
+        "noBackgroundControlFocused": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "safe-link-native-host-boundary-proof",
+      "source": "src/components/main/SafeLinkModal.tsx",
+      "status": "gate",
+      "detail": {
+        "isGate": true,
+        "reason": "Native Chromium Tab can move to host browser UI; strict document containment needs platform-specific acceptance",
+        "trace": [
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          },
+          {
+            "inside": false,
+            "body": true,
+            "hasDocumentFocus": false,
+            "activeTag": "BODY",
+            "dialogOpen": true
+          },
+          {
+            "inside": true,
+            "body": false,
+            "hasDocumentFocus": true,
+            "activeTag": "BUTTON",
+            "dialogOpen": true
+          }
+        ],
+        "attemptedBackground": {
+          "backgroundFocused": false,
+          "inside": true,
+          "body": false
+        },
+        "noBackgroundControlFocused": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-empty-confirm-zero",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "disabled": true,
+        "checkDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-whitespace-preserved-once",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "checkDelta": 1,
+        "preservesFixtureWhitespace": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "password-visibility-space-repeat-once",
+      "source": "src/components/common/PasswordConfirmModal.tsx",
+      "status": "pass",
+      "detail": {
+        "heldRepeatIgnored": true,
+        "spaceToggledOnce": true,
+        "checkDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-filter-enter-once",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "submitDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-checkbox-enter-zero",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "enterSubmitDelta": 0,
+        "spaceSelected": true
+      },
+      "newErrors": []
+    },
+    {
+      "id": "country-confirm-enter-once",
+      "source": "src/components/common/CountryPickerModal.tsx",
+      "status": "pass",
+      "detail": {
+        "submitDelta": 1
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-default-focus-safe",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "initialCancelFocus": true,
+        "protectedActionDelta": 0
+      },
+      "newErrors": []
+    },
+    {
+      "id": "browser-close-pointer-once",
+      "source": "src/components/main/BrowserCloseConfirmationModal.tsx",
+      "status": "pass",
+      "detail": {
+        "callbackDelta": 1
+      },
+      "newErrors": []
+    }
+  ],
+  "errors": [],
+  "blockedRequests": 0,
+  "sourceHashes": {
+    "src/components/main/NewContactModal.tsx": "f029ccc676cfb5409d699f7cce09001b89a4744c6dd134ee9acc2d3d18643b62",
+    "src/components/modals/reportModal/ReportModal.tsx": "792b854e776c618800e23b1b12df36da77a74b3fa67917f65ac15ee4c983405e",
+    "src/components/common/CountryPickerModal.tsx": "27e88aab7c506e5702fa4ccefc63a10c7e7a5bf5589c8efd32d7d12df269fc8d",
+    "src/components/common/PasswordConfirmModal.tsx": "a3a6bb575b9c5dd1c49a32929730bc415196de00d1c94ae82360f9127bbac692",
+    "src/components/common/RemoveFormattingModal.tsx": "428daeec1fdca39ecbeb1ab1f28a9566b72d5f64dccdae9825d7e88088ff34d1",
+    "src/components/main/SafeLinkModal.tsx": "36a3420c79c55b1e33645b5104166cb6cb7ee5f0369806e33272bb64a53e2f21",
+    "src/components/main/BrowserCloseConfirmationModal.tsx": "5d0d26ef246166f6a5d3d356e6eb913a8353ba272a4f2c343683a71403a48852",
+    "src/components/left/MuteChatModal.tsx": "1f7024a648ab3c244e73abebea7edea4fdd9c2b548373271079beaca10153f53",
+    "src/components/common/PinMessageModal.tsx": "fde0f33fa86e73962df13e2967442db8ecfd9f2b815d1362bfdd61ec40051aec",
+    "src/components/common/DeleteChatModal.tsx": "88b7a834d51da85b0dad4c8bebe85096f529643053180f33eaefa238a3cc4af6",
+    "src/components/middle/composer/AttachmentModalItem.tsx": "cbcaae1fe4acd66bf5a80c9713f18d2e3346ad5d3663d0ef9c7f29fc36b559b4",
+    "src/components/common/DocumentReaderModal.tsx": "2f34f46c50fa9dd1b7f3dc3acb57068a29f231ac0259798e8b95bc7aeb77f377",
+    "src/components/middle/ChatLanguageModal.tsx": "7471bf5cbe49b5916b5f96184a4b57a7e0ffc58fb4f35dfda439693cab80f684",
+    "src/components/common/DeleteMessageModal.tsx": "8357faf6645dc9ec6f6a85465416c5a2459f6e56a3d8cbbd1069b32becc8e963"
+  },
+  "limits": [
+    "AttachmentModalItem preview only; full AttachmentModal editor/upload gate",
+    "No live password, account, server acceptance, PDF/DOCX or premium purchase coverage",
+    "RTL and 200% root font are test emulations; no claim of translated locale or physical DPI device"
+  ],
+  "gates": [],
+  "unhandled": [],
+  "summary": {
+    "total": 123,
+    "pass": 117,
+    "fail": 0,
+    "pageErrors": 0,
+    "gates": 6
+  }
+}

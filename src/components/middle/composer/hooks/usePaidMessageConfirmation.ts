@@ -10,6 +10,7 @@ export default function usePaidMessageConfirmation(
   isStarsBalanceModeOpen: boolean,
   starsBalance: number,
   shouldDelayConfirmHandler?: boolean,
+  onConfirmDialogChange?: (isOpen: boolean) => void,
 ) {
   const {
     shouldPaidMessageAutoApprove,
@@ -20,18 +21,21 @@ export default function usePaidMessageConfirmation(
   const confirmPaymentHandlerRef = useRef<NoneToVoidFunction | undefined>(undefined);
 
   const closeConfirmDialog = useLastCallback(() => {
-    getActions().closePaymentMessageConfirmDialogOpen();
+    if (onConfirmDialogChange) onConfirmDialogChange(false);
+    else getActions().closePaymentMessageConfirmDialogOpen();
   });
 
   useEffect(() => {
     if (isWaitingStarsTopup && !isStarsBalanceModeOpen) {
       setIsWaitingStarsTopup(false);
 
-      if (starsBalance > starsForAllMessages) {
+      if (onConfirmDialogChange ? starsBalance >= starsForAllMessages : starsBalance > starsForAllMessages) {
         confirmPaymentHandlerRef?.current?.();
+      } else {
+        onConfirmDialogChange?.(false);
       }
     }
-  }, [isWaitingStarsTopup, isStarsBalanceModeOpen, starsBalance, starsForAllMessages]);
+  }, [isWaitingStarsTopup, isStarsBalanceModeOpen, starsBalance, starsForAllMessages, onConfirmDialogChange]);
 
   const handleStarsTopup = useLastCallback(() => {
     getActions().openStarsBalanceModal({
@@ -54,7 +58,7 @@ export default function usePaidMessageConfirmation(
       confirmPaymentHandlerRef?.current?.();
     }
 
-    getActions().closePaymentMessageConfirmDialogOpen();
+    closeConfirmDialog();
     if (shouldAutoApprove) getActions().setPaidMessageAutoApprove();
   });
 
@@ -65,7 +69,8 @@ export default function usePaidMessageConfirmation(
     if (starsForAllMessages) {
       confirmPaymentHandlerRef.current = () => handler(...args);
       if (!shouldPaidMessageAutoApprove) {
-        getActions().openPaymentMessageConfirmDialogOpen();
+        if (onConfirmDialogChange) onConfirmDialogChange(true);
+        else getActions().openPaymentMessageConfirmDialogOpen();
         return;
       }
 

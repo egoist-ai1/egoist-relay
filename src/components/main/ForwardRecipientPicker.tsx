@@ -62,9 +62,7 @@ const ForwardRecipientPicker: FC<OwnProps & StateProps> = ({
 }) => {
   const {
     openChatOrTopicWithReplyInDraft,
-    setForwardChatOrTopic,
     exitForwardMode,
-    forwardToSavedMessages,
     forwardToMultipleChats,
     forwardStory,
     showNotification,
@@ -130,20 +128,6 @@ const ForwardRecipientPicker: FC<OwnProps & StateProps> = ({
     }
   }, [isOpen]);
 
-  const forwardToSelf = useLastCallback(() => {
-    forwardToSavedMessages({});
-    showNotification({
-      message: {
-        key: 'FwdMessagesToSaved',
-        options: {
-          withNodes: true,
-          withMarkdown: true,
-          pluralValue: messageCount,
-        },
-      },
-    });
-  });
-
   const handleSelectRecipient = useCallback((recipientId: string, threadId?: ThreadId) => {
     const isSelf = recipientId === currentUserId;
     if (isStory) {
@@ -169,18 +153,40 @@ const ForwardRecipientPicker: FC<OwnProps & StateProps> = ({
       return;
     }
 
-    if (isSelf) {
-      forwardToSelf();
-    } else {
-      const chatId = recipientId;
-      const topicId = threadId ? Number(threadId) : undefined;
-      if (isForwarding) {
-        setForwardChatOrTopic({ chatId, topicId });
+    if (isForwarding) {
+      const targets: ForwardTarget[] = [{ chatId: recipientId, topicId: threadId ? Number(threadId) : undefined }];
+      forwardToMultipleChats({ targets });
+      if (isSelf) {
+        showNotification({
+          message: {
+            key: 'FwdMessagesToSaved',
+            options: {
+              withNodes: true,
+              withMarkdown: true,
+              pluralValue: messageCount,
+            },
+          },
+        });
       } else {
-        openChatOrTopicWithReplyInDraft({ chatId, topicId });
+        const global = getGlobal();
+        const chat = selectChat(global, recipientId);
+        const chatTitle = chat ? getChatTitle(oldLang, chat) : undefined;
+        showNotification({
+          message: chatTitle
+            ? (messageCount > 1
+              ? `Сообщения пересланы в «${chatTitle}»`
+              : `Сообщение переслано в «${chatTitle}»`)
+            : lang('FwdMessagesToChats', { count: 1 }, { pluralValue: 1 }),
+        });
       }
+      exitForwardMode();
+    } else {
+      openChatOrTopicWithReplyInDraft({ chatId: recipientId, topicId: threadId ? Number(threadId) : undefined });
     }
-  }, [currentUserId, isStory, oldLang, isForwarding]);
+  }, [
+    currentUserId, isStory, oldLang, isForwarding, forwardStory, forwardToMultipleChats, showNotification,
+    messageCount, lang, exitForwardMode, openChatOrTopicWithReplyInDraft,
+  ]);
 
   const handleClose = useCallback(() => {
     exitForwardMode();
@@ -201,17 +207,6 @@ const ForwardRecipientPicker: FC<OwnProps & StateProps> = ({
 
   const handleForwardToMultiple = useLastCallback(() => {
     if (!selectedIds.length) return;
-
-    if (selectedIds.length === 1) {
-      const { peerId: chatId, topicId } = selectedIds[0];
-      if (chatId === currentUserId) {
-        forwardToSelf();
-        return;
-      }
-
-      setForwardChatOrTopic({ chatId, topicId });
-      return;
-    }
 
     if (paidChatsInfo.totalStars > 0 && !shouldPaidMessageAutoApprove) {
       openPaymentConfirm();
@@ -266,9 +261,37 @@ const ForwardRecipientPicker: FC<OwnProps & StateProps> = ({
     }));
     forwardToMultipleChats({ targets, comment: caption || undefined });
 
-    showNotification({
-      message: lang('FwdMessagesToChats', { count: selectedIds.length }, { pluralValue: selectedIds.length }),
-    });
+    if (selectedIds.length === 1) {
+      const { peerId: chatId } = selectedIds[0];
+      if (chatId === currentUserId) {
+        showNotification({
+          message: {
+            key: 'FwdMessagesToSaved',
+            options: {
+              withNodes: true,
+              withMarkdown: true,
+              pluralValue: messageCount,
+            },
+          },
+        });
+      } else {
+        const global = getGlobal();
+        const chat = selectChat(global, chatId);
+        const chatTitle = chat ? getChatTitle(oldLang, chat) : undefined;
+        showNotification({
+          message: chatTitle
+            ? (messageCount > 1
+              ? `Сообщения пересланы в «${chatTitle}»`
+              : `Сообщение переслано в «${chatTitle}»`)
+            : lang('FwdMessagesToChats', { count: 1 }, { pluralValue: 1 }),
+        });
+      }
+    } else {
+      showNotification({
+        message: lang('FwdMessagesToChats', { count: selectedIds.length }, { pluralValue: selectedIds.length }),
+      });
+    }
+
     exitForwardMode();
   });
 

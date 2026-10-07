@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "artifactId": "egoist-relay/release-review/1.4.7",
+  "version": "1.4.7",
+  "createdAt": "2026-10-04T14:38:24.412181+00:00",
+  "projectPath": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay",
+  "snapshotFile": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\release-1.4.7\\Реестр.json",
+  "purpose": "Review implemented changes and truthful release status; this board exports user feedback only.",
+  "aggregateStatus": "installer_published_local_update_verified",
+  "verificationSummary": {
+    "origin": "Parent integration summary plus linked project evidence",
+    "typescriptConfigurationsPassed": 3,
+    "nativePassed": 43,
+    "releasePolicyPassed": 17,
+    "focusedUiPassed": 7,
+    "edgeUiPassed": 7,
+    "enhancerUiPassed": 7,
+    "fullUi": {
+      "cases": 64,
+      "passed": 63,
+      "failed": 0,
+      "hydrationFailure": 0,
+      "gated": 1,
+      "gatedScreen": "ActiveWebsites synthetic route"
+    },
+    "windowsReleaseBuild": "verified",
+    "publicSourcePublication": "published",
+    "publicBinaryGate": "published_by_explicit_owner_request_inventory_incomplete",
+    "vitest": {
+      "suites": 26,
+      "passed": 322,
+      "failed": 0
+    },
+    "releasePreflight": {
+      "files": 40,
+      "status": "passed"
+    },
+    "performance": {
+      "passed": 3,
+      "switches": 48,
+      "modalCycles": 24,
+      "remainingOpen": 0,
+      "scope": "Headless isolated host; no native frame rate claim"
+    },
+    "isolatedPackagingSmoke": "passed",
+    "publicInstallerPublication": "published",
+    "localReinstall": "verified",
+    "correspondingSourceComplete": false
+  },
+  "helperSha256": "e2a712f00192eeda274fe013b75bd8a56a7ff06b4ad3e9e54cf4c18d7536788b",
+  "items": [
+    {
+      "id": "ui.dialogStack",
+      "name": "Вложенные диалоги и управление фокусом",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Обе реализации модального окна используют общий счётчик владельцев. Закрытие дочернего окна сохраняет состояние открытого родителя; проверены удержание и возврат фокуса.",
+      "evidence": "UI focused 7/7 и edge 7/7; ссылки на синтетические сценарии и снимки ниже.",
+      "confirmationAction": "Принять реализованные изменения стека диалогов и фокуса.",
+      "links": [
+        {
+          "name": "UI evidence",
+          "href": "ui-audit/README.md"
+        }
+      ]
+    },
+    {
+      "id": "ui.transitions",
+      "name": "Отмена переходов и уменьшение движения",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Устранён конфликт завершения переходов при быстрой смене состояния. Жизненный цикл модального окна соответствует анимации 200 мс; prefers-reduced-motion отключает движение.",
+      "evidence": "Полный холодный UI-аудит:63/64 прошли, 0 ошибок, 1 gated; 24 цикла модалок, фокус восстановлен, открытых окон не осталось. Headless scope.",
+      "confirmationAction": "Принять реализованные изменения переходов, отмены и reduced motion.",
+      "links": [
+        {
+          "name": "UI evidence",
+          "href": "ui-audit/README.md"
+        }
+      ]
+    },
+    {
+      "id": "ui.clippingAccessibility",
+      "name": "Компактные окна, обрезание и доступность",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Минимальная ширина диалога учитывает viewport; длинные заголовки занимают одну строку и показывают tooltip. Диалоги связаны с видимым заголовком через ARIA. Проверены маленькое окно, увеличенный текст и RTL.",
+      "evidence": "При viewport 400 × 448 и тексте 200% границы диалога изменились с −80…480 до 48…352. Это синтетическая проверка, а не native DPI certification.",
+      "confirmationAction": "Принять реализованные изменения размещения и доступности.",
+      "links": [
+        {
+          "name": "До",
+          "href": "ui-audit/small-scaled-baseline.png"
+        },
+        {
+          "name": "После",
+          "href": "ui-audit/small-scaled-final.png"
+        },
+        {
+          "name": "Проверки",
+          "href": "ui-audit/edge-final.json"
+        }
+      ]
+    },
+    {
+      "id": "social.instagramTimestamp",
+      "name": "Instagram: ссылки публикаций и работа enhancer",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Выбор permalink предпочитает уникальную проверенную ссылку timestamp; обычная ссылка в подписи больше не скрывает кнопку передачи. Поведение enhancer проверено в изолированном DOM harness.",
+      "evidence": "Enhancer scenarios: до исправления 4/7, после 7/7; реальные авторизованные страницы и декодирование видео не проверялись.",
+      "confirmationAction": "Принять реализованное исправление выбора permalink и проверенное поведение enhancer.",
+      "links": [
+        {
+          "name": "Результаты",
+          "href": "ui-audit/enhancer-after.json"
+        }
+      ]
+    },
+    {
+      "id": "network.mediaDeadline",
+      "name": "Сеть: дедлайны, отмена и media workers",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Прямое скачивание CDN получает абсолютный дедлайн до очереди spawn_blocking. Отмена проверяется на стадиях runtime, PAC и запуска worker; завершение Job предшествует ожиданию читателей stdout/stderr.",
+      "evidence": "Существующие Node media/proxy fixtures 51/51; целевые native tests 2/2. PAC остаётся синхронным.",
+      "confirmationAction": "Принять реализованные дедлайны, отмену и очистку собственных workers.",
+      "links": [
+        {
+          "name": "Сетевой отчёт",
+          "href": "network-audit.md"
+        },
+        {
+          "name": "Receipt",
+          "href": "network-audit.json"
+        }
+      ]
+    },
+    {
+      "id": "network.nodeProbe",
+      "name": "Проверка bundled Node без бесконечного ожидания",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "node --version использует spawn/try_wait и дедлайн две секунды. При timeout или ошибке собственный процесс завершается и reap-ится. Повторные пути пропускаются с сохранением приоритета поиска.",
+      "evidence": "Оба изменённых Rust-модуля скомпилированы. Задержка системных spawn/kill/wait не прерывается этим helper.",
+      "confirmationAction": "Принять реализованное ограничение ожидания bundled Node.",
+      "links": [
+        {
+          "name": "Сетевой отчёт",
+          "href": "network-audit.md"
+        }
+      ]
+    },
+    {
+      "id": "build.payloadCleanup",
+      "name": "Меньше лишних данных в приложении",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Build-only Vite plugin исключает устаревшие public/build-stats.json (97 792 637 байт) и statoscope-report.html (2 748 176 байт) из payload приложения. Суммарно исключаются 100 540 813 raw bytes — примерно 95,9 MiB. Исходные отчёты сохранены в проекте.",
+      "evidence": "Vite build/ESLint/TypeScript прошли. Финальный frontend — 98 948 717 байт; diagnostic reports и .map отсутствуют. EXE — 77 798 912 байт против 82 075 648предварительного пакета; это отдельное измерение от rawfiles.",
+      "confirmationAction": "Принять проверенное исключение лишних диагностических файлов из приложения.",
+      "links": []
+    },
+    {
+      "id": "release.windowsBuild",
+      "name": "Сборка и рабочее обновление Windows 1.4.7",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Канонический установщик собран и отдельно проверен изолированно. Рабочая установка обновлена 1.4.6 → 1.4.7 через /S /UPDATE /NS: exit 0, EXE и 40 runtime файлов совпали, профиль не удалялся. Приложение запущено в фоне.",
+      "evidence": "Локальная версия EXE/registry 1.4.7; SHA-256 приложения 68ce83b8e12162a56fcfa2a801e0551ba3ff653b63ad829fbce657cbccc7baf7. Exact path/PID/start time подтверждены; содержимое аккаунтов не читалось.",
+      "confirmationAction": "Принять проверенный результат сборки и выполненного локального обновления.",
+      "links": [
+        {
+          "name": "Проверка сборки",
+          "href": "build-verification.json"
+        },
+        {
+          "name": "Изолированная установка",
+          "href": "installer-smoke.json"
+        },
+        {
+          "name": "Локальное обновление",
+          "href": "local-reinstall.json"
+        },
+        {
+          "name": "Отчёт установки",
+          "href": "INSTALLATION.md"
+        }
+      ]
+    },
+    {
+      "id": "release.sourcePublication",
+      "name": "Публикация исходников и установщика",
+      "version": "1.4.7",
+      "status": "verified",
+      "content": "Очищенные исходники и установщик опубликованы в GitHub prerelease relay-v1.4.7. Установщик добавлен по прямому запросу владельца при сохранённом неполном inventory источников зависимостей.",
+      "evidence": "Source/tag identity сохранена; installer SHA-256/размер совпали, публичная ссылка возвращает HTTP200 без авторизации.",
+      "confirmationAction": "Принять выполненную публикацию; это действие review board не загружает файлы повторно.",
+      "links": [
+        {
+          "name": "GitHub release",
+          "href": "https://github.com/egoist-ai1/egoist-relay/releases/tag/relay-v1.4.7"
+        },
+        {
+          "name": "Publication receipt",
+          "href": "publication.json"
+        },
+        {
+          "name": "Установщик",
+          "href": "https://github.com/egoist-ai1/egoist-relay/releases/download/relay-v1.4.7/Egoist-Relay-1.4.7-x64-setup.exe"
+        },
+        {
+          "name": "Installer publication receipt",
+          "href": "installer-publication.json"
+        }
+      ]
+    },
+    {
+      "id": "release.limitations",
+      "name": "Оставшиеся ограничения готовности выпуска",
+      "version": "1.4.7",
+      "status": "open",
+      "content": "Полный UI-аудит: 63 PASS, 0 FAIL, 1 GATED ActiveWebsites из64. Установщик опубликован по прямому запросу владельца; комплект соответствующих исходников зависимостей остаётся неполным. Live account/network behavior, native DPI/GPU и независимая машина не проверены. WinHTTP PAC отменяется после возврата синхронного вызова.",
+      "evidence": "GitHub release остаётся prerelease, EXE и установщик неподписаны. Inventory correspondingSourceComplete=false сохранён; рабочая переустановка отдельно прошла.",
+      "confirmationAction": "Подтвердить понимание ограничений или запросить пояснение; подтверждение не меняет inventory или публикацию.",
+      "links": [
+        {
+          "name": "Сетевые ограничения",
+          "href": "network-audit.md#limitations"
+        },
+        {
+          "name": "UI ограничения",
+          "href": "ui-audit/README.md"
+        }
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-04T15:25:19.553Z"
+}

@@ -408,6 +408,7 @@ export function sendMessageLocal(
     message: localMessage,
     poll: localPoll,
     wasDrafted,
+    shouldSkipFocus: params.shouldSkipFocus,
   });
 
   return Promise.resolve(localMessage);
@@ -426,7 +427,10 @@ export function sendApiMessage(
     isInvertedMedia, effectId, webPageMediaSize, webPageUrl, messagePriceInStars,
   } = params;
 
-  if (!chat) return undefined;
+  if (!chat) {
+    if (params.shouldThrowOnSendError) throw new Error('SOCIAL_SHARE_INVALID_TARGET');
+    return undefined;
+  }
 
   let isSendCompleted = false;
   const timeout = setTimeout(() => {
@@ -447,7 +451,7 @@ export function sendApiMessage(
     clearTimeout(timeout);
   };
 
-  const randomId = generateRandomBigInt();
+  const randomId = params.socialShareRandomId ? BigInt(params.socialShareRandomId) : generateRandomBigInt();
 
   if (groupedId) {
     return sendGroupedMedia({
@@ -515,8 +519,17 @@ export function sendApiMessage(
           console.warn(err);
         }
 
+        if (params.shouldThrowOnSendError) {
+          cancelSendingStatusTimeout();
+          sendApiUpdate({
+            '@type': 'updateMessageSendFailed',
+            chatId: chat.id,
+            localId: localMessage.id,
+            error: (err as Error).message,
+          });
+          throw err;
+        }
         await mediaQueue;
-
         return;
       }
     } else if (sticker) {
@@ -583,7 +596,7 @@ export function sendApiMessage(
     const inputRichMessage = richMessage && buildInputRichMessage(richMessage);
 
     const args: SharedArgs = {
-      clearDraft: true,
+      clearDraft: params.shouldPreserveDraft ? undefined : true,
       message: richMessage ? DEFAULT_PRIMITIVES.STRING : text || DEFAULT_PRIMITIVES.STRING,
       entities: richMessage ? undefined : entities ? entities.map(buildMtpMessageEntity) : undefined,
       peer: buildInputPeer(chat.id, chat.accessHash),
@@ -623,6 +636,10 @@ export function sendApiMessage(
 
       cancelSendingStatusTimeout();
       if (update) handleLocalMessageUpdate(localMessage, update);
+      if (params.shouldThrowOnSendError) {
+        if (!update) throw new Error('SOCIAL_SHARE_UNCONFIRMED');
+        return true;
+      }
     } catch (error: any) {
       cancelSendingStatusTimeout();
 
@@ -636,7 +653,9 @@ export function sendApiMessage(
         localId: localMessage.id,
         error: error.errorMessage,
       });
+      if (params.shouldThrowOnSendError) throw error;
     }
+    return undefined;
   })();
 
   return messagePromise;
@@ -646,6 +665,7 @@ export async function sendMessage(
   params: SendMessageParams,
   onProgress?: ApiOnProgress,
 ) {
+  if (params.shouldThrowOnSendError && !params.chat) throw new Error('SOCIAL_SHARE_INVALID_TARGET');
   if (params.richMessage && !canSendRichMessage(params)) {
     return undefined;
   }

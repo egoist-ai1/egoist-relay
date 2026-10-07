@@ -1,0 +1,66 @@
+{
+  "report": "C:\\Users\\Egoist\\Desktop\\Проекты\\Приложения\\Egoist Relay\\docs\\app-quality-audit-2026-10-02\\types-report.json",
+  "snapshotSha256": "a1a7a2c3bd023c49ee77cdbe004f71907372d1ce309bbd828b942de28193a357",
+  "sourceCount": 18,
+  "diagnostics": {
+    "before": 55,
+    "after": 0,
+    "tscMainExit": 0,
+    "tscTestExit": 0
+  },
+  "cleanupValidation": {
+    "file": "src/util/tiptap/TeactRenderer.ts",
+    "sourceBeforeSha256": "88752efb17c48522a36d97696c225fc1c943ec24869614aecbf6c8afc7723c75",
+    "sourceAfterSha256": "fddec3c1aa507e72e73fc71d7dc639ced91b383ea52924311c666995193cdb76",
+    "wholeProductionTsc": {
+      "exitCode": 0,
+      "args": [
+        "--max-old-space-size=2048",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--incremental",
+        "false"
+      ],
+      "diagnosticLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "wholeTestTypeContext": {
+      "exitCode": 0,
+      "diagnosticCount": 0,
+      "testFileCount": 26,
+      "projectFileCount": 1721,
+      "removedProjectFiles": [],
+      "removedTestFiles": [],
+      "evidence": "types-cleanup-test-after.json"
+    },
+    "targetLint": {
+      "exitCode": 0,
+      "fileCount": 1,
+      "errorCount": 0,
+      "warningCount": 0,
+      "evidence": "types-teact-renderer-lint.json"
+    },
+    "runtimeErasure": {
+      "identical": true,
+      "beforeJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+      "afterJavaScriptSha256": "10608823e607e086581e587a8b16d66881e1f89fef43a615e8f6bc067cf139b5",
+      "evidence": "types-teact-renderer-erasure.json"
+    },
+    "noAdditionalRuntimeTestRequired": "JavaScript byte identity plus root full26/322PASS; no new runtime behavior introduced."
+  },
+  "productionRuntimeIdentical": true,
+  "productionRuntimeFileCount": 12,
+  "finalFullLint": {
+    "exitCode": 0,
+    "fileCount": 1862,
+    "errors": 0,
+    "warnings": 1,
+    "fatal": 0,
+    "durationMs": 4346,
+    "initialBeforeErrors": 27,
+    "initialBeforeEvidence": "types-eslint-retry.json",
+    "finalEvidence": "types-eslint-final.json",
+    "finalEvidenceSha256": "efb08da7d32310d708742f6323469b4b0b31924ab9b6e5d30daef83b16d29040",
+    "warningSuppressed": false
+  },
+  "reviewObjectCount": 3
+}

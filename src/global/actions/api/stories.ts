@@ -720,3 +720,26 @@ addActionHandler('resetSelectedStoryAlbum', (global, actions, payload): ActionRe
     selectedStoryAlbumId: undefined,
   }, tabId);
 });
+
+addActionHandler('postStory', async (global, actions, payload): Promise<void> => {
+  const { file, caption, pinned, tabId = getCurrentTabId() } = payload;
+  try {
+    actions.showNotification({
+      message: 'Загрузка истории в максимальном качестве...',
+      tabId,
+    });
+    const result = await callApi('publishStory', { file, caption, pinned });
+    if (result) {
+      actions.showNotification({
+        message: 'История успешно опубликована в Telegram!',
+        tabId,
+      });
+      actions.loadAllStories();
+    }
+  } catch (err: any) {
+    actions.showNotification({
+      message: err?.message || 'Не удалось опубликовать историю',
+      tabId,
+    });
+  }
+});

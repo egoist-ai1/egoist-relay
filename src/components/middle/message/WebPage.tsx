@@ -1,15 +1,18 @@
 import { memo, useMemo, useRef } from '../../../lib/teact/teact';
 import { getActions } from '../../../global';
 
-import type { ApiMessage, ApiMessageWebPage, ApiTypeStory, ApiWebPage, ApiWebPageFull } from '../../../api/types';
+import type { ApiMessage, ApiMessageWebPage, ApiTypeStory, ApiWebPage } from '../../../api/types';
 import type { ObserveFn } from '../../../hooks/useIntersectionObserver';
-import { AudioOrigin, type ThemeKey, type WebPageMediaSize } from '../../../types';
+import { AudioOrigin, type ThemeKey } from '../../../types';
 
-import { getPhotoFullDimensions } from '../../../global/helpers';
 import buildClassName from '../../../util/buildClassName';
 import { tryParseDeepLink } from '../../../util/deepLinkParser';
+import {
+  hasNativeInlineSocialMediaPreview, INLINE_MEDIA_OPEN_EVENT, parseInlineSocialMediaUrl,
+} from '../../../util/inlineSocialMedia';
 import trimText from '../../../util/trimText';
 import renderText from '../../common/helpers/renderText';
+import { getIsSmallWebPagePhoto } from './helpers/mediaLayout';
 import { getWebpageButtonIcon, getWebpageButtonLangKey } from './helpers/webpageType';
 
 import useDynamicColorListener from '../../../hooks/stickers/useDynamicColorListener';
@@ -27,6 +30,7 @@ import SafeLink from '../../common/SafeLink';
 import StickerView from '../../common/StickerView';
 import Button from '../../ui/Button';
 import BaseStory from './BaseStory';
+import InlineSocialMedia from './InlineSocialMedia';
 import Photo from './Photo';
 import Video from './Video';
 import WebPageStarGiftAuction from './WebPageStarGiftAuction';
@@ -119,9 +123,13 @@ const WebPage = ({
     if (!parsedLink || !('timestamp' in parsedLink)) return undefined;
     return parsedLink.timestamp;
   }, [webPage?.url]);
+  const inlineSource = useMemo(() => parseInlineSocialMediaUrl(webPage?.url), [webPage?.url]);
 
   const handleArticleClick = useLastCallback((e: React.MouseEvent) => {
     e.stopPropagation();
+    if (inlineSource && !e.currentTarget.dispatchEvent(new CustomEvent(INLINE_MEDIA_OPEN_EVENT, {
+      bubbles: true, cancelable: true, detail: { url: webPage.url },
+    }))) return;
     openUrl({ url: webPage.url!, shouldSkipModal: messageWebPage.isSafe });
   });
 
@@ -141,6 +149,9 @@ const WebPage = ({
   });
 
   if (webPage?.webpageType !== 'full') return undefined;
+  if (inlineSource && !hasNativeInlineSocialMediaPreview(webPage)) {
+    return <InlineSocialMedia source={inlineSource} canAutoLoad={canAutoLoad} canAutoPlay={canAutoPlay} />;
+  }
 
   const {
     siteName,
@@ -169,12 +180,14 @@ const WebPage = ({
   const quickButtonTitle = quickButtonLangKey && lang(quickButtonLangKey);
   const quickButtonIcon = getWebpageButtonIcon(resultType, { cachedPage: fullWebPage?.cachedPage });
 
-  const truncatedDescription = trimText(description, MAX_TEXT_LENGTH);
+  const hasDuplicateDescription = Boolean(title && description
+    && title.trim().replace(/\s+/g, ' ') === description.trim().replace(/\s+/g, ' '));
+  const truncatedDescription = !hasDuplicateDescription ? trimText(description, MAX_TEXT_LENGTH) : undefined;
   const aiToneEmojiId = isAiTone ? webPage.aiComposeToneEmojiId : undefined;
   const isArticle = Boolean(truncatedDescription || title || siteName);
   let isSquarePhoto = Boolean(stickers) || Boolean(aiToneEmojiId);
   if (isArticle && webPage?.photo && !webPage.video && !webPage.document) {
-    isSquarePhoto = getIsSmallPhoto(webPage, mediaSize);
+    isSquarePhoto = getIsSmallWebPagePhoto(webPage, mediaSize);
   }
   const hasWideMedia = Boolean((photo || video) && !isSquarePhoto);
   const isMediaInteractive = hasWideMedia && Boolean(onMediaClick);
@@ -189,6 +202,7 @@ const WebPage = ({
     quickButtonTitle && 'with-quick-button',
     (isGift || isAuction) && 'with-gift',
     isAiTone && 'WebPage--ai-tone',
+    hasWideMedia && !isStory && !isGift && !isAuction && !isAiTone && !document && 'with-responsive-media',
   );
 
   function renderQuickButton() {
@@ -344,16 +358,5 @@ const WebPage = ({
     </PeerColorWrapper>
   );
 };
-
-function getIsSmallPhoto(webPage: ApiWebPageFull, mediaSize?: WebPageMediaSize) {
-  if (!webPage?.photo) return false;
-  if (mediaSize === 'small') return true;
-  if (mediaSize === 'large') return false;
-
-  const { width, height } = getPhotoFullDimensions(webPage.photo) || {};
-  if (!width || !height) return false;
-
-  return width === height && !webPage.hasLargeMedia;
-}
 
 export default memo(WebPage);
