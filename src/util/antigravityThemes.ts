@@ -1,3 +1,5 @@
+import { buildLagomVariables, LAGOM_DARK, LAGOM_LIGHT } from './lagomTheme';
+
 export interface AntigravityThemeDefinition {
   id: string;
   name: string;
@@ -7,6 +9,20 @@ export interface AntigravityThemeDefinition {
 }
 
 export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
+  {
+    id: 'lagom-dark',
+    name: 'Lagom Dark',
+    category: 'dark',
+    base: 'dark',
+    variables: buildLagomVariables(LAGOM_DARK),
+  },
+  {
+    id: 'lagom-light',
+    name: 'Lagom Light',
+    category: 'light',
+    base: 'light',
+    variables: buildLagomVariables(LAGOM_LIGHT),
+  },
   {
     id: 'egoist-dark',
     name: 'Egoist Black',
@@ -434,12 +450,25 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
   },
 ];
 
-const DEFAULT_THEME_VARIANT_ID = 'egoist-dark';
+const DEFAULT_THEME_VARIANT_ID = 'lagom-dark';
 const THEME_VARIABLES = new Set(ANTIGRAVITY_THEMES.flatMap((theme) => Object.keys(theme.variables)));
+
+const LAGOM_MIGRATION_KEY = 'egoist_theme_lagom_migrated';
+const LEGACY_DEFAULT_VARIANT_ID = 'egoist-dark';
 
 export function getActiveThemeVariantId(): string {
   try {
-    const variantId = localStorage.getItem('egoist_theme_variant');
+    let variantId = localStorage.getItem('egoist_theme_variant');
+
+    // Профили до 1.7.0 сохраняли прежний вариант по умолчанию без выбора пользователя: один раз переводим на Lagom
+    if (localStorage.getItem(LAGOM_MIGRATION_KEY) !== '1') {
+      localStorage.setItem(LAGOM_MIGRATION_KEY, '1');
+      if (variantId === LEGACY_DEFAULT_VARIANT_ID) {
+        variantId = DEFAULT_THEME_VARIANT_ID;
+        localStorage.setItem('egoist_theme_variant', variantId);
+      }
+    }
+
     return ANTIGRAVITY_THEMES.some((theme) => theme.id === variantId) ? variantId! : DEFAULT_THEME_VARIANT_ID;
   } catch {
     return DEFAULT_THEME_VARIANT_ID;

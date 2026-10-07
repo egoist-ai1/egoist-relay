@@ -4,11 +4,13 @@ import {
 } from 'vitest';
 
 import { ANTIGRAVITY_THEMES, applyAntigravityTheme, getActiveThemeVariantId } from './antigravityThemes';
+import { buildLagomVariables, LAGOM_DARK, LAGOM_LIGHT } from './lagomTheme';
 
 const EXISTING_THEME_IDS = [
   'egoist-dark', 'dark-modern', 'dark-plus', 'tokyo-night', 'monokai', 'abyss', 'solarized-dark',
   'light-modern', 'light-plus', 'quiet-light', 'solarized-light',
 ];
+const LAGOM_THEME_IDS = ['lagom-dark', 'lagom-light'];
 const NEUTRAL_COLOR_ROLES = [
   '--color-background', '--color-background-secondary', '--color-background-secondary-accent',
   '--color-background-sidebar', '--color-background-own', '--color-background-own-apple',
@@ -65,14 +67,31 @@ afterEach(() => {
 });
 
 describe('Relay theme selection', () => {
-  test('Starts a fresh profile with the OLED theme', () => {
+  test('Starts a fresh profile with Lagom Dark', () => {
     applyAntigravityTheme(getActiveThemeVariantId());
 
-    expect(document.documentElement.classList.contains('theme-variant-egoist-dark')).toBe(true);
-    expect(document.documentElement.style.getPropertyValue('--color-background')).toBe('#000000');
+    expect(document.documentElement.classList.contains('theme-variant-lagom-dark')).toBe(true);
+    expect(document.documentElement.style.getPropertyValue('--color-background')).toBe(LAGOM_DARK.bg);
   });
 
-  test.each(EXISTING_THEME_IDS)('Keeps a saved %s variant across startup', (variantId) => {
+  test('Moves a profile that kept the previous default to Lagom once', () => {
+    localStorage.setItem('egoist_theme_variant', 'egoist-dark');
+
+    expect(getActiveThemeVariantId()).toBe('lagom-dark');
+    expect(localStorage.getItem('egoist_theme_variant')).toBe('lagom-dark');
+
+    localStorage.setItem('egoist_theme_variant', 'egoist-dark');
+    expect(getActiveThemeVariantId()).toBe('egoist-dark');
+  });
+
+  test('Keeps another saved variant when moving to Lagom', () => {
+    localStorage.setItem('egoist_theme_variant', 'tokyo-night');
+
+    expect(getActiveThemeVariantId()).toBe('tokyo-night');
+  });
+
+  test.each([...EXISTING_THEME_IDS, ...LAGOM_THEME_IDS])('Keeps a saved %s variant across startup', (variantId) => {
+    localStorage.setItem('egoist_theme_lagom_migrated', '1');
     localStorage.setItem('egoist_theme_variant', variantId);
 
     applyAntigravityTheme(getActiveThemeVariantId());
@@ -81,12 +100,12 @@ describe('Relay theme selection', () => {
     expect(localStorage.getItem('egoist_theme_variant')).toBe(variantId);
   });
 
-  test('Recovers an unsupported saved variant to the OLED theme', () => {
+  test('Recovers an unsupported saved variant to Lagom Dark', () => {
     localStorage.setItem('egoist_theme_variant', 'removed-theme');
 
-    expect(getActiveThemeVariantId()).toBe('egoist-dark');
+    expect(getActiveThemeVariantId()).toBe('lagom-dark');
     applyAntigravityTheme(getActiveThemeVariantId());
-    expect(localStorage.getItem('egoist_theme_variant')).toBe('egoist-dark');
+    expect(localStorage.getItem('egoist_theme_variant')).toBe('lagom-dark');
   });
 
   test('Uses the default when storage access is blocked', () => {
@@ -96,7 +115,7 @@ describe('Relay theme selection', () => {
 
     applyAntigravityTheme(getActiveThemeVariantId());
 
-    expect(document.documentElement.classList.contains('theme-variant-egoist-dark')).toBe(true);
+    expect(document.documentElement.classList.contains('theme-variant-lagom-dark')).toBe(true);
   });
 
   test('Applies a requested theme for the session when persistence is blocked', () => {
@@ -206,11 +225,11 @@ describe('Theme switching boundaries', () => {
     expect(document.documentElement.classList.contains('theme-dark')).toBe(true);
   });
 
-  test('Applies the OLED fallback for an unknown requested variant', () => {
+  test('Applies the Lagom fallback for an unknown requested variant', () => {
     applyAntigravityTheme('unknown-theme');
 
-    expect(localStorage.getItem('egoist_theme_variant')).toBe('egoist-dark');
-    expect(themeColorTag.content).toBe('#000000');
+    expect(localStorage.getItem('egoist_theme_variant')).toBe('lagom-dark');
+    expect(themeColorTag.content).toBe(LAGOM_DARK.bg);
   });
 });
 
@@ -220,3 +239,50 @@ function readRgbChannels(value: string) {
     return channel!;
   });
 }
+
+describe('Lagom palette', () => {
+  const EGOIST_BLACK_ROLES = Object.keys(ANTIGRAVITY_THEMES.find((theme) => theme.id === 'egoist-dark')!.variables);
+
+  test.each([
+    ['lagom-dark', LAGOM_DARK],
+    ['lagom-light', LAGOM_LIGHT],
+  ])('Defines every role of the full palette in %s', (variantId, roles) => {
+    const variables = ANTIGRAVITY_THEMES.find((theme) => theme.id === variantId)!.variables;
+
+    expect(Object.keys(variables).sort()).toEqual(EGOIST_BLACK_ROLES.sort());
+    expect(variables).toEqual(buildLagomVariables(roles));
+  });
+
+  test.each([
+    ['lagom-dark', LAGOM_DARK],
+    ['lagom-light', LAGOM_LIGHT],
+  ])('Keeps text and controls readable on every %s surface', (variantId, roles) => {
+    const surfaces = [roles.bg, roles.surface1, roles.surface2, roles.surface3];
+
+    surfaces.forEach((surface) => {
+      expect(Color.contrastWCAG21(roles.text, surface), `text on ${surface}`).toBeGreaterThanOrEqual(7);
+      expect(Color.contrastWCAG21(roles.textSoft, surface), `soft text on ${surface}`).toBeGreaterThanOrEqual(4.5);
+    });
+    // Вторичный текст на фоне, панелях и входящем пузыре; на собственном пузыре — усиленная подпись
+    [roles.bg, roles.surface1, roles.surface2].forEach((surface) => {
+      expect(Color.contrastWCAG21(roles.textMuted, surface), `muted on ${surface}`).toBeGreaterThanOrEqual(4.5);
+    });
+    expect(Color.contrastWCAG21(roles.textMutedStrong, roles.surface3), variantId).toBeGreaterThanOrEqual(4.5);
+    // Граница поля — не менее 3:1 к фону и панели (WCAG 1.4.11)
+    [roles.bg, roles.surface1].forEach((surface) => {
+      expect(Color.contrastWCAG21(roles.control, surface), `control on ${surface}`).toBeGreaterThanOrEqual(3);
+    });
+    expect(Color.contrastWCAG21(roles.onInverse, roles.inverse)).toBeGreaterThanOrEqual(7);
+    [roles.danger, roles.success, roles.warning].forEach((semantic) => {
+      expect(Color.contrastWCAG21(semantic, roles.bg), semantic).toBeGreaterThanOrEqual(4.5);
+    });
+  });
+
+  test('Applies the light base class and OS color for Lagom Light', () => {
+    applyAntigravityTheme('lagom-light');
+
+    expect(document.documentElement.classList.contains('theme-light')).toBe(true);
+    expect(themeColorTag.content).toBe(LAGOM_LIGHT.bg);
+    expect(document.documentElement.style.getPropertyValue('--color-primary-text')).toBe(LAGOM_LIGHT.onInverse);
+  });
+});
