@@ -249,7 +249,9 @@ describe('Lagom palette', () => {
   ])('Defines every role of the full palette in %s', (variantId, roles) => {
     const variables = ANTIGRAVITY_THEMES.find((theme) => theme.id === variantId)!.variables;
 
-    expect(Object.keys(variables).sort()).toEqual(EGOIST_BLACK_ROLES.sort());
+    EGOIST_BLACK_ROLES.forEach((role) => expect(variables, role).toHaveProperty([role]));
+    expect(Object.keys(variables).filter((role) => !EGOIST_BLACK_ROLES.includes(role)).sort())
+      .toEqual(['--grid-ink', '--grid-label', '--shadow']);
     expect(variables).toEqual(buildLagomVariables(roles));
   });
 
