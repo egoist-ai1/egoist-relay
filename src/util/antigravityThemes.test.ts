@@ -251,7 +251,7 @@ describe('Lagom palette', () => {
 
     EGOIST_BLACK_ROLES.forEach((role) => expect(variables, role).toHaveProperty([role]));
     expect(Object.keys(variables).filter((role) => !EGOIST_BLACK_ROLES.includes(role)).sort())
-      .toEqual(['--grid-ink', '--grid-label', '--shadow']);
+      .toEqual(['--color-toast-text', '--grid-ink', '--grid-label', '--shadow']);
     expect(variables).toEqual(buildLagomVariables(roles));
   });
 

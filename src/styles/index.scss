@@ -201,11 +201,6 @@ html.theme-dark #root {
   background-color: var(--color-background);
 }
 
-/* Тост на поверхности Lagom читается цветом текста темы; прежние варианты оставляют светлый текст на тёмном тосте */
-html:is(.theme-variant-lagom-dark, .theme-variant-lagom-light) {
-  --color-toast-text: var(--color-text);
-}
-
 /* Запасные значения для тёмных вариантов без собственных ролей; инлайн-переменные темы перекрывают их */
 html.theme-dark {
   --color-text-rgb: 255, 255, 255;

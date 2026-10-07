@@ -224,6 +224,7 @@ export function buildLagomVariables(roles: LagomRoles): Record<string, string> {
     '--color-scrollbar-code': alpha(textMuted, 0.3),
     '--color-hover-overlay': alpha(text, 0.04),
     '--color-toast-background': `${surface2}EE`,
+    '--color-toast-text': text,
     '--shadow': elevation,
     '--grid-ink': gridInk,
     '--grid-label': gridLabel,
