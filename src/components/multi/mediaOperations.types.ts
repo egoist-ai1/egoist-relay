@@ -54,6 +54,7 @@ export type MediaOperationsSnapshot = {
   operations: MediaOperation[];
   isLocked: boolean;
   error?: string;
+  journalNotice?: string;
 };
 export type MediaOperationAction =
   { type: 'register'; operation: NewMediaOperation }

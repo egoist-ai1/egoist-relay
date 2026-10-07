@@ -1163,7 +1163,7 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     case 'updateMessageSendFailed': {
       const { chatId, localId, error } = update;
 
-      if (error.match(/CHAT_SEND_.+?FORBIDDEN/)) {
+      if (error?.match(/CHAT_SEND_.+?FORBIDDEN/)) {
         Object.values(global.byTabId).forEach(({ id: tabId }) => {
           actions.showAllowedMessageTypesNotification({ chatId, tabId });
         });
@@ -1177,7 +1177,7 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     case 'updateScheduledMessageSendFailed': {
       const { chatId, localId, error } = update;
 
-      if (error.match(/CHAT_SEND_.+?FORBIDDEN/)) {
+      if (error?.match(/CHAT_SEND_.+?FORBIDDEN/)) {
         Object.values(global.byTabId).forEach(({ id: tabId }) => {
           actions.showAllowedMessageTypesNotification({ chatId, tabId });
         });

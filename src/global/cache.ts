@@ -335,12 +335,28 @@ export function migrateCache(cached: GlobalState, initialState: GlobalState) {
     unsafeMigrateCache(cached, initialState);
     pruneExpiredEphemeralMessages(cached);
     clearCachedDraftLocalFlags(cached);
+    failCachedPendingMessages(cached);
     return true;
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err);
     return false;
   }
+}
+
+// Uploads and requests of a previous session cannot continue, so a pending message would never leave this state
+function failPendingMessage(message: ApiMessage): ApiMessage {
+  if (message.sendingState !== 'messageSendingStatePending') return message;
+
+  return { ...message, sendingState: 'messageSendingStateFailed' };
+}
+
+function failCachedPendingMessages(cached: GlobalState) {
+  Object.values(cached.messages.byChatId).forEach(({ byId }) => {
+    Object.values(byId).forEach((message) => {
+      byId[message.id] = failPendingMessage(message);
+    });
+  });
 }
 
 function pruneExpiredEphemeralMessages(cached: GlobalState) {
@@ -887,7 +903,7 @@ function reduceMessages<T extends GlobalState>(global: T): GlobalState['messages
 
       let cleanedMessage = omitLocalMedia(message);
       cleanedMessage = omitLocalPaidReactions(cleanedMessage);
-      acc[message.id] = cleanedMessage;
+      acc[message.id] = failPendingMessage(cleanedMessage);
 
       if (message.content.pollId) {
         pollIdsToSave.push(message.content.pollId);

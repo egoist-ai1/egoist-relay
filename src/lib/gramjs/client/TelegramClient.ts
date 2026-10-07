@@ -1247,6 +1247,7 @@ class TelegramClient {
     }
 
     let attempt;
+    let lastError: unknown;
     for (attempt = 0; attempt < this._requestRetries; attempt++) {
       sender.addStateToQueue(state);
       try {
@@ -1255,6 +1256,7 @@ class TelegramClient {
         if (isExported) this.releaseExportedSender(sender);
         return result;
       } catch (e: unknown) {
+        lastError = e;
         if (isResearchRequest) {
           state.finished.resolve();
           if (isExported) this.releaseExportedSender(sender);
@@ -1316,7 +1318,9 @@ class TelegramClient {
       state.resetPromise();
     }
     if (isExported) this.releaseExportedSender(sender);
-    throw new Error(`Request was unsuccessful ${attempt} time(s)`);
+    // An RPC error such as a flood wait keeps its code and wait time for the caller
+    if (lastError instanceof RPCError) throw lastError;
+    throw new Error(`Request was unsuccessful ${attempt} time(s)`, { cause: lastError });
   }
 
   async invokeBeacon(request: Api.AnyRequest, dcId?: number) {

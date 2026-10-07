@@ -3,8 +3,8 @@ import { createHash } from 'node:crypto';
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { assertNoSecrets, assertSafeRelative, isSafeSourcePath, PRODUCT, publicRuntimeResources, validateConfiguration,
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { assertNoSecrets, assertSafeRelative, isSafeSourcePath, PRODUCT, publicRuntimeResources, readCommandAcl, validateCommandAcl, validateConfiguration,
   validateGenericPackaging, validateRuntime, validateInstallerPathBudget, validateSourceImports } from './release-policy.mjs';
 import { readBoundedBody, validateArchiveEntry } from './release-runtime-archive.mjs';
 
@@ -193,4 +193,34 @@ test('installer path budget accounts for file NUL and directory margin and rejec
   assert.ok(135 + 1 + budget.directoryChars + 1 <= 260 - 12);
   assert.throws(() => validateInstallerPathBudget({ files: [{ path: `${relative}a` }] }, hook), /budget mismatch/);
   assert.throws(() => validateInstallerPathBudget(manifest, hook.replace('CHARS 135', 'CHARS 139')), /budget mismatch/);
+});
+
+const REPOSITORY_ROOT = fileURLToPath(new URL('..', import.meta.url));
+
+function aclFixture() {
+  return { libRs: 'builder.invoke_handler(tauri::generate_handler![\n  first_command, // комментарий\n  module::second_command,\n  installer::perform_install,\n])',
+    buildRs: 'AppManifest::new().commands(&[\n  "first_command",\n  "second_command",\n  "perform_install",\n])',
+    capabilities: [{ file: 'one.json', config: { permissions: ['allow-first-command', 'core:event:default'] } },
+      { file: 'two.json', config: { permissions: ['custom-second'] } }],
+    permissionToml: '[[permission]]\nidentifier = "custom-second"\ncommands.allow = ["second_command"]\n' };
+}
+
+test('command ACL requires manifest entry and exactly one capability for every registered command', () => {
+  assert.equal(validateCommandAcl(aclFixture()).commands, 3);
+  const cases = [
+    [(x) => { x.buildRs = x.buildRs.replace('"second_command",', ''); }, /absent from the ACL app manifest.*second_command/],
+    [(x) => { x.buildRs = x.buildRs.replace('"perform_install",', '"perform_install", "gone_command",'); }, /not registered: gone_command/],
+    [(x) => { x.capabilities.pop(); }, /second_command must be allowed in exactly one capability, found 0/],
+    [(x) => { x.capabilities[0].config.permissions.push('custom-second'); }, /second_command must be allowed in exactly one capability, found 2/],
+    [(x) => { x.capabilities[1].config.permissions.push('allow-perform-install'); }, /perform_install must stay without a capability/],
+    [(x) => { x.capabilities[1].config.permissions.push('allow-not-a-command'); }, /Unknown permission/],
+  ];
+  for (const [patch, expected] of cases) { const input = aclFixture(); patch(input); assert.throws(() => validateCommandAcl(input), expected); }
+});
+
+test('repository command ACL is consistent and rejects a missing inline save manifest entry', async () => {
+  const acl = await readCommandAcl(REPOSITORY_ROOT);
+  assert.ok(validateCommandAcl(acl).commands >= 49);
+  assert.match(acl.buildRs, /"relay_inline_save_media"/);
+  assert.throws(() => validateCommandAcl({ ...acl, buildRs: acl.buildRs.replace('"relay_inline_save_media",', '') }), /relay_inline_save_media/);
 });

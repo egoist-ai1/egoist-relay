@@ -376,8 +376,16 @@ function scheduleGetDifference() {
   if (seqTimeout) return;
 
   seqTimeout = setTimeout(async () => {
-    await getDifference();
-    seqTimeout = undefined;
+    try {
+      await getDifference();
+    } catch (err) {
+      if (DEBUG) {
+        // eslint-disable-next-line no-console
+        console.error('[UpdateManager] Failed to get difference', err);
+      }
+    } finally {
+      seqTimeout = undefined;
+    }
   }, UPDATE_WAIT_TIMEOUT);
 }
 
@@ -409,6 +417,18 @@ export async function getDifference() {
     isFetching: true,
   });
 
+  try {
+    await requestDifference();
+  } catch (err) {
+    sendApiUpdate({
+      '@type': 'updateFetchingDifference',
+      isFetching: false,
+    });
+    throw err;
+  }
+}
+
+async function requestDifference() {
   const response = await invoke(new GramJs.updates.GetDifference({
     pts: localDb.commonBoxState.pts,
     date: localDb.commonBoxState.date,
@@ -436,7 +456,7 @@ export async function getDifference() {
   applyState(newState);
 
   if (response instanceof GramJs.updates.DifferenceSlice) {
-    getDifference();
+    await getDifference();
     return;
   }
 

@@ -92,6 +92,7 @@ fn main() {
           "multi_social_release",
           "multi_social_restore",
           "relay_inline_resolve_media",
+          "relay_inline_save_media",
           "relay_inline_cancel_media",
           "transcribe_voice",
           "cancel_voice_transcription",

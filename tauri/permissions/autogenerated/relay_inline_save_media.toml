@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-inline-save-media"
+description = "Enables the relay_inline_save_media command without any pre-configured scope."
+commands.allow = ["relay_inline_save_media"]
+
+[[permission]]
+identifier = "deny-relay-inline-save-media"
+description = "Denies the relay_inline_save_media command without any pre-configured scope."
+commands.deny = ["relay_inline_save_media"]

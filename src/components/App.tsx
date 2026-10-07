@@ -121,7 +121,17 @@ type DownloadStatusPayload = {
   success: boolean;
   service?: AppId;
   fileName?: string;
+  error?: string;
 };
+
+function getDownloadNoticeKey({ success, error }: DownloadStatusPayload) {
+  if (success) return 'RelayDownloadSaved';
+  if (error === 'MEDIA_TYPE_BLOCKED') return 'RelayDownloadBlocked';
+  if (error === 'MEDIA_TOO_LARGE' || error === 'MEDIA_RATE_LIMITED' || error === 'MEDIA_QUEUE_FULL') {
+    return 'RelayDownloadLimited';
+  }
+  return 'RelayDownloadFailed';
+}
 
 const App = ({
   authState,
@@ -483,6 +493,13 @@ const App = ({
     const release = subscribeMediaOperations(() => setOperationsSnapshot(getMediaOperationsSnapshot()));
     return release;
   }, []);
+  const hasJournalNotice = Boolean(operationsSnapshot.journalNotice);
+  const wasJournalNoticeShownRef = useRef(false);
+  useEffect(() => {
+    if (!hasJournalNotice || wasJournalNoticeShownRef.current) return;
+    wasJournalNoticeShownRef.current = true;
+    setNotice(lang('RelayOperationJournalRecovered'));
+  }, [hasJournalNotice, lang]);
   useEffect(() => {
     if (!IS_TAURI) return;
     void setMediaOperationsLocked(activeKey !== AppScreens.main);
@@ -692,7 +709,7 @@ const App = ({
       const { listen } = await import('@tauri-apps/api/event');
       const releaseDownload = await listen<DownloadStatusPayload>('download-finished', ({ payload }) => {
         if (!isMounted) return;
-        setNotice(lang(payload.success ? 'RelayDownloadSaved' : 'RelayDownloadFailed'));
+        setNotice(lang(getDownloadNoticeKey(payload)));
       });
       if (!isMounted) releaseDownload();
       else unlistenDownload = releaseDownload;

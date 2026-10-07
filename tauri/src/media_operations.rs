@@ -12,6 +12,8 @@ use tauri::{AppHandle, Emitter, Webview};
 
 const EVENT_NAME: &str = "relay-media-operation";
 const JOURNAL_NAME: &str = "journal-v1.dpapi";
+const QUARANTINE_INFIX: &str = ".corrupt-";
+const MAX_QUARANTINED_JOURNALS: usize = 3;
 const JOURNAL_HEADER: &[u8] = b"ERMO\x01\0\0\0";
 const JOURNAL_ENTROPY: &[u8] = b"EgoistRelay/MediaJournal/v1";
 const MAX_JOURNAL_BYTES: usize = 4 * 1024 * 1024;
@@ -238,6 +240,9 @@ pub(crate) struct MediaOperationsSnapshot {
   pub operations: Vec<MediaOperation>,
   pub is_locked: bool,
   pub epoch: u64,
+  /// Load error code that made the startup move an unreadable journal into quarantine.
+  #[serde(skip_serializing_if = "Option::is_none")]
+  pub journal_notice: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -252,6 +257,7 @@ struct Registry {
   operations: Vec<MediaOperation>,
   is_locked: bool,
   load_error: Option<String>,
+  journal_notice: Option<String>,
   cancelled_downloads: Vec<String>,
   cancel_requested: HashSet<String>,
   progress_emitted_at: HashMap<String, Instant>,
@@ -260,9 +266,16 @@ struct Registry {
 
 impl Registry {
   fn load(directory: PathBuf, now: u64) -> Self {
-    let (mut operations, load_error) = match load_journal(&directory) {
-      Ok(operations) => (operations, None),
-      Err(error) => (Vec::new(), Some(error)),
+    let (mut operations, load_error, journal_notice) = match load_journal(&directory) {
+      Ok(operations) => (operations, None, None),
+      // An unreadable journal must not block every download: keep the file aside and start empty.
+      Err(error) if is_unreadable_journal_error(&error) => {
+        match quarantine_journal(&directory, now) {
+          Ok(()) => (Vec::new(), None, Some(error)),
+          Err(_) => (Vec::new(), Some(error), None),
+        }
+      }
+      Err(error) => (Vec::new(), Some(error), None),
     };
     let recovered = recover_operations(&mut operations, now);
     let retained = prune_operations(&mut operations, now);
@@ -271,6 +284,7 @@ impl Registry {
       operations,
       is_locked: true,
       load_error,
+      journal_notice,
       cancelled_downloads: Vec::new(),
       cancel_requested: HashSet::new(),
       progress_emitted_at: HashMap::new(),
@@ -298,6 +312,7 @@ impl Registry {
       },
       is_locked: self.is_locked,
       epoch: self.epoch,
+      journal_notice: self.journal_notice.clone(),
     })
   }
 
@@ -1761,6 +1776,52 @@ fn load_journal(directory: &Path) -> Result<Vec<MediaOperation>, String> {
   result
 }
 
+fn is_unreadable_journal_error(error: &str) -> bool {
+  matches!(
+    error,
+    "MEDIA_JOURNAL_CORRUPT" | "MEDIA_JOURNAL_DECRYPT_FAILED"
+  )
+}
+
+// Renames the unreadable journal to `journal-v1.dpapi.corrupt-<time>` and keeps the newest copies only.
+fn quarantine_journal(directory: &Path, now: u64) -> Result<(), String> {
+  let source = directory.join(JOURNAL_NAME);
+  // The stamp always grows, so a new copy never reuses the name of an older or pruned one.
+  let stamp = quarantined_journals(directory)
+    .last()
+    .map_or(now, |(newest, _)| now.max(newest.saturating_add(1)));
+  let target = directory.join(format!("{JOURNAL_NAME}{QUARANTINE_INFIX}{stamp}"));
+  if fs::symlink_metadata(&target).is_ok() {
+    return Err("MEDIA_JOURNAL_UNAVAILABLE".into());
+  }
+  fs::rename(&source, &target).map_err(|_| "MEDIA_JOURNAL_UNAVAILABLE")?;
+  let copies = quarantined_journals(directory);
+  let excess = copies.len().saturating_sub(MAX_QUARANTINED_JOURNALS);
+  for (_, path) in copies.into_iter().take(excess) {
+    let _ = fs::remove_file(path);
+  }
+  Ok(())
+}
+
+// Regular quarantined copies ordered from the oldest to the newest.
+fn quarantined_journals(directory: &Path) -> Vec<(u64, PathBuf)> {
+  let Ok(entries) = fs::read_dir(directory) else {
+    return Vec::new();
+  };
+  let prefix = format!("{JOURNAL_NAME}{QUARANTINE_INFIX}");
+  let mut copies: Vec<(u64, PathBuf)> = entries
+    .flatten()
+    .filter_map(|entry| {
+      let name = entry.file_name();
+      let stamp = name.to_str()?.strip_prefix(prefix.as_str())?.parse().ok()?;
+      let metadata = fs::symlink_metadata(entry.path()).ok()?;
+      (metadata.is_file() && !metadata.file_type().is_symlink()).then(|| (stamp, entry.path()))
+    })
+    .collect();
+  copies.sort();
+  copies
+}
+
 fn cleanup_journal_parts(directory: &Path) {
   let Ok(entries) = fs::read_dir(directory) else {
     return;
@@ -2334,8 +2395,9 @@ mod tests {
   #[cfg(windows)]
   fn native_directory() -> PathBuf {
     let root = std::env::var_os("EGOIST_RELAY_TEST_WORK")
+      .or_else(|| std::env::var_os("EGOIST_RELAY_AUDIT_WORK"))
       .map(PathBuf::from)
-      .expect("Native journal tests require the current task EGOIST_RELAY_TEST_WORK");
+      .expect("Native journal tests require EGOIST_RELAY_TEST_WORK or EGOIST_RELAY_AUDIT_WORK");
     assert!(root.is_absolute() && root.is_dir());
     root.join(format!("media-journal-{}", uuid::Uuid::new_v4()))
   }
@@ -2686,22 +2748,52 @@ mod tests {
 
   #[test]
   #[cfg(windows)]
-  fn corrupt_journal_is_preserved_and_blocks_silent_overwrite() {
+  fn corrupt_journal_is_quarantined_and_downloads_keep_working() {
     let directory = native_directory();
     ensure_private_directory(&directory).unwrap();
     let path = directory.join(JOURNAL_NAME);
     let damaged = b"damaged encrypted journal";
     fs::write(&path, damaged).unwrap();
-    let mut registry = Registry::load(directory, NOW);
+    let mut registry = Registry::load(directory.clone(), NOW);
     registry.is_locked = false;
-    assert_eq!(registry.snapshot().unwrap_err(), "MEDIA_JOURNAL_CORRUPT");
-    assert!(
-      registry
-        .register(fixture_input(MediaOperationKind::Save), NOW, false)
-        .is_err()
+    let snapshot = registry.snapshot().unwrap();
+    assert!(snapshot.operations.is_empty());
+    assert_eq!(
+      snapshot.journal_notice.as_deref(),
+      Some("MEDIA_JOURNAL_CORRUPT")
     );
-    assert!(registry.remove(None, NOW).is_err());
-    assert_eq!(fs::read(&path).unwrap(), damaged);
+    assert!(!path.exists());
+    let quarantined = directory.join(format!("{JOURNAL_NAME}{QUARANTINE_INFIX}{NOW}"));
+    assert_eq!(fs::read(&quarantined).unwrap(), damaged);
+    registry
+      .register(fixture_input(MediaOperationKind::Download), NOW, true)
+      .unwrap();
+    let restored = Registry::load(directory, NOW + 1);
+    assert!(restored.journal_notice.is_none());
+    assert_eq!(restored.operations.len(), 1);
+    assert_eq!(fs::read(&quarantined).unwrap(), damaged);
+  }
+
+  #[test]
+  #[cfg(windows)]
+  fn quarantine_keeps_only_the_newest_copies_and_never_overwrites() {
+    let directory = native_directory();
+    ensure_private_directory(&directory).unwrap();
+    for index in 0..(MAX_QUARANTINED_JOURNALS as u64 + 2) {
+      fs::write(directory.join(JOURNAL_NAME), format!("damaged-{index}")).unwrap();
+      quarantine_journal(&directory, NOW).unwrap();
+    }
+    let mut copies: Vec<String> = fs::read_dir(&directory)
+      .unwrap()
+      .flatten()
+      .map(|entry| entry.file_name().to_string_lossy().into_owned())
+      .filter(|name| name.contains(QUARANTINE_INFIX))
+      .collect();
+    copies.sort();
+    assert_eq!(copies.len(), MAX_QUARANTINED_JOURNALS);
+    let newest = fs::read_to_string(directory.join(copies.last().unwrap())).unwrap();
+    assert_eq!(newest, format!("damaged-{}", MAX_QUARANTINED_JOURNALS + 1));
+    assert!(!directory.join(JOURNAL_NAME).exists());
   }
 
   #[test]
@@ -3290,7 +3382,7 @@ mod tests {
 
   #[test]
   #[cfg(windows)]
-  fn dpapi_decryption_failure_preserves_journal_and_recovery_parts() {
+  fn dpapi_decryption_failure_quarantines_journal_and_preserves_recovery_parts() {
     let directory = native_directory();
     persist_journal(
       &directory,
@@ -3304,18 +3396,19 @@ mod tests {
     fs::write(&path, &damaged).unwrap();
     let owned = directory.join(format!("journal-{}.part", uuid::Uuid::new_v4()));
     fs::write(&owned, b"preserve recovery evidence").unwrap();
-    let mut registry = Registry::load(directory, NOW);
+    let mut registry = Registry::load(directory.clone(), NOW);
     registry.is_locked = false;
+    let snapshot = registry.snapshot().unwrap();
     assert_eq!(
-      registry.snapshot().unwrap_err(),
-      "MEDIA_JOURNAL_DECRYPT_FAILED"
+      snapshot.journal_notice.as_deref(),
+      Some("MEDIA_JOURNAL_DECRYPT_FAILED")
     );
-    assert!(
-      registry
-        .register(fixture_input(MediaOperationKind::Save), NOW, false)
-        .is_err()
-    );
-    assert_eq!(fs::read(&path).unwrap(), damaged);
+    assert!(snapshot.operations.is_empty());
+    let quarantined = directory.join(format!("{JOURNAL_NAME}{QUARANTINE_INFIX}{NOW}"));
+    assert_eq!(fs::read(&quarantined).unwrap(), damaged);
     assert!(owned.exists());
+    registry
+      .register(fixture_input(MediaOperationKind::Save), NOW, false)
+      .unwrap();
   }
 }

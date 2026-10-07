@@ -2356,7 +2356,6 @@ export interface LangPair {
   'RelaySwitchTelegram': undefined;
   'RelaySwitchX': undefined;
   'RelayBrand': undefined;
-  'RelayMiniAppLoadFailed': undefined;
   'RelayTelegramTitle': undefined;
   'RelayXTitle': undefined;
   'RelayXLoadingTitle': undefined;
@@ -2525,6 +2524,9 @@ export interface LangPair {
   'RelayOperationUnavailable': undefined;
   'RelayOperationError': undefined;
   'RelayOperationJournalWarning': undefined;
+  'RelayOperationJournalRecovered': undefined;
+  'RelayDownloadBlocked': undefined;
+  'RelayDownloadLimited': undefined;
   'RelayOperationQueuedNotice': undefined;
   'RelayOperationMore': undefined;
   'RelayOperationRecoveryHelp': undefined;
@@ -2534,6 +2536,7 @@ export interface LangPair {
   'RelayThemeVariants': undefined;
   'RelayThemeDark': undefined;
   'RelayThemeLight': undefined;
+  'RelayMiniAppLoadFailed': undefined;
 }
 
 export interface LangPairWithVariables<V = LangVariable> {

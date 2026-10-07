@@ -2391,6 +2391,12 @@
           "markdownDescription": "Enables the relay_inline_resolve_media command without any pre-configured scope."
         },
         {
+          "description": "Enables the relay_inline_save_media command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-inline-save-media",
+          "markdownDescription": "Enables the relay_inline_save_media command without any pre-configured scope."
+        },
+        {
           "description": "Enables the relay_media_download_file_name command without any pre-configured scope.",
           "type": "string",
           "const": "allow-relay-media-download-file-name",
@@ -2689,6 +2695,12 @@
           "type": "string",
           "const": "deny-relay-inline-resolve-media",
           "markdownDescription": "Denies the relay_inline_resolve_media command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_inline_save_media command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-inline-save-media",
+          "markdownDescription": "Denies the relay_inline_save_media command without any pre-configured scope."
         },
         {
           "description": "Denies the relay_media_download_file_name command without any pre-configured scope.",

@@ -5,6 +5,7 @@
   "webviews": ["main"],
   "permissions": [
     "allow-relay-inline-resolve-media",
+    "allow-relay-inline-save-media",
     "allow-relay-inline-cancel-media",
     "allow-transcribe-voice",
     "allow-cancel-voice-transcription"

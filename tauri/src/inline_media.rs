@@ -950,7 +950,7 @@ mod tests {
 
   #[test]
   fn file_workers_are_repeatable_and_reject_replacement_or_unexpected_names() {
-    let Some(work) = std::env::var_os("EGOIST_RELAY_TEST_WORK") else { return; };
+    let Some(work) = std::env::var_os("EGOIST_RELAY_TEST_WORK").or_else(|| std::env::var_os("EGOIST_RELAY_AUDIT_WORK")) else { return; };
     let root = PathBuf::from(work).join(format!("worker-test-{}", uuid::Uuid::new_v4()));
     let directory = OwnedDirectory::create_in(root.clone()).unwrap();
     let path = directory.prepare_worker("inline-media-resolver.mjs", SCRIPT).unwrap();
@@ -978,7 +978,7 @@ mod tests {
   }
 
   fn create_storage_fixture() -> (OwnedDirectory, PathBuf, PathBuf) {
-    let work = std::env::var_os("EGOIST_RELAY_TEST_WORK").expect("Native file tests require EGOIST_RELAY_TEST_WORK");
+    let work = std::env::var_os("EGOIST_RELAY_TEST_WORK").or_else(|| std::env::var_os("EGOIST_RELAY_AUDIT_WORK")).expect("Native file tests require EGOIST_RELAY_TEST_WORK or EGOIST_RELAY_AUDIT_WORK");
     let root = PathBuf::from(work).join(format!("storage-test-{}", uuid::Uuid::new_v4()));
     let source = OwnedDirectory::create_in(root.join("workers")).unwrap();
     let downloads = root.join("downloads");

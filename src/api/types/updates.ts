@@ -386,14 +386,14 @@ export type ApiUpdateMessageSendFailed = {
   '@type': 'updateMessageSendFailed';
   chatId: string;
   localId: number;
-  error: string;
+  error?: string;
 };
 
 export type ApiUpdateScheduledMessageSendFailed = {
   '@type': 'updateScheduledMessageSendFailed';
   chatId: string;
   localId: number;
-  error: string;
+  error?: string;
 };
 
 export type ApiUpdateCommonBoxMessages = {

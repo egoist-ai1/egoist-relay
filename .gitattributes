@@ -23,3 +23,6 @@
 *.jpg binary
 *.png binary
 *.wav binary
+
+# Runtime files are hashed byte-for-byte in scripts/release-runtime-manifest.json: no EOL conversion.
+runtime/** -text

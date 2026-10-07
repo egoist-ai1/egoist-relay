@@ -11,6 +11,19 @@ const PREPARE_TIMEOUT: Duration = Duration::from_secs(120);
 const MAX_PREPARED_DOWNLOADS: usize = 128;
 const MAX_FILE_NAME_UTF16_UNITS: usize = 160;
 const MAX_FILE_COLLISIONS: usize = 9999;
+const MINI_APP_LABEL_PREFIX: &str = "mini-app-";
+const MINI_APP_MAX_FILE_BYTES: u64 = 256 * 1024 * 1024;
+const MINI_APP_MAX_ACTIVE: usize = 3;
+const MINI_APP_MAX_STARTS: usize = 5;
+const MINI_APP_START_WINDOW: Duration = Duration::from_secs(60);
+const MINI_APP_MAX_SOURCES: usize = 64;
+const MINI_APP_NOTICE_INTERVAL: Duration = Duration::from_secs(1);
+// Executable, script and installer types that web content must not drop into the downloads folder.
+const BLOCKED_EXTENSIONS: &[&str] = &[
+  "exe", "msi", "msp", "mst", "bat", "cmd", "ps1", "ps1xml", "psc1", "psd1", "psm1", "js", "jse", "vbs", "vbe", "wsf", "wsh",
+  "ws", "wsc", "sct", "lnk", "url", "scr", "hta", "jar", "jnlp", "dll", "reg", "cpl", "com", "pif", "inf", "scf", "msc",
+  "application", "gadget", "appx", "msix", "appinstaller", "chm",
+];
 static CANCELLATION_LISTENER: Once = Once::new();
 static EXPIRY_WORKER: Once = Once::new();
 static EXPIRY_CHANGED: Condvar = Condvar::new();
@@ -57,12 +70,57 @@ struct Transfer {
   partial: PathBuf,
   directory: crate::inline_media::OwnedDirectory,
   cancelled: bool,
+  // Started by untrusted page content (a Mini App or its popup) instead of the main renderer.
+  restricted: bool,
+  blocked: Option<&'static str>,
 }
 
 #[derive(Default)]
 struct TransferBook {
   prepared: PreparedQueue,
   active: HashMap<String, Transfer>,
+  restricted_starts: HashMap<String, VecDeque<Instant>>,
+  last_rejection_notice: Option<Instant>,
+}
+
+impl TransferBook {
+  // Admits a download requested by untrusted page content: type denylist, queue size and request rate per source.
+  fn admit_restricted(&mut self, source: &str, file_name: &str, now: Instant) -> Result<(), &'static str> {
+    if is_blocked_file_name(file_name) { return Err("MEDIA_TYPE_BLOCKED"); }
+    if self.active.values().filter(|entry| entry.restricted).count() >= MINI_APP_MAX_ACTIVE { return Err("MEDIA_QUEUE_FULL"); }
+    self.restricted_starts.retain(|_, starts| {
+      while starts.front().is_some_and(|started| now.saturating_duration_since(*started) >= MINI_APP_START_WINDOW) { starts.pop_front(); }
+      !starts.is_empty()
+    });
+    if !self.restricted_starts.contains_key(source) && self.restricted_starts.len() >= MINI_APP_MAX_SOURCES { return Err("MEDIA_RATE_LIMITED"); }
+    let starts = self.restricted_starts.entry(source.to_string()).or_default();
+    if starts.len() >= MINI_APP_MAX_STARTS { return Err("MEDIA_RATE_LIMITED"); }
+    starts.push_back(now);
+    Ok(())
+  }
+
+  fn should_notify_rejection(&mut self, now: Instant) -> bool {
+    if self.last_rejection_notice.is_some_and(|last| now.saturating_duration_since(last) < MINI_APP_NOTICE_INTERVAL) { return false; }
+    self.last_rejection_notice = Some(now);
+    true
+  }
+}
+
+fn is_blocked_file_name(file_name: &str) -> bool {
+  // Every dot-separated part after the first is checked, so "invoice.pdf.exe" and "tool.exe.txt" are both refused.
+  file_name.split('.').skip(1).any(|part| {
+    let part = part.trim().to_ascii_lowercase();
+    BLOCKED_EXTENSIONS.contains(&part.as_str())
+  })
+}
+
+fn exceeds_restricted_limit(loaded: i64, total: i64) -> bool {
+  let limit = MINI_APP_MAX_FILE_BYTES as i64;
+  loaded > limit || total > limit
+}
+
+fn is_restricted_source(service: &str, label: &str) -> bool {
+  service == "telegram" && label.starts_with(MINI_APP_LABEL_PREFIX)
 }
 
 pub(super) fn prepare_download(app: &AppHandle, url: String, file_name: String) -> Result<String, String> {
@@ -134,6 +192,7 @@ pub(super) fn request(webview: &Webview, service: &str, url: &Url, destination: 
     let mut transfers = TRANSFERS.lock().map_err(|_| "MEDIA_UNAVAILABLE")?;
     if service == "telegram" { transfers.prepared.take(url.as_str(), &file_name) } else { None }
   };
+  let is_restricted = prepared.is_none() && is_restricted_source(service, webview.label());
   let id = if let Some(prepared) = prepared {
     if prepared.cancelled || crate::media_operations::is_cancel_requested(&prepared.id) {
       fail_download(webview.app_handle(), &prepared.id, service, url.as_str(), &file_name, "MEDIA_CANCELLED");
@@ -141,6 +200,18 @@ pub(super) fn request(webview: &Webview, service: &str, url: &Url, destination: 
     }
     prepared.id
   } else {
+    if is_restricted {
+      let source = restricted_source_key(webview);
+      let (admitted, should_notify) = {
+        let mut transfers = TRANSFERS.lock().map_err(|_| "MEDIA_UNAVAILABLE")?;
+        let admitted = transfers.admit_restricted(&source, &file_name, Instant::now());
+        (admitted, admitted.is_err() && transfers.should_notify_rejection(Instant::now()))
+      };
+      if let Err(reason) = admitted {
+        if should_notify { notify_rejected(webview.app_handle(), service, url.as_str(), &file_name, reason); }
+        return Err(reason.into());
+      }
+    }
     let page = webview.url().ok().and_then(|page| canonical_source(service, page.as_str()));
     crate::media_operations::register_download(webview.app_handle(), service, page.as_deref(), &file_name)?
   };
@@ -168,13 +239,25 @@ pub(super) fn request(webview: &Webview, service: &str, url: &Url, destination: 
       };
       transfers.active.insert(id.clone(), Transfer {
         id: id.clone(), webview_label: webview.label().into(), service: service.into(), url: url.to_string(),
-        file_name, final_path, partial: partial.clone(), directory, cancelled: false,
+        file_name, final_path, partial: partial.clone(), directory, cancelled: false, restricted: is_restricted, blocked: None,
       });
       *destination = partial;
       Ok(id.clone())
     },
     |id, error| fail_download(webview.app_handle(), id, service, url.as_str(), &failure_file_name, error),
   )
+}
+
+fn restricted_source_key(webview: &Webview) -> String {
+  webview.url().ok().map(|page| page.origin().ascii_serialization()).filter(|origin| origin != "null")
+    .unwrap_or_else(|| webview.label().to_string())
+}
+
+// Page content never gets an operation record for a refused file; the main window only receives a short notice.
+fn notify_rejected(app: &AppHandle, service: &str, url: &str, file_name: &str, error: &str) {
+  let _ = app.emit_to("main", "download-finished", serde_json::json!({
+    "service": service, "url": url, "fileName": file_name, "path": serde_json::Value::Null, "success": false, "error": error,
+  }));
 }
 
 fn request_owned_download(
@@ -195,7 +278,9 @@ pub(super) fn finish(webview: &Webview, service: &str, url: &Url, path: Option<&
     let mut transfers = TRANSFERS.lock().ok()?;
     take_matching_transfer(&mut transfers, webview.label(), service, url.as_str(), path)?
   };
-  let result = if transfer.cancelled || crate::media_operations::is_cancel_requested(&transfer.id) {
+  let result = if let Some(reason) = transfer.blocked {
+    Err(reason.into())
+  } else if transfer.cancelled || crate::media_operations::is_cancel_requested(&transfer.id) {
     Err("MEDIA_CANCELLED".into())
   } else if success {
     completed_size(&transfer.id).and_then(|expected_size| publish_transfer(&transfer, expected_size))
@@ -444,7 +529,8 @@ fn install_windows(webview: &Webview, service: &'static str) -> Result<(), Strin
             (entry.webview_label == download_owner.label() && same_path(&entry.partial, &path)).then(|| id.clone())
           }));
           if let Some(id) = id {
-            if let Err(error) = observe_download(&download_owner, service, &id, operation.clone()) {
+            let is_restricted = TRANSFERS.lock().ok().is_some_and(|transfers| transfers.active.get(&id).is_some_and(|entry| entry.restricted));
+            if let Err(error) = observe_download(&download_owner, service, &id, operation.clone(), is_restricted) {
               let _ = operation.Cancel();
               report_interrupted(&download_owner, service, &id);
               log::warn!("[Media] Native download observer unavailable: {error}");
@@ -502,14 +588,14 @@ unsafe fn key_down(key: i32) -> bool {
 }
 
 #[cfg(windows)]
-unsafe fn observe_download(owner: &Webview, service: &'static str, id: &str, operation: ICoreWebView2DownloadOperation) -> windows_core::Result<()> {
+unsafe fn observe_download(owner: &Webview, service: &'static str, id: &str, operation: ICoreWebView2DownloadOperation, is_restricted: bool) -> windows_core::Result<()> {
   use webview2_com::{BytesReceivedChangedEventHandler, StateChangedEventHandler};
   let progress_app = owner.app_handle().clone();
   let progress_id = id.to_string();
   let mut bytes_token = 0;
   unsafe {
     operation.add_BytesReceivedChanged(&BytesReceivedChangedEventHandler::create(Box::new(move |operation, _| {
-      if let Some(operation) = operation { update_progress(&progress_app, &progress_id, &operation); }
+      if let Some(operation) = operation { update_progress(&progress_app, &progress_id, &operation, is_restricted); }
       Ok(())
     })), &mut bytes_token)?;
   }
@@ -534,7 +620,7 @@ unsafe fn observe_download(owner: &Webview, service: &'static str, id: &str, ope
       return Err(error);
     }
   }
-  update_progress(owner.app_handle(), id, &operation);
+  update_progress(owner.app_handle(), id, &operation, is_restricted);
   DOWNLOAD_OBSERVERS.with(|observers| observers.borrow_mut().insert(id.to_string(), DownloadObserver { operation: operation.clone(), bytes_token, state_token }));
   let _ = owner.app_handle().emit_to("main", "relay-media-download-started", serde_json::json!({ "operationId": id }));
   drain_cancellations(owner.app_handle());
@@ -544,12 +630,19 @@ unsafe fn observe_download(owner: &Webview, service: &'static str, id: &str, ope
 }
 
 #[cfg(windows)]
-fn update_progress(app: &AppHandle, id: &str, operation: &ICoreWebView2DownloadOperation) {
+fn update_progress(app: &AppHandle, id: &str, operation: &ICoreWebView2DownloadOperation, is_restricted: bool) {
   let mut loaded = 0;
   let mut total = 0;
   unsafe {
     if operation.BytesReceived(&mut loaded).is_err() { return; }
     if operation.TotalBytesToReceive(&mut total).is_err() { total = -1; }
+    if is_restricted && exceeds_restricted_limit(loaded, total) {
+      if let Ok(mut transfers) = TRANSFERS.lock() {
+        if let Some(entry) = transfers.active.get_mut(id) { entry.blocked = Some("MEDIA_TOO_LARGE"); }
+      }
+      let _ = operation.Cancel();
+      return;
+    }
     let (loaded, total) = download_progress(loaded, total);
     let _ = crate::media_operations::update_download_progress(app, id, loaded, total);
   }
@@ -700,6 +793,72 @@ mod tests {
     assert!(!is_ctrl_j(0x4a, true, false, false, false));
   }
 
+  #[test]
+  fn dangerous_and_double_extensions_are_refused_for_page_content() {
+    for name in ["setup.exe", "Счёт.pdf.exe", "run.BAT", "a.ps1", "x.js", "link.lnk", "note.hta", "driver.dll", "k.reg", "p.pif", "m.msi",
+      "report.exe.txt", ".exe", "archive.jar", "s.vbs", "s.wsf", "c.cpl", "a.scr", "s.com", "a.cmd", "a.psm1", "a.jse", "a.vbe", "a.wsh"] {
+      assert!(is_blocked_file_name(name), "{name} must be blocked");
+    }
+    for name in ["photo.png", "document.pdf", "archive.zip", "video.mp4", "README", "notes.txt", "jsonl", "exe", "Счёт.pdf"] {
+      assert!(!is_blocked_file_name(name), "{name} must be allowed");
+    }
+  }
+
+  #[test]
+  fn restricted_downloads_are_limited_by_type_and_rate_per_source() {
+    let now = Instant::now();
+    let mut book = TransferBook::default();
+    assert_eq!(book.admit_restricted("https://app.example", "run.exe", now), Err("MEDIA_TYPE_BLOCKED"));
+    assert!(book.restricted_starts.is_empty());
+    for index in 0..MINI_APP_MAX_STARTS {
+      assert_eq!(book.admit_restricted("https://app.example", "photo.png", now + Duration::from_secs(index as u64)), Ok(()));
+    }
+    let blocked_at = now + Duration::from_secs(10);
+    assert_eq!(book.admit_restricted("https://app.example", "photo.png", blocked_at), Err("MEDIA_RATE_LIMITED"));
+    assert_eq!(book.admit_restricted("https://other.example", "photo.png", blocked_at), Ok(()));
+    // The window slides: the oldest request has expired after a minute.
+    assert_eq!(book.admit_restricted("https://app.example", "photo.png", now + MINI_APP_START_WINDOW), Ok(()));
+    assert_eq!(book.admit_restricted("https://app.example", "photo.png", now + MINI_APP_START_WINDOW), Err("MEDIA_RATE_LIMITED"));
+  }
+
+  #[test]
+  fn restricted_queue_and_source_table_are_bounded() {
+    let now = Instant::now();
+    let downloads = TestDownloads::create();
+    let mut book = TransferBook::default();
+    for _ in 0..MINI_APP_MAX_ACTIVE {
+      let mut transfer = downloads.transfer("file.bin");
+      transfer.restricted = true;
+      book.active.insert(transfer.id.clone(), transfer);
+    }
+    let trusted = downloads.transfer("main.bin");
+    book.active.insert(trusted.id.clone(), trusted);
+    assert_eq!(book.admit_restricted("https://app.example", "file.bin", now), Err("MEDIA_QUEUE_FULL"));
+    for (_, transfer) in book.active.drain() { transfer.directory.cleanup().unwrap(); }
+    for index in 0..MINI_APP_MAX_SOURCES {
+      assert_eq!(book.admit_restricted(&format!("https://source-{index}.example"), "file.bin", now), Ok(()));
+    }
+    assert_eq!(book.admit_restricted("https://one-more.example", "file.bin", now), Err("MEDIA_RATE_LIMITED"));
+  }
+
+  #[test]
+  fn rejection_notices_are_throttled_and_size_limit_uses_received_or_declared_bytes() {
+    let now = Instant::now();
+    let mut book = TransferBook::default();
+    assert!(book.should_notify_rejection(now));
+    assert!(!book.should_notify_rejection(now + Duration::from_millis(10)));
+    assert!(book.should_notify_rejection(now + MINI_APP_NOTICE_INTERVAL));
+    let limit = MINI_APP_MAX_FILE_BYTES as i64;
+    assert!(!exceeds_restricted_limit(limit, limit));
+    assert!(exceeds_restricted_limit(limit + 1, -1));
+    assert!(exceeds_restricted_limit(0, limit + 1));
+    assert!(!exceeds_restricted_limit(10, -1));
+    assert!(is_restricted_source("telegram", "mini-app-abc"));
+    assert!(is_restricted_source("telegram", "mini-app-popup-abc"));
+    assert!(!is_restricted_source("telegram", "main"));
+    assert!(!is_restricted_source("x", "mini-app-abc"));
+  }
+
   struct TestDownloads(PathBuf);
 
   impl TestDownloads {
@@ -718,6 +877,7 @@ mod tests {
       Transfer {
         id: uuid::Uuid::new_v4().to_string(), webview_label: "test-main".into(), service: "telegram".into(),
         url: "blob:test".into(), file_name: file_name.into(), final_path, partial, directory, cancelled: false,
+        restricted: false, blocked: None,
       }
     }
   }

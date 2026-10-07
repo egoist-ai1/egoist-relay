@@ -19,3 +19,6 @@ scratch/
 whisper-env.zip
 runtime/*.exe
 runtime/media/*.exe
+runtime/**/*.exe
+runtime/**/*.dll
+runtime/**/*.bin
