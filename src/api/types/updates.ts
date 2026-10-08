@@ -440,6 +440,7 @@ export type ApiUpdateDeleteMessages = {
   '@type': 'deleteMessages';
   ids: number[];
   chatId?: string;
+  isDeletedByMe?: boolean;
 };
 
 export type ApiUpdateDeleteScheduledMessages = {

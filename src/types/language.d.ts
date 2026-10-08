@@ -2537,6 +2537,23 @@ export interface LangPair {
   'RelayThemeDark': undefined;
   'RelayThemeLight': undefined;
   'RelayMiniAppLoadFailed': undefined;
+  'RelaySessionLoggedIn': undefined;
+  'RelaySessionLastActive': undefined;
+  'RelaySessionLoginUnavailable': undefined;
+  'RelaySessionLoginUnavailableLine': undefined;
+  'RelayDeletedMessage': undefined;
+  'RelayDeletedMessageNoCopy': undefined;
+  'RelayDeletedMessageUnknownSender': undefined;
+  'RelayDeletedMessageMark': undefined;
+  'RelayDeletedMessagesTitle': undefined;
+  'RelayKeepDeletedMessages': undefined;
+  'RelayKeepDeletedMessagesHint': undefined;
+  'RelayDeletedMessagesRetention': undefined;
+  'RelayDeletedMessagesLimit': undefined;
+  'RelayClearDeletedMessages': undefined;
+  'RelayClearDeletedMessagesTitle': undefined;
+  'RelayClearDeletedMessagesText': undefined;
+  'RelayClearDeletedMessagesConfirm': undefined;
 }
 
 export interface LangPairWithVariables<V = LangVariable> {
@@ -4309,6 +4326,21 @@ export interface LangPairWithVariables<V = LangVariable> {
     'total': V;
   };
   'RelayReaderSearchMatches': {
+    'count': V;
+  };
+  'RelaySessionCurrentLogin': {
+    'time': V;
+  };
+  'RelaySessionLoginLine': {
+    'time': V;
+  };
+  'RelayDeletedMessageSent': {
+    'time': V;
+  };
+  'RelayDeletedMessagesDaysOption': {
+    'count': V;
+  };
+  'RelayDeletedMessagesMegabytesOption': {
     'count': V;
   };
 }

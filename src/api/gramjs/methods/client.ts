@@ -442,8 +442,10 @@ export async function downloadMedia(
   }
 }
 
-export function uploadFile(file: File, onProgress?: ApiOnProgress) {
-  return client.uploadFile({ file, onProgress, workers: UPLOAD_WORKERS });
+export function uploadFile(file: File, onProgress?: ApiOnProgress, resumeKey?: string) {
+  return client.uploadFile({
+    file, onProgress, workers: UPLOAD_WORKERS, resumeKey,
+  });
 }
 
 export function updateTwoFaSettings(params: TwoFaParams) {

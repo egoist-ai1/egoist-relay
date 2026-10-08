@@ -44,6 +44,7 @@ import useScrollHooks from './hooks/useScrollHooks';
 import Icon from '../common/icons/Icon';
 import MiniTable, { type TableEntry } from '../common/MiniTable';
 import ActionMessage from './message/ActionMessage';
+import DeletedMessage from './message/DeletedMessage';
 import Message from './message/Message';
 import SenderGroupContainer from './message/SenderGroupContainer';
 import SponsoredMessage from './message/SponsoredMessage';
@@ -390,6 +391,10 @@ const MessageListContent = ({
           const shouldShowGuestAvatar = isPrivate && !withUsers && Boolean(message.guestChatViaId);
           const isJustAdded = addedMessageIds?.includes(message.id)
             || Boolean(album?.messages.some(({ id }) => addedMessageIds?.includes(id)));
+
+          if (message.deletedAt) {
+            return [<DeletedMessage key={key} message={message} isLastInList={position.isLastInList} />];
+          }
 
           return compact([
             message.id === memoUnreadDividerBeforeIdRef.current && unreadDivider,

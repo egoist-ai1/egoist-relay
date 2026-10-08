@@ -1326,7 +1326,8 @@ async function uploadMedia(message: ApiMessage, attachment: ApiAttachment, onPro
 
   const fetchAndUpload = async (url: string, progressCallback?: (progress: number) => void) => {
     const file = await fetchFile(url, filename);
-    return uploadFile(file, progressCallback);
+    // blobUrl вложения стабилен между повторами отправки: продолжаем с уже загруженных частей
+    return uploadFile(file, progressCallback, progressCallback ? url : undefined);
   };
 
   const isVideo = SUPPORTED_VIDEO_CONTENT_TYPES.has(mimeType);
@@ -1450,6 +1451,7 @@ export async function deleteMessages({
     '@type': 'deleteMessages',
     ids: messageIds,
     ...(isChannel && { chatId: chat.id }),
+    isDeletedByMe: true,
   });
 }
 

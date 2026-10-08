@@ -35,5 +35,8 @@ export interface SharedSettings {
   shouldCollectDebugLogs?: boolean;
   shouldDebugExportedSenders?: boolean;
   shouldWarnAboutFiles?: boolean;
+  shouldKeepDeletedMessages: boolean;
+  deletedMessagesRetentionDays: number;
+  deletedMessagesMaxMegabytes: number;
   shouldSkipBrowserCloseConfirmation: boolean;
 }
