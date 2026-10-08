@@ -35,7 +35,7 @@ export default defineConfig(
   {
     name: 'teact-config',
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
-    ignores: ['scripts/**'],
+    ignores: ['scripts/**', 'installer/**'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommendedTypeChecked,

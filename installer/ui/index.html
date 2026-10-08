@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Sennit Setup</title>
+<style>
+/* Sennit Setup · Egoist DS, режим Lagom. Значения из Egoist Design System/tokens/tokens.json. */
+@font-face{font-family:"Onest";font-weight:100 900;font-style:normal;font-display:block;src:url("fonts/onest-cyrillic-wght-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Onest";font-weight:100 900;font-style:normal;font-display:block;src:url("fonts/onest-latin-wght-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Unbounded";font-weight:200 900;font-style:normal;font-display:block;src:url("fonts/unbounded-cyrillic.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Unbounded";font-weight:200 900;font-style:normal;font-display:block;src:url("fonts/unbounded-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-weight:100 800;font-style:normal;font-display:block;src:url("fonts/jetbrains-mono-cyrillic-wght-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"JetBrains Mono";font-weight:100 800;font-style:normal;font-display:block;src:url("fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  /* светлая тема — базовая палитра, тёмная переопределяет те же роли */
+  --bg:#F5F5F2; --s1:#FFFFFF; --s2:#EDEBE6; --s3:#D6D5D0;
+  --line:#D6D5D0; --line-strong:#B5B3AD;
+  --text:#0A0A0B; --soft:#26262A; --muted:#646460; --faint:#8C8A85;
+  --inv-bg:#0E0E0F; --inv-text:#EDEBE6;
+  --danger:#B3261E; --success:#1E7A3E;
+  --grid-ink:#B5B3AD; --grid-label:#646460;
+  --font-text:"Onest","Segoe UI",system-ui,sans-serif;
+  --font-display:"Unbounded","Segoe UI",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono","Cascadia Mono",Consolas,ui-monospace,monospace;
+  --ease-standard:cubic-bezier(.2,.7,.2,1); --ease-spring:cubic-bezier(.34,1.56,.64,1); --ease-expo:cubic-bezier(.16,1,.3,1);
+  --dur-fast:160ms; --dur-base:280ms;
+  --r-sm:6px; --r-md:12px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E0E0F; --s1:#141416; --s2:#1C1C1E; --s3:#26262A;
+    --line:#26262A; --line-strong:#3A3A3D;
+    --text:#EDEBE6; --soft:#D6D5D0; --muted:#8C8A85; --faint:#646460;
+    --inv-bg:#EDEBE6; --inv-text:#0E0E0F;
+    --danger:#FF5A4E; --success:#6FD08C;
+    --grid-ink:#3A3A3D; --grid-label:#8C8A85;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E0E0F; --s1:#141416; --s2:#1C1C1E; --s3:#26262A;
+  --line:#26262A; --line-strong:#3A3A3D;
+  --text:#EDEBE6; --soft:#D6D5D0; --muted:#8C8A85; --faint:#646460;
+  --inv-bg:#EDEBE6; --inv-text:#0E0E0F;
+  --danger:#FF5A4E; --success:#6FD08C;
+  --grid-ink:#3A3A3D; --grid-label:#8C8A85;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);
+  font:400 15px/1.5 var(--font-text);-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;cursor:default}
+img{display:block;-webkit-user-drag:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:default}
+.for-dark{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .for-light{display:none}:root:not([data-theme="light"]) .for-dark{display:block}}
+:root[data-theme="dark"] .for-light{display:none}
+:root[data-theme="dark"] .for-dark{display:block}
+
+.win{position:fixed;inset:0;display:grid;grid-template-rows:44px 1fr 40px;background:var(--bg)}
+
+/* верхняя полоса: перетаскивание, свернуть, закрыть */
+.bar{display:flex;align-items:center;justify-content:space-between;padding-left:20px}
+.bar-id{display:flex;align-items:center;gap:10px;color:var(--muted);font-weight:500;font-size:13px}
+.bar-id img{width:16px;height:16px}
+.bar-btns{display:flex;height:100%}
+.bar-btns button{width:46px;height:100%;display:grid;place-items:center;color:var(--muted);transition:background var(--dur-fast) var(--ease-standard),color var(--dur-fast)}
+.bar-btns button:hover{background:var(--s2);color:var(--text)}
+.kb .bar-btns button:focus-visible{outline:2px solid var(--text);outline-offset:-4px;border-radius:var(--r-sm)}
+.bar-btns svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* поле кадра: кресты приводки по углам и индекс шага (Egoist Grid, Lagom: статично) */
+.field{position:relative;overflow:hidden}
+.cross{position:absolute;width:12px;height:12px;pointer-events:none}
+.cross::before,.cross::after{content:"";position:absolute;background:var(--grid-ink)}
+.cross::before{left:0;right:0;top:50%;height:1px;transform:translateY(-.5px)}
+.cross::after{top:0;bottom:0;left:50%;width:1px;transform:translateX(-.5px)}
+.cross.tl{left:10px;top:10px}.cross.tr{right:10px;top:10px}.cross.bl{left:10px;bottom:10px}.cross.br{right:10px;bottom:10px}
+.index{position:absolute;right:36px;top:10px;height:12px;display:flex;align-items:center;font:500 11px/1 var(--font-mono);letter-spacing:.08em;color:var(--grid-label);text-transform:uppercase;font-variant-numeric:tabular-nums}
+
+.screen{position:absolute;inset:0;padding:36px 44px 30px;display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transform:translateY(10px);pointer-events:none;
+  transition:opacity var(--dur-base) var(--ease-expo),transform 600ms var(--ease-expo),visibility 0s linear var(--dur-base)}
+.screen.on{opacity:1;visibility:visible;transform:none;pointer-events:auto;transition-delay:0s}
+
+h1{font:400 28px/1.08 var(--font-display);letter-spacing:-.02em;text-wrap:balance;color:var(--text)}
+h1.sm{font-size:23px}
+.lead{color:var(--soft);max-width:36ch;text-wrap:pretty}
+.muted{color:var(--muted)}
+
+/* приветствие */
+.lockup{display:flex;align-items:flex-end;gap:14px;margin-bottom:22px;height:38px}
+.lockup .mk{width:38px;height:38px}
+.lockup .wm{height:24px;width:auto;margin-bottom:7px}
+.lockup .by{font:500 13px/1 var(--font-text);color:var(--muted);margin-bottom:8px;margin-left:2px}
+.cols{display:grid;grid-template-columns:1fr 252px;gap:44px;flex:1;min-height:0}
+.cols h1{margin-bottom:12px}
+.facts{align-self:end;border-top:1px solid var(--line)}
+.fact{display:grid;grid-template-columns:70px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.fact[hidden]{display:none}
+.fact dt{font-size:12px;font-weight:500;color:var(--muted)}
+.fact dd{font:400 12px/1.45 var(--font-mono);color:var(--text);word-break:break-all;font-variant-numeric:tabular-nums}
+.fact dd.plain{font-family:var(--font-text);font-size:13px;word-break:normal}
+.foot{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-top:20px}
+.opts{display:flex;flex-direction:column;gap:7px;min-width:0}
+.check{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text);cursor:default}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.box{width:18px;height:18px;border-radius:var(--r-sm);border:1.5px solid var(--line-strong);display:grid;place-items:center;flex:none;transition:background var(--dur-fast) var(--ease-standard),border-color var(--dur-fast),transform var(--dur-base) var(--ease-spring)}
+.box svg{width:12px;height:12px;stroke:var(--inv-text);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.6);transition:opacity var(--dur-fast),transform var(--dur-base) var(--ease-spring)}
+.check input:checked+.box{background:var(--inv-bg);border-color:var(--inv-bg)}
+.check input:checked+.box svg{opacity:1;transform:none}
+.check:active .box{transform:scale(.9)}
+.kb .check input:focus-visible+.box{outline:2px solid var(--text);outline-offset:2px}
+.legal{font-size:12.5px;color:var(--muted)}
+.link{color:var(--text);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong);cursor:pointer}
+.link:hover{text-decoration-color:var(--text)}
+.kb .link:focus-visible{outline:2px solid var(--text);outline-offset:2px;border-radius:2px}
+.btns{display:flex;gap:10px;flex:none}
+
+.btn{height:44px;padding:0 22px;border-radius:var(--r-md);font-weight:500;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;
+  background:var(--s2);color:var(--text);transition:background var(--dur-fast) var(--ease-standard),transform var(--dur-base) var(--ease-spring),opacity var(--dur-fast)}
+.btn:hover{background:var(--s3)}
+.btn:active{transform:scale(.97)}
+.kb .btn:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.btn.primary{background:var(--inv-bg);color:var(--inv-text)}
+.btn.primary:hover{opacity:.9;background:var(--inv-bg)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.ghost:hover{background:var(--s2);color:var(--text)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.btn[hidden]{display:none}
+
+/* прогресс */
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.pct{font:300 64px/.9 var(--font-text);font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--text);display:flex;align-items:baseline}
+.pct small{font-size:24px;margin-left:3px;color:var(--muted);font-weight:400;letter-spacing:0}
+.track{position:relative;height:6px;border-radius:3px;background:var(--s3);overflow:hidden;margin:22px 0 14px}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;background:var(--inv-bg);transition:width 180ms linear}
+.track.wait .fill{width:28%!important;animation:slide 1.6s var(--ease-standard) infinite}
+@keyframes slide{0%{transform:translateX(-110%)}100%{transform:translateX(360%)}}
+.now{display:flex;align-items:baseline;justify-content:space-between;gap:16px;min-height:24px}
+.now b{font-weight:500;font-size:16px;white-space:nowrap}
+.now span{font:400 12px/1.4 var(--font-mono);color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.desc{font-size:13px;color:var(--muted);margin-top:2px;min-height:20px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
+.step{border-top:2px solid var(--line);padding-top:9px;font:500 11px/1.2 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--faint);transition:color var(--dur-base),border-color var(--dur-base)}
+.step.now-s{color:var(--text);border-top-color:var(--inv-bg)}
+.step.past{color:var(--muted);border-top-color:var(--muted)}
+.step i{font-style:normal;margin-right:6px}
+.grow{flex:1}
+.hint{font-size:13px;color:var(--muted);max-width:40ch}
+.row-end{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+
+/* ожидание закрытия приложения */
+.dots{display:inline-flex;gap:5px;margin-top:22px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:blink 1.2s var(--ease-standard) infinite}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.25}40%{opacity:1}}
+
+/* ошибка */
+.tag{display:inline-flex;align-items:center;gap:8px;font:500 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--danger);margin-bottom:16px}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--danger)}
+.note{margin-top:16px;padding:12px 16px;border-radius:var(--r-md);background:var(--s1);border:1px solid var(--line);font-size:14px;color:var(--soft);max-width:60ch}
+.note[hidden]{display:none}
+
+/* готово */
+.okmark{width:44px;height:44px;border-radius:50%;background:var(--inv-bg);display:grid;place-items:center;margin-bottom:20px}
+.okmark svg{width:22px;height:22px;stroke:var(--inv-text);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.okmark svg path{stroke-dasharray:24;stroke-dashoffset:24}
+.screen.on .okmark svg path{animation:draw 600ms var(--ease-expo) 120ms forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* лицензия */
+.lic{flex:1;min-height:0;overflow:auto;margin:14px 0 16px;padding:14px 16px;border-radius:var(--r-md);background:var(--s1);border:1px solid var(--line);
+  font:400 11.5px/1.55 var(--font-mono);color:var(--soft);white-space:pre-wrap;user-select:text;-webkit-user-select:text}
+.lic::-webkit-scrollbar{width:10px}.lic::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:5px;border:3px solid var(--s1)}
+
+/* статус-бар */
+.status{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px 0 44px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.status .meter{position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--inv-bg);transition:width 180ms linear}
+.st-l{display:flex;align-items:center;gap:10px;min-width:0}
+.st-l span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--faint);flex:none;transition:background var(--dur-base)}
+.dot.work{background:var(--text);animation:pulse 1.4s var(--ease-standard) infinite}
+.dot.ok{background:var(--success)}.dot.bad{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.st-r{font:500 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--grid-label);white-space:nowrap;font-variant-numeric:tabular-nums}
+.flash{color:var(--text)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+  .track.wait .fill{animation:none;transform:none}
+  .dots i{animation:none;opacity:.7}
+  .dot.work{animation:none}
+  .okmark svg path{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+<div class="win" id="win">
+
+  <header class="bar" id="bar">
+    <div class="bar-id">
+      <img class="for-light" src="mark-light.svg" alt=""><img class="for-dark" src="mark.svg" alt="">
+      <span>Sennit Setup</span>
+    </div>
+    <div class="bar-btns">
+      <button id="btn-min" type="button" aria-label="Свернуть" title="Свернуть"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button id="btn-close" type="button" aria-label="Закрыть" title="Закрыть"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </header>
+
+  <main class="field">
+    <i class="cross tl" aria-hidden="true"></i><i class="cross tr" aria-hidden="true"></i><i class="cross bl" aria-hidden="true"></i><i class="cross br" aria-hidden="true"></i>
+    <div class="index" id="index" aria-hidden="true">01/04</div>
+
+    <!-- 01 приветствие -->
+    <section class="screen on" id="s-welcome" aria-labelledby="w-title">
+      <div class="lockup">
+        <img class="mk for-light" src="mark-light.svg" alt=""><img class="mk for-dark" src="mark.svg" alt="">
+        <img class="wm for-light" src="wordmark-light.svg" alt="Sennit"><img class="wm for-dark" src="wordmark.svg" alt="Sennit">
+        <span class="by">by Egoist</span>
+      </div>
+      <div class="cols">
+        <div>
+          <h1 id="w-title">Установка Sennit</h1>
+          <p class="lead" id="w-lead">Локальный хаб ваших мессенджеров и соцсетей.</p>
+        </div>
+        <dl class="facts">
+          <div class="fact"><dt>Версия</dt><dd id="f-version">1.7.1</dd></div>
+          <div class="fact" id="f-existing-row" hidden><dt>Сейчас</dt><dd id="f-existing">—</dd></div>
+          <div class="fact"><dt>Папка</dt><dd id="f-dir">—</dd></div>
+          <div class="fact"><dt>Размер</dt><dd class="plain" id="f-size">—</dd></div>
+        </dl>
+      </div>
+      <div class="foot">
+        <div class="opts">
+          <label class="check"><input type="checkbox" id="opt-launch" checked><span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Запустить после установки</label>
+          <p class="legal">Устанавливая, вы принимаете <a class="link" id="open-license" tabindex="0" role="button">лицензию GPL v3</a>.</p>
+        </div>
+        <div class="btns">
+          <button class="btn" id="w-close" type="button">Закрыть</button>
+          <button class="btn primary" id="w-install" type="button">Установить</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02–03 процесс -->
+    <section class="screen" id="s-progress" aria-labelledby="p-title">
+      <div class="ph">
+        <h1 id="p-title">Установка Sennit</h1>
+        <div class="pct" aria-hidden="true"><span id="p-num">0</span><small>%</small></div>
+      </div>
+      <div class="track wait" id="p-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="p-title"><div class="fill" id="p-fill"></div></div>
+      <div class="now" aria-live="polite"><b id="p-label">Подготовка</b><span id="p-detail"></span></div>
+      <p class="desc" id="p-desc"></p>
+      <div class="steps" id="p-steps">
+        <div class="step" data-s="1"><i>01</i>Старт</div>
+        <div class="step" data-s="2"><i>02</i>Подготовка</div>
+        <div class="step" data-s="3"><i>03</i>Установка</div>
+        <div class="step" data-s="4"><i>04</i>Готово</div>
+      </div>
+      <div class="grow"></div>
+      <div class="row-end">
+        <p class="hint" id="p-hint">Окно можно свернуть. Установка не затрагивает ваши аккаунты и сообщения.</p>
+        <div class="btns"><button class="btn ghost" id="p-cancel" type="button">Отмена</button></div>
+      </div>
+    </section>
+
+    <!-- Sennit запущен -->
+    <section class="screen" id="s-prompt" aria-labelledby="q-title">
+      <h1 id="q-title">Закройте Sennit</h1>
+      <p class="lead" style="margin-top:12px;max-width:44ch">Sennit сейчас запущен. Закройте его через значок в трее: правая кнопка, «Выйти из Sennit». Установка продолжится сама.</p>
+      <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="note">Активные аккаунты не закрываются принудительно: так вы не потеряете несохранённое.</div>
+      <div class="grow"></div>
+      <div class="row-end"><span></span><div class="btns"><button class="btn" id="q-cancel" type="button">Отмена</button></div></div>
+    </section>
+
+    <!-- ошибка -->
+    <section class="screen" id="s-error" aria-labelledby="e-title">
+      <div class="tag" id="e-tag">Ошибка</div>
+      <h1 class="sm" id="e-title">Не удалось установить</h1>
+      <p class="lead" style="margin-top:12px;max-width:56ch" id="e-msg"></p>
+      <div class="note" id="e-hint"></div>
+      <div class="grow"></div>
+      <div class="row-end">
+        <button class="btn ghost" id="e-log" type="button">Показать журнал</button>
+        <div class="btns">
+          <button class="btn" id="e-close" type="button">Закрыть</button>
+          <button class="btn primary" id="e-retry" type="button">Повторить</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- готово -->
+    <section class="screen" id="s-done" aria-labelledby="d-title">
+      <div class="okmark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h1 id="d-title">Готово</h1>
+      <p class="lead" style="margin-top:12px;max-width:48ch" id="d-msg">Sennit установлен.</p>
+      <dl class="facts" style="margin-top:20px;max-width:440px">
+        <div class="fact"><dt>Версия</dt><dd id="d-version">—</dd></div>
+        <div class="fact"><dt>Папка</dt><dd id="d-dir">—</dd></div>
+      </dl>
+      <div class="grow"></div>
+      <div class="row-end">
+        <p class="hint" id="d-hint">Удалить Sennit можно в «Приложениях и возможностях».</p>
+        <div class="btns">
+          <button class="btn" id="d-close" type="button">Закрыть</button>
+          <button class="btn primary" id="d-launch" type="button">Запустить Sennit</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- лицензия -->
+    <section class="screen" id="s-license" aria-labelledby="l-title">
+      <h1 class="sm" id="l-title">Лицензия</h1>
+      <div class="lic" id="l-text" tabindex="0">Загрузка…</div>
+      <div class="row-end"><span class="hint">GNU General Public License, версия 3.</span><div class="btns"><button class="btn primary" id="l-back" type="button">Назад</button></div></div>
+    </section>
+  </main>
+
+  <footer class="status" id="status">
+    <div class="meter" id="meter"></div>
+    <div class="st-l"><i class="dot" id="st-dot"></i><span id="st-text" aria-live="polite">Готов к установке</span></div>
+    <div class="st-r" id="st-r">v1.7.1</div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var q = new URLSearchParams(location.search);
+  var theme = q.get('theme');
+  if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+
+  var host = !!(window.ipc && window.ipc.postMessage);
+  var preview = !host;
+  function send(cmd, extra) {
+    var msg = Object.assign({ cmd: cmd }, extra || {});
+    if (host) { try { window.ipc.postMessage(JSON.stringify(msg)); } catch (e) {} }
+    else if (window.console) console.log('[ipc]', msg);
+  }
+
+  var S = { screen: 'welcome', step: 1, pct: 0, version: '', mode: 'install', locked: false, stalled: false, retry: true, launched: false, busy: false, flashTimer: 0, prev: 'welcome' };
+  var screens = ['welcome', 'progress', 'prompt', 'error', 'done', 'license'];
+  var focusFor = { welcome: 'w-install', progress: 'p-cancel', prompt: 'q-cancel', error: 'e-retry', done: 'd-launch', license: 'l-back' };
+
+  function show(name) {
+    if (name !== 'license') S.prev = name;
+    S.screen = name;
+    screens.forEach(function (n) { $('s-' + n).classList.toggle('on', n === name); });
+    var el = $(focusFor[name]);
+    if (el && !el.disabled && !el.hidden) setTimeout(function () { el.focus({ preventScroll: true }); }, 30);
+    updateChrome();
+  }
+
+  function setStatus(text, dotClass, pct) {
+    $('st-text').textContent = text;
+    $('st-dot').className = 'dot' + (dotClass ? ' ' + dotClass : '');
+    $('meter').style.width = (pct == null ? 0 : pct) + '%';
+    $('st-r').textContent = (pct != null && S.screen === 'progress' ? Math.floor(pct) + '% · ' : '') + 'v' + (S.version || '1.7.1');
+  }
+
+  function updateChrome() {
+    var idx = { welcome: 1, license: 1, progress: S.step, prompt: 2, error: Math.max(S.step, 2), done: 4 }[S.screen] || 1;
+    $('index').textContent = '0' + idx + '/04';
+    var pct = S.pct * 100;
+    if (S.flashTimer) return;
+    switch (S.screen) {
+      case 'welcome': case 'license': setStatus(S.mode === 'newer' ? 'Установлена более новая версия' : 'Готов к установке', S.mode === 'newer' ? 'bad' : '', null); break;
+      case 'progress': setStatus($('p-label').textContent + ($('p-detail').textContent ? ' · ' + $('p-detail').textContent : ''), 'work', pct); break;
+      case 'prompt': setStatus('Ожидаем закрытия Sennit', 'work', null); break;
+      case 'error': setStatus($('e-title').textContent, 'bad', null); break;
+      case 'done': setStatus(S.launched ? 'Установка завершена, Sennit запущен' : 'Установка завершена', 'ok', null); break;
+    }
+  }
+
+  function flash(text) {
+    clearTimeout(S.flashTimer);
+    var dot = $('st-dot').className.replace('dot', '').trim();
+    setStatus(text, dot, S.screen === 'progress' ? S.pct * 100 : null);
+    $('st-text').classList.add('flash');
+    S.flashTimer = setTimeout(function () { S.flashTimer = 0; $('st-text').classList.remove('flash'); updateChrome(); }, 3500);
+  }
+
+  function setPct(v) {
+    S.pct = Math.max(0, Math.min(1, v));
+    var p = Math.floor(S.pct * 100);
+    $('p-num').textContent = p;
+    $('p-fill').style.width = (S.pct * 100) + '%';
+    $('p-track').classList.toggle('wait', S.pct <= 0.0005);
+    $('p-track').setAttribute('aria-valuenow', p);
+  }
+
+  function setSteps(step) {
+    Array.prototype.forEach.call($('p-steps').children, function (el) {
+      var n = +el.getAttribute('data-s');
+      el.classList.toggle('now-s', n === step);
+      el.classList.toggle('past', n < step);
+    });
+  }
+
+  function fillWelcome(e) {
+    S.version = e.version || S.version;
+    S.mode = e.mode || 'install';
+    $('f-version').textContent = S.version;
+    $('f-dir').textContent = e.installDir || '';
+    $('f-size').textContent = (e.payload || '—') + ', на диске около ' + (e.install || '—');
+    var hasOld = !!e.existing;
+    $('f-existing-row').hidden = !hasOld;
+    if (hasOld) $('f-existing').textContent = e.existing;
+    var title = 'Установка Sennit', lead = 'Локальный хаб ваших мессенджеров и соцсетей.', btn = 'Установить';
+    if (S.mode === 'update') { title = 'Обновление Sennit'; lead = 'Профили, аккаунты и настройки сохранятся. Файлы приложения будут заменены.'; btn = 'Обновить'; }
+    else if (S.mode === 'reinstall') { title = 'Переустановка Sennit'; lead = 'Эта версия уже установлена. Файлы приложения будут записаны заново, данные сохранятся.'; btn = 'Переустановить'; }
+    else if (S.mode === 'newer') { title = 'Версия новее'; lead = 'Уже установлена более новая версия (' + e.existing + '). Установка старой поверх остановлена, чтобы не повредить данные.'; }
+    $('w-title').textContent = title;
+    $('w-lead').textContent = lead;
+    $('w-install').textContent = btn;
+    $('w-install').disabled = S.mode === 'newer';
+    $('opt-launch').checked = e.launch !== false;
+    $('d-version').textContent = S.version;
+    $('st-r').textContent = 'v' + S.version;
+  }
+
+  var handlers = {
+    init: function (e) { fillWelcome(e); if (S.screen === 'welcome') updateChrome(); },
+    stage: function (e) {
+      S.busy = true;
+      S.step = e.i <= 2 ? 2 : (e.i === 3 ? 3 : 4);
+      $('p-label').textContent = e.label || '';
+      $('p-desc').textContent = e.detail || '';
+      $('p-detail').textContent = '';
+      setSteps(S.step);
+      var locked = e.i >= 3;
+      S.locked = locked; S.stalled = false;
+      $('p-cancel').textContent = 'Отмена';
+      $('p-cancel').disabled = locked;
+      $('p-hint').textContent = locked ? 'Идёт запись файлов. Закрыть окно можно после завершения.' : 'Окно можно свернуть. Установка не затрагивает ваши аккаунты и сообщения.';
+      if (S.screen !== 'prompt') show('progress'); else updateChrome();
+    },
+    progress: function (e) {
+      setPct(e.v || 0);
+      if (e.detail != null) $('p-detail').textContent = e.detail;
+      if (S.screen === 'progress') updateChrome();
+    },
+    need_close: function (e) {
+      if (e.running) show('prompt'); else if (S.busy) show('progress');
+    },
+    error: function (e) {
+      S.busy = false; S.locked = false; S.stalled = false;
+      $('e-tag').textContent = 'Ошибка · ' + (e.code || '');
+      $('e-title').textContent = e.title || 'Не удалось установить';
+      $('e-msg').textContent = e.message || '';
+      var hint = $('e-hint'); hint.textContent = e.hint || ''; hint.hidden = !e.hint;
+      S.retry = e.retry !== false;
+      $('e-retry').hidden = !S.retry;
+      show('error');
+    },
+    canceled: function () { S.busy = false; S.locked = false; setPct(0); S.step = 1; show('welcome'); },
+    done: function (e) {
+      S.busy = false; S.locked = false; S.step = 4; S.launched = !!e.launched; setPct(1);
+      $('d-title').textContent = e.launched ? 'Готово. Sennit запущен' : 'Готово';
+      $('d-msg').textContent = e.updated ? 'Sennit обновлён. Профили, аккаунты и настройки сохранены.' : 'Sennit установлен и готов к работе.';
+      $('d-version').textContent = e.version || S.version;
+      $('d-dir').textContent = e.dir || '';
+      $('d-launch').hidden = !!e.launched;
+      $('d-close').classList.toggle('primary', !!e.launched);
+      show('done');
+    },
+    stalled: function () {
+      S.stalled = true;
+      $('p-cancel').textContent = 'Прервать'; $('p-cancel').disabled = false;
+      $('p-hint').textContent = 'Установщик давно ничего не записывает. Можно подождать или прервать: повторная установка безопасна.';
+    },
+    unstalled: function () {
+      S.stalled = false;
+      $('p-cancel').textContent = 'Отмена'; $('p-cancel').disabled = S.locked;
+      $('p-hint').textContent = 'Идёт запись файлов. Закрыть окно можно после завершения.';
+    },
+    locked_close: function () { flash('Идёт запись файлов: закрыть окно можно после завершения'); }
+  };
+  function onEvent(e) { if (e && handlers[e.t]) handlers[e.t](e); }
+  window.setup = { event: onEvent };
+
+  // ---- кнопки ----
+  function begin(cmd) {
+    setPct(0); S.step = 2; setSteps(2); S.busy = true;
+    $('p-label').textContent = 'Подготовка'; $('p-detail').textContent = ''; $('p-desc').textContent = '';
+    $('p-cancel').disabled = false;
+    show('progress');
+    send(cmd, { launch: $('opt-launch').checked });
+    if (preview) previewRun();
+  }
+  $('w-install').addEventListener('click', function () { begin('start'); });
+  $('e-retry').addEventListener('click', function () { begin('retry'); });
+  $('w-close').addEventListener('click', function () { send('close'); });
+  $('btn-close').addEventListener('click', function () { send('close'); });
+  $('btn-min').addEventListener('click', function () { send('minimize'); });
+  $('p-cancel').addEventListener('click', function () { if (!S.locked || S.stalled) send('cancel'); });
+  $('q-cancel').addEventListener('click', function () { send('cancel'); });
+  $('e-close').addEventListener('click', function () { send('close'); });
+  $('e-log').addEventListener('click', function () { send('open_log'); });
+  $('d-launch').addEventListener('click', function () { send('launch'); });
+  $('d-close').addEventListener('click', function () { send('close'); });
+  function openLicense() {
+    show('license');
+    if (!$('l-text').getAttribute('data-loaded')) {
+      fetch('license.txt').then(function (r) { return r.text(); }).then(function (t) { $('l-text').textContent = t; $('l-text').setAttribute('data-loaded', '1'); })
+        .catch(function () { $('l-text').textContent = 'GNU General Public License, версия 3. Полный текст лежит в файле LICENSE в составе Sennit.'; });
+    }
+  }
+  $('open-license').addEventListener('click', openLicense);
+  $('open-license').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLicense(); } });
+  $('l-back').addEventListener('click', function () { show(S.prev === 'license' ? 'welcome' : S.prev); });
+
+  // перетаскивание окна за верхнюю полосу
+  $('bar').addEventListener('mousedown', function (e) {
+    if (e.button !== 0 || e.target.closest('button')) return;
+    send('drag');
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Tab' || e.key.indexOf('Arrow') === 0) document.documentElement.classList.add('kb'); }, true);
+  document.addEventListener('mousedown', function () { document.documentElement.classList.remove('kb'); }, true);
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    if (S.screen === 'license') { $('l-back').click(); e.preventDefault(); }
+    else if (S.screen === 'welcome' || S.screen === 'error' || S.screen === 'done') send('close');
+    else if (S.screen === 'prompt' || (S.screen === 'progress' && (!S.locked || S.stalled))) send('cancel');
+  });
+
+  // ---- предпросмотр в обычном браузере (без оболочки): тот же код, имитация событий ----
+  function previewRun() {
+    function at(ms, fn) { setTimeout(fn, ms); }
+    var k;
+    onEvent({ t: 'stage', i: 1, n: 4, label: 'Проверка системы', detail: 'Windows, свободное место, запущенное приложение' });
+    at(500, function () { onEvent({ t: 'stage', i: 1, n: 4, label: 'Проверка целостности', detail: 'Сверяем контрольную сумму встроенного пакета' }); });
+    for (k = 0; k <= 20; k++) (function (k) { at(500 + k * 60, function () { onEvent({ t: 'progress', v: 0.08 * k / 20, detail: (27 * k) + ' МБ из 540 МБ' }); }); })(k);
+    at(1800, function () { onEvent({ t: 'stage', i: 2, n: 4, label: 'Подготовка файлов', detail: 'Распаковка во временную папку' }); });
+    for (k = 0; k <= 20; k++) (function (k) { at(1800 + k * 60, function () { onEvent({ t: 'progress', v: 0.08 + 0.17 * k / 20, detail: (27 * k) + ' МБ из 540 МБ' }); }); })(k);
+    at(3100, function () { onEvent({ t: 'stage', i: 3, n: 4, label: 'Установка файлов', detail: 'Запись файлов, ярлыки, запись в «Приложения и возможности»' }); });
+    for (k = 1; k <= 40; k++) (function (k) { at(3200 + k * 90, function () { onEvent({ t: 'progress', v: 0.25 + 0.75 * k / 40 * 0.99, detail: 'Записано ' + Math.round(540 * k / 40) + ' МБ из ~540 МБ' }); }); })(k);
+    at(7000, function () { onEvent({ t: 'stage', i: 4, n: 4, label: 'Готово', detail: '' }); onEvent({ t: 'done', dir: 'C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay', version: S.version, updated: false, launched: false }); });
+  }
+
+  // ---- старт ----
+  if (preview) {
+    var existing = q.get('existing');
+    onEvent({ t: 'init', version: '1.7.1', installDir: 'C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay', existing: existing, payload: '540 МБ', install: '1,1 ГБ', mode: existing ? (q.get('mode') || 'update') : 'install', launch: true });
+    var state = q.get('state') || 'welcome';
+    var pct = parseFloat(q.get('pct') || '62') / 100;
+    if (state === 'verify') { onEvent({ t: 'stage', i: 1, n: 4, label: 'Проверка целостности', detail: 'Сверяем контрольную сумму встроенного пакета' }); onEvent({ t: 'progress', v: 0.04, detail: '230 МБ из 540 МБ' }); }
+    if (state === 'prepare') { onEvent({ t: 'stage', i: 2, n: 4, label: 'Подготовка файлов', detail: 'Распаковка во временную папку' }); onEvent({ t: 'progress', v: 0.17, detail: '212 МБ из 540 МБ' }); }
+    if (state === 'progress') { onEvent({ t: 'stage', i: 3, n: 4, label: 'Установка файлов', detail: 'Запись файлов, ярлыки, запись в «Приложения и возможности»' }); onEvent({ t: 'progress', v: 0.25 + 0.75 * pct, detail: 'Записано ' + Math.round(540 * pct) + ' МБ из ~540 МБ' }); }
+    if (state === 'prompt') { onEvent({ t: 'stage', i: 1, n: 4, label: 'Проверка системы', detail: '' }); onEvent({ t: 'need_close', running: true }); }
+    if (state === 'error') onEvent({ t: 'error', code: 'SETUP-ACCESS', retry: true, title: 'Нет доступа к папке установки', message: 'Не удалось записать файлы в C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay (отказано в доступе).', hint: 'Закройте программы, которые используют файлы Sennit, и нажмите «Повторить».' });
+    if (state === 'done') onEvent({ t: 'done', dir: 'C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay', version: '1.7.1', updated: existing != null, launched: q.get('launched') === '1' });
+    if (state === 'license') openLicense();
+    document.title = 'Sennit Setup (предпросмотр)';
+  } else {
+    send('ready');
+  }
+})();
+</script>
+</body>
+</html>
