@@ -3,7 +3,10 @@ import { getActions, withGlobal } from '../../../global';
 
 import type { ApiUser, ApiWebSession } from '../../../api/types';
 
+import { getSessionTimes } from './helpers/sessionTime';
+
 import useCurrentOrPrev from '../../../hooks/useCurrentOrPrev';
+import useLang from '../../../hooks/useLang';
 import useOldLang from '../../../hooks/useOldLang';
 
 import Avatar from '../../common/Avatar';
@@ -32,6 +35,7 @@ const SettingsActiveWebsite = ({
 }: OwnProps & StateProps) => {
   const { terminateWebAuthorization } = getActions();
   const lang = useOldLang();
+  const newLang = useLang();
 
   const renderingSession = useCurrentOrPrev(session, true);
   const renderingBot = useCurrentOrPrev(bot, true);
@@ -61,6 +65,8 @@ const SettingsActiveWebsite = ({
     );
   }
 
+  const { login, active } = getSessionTimes(renderingSession, newLang.code);
+
   return (
     <Modal
       header={renderHeader()}
@@ -80,6 +86,11 @@ const SettingsActiveWebsite = ({
       </div>
 
       <dl className={styles.box}>
+        <dt>{newLang('RelaySessionLoggedIn')}</dt>
+        <dd title={login?.ago}>{login ? login.text : newLang('RelaySessionLoginUnavailable')}</dd>
+        <dt>{newLang('RelaySessionLastActive')}</dt>
+        <dd title={active?.ago}>{active ? active.text : '—'}</dd>
+
         <dt>{lang('AuthSessions.View.Browser')}</dt>
         <dd>
           {renderingSession?.browser}

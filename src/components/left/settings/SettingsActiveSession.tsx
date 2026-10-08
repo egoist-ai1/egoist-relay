@@ -4,8 +4,8 @@ import { getActions, withGlobal } from '../../../global';
 
 import type { ApiSession } from '../../../api/types';
 
-import { formatDateTimeToString } from '../../../util/dates/oldDateFormat';
 import getSessionIcon, { DEVICE_BACKDROP } from './helpers/getSessionIcon';
+import { getSessionTimes } from './helpers/sessionTime';
 
 import useCurrentOrPrev from '../../../hooks/useCurrentOrPrev';
 import useLang from '../../../hooks/useLang';
@@ -76,6 +76,7 @@ const SettingsActiveSession: FC<OwnProps & StateProps> = ({
   }
 
   const { icon, color } = DEVICE_BACKDROP[getSessionIcon(renderingSession)];
+  const { login, active } = getSessionTimes(renderingSession, lang.code);
 
   return (
     <Modal
@@ -91,11 +92,15 @@ const SettingsActiveSession: FC<OwnProps & StateProps> = ({
         icon={icon}
       />
       <h3 className={styles.title} dir="auto">{renderingSession?.deviceModel}</h3>
-      <div className={styles.date} aria-label={lang('PrivacySettingsLastSeen')}>
-        {formatDateTimeToString(renderingSession.dateActive * 1000, lang.code)}
-      </div>
+      {renderingSession.isCurrent && login && (
+        <div className={styles.date}>{lang('RelaySessionCurrentLogin', { time: login.text })}</div>
+      )}
 
       <dl className={styles.box}>
+        <dt>{lang('RelaySessionLoggedIn')}</dt>
+        <dd title={login?.ago}>{login ? login.text : lang('RelaySessionLoginUnavailable')}</dd>
+        <dt>{lang('RelaySessionLastActive')}</dt>
+        <dd title={active?.ago}>{active ? active.text : '—'}</dd>
         <dt>{lang('SessionPreviewApp')}</dt>
         <dd>
           {renderingSession?.appName}

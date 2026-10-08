@@ -9,6 +9,7 @@ import type { GlobalState } from '../../../global/types';
 
 import { formatPastTimeShort } from '../../../util/dates/oldDateFormat';
 import getSessionIcon, { DEVICE_BACKDROP } from './helpers/getSessionIcon';
+import { getSessionTimes } from './helpers/sessionTime';
 
 import useFlag from '../../../hooks/useFlag';
 import useHistoryBack from '../../../hooks/useHistoryBack';
@@ -174,6 +175,7 @@ const SettingsActiveSessions: FC<OwnProps & StateProps> = ({
                 {' '}
                 {getLocation(session)}
               </span>
+              {renderLoginTime(session, true)}
             </div>
           </ListItem>
 
@@ -225,6 +227,33 @@ const SettingsActiveSessions: FC<OwnProps & StateProps> = ({
     );
   }
 
+  function renderLoginTime(session: ApiSession, isCurrent?: boolean) {
+    const { login, active } = getSessionTimes(session, lang.code);
+    const activeTitle = active
+      ? `${lang('RelaySessionLastActive')}: ${active.text} (${active.ago})`
+      : undefined;
+
+    if (!login) {
+      return (
+        <span className="subtitle" title={activeTitle}>
+          {lang('RelaySessionLoginUnavailableLine')}
+        </span>
+      );
+    }
+
+    return (
+      <span
+        className="subtitle"
+        title={`${login.ago}${activeTitle ? `
+${activeTitle}` : ''}`}
+      >
+        {isCurrent
+          ? lang('RelaySessionCurrentLogin', { time: login.text })
+          : lang('RelaySessionLoginLine', { time: login.text })}
+      </span>
+    );
+  }
+
   function renderSession(sessionHash: string) {
     const session = byHash[sessionHash];
     const { icon, color } = DEVICE_BACKDROP[getSessionIcon(session)];
@@ -266,6 +295,7 @@ const SettingsActiveSessions: FC<OwnProps & StateProps> = ({
             {' '}
             {getLocation(session)}
           </span>
+          {renderLoginTime(session)}
         </div>
       </ListItem>
     );

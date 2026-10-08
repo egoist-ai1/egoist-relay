@@ -8,9 +8,11 @@ import type { ApiWebSession } from '../../../api/types';
 
 import buildClassName from '../../../util/buildClassName';
 import { formatPastTimeShort } from '../../../util/dates/oldDateFormat';
+import { getSessionTimes } from './helpers/sessionTime';
 
 import useFlag from '../../../hooks/useFlag';
 import useHistoryBack from '../../../hooks/useHistoryBack';
+import useLang from '../../../hooks/useLang';
 import useOldLang from '../../../hooks/useOldLang';
 
 import Avatar from '../../common/Avatar';
@@ -44,6 +46,7 @@ const SettingsActiveWebsites: FC<OwnProps & StateProps> = ({
   } = getActions();
 
   const lang = useOldLang();
+  const newLang = useLang();
   const [isConfirmTerminateAllDialogOpen, openConfirmTerminateAllDialog, closeConfirmTerminateAllDialog] = useFlag();
   const [openedWebsiteHash, setOpenedWebsiteHash] = useState<string | undefined>();
   const [isModalOpen, openModal, closeModal] = useFlag();
@@ -95,6 +98,7 @@ const SettingsActiveWebsites: FC<OwnProps & StateProps> = ({
   function renderSession(sessionHash: string) {
     const session = byHash[sessionHash];
     const bot = getGlobal().users.byId[session.botId];
+    const { login } = getSessionTimes(session, newLang.code);
 
     return (
       <ListItem
@@ -129,6 +133,11 @@ const SettingsActiveWebsites: FC<OwnProps & StateProps> = ({
             {session.ip}
             {' '}
             {session.region}
+          </span>
+          <span className={buildClassName('subtitle', styles.subtitle)} title={login?.ago}>
+            {login
+              ? newLang('RelaySessionLoginLine', { time: login.text })
+              : newLang('RelaySessionLoginUnavailableLine')}
           </span>
         </div>
       </ListItem>
