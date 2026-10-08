@@ -4,7 +4,10 @@ use std::time::{Duration, Instant};
 
 const START_TIMEOUT: Duration = Duration::from_secs(6);
 const STABLE_WORKER_TIME: Duration = Duration::from_secs(30);
-const MAX_RECOVERY_DELAY: u64 = 8;
+#[cfg(any(windows, test))]
+const RECOVERY_BASE_MS: u64 = 250;
+#[cfg(any(windows, test))]
+const RECOVERY_MAX_MS: u64 = 8000;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 
 struct ActiveTransport {
@@ -105,16 +108,16 @@ fn supervise_transport(
   let port = url::Url::parse(&url).ok().and_then(|url| url.port()).unwrap();
   if ready.send(Ok(Some(url.clone()))).is_err() { return; }
 
-  let mut recovery_delay = 1;
+  let mut recovery_attempt: u32 = 0;
   let mut started = Instant::now();
   loop {
     if !matches!(worker.child.try_wait(), Ok(None)) {
-      if started.elapsed() >= STABLE_WORKER_TIME { recovery_delay = 1; }
+      if started.elapsed() >= STABLE_WORKER_TIME { recovery_attempt = 0; }
       log::warn!("[TelegramTransport] Owned bridge worker exited; recovering its local endpoint");
       drop(worker);
       loop {
-        let delay = Duration::from_secs(recovery_delay);
-        recovery_delay = (recovery_delay * 2).min(MAX_RECOVERY_DELAY);
+        let delay = recovery_delay(recovery_attempt, jitter_unit());
+        recovery_attempt = recovery_attempt.saturating_add(1);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
         if let Ok(mut next) = launch_transport(&app, &token, port) {
           let message = read_status(&mut next);
@@ -132,6 +135,21 @@ fn supervise_transport(
       _ => break,
     }
   }
+}
+
+/// Pause before restarting a crashed bridge worker: exponential 250 ms to 8 s with 50-100% jitter.
+/// The first retry is fast because the browser side is already failing over to the direct route.
+#[cfg(any(windows, test))]
+fn recovery_delay(attempt: u32, unit: f64) -> Duration {
+  let raw = (RECOVERY_BASE_MS << attempt.min(6)).min(RECOVERY_MAX_MS);
+  Duration::from_millis((raw as f64 * (0.5 + 0.5 * unit.clamp(0.0, 1.0))) as u64)
+}
+
+#[cfg(windows)]
+fn jitter_unit() -> f64 {
+  let nanos = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)
+    .map(|elapsed| elapsed.subsec_nanos()).unwrap_or(0);
+  f64::from(nanos % 1000) / 1000.0
 }
 
 #[cfg(windows)]
@@ -215,5 +233,24 @@ pub(crate) fn shutdown() {
       if !worker.alive.load(Ordering::Acquire) { break; }
       std::thread::sleep(Duration::from_millis(25));
     }
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn recovery_delay_grows_to_cap_with_bounded_jitter() {
+    let full: Vec<u64> = (0..8).map(|attempt| recovery_delay(attempt, 1.0).as_millis() as u64).collect();
+    assert_eq!(full, vec![250, 500, 1000, 2000, 4000, 8000, 8000, 8000]);
+    let half: Vec<u64> = (0..4).map(|attempt| recovery_delay(attempt, 0.0).as_millis() as u64).collect();
+    assert_eq!(half, vec![125, 250, 500, 1000]);
+  }
+
+  #[test]
+  fn recovery_delay_survives_extreme_inputs() {
+    assert_eq!(recovery_delay(u32::MAX, 5.0).as_millis(), 8000);
+    assert_eq!(recovery_delay(0, -1.0).as_millis(), 125);
   }
 }

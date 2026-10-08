@@ -9,6 +9,7 @@ import TelegramClient from '../../../lib/gramjs/client/TelegramClient';
 import { RPCError } from '../../../lib/gramjs/errors';
 import { Logger as GramJsLogger } from '../../../lib/gramjs/extensions/index';
 import { setDesktopTelegramTransport } from '../../../lib/gramjs/extensions/PromisedWebSockets';
+import { routeHealth } from '../../../lib/gramjs/network/connectionPolicy';
 
 import type { ThreadId } from '../../../types';
 import type {
@@ -110,6 +111,9 @@ export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoid
   const session = new sessions.CallbackSession(sessionData, onSessionUpdate);
 
   setDesktopTelegramTransport(initialArgs.telegramTransportUrl);
+  routeHealth.setListener((route) => {
+    sendApiUpdate({ '@type': 'updateConnectionRoute', route });
+  });
 
   (self as any).isWebmSupported = isWebmSupported;
 

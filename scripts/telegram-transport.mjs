@@ -8,12 +8,13 @@ import path from 'node:path';
 import { WebSocket, WebSocketServer } from 'ws';
 
 const STARTUP_TIMEOUT_MS = 5000;
-const CONNECT_TIMEOUT_MS = 1200;
-const CONNECT_RETRY_MS = 250;
-const MAX_CONNECT_ATTEMPTS = 10;
+const CONNECT_TIMEOUT_MS = 1000;
+const CONNECT_RETRY_MS = 150;
+// Две быстрые попытки укладываются в клиентский дедлайн локального маршрута (2,5 с), дальше клиент идёт напрямую
+const MAX_CONNECT_ATTEMPTS = 2;
 const MAX_HANDOFF_BYTES = 4096;
-const HANDSHAKE_TIMEOUT_MS = 12000;
-const FIRST_RESPONSE_TIMEOUT_MS = 30000;
+const HANDSHAKE_TIMEOUT_MS = 8000;
+const FIRST_RESPONSE_TIMEOUT_MS = 12000;
 const HEARTBEAT_INTERVAL_MS = 20000;
 const BACKPRESSURE_TIMEOUT_MS = 20000;
 const MAX_CONFIG_BYTES = 65536;
@@ -69,17 +70,30 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
     socket.setTimeout(STARTUP_TIMEOUT_MS, () => socket.destroy());
     socket.on('close', () => httpSockets.delete(socket));
   });
+  let pendingUpgrades = 0;
   server.on('upgrade', (request, socket, head) => {
     const route = parseRoute(request, tokenBytes, allowedOrigins);
-    if (isClosing || !route || connections.size >= MAX_CONNECTIONS) {
+    if (isClosing || !route || connections.size + pendingUpgrades >= MAX_CONNECTIONS) {
       socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');
       return;
     }
-    socket.setTimeout(0);
-    webSockets.handleUpgrade(request, socket, head, (webSocket) => {
-      const connection = createConnection(webSocket, route, () => connections.delete(connection));
-      connections.add(connection);
-    });
+    // WebSocket открывается только после того, как достигнут Lagom: открытый сокет означает рабочий маршрут,
+    // а недоступный Lagom даёт мгновенный отказ, после которого клиент идёт прямым путём
+    pendingUpgrades++;
+    openProxy().then((proxy) => {
+      if (isClosing || socket.destroyed) {
+        proxy.tcp.destroy();
+        proxy.secret.fill(0);
+        return;
+      }
+      socket.setTimeout(0);
+      webSockets.handleUpgrade(request, socket, head, (webSocket) => {
+        const connection = createConnection(webSocket, route, proxy, () => connections.delete(connection));
+        connections.add(connection);
+      });
+    }, () => {
+      socket.end('HTTP/1.1 503 Service Unavailable\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');
+    }).finally(() => { pendingUpgrades--; });
   });
   await new Promise((resolve, reject) => {
     server.once('error', reject);
@@ -137,15 +151,13 @@ function parseRoute(request, tokenBytes, allowedOrigins) {
   return { dc: Number(dc) * (url.searchParams.get('media') === '1' ? -1 : 1) };
 }
 
-function createConnection(webSocket, route, onClosed) {
-  let tcp;
+function createConnection(webSocket, route, proxy, onClosed) {
+  const { tcp, secret } = proxy;
   let browserDecrypt;
   let browserEncrypt;
   let proxyDecrypt;
   let proxyEncrypt;
   let header = Buffer.alloc(0);
-  let queue = [];
-  let queuedBytes = 0;
   let isConnected = false;
   let isClosed = false;
   let hasPong = true;
@@ -173,86 +185,35 @@ function createConnection(webSocket, route, onClosed) {
           browserEncrypt = createCipheriv('aes-256-ctr', reversed.subarray(0, 32), reversed.subarray(32, 48));
           const decodedHeader = browserDecrypt.update(header);
           if (decodedHeader.readUInt32LE(56) !== PROTO_TAG) return close();
-          connectProxy().catch(close);
+          startProxy();
         } catch {
           return close();
         }
       }
     }
-    if (!chunk.length) return;
-    if (!isConnected) {
-      queuedBytes += chunk.length;
-      if (queuedBytes > MAX_BUFFER_BYTES) return close();
-      queue.push(chunk);
-      return;
-    }
+    if (!chunk.length || !isConnected) return;
     sendToProxy(chunk);
   });
+  // Ошибки и обрыв TCP до заголовка закрывают браузерный сокет так же, как после него
+  tcp.on('error', close);
+  tcp.on('end', close);
+  tcp.on('close', close);
 
   return { close, ping };
 
-  async function connectProxy() {
-    for (let attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
-      if (isClosed) return;
-      let config;
-      try {
-        config = await readLagomConfig();
-        if (isClosed) return;
-        tcp = await connectProxySocket(config);
-        if (isClosed) { tcp.destroy(); return; }
-        const proxyHeader = createProxyHeader(route.dc, config.secret);
-        proxyEncrypt = proxyHeader.encrypt;
-        proxyDecrypt = proxyHeader.decrypt;
-        attachProxySocket();
-        tcp.write(proxyHeader.bytes);
-        isConnected = true;
-        clearTimeout(handshakeDeadline);
-        firstResponseDeadline = setTimeout(close, FIRST_RESPONSE_TIMEOUT_MS);
-        for (const chunk of queue) sendToProxy(chunk);
-        queue = [];
-        queuedBytes = 0;
-        return;
-      } catch (error) {
-        tcp?.destroy();
-        if (isClosed) return;
-        if (!isRetryableLagomFailure(error) || attempt + 1 >= MAX_CONNECT_ATTEMPTS) throw error;
-        await new Promise((resolve) => setTimeout(resolve, CONNECT_RETRY_MS));
-      } finally {
-        config?.secret.fill(0);
-      }
-    }
-  }
-
-  function connectProxySocket({ host, port }) {
-    return new Promise((resolve, reject) => {
-      const candidate = net.createConnection({ host, port });
-      tcp = candidate;
-      candidate.setNoDelay(true);
-      candidate.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
-      const deadline = setTimeout(() => finish(false), CONNECT_TIMEOUT_MS);
-      candidate.once('connect', onConnected);
-      candidate.once('error', onFailed);
-      candidate.once('close', onFailed);
-      function onConnected() { finish(true); }
-      function onFailed() { finish(false); }
-      function finish(isAvailable) {
-        clearTimeout(deadline);
-        candidate.removeListener('connect', onConnected);
-        candidate.removeListener('error', onFailed);
-        candidate.removeListener('close', onFailed);
-        if (isAvailable) resolve(candidate);
-        else {
-          candidate.destroy();
-          reject(new Error('LAGOM_LISTENER_UNAVAILABLE'));
-        }
-      }
-    });
+  function startProxy() {
+    const proxyHeader = createProxyHeader(route.dc, secret);
+    secret.fill(0);
+    proxyEncrypt = proxyHeader.encrypt;
+    proxyDecrypt = proxyHeader.decrypt;
+    attachProxySocket();
+    tcp.write(proxyHeader.bytes);
+    isConnected = true;
+    clearTimeout(handshakeDeadline);
+    firstResponseDeadline = setTimeout(close, FIRST_RESPONSE_TIMEOUT_MS);
   }
 
   function attachProxySocket() {
-    tcp.on('error', close);
-    tcp.on('end', close);
-    tcp.on('close', close);
     tcp.on('drain', () => {
       clearTimeout(pressureDeadline);
       pressureDeadline = undefined;
@@ -301,13 +262,59 @@ function createConnection(webSocket, route, onClosed) {
     clearTimeout(pressureDeadline);
     clearTimeout(browserPressureDeadline);
     clearTimeout(firstResponseDeadline);
-    queue = [];
-    queuedBytes = 0;
     header.fill(0);
-    tcp?.destroy();
+    secret.fill(0);
+    tcp.destroy();
     webSocket.terminate();
     onClosed();
   }
+}
+
+/** Подключается к Lagom (конфиг читается заново, чтобы подхватить смену порта/secret) с короткими повторами. */
+async function openProxy() {
+  for (let attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
+    let config;
+    try {
+      config = await readLagomConfig();
+      const tcp = await connectProxySocket(config);
+      const secret = config.secret;
+      config = undefined;
+      return { tcp, secret };
+    } catch (error) {
+      if (!isRetryableLagomFailure(error) || attempt + 1 >= MAX_CONNECT_ATTEMPTS) throw error;
+      await new Promise((resolve) => setTimeout(resolve, CONNECT_RETRY_MS));
+    } finally {
+      config?.secret.fill(0);
+    }
+  }
+  throw new Error('LAGOM_LISTENER_UNAVAILABLE');
+}
+
+function connectProxySocket({ host, port }) {
+  return new Promise((resolve, reject) => {
+    const candidate = net.createConnection({ host, port });
+    candidate.setNoDelay(true);
+    candidate.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
+    const deadline = setTimeout(() => finish(false), CONNECT_TIMEOUT_MS);
+    candidate.once('connect', onConnected);
+    candidate.once('error', onFailed);
+    candidate.once('close', onFailed);
+    function onConnected() { finish(true); }
+    function onFailed() { finish(false); }
+    function finish(isAvailable) {
+      clearTimeout(deadline);
+      candidate.removeListener('connect', onConnected);
+      candidate.removeListener('error', onFailed);
+      candidate.removeListener('close', onFailed);
+      if (isAvailable) {
+        candidate.on('error', () => {});
+        resolve(candidate);
+      } else {
+        candidate.destroy();
+        reject(new Error('LAGOM_LISTENER_UNAVAILABLE'));
+      }
+    }
+  });
 }
 
 function createProxyHeader(dc, secret) {

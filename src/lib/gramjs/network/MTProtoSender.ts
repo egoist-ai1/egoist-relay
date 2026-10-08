@@ -8,6 +8,7 @@ import { Api } from '../tl';
 import GZIPPacked from '../tl/core/GZIPPacked';
 import RPCResult from '../tl/core/RPCResult';
 import { type Connection, HttpConnection } from './connection';
+import { backoffDelay, sleepUntilOnline } from './connectionPolicy';
 import { UpdateConnectionState, UpdateServerTimeOffset, UpdateSessionGap } from './updates';
 
 import { type Update } from '../client/TelegramClient';
@@ -42,6 +43,10 @@ const MESSAGE_STATE_NO_ACK_REQUIRED = 16;
 const MESSAGE_STATE_RECEIVED_ELSEWHERE = 128;
 const MAIN_CONNECTION_RETRY_DELAY_MULTIPLIERS = [1, 3, 6, 30, 60];
 const MAX_MAIN_CONNECTION_RETRY_DELAY = 600000;
+// Соединение, продержавшееся дольше, считается стабильным: следующий обрыв снова начинает с короткой паузы
+const STABLE_CONNECTION_MS = 30000;
+const RECONNECT_BASE_DELAY = 250;
+const RECONNECT_MAX_DELAY = 8000;
 const MAX_INITIAL_FALLBACK_ATTEMPTS = 3;
 const SERVER_SALT_REFRESH_MARGIN = 60;
 const SERVER_SALT_REQUEST_RETRY_DELAY = 60000;
@@ -194,6 +199,10 @@ export default class MTProtoSender {
   private _longPollLoopHandle: any;
 
   private _isReconnectingToMain = false;
+
+  private _lastConnectedAt = 0;
+
+  private _consecutiveReconnects = 0;
 
   private futureServerSaltRefreshTimer?: ReturnType<typeof setTimeout>;
 
@@ -401,6 +410,7 @@ export default class MTProtoSender {
           this._updateCallback?.(new UpdateConnectionState(UpdateConnectionState.connected));
         }
         hasConnected = true;
+        this._lastConnectedAt = Date.now();
         break;
       } catch (err) {
         connectionError = err;
@@ -419,7 +429,8 @@ export default class MTProtoSender {
         }
         // eslint-disable-next-line no-console
         console.error(err);
-        await sleep(this._delay);
+        // Экспоненциальная пауза с джиттером вместо фиксированной: быстрый повтор при сбое, мягкий при долгом обрыве
+        await sleepUntilOnline(backoffDelay(attempt, { baseMs: this._delay / 5, capMs: this._delay * 2 }));
       }
     }
     this.isConnecting = false;
@@ -1736,7 +1747,12 @@ export default class MTProtoSender {
       // this._user_connected = false
       // we want to wait a second between each reconnect try to not flood the server with reconnects
       // in case of internal server issues.
-      sleep(1000)
+      const wasStable = Date.now() - this._lastConnectedAt > STABLE_CONNECTION_MS;
+      this._consecutiveReconnects = wasStable ? 0 : this._consecutiveReconnects + 1;
+      const reconnectDelay = backoffDelay(this._consecutiveReconnects, {
+        baseMs: RECONNECT_BASE_DELAY, capMs: RECONNECT_MAX_DELAY,
+      });
+      sleepUntilOnline(reconnectDelay)
         .then(() => {
           this.logWithIndex.log('Reconnecting...');
           this._log.info('Started reconnecting');

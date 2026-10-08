@@ -64,6 +64,11 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
       onUpdateConnectionState(global, actions, update);
       break;
 
+    case 'updateConnectionRoute':
+      global = { ...global, connectionRoute: update.route };
+      setGlobal(global);
+      break;
+
     case 'updateSession':
       onUpdateSession(global, actions, update);
       break;

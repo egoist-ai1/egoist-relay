@@ -17,9 +17,91 @@ pub fn proxy_for_url_cancellable(target: &str, cancel: &AtomicBool, deadline: In
   check_control(cancel, deadline)?;
   let target = validated_target(target)?;
   #[cfg(windows)]
-  { windows::proxy_for_target(&target, cancel, deadline) }
+  {
+    // Each call opens a new WinHTTP session, so PAC/WPAD is resolved again; a short-lived host:port cache of
+    // successful routes avoids repeated delays. Errors are never cached.
+    let key = route_cache::key(&target);
+    if let Some(route) = route_cache::CACHE.lock().ok().and_then(|mut cache| cache.get(&key, Instant::now())) {
+      return Ok(route);
+    }
+    let route = windows::proxy_for_target(&target, cancel, deadline)?;
+    if let Ok(mut cache) = route_cache::CACHE.lock() { cache.insert(key, route.clone(), Instant::now()); }
+    Ok(route)
+  }
   #[cfg(not(windows))]
   { let _ = target; check_control(cancel, deadline)?; Ok(None) }
+}
+
+#[cfg(any(windows, test))]
+mod route_cache {
+  use std::collections::HashMap;
+  use std::sync::{LazyLock, Mutex};
+  use std::time::{Duration, Instant};
+  use url::Url;
+
+  const TTL: Duration = Duration::from_secs(30);
+  const MAX_ENTRIES: usize = 64;
+  pub(super) static CACHE: LazyLock<Mutex<RouteCache>> = LazyLock::new(|| Mutex::new(RouteCache::default()));
+
+  #[derive(Default)]
+  pub(super) struct RouteCache {
+    entries: HashMap<String, (Instant, Option<Url>)>,
+  }
+
+  pub(super) fn key(target: &Url) -> String {
+    format!("{}:{}", target.host_str().unwrap_or_default().to_ascii_lowercase(), target.port_or_known_default().unwrap_or(443))
+  }
+
+  impl RouteCache {
+    pub(super) fn get(&mut self, key: &str, now: Instant) -> Option<Option<Url>> {
+      match self.entries.get(key) {
+        Some((stored, route)) if now.saturating_duration_since(*stored) < TTL => Some(route.clone()),
+        Some(_) => { self.entries.remove(key); None },
+        None => None,
+      }
+    }
+
+    pub(super) fn insert(&mut self, key: String, route: Option<Url>, now: Instant) {
+      if self.entries.len() >= MAX_ENTRIES {
+        self.entries.retain(|_, (stored, _)| now.saturating_duration_since(*stored) < TTL);
+        if self.entries.len() >= MAX_ENTRIES { self.entries.clear(); }
+      }
+      self.entries.insert(key, (now, route));
+    }
+  }
+
+  #[cfg(test)]
+  mod tests {
+    use super::*;
+
+    #[test]
+    fn caches_routes_for_the_ttl_only() {
+      let mut cache = RouteCache::default();
+      let start = Instant::now();
+      let proxy = Url::parse("http://127.0.0.1:10839").unwrap();
+      cache.insert("video.example:443".into(), Some(proxy.clone()), start);
+      cache.insert("direct.example:443".into(), None, start);
+      assert_eq!(cache.get("video.example:443", start + Duration::from_secs(29)), Some(Some(proxy)));
+      assert_eq!(cache.get("direct.example:443", start + Duration::from_secs(29)), Some(None));
+      assert_eq!(cache.get("video.example:443", start + Duration::from_secs(31)), None);
+      assert_eq!(cache.get("unknown.example:443", start), None);
+    }
+
+    #[test]
+    fn stays_bounded() {
+      let mut cache = RouteCache::default();
+      let start = Instant::now();
+      for index in 0..(MAX_ENTRIES * 3) { cache.insert(format!("host{index}.example:443"), None, start); }
+      assert!(cache.entries.len() <= MAX_ENTRIES);
+    }
+
+    #[test]
+    fn key_ignores_case_and_defaults_the_port() {
+      let upper = Url::parse("https://Video.Example/a").unwrap();
+      let lower = Url::parse("https://video.example:443/b").unwrap();
+      assert_eq!(key(&upper), key(&lower));
+    }
+  }
 }
 
 fn check_control(cancel: &AtomicBool, deadline: Instant) -> Result<(), String> {
