@@ -40,6 +40,12 @@
     transition: transform var(--chat-transform-transition);
   }
 
+  // Шаг списка чатов считается в px от размера шрифта корня (getChatHeightPx): строка не ниже 4,5rem,
+  // иначе при крупном тексте строки перекрываются
+  &:not(.standalone) .ListItem-button {
+    min-height: 4.5rem;
+  }
+
   &:hover,
   &.ListItem.has-menu-open {
     .avatar-badge {

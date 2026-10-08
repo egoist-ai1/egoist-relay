@@ -173,7 +173,11 @@ span.text,
   font-size: 0.75rem;
   font-weight: var(--font-weight-normal);
   letter-spacing: normal;
+}
 
+// Приглушение — цветом роли, не прозрачностью: opacity накладывался на --color-text-secondary и в светлой теме
+// (и во вложенных .subtitle > .last-message) опускал контраст ниже 4,5:1
+.message-time {
   opacity: 0.88;
 }
 

@@ -363,3 +363,17 @@
     width: 100%;
   }
 }
+
+// Узкая область при крупном тексте (200% текста в окне 640–850 px): без аватара название чата не схлопывается
+// до нуля (кнопки поиска, звонка и меню остаются)
+@container relayTelegram (max-width: 22rem) {
+  .MiddleHeader .ChatInfo .Avatar {
+    display: none;
+  }
+}
+
+@container relayTelegram (max-width: 18rem) {
+  .MiddleHeader .ChatInfo .VerifiedIcon {
+    display: none;
+  }
+}

@@ -44,6 +44,12 @@
     outline: none;
   }
 
+  &:focus-visible {
+    border-radius: var(--border-radius-default);
+    outline: 0.125rem solid var(--color-text);
+    outline-offset: 0.125rem;
+  }
+
   &:global(.animating) {
     opacity: 0;
   }

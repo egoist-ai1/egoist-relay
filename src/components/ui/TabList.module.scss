@@ -97,6 +97,12 @@
       opacity: 0.95;
     }
 
+    // Клавиатурный фокус виден: контур внутри вкладки (контейнер обрезает внешний по overflow)
+    &:focus-visible {
+      outline: 0.125rem solid var(--color-text);
+      outline-offset: -0.125rem;
+    }
+
     &.tabActive {
       font-weight: var(--font-weight-semibold) !important;
       color: var(--color-text) !important;

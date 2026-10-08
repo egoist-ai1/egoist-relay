@@ -152,10 +152,16 @@ try {
         background: getComputedStyle(document.body).getPropertyValue('--color-background'),
         text: getComputedStyle(document.body).getPropertyValue('--color-text') }));
       assert(colors.background.trim() && colors.text.trim());
+      // Основные темы Lagom: роли дизайн-системы и шрифт Onest, а не прежняя палитра
+      const lagomBackground = { 'lagom-dark': '#0e0e0f', 'lagom-light': '#f5f5f2' }[theme.id];
+      if (lagomBackground) {
+        assert.equal(colors.background.trim().toLowerCase(), lagomBackground, `Lagom background role for ${theme.id}`);
+        assert(await page.evaluate(() => getComputedStyle(document.body).fontFamily.includes('Onest')), 'Body font must be Onest');
+      }
       return { theme, colors, screenshot: await screenshot(`theme-${theme.id}-fullhd`) };
     });
   }
-  await page.evaluate(() => window.__relayAudit.applyTheme('egoist-dark')); await settle();
+  await page.evaluate(() => window.__relayAudit.applyTheme('lagom-dark')); await settle();
   for (const [name, viewport, textScale, direction] of [
     ['compact-800',{width:800,height:560},1,'ltr'], ['small-640',{width:640,height:448},1,'ltr'],
     ['fullhd-200pct-text',{width:1920,height:1080},2,'ltr'],

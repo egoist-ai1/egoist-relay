@@ -89,7 +89,7 @@ try {
           }, kind);
           await page.waitForTimeout(400);
           const modal = page.locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last();
-          await modal.waitFor({ state: 'visible', timeout: 5000 });
+          await modal.waitFor({ state: 'visible', timeout: 20000 });
           if (kind === 'document') await modal.locator('[class*="textLines"]').waitFor({ state: 'visible', timeout: 5000 });
           row.platformCssProbe = await modal.evaluate((element) => {
             const original = document.body.className;

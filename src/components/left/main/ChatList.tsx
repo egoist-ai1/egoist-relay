@@ -9,12 +9,12 @@ import {
   ALL_FOLDER_ID,
   ARCHIVE_MINIMIZED_HEIGHT,
   ARCHIVED_FOLDER_ID,
-  CHAT_HEIGHT_PX,
   CHAT_LIST_SLICE,
   SAVED_FOLDER_ID,
 } from '../../../config';
 import { IS_APP, IS_MAC_OS } from '../../../util/browser/windowEnvironment';
 import buildClassName from '../../../util/buildClassName';
+import { getChatHeightPx } from '../../../util/chatListMetrics';
 import { getOrderKey, getPinnedChatsCount } from '../../../util/folderManager';
 import { ARCHIVE_ANIMATION_ID } from './hooks';
 
@@ -101,9 +101,10 @@ const ChatList = ({
   const orderedIds = useFolderManagerForOrderedIds(resolvedFolderId);
   usePeerStoriesPolling(orderedIds);
 
-  const chatsHeight = (orderedIds?.length || 0) * CHAT_HEIGHT_PX;
+  const chatHeight = getChatHeightPx();
+  const chatsHeight = (orderedIds?.length || 0) * chatHeight;
   const archiveHeight = shouldDisplayArchive
-    ? archiveSettings?.isMinimized ? ARCHIVE_MINIMIZED_HEIGHT : CHAT_HEIGHT_PX : 0;
+    ? archiveSettings?.isMinimized ? ARCHIVE_MINIMIZED_HEIGHT : chatHeight : 0;
 
   const {
     orderDiffById, shiftDiff, getAnimationType, onReorderAnimationEnd: onReorderAnimationEnd,
@@ -215,7 +216,7 @@ const ChatList = ({
       const isPinned = viewportOffset + i < pinnedCount;
       const offsetTop = noAbsolutePositioning
         ? undefined
-        : panesHeight + archiveHeight + (viewportOffset + i) * CHAT_HEIGHT_PX;
+        : panesHeight + archiveHeight + (viewportOffset + i) * chatHeight;
 
       return (
         <Chat

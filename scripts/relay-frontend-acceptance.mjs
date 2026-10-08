@@ -25,7 +25,7 @@ async function closePanel() { if (await page.locator('#relay-media-operations').
 async function reset(width = 1920, height = 1080, size = 16) {
   await closePanel(); await page.setViewportSize({ width, height });
   await page.evaluate((size) => { document.documentElement.style.fontSize = `${size}px`; document.documentElement.dir = 'ltr';
-    window.__relayAudit.applyTheme('egoist-dark'); window.__relayAudit.setMessageSize(16); window.__relayAudit.openChat('101'); }, size);
+    window.__relayAudit.applyTheme('lagom-dark'); window.__relayAudit.setMessageSize(16); window.__relayAudit.openChat('101'); }, size);
   await settle();
 }
 async function dimensions() {
@@ -57,17 +57,29 @@ const panel = async () => { await page.evaluate((items) => window.__relayNativeM
   await page.keyboard.press('Control+j'); await page.waitForSelector('#relay-media-operations'); await settle(); };
 try {
   browser = await chromium.launch({ headless: true, executablePath, args: ['--disable-background-networking'] });
-  const context = await browser.newContext({ viewport: { width: 1920, height: 1080 }, serviceWorkers: 'block', locale: 'ru-RU' });
-  await context.addInitScript(initializeAuditBrowser);
-  await context.route('**/*', (route) => new URL(route.request().url()).origin === new URL(url).origin ? route.continue() : route.abort());
-  page = await context.newPage(); page.on('pageerror', (error) => report.errors.push(String(error)));
-  await page.goto(url); await page.waitForFunction(() => window.__relayAudit?.state().currentUserId === '1', undefined, { timeout: 60000 });
-  await page.evaluate(() => { window.__relayAudit.loadChats(); window.__relayAudit.simulateConnected(); });
-  await page.waitForFunction(() => window.__relayAudit.state().chatCount >= 2); await reset();
-  await run('black-surfaces-aligned-header', async () => { const d = await dimensions();
-    assert.equal(d.root.bg, 'rgb(0, 0, 0)'); assert.equal(d.header.bg, 'rgb(0, 0, 0)');
+  let context;
+  // Чистый контекст (без сохранённого состояния): после перезагрузки страницы сценарий relay-ui заново не синхронизируется
+  const openFreshPage = async () => {
+    await context?.close();
+    context = await browser.newContext({ viewport: { width: 1920, height: 1080 }, serviceWorkers: 'block', locale: 'ru-RU' });
+    await context.addInitScript(initializeAuditBrowser);
+    await context.route('**/*', (route) => new URL(route.request().url()).origin === new URL(url).origin ? route.continue() : route.abort());
+    page = await context.newPage(); page.on('pageerror', (error) => report.errors.push(String(error)));
+    await page.goto(url); await page.waitForFunction(() => window.__relayAudit?.state().currentUserId === '1', undefined, { timeout: 60000 });
+    await page.evaluate(() => { window.__relayAudit.loadChats(); window.__relayAudit.simulateConnected(); });
+    await page.waitForFunction(() => window.__relayAudit.state().chatIds.includes('101'), undefined, { timeout: 30000 });
+  };
+  await openFreshPage();
+  // Чистый профиль без сохранённого выбора: тема по умолчанию — Lagom Dark (до первого applyTheme)
+  await run('default-theme-is-lagom-dark', async () => { const boot = await page.evaluate(() => ({ cls: document.documentElement.className,
+      stored: window.localStorage.getItem('egoist_theme_variant'), bg: getComputedStyle(document.body).backgroundColor }));
+    assert(boot.cls.includes('theme-variant-lagom-dark') && boot.cls.includes('theme-dark'), `Default theme classes: ${boot.cls}`);
+    assert(!boot.stored || boot.stored === 'lagom-dark', `Unexpected stored variant: ${boot.stored}`); return boot; });
+  await reset();
+  await run('lagom-dark-surfaces-aligned-header', async () => { const d = await dimensions();
+    assert.equal(d.root.bg, 'rgb(14, 14, 15)'); assert.equal(d.header.bg, 'rgb(14, 14, 15)');
     assert(Math.abs(d.header.x - d.middle.x) < 1 && Math.abs(d.header.width - d.middle.width) < 1);
-    assert(d.body.font.includes('Inter')); assert.equal(d.background.image, 'none'); return d; });
+    assert(d.body.font.includes('Onest'), `Body font: ${d.body.font}`); assert.equal(d.background.image, 'none'); return d; });
   await run('reading-width-1100-with-panel', async () => { await reset(1100, 800); await panel(); const d = await dimensions();
     assert.equal(d.panel.width, 384); assert(d.middle.width >= 320, `Reading column only ${d.middle.width}px`); return d; });
   await run('result-after-notification-duration', async () => { await page.waitForTimeout(6200);
@@ -100,18 +112,24 @@ try {
     await page.keyboard.press('Escape'); await settle();
     const restored = await input.evaluate((e) => e === document.activeElement);
     assert(restored, 'Closing panel did not restore the retained composer');
-    return { focus, restored }; });  await run('light-theme-retention-and-selected-text', async () => { await reset(); await page.evaluate(() => window.__relayAudit.applyTheme('light-modern')); await settle();
-    const colors = await page.locator('.chat-item-clickable.selected').evaluate((e) => ({ color: getComputedStyle(e).color,
-      primaryText: getComputedStyle(e.querySelector('.title') || e).color, bg: getComputedStyle(e).backgroundColor }));
-    assert.notEqual(colors.primaryText, 'rgb(255, 255, 255)'); await page.reload();
-    await page.waitForFunction(() => window.__relayAudit?.state().currentUserId === '1', undefined, { timeout: 60000 }); await settle();
-    const theme = await page.evaluate(() => window.localStorage.getItem('egoist_theme_variant'));
-    assert.equal(theme, 'light-modern');
-    const restored = await dimensions();
-    const themeClass = await page.evaluate(() => document.documentElement.className);
-    assert(themeClass.includes('theme-light') && !themeClass.includes('theme-dark'), 'Stored base theme replaced on boot');
-    assert.equal(restored.root.bg, 'rgb(248, 248, 248)', 'Stored palette replaced on boot');
-    return { colors, retainedTheme: theme, themeClass, layout: restored }; });
+    return { focus, restored }; });
+  // Светлые темы: основная Lagom Light и прежний вариант; выбор и палитра переживают перезагрузку
+  for (const [themeId, expectedBg] of [['lagom-light', 'rgb(245, 245, 242)'], ['light-modern', 'rgb(248, 248, 248)']]) {
+    await run(`light-theme-retention-and-selected-text-${themeId}`, async () => {
+      await openFreshPage();
+      await reset(); await page.evaluate((id) => window.__relayAudit.applyTheme(id), themeId); await settle();
+      const colors = await page.locator('.chat-item-clickable.selected').evaluate((e) => ({ color: getComputedStyle(e).color,
+        primaryText: getComputedStyle(e.querySelector('.title') || e).color, bg: getComputedStyle(e).backgroundColor }));
+      assert.notEqual(colors.primaryText, 'rgb(255, 255, 255)'); await page.reload();
+      await page.waitForFunction(() => window.__relayAudit?.state().currentUserId === '1', undefined, { timeout: 60000 }); await settle();
+      const theme = await page.evaluate(() => window.localStorage.getItem('egoist_theme_variant'));
+      assert.equal(theme, themeId);
+      const restored = await dimensions();
+      const themeClass = await page.evaluate(() => document.documentElement.className);
+      assert(themeClass.includes('theme-light') && !themeClass.includes('theme-dark'), 'Stored base theme replaced on boot');
+      assert.equal(restored.root.bg, expectedBg, 'Stored palette replaced on boot');
+      return { colors, retainedTheme: theme, themeClass, layout: restored }; });
+  }
   await run('saved-messages-icon-contrast', async () => { await reset();
     await page.locator('[data-relay-app=instagram]').click(); await settle();
     await page.evaluate(() => window.__relayNativeMock.emit('multi-social-share', { requestId: 'frontend-icon-contrast-0001',
@@ -132,7 +150,7 @@ try {
     });
     report.contrastTrace = matches;
     assert.equal(icons.length, 1, `Exactly one saved icon required: ${JSON.stringify(icons)}`);
-    assert.equal(icons[0].color, 'rgb(0, 0, 0)', `Primary foreground contrast: ${JSON.stringify(icons)}`); return { icons };
+    assert.equal(icons[0].color, 'rgb(14, 14, 15)', `Primary foreground contrast: ${JSON.stringify(icons)}`); return { icons };
   });
 } finally {
   report.sourcesAfter = await hashes(); report.sourcesChanged = Object.keys(report.sources).filter((name) => report.sources[name] !== report.sourcesAfter[name]);

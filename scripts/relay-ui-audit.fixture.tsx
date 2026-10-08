@@ -24,7 +24,7 @@ import { ANTIGRAVITY_THEMES, applyAntigravityTheme } from '../src/util/antigravi
     const global = getGlobal();
     const tab = global.byTabId ? selectTabState(global) : undefined;
     return { auth: global.auth?.state, currentUserId: global.currentUserId, connection: global.connectionState,
-      chatCount: Object.keys(global.chats?.byId || {}).length, settingsScreen: tab?.leftColumn.settingsScreen,
+      chatCount: Object.keys(global.chats?.byId || {}).length, chatIds: Object.keys(global.chats?.byId || {}), settingsScreen: tab?.leftColumn.settingsScreen,
       leftContent: tab?.leftColumn.contentKey, isSynced: global.isSynced, isSyncing: global.isSyncing,
       currentChatId: tab?.messageLists?.[0]?.chatId };
   },
