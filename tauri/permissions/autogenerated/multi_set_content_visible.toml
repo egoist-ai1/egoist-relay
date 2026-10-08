@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-multi-set-content-visible"
+description = "Enables the multi_set_content_visible command without any pre-configured scope."
+commands.allow = ["multi_set_content_visible"]
+
+[[permission]]
+identifier = "deny-multi-set-content-visible"
+description = "Denies the multi_set_content_visible command without any pre-configured scope."
+commands.deny = ["multi_set_content_visible"]

@@ -110,7 +110,7 @@
     gap: 0;
     padding-block: 0.5rem;
     background-color: var(--color-background);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 4px rgba(var(--color-text-rgb), 0.05);
   }
 
   @media (max-width: 600px) {
@@ -127,7 +127,7 @@
   border-radius: 1.5rem;
 
   background-color: var(--color-background);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 4px rgba(var(--color-text-rgb), 0.05);
 
   transition: border-color 250ms ease-in-out;
 

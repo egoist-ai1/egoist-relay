@@ -36,6 +36,7 @@ export function isSafeSourcePath(file) {
   assertSafeRelative(file);
   return !file.split('/').some((part) => BLOCKED_PARTS.test(part)) && !BLOCKED_FILE.test(path.posix.basename(file))
     && !/(?:^|\/)(?:accounts?|sessions?|enrollment)\/.*\.(?:json|txt|log|bin)$/i.test(file)
+    && !/^public\/(?:build-stats\.json|statoscope-report\.html|installer\.html)$/.test(file)
     && !/\.(?:test|spec|fixture)\./i.test(file);
 }
 
@@ -252,4 +253,76 @@ export async function validateSourceImports(root, files) {
     if (ts.sys.fileExists(path.join(root, essential))) requireCondition(selected.has(essential), `Essential source input excluded: ${essential}`);
   }
   return { checkedImports, scope: 'Resolved local TypeScript/JavaScript imports and essential production entry points' };
+}
+
+// Команды установщика зарегистрированы в оболочке, но в окнах приложения не выдаются.
+const COMMANDS_WITHOUT_CAPABILITY = new Set(['get_default_install_dir', 'choose_install_dir', 'minimize_installer', 'close_installer',
+  'launch_installed_app', 'perform_install']);
+
+function stripRustComments(source) {
+  return source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
+}
+
+export function parseHandlerCommands(libRs) {
+  const body = stripRustComments(libRs).match(/generate_handler!\s*\[([\s\S]*?)\]/)?.[1];
+  requireCondition(body, 'Tauri invoke handler list not found');
+  return body.split(',').map((item) => item.trim().split('::').pop()).filter(Boolean);
+}
+
+export function parseManifestCommands(buildRs) {
+  const body = stripRustComments(buildRs).match(/\.commands\(\s*&\[([\s\S]*?)\]\s*\)/)?.[1];
+  requireCondition(body, 'Tauri app manifest command list not found');
+  return [...body.matchAll(/"([^"]+)"/g)].map((match) => match[1]);
+}
+
+export function parsePermissionSets(tomlText) {
+  const sets = new Map();
+  for (const block of tomlText.split(/^\[\[permission\]\]/m).slice(1)) {
+    const identifier = block.match(/^\s*identifier\s*=\s*"([^"]+)"/m)?.[1];
+    const allowed = block.match(/^\s*commands\.allow\s*=\s*\[([^\]]*)\]/m)?.[1];
+    if (identifier && allowed) sets.set(identifier, [...allowed.matchAll(/"([^"]+)"/g)].map((match) => match[1]));
+  }
+  return sets;
+}
+
+// Каждая зарегистрированная команда должна быть в манифесте приложения и разрешена ровно в одной capability.
+export function validateCommandAcl({ libRs, buildRs, capabilities, permissionToml = '' }) {
+  const handler = parseHandlerCommands(libRs);
+  const manifest = parseManifestCommands(buildRs);
+  requireCondition(new Set(handler).size === handler.length, 'Duplicate command in the Tauri invoke handler');
+  const missing = handler.filter((command) => !manifest.includes(command));
+  requireCondition(missing.length === 0, `Command registered but absent from the ACL app manifest (blocked at runtime): ${missing.join(', ')}`);
+  const stale = manifest.filter((command) => !handler.includes(command));
+  requireCondition(stale.length === 0, `ACL app manifest lists commands that are not registered: ${stale.join(', ')}`);
+  const sets = parsePermissionSets(permissionToml);
+  for (const command of manifest) sets.set(`allow-${command.replaceAll('_', '-')}`, [command]);
+  const grants = new Map(handler.map((command) => [command, []]));
+  for (const { file, config } of capabilities) {
+    const identifiers = (config.permissions || []).map((item) => (typeof item === 'string' ? item : item?.identifier)).filter(Boolean);
+    for (const identifier of identifiers) {
+      requireCondition(identifier.includes(':') || sets.has(identifier), `Unknown permission "${identifier}" in capability ${file}`);
+      for (const command of sets.get(identifier) || []) grants.get(command)?.push(file);
+    }
+  }
+  for (const [command, files] of grants) {
+    const unique = [...new Set(files)];
+    requireCondition(files.length === unique.length, `Command ${command} is granted twice in one capability`);
+    if (COMMANDS_WITHOUT_CAPABILITY.has(command)) {
+      requireCondition(unique.length === 0, `Command ${command} must stay without a capability`);
+    } else {
+      requireCondition(unique.length === 1, `Command ${command} must be allowed in exactly one capability, found ${unique.length}`);
+    }
+  }
+  return { commands: handler.length, capabilities: capabilities.length };
+}
+
+export async function readCommandAcl(root) {
+  const read = (file) => readFile(path.join(root, file), 'utf8');
+  const capabilityDirectory = path.join(root, 'tauri/capabilities');
+  const capabilityFiles = (await readdir(capabilityDirectory)).filter((name) => name.endsWith('.json')).sort();
+  const capabilities = await Promise.all(capabilityFiles.map(async (name) => ({ file: name, config: JSON.parse(await read(`tauri/capabilities/${name}`)) })));
+  const permissionDirectory = path.join(root, 'tauri/permissions');
+  const permissionFiles = (await readdir(permissionDirectory)).filter((name) => name.endsWith('.toml')).sort();
+  const permissionToml = (await Promise.all(permissionFiles.map((name) => read(`tauri/permissions/${name}`)))).join('\n');
+  return { libRs: await read('tauri/src/lib.rs'), buildRs: await read('tauri/build.rs'), capabilities, permissionToml };
 }

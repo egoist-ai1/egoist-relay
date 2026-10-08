@@ -35,5 +35,10 @@ export interface SharedSettings {
   shouldCollectDebugLogs?: boolean;
   shouldDebugExportedSenders?: boolean;
   shouldWarnAboutFiles?: boolean;
+  // Прогрев X и Instagram после готовности Telegram; по умолчанию включён
+  shouldWarmupSocialViews?: boolean;
+  shouldKeepDeletedMessages: boolean;
+  deletedMessagesRetentionDays: number;
+  deletedMessagesMaxMegabytes: number;
   shouldSkipBrowserCloseConfirmation: boolean;
 }

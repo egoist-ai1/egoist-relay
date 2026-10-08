@@ -12,7 +12,6 @@ import { animateEntrance } from '../../util/animations/gsapMotion';
 import buildClassName from '../../util/buildClassName';
 import { oldSetLanguage } from '../../util/oldLangProvider';
 import { createStyledQrCode } from '../../util/qrCode/buildStyledQrCode';
-import { LOCAL_TGS_URLS } from '../common/helpers/animatedAssets';
 import { navigateBack } from './helpers/backNavigation';
 import { getSuggestedLanguage } from './helpers/getSuggestedLanguage';
 
@@ -24,7 +23,7 @@ import useLastCallback from '../../hooks/useLastCallback';
 import useMediaTransitionDeprecated from '../../hooks/useMediaTransitionDeprecated';
 import useMultiaccountInfo from '../../hooks/useMultiaccountInfo';
 
-import AnimatedIcon from '../common/AnimatedIcon';
+import SennitMark from '../common/SennitMark';
 import Button from '../ui/Button';
 import Loading from '../ui/Loading';
 
@@ -35,7 +34,7 @@ type StateProps = {
 };
 
 const QR_SIZE = 260;
-const QR_PLANE_SIZE = 42;
+const QR_MARK_SIZE = 26;
 const QR_IMAGE_SIZE_RATIO = 0.22;
 const QR_CODE_MUTATION_DURATION = 150;
 const DATA_PREFIX = 'tg://login?token=';
@@ -166,13 +165,9 @@ const AuthQrCode = ({
               className="qr-container"
               ref={qrCodeRef}
             />
-            <AnimatedIcon
-              tgsUrl={LOCAL_TGS_URLS.QrPlane}
-              size={QR_PLANE_SIZE}
-              className="qr-plane"
-              nonInteractive
-              noLoop={false}
-            />
+            <div className="qr-plane">
+              <SennitMark size={QR_MARK_SIZE} />
+            </div>
           </div>
           {!isQrMounted && <div className="qr-loading"><Loading /></div>}
         </div>

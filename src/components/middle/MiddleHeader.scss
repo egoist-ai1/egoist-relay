@@ -13,18 +13,19 @@
   flex-shrink: 0;
   align-items: center;
 
-  width: calc(100% - var(--middle-panel-inline-padding) * 2);
-  max-width: calc(var(--messages-container-width) - var(--middle-panel-inline-padding) * 2);
+  width: 100%;
+  max-width: none;
   height: var(--middle-header-height);
-  margin: calc(var(--middle-panel-inline-padding) + var(--middle-header-player-height, 0px)) auto 0;
+  margin: var(--middle-header-player-height, 0px) 0 0;
   padding-top: 0.25rem;
   padding-right: max(0.25rem, env(safe-area-inset-right));
   padding-bottom: 0.25rem;
   padding-left: max(0.25rem, env(safe-area-inset-left));
-  border-radius: 2rem;
+  border-bottom: 0.0625rem solid var(--color-borders);
+  border-radius: 0;
 
   background: var(--color-background);
-  box-shadow: var(--shadow-pane);
+  box-shadow: none;
 
   /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
   transition: var(--header-transform-transition), margin-top var(--top-stack-transition);
@@ -68,20 +69,17 @@
 
       font-size: 0.75rem;
       font-weight: var(--font-weight-medium);
+      font-variant-numeric: tabular-nums;
       line-height: 1rem;
-      color: white;
+      color: var(--color-background);
       text-align: center;
 
       background: var(--color-gray);
 
       &.active {
+        font-weight: var(--font-weight-bold);
+        color: var(--color-primary-text);
         background: var(--color-primary);
-
-        :global(.theme-dark) & {
-          font-weight: var(--font-weight-bold);
-          color: #000000 !important;
-          background: #FFFFFF !important;
-        }
       }
     }
 
@@ -251,9 +249,9 @@
   }
 
   .status {
-    color: #A0A5AC !important;
+    color: var(--color-text-secondary) !important;
     &.online {
-      color: #38BDF8 !important;
+      color: var(--color-text) !important;
     }
   }
 
@@ -266,7 +264,7 @@
     font-size: 0.9375rem !important;
     font-weight: var(--font-weight-medium) !important;
     line-height: 1.25rem !important;
-    color: #A0A5AC !important;
+    color: var(--color-text-secondary) !important;
     text-overflow: ellipsis;
     letter-spacing: -0.01em;
     white-space: nowrap;
@@ -322,7 +320,7 @@
       font-size: 0.75rem;
       font-weight: var(--font-weight-medium);
       line-height: 1rem;
-      color: white;
+      color: var(--color-primary-text);
       text-align: center;
 
       background: var(--color-primary);
@@ -340,9 +338,8 @@
   }
 
   @media (min-width: 1276px) {
-    width: calc(100% - var(--right-column-width) - var(--middle-panel-inline-padding) * 2);
     #Main.right-column-open & {
-      transform: translate3d(calc(var(--right-column-width) / -2), 0, 0);
+      width: calc(100% - var(--right-column-width));
     }
   }
 
@@ -358,5 +355,25 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@container relayTelegram (max-width: 58rem) {
+  #Main.right-column-open .MiddleHeader {
+    width: 100%;
+  }
+}
+
+// Узкая область при крупном тексте (200% текста в окне 640–850 px): без аватара название чата не схлопывается
+// до нуля (кнопки поиска, звонка и меню остаются)
+@container relayTelegram (max-width: 22rem) {
+  .MiddleHeader .ChatInfo .Avatar {
+    display: none;
+  }
+}
+
+@container relayTelegram (max-width: 18rem) {
+  .MiddleHeader .ChatInfo .VerifiedIcon {
+    display: none;
   }
 }

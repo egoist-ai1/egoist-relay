@@ -23,6 +23,7 @@ import './ui/animations';
 import './ui/chats';
 import './ui/bots';
 import './ui/messages';
+import './ui/deletedMessages';
 import './ui/globalSearch';
 import './ui/middleSearch';
 import './ui/account';

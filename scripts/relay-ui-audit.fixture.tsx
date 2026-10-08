@@ -14,17 +14,21 @@ import { ANTIGRAVITY_THEMES, applyAntigravityTheme } from '../src/util/antigravi
   simulateConnected: () => getActions().apiUpdate({ '@type': 'updateConnectionState', connectionState: 'connectionStateReady' }),
   openSettings: (name: string) => getActions().openSettingsScreen({ screen: (SettingsScreens as any)[name] }),
   openChat: (chatId: string) => getActions().openChat({ id: chatId }),
+  closeChat: () => getActions().openChat({ id: undefined }),
   applyTheme: (id: string) => {
     const theme = ANTIGRAVITY_THEMES.find((item) => item.id === id)!;
     getActions().setSharedSettingOption({ theme: theme.base, shouldUseSystemTheme: false });
     applyAntigravityTheme(id);
   },
+  setAuthState: (state?: string) => { const global = getGlobal(); setGlobal({ ...global, auth: { ...global.auth, state: state as any,
+    phoneNumber: '+79990000000', hint: 'Подсказка пароля', qrCode: { token: 'qa-token', expires: Date.now() / 1000 + 600 } as any } }); },
+  notify: (message: string) => getActions().showNotification({ message }),
   setMessageSize: (size: number) => getActions().setSharedSettingOption({ messageTextSize: size }),
   state: () => {
     const global = getGlobal();
     const tab = global.byTabId ? selectTabState(global) : undefined;
     return { auth: global.auth?.state, currentUserId: global.currentUserId, connection: global.connectionState,
-      chatCount: Object.keys(global.chats?.byId || {}).length, settingsScreen: tab?.leftColumn.settingsScreen,
+      chatCount: Object.keys(global.chats?.byId || {}).length, chatIds: Object.keys(global.chats?.byId || {}), settingsScreen: tab?.leftColumn.settingsScreen,
       leftContent: tab?.leftColumn.contentKey, isSynced: global.isSynced, isSyncing: global.isSyncing,
       currentChatId: tab?.messageLists?.[0]?.chatId };
   },
@@ -49,6 +53,7 @@ import DeleteProfilePhotoModal from '../src/components/common/DeleteProfilePhoto
 import GuardReplaceBotModal from '../src/components/right/management/GuardReplaceBotModal';
 import CalendarModal from '../src/components/common/CalendarModal';
 import AiTextTranslateEditor from '../src/components/middle/composer/AiMessageEditorModal/AiTextTranslateEditor';
+import SocialShareModal from '../src/components/multi/SocialShareModal';
 
 type OverlayKind = 'controls' | 'confirm' | 'date' | 'boundaries' | 'confirm-disabled' | 'confirm-only' | 'nested' | 'media' | 'menu-div' | 'menu-native' | 'delete-photo' | 'guard-bot' | 'calendar-repeat' | 'button-baseline' | 'ai-portal-div' | 'ai-portal-native' | 'ai-portal-two' | 'ai-external' | 'confirm-standard' | 'enter-delegation' | 'delete-messages' | undefined;
 const overlayEvents: unknown[] = [];
@@ -60,7 +65,17 @@ const AuditOverlays = () => {
   const [slider, setSlider] = useState(50);
   const [isNestedOpen, setIsNestedOpen] = useState(false);
   const [isSecondAiOpen, setIsSecondAiOpen] = useState(false);
-  (window as any).__relayAudit.openOverlay = setKind;
+  const [shareRequest, setShareRequest] = useState<any>();
+  (window as any).__relayAudit.openShare = (request: unknown) => {
+    const global = getGlobal();
+    const folders = [{ id: 2, title: { text: 'Личные' }, includedChatIds: ['101'], excludedChatIds: [], contacts: true },
+      { id: 3, title: { text: 'Телеграм' }, includedChatIds: ['101'], excludedChatIds: [], groups: true }];
+    setGlobal({ ...global, chatFolders: { ...global.chatFolders,
+      byId: { ...global.chatFolders.byId, 2: folders[0], 3: folders[1] },
+      orderedIds: [...new Set([...(global.chatFolders.orderedIds || []), 2, 3])] } });
+    setShareRequest(request);
+  };
+  (window as any).__relayAudit.openOverlay = (nextKind?: OverlayKind) => { setShareRequest(undefined); setKind(nextKind); };
   (window as any).__relayAudit.overlayEvents = overlayEvents;
   (window as any).__relayAudit.openDeleteFixture = () => {
     const messages = Object.values(getGlobal().messages.byChatId['101'].byId);
@@ -80,6 +95,7 @@ const AuditOverlays = () => {
   };
   const close = () => { overlayEvents.push({ close: kind }); setKind(undefined); setIsNestedOpen(false); };
   return <>
+    {shareRequest && <SocialShareModal request={shareRequest} canSend onClose={async () => setShareRequest(undefined)} />}
     <Modal title="Проверка настоящих контролов Relay" isOpen={kind === 'controls'} onClose={close} isSlim hasCloseButton>
       <InputText id="audit-name" value={name} label="Имя профиля" onChange={(event) => setName(event.target.value)} />
       <TextArea id="audit-bio" value={bio} label="Описание" onChange={(event) => setBio(event.target.value)} />

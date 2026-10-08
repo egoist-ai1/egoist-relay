@@ -12,7 +12,7 @@
 Section "-Relay requirements"
   Push $0
   ${IfNot} ${RunningX64}
-    MessageBox MB_OK|MB_ICONSTOP "Egoist Relay требует 64-разрядную Windows 10 версии 1903 или новее." /SD IDOK
+    MessageBox MB_OK|MB_ICONSTOP "Sennit требует 64-разрядную Windows 10 версии 1903 или новее." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}
@@ -20,7 +20,7 @@ Section "-Relay requirements"
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion" "CurrentBuildNumber"
   SetRegView lastused
   ${If} $0 < 18362
-    MessageBox MB_OK|MB_ICONSTOP "Egoist Relay требует Windows 10 версии 1903 (сборка 18362) или новее." /SD IDOK
+    MessageBox MB_OK|MB_ICONSTOP "Sennit требует Windows 10 версии 1903 (сборка 18362) или новее." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}
@@ -110,7 +110,7 @@ FunctionEnd
   Pop $1
   ${If} $0 == 2
     IfSilent relay_abort_${RELAY_CHECK_ID} 0
-    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Закройте Egoist Relay через меню значка в трее, затем нажмите «Повторить». Активные аккаунты не будут принудительно закрыты." IDRETRY relay_check_${RELAY_CHECK_ID} IDCANCEL relay_abort_${RELAY_CHECK_ID}
+    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Закройте Sennit через меню значка в трее, затем нажмите «Повторить». Активные аккаунты не будут принудительно закрыты." IDRETRY relay_check_${RELAY_CHECK_ID} IDCANCEL relay_abort_${RELAY_CHECK_ID}
     relay_abort_${RELAY_CHECK_ID}:
     SetErrorLevel 2
     Abort
@@ -142,7 +142,7 @@ FunctionEnd
     nsis_tauri_utils::SemverCompare "${VERSION}" "$0"
     Pop $1
     ${If} $1 == -1
-      MessageBox MB_OK|MB_ICONSTOP "Установлена более новая версия Egoist Relay ($0). Установка версии ${VERSION} остановлена." /SD IDOK
+      MessageBox MB_OK|MB_ICONSTOP "Установлена более новая версия Sennit ($0). Установка версии ${VERSION} остановлена." /SD IDOK
       SetErrorLevel 1
       Abort "RELAY_DOWNGRADE_BLOCKED: Installed product version is newer."
     ${EndIf}
@@ -157,6 +157,8 @@ FunctionEnd
 !macroend
 
 !macro NSIS_HOOK_POSTINSTALL
+  ; Имя в «Приложения и возможности»: внутреннее имя продукта (папка, exe, ключ) остаётся прежним.
+  WriteRegStr SHCTX "${UNINSTKEY}" "DisplayName" "Sennit"
   InitPluginsDir
   File /oname=$PLUGINSDIR\relay-stop-processes.ps1 "${RELAY_HOOK_DIRECTORY}\installer-processes.ps1"
   File /oname=$PLUGINSDIR\relay-legacy-runtime.json "${RELAY_HOOK_DIRECTORY}\installer-legacy-runtime.json"

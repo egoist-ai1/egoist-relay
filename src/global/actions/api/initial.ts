@@ -15,6 +15,7 @@ import {
   IS_WEBM_SUPPORTED, MAX_BUFFER_SIZE, PLATFORM_ENV,
 } from '../../../util/browser/windowEnvironment';
 import * as cacheApi from '../../../util/cacheApi';
+import { deletedMessagesStorage } from '../../../util/deletedMessages';
 import { getCurrentTabId } from '../../../util/establishMultitabRole';
 import {
   ACCOUNT_SLOT, getAccountsInfo, getAccountSlotUrl, getFirstLoggedInAccountSlot,
@@ -216,6 +217,7 @@ addActionHandler('signOut', async (global, actions, payload): Promise<void> => {
     // Do nothing
   }
 
+  if (global.currentUserId) void deletedMessagesStorage.clear(global.currentUserId);
   actions.reset();
   await resetStorage();
 

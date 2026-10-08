@@ -12,15 +12,15 @@
 }
 
 .multiRoot {
-  --relay-shell-background: #09090a;
-  --relay-shell-surface: #111113;
-  --relay-shell-hover: #202023;
-  --relay-shell-active: #252528;
-  --relay-shell-border: #252529;
-  --relay-shell-border-strong: #404047;
-  --relay-shell-text: #f4f4f5;
-  --relay-shell-muted: #ababB4;
-  --relay-shell-focus: #f4f4f5;
+  --relay-shell-background: var(--color-background);
+  --relay-shell-surface: var(--color-background-secondary);
+  --relay-shell-hover: var(--color-item-hover);
+  --relay-shell-active: var(--color-item-active);
+  --relay-shell-border: var(--color-borders);
+  --relay-shell-border-strong: var(--color-borders-input);
+  --relay-shell-text: var(--color-text);
+  --relay-shell-muted: var(--color-text-secondary);
+  --relay-shell-focus: var(--color-text);
   --relay-shell-rail-width: 4.5rem;
   --relay-shell-caption-height: 2.5rem;
 
@@ -199,14 +199,14 @@
 
   background: var(--relay-shell-text);
 
-  transition: color 140ms ease, background-color 140ms ease, transform 140ms ease;
+  transition: color 140ms ease, background-color 140ms ease, opacity 140ms ease;
 
   &:hover {
-    background: #d9d9de;
+    background: var(--color-primary-shade);
   }
 
   &:active {
-    transform: scale(0.97);
+    opacity: 0.85;
   }
 
   &:focus-visible {
@@ -240,4 +240,15 @@
     border-color: var(--relay-shell-text);
     animation: none;
   }
+}
+
+.workspaceWithOperations {
+  .nativeViewport, .telegramPane, .xPane, .instagramPane {
+    inset-inline-end: 24rem;
+    width: calc(100% - 24rem);
+  }
+}
+
+.workspaceFullOperations {
+  .telegramPane, .xPane, .instagramPane { pointer-events: none; visibility: hidden; }
 }

@@ -18,9 +18,10 @@ const MIB = 1024 * 1024;
 const metrics = [];
 const previousProxy = process.env.EGOIST_RELAY_MEDIA_PROXY;
 const root = process.env.EGOIST_RELAY_AUDIT_WORK;
-const key = process.env.EGOIST_RELAY_TEST_TLS_KEY;
-const cert = process.env.EGOIST_RELAY_TEST_TLS_CERT;
-const hasTlsFixture = Boolean(key && cert);
+const fixtureSource = await fs.readFile(new URL('./media-proxy.test.mjs', import.meta.url), 'utf8');
+const key = fixtureSource.match(/const TLS_TEST_KEY = `([^`]+)`;/)?.[1];
+const cert = fixtureSource.match(/const TLS_TEST_CERT = `([^`]+)`;/)?.[1];
+assert.ok(key && cert, 'Existing synthetic TLS fixture must be present');
 
 test.before(async () => {
   assert.ok(root && path.isAbsolute(root), 'Set EGOIST_RELAY_AUDIT_WORK to this task own work directory');
@@ -101,7 +102,7 @@ async function hashFile(filename) {
 }
 
 for (const alpn of ['http/1.1', 'h2']) {
-  test(`70 MiB original file streams byte-exactly over verified ${alpn} with one GET`, { timeout: 30000, skip: !hasTlsFixture }, async context => {
+  test(`70 MiB original file streams byte-exactly over verified ${alpn} with one GET`, { timeout: 30000 }, async context => {
     const directory = await createDirectory(context);
     const size = 70 * MIB + 13;
     const chunk = Buffer.alloc(64 * 1024, 0x5a);
@@ -140,7 +141,7 @@ for (const alpn of ['http/1.1', 'h2']) {
 }
 
 for (const alpn of ['http/1.1', 'h2']) {
-  test(`A truncated ${alpn} original is rejected and removes its partial file`, { timeout: 5000, skip: !hasTlsFixture }, async context => {
+  test(`A truncated ${alpn} original is rejected and removes its partial file`, { timeout: 5000 }, async context => {
     const directory = await createDirectory(context);
     const port = await createServer(context, async (request, response) => {
       response.writeHead(200, { 'content-length': MIB });
@@ -213,12 +214,14 @@ test('An actual 1080p 1210-second local MP4 resolves losslessly through original
   });
   assert.deepEqual(enginePhases, ['download']);
   assert.equal(result.body, undefined);
+  assert.equal(result.metadata.width, 1920);
+  assert.equal(result.metadata.height, 1080);
   assert.equal(await hashFile(result.filePath), await hashFile(sourcePath));
   metrics.push({ scenario: 'actual-local-mp4-file-channel', width: 1920, height: 1080, durationSeconds: duration, size: (await fs.stat(result.filePath)).size, codec: probe.streams.find(stream => stream.codec_type === 'video').codec_name, engine: 'synthetic observed metadata/copy; real bundled ffmpeg generation and real resolver ffprobe validation' });
 });
 
 for (const alpn of ['http/1.1', 'h2']) {
-  test(`A ${alpn} declared original exceeding free disk budget reports disk space`, { timeout: 5000, skip: !hasTlsFixture }, async context => {
+  test(`A ${alpn} declared original exceeding free disk budget reports disk space`, { timeout: 5000 }, async context => {
     const directory = await createDirectory(context);
     const mocked = context.mock.method(fs, 'statfs', async () => ({ bavail: 64 * MIB + 16, bsize: 1 }));
     const port = await createServer(context, (request, response) => {
@@ -246,7 +249,7 @@ test('An original resolver file exceeding free disk budget reports disk space', 
 });
 
 for (const alpn of ['http/1.1', 'h2']) {
-  test(`Buffered ${alpn} size rejection retains its existing preview classification`, { timeout: 5000, skip: !hasTlsFixture }, async context => {
+  test(`Buffered ${alpn} size rejection retains its existing preview classification`, { timeout: 5000 }, async context => {
     const port = await createServer(context, (request, response) => {
       response.writeHead(200, { 'content-length': 100 });
       response.end(Buffer.from([0xff, 0xd8, 0xff, 0x5a]));
@@ -255,7 +258,7 @@ for (const alpn of ['http/1.1', 'h2']) {
   });
 }
 
-test('Malformed HTTP2 length is rejected before any original file is created', { timeout: 5000, skip: !hasTlsFixture }, async context => {
+test('Malformed HTTP2 length is rejected before any original file is created', { timeout: 5000 }, async context => {
   const directory = await createDirectory(context);
   const port = await createServer(context, (request, response) => {
     response.writeHead(200, { 'content-length': 'broken' });

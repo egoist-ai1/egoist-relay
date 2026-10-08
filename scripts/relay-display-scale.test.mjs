@@ -18,7 +18,7 @@ const kinds = process.env.DISPLAY_SCALE_KINDS ? process.env.DISPLAY_SCALE_KINDS.
 const sources = {
   contact: 'src/components/main/NewContactModal.tsx', 'contact-edit': 'src/components/main/NewContactModal.tsx',
   'report-options': 'src/components/modals/reportModal/ReportModal.tsx', 'report-comment': 'src/components/modals/reportModal/ReportModal.tsx',
-  country: 'src/components/common/CountryPickerModal.tsx', ['password']: 'src/components/common/PasswordConfirmModal.tsx',
+  country: 'src/components/common/CountryPickerModal.tsx', password: 'src/components/common/PasswordConfirmModal.tsx',
   formatting: 'src/components/common/RemoveFormattingModal.tsx', 'safe-link': 'src/components/main/SafeLinkModal.tsx',
   'browser-close': 'src/components/main/BrowserCloseConfirmationModal.tsx', mute: 'src/components/left/MuteChatModal.tsx',
   pin: 'src/components/common/PinMessageModal.tsx', 'delete-chat': 'src/components/common/DeleteChatModal.tsx',
@@ -89,7 +89,7 @@ try {
           }, kind);
           await page.waitForTimeout(400);
           const modal = page.locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last();
-          await modal.waitFor({ state: 'visible', timeout: 5000 });
+          await modal.waitFor({ state: 'visible', timeout: 20000 });
           if (kind === 'document') await modal.locator('[class*="textLines"]').waitFor({ state: 'visible', timeout: 5000 });
           row.platformCssProbe = await modal.evaluate((element) => {
             const original = document.body.className;

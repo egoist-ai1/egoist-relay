@@ -35,7 +35,7 @@
 
     border-radius: 50%;
 
-    background-color: var(--ripple-color, rgba(0, 0, 0, 0.08));
+    background-color: var(--ripple-color, rgba(var(--color-text-rgb), 0.08));
 
     animation: ripple-animation 700ms;
   }

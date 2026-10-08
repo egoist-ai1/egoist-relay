@@ -13,6 +13,7 @@ use url::Url;
 
 const SCRIPT: &str = include_str!("../../scripts/inline-media-resolver.mjs");
 const MAX_BYTES: usize = 64 * 1024 * 1024;
+const MAX_MEDIA_DIMENSION: u32 = 1_000_000;
 const TIMEOUT: Duration = Duration::from_secs(125);
 const FILE_TIMEOUT: Duration = Duration::from_secs(900);
 struct ActiveJob {
@@ -43,7 +44,7 @@ pub async fn relay_inline_resolve_media(
       &url,
       0,
       MAX_BYTES,
-      TIMEOUT,
+      Instant::now() + TIMEOUT,
       cancel,
     )
   })
@@ -71,10 +72,16 @@ pub fn relay_inline_cancel_media(webview: Webview, request_id: String) -> Result
 #[derive(serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct SavedMedia {
-  path: PathBuf,
-  file_name: String,
-  mime_type: String,
+  pub(crate) path: PathBuf,
+  pub(crate) file_name: String,
+  pub(crate) mime_type: String,
   pub(crate) size: u64,
+  #[serde(skip_serializing_if = "Option::is_none", default)]
+  pub(crate) width: Option<u32>,
+  #[serde(skip_serializing_if = "Option::is_none", default)]
+  pub(crate) height: Option<u32>,
+  #[serde(skip_serializing_if = "Option::is_none", default)]
+  pub(crate) journal_warning: Option<String>,
 }
 
 #[tauri::command]
@@ -89,7 +96,7 @@ pub async fn relay_inline_save_media(
   canonicalize_media_url(&url)?;
   let cancel = Arc::new(AtomicBool::new(false));
   tauri::async_runtime::spawn_blocking(move || {
-    save_public_media(&app_handle, &request_id, &url, 0, cancel)
+    save_public_media(&app_handle, &request_id, &url, 0, MAX_BYTES, Instant::now() + FILE_TIMEOUT, cancel)
   })
   .await
   .map_err(|_| "MEDIA_FETCH_FAILED".to_string())?
@@ -101,10 +108,10 @@ pub(crate) fn resolve_public_media(
   value: &str,
   index: usize,
   maximum: usize,
-  timeout: Duration,
+  deadline: Instant,
   cancel: Arc<AtomicBool>,
 ) -> Result<Vec<u8>, String> {
-  let (directory, output, _active) = resolve_media_operation(app, request_id, value, index, maximum, timeout, cancel, false)?;
+  let (directory, output, _active) = resolve_media_operation(app, request_id, value, index, maximum, deadline, cancel, false)?;
   directory.cleanup()?;
   Ok(output)
 }
@@ -114,72 +121,205 @@ pub(crate) fn save_public_media(
   request_id: &str,
   value: &str,
   index: usize,
+  maximum: usize,
+  deadline: Instant,
   cancel: Arc<AtomicBool>,
 ) -> Result<SavedMedia, String> {
-  let (directory, output, _active) = resolve_media_operation(app, request_id, value, index, MAX_BYTES, FILE_TIMEOUT, cancel.clone(), true)?;
-  let result = publish_saved_media(app, &directory, &output, index, &cancel);
-  directory.cleanup()?;
+  let (directory, output, _active) = resolve_media_operation(app, request_id, value, index, maximum, deadline, cancel.clone(), true)?;
+  let result = publish_saved_media(app, request_id, &directory, &output, index, maximum, &cancel, deadline);
+  if directory.cleanup().is_err() {
+    log::warn!("[MediaStorage] Owned worker cleanup is incomplete");
+  }
   result
+}
+
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct FileResult {
+  file_path: PathBuf,
+  metadata: FileMetadata,
+}
+
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct FileMetadata {
+  index: usize,
+  name: String,
+  mime_type: String,
+  size: u64,
+  #[serde(default)]
+  width: Option<u32>,
+  #[serde(default)]
+  height: Option<u32>,
+}
+
+fn downloads_directory(app: &AppHandle) -> Result<PathBuf, String> {
+  let downloads = if std::env::var("EGOIST_RELAY_SMOKE_TEST").as_deref() == Ok("1") {
+    crate::multi_app::smoke_download_directory().ok_or("MEDIA_PATH_DENIED")?
+  } else {
+    app.path().download_dir().map_err(|_| "MEDIA_PATH_DENIED")?
+  };
+  fs::create_dir_all(&downloads).map_err(|_| "MEDIA_PATH_DENIED")?;
+  fs::canonicalize(downloads).map_err(|_| "MEDIA_PATH_DENIED".into())
 }
 
 pub(crate) fn publish_saved_media(
   app: &AppHandle,
+  request_id: &str,
   directory: &OwnedDirectory,
   packet: &[u8],
   expected_index: usize,
+  maximum: usize,
   cancel: &AtomicBool,
+  deadline: Instant,
 ) -> Result<SavedMedia, String> {
-  #[derive(serde::Deserialize)]
-  #[serde(rename_all = "camelCase", deny_unknown_fields)]
-  struct FileResult { file_path: PathBuf, metadata: FileMetadata }
-  #[derive(serde::Deserialize)]
-  #[serde(rename_all = "camelCase", deny_unknown_fields)]
-  struct FileMetadata { index: usize, name: String, mime_type: String, size: u64 }
+  let downloads = downloads_directory(app)?;
+  let mut saved = publish_saved_media_in(directory, packet, expected_index, maximum, &downloads, cancel, deadline)?;
+  if crate::media_operations::record_saved_file_with_dimensions(app, request_id, &saved.path, &saved.file_name, &saved.mime_type, saved.size, saved.width, saved.height).is_err() {
+    saved.journal_warning = Some("MEDIA_JOURNAL_FAILED".into());
+    log::warn!("[MediaStorage] File is published; protected history registration failed");
+  }
+  Ok(saved)
+}
+
+fn publish_saved_media_in(
+  directory: &OwnedDirectory,
+  packet: &[u8],
+  expected_index: usize,
+  maximum: usize,
+  downloads: &Path,
+  cancel: &AtomicBool,
+  deadline: Instant,
+) -> Result<SavedMedia, String> {
+  check_deadline(cancel, deadline)?;
   let result: FileResult = serde_json::from_slice(packet).map_err(|_| "MEDIA_PARTIAL_BODY")?;
-  if result.metadata.index != expected_index || result.metadata.index >= 10 || result.metadata.size == 0 || result.metadata.name.len() > 96
-    || result.metadata.name.is_empty() || result.metadata.name.contains("..")
+  if result.metadata.index != expected_index || result.metadata.index >= 10 || result.metadata.size == 0
+    || result.metadata.name.len() > 96 || result.metadata.name.is_empty() || result.metadata.name.contains("..")
     || !result.metadata.name.chars().all(|character| character.is_ascii_alphanumeric() || matches!(character, '-' | '.'))
     || !matches!(result.metadata.mime_type.as_str(), "image/jpeg" | "image/png" | "image/gif" | "image/webp" | "video/mp4" | "video/webm")
-
-  { return Err("MEDIA_FORMAT_UNSUPPORTED".into()); }
+  {
+    return Err("MEDIA_FORMAT_UNSUPPORTED".into());
+  }
+  if !matches!((result.metadata.width, result.metadata.height), (None, None) | (Some(1..=MAX_MEDIA_DIMENSION), Some(1..=MAX_MEDIA_DIMENSION))) {
+    return Err("MEDIA_FORMAT_UNSUPPORTED".into());
+  }
+  if maximum == 0 || maximum > MAX_BYTES || result.metadata.size > maximum as u64 {
+    return Err("MEDIA_TOO_LARGE".into());
+  }
   let canonical_source = fs::canonicalize(&result.file_path).map_err(|_| "MEDIA_PATH_DENIED")?;
-  if canonical_source.parent() != Some(directory.path.as_path()) { return Err("MEDIA_PATH_DENIED".into()); }
+  if canonical_source.parent() != Some(directory.path.as_path()) {
+    return Err("MEDIA_PATH_DENIED".into());
+  }
   let metadata = fs::symlink_metadata(&result.file_path).map_err(|_| "MEDIA_PARTIAL_BODY")?;
   if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.len() != result.metadata.size {
     return Err("MEDIA_PARTIAL_BODY".into());
   }
-  let downloads = if std::env::var("EGOIST_RELAY_SMOKE_TEST").as_deref() == Ok("1") {
-    crate::multi_app::smoke_download_directory().ok_or("MEDIA_PATH_DENIED")?
-  } else { app.path().download_dir().map_err(|_| "MEDIA_PATH_DENIED")? };
-  fs::create_dir_all(&downloads).map_err(|_| "MEDIA_PATH_DENIED")?;
-  let downloads = fs::canonicalize(downloads).map_err(|_| "MEDIA_PATH_DENIED")?;
   let name = format!("{}-{}", uuid::Uuid::new_v4(), result.metadata.name);
   let destination = downloads.join(&name);
-  let mut input = File::open(&result.file_path).map_err(|_| "MEDIA_PARTIAL_BODY")?;
-  let mut output = OpenOptions::new().create_new(true).write(true).open(&destination).map_err(|_| "MEDIA_PATH_DENIED")?;
-  let copy_result = (|| {
-    let deadline = Instant::now() + FILE_TIMEOUT;
-    let mut buffer = vec![0_u8; 64 * 1024];
-    let mut copied = 0_u64;
-    loop {
-      if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) { return Err("MEDIA_CANCELLED"); }
-      if Instant::now() >= deadline { return Err("MEDIA_TIMEOUT"); }
-      let length = input.read(&mut buffer).map_err(|_| "MEDIA_PARTIAL_BODY")?;
-      if length == 0 { break; }
-      output.write_all(&buffer[..length]).map_err(|_| "MEDIA_DISK_FULL")?;
-      copied += length as u64;
-    }
-    if copied != result.metadata.size { return Err("MEDIA_PARTIAL_BODY"); }
-    output.sync_all().map_err(|_| "MEDIA_DISK_FULL")?;
-    if cancel.load(Ordering::Acquire) { return Err("MEDIA_CANCELLED"); }
-    Ok(())
-  })();
-  drop(output);
-  if let Err(error) = copy_result {
-    let _ = fs::remove_file(&destination);
-    return Err(error.into());
+  let staged = create_destination_staging(downloads)?;
+  let partial = staged.path.join("media.part");
+  copy_and_publish(&canonical_source, &partial, &destination, result.metadata.size, cancel, deadline)?;
+  if staged.cleanup().is_err() {
+    log::warn!("[MediaStorage] Published file has an owned staging cleanup pending");
   }
-  Ok(SavedMedia { path: destination, file_name: name, mime_type: result.metadata.mime_type, size: result.metadata.size })
+  Ok(SavedMedia {
+    path: destination,
+    file_name: name,
+    mime_type: result.metadata.mime_type,
+    size: result.metadata.size,
+    width: result.metadata.width,
+    height: result.metadata.height,
+    journal_warning: None,
+  })
+}
+
+pub(crate) fn create_destination_staging(downloads: &Path) -> Result<OwnedDirectory, String> {
+  if downloads.is_symlink() || !downloads.is_dir() { return Err("MEDIA_PATH_DENIED".into()); }
+  let downloads = fs::canonicalize(downloads).map_err(|_| "MEDIA_PATH_DENIED")?;
+  OwnedDirectory::create_in(downloads.join(".egoist-relay-media"))
+}
+
+fn copy_and_publish(
+  source: &Path,
+  partial: &Path,
+  destination: &Path,
+  expected_size: u64,
+  cancel: &AtomicBool,
+  deadline: Instant,
+) -> Result<(), String> {
+  check_deadline(cancel, deadline)?;
+  let mut input = File::open(source).map_err(|_| "MEDIA_PARTIAL_BODY")?;
+  if input.metadata().map_err(|_| "MEDIA_PARTIAL_BODY")?.len() != expected_size {
+    return Err("MEDIA_PARTIAL_BODY".into());
+  }
+  let mut output = OpenOptions::new().create_new(true).write(true).open(partial).map_err(|_| "MEDIA_PATH_DENIED")?;
+  let result = (|| {
+    copy_bytes(&mut input, &mut output, expected_size, cancel, deadline)?;
+    output.sync_all().map_err(|_| "MEDIA_DISK_FULL")?;
+    check_deadline(cancel, deadline)?;
+    drop(output);
+    publish_no_replace(partial, destination).map_err(|error| {
+      if error.kind() == std::io::ErrorKind::AlreadyExists { "MEDIA_FILE_EXISTS".into() } else { "MEDIA_PATH_DENIED".into() }
+    })
+  })();
+  if result.is_err() {
+    let _ = fs::remove_file(partial);
+  }
+  result
+}
+
+fn copy_bytes(
+  input: &mut impl Read,
+  output: &mut impl Write,
+  expected_size: u64,
+  cancel: &AtomicBool,
+  deadline: Instant,
+) -> Result<(), String> {
+  let mut buffer = vec![0_u8; 64 * 1024];
+  let mut copied = 0_u64;
+  loop {
+    check_deadline(cancel, deadline)?;
+    let length = input.read(&mut buffer).map_err(|_| "MEDIA_PARTIAL_BODY")?;
+    if length == 0 { break; }
+    copied = copied.checked_add(length as u64).ok_or("MEDIA_TOO_LARGE")?;
+    if copied > expected_size { return Err("MEDIA_PARTIAL_BODY".into()); }
+    output.write_all(&buffer[..length]).map_err(|_| "MEDIA_DISK_FULL")?;
+  }
+  if copied != expected_size { return Err("MEDIA_PARTIAL_BODY".into()); }
+  Ok(())
+}
+
+#[cfg(windows)]
+pub(crate) fn publish_no_replace(partial: &Path, destination: &Path) -> std::io::Result<()> {
+  use std::os::windows::ffi::OsStrExt;
+  #[link(name = "Kernel32")]
+  unsafe extern "system" {
+    fn MoveFileW(existing: *const u16, new: *const u16) -> i32;
+  }
+  let partial: Vec<_> = partial.as_os_str().encode_wide().chain(Some(0)).collect();
+  let destination: Vec<_> = destination.as_os_str().encode_wide().chain(Some(0)).collect();
+  // Both paths share the Downloads volume; `MoveFileW` never replaces a destination
+  if unsafe { MoveFileW(partial.as_ptr(), destination.as_ptr()) } == 0 {
+    return Err(std::io::Error::last_os_error());
+  }
+  Ok(())
+}
+
+#[cfg(not(windows))]
+pub(crate) fn publish_no_replace(partial: &Path, destination: &Path) -> std::io::Result<()> {
+  fs::hard_link(partial, destination)?;
+  let _ = fs::remove_file(partial);
+  Ok(())
+}
+
+fn check_deadline(cancel: &AtomicBool, deadline: Instant) -> Result<(), String> {
+  if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) {
+    return Err("MEDIA_CANCELLED".into());
+  }
+  if Instant::now() >= deadline {
+    return Err("MEDIA_TIMEOUT".into());
+  }
+  Ok(())
 }
 
 fn resolve_media_operation(
@@ -188,45 +328,38 @@ fn resolve_media_operation(
   value: &str,
   index: usize,
   maximum: usize,
-  timeout: Duration,
+  deadline: Instant,
   cancel: Arc<AtomicBool>,
   is_file_output: bool,
 ) -> Result<(OwnedDirectory, Vec<u8>, ActiveGuard), String> {
   validate_request_id(request_id)?;
   let url = canonicalize_media_url(value)?;
-  if index >= 10 || !is_file_output && (maximum == 0 || maximum > MAX_BYTES) || STOPPING.load(Ordering::Acquire) {
+  if index >= 10 || maximum == 0 || maximum > MAX_BYTES || STOPPING.load(Ordering::Acquire) {
     return Err("MEDIA_INPUT_DENIED".into());
   }
   let active = acquire_job(request_id, cancel.clone())?;
   if cancel.load(Ordering::Acquire) || was_cancelled(request_id)? {
     return Err("MEDIA_CANCELLED".into());
   }
+  check_deadline(&cancel, deadline)?;
   let directory = OwnedDirectory::create(app)?;
-  let started = Instant::now();
-  let timeout = timeout.min(if is_file_output { FILE_TIMEOUT } else { TIMEOUT });
   let result = run_media_worker(
-    app, &directory, &url, index, maximum, timeout, &cancel, None, is_file_output,
+    app, &directory, &url, index, maximum, deadline, &cancel, None, is_file_output,
   );
   let output = if matches!(&result, Err(code) if code == "MEDIA_AUTH_REQUIRED") {
     if cancel.load(Ordering::Acquire) {
       return Err("MEDIA_CANCELLED".into());
     }
-    let cookie_timeout = timeout.saturating_sub(started.elapsed());
-    if cookie_timeout.is_zero() {
-      return Err("MEDIA_TIMEOUT".into());
-    }
-    let cookies = borrow_service_cookies(app, &url, &cancel, cookie_timeout)?;
-    let remaining = timeout.saturating_sub(started.elapsed());
-    if remaining.is_zero() {
-      return Err("MEDIA_TIMEOUT".into());
-    }
+    check_deadline(&cancel, deadline)?;
+    let cookies = borrow_service_cookies(app, &url, &cancel, deadline)?;
+    check_deadline(&cancel, deadline)?;
     run_media_worker(
       app,
       &directory,
       &url,
       index,
       maximum,
-      remaining,
+      deadline,
       &cancel,
       Some(cookies),
       is_file_output,
@@ -241,8 +374,10 @@ fn borrow_service_cookies(
   app: &AppHandle,
   value: &str,
   cancel: &AtomicBool,
-  timeout: Duration,
+  deadline: Instant,
 ) -> Result<Vec<serde_json::Value>, String> {
+  check_deadline(cancel, deadline)?;
+  let cookie_deadline = deadline.min(Instant::now() + Duration::from_secs(5));
   if COOKIE_READING
     .compare_exchange(false, true, Ordering::AcqRel, Ordering::Acquire)
     .is_err()
@@ -260,7 +395,7 @@ fn borrow_service_cookies(
   await_cookie_result(
     receiver,
     cancel,
-    Instant::now() + timeout.min(Duration::from_secs(5)),
+    cookie_deadline,
   )
 }
 
@@ -349,28 +484,22 @@ fn run_media_worker(
   url: &str,
   index: usize,
   maximum: usize,
-  timeout: Duration,
+  deadline: Instant,
   cancel: &Arc<AtomicBool>,
   cookies: Option<Vec<serde_json::Value>>,
   is_file_output: bool,
 ) -> Result<Vec<u8>, String> {
-  let deadline = Instant::now() + timeout.min(if is_file_output { FILE_TIMEOUT } else { TIMEOUT });
-  if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) {
-    return Err("MEDIA_CANCELLED".into());
-  }
+  check_deadline(cancel, deadline)?;
   let node = crate::runtime::find_node_binary(app).map_err(|_| "MEDIA_RUNTIME_UNAVAILABLE")?;
   let engine = find_resource(app, "yt-dlp.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
   let ffmpeg = find_resource(app, "media/ffmpeg.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
   find_resource(app, "media/ffprobe.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
-  let proxy = crate::system_proxy::proxy_for_url(url)
-    .map_err(|_| "MEDIA_PROXY_FAILED")?;
+  let proxy = crate::system_proxy::proxy_for_url_cancellable(url, cancel, deadline)
+    .map_err(|_| check_deadline(cancel, deadline).err().unwrap_or_else(|| "MEDIA_PROXY_FAILED".into()))?;
   if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) {
     return Err("MEDIA_CANCELLED".into());
   }
-  let timeout = deadline.saturating_duration_since(Instant::now());
-  if timeout.is_zero() {
-    return Err("MEDIA_TIMEOUT".into());
-  }
+  check_deadline(cancel, deadline)?;
   let mut command = Command::new(&node);
   crate::social_share::sanitize_media_worker_environment(&mut command);
   let script = directory.prepare_worker("inline-media-resolver.mjs", SCRIPT)?;
@@ -430,11 +559,9 @@ fn run_media_worker(
     let mut bytes = Vec::new();
     stderr.take(1024).read_to_end(&mut bytes).map(|_| bytes)
   });
-  let started = Instant::now();
-  let timeout = timeout.min(if is_file_output { FILE_TIMEOUT } else { TIMEOUT });
   let status = loop {
     if cancel.load(Ordering::Acquire)
-      || started.elapsed() > timeout
+      || Instant::now() >= deadline
       || STOPPING.load(Ordering::Acquire)
     {
       scoped.terminate();
@@ -464,7 +591,7 @@ fn run_media_worker(
   if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) {
     return Err("MEDIA_CANCELLED".into());
   }
-  if started.elapsed() > timeout {
+  if Instant::now() >= deadline {
     return Err("MEDIA_TIMEOUT".into());
   }
   if !status.map_err(str::to_string)?.success() {
@@ -531,7 +658,7 @@ fn was_cancelled(request_id: &str) -> Result<bool, String> {
   Ok(cancelled.iter().any(|(value, _)| value == request_id))
 }
 
-fn canonicalize_media_url(value: &str) -> Result<String, String> {
+pub(crate) fn canonicalize_media_url(value: &str) -> Result<String, String> {
   if value.len() > 4096
     || value.chars().any(|ch| ch <= ' ' || ch == '\\' || ch == '%')
     || value.split('/').any(|part| {
@@ -722,6 +849,11 @@ fn resolve_cache_root(app: &AppHandle) -> Result<PathBuf, String> {
 }
 
 pub(crate) fn initialize(app: &AppHandle) -> Result<(), String> {
+  let staging = downloads_directory(app)?.join(".egoist-relay-media");
+  if staging.exists() {
+    if staging.is_symlink() { return Err("MEDIA_PATH_DENIED".into()); }
+    cleanup_stale(&fs::canonicalize(staging).map_err(|_| "MEDIA_PATH_DENIED")?);
+  }
   let root = resolve_cache_root(app)?;
   if !root.exists() {
     return Ok(());
@@ -818,7 +950,7 @@ mod tests {
 
   #[test]
   fn file_workers_are_repeatable_and_reject_replacement_or_unexpected_names() {
-    let Some(work) = std::env::var_os("EGOIST_RELAY_TEST_WORK") else { return; };
+    let Some(work) = std::env::var_os("EGOIST_RELAY_TEST_WORK").or_else(|| std::env::var_os("EGOIST_RELAY_AUDIT_WORK")) else { return; };
     let root = PathBuf::from(work).join(format!("worker-test-{}", uuid::Uuid::new_v4()));
     let directory = OwnedDirectory::create_in(root.clone()).unwrap();
     let path = directory.prepare_worker("inline-media-resolver.mjs", SCRIPT).unwrap();
@@ -844,4 +976,166 @@ mod tests {
     assert!(canonicalize_media_url("https://x.com/name/../name/status/1234567890123456789").is_err());
     assert!(canonicalize_media_url("https://www.instagram.com.evil.test/reel/AbCdE12345/").is_err());
   }
+
+  fn create_storage_fixture() -> (OwnedDirectory, PathBuf, PathBuf) {
+    let work = std::env::var_os("EGOIST_RELAY_TEST_WORK").or_else(|| std::env::var_os("EGOIST_RELAY_AUDIT_WORK")).expect("Native file tests require EGOIST_RELAY_TEST_WORK or EGOIST_RELAY_AUDIT_WORK");
+    let root = PathBuf::from(work).join(format!("storage-test-{}", uuid::Uuid::new_v4()));
+    let source = OwnedDirectory::create_in(root.join("workers")).unwrap();
+    let downloads = root.join("downloads");
+    fs::create_dir(&downloads).unwrap();
+    (source, downloads, root)
+  }
+
+  fn create_file_packet(directory: &OwnedDirectory, bytes: &[u8]) -> Vec<u8> {
+    let path = directory.path.join("source.jpg");
+    fs::write(&path, bytes).unwrap();
+    serde_json::to_vec(&serde_json::json!({
+      "filePath": path,
+      "metadata": { "index": 0, "name": "relay-source-1.jpg", "mimeType": "image/jpeg", "size": bytes.len() }
+    })).unwrap()
+  }
+
+  #[test]
+  fn atomic_publication_preserves_exact_bytes_and_separates_name_collisions() {
+    let (source, downloads, root) = create_storage_fixture();
+    let bytes: Vec<_> = (0..180_000).map(|index| (index % 251) as u8).collect();
+    let packet = create_file_packet(&source, &bytes);
+    let cancel = AtomicBool::new(false);
+    let first = publish_saved_media_in(&source, &packet, 0, MAX_BYTES, &downloads, &cancel, Instant::now() + Duration::from_secs(5)).unwrap();
+    let second = publish_saved_media_in(&source, &packet, 0, MAX_BYTES, &downloads, &cancel, Instant::now() + Duration::from_secs(5)).unwrap();
+    assert_ne!(first.path, second.path);
+    assert_eq!(first.size, bytes.len() as u64);
+    assert_eq!(fs::read(&first.path).unwrap(), bytes);
+    assert_eq!(fs::read(&second.path).unwrap(), bytes);
+    assert_eq!(fs::read_dir(downloads.join(".egoist-relay-media")).unwrap().count(), 0);
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
+  #[test]
+  fn atomic_publication_never_overwrites_a_destination_or_existing_partial() {
+    let (source, downloads, root) = create_storage_fixture();
+    let input = source.path.join("source.jpg");
+    let partial = source.path.join("media.part");
+    let destination = downloads.join("same.jpg");
+    fs::write(&input, b"new bytes").unwrap();
+    fs::write(&destination, b"existing file").unwrap();
+    let cancel = AtomicBool::new(false);
+    assert_eq!(copy_and_publish(&input, &partial, &destination, 9, &cancel, Instant::now() + Duration::from_secs(5)), Err("MEDIA_FILE_EXISTS".into()));
+    assert_eq!(fs::read(&destination).unwrap(), b"existing file");
+    assert!(!partial.exists());
+    fs::write(&partial, b"unowned existing partial").unwrap();
+    assert_eq!(copy_and_publish(&input, &partial, &destination, 9, &cancel, Instant::now() + Duration::from_secs(5)), Err("MEDIA_PATH_DENIED".into()));
+    assert_eq!(fs::read(&partial).unwrap(), b"unowned existing partial");
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
+  #[test]
+  fn publication_rejects_stale_deadline_cancellation_and_partial_metadata() {
+    let (source, downloads, root) = create_storage_fixture();
+    let packet = create_file_packet(&source, b"media bytes");
+    let cancel = AtomicBool::new(false);
+    assert!(matches!(publish_saved_media_in(&source, &packet, 0, MAX_BYTES, &downloads, &cancel, Instant::now() - Duration::from_millis(1)), Err(error) if error == "MEDIA_TIMEOUT"));
+    cancel.store(true, Ordering::Release);
+    assert!(matches!(publish_saved_media_in(&source, &packet, 0, MAX_BYTES, &downloads, &cancel, Instant::now() + Duration::from_secs(5)), Err(error) if error == "MEDIA_CANCELLED"));
+    cancel.store(false, Ordering::Release);
+    let mut wrong: serde_json::Value = serde_json::from_slice(&packet).unwrap();
+    wrong["metadata"]["size"] = serde_json::json!(8);
+    let wrong = serde_json::to_vec(&wrong).unwrap();
+    assert!(matches!(publish_saved_media_in(&source, &wrong, 0, MAX_BYTES, &downloads, &cancel, Instant::now() + Duration::from_secs(5)), Err(error) if error == "MEDIA_PARTIAL_BODY"));
+    assert!(matches!(publish_saved_media_in(&source, &packet, 0, 5, &downloads, &cancel, Instant::now() + Duration::from_secs(5)), Err(error) if error == "MEDIA_TOO_LARGE"));
+    assert_eq!(fs::read_dir(&downloads).unwrap().count(), 0);
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
+  #[test]
+  fn failed_publication_cleans_its_partial_without_touching_the_source() {
+    let (source, downloads, root) = create_storage_fixture();
+    let input = source.path.join("source.jpg");
+    let partial = source.path.join("media.part");
+    let destination = downloads.join("absent-parent").join("file.jpg");
+    fs::write(&input, b"media bytes").unwrap();
+    assert!(copy_and_publish(&input, &partial, &destination, 11, &AtomicBool::new(false), Instant::now() + Duration::from_secs(5)).is_err());
+    assert!(!partial.exists());
+    assert!(!destination.exists());
+    assert_eq!(fs::read(&input).unwrap(), b"media bytes");
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
+  #[test]
+  fn copying_reports_disk_failure_and_observes_cancel_between_chunks() {
+    struct FailedDisk;
+    impl Write for FailedDisk {
+      fn write(&mut self, _: &[u8]) -> std::io::Result<usize> { Err(std::io::Error::new(std::io::ErrorKind::StorageFull, "Injected disk full")) }
+      fn flush(&mut self) -> std::io::Result<()> { Ok(()) }
+    }
+    let cancel = AtomicBool::new(false);
+    assert_eq!(copy_bytes(&mut std::io::Cursor::new(b"bytes"), &mut FailedDisk, 5, &cancel, Instant::now() + Duration::from_secs(5)), Err("MEDIA_DISK_FULL".into()));
+    struct CancelAfterRead<'a> { cancel: &'a AtomicBool, body: std::io::Cursor<Vec<u8>> }
+    impl Read for CancelAfterRead<'_> {
+      fn read(&mut self, output: &mut [u8]) -> std::io::Result<usize> {
+        let count = self.body.read(output)?;
+        self.cancel.store(true, Ordering::Release);
+        Ok(count)
+      }
+    }
+    let mut input = CancelAfterRead { cancel: &cancel, body: std::io::Cursor::new(vec![1; 128 * 1024]) };
+    let mut output = Vec::new();
+    assert_eq!(copy_bytes(&mut input, &mut output, 128 * 1024, &cancel, Instant::now() + Duration::from_secs(5)), Err("MEDIA_CANCELLED".into()));
+    assert!(output.len() < 128 * 1024);
+  }
+
+  #[test]
+  fn crash_child_stages_owned_partial() {
+    let Some(root) = std::env::var_os("EGOIST_RELAY_CRASH_CHILD_ROOT") else { return; };
+    let directory = OwnedDirectory::create_in(PathBuf::from(root)).unwrap();
+    fs::write(directory.path.join("media.part"), b"unfinished media").unwrap();
+    std::process::exit(0);
+  }
+
+  #[test]
+  fn crash_recovery_removes_only_owned_unfinished_staging() {
+    let (source, downloads, root) = create_storage_fixture();
+    let staging = downloads.join(".egoist-relay-media");
+    let status = Command::new(std::env::current_exe().unwrap())
+      .args(["--exact", "inline_media::tests::crash_child_stages_owned_partial", "--nocapture"])
+      .env("EGOIST_RELAY_CRASH_CHILD_ROOT", &staging)
+      .status().unwrap();
+    assert!(status.success());
+    let unfinished: Vec<_> = fs::read_dir(&staging).unwrap().flatten().map(|entry| entry.path()).collect();
+    assert_eq!(unfinished.len(), 1);
+    assert_eq!(fs::read(unfinished[0].join("media.part")).unwrap(), b"unfinished media");
+    assert_eq!(fs::read_dir(&downloads).unwrap().count(), 1);
+    let unrelated = staging.join(format!("job-{}", uuid::Uuid::new_v4()));
+    fs::create_dir(&unrelated).unwrap();
+    fs::write(unrelated.join("foreign.txt"), b"keep").unwrap();
+    cleanup_stale(&staging);
+    assert!(!unfinished[0].exists());
+    assert_eq!(fs::read(unrelated.join("foreign.txt")).unwrap(), b"keep");
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
+
+  #[test]
+  fn publication_preserves_known_dimensions_and_rejects_incomplete_metadata() {
+    let (source, downloads, root) = create_storage_fixture();
+    let packet = create_file_packet(&source, b"media bytes");
+    let mut metadata: serde_json::Value = serde_json::from_slice(&packet).unwrap();
+    metadata["metadata"]["width"] = serde_json::json!(3000);
+    metadata["metadata"]["height"] = serde_json::json!(2000);
+    let sized = serde_json::to_vec(&metadata).unwrap();
+    let cancel = AtomicBool::new(false);
+    let saved = publish_saved_media_in(&source, &sized, 0, MAX_BYTES, &downloads, &cancel, Instant::now() + Duration::from_secs(5)).unwrap();
+    assert_eq!((saved.width, saved.height), (Some(3000), Some(2000)));
+    metadata["metadata"]["height"] = serde_json::Value::Null;
+    let incomplete = serde_json::to_vec(&metadata).unwrap();
+    assert!(matches!(publish_saved_media_in(&source, &incomplete, 0, MAX_BYTES, &downloads, &cancel, Instant::now() + Duration::from_secs(5)), Err(error) if error == "MEDIA_FORMAT_UNSUPPORTED"));
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
 }

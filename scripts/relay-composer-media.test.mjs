@@ -145,7 +145,10 @@ try {
             report.consoleErrors.push(message.text().slice(0, 500));
     });
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-    await page.waitForFunction(() => window.__relayComposerMedia?.protect && window.__relayAudit.state().chatCount >= 2, undefined, { timeout: 30000 });
+    // Ждём именно чат 101 сценария relay-ui: два чата сценария по умолчанию (до его загрузки) тоже дают chatCount >= 2
+    // Ждём именно чат 101 сценария relay-ui: два чата сценария по умолчанию тоже дают chatCount >= 2. При холодном кэше Vite
+    // (новая папка RELAY_COMPOSER_MEDIA_OUTPUT) страница перезагружается без #mockScenario и чата 101 не будет: повторяйте запуск с той же папкой
+    await page.waitForFunction(() => window.__relayComposerMedia?.protect && window.__relayAudit?.state().chatIds.includes('101'), undefined, { timeout: 60000 });
     await page.evaluate(() => window.__relayComposerMedia.openDraft());
     await page.locator('#attach-menu-button').waitFor({ state: 'visible', timeout: 10000 });
     await settle();

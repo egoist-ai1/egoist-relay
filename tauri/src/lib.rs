@@ -17,13 +17,17 @@ pub mod installer;
 pub mod multi_app;
 mod runtime;
 mod system_proxy;
+mod media_operations;
 mod social_share;
 mod inline_media;
 mod youtube_player;
+mod bot_web_apps;
+mod native_theme;
 mod transcription;
 mod worker_job;
 mod telegram_transport;
 mod research_bridge;
+mod research_spool;
 mod research_social;
 
 static RESEARCH_HEADLESS: LazyLock<AtomicBool> = LazyLock::new(|| AtomicBool::new(
@@ -83,7 +87,7 @@ pub static LAST_URL: LazyLock<std::sync::Mutex<String>> =
 
 pub const DEFAULT_WINDOW_TITLE: &str = match std::option_env!("APP_TITLE") {
   Some(title) => title,
-  None => "Egoist Relay",
+  None => "Sennit",
 };
 
 pub const BASE_URL: &str = match std::option_env!("BASE_URL") {
@@ -127,6 +131,7 @@ pub(crate) fn is_research_headless() -> bool {
 
 pub(crate) fn should_avoid_foreground() -> bool {
   is_background_control() || is_research_headless()
+    || std::env::args().any(|argument| argument == "--start-hidden")
 }
 
 #[tauri::command]
@@ -181,7 +186,7 @@ pub fn run() {
   }
   let app = tauri::Builder::default()
     .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
-      if is_background_control() {
+      if is_background_control() || args.iter().any(|argument| argument == "--start-hidden") {
         return;
       }
       if args.iter().any(|argument| argument == "--research-recover-existing")
@@ -270,6 +275,9 @@ pub fn run() {
     if let Err(err) = inline_media::initialize(app.handle()) {
       log::warn!("[EgoistRelay] Cannot clean temporary media: {err}");
     }
+    if let Err(error) = media_operations::initialize(app.handle()) {
+      log::warn!("[EgoistRelay] Media journal unavailable: {error}");
+    }
     transcription::initialize(app.handle());
 
     let deeplink = Deeplink::init();
@@ -303,6 +311,7 @@ pub fn run() {
     telegram_transport::relay_get_telegram_transport,
     research_bridge::relay_research_ready,
     research_bridge::relay_research_reply,
+    research_bridge::relay_research_media_chunk,
     research_social::relay_research_social_reply,
     installer::get_default_install_dir,
     installer::choose_install_dir,
@@ -310,6 +319,10 @@ pub fn run() {
     installer::close_installer,
     installer::launch_installed_app,
     installer::perform_install,
+    multi_app::relay_media_download_file_name,
+    multi_app::relay_media_download_prepare,
+    multi_app::multi_set_content_visible,
+    multi_app::relay_media_operation_source,
     multi_app::multi_set_active_app,
     multi_app::multi_prewarm_x,
     multi_app::multi_prewarm_instagram,
@@ -317,6 +330,17 @@ pub fn run() {
     multi_app::multi_x_navigate,
     multi_app::multi_instagram_navigate,
     multi_app::multi_open_external,
+    bot_web_apps::relay_mini_app_open,
+    bot_web_apps::relay_mini_app_update,
+    bot_web_apps::relay_mini_app_reload,
+    bot_web_apps::relay_mini_app_send,
+    bot_web_apps::relay_mini_app_close,
+    media_operations::relay_media_operations_list,
+    media_operations::relay_media_operation_action,
+    media_operations::relay_media_operation_revision,
+    social_share::multi_social_detach,
+    social_share::multi_social_restore,
+    social_share::multi_social_release,
     social_share::multi_social_overlay,
     social_share::multi_social_set_labels,
     social_share::multi_social_cancel_media,
@@ -327,6 +351,7 @@ pub fn run() {
     inline_media::relay_inline_cancel_media,
     transcription::transcribe_voice,
     transcription::cancel_voice_transcription,
+    native_theme::relay_set_theme,
   ]);
 
   app
@@ -502,6 +527,9 @@ fn create_main_window(app: &tauri::AppHandle) -> Result<tauri::WebviewWindow, St
   }
 
   let window = main_builder.build().map_err(|err| err.to_string())?;
+  if let Err(error) = multi_app::install_main_native_hooks(&window) {
+    log::warn!("[EgoistRelay] Native media shortcuts unavailable: {error}");
+  }
 
   #[cfg(windows)]
   if let Err(error) = youtube_player::configure(&window, &app.config().identifier) {

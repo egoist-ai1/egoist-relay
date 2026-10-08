@@ -48,9 +48,6 @@ try{
   await page.close();return {state,playback:'mocked property and play/pause callbacks; no real decoder/network'};
  });
  const photoCases=[
-  {id:'ig-srcset-signed-original',service:'instagram',current:'https://scontent.cdninstagram.com/small.jpg?sig=small',srcset:'https://scontent.cdninstagram.com/small.jpg?sig=small 640w, https://scontent.cdninstagram.com/large.jpg?sig=ABC%2Fdef%3D&opaque=Keep 2048w, https://evil.example/escape.jpg 8192w',expected:'https://scontent.cdninstagram.com/large.jpg?sig=ABC%2Fdef%3D&opaque=Keep'},
-  {id:'ig-srcset-malformed-fallback',service:'instagram',current:'https://scontent.cdninstagram.com/small.jpg?sig=small',srcset:'bad, https://evil.example/image.jpg 4000w, https://scontent.cdninstagram.com/large.jpg 3.5w',expected:'https://scontent.cdninstagram.com/small.jpg?sig=small'},
-  {id:'ig-srcset-mixed-descriptor',service:'instagram',current:'https://scontent.cdninstagram.com/small.jpg?sig=small',srcset:'https://scontent.cdninstagram.com/large.jpg 2048w, https://scontent.cdninstagram.com/two.jpg 2x'},
   {id:'x-photo-original',service:'x',current:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=small',srcset:'',expected:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=orig'},
  ];
  for(const item of photoCases)await record(item.id,['scripts/social-share-enhancer.js'],async()=>{

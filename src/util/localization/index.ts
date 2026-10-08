@@ -37,6 +37,7 @@ import { omit, unique } from '../iteratees';
 import { replaceInStringsWithTeact } from '../replaceWithTeact';
 import { fastRaf } from '../schedulers';
 import { resetDateFormatCache } from './dateFormat';
+import { getRelayOperationString } from './relayOperationsStrings';
 
 import Deferred from '../Deferred';
 import LimitedMap from '../primitives/LimitedMap';
@@ -381,7 +382,8 @@ function getIntlLocale(languageInfo = language) {
 
 function getString(langKey: LangKey, count: number) {
   const shouldForceFallback = FORCE_FALLBACK_LANG && language?.langCode === FALLBACK_LANG_CODE;
-  let langPackStringValue = !shouldForceFallback ? langPack?.strings[langKey] : undefined;
+  let langPackStringValue = getRelayOperationString(langKey, language?.langCode)
+    || (!shouldForceFallback ? langPack?.strings[langKey] : undefined);
 
   if (!langPackStringValue && !fallbackLangPack) {
     loadFallbackPack();

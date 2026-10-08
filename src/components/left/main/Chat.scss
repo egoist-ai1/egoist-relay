@@ -40,6 +40,12 @@
     transition: transform var(--chat-transform-transition);
   }
 
+  // Шаг списка чатов считается в px от размера шрифта корня (getChatHeightPx): строка не ниже 4,5rem,
+  // иначе при крупном тексте строки перекрываются
+  &:not(.standalone) .ListItem-button {
+    min-height: 4.5rem;
+  }
+
   &:hover,
   &.ListItem.has-menu-open {
     .avatar-badge {
@@ -216,7 +222,7 @@
     border-radius: 50%;
 
     opacity: 0.5;
-    background-color: #0ac630;
+    background-color: var(--color-success);
 
     transition: opacity 200ms, transform 200ms;
 
@@ -417,17 +423,12 @@
       --background-color: var(--color-chat-active) !important;
 
       .title .custom-emoji {
-        color: var(--color-white);
+        color: var(--color-chat-active-text);
       }
 
       .VerifiedIcon, .StarIcon {
-        --color-fill: #fff;
-        --color-checkmark: var(--color-primary);
-
-        :global(.theme-dark) & {
-          --color-fill: #FFFFFF;
-          --color-checkmark: #000000;
-        }
+        --color-fill: var(--color-chat-active-text);
+        --color-checkmark: var(--color-chat-active);
       }
 
       .avatar-badge {
@@ -435,7 +436,7 @@
       }
 
       .avatar-online {
-        background-color: var(--color-white);
+        background-color: var(--color-chat-active-text);
       }
 
       .ChatCallStatus {
@@ -444,21 +445,21 @@
 
       .ListItem-button {
         --background-color: var(--color-chat-active) !important;
-        --color-text: var(--color-white);
-        --color-text-meta-colored: var(--color-white);
-        --color-text-meta: var(--color-white);
-        --color-text-secondary: var(--color-white);
-        --color-error: var(--color-white);
-        --color-list-icon: var(--color-white);
-        --color-chat-username: var(--color-white);
+        --color-text: var(--color-chat-active-text);
+        --color-text-meta-colored: var(--color-chat-active-text);
+        --color-text-meta: var(--color-chat-active-text);
+        --color-text-secondary: var(--color-chat-active-text);
+
+        --color-list-icon: var(--color-chat-active-text);
+        --color-chat-username: var(--color-chat-active-text);
       }
 
       .icon-muted {
-        color: var(--color-white) !important;
+        color: var(--color-chat-active-text) !important;
       }
 
       .general-forum-icon {
-        color: var(--color-white) !important;
+        color: var(--color-chat-active-text) !important;
       }
 
       .avatar-community-chevron {
@@ -467,12 +468,12 @@
 
       .monoforum-badge {
         color: var(--color-chat-active);
-        background-color: #fff;
+        background-color: var(--color-chat-active-text);
       }
 
       .chat-tag {
         color: var(--color-chat-active);
-        background-color: #ffffffab;
+        background-color: color-mix(in srgb, var(--color-chat-active-text) 67%, transparent);
       }
     }
   }

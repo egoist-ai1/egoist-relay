@@ -1,4 +1,4 @@
-const SITE_FONTS = ['400 1em Unbounded', '500 1em Unbounded', '600 1em Unbounded', '700 1em Unbounded'];
+const SITE_FONTS = ['400 1em Onest', '500 1em Onest', '400 1em Unbounded'];
 
 export default function preloadFonts() {
   if ('fonts' in document) {

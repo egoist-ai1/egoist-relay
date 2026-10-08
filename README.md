@@ -1,64 +1,81 @@
-<p align="center"><img src="tauri/icons/128x128.png" width="88" height="88" alt="Egoist Relay"></p>
-<h1 align="center">Egoist Relay</h1>
-<p align="center">Telegram · X · Instagram — единое приложение для Windows</p>
-<p align="center"><img alt="Version" src="https://img.shields.io/badge/version-1.4.6-8B9DFF"><img alt="Platform" src="https://img.shields.io/badge/platform-Windows_x64-24292f"><img alt="License" src="https://img.shields.io/badge/license-GPL--3.0--or--later-2ea44f"></p>
+# Sennit
 
-Egoist Relay объединяет Telegram, X и Instagram в одном настольном окне. Ветка **codex/release-1.4.6** содержит проверенный снимок исходников версии 1.4.6, тесты и компонент Egoist Social MCP.
+**Sennit 1.7.0** (by Egoist) — неофициальный Windows-хаб Telegram, X и Instagram. Знаки и названия этих сервисов принадлежат их владельцам; Sennit с ними не связан и не одобрен ими.
 
-[Изменения 1.4.6](docs/RELEASE-1.4.6.md) · [Сборка](BUILDING.md) · [Проверки](docs/VERIFICATION.md) · [Приватность](SECURITY.md) · [Архитектура](docs/ARCHITECTURE.md)
+Бренд: [название и логотип](docs/brand/BRAND.md), [выбор названия](docs/brand/NAMING.md). Внутреннее имя продукта в сборке и установке остаётся `Egoist Relay` (exe, папка установки, идентификатор `com.egoist.relay`, Relay Control API): это сохраняет обновление «поверх» и профили; в интерфейсе, заголовке окна и «Приложениях и возможностях» показывается Sennit.
 
-## Возможности
+Оболочка сохраняет отдельные WebView2 и профили сервисов между переключениями. Скрытые медиа приостанавливаются. Telegram использует локальный MTProxy Egoist Lagom при доступной службе; адрес и secret читаются из защищённой конфигурации и передаются только внутри локального процесса. X и Instagram наследуют текущую сетевую конфигурацию Windows. Relay не перенастраивает DNS, Zapret или другие службы.
 
-| Компонент | Возможности |
-| --- | --- |
-| Telegram | Чаты и аккаунты в существующем клиенте, файлы, медиа и получатели пересылки |
-| X и Instagram | Отдельные сессии, встроенные страницы и отправка выбранного источника в Telegram |
-| Reels → Telegram | Кнопка в панели действий, выбор адресата, ссылки и поддерживаемые медиа |
-| Social MCP | Поиск, чтение выбранных источников, экспорт, проверенные курсоры и локальный индекс |
-| Локальные медиа | Загрузка поддерживаемых источников и распознавание наблюдаемого аудио/видео доступным локальным runtime |
+Диалоги используют общий учёт открытых окон, корректно закрываются при вложении и учитывают уменьшение анимации. Размеры ограничены viewport при увеличении текста; заголовки имеют доступное имя и подсказку. Отложенное открытие отменяется при закрытии и размонтировании. Панель Reels сохраняет нативные счётчики, а пересылка выбирает однозначный permalink поста; ссылка в подписи не скрывает действие Telegram. Поиск существующих кнопок в каждом проходе выполняется через общий индекс.
 
-## Что входит в 1.4.6
+Подготовка медиа учитывает общий дедлайн и отмену до запуска worker. Проверка Node ограничена двумя секундами на кандидата. Определение PAC использует отменяемый WinHTTP API и общий дедлайн попытки; ошибка явно настроенного PAC не вызывает скрытый переход на DIRECT.
 
-- Выровненная панель действий Reels с областью нажатия 44 px.
-- Короткая подпись **«Нравятся»** с сохранением обычных числовых счётчиков.
-- Окно пересылки в формате Telegram: поиск, недавние контакты, папки и выбранный получатель.
-- Копирование ссылки до выбора адресата и отправка после выбора.
-- Адаптация коротких окон, RTL, светлой/тёмной темы и reduced motion в проверенных сценариях.
+Версия 1.7.0 переводит интерфейс на систему Egoist DS (режим Lagom): темы Lagom Dark/Light, Onest + Unbounded + JetBrains Mono, иконки Phosphor, индекс раздела в заголовке окна, согласованный фон нативных окон; исправляет ошибки сохранения оригинала из превью, загрузок Mini App, журнала операций и отправки сообщений; расширяет мост исследований для Egoist Social MCP (offset/min_id, probe, прямая передача байтов медиа). [Контракт интерфейса](docs/DESIGN.md), [план и отчёты цикла](docs/lagom-redesign-2026-10-07/PLAN.md), [итог](docs/RELEASE-1.7.0.md).
 
-## Проверенная версия
+Предыдущая композиция B (1.6.x) объединяла оболочку и Telegram общей нейтральной темой: глубокий чёрный, серые поверхности, Inter для интерфейса и короткий бренд Relay в Unbounded. 11 вариантов темы сохранены. Панель «Загрузки и пересылки» открывается по Ctrl+J, хранит локальные результаты и освобождает чтение после закрытия. [Действующая дизайн-система](docs/DESIGN.md).
 
-Для исходников версии выполнены **387 проверок**: 322 unit tests, 54 focused UI/helper scenarios и 11 native checks. Дополнительно прошли три конфигурации TypeScript и изолированная установка → запуск → удаление. Telegram, X и Instagram подтвердили готовность MCP в ограниченной live проверке.
+## Сборка и проверки
 
-Полный состав и границы проверки указаны в [VERIFICATION.md](docs/VERIFICATION.md). Готовность сессии не подтверждает доступ к любому источнику, универсальную скорость CDN или все возможные действия в аккаунте.
+```sh
+npm run release:preflight
+npm run check
+npm test
+npm run tauri:build
+```
 
-## Сеть и аккаунты
+Требуются locked зависимости, Node.js 24, Rust/MSVC, Windows SDK и NSIS; Telegram API credentials находятся в локальном `.env`. Runtime включает только ресурсы из `scripts/release-runtime-manifest.json`. Обновление сохраняет пользовательские профили и неизвестные файлы.
 
-Приложение использует существующую сетевую конфигурацию Windows. Этот выпуск не меняет системные DNS/DoH, маршруты, proxy, службы Zapret/Lagom или их приоритеты. Текущий доступный MTProxy Lagom читается локальным адаптером приложения; секрет не является частью репозитория. MCP работает через аутентифицированные Windows named pipes.
+Точечное исправление меню, строк форума и окон Mini App: [1.6.1](docs/hotfix-1.6.1/README.md), локальный установщик в `release/1.6.1/`. Предыдущий фронтенд-цикл: [отчёт 1.6.0](docs/frontend-cycle-2026-10-06/RESULT.md), [приёмка](docs/frontend-cycle-2026-10-06/ACCEPTANCE.md), [review board](docs/frontend-cycle-2026-10-06/review-result.html); локальные артефакты: `release/1.6.0/`. Архив медиарелиза: [1.5.0](docs/release-1.5.0/README.md). Публичные исходники размещаются в `egoist-ai1/egoist-relay`. Публикация Windows установщика требует полного corresponding source для поставляемых сторонних бинарных зависимостей; текущий source inventory перечисляет недостающие компоненты. Проверки синтетического интерфейса и локальных сценариев не заменяют приёмку реальных аккаунтов и независимых устройств.
 
-Репозиторий содержит код и синтетические тесты. Сессий Telegram/X/Instagram, cookies, профилей WebView, API credentials, личных сообщений, выгрузок и пользовательских DNS-конфигураций в публикации нет. Для собственной сборки используются собственные Telegram API ID/hash в локальном .env.
+## Фоновая диагностика
 
-## Быстрый старт для разработчика
+Поддерживается привязанный к экземпляру Egoist Relay Control API. Исследовательский Social MCP использует authenticated Windows named pipes. Диагностические данные и аккаунты не входят в публичный исходный архив.
 
-~~~powershell
-git clone --branch codex/release-1.4.6 https://github.com/egoist-ai1/egoist-relay.git
-cd egoist-relay
-npm ci
-Copy-Item .env.example .env
-~~~
+## Local setup
 
-Далее заполните собственные Telegram API credentials и подготовьте публичный runtime по [BUILDING.md](BUILDING.md). Бинарные runtime зависимости не хранятся в Git. Установщик этой проверенной локальной сборки пока не опубликован: комплект corresponding source для всех сторонних бинарных зависимостей требует завершения.
+```sh
+mv .env.example .env
 
-## Структура
+npm i
+```
 
-~~~text
-src/                         интерфейс, Telegram и действия приложения
-tauri/                       native Windows оболочка и разрешения
-scripts/                     сборка, release policy и synthetic сценарии
-runtime/research/            app-owned bridge и DOM collection helper
-scripts/integrations/egoist-social-mcp/  MCP сервис, экспорт и локальный индекс
-docs/                        выпуск, проверка и архитектура
-~~~
+Obtain API ID and API hash on [my.telegram.org](https://my.telegram.org) and populate the `.env` file.
 
-## Лицензия и происхождение
+## Dev mode
 
-Исходники распространяются по **GPL-3.0-or-later**. Сохранены оригинальный LICENSE, заголовки авторства и notices vendored компонентов. Telegram UI использует Teact/GramJS; оболочка приложения — Tauri. Сторонние компоненты имеют собственные лицензии и source provenance. Подробнее: [THIRD-PARTY.md](THIRD-PARTY.md).
+```sh
+npm run dev
+```
+
+### Invoking API from console
+
+Start your dev server and locate GramJS worker in the console context.
+
+All constructors and functions available in global `GramJs` variable.
+
+Run `npm run gramjs:tl full` to get access to all available Telegram methods.
+
+Example usage:
+``` javascript
+await invoke(new GramJs.help.GetAppConfig())
+```
+
+### Dependencies
+* [GramJS](https://github.com/gram-js/gramjs) ([MIT License](https://github.com/gram-js/gramjs/blob/master/LICENSE))
+* [fflate](https://github.com/101arrowz/fflate) ([MIT License](https://github.com/101arrowz/fflate/blob/master/LICENSE))
+* [cryptography](https://github.com/spalt08/cryptography) ([Apache License 2.0](https://github.com/spalt08/cryptography/blob/master/LICENSE))
+* [emoji-data](https://github.com/iamcal/emoji-data) ([MIT License](https://github.com/iamcal/emoji-data/blob/master/LICENSE))
+* [twemoji-parser](https://github.com/jdecked/twemoji-parser) ([MIT License](https://github.com/jdecked/twemoji-parser/blob/master/LICENSE.md))
+* [tlottie](https://github.com/dkaraush/tlottie) ([MIT License](https://github.com/dkaraush/tlottie/))
+* [opus-recorder](https://github.com/chris-rudmin/opus-recorder) ([Various Licenses](https://github.com/chris-rudmin/opus-recorder/blob/master/LICENSE.md))
+* [qr-code-styling](https://github.com/kozakdenys/qr-code-styling) ([MIT License](https://github.com/kozakdenys/qr-code-styling/blob/master/LICENSE))
+* [music-metadata](https://github.com/Borewit/music-metadata) ([MIT License](https://github.com/Borewit/music-metadata/blob/master/LICENSE.txt))
+* [Tiptap](https://github.com/ueberdosis/tiptap) ([MIT License](https://github.com/ueberdosis/tiptap/blob/main/LICENSE.md))
+* [marked](https://github.com/markedjs/marked) ([MIT License](https://github.com/markedjs/marked/blob/master/LICENSE.md))
+* [lowlight](https://github.com/wooorm/lowlight) ([MIT License](https://github.com/wooorm/lowlight/blob/main/license))
+* [idb-keyval](https://github.com/jakearchibald/idb-keyval) ([Apache License 2.0](https://github.com/jakearchibald/idb-keyval/blob/main/LICENCE))
+* [fasttextweb](https://github.com/karmdesai/fastTextWeb)
+* fastblur
+
+## Bug reports and Suggestions
+If you find an issue with this app, let Telegram know using the [Suggestions Platform](https://bugs.telegram.org/c/4002).

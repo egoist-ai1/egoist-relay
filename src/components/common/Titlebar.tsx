@@ -11,8 +11,12 @@ import useLang from '../../hooks/useLang';
 import useLastCallback from '../../hooks/useLastCallback';
 
 import Icon from './icons/Icon';
+import SennitMark from './SennitMark';
 
 import styles from './Titlebar.module.scss';
+
+// Порядок сервисов в rail: индекс разделов фирменной сетки (Egoist Grid) показывает реальное положение
+const SERVICE_ORDER: AppId[] = ['telegram', 'x', 'instagram'];
 
 export type SocialNavigationAction = 'back' | 'forward' | 'home' | 'reload';
 type OwnProps = {
@@ -21,6 +25,9 @@ type OwnProps = {
   canNavigate?: boolean;
   isNavigating?: boolean;
   notice?: string;
+  isOperationsOpen?: boolean;
+  operationCount?: number;
+  onToggleOperations?: NoneToVoidFunction;
   onLoginX: NoneToVoidFunction;
   onNavigate: (action: SocialNavigationAction) => void;
 };
@@ -31,6 +38,9 @@ const Titlebar = ({
   canNavigate,
   isNavigating,
   notice,
+  isOperationsOpen,
+  operationCount,
+  onToggleOperations,
   onLoginX,
   onNavigate,
 }: OwnProps) => {
@@ -114,18 +124,27 @@ const Titlebar = ({
 
   if (IS_MAC_OS || !IS_TAURI) return undefined;
 
+  const sectionIndex = `${String(SERVICE_ORDER.indexOf(activeApp) + 1).padStart(2, '0')}/0${SERVICE_ORDER.length}`;
+
   return (
     <div
       className={styles.titlebar}
       role="banner"
     >
       <div className={styles.dragRegion} data-tauri-drag-region>
-        <span className={styles.appTitle}>
+        <span className={styles.brand} data-tauri-drag-region>
+          <SennitMark size={16} isInline />
+          {lang('RelayBrand')}
+        </span>
+        <span className={styles.appTitle} data-tauri-drag-region>
           {activeApp === 'x'
             ? lang('RelayXTitle')
             : activeApp === 'instagram'
               ? lang('RelayInstagramTitle')
               : lang('RelayTelegramTitle')}
+        </span>
+        <span className={styles.gridIndex} aria-hidden="true" data-tauri-drag-region>
+          {sectionIndex}
         </span>
       </div>
 
@@ -191,6 +210,22 @@ const Titlebar = ({
         </button>
       )}
 
+      {onToggleOperations && (
+        <button
+          type="button"
+          className={buildClassName(styles.operationsButton, isOperationsOpen && styles.operationsOpen)}
+          onClick={onToggleOperations}
+          aria-label={lang('RelayOperationTitle')}
+          aria-expanded={Boolean(isOperationsOpen)}
+          aria-controls="relay-media-operations"
+          aria-keyshortcuts="Control+J"
+          title={`${lang('RelayOperationTitle')} (Ctrl+J)`}
+          data-relay-operations-toggle="true"
+        >
+          <Icon name="download" className={styles.navigationIcon} />
+          {Boolean(operationCount) && <span className={styles.operationCount}>{operationCount}</span>}
+        </button>
+      )}
       <div className={styles.controls}>
         <button
           type="button"

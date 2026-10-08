@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-media-download-prepare"
+description = "Enables the relay_media_download_prepare command without any pre-configured scope."
+commands.allow = ["relay_media_download_prepare"]
+
+[[permission]]
+identifier = "deny-relay-media-download-prepare"
+description = "Denies the relay_media_download_prepare command without any pre-configured scope."
+commands.deny = ["relay_media_download_prepare"]

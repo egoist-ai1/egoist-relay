@@ -1,6 +1,6 @@
 .root {
   --radius: 0.75rem;
-  --first-column-background-color: rgba(255, 255, 255, 0.08);
+  --first-column-background-color: rgba(var(--color-text-rgb), 0.08);
 
   pointer-events: none;
 
@@ -19,21 +19,21 @@
 
   @media (hover: hover) {
     :global(.ListItem-button:hover) & {
-      --first-column-background-color: rgba(255, 255, 255, 0.14);
+      --first-column-background-color: rgba(var(--color-text-rgb), 0.14);
     }
 
     &:hover {
-      --first-column-background-color: rgba(255, 255, 255, 0.18) !important;
+      --first-column-background-color: rgba(var(--color-text-rgb), 0.18) !important;
     }
   }
 
   @media not (hover: hover) {
     :global(.ListItem-button:active) & {
-      --first-column-background-color: rgba(255, 255, 255, 0.14);
+      --first-column-background-color: rgba(var(--color-text-rgb), 0.14);
     }
 
     &:active {
-      --first-column-background-color: rgba(255, 255, 255, 0.18) !important;
+      --first-column-background-color: rgba(var(--color-text-rgb), 0.18) !important;
     }
   }
 }
@@ -54,11 +54,11 @@
 
   font-size: 0.9375rem;
   line-height: 1.25rem;
-  color: #ffffff;
+  color: var(--color-text);
 }
 
 .unread {
-  color: #ffffff !important;
+  color: var(--color-text) !important;
 
   *,
   span,
@@ -66,7 +66,7 @@
   :global(.sender-name),
   :global(.message-text) {
     font-weight: var(--font-weight-semibold) !important;
-    color: #ffffff !important;
+    color: var(--color-text) !important;
   }
 
   &.main-column, &.last-message {
@@ -74,7 +74,7 @@
   }
 
   &.main-column, &.last-message, .after-wrapper {
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(var(--color-text-rgb), 0.16);
   }
 }
 
@@ -90,6 +90,7 @@
 
   position: relative;
 
+  min-width: 0;
   max-width: 100%;
   border-start-start-radius: var(--radius);
   border-start-end-radius: var(--radius);
@@ -120,6 +121,7 @@
   font-size: 0.9375rem;
   line-height: 1.25rem;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .otherColumnIcon {

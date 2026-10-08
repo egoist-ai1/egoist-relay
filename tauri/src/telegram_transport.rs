@@ -1,8 +1,13 @@
 use serde::Serialize;
 use std::sync::{Arc, LazyLock, Mutex, atomic::{AtomicBool, Ordering}, mpsc};
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 const START_TIMEOUT: Duration = Duration::from_secs(6);
+const STABLE_WORKER_TIME: Duration = Duration::from_secs(30);
+#[cfg(any(windows, test))]
+const RECOVERY_BASE_MS: u64 = 250;
+#[cfg(any(windows, test))]
+const RECOVERY_MAX_MS: u64 = 8000;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 
 struct ActiveTransport {
@@ -94,35 +99,57 @@ fn supervise_transport(
     let _ = ready.send(Err("TELEGRAM_TRANSPORT_UNAVAILABLE".into()));
     return;
   };
+  if let Some(reason) = message.as_ref().and_then(|value| value["reason"].as_str())
+    .filter(|reason| matches!(*reason, "LAGOM_CONFIG_ACCESS_DENIED" | "LAGOM_CONFIG_UNAVAILABLE"
+      | "LAGOM_LISTENER_UNAVAILABLE" | "LAGOM_INVALID_CONFIG")) {
+    log::warn!("[TelegramTransport] Local bridge ready; Lagom route pending: {reason}");
+  }
   alive.store(true, Ordering::Release);
   let port = url::Url::parse(&url).ok().and_then(|url| url.port()).unwrap();
   if ready.send(Ok(Some(url.clone()))).is_err() { return; }
 
-  let mut recoveries = 0;
+  let mut recovery_attempt: u32 = 0;
+  let mut started = Instant::now();
   loop {
     if !matches!(worker.child.try_wait(), Ok(None)) {
+      if started.elapsed() >= STABLE_WORKER_TIME { recovery_attempt = 0; }
+      log::warn!("[TelegramTransport] Owned bridge worker exited; recovering its local endpoint");
       drop(worker);
-      let mut replacement = None;
-      while recoveries < 3 {
-        let delay = Duration::from_secs(1 << recoveries);
-        recoveries += 1;
+      loop {
+        let delay = recovery_delay(recovery_attempt, jitter_unit());
+        recovery_attempt = recovery_attempt.saturating_add(1);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
         if let Ok(mut next) = launch_transport(&app, &token, port) {
           let message = read_status(&mut next);
           if message.as_ref().is_some_and(|value| value["status"] == "ready" && value["url"] == url) {
-            replacement = Some(next);
+            worker = next;
+            started = Instant::now();
+            log::info!("[TelegramTransport] Owned local bridge endpoint restored");
             break;
           }
         }
       }
-      let Some(next) = replacement else { return; };
-      worker = next;
     }
     match stop.recv_timeout(Duration::from_millis(100)) {
       Err(mpsc::RecvTimeoutError::Timeout) => {},
       _ => break,
     }
   }
+}
+
+/// Pause before restarting a crashed bridge worker: exponential 250 ms to 8 s with 50-100% jitter.
+/// The first retry is fast because the browser side is already failing over to the direct route.
+#[cfg(any(windows, test))]
+fn recovery_delay(attempt: u32, unit: f64) -> Duration {
+  let raw = (RECOVERY_BASE_MS << attempt.min(6)).min(RECOVERY_MAX_MS);
+  Duration::from_millis((raw as f64 * (0.5 + 0.5 * unit.clamp(0.0, 1.0))) as u64)
+}
+
+#[cfg(windows)]
+fn jitter_unit() -> f64 {
+  let nanos = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)
+    .map(|elapsed| elapsed.subsec_nanos()).unwrap_or(0);
+  f64::from(nanos % 1000) / 1000.0
 }
 
 #[cfg(windows)]
@@ -206,5 +233,24 @@ pub(crate) fn shutdown() {
       if !worker.alive.load(Ordering::Acquire) { break; }
       std::thread::sleep(Duration::from_millis(25));
     }
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn recovery_delay_grows_to_cap_with_bounded_jitter() {
+    let full: Vec<u64> = (0..8).map(|attempt| recovery_delay(attempt, 1.0).as_millis() as u64).collect();
+    assert_eq!(full, vec![250, 500, 1000, 2000, 4000, 8000, 8000, 8000]);
+    let half: Vec<u64> = (0..4).map(|attempt| recovery_delay(attempt, 0.0).as_millis() as u64).collect();
+    assert_eq!(half, vec![125, 250, 500, 1000]);
+  }
+
+  #[test]
+  fn recovery_delay_survives_extreme_inputs() {
+    assert_eq!(recovery_delay(u32::MAX, 5.0).as_millis(), 8000);
+    assert_eq!(recovery_delay(0, -1.0).as_millis(), 125);
   }
 }

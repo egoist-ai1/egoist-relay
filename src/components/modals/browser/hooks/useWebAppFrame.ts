@@ -3,13 +3,16 @@ import { useCallback, useEffect, useRef } from '../../../../lib/teact/teact';
 import { getActions, getGlobal } from '../../../../global';
 
 import type { WebApp, WebAppInboundEvent, WebAppOutboundEvent } from '../../../../types/webapp';
+import type { NativeWebAppFrame } from '../../../../util/tauri/botWebApps';
 
 import { getWebAppKey } from '../../../../global/helpers';
 import { isMessageFromIframe } from '../../../../util/browser/iframe';
 import { isValidProtocol } from '../../../../util/browser/url';
+import { createNativeWebAppFrame, shouldUseNativeWebApp } from '../../../../util/tauri/botWebApps';
 import { extractCurrentThemeParams } from '../../../../util/themeStyle';
 import { REM } from '../../../common/helpers/mediaDimensions';
 
+import useLang from '../../../../hooks/useLang';
 import useLastCallback from '../../../../hooks/useLastCallback';
 import useWindowSize from '../../../../hooks/window/useWindowSize';
 
@@ -44,17 +47,24 @@ const useWebAppFrame = (
   onEvent: (event: WebAppInboundEvent) => void,
   webApp?: WebApp,
   onLoad?: () => void,
+  isNativeVisible = isOpen,
 ) => {
   const {
     showNotification,
     setWebAppPaymentSlug,
     openInvoice,
     closeBrowserTab,
+    closeBrowserModal,
     openSuggestedStatusModal,
     updateWebApp,
     openUrl,
+    changeBrowserModalState,
   } = getActions();
 
+  const lang = useLang();
+  const isNative = shouldUseNativeWebApp(webApp?.url);
+  const nativeFrameRef = useRef<NativeWebAppFrame>();
+  const pendingNativeEventsRef = useRef<WebAppOutboundEvent[]>([]);
   const isReloadSupportedRef = useRef<boolean>(false);
   const reloadTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const ignoreEventsRef = useRef<boolean>(false);
@@ -64,7 +74,7 @@ const useWebAppFrame = (
   const webAppOrigin = isSameOrigin ? getWebAppOrigin(webApp.url) : undefined;
 
   useEffect(() => {
-    if (!ref.current || !isOpen) return undefined;
+    if (!ref.current || !isOpen || isNative) return undefined;
 
     const handleLoad = () => {
       onLoad?.();
@@ -75,12 +85,17 @@ const useWebAppFrame = (
     return () => {
       frame.removeEventListener('load', handleLoad);
     };
-  }, [onLoad, ref, isOpen]);
+  }, [onLoad, ref, isOpen, isNative]);
 
   const sendEvent = useCallback((event: WebAppOutboundEvent) => {
+    if (isNative) {
+      if (nativeFrameRef.current) nativeFrameRef.current.sendEvent(event);
+      else if (pendingNativeEventsRef.current.length < 64) pendingNativeEventsRef.current.push(event);
+      return;
+    }
     if (!ref.current?.contentWindow || (isSameOrigin && !webAppOrigin)) return;
     ref.current.contentWindow.postMessage(JSON.stringify(event), webAppOrigin || '*');
-  }, [isSameOrigin, ref, webAppOrigin]);
+  }, [isSameOrigin, ref, webAppOrigin, isNative]);
 
   const sendFullScreenChanged = useCallback((value: boolean) => {
     sendEvent({
@@ -101,6 +116,10 @@ const useWebAppFrame = (
   });
 
   const reloadFrame = useCallback((url: string) => {
+    if (isNative) {
+      nativeFrameRef.current?.reload(url);
+      return;
+    }
     if (isReloadSupportedRef.current) {
       sendEvent({
         eventType: 'reload_iframe',
@@ -112,7 +131,7 @@ const useWebAppFrame = (
     }
 
     forceReloadFrame(url);
-  }, [sendEvent]);
+  }, [sendEvent, isNative]);
 
   const sendViewport = useCallback((isNonStable?: boolean) => {
     if (!ref.current) {
@@ -171,17 +190,13 @@ const useWebAppFrame = (
     });
   }, [sendEvent]);
 
-  const handleMessage = useCallback((event: MessageEvent<string>) => {
+  const handleData = useCallback((value: string) => {
     if (ignoreEventsRef.current) {
       return;
     }
 
-    if ((isSameOrigin && !webAppOrigin) || !isMessageFromIframe(event, ref.current, webAppOrigin)) {
-      return;
-    }
-
     try {
-      const data = JSON.parse(event.data) as WebAppInboundEvent;
+      const data = JSON.parse(value) as WebAppInboundEvent;
       const { eventType, eventData } = data;
       // Handle some app requests here to simplify hook usage
       if (eventType === 'web_app_ready') {
@@ -385,10 +400,48 @@ const useWebAppFrame = (
       // Ignore other messages
     }
   }, [
-    isSimpleView, isSameOrigin, sendEvent, onEvent, sendCustomStyle, webApp, webAppOrigin,
+    isSimpleView, sendEvent, onEvent, sendCustomStyle, webApp,
     sendTheme, sendViewport, sendSafeArea, onLoad, windowSize.isResizing,
-    ref,
   ]);
+
+  const handleMessage = useCallback((event: MessageEvent<string>) => {
+    if (isNative || (isSameOrigin && !webAppOrigin) || !isMessageFromIframe(event, ref.current, webAppOrigin)) return;
+    handleData(event.data);
+  }, [isNative, isSameOrigin, webAppOrigin, ref, handleData]);
+
+  const handleNativeData = useLastCallback(handleData);
+  const handleNativeLoad = useLastCallback(() => onLoad?.());
+  const getNativeVisible = useLastCallback(() => isNativeVisible);
+  const handleNativeError = useLastCallback(() => {
+    onLoad?.();
+    showNotification({ message: lang('RelayMiniAppLoadFailed') });
+  });
+  const handleNativeEscape = useLastCallback(() => {
+    closeBrowserModal();
+  });
+  const handleNativeDownloads = useLastCallback(() => changeBrowserModalState({ state: 'minimized' }));
+
+  useEffect(() => {
+    if (!isNative || !ref.current || !webApp?.url) return undefined;
+    const native = createNativeWebAppFrame(ref.current, webApp.url, {
+      isVisible: getNativeVisible, onMessage: handleNativeData, onLoad: handleNativeLoad,
+      onError: handleNativeError, onEscape: handleNativeEscape, onDownloads: handleNativeDownloads,
+    });
+    nativeFrameRef.current = native;
+    const pending = pendingNativeEventsRef.current;
+    pending.splice(0).forEach(native.sendEvent);
+    return () => {
+      nativeFrameRef.current = undefined;
+      pending.splice(0);
+      clearTimeout(reloadTimeoutRef.current);
+      native.dispose();
+    };
+  }, [isNative, ref, webApp?.url, getNativeVisible, handleNativeData, handleNativeLoad,
+    handleNativeError, handleNativeEscape, handleNativeDownloads]);
+
+  useEffect(() => {
+    nativeFrameRef.current?.update();
+  }, [isNativeVisible]);
 
   useEffect(() => {
     const { width, height, isResizing } = windowSize;

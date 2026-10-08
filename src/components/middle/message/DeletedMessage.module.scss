@@ -1,0 +1,132 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: var(--space-1);
+}
+
+.summary {
+  cursor: default;
+
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+
+  min-height: 1.75rem;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-borders);
+  border-radius: var(--radius-pill);
+
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+
+  background: var(--color-background-secondary);
+}
+
+.interactive {
+  cursor: var(--custom-cursor, pointer);
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+
+  &:hover {
+    color: var(--color-text);
+    background: var(--color-background-secondary-accent);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: 0.125rem;
+  }
+}
+
+.icon {
+  font-size: 1rem;
+}
+
+.label {
+  font-weight: var(--font-weight-medium);
+}
+
+.time {
+  color: var(--color-text-secondary);
+}
+
+.chevron {
+  font-size: 1rem;
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.open {
+  transform: rotate(180deg);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 30rem;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-borders);
+  border-radius: var(--radius-md);
+
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+
+  background: var(--color-background-secondary);
+
+  animation: panel-reveal var(--dur-base) var(--ease-standard);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  align-items: center;
+
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+}
+
+.author {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.badge {
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-borders-input);
+  border-radius: var(--radius-pill);
+}
+
+.thumbnail {
+  align-self: flex-start;
+
+  max-width: 100%;
+  max-height: 12rem;
+  border-radius: var(--radius-sm);
+
+  object-fit: contain;
+}
+
+.content {
+  font-size: var(--fs-md);
+  white-space: pre-wrap;
+}
+
+@keyframes panel-reveal {
+  from {
+    transform: translateY(-0.25rem);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

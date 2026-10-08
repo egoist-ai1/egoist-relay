@@ -28,15 +28,14 @@ export default defineConfig(
     'runtime/',
     'scratch/',
     'release/',
-    'docs/**/review-feedback.js',
-    'docs/**/*.test.mjs',
+    'docs/**',
     'releaseengine-source/',
     'scripts/*.bundle.cjs',
   ]),
   {
     name: 'teact-config',
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
-    ignores: ['scripts/**'],
+    ignores: ['scripts/**', 'installer/**'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommendedTypeChecked,

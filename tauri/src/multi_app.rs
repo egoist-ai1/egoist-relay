@@ -2,17 +2,20 @@ use std::sync::{
   Condvar, LazyLock, Mutex, Once,
   atomic::{AtomicBool, AtomicU64, Ordering},
 };
-use std::{collections::HashMap, path::PathBuf};
+use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
 use tauri::{
-  AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Rect, Size, Theme,
+  AppHandle, Emitter, LogicalPosition, LogicalSize, Manager, Position, Rect, Size,
   WebviewBuilder, WebviewUrl, WebviewWindowBuilder,
-  webview::{Color, DownloadEvent, NewWindowFeatures, NewWindowResponse},
+  webview::{DownloadEvent, NewWindowFeatures, NewWindowResponse},
 };
 #[cfg(not(windows))]
 use tauri::webview::PageLoadEvent;
 use url::{Host, Url};
+
+#[path = "multi_app_downloads.rs"]
+mod downloads;
 
 const TELEGRAM_APP: &str = "telegram";
 const X_APP: &str = "x";
@@ -104,10 +107,9 @@ static INSTAGRAM_WAITING_TO_SHOW: AtomicBool = AtomicBool::new(false);
 static X_LOAD_WATCHDOG: ServiceLoadWatchdog = ServiceLoadWatchdog::new();
 static INSTAGRAM_LOAD_WATCHDOG: ServiceLoadWatchdog = ServiceLoadWatchdog::new();
 static WEBVIEW_CREATION_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
-static DOWNLOAD_DESTINATIONS: LazyLock<Mutex<HashMap<String, Vec<PathBuf>>>> =
-  LazyLock::new(|| Mutex::new(HashMap::new()));
 const SMOKE_CANCEL_DOWNLOAD_URL: &str = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=";
 static SOCIAL_OVERLAY: AtomicBool = AtomicBool::new(false);
+static CONTENT_VISIBLE: AtomicBool = AtomicBool::new(true);
 
 pub(crate) fn has_social_overlay() -> bool {
   SOCIAL_OVERLAY.load(Ordering::Acquire)
@@ -132,13 +134,112 @@ pub(crate) fn set_social_overlay(app: &AppHandle, visible: bool) -> Result<(), S
   let active = get_active_app();
   let label = match active.as_str() { X_APP => X_WEBVIEW_LABEL, INSTAGRAM_APP => INSTAGRAM_WEBVIEW_LABEL, _ => { SOCIAL_OVERLAY.store(false, Ordering::Release); return Ok(()); } };
   let can_show = if active == X_APP { !X_WAITING_TO_SHOW.load(Ordering::Acquire) && get_x_load_state() != "auth-required" } else { !INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire) };
-  if can_show {
+  if can_show && CONTENT_VISIBLE.load(Ordering::Acquire) {
     if let Some(webview) = app.get_webview(label) {
       webview.show().map_err(|_| "SHARE_OVERLAY_FAILED")?;
       set_media_active(&webview, true);
     }
   }
   SOCIAL_OVERLAY.store(false, Ordering::Release);
+  Ok(())
+}
+
+pub(crate) fn install_browser_native_hooks(webview: &tauri::Webview) -> Result<(), String> {
+  downloads::install(webview, TELEGRAM_APP)
+}
+
+pub(crate) fn release_browser_native_hooks(webview: &tauri::Webview) -> Result<(), String> {
+  downloads::release(webview)
+}
+
+pub(crate) fn release_browser_native_hooks_by_label(app: &AppHandle, label: &str) -> Result<(), String> {
+  let main = app.get_webview("main").ok_or("MEDIA_NATIVE_HOOK_FAILED")?;
+  downloads::release_by_label(&main, label.to_string())
+}
+
+pub(crate) fn install_main_native_hooks(window: &tauri::WebviewWindow) -> Result<(), String> {
+  downloads::install(window.as_ref(), TELEGRAM_APP)
+}
+
+#[tauri::command]
+pub(crate) fn relay_media_download_file_name(webview: tauri::Webview, file_name: String) -> Result<String, String> {
+  crate::social_share::require_main(&webview)?;
+  downloads::safe_file_name(&file_name)
+}
+
+#[tauri::command]
+pub(crate) fn relay_media_download_prepare(webview: tauri::Webview, app_handle: AppHandle, url: String, file_name: String) -> Result<String, String> {
+  crate::social_share::require_main(&webview)?;
+  downloads::prepare_download(&app_handle, url, file_name)
+}
+
+#[tauri::command]
+pub(crate) fn multi_set_content_visible(webview: tauri::Webview, app_handle: AppHandle, visible: bool) -> Result<(), String> {
+  crate::social_share::require_main(&webview)?;
+  let previous = CONTENT_VISIBLE.swap(visible, Ordering::AcqRel);
+  if !visible {
+    for label in [X_WEBVIEW_LABEL, INSTAGRAM_WEBVIEW_LABEL] {
+      if let Some(view) = app_handle.get_webview(label) {
+        set_media_active(&view, false);
+        if view.hide().is_err() {
+          CONTENT_VISIBLE.store(previous, Ordering::Release);
+          let _ = restore_native_content(&app_handle);
+          return Err("MEDIA_CONTENT_VISIBILITY_FAILED".into());
+        }
+      }
+    }
+    if !crate::should_avoid_foreground() { let _ = webview.set_focus(); }
+    return Ok(());
+  }
+  if let Err(error) = restore_native_content(&app_handle) {
+    CONTENT_VISIBLE.store(previous, Ordering::Release);
+    return Err(error);
+  }
+  Ok(())
+}
+
+#[tauri::command]
+pub(crate) fn relay_media_operation_source(webview: tauri::Webview, app_handle: AppHandle, id: String) -> Result<(), String> {
+  crate::social_share::require_main(&webview)?;
+  let (service, source) = crate::media_operations::operation_source(&app_handle, &id)?;
+  if has_social_overlay() { return Err("SHARE_BUSY".into()); }
+  if !CONTENT_VISIBLE.load(Ordering::Acquire) { return Err("MEDIA_OPERATIONS_OPEN".into()); }
+  if get_active_app() != service { return Err("MEDIA_SOURCE_SERVICE_INACTIVE".into()); }
+  if service == TELEGRAM_APP {
+    return app_handle.emit_to("main", "relay-media-source", serde_json::json!({
+      "operationId": id, "service": service, "url": source,
+    })).map_err(|_| "MEDIA_SOURCE_UNAVAILABLE".into());
+  }
+  let service = match service.as_str() {
+    X_APP => X_APP,
+    INSTAGRAM_APP => INSTAGRAM_APP,
+    _ => return Err("MEDIA_SOURCE_DENIED".into()),
+  };
+  let target = app_handle.get_webview(get_service_label(service)).ok_or("MEDIA_SOURCE_UNAVAILABLE")?;
+  let source = Url::parse(&source).map_err(|_| "MEDIA_SOURCE_DENIED")?;
+  begin_service_load(&app_handle, service);
+  if target.navigate(source).is_err() {
+    emit_service_error(&app_handle, service, "The media source could not be opened".into());
+    return Err("MEDIA_SOURCE_UNAVAILABLE".into());
+  }
+  Ok(())
+}
+
+fn restore_native_content(app: &AppHandle) -> Result<(), String> {
+  if !CONTENT_VISIBLE.load(Ordering::Acquire) || has_social_overlay() { return Ok(()); }
+  let active = get_active_app();
+  let (label, can_show) = match active.as_str() {
+    X_APP => (X_WEBVIEW_LABEL, !X_WAITING_TO_SHOW.load(Ordering::Acquire) && get_x_load_state() != "auth-required"),
+    INSTAGRAM_APP => (INSTAGRAM_WEBVIEW_LABEL, !INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire)),
+    _ => return Ok(()),
+  };
+  if can_show {
+    if let Some(view) = app.get_webview(label) {
+      view.show().map_err(|_| "MEDIA_CONTENT_VISIBILITY_FAILED")?;
+      set_media_active(&view, true);
+      if !crate::should_avoid_foreground() { let _ = view.set_focus(); }
+    }
+  }
   Ok(())
 }
 
@@ -243,6 +344,7 @@ pub async fn multi_set_active_app(
   bounds: Option<AppBounds>,
 ) -> Result<(), String> {
   if has_social_overlay() { return Err("SHARE_BUSY".to_string()); }
+  if !CONTENT_VISIBLE.load(Ordering::Acquire) { return Err("MEDIA_OPERATIONS_OPEN".into()); }
   let _guard = WEBVIEW_CREATION_LOCK
     .lock()
     .unwrap_or_else(|p| p.into_inner());
@@ -306,6 +408,7 @@ pub fn multi_update_x_bounds(app_handle: AppHandle, bounds: AppBounds) -> Result
 #[tauri::command]
 pub async fn multi_x_navigate(app_handle: AppHandle, action: String) -> Result<(), String> {
   if has_social_overlay() { return Err("SHARE_BUSY".to_string()); }
+  if !CONTENT_VISIBLE.load(Ordering::Acquire) { return Err("MEDIA_OPERATIONS_OPEN".into()); }
   let result: Result<(), String> = (|| {
     if get_active_app() != X_APP {
       return Err("X is not active".to_string());
@@ -352,6 +455,7 @@ pub async fn multi_x_navigate(app_handle: AppHandle, action: String) -> Result<(
 #[tauri::command]
 pub async fn multi_instagram_navigate(app_handle: AppHandle, action: String) -> Result<(), String> {
   if has_social_overlay() { return Err("SHARE_BUSY".to_string()); }
+  if !CONTENT_VISIBLE.load(Ordering::Acquire) { return Err("MEDIA_OPERATIONS_OPEN".into()); }
   let result: Result<(), String> = (|| {
     if get_active_app() != INSTAGRAM_APP {
       return Err("Instagram is not active".to_string());
@@ -410,8 +514,8 @@ fn activate_x(app_handle: &AppHandle, requested_bounds: Option<AppBounds>) -> Re
   let main_window = app_handle
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
-  if let Err(error) = main_window.set_theme(Some(Theme::Dark)) {
-    eprintln!("[MultiApp] Failed to set the native dark theme: {error}");
+  if let Err(error) = main_window.set_theme(Some(crate::native_theme::window_theme())) {
+    eprintln!("[MultiApp] Failed to set the native window theme: {error}");
   }
   let requested_bounds = requested_bounds
     .or_else(get_x_bounds)
@@ -457,10 +561,10 @@ fn activate_x(app_handle: &AppHandle, requested_bounds: Option<AppBounds>) -> Re
   store_x_bounds(bounds);
   store_active_app(X_APP);
   if let Some(webview) = app_handle.get_webview(X_WEBVIEW_LABEL) {
-    set_media_active(
-      &webview,
-      !X_WAITING_TO_SHOW.load(Ordering::Acquire) && get_x_load_state() != "auth-required",
-    );
+    let visible = CONTENT_VISIBLE.load(Ordering::Acquire) && !has_social_overlay()
+      && !X_WAITING_TO_SHOW.load(Ordering::Acquire) && get_x_load_state() != "auth-required";
+    set_media_active(&webview, visible);
+    if !visible { let _ = webview.hide(); }
   }
   Ok(())
 }
@@ -472,8 +576,8 @@ fn activate_instagram(
   let main_window = app_handle
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
-  if let Err(error) = main_window.set_theme(Some(Theme::Dark)) {
-    eprintln!("[MultiApp] Failed to set the native dark theme: {error}");
+  if let Err(error) = main_window.set_theme(Some(crate::native_theme::window_theme())) {
+    eprintln!("[MultiApp] Failed to set the native window theme: {error}");
   }
   let requested_bounds = requested_bounds
     .or_else(get_x_bounds)
@@ -517,7 +621,10 @@ fn activate_instagram(
   store_x_bounds(bounds);
   store_active_app(INSTAGRAM_APP);
   if let Some(webview) = app_handle.get_webview(INSTAGRAM_WEBVIEW_LABEL) {
-    set_media_active(&webview, !INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire));
+    let visible = CONTENT_VISIBLE.load(Ordering::Acquire) && !has_social_overlay()
+      && !INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire);
+    set_media_active(&webview, visible);
+    if !visible { let _ = webview.hide(); }
   }
   Ok(())
 }
@@ -638,7 +745,7 @@ fn complete_service_load(app_handle: &AppHandle, service: &str) {
   cancel_service_load_deadline(service);
   get_service_waiting_flag(service).store(false, Ordering::Release);
   if let Some(webview) = app_handle.get_webview(get_service_label(service)) {
-    let is_active = get_active_app() == service && !has_social_overlay();
+    let is_active = get_active_app() == service && !has_social_overlay() && CONTENT_VISIBLE.load(Ordering::Acquire);
     if is_active {
       let result = webview.show().and_then(|_| {
         if crate::should_avoid_foreground() { Ok(()) } else { webview.set_focus() }
@@ -914,7 +1021,7 @@ fn create_x_webview(
     WebviewBuilder::new(X_WEBVIEW_LABEL, WebviewUrl::External(parse_initial_service_url(X_APP)?))
       .focused(false)
       .data_directory(x_data_dir)
-      .background_color(Color(0, 0, 0, 255))
+      .background_color(crate::native_theme::background_color())
       .disable_drag_drop_handler()
       .on_download(|webview, event| handle_download(&webview, X_APP, event))
       .initialization_script(&crate::social_share::create_enhancer_script(X_ENHANCER_SCRIPT, &share_token, X_APP));
@@ -977,12 +1084,13 @@ fn create_x_webview(
 
   #[cfg(windows)]
   {
+    downloads::install(&webview, X_APP)?;
     install_service_load_observers(&webview, X_APP, ready_token)?;
     webview.navigate(parse_x_home_url()?)
       .map_err(|error| format!("Failed to start loading X: {error}"))?;
   }
 
-  if start_hidden || X_WAITING_TO_SHOW.load(Ordering::Acquire) {
+  if start_hidden || X_WAITING_TO_SHOW.load(Ordering::Acquire) || !CONTENT_VISIBLE.load(Ordering::Acquire) {
     let _ = webview.hide();
   } else {
     webview.show().map_err(|error| {
@@ -1063,7 +1171,8 @@ fn create_service_auth_window(
     .inner_size(X_AUTH_WINDOW_WIDTH, X_AUTH_WINDOW_HEIGHT)
     .min_inner_size(X_AUTH_WINDOW_MIN_WIDTH, X_AUTH_WINDOW_MIN_HEIGHT)
     .resizable(true)
-    .theme(Some(Theme::Dark))
+    .theme(Some(crate::native_theme::window_theme()))
+    .background_color(crate::native_theme::background_color())
     .visible(!crate::should_avoid_foreground())
     .focused(!crate::should_avoid_foreground())
     .window_features(features)
@@ -1144,7 +1253,12 @@ fn create_service_auth_window(
   };
 
   match builder.build() {
-    Ok(window) => NewWindowResponse::Create { window },
+    Ok(window) => {
+      if let Err(error) = downloads::install(window.as_ref(), service) {
+        log::warn!("[Media] Sign-in WebView download hooks unavailable: {error}");
+      }
+      NewWindowResponse::Create { window }
+    },
     Err(error) => {
       emit_service_error(
         app_handle,
@@ -1278,100 +1392,26 @@ fn set_media_active(webview: &tauri::Webview, is_active: bool) {
   }
 }
 
-pub(crate) fn handle_download(
-  webview: &tauri::Webview,
-  service: &str,
-  event: DownloadEvent<'_>,
-) -> bool {
+pub(crate) fn handle_download(webview: &tauri::Webview, service: &str, event: DownloadEvent<'_>) -> bool {
   match event {
     DownloadEvent::Requested { url, destination } => {
-      if is_smoke_test() {
-        let Some(directory) = smoke_download_directory() else {
-          return false;
-        };
-        if url.as_str() == SMOKE_CANCEL_DOWNLOAD_URL {
-          let payload = serde_json::json!({
-            "url": url.as_str(), "success": false, "service": service,
-            "fileName": "relay-download-smoke-cancel.png", "smokeCanceled": true,
-          });
-          if let Err(error) = webview.app_handle().emit_to("main", "download-finished", payload) {
-            log::error!("Failed to report the isolated download cancellation: {error}");
-          }
-          return false;
-        }
-        let Some(filename) = destination.file_name() else {
-          return false;
-        };
-        *destination = directory.join(filename);
+      if let Err(error) = downloads::request(webview, service, &url, destination) {
+        log::warn!("[Media] Native download request rejected: {error}");
+        return false;
       }
-      #[cfg(target_os = "macos")]
-      if !is_smoke_test() {
-        if let Some(filename) = destination.file_name() {
-          if let Ok(directory) = webview.app_handle().path().download_dir() {
-            *destination = directory.join(filename);
-          }
+      if is_smoke_test() && url.as_str() == SMOKE_CANCEL_DOWNLOAD_URL {
+        if let Some(mut payload) = downloads::finish(webview, service, &url, Some(destination), false) {
+          payload["smokeCanceled"] = serde_json::json!(true);
+          let _ = webview.app_handle().emit_to("main", "download-finished", payload);
         }
+        return false;
       }
-      let mut reservations = DOWNLOAD_DESTINATIONS
-        .lock()
-        .unwrap_or_else(|p| p.into_inner());
-      let original = destination.clone();
-      let mut sequence = 0;
-      while destination.exists()
-        || reservations
-          .values()
-          .any(|paths| paths.contains(destination))
-      {
-        sequence += 1;
-        if sequence > 9999 {
-          return false;
-        }
-        let Some(stem) = original.file_stem() else {
-          return false;
-        };
-        let mut filename = stem.to_os_string();
-        filename.push(format!(" ({sequence})"));
-        if let Some(extension) = original.extension() {
-          filename.push(".");
-          filename.push(extension);
-        }
-        *destination = original.with_file_name(filename);
-      }
-      reservations
-        .entry(url.to_string())
-        .or_default()
-        .push(destination.clone());
     }
     DownloadEvent::Finished { url, path, success } => {
-      {
-        let mut reservations = DOWNLOAD_DESTINATIONS
-          .lock()
-          .unwrap_or_else(|p| p.into_inner());
-        if let Some(paths) = reservations.get_mut(url.as_str()) {
-          let index = path
-            .as_ref()
-            .and_then(|finished| paths.iter().position(|reserved| reserved == finished))
-            .unwrap_or(0);
-          if index < paths.len() {
-            paths.remove(index);
-          }
-          if paths.is_empty() {
-            reservations.remove(url.as_str());
-          }
+      if let Some(payload) = downloads::finish(webview, service, &url, path.as_deref(), success) {
+        if let Err(error) = webview.app_handle().emit_to("main", "download-finished", payload) {
+          log::error!("Failed to report the {service} download result: {error}");
         }
-      }
-      let file_name = path
-        .as_ref()
-        .and_then(|path| path.file_name())
-        .map(|name| name.to_string_lossy().into_owned());
-      let payload = serde_json::json!({
-        "url": url.as_str(), "success": success, "service": service, "fileName": file_name,
-      });
-      if let Err(error) = webview
-        .app_handle()
-        .emit_to("main", "download-finished", payload)
-      {
-        log::error!("Failed to report the {service} download result: {error}");
       }
     }
     _ => {}
@@ -1586,7 +1626,6 @@ fn create_instagram_webview(
   let ig_data_dir = get_service_data_directory(app_handle, INSTAGRAM_APP)?;
   std::fs::create_dir_all(&ig_data_dir)
     .map_err(|error| format!("Failed to create the Instagram profile: {error}"))?;
-  let share_token = uuid::Uuid::new_v4().to_string();
   #[cfg(windows)]
   let ready_token = uuid::Uuid::new_v4().to_string();
   begin_service_load(app_handle, INSTAGRAM_APP);
@@ -1597,10 +1636,10 @@ fn create_instagram_webview(
   )
   .focused(false)
   .data_directory(ig_data_dir)
-  .background_color(Color(0, 0, 0, 255))
+  .background_color(crate::native_theme::background_color())
   .disable_drag_drop_handler()
   .on_download(|webview, event| handle_download(&webview, INSTAGRAM_APP, event))
-  .initialization_script(&crate::social_share::create_enhancer_script(INSTAGRAM_ENHANCER_SCRIPT, &share_token, INSTAGRAM_APP));
+  .initialization_script(INSTAGRAM_ENHANCER_SCRIPT);
 
   #[cfg(windows)]
   let webview_builder = webview_builder.initialization_script(&create_service_ready_script(&ready_token));
@@ -1610,7 +1649,6 @@ fn create_instagram_webview(
       create_service_auth_window(&new_window_app, INSTAGRAM_APP, url, features)
     })
     .on_navigation(move |url| {
-      if crate::social_share::intercept_navigation(&navigation_app, INSTAGRAM_APP, &share_token, url) { return false; }
       if is_instagram_internal_url(url) {
         return true;
       }
@@ -1656,12 +1694,13 @@ fn create_instagram_webview(
 
   #[cfg(windows)]
   {
+    downloads::install(&webview, INSTAGRAM_APP)?;
     install_service_load_observers(&webview, INSTAGRAM_APP, ready_token)?;
     webview.navigate(parse_instagram_home_url()?)
       .map_err(|error| format!("Failed to start loading Instagram: {error}"))?;
   }
 
-  if start_hidden || INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire) {
+  if start_hidden || INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire) || !CONTENT_VISIBLE.load(Ordering::Acquire) {
     let _ = webview.hide();
   } else {
     webview.show().map_err(|error| {

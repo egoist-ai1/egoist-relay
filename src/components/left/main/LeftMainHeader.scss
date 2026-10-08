@@ -121,7 +121,7 @@
       height: 2rem !important;
       border-radius: 50% !important;
 
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 4px var(--color-light-shadow);
 
       transition: transform 0.15s ease, filter 0.15s ease;
     }

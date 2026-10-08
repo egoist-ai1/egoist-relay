@@ -248,3 +248,9 @@ test('Fragment renames during a size-guard scan do not cancel valid media', { ti
   assert.equal(hasObservedRemoval, true);
   assert.equal(result.metadata.size, bytes.length);
 });
+
+
+test('File output applies the same explicit byte budget to the engine', () => {
+  const args = createEngineArgs({ nodePath: process.execPath, tempDir: path.dirname(process.execPath), outputMode: 'file', maxBytes: 1024 }, 'download');
+  assert.equal(args[args.indexOf('--max-filesize') + 1], '1024');
+});

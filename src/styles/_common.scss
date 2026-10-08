@@ -1,13 +1,13 @@
 @use "mixins";
 
 ::selection {
-  color: #FFFFFF !important;
-  background-color: rgba(255, 255, 255, 0.28) !important;
+  color: var(--color-text) !important;
+  background-color: rgba(var(--color-text-rgb), 0.28) !important;
 }
 
 ::-moz-selection {
-  color: #FFFFFF !important;
-  background-color: rgba(255, 255, 255, 0.28) !important;
+  color: var(--color-text) !important;
+  background-color: rgba(var(--color-text-rgb), 0.28) !important;
 }
 
 .text-content,
@@ -76,7 +76,7 @@
 
     height: 0.25rem;
 
-    background-color: rgba(255 255 255 / 0.3);
+    background-color: rgba(var(--color-text-rgb), 0.3);
 
     &::before {
       content: "";
@@ -91,10 +91,6 @@
       border-bottom-right-radius: 0.125;
 
       background-color: var(--_color);
-    }
-
-    .theme-dark & {
-      --_color: white;
     }
   }
 }

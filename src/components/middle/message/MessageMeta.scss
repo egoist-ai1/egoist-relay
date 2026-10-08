@@ -15,6 +15,7 @@
   padding: 0 0.25rem;
   border-radius: 0.625rem;
 
+  font-variant-numeric: tabular-nums;
   line-height: 1;
   color: white;
 
@@ -118,8 +119,8 @@
   .media.no-footer &,
   .Message .custom-shape &,
   .Message .invoice:not(.has-reactions).has-photo & {
-    --color-accent-own: #38BDF8;
-    --color-accent: #38BDF8;
+    --color-accent-own: #FFFFFF;
+    --color-accent: #FFFFFF;
 
     right: 0.375rem;
     bottom: 0.375rem;
@@ -158,15 +159,16 @@
         background: transparent !important;
       }
 
+      // Плашка поверх медиа всегда тёмная: статусы белые, «прочитано» — полной яркости
       .icon-message-read {
-        color: #38BDF8 !important;
+        color: #FFFFFF !important;
         filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.9)) !important;
-        fill: #38BDF8 !important;
+        fill: #FFFFFF !important;
       }
 
       .icon-message-succeeded {
-        color: #F1F5F9 !important;
-        fill: #F1F5F9 !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        fill: rgba(255, 255, 255, 0.6) !important;
       }
     }
   }
@@ -207,25 +209,25 @@
 
     .icon-message-read {
       color: var(--color-text) !important;
-      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
+      filter: drop-shadow(0 1px 2px var(--color-light-shadow)) !important;
       fill: var(--color-text) !important;
     }
 
     .icon-message-succeeded {
-      color: rgba(255, 255, 255, 0.85) !important;
-      fill: rgba(255, 255, 255, 0.85) !important;
+      color: var(--color-text-secondary) !important;
+      fill: var(--color-text-secondary) !important;
     }
 
     .Message.own & {
       .icon-message-read {
         color: var(--color-text) !important;
-        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
+        filter: drop-shadow(0 1px 2px var(--color-light-shadow)) !important;
         fill: var(--color-text) !important;
       }
 
       .icon-message-succeeded {
-        color: rgba(255, 255, 255, 0.85) !important;
-        fill: rgba(255, 255, 255, 0.85) !important;
+        color: var(--color-text-secondary) !important;
+        fill: var(--color-text-secondary) !important;
       }
     }
   }

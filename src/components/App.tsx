@@ -1,13 +1,14 @@
 import {
   useEffect, useLayoutEffect, useRef, useState,
 } from '../lib/teact/teact';
-import { withGlobal } from '../global';
+import { getActions, getGlobal, withGlobal } from '../global';
 
 import type { GlobalState } from '../global/types';
 import type { ThemeKey } from '../types';
 import type { SocialNavigationAction } from './common/Titlebar';
 import type { UiLoaderPage } from './common/UiLoader';
 import type { AppId, InstagramAppState, XAppState } from './multi/AppSidebar';
+import type { MediaOperation, MediaOperationsSnapshot } from './multi/mediaOperations.types';
 import type { SocialShareRequest, SocialShareSuccess } from './multi/socialShare';
 
 import {
@@ -18,18 +19,24 @@ import { forceMutation } from '../lib/fasterdom/stricterdom.ts';
 import {
   selectActionMessageBg, selectTabState, selectTheme, selectThemeValues,
 } from '../global/selectors';
+import { selectSharedSettings } from '../global/selectors/sharedState';
 import { IS_TAURI } from '../util/browser/globalEnvironment';
 import { IS_INSTALL_PROMPT_SUPPORTED, IS_MAC_OS, PLATFORM_ENV } from '../util/browser/windowEnvironment';
 import buildClassName from '../util/buildClassName';
 import { handleError } from '../util/handleError';
+import { parseInlineSocialMediaUrl } from '../util/inlineSocialMedia';
 import { setupBeforeInstallPrompt } from '../util/installPrompt';
 import { ACCOUNT_SLOT, getAccountSlotUrl, getFirstLoggedInAccountSlot } from '../util/multiaccount';
 import { hasEncryptedSession } from '../util/passcode';
 import { getInitialLocationHash, parseInitialLocationHash } from '../util/routing';
 import { checkSessionLocked, hasStoredSession } from '../util/sessions';
 import { resolveAppBounds } from '../util/tauri/appBounds';
+import { getLastUserInputAt, startSocialWarmup } from '../util/tauri/socialWarmup';
 import { getActionMessageBg, getWallpaperBaseColor } from '../util/wallpaper';
 import { updateSizes } from '../util/windowSize';
+import { getMediaOperationsSnapshot, setMediaOperationsLocked,
+  subscribeMediaOperations } from './multi/mediaOperations';
+import { isMediaOperationActive } from './multi/mediaOperations.types';
 import { isSocialShareRequest } from './multi/socialShare';
 
 import useTauriDrag from '../hooks/tauri/useTauriDrag';
@@ -52,6 +59,7 @@ import AppInactive from './main/AppInactive';
 import LockScreen from './main/LockScreen.async';
 import Main from './main/Main.async';
 import AppSidebar from './multi/AppSidebar';
+import MediaOperationsPanel from './multi/MediaOperationsPanel';
 import SocialShareModal from './multi/SocialShareModal';
 // import Test from './test/demo/MessageTextStreamingTest';
 import Transition from './ui/Transition';
@@ -81,6 +89,7 @@ const TRANSITION_RENDER_COUNT = Object.keys(AppScreens).length / 2;
 const ACTIVE_PAGE_TITLE = IS_TAURI ? PAGE_TITLE_TAURI : PAGE_TITLE;
 const INACTIVE_PAGE_TITLE = `${ACTIVE_PAGE_TITLE} ${INACTIVE_MARKER}`;
 const NOTICE_DURATION = 6000;
+const PREWARM_COMMANDS = ['multi_prewarm_x', 'multi_prewarm_instagram'] as const;
 
 type XStatusPayload = {
   state: Exclude<XAppState, 'idle'>;
@@ -114,7 +123,17 @@ type DownloadStatusPayload = {
   success: boolean;
   service?: AppId;
   fileName?: string;
+  error?: string;
 };
+
+function getDownloadNoticeKey({ success, error }: DownloadStatusPayload) {
+  if (success) return 'RelayDownloadSaved';
+  if (error === 'MEDIA_TYPE_BLOCKED') return 'RelayDownloadBlocked';
+  if (error === 'MEDIA_TOO_LARGE' || error === 'MEDIA_RATE_LIMITED' || error === 'MEDIA_QUEUE_FULL') {
+    return 'RelayDownloadLimited';
+  }
+  return 'RelayDownloadFailed';
+}
 
 const App = ({
   authState,
@@ -134,7 +153,14 @@ const App = ({
   const [instagramAppState, setInstagramAppState] = useState<InstagramAppState>('idle');
   const [isNavigating, setIsNavigating] = useState(false);
   const [notice, setNotice] = useState<string>();
+  const [isOperationsOpen, setIsOperationsOpen] = useState(false);
+  const [isOperationsFull, setIsOperationsFull] = useState(false);
+  const [operationsSnapshot, setOperationsSnapshot] = useState<MediaOperationsSnapshot>(getMediaOperationsSnapshot);
+  const workspaceRef = useRef<HTMLDivElement>();
+  const previousFocusRef = useRef<HTMLElement>();
   const [socialShare, setSocialShare] = useState<SocialShareRequest>();
+  const [shareRecovery, setShareRecovery] = useState<MediaOperation>();
+  const recoveryRequestRef = useRef<MediaOperation>();
   const socialShareRef = useRef<SocialShareRequest>();
   const isMountedRef = useRef(true);
   const desiredAppRef = useRef<AppId>('telegram');
@@ -144,6 +170,8 @@ const App = ({
   const isNavigatingRef = useRef(false);
   const nativeStatusListenersReadyRef = useRef<Promise<void>>();
   const nativeStatusListenersRef = useRef<NoneToVoidFunction[]>([]);
+  const areServicesPrewarmedRef = useRef(false);
+  const stopSocialWarmupRef = useRef<(() => void) | undefined>();
   const nativeViewportRef = useRef<HTMLDivElement>();
   const nativeBoundsRequestRef = useRef(0);
   const lang = useLang();
@@ -247,6 +275,10 @@ const App = ({
         if (!mounted || !isSocialShareRequest(payload) || socialShareRef.current
           || payload.service !== desiredAppRef.current) return;
         socialShareRef.current = payload;
+        const recovery = recoveryRequestRef.current;
+        setShareRecovery(recovery && recovery.service === payload.service
+          && recovery.sourceUrl === parseInlineSocialMediaUrl(payload.url)?.canonicalUrl ? recovery : undefined);
+        recoveryRequestRef.current = undefined;
         setNotice(undefined);
         try {
           const { invoke } = await import('@tauri-apps/api/core');
@@ -269,7 +301,7 @@ const App = ({
   }, [lang]);
 
   const handleCloseSocialShare = useLastCallback(async (
-    requestId: string, wasSent?: boolean, success?: SocialShareSuccess,
+    requestId: string, wasSent?: boolean, success?: SocialShareSuccess, isQueued?: boolean,
   ) => {
     if (socialShareRef.current?.requestId !== requestId) return;
     const { invoke } = await import('@tauri-apps/api/core');
@@ -282,6 +314,11 @@ const App = ({
     if (socialShareRef.current?.requestId === requestId) {
       socialShareRef.current = undefined;
       setSocialShare(undefined);
+      setShareRecovery(undefined);
+      if (isQueued) {
+        setNotice(lang('RelayOperationQueuedNotice'));
+        setIsOperationsOpen(true);
+      }
       if (wasSent) {
         setNotice(success
           ? lang('RelayShareSentTo', { recipient: success.recipientName })
@@ -294,7 +331,7 @@ const App = ({
     if (!IS_TAURI) return undefined;
     let mounted = true;
     let release: NoneToVoidFunction | undefined;
-    void import('@tauri-apps/api/event').then(({ listen }) => listen<{ service?: 'x' | 'instagram' }>(
+    void import('@tauri-apps/api/event').then(({ listen }) => listen<{ service?: 'x' }>(
       'multi-social-share-error', ({ payload }) => {
         if (!mounted || desiredAppRef.current === 'telegram'
           || (payload?.service && payload.service !== desiredAppRef.current)) return;
@@ -454,6 +491,81 @@ const App = ({
     }
   }, [activeApp, inactiveReason]);
 
+  useEffect(() => {
+    if (!IS_TAURI) return undefined;
+    const release = subscribeMediaOperations(() => setOperationsSnapshot(getMediaOperationsSnapshot()));
+    return release;
+  }, []);
+  const hasJournalNotice = Boolean(operationsSnapshot.journalNotice);
+  const wasJournalNoticeShownRef = useRef(false);
+  useEffect(() => {
+    if (!hasJournalNotice || wasJournalNoticeShownRef.current) return;
+    wasJournalNoticeShownRef.current = true;
+    setNotice(lang('RelayOperationJournalRecovered'));
+  }, [hasJournalNotice, lang]);
+  useEffect(() => {
+    if (!IS_TAURI) return;
+    void setMediaOperationsLocked(activeKey !== AppScreens.main);
+  }, [activeKey]);
+
+  const handleWorkspaceResize = useLastCallback(() => {
+    requestMeasure(() => {
+      const element = workspaceRef.current;
+      if (!element) return;
+      const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      setIsOperationsFull(element.getBoundingClientRect().width < 64 * rem);
+    });
+  });
+  useResizeObserver(workspaceRef, handleWorkspaceResize);
+
+  const handleCloseOperations = useLastCallback(() => {
+    setIsOperationsOpen(false);
+    requestAnimationFrame(() => {
+      if (previousFocusRef.current?.isConnected) previousFocusRef.current.focus();
+    });
+  });
+  const handleToggleOperations = useLastCallback(() => {
+    if (socialShareRef.current) return;
+    if (isOperationsOpen) {
+      handleCloseOperations();
+      return;
+    }
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+    setIsOperationsOpen(true);
+  });
+  useEffect(() => {
+    const handleKey = (event: KeyboardEvent) => {
+      if (!event.ctrlKey || event.altKey || event.shiftKey || event.metaKey || event.repeat
+        || event.key.toLowerCase() !== 'j') return;
+      event.preventDefault();
+      event.stopPropagation();
+      handleToggleOperations();
+    };
+    document.addEventListener('keydown', handleKey, true);
+    let mounted = true;
+    let release: NoneToVoidFunction | undefined;
+    if (IS_TAURI) {
+      void import('@tauri-apps/api/event').then(({ listen }) => listen('relay-media-toggle', () => {
+        if (mounted) handleToggleOperations();
+      })).then((unlisten) => {
+        if (mounted) release = unlisten;
+        else unlisten();
+      });
+    }
+    return () => {
+      mounted = false;
+      release?.();
+      document.removeEventListener('keydown', handleKey, true);
+    };
+  }, []);
+  useLayoutEffect(() => {
+    if (!IS_TAURI) return;
+    void import('@tauri-apps/api/core').then(async ({ invoke }) => {
+      await invoke('multi_set_content_visible', { visible: !(isOperationsOpen && isOperationsFull) });
+      await updateNativeBounds();
+    }).catch(handleError);
+  }, [isOperationsOpen, isOperationsFull]);
+
   const prevActiveKey = usePrevious(activeKey);
 
   function renderContent() {
@@ -516,6 +628,8 @@ const App = ({
 
     return () => {
       isMountedRef.current = false;
+      stopSocialWarmupRef.current?.();
+      stopSocialWarmupRef.current = undefined;
       nativeBoundsRequestRef.current += 1;
       appSwitchRequestRef.current += 1;
       navigationRequestRef.current += 1;
@@ -523,6 +637,26 @@ const App = ({
       nativeStatusListenersRef.current = [];
     };
   }, []);
+
+  useEffect(() => {
+    if (!IS_TAURI || isScreenLocked || inactiveReason || areServicesPrewarmedRef.current) return;
+    areServicesPrewarmedRef.current = true;
+    void prepareNativeStatusListeners().then(async () => {
+      const { invoke } = await import('@tauri-apps/api/core');
+      if (!isMountedRef.current) return;
+      stopSocialWarmupRef.current = startSocialWarmup({
+        commands: PREWARM_COMMANDS,
+        isEnabled: () => selectSharedSettings(getGlobal()).shouldWarmupSocialViews !== false,
+        isTelegramReady: () => getGlobal().connectionState === 'connectionStateReady' && Boolean(getGlobal().isSynced),
+        getLastInputAt: getLastUserInputAt,
+        run: (command) => invoke(command),
+        onError: (err) => handleError(new Error('Failed to prewarm a social view', { cause: err })),
+      });
+    }).catch((err) => {
+      areServicesPrewarmedRef.current = false;
+      handleError(new Error('Failed to prepare social view observers', { cause: err }));
+    });
+  }, [isScreenLocked, inactiveReason]);
 
   const handleNavigation = useLastCallback(async (action: SocialNavigationAction | 'login') => {
     if (!IS_TAURI || socialShareRef.current || activeApp === 'telegram'
@@ -581,7 +715,7 @@ const App = ({
       const { listen } = await import('@tauri-apps/api/event');
       const releaseDownload = await listen<DownloadStatusPayload>('download-finished', ({ payload }) => {
         if (!isMounted) return;
-        setNotice(lang(payload.success ? 'RelayDownloadSaved' : 'RelayDownloadFailed'));
+        setNotice(lang(getDownloadNoticeKey(payload)));
       });
       if (!isMounted) releaseDownload();
       else unlistenDownload = releaseDownload;
@@ -609,6 +743,7 @@ const App = ({
 
   const handleSelectApp = useLastCallback((app: AppId) => {
     if (socialShareRef.current) return;
+    if (isOperationsFull && isOperationsOpen) handleCloseOperations();
 
     if (app === desiredAppRef.current) {
       if (app === activeApp && app === 'x' && xAppState === 'error') void handleRetryX();
@@ -656,6 +791,48 @@ const App = ({
     });
   });
 
+  const handleOperationSource = useLastCallback(async (operation: MediaOperation) => {
+    if (!operation.sourceUrl) return;
+    handleCloseOperations();
+    const { invoke } = await import('@tauri-apps/api/core');
+    await invoke('multi_set_content_visible', { visible: true });
+    handleSelectApp(operation.service);
+    await appSwitchQueueRef.current;
+    if (operation.service === 'telegram') {
+      getActions().openTelegramLink({ url: operation.sourceUrl });
+    } else {
+      await invoke('relay_media_operation_source', { id: operation.id });
+    }
+  });
+  useEffect(() => {
+    const handleRecapture = (event: Event) => {
+      const id = (event as CustomEvent<{ id: string }>).detail?.id;
+      const operation = getMediaOperationsSnapshot().operations.find((value) => value.id === id);
+      if (!operation || operation.stage === 'uncertain') return;
+      recoveryRequestRef.current = operation;
+      void handleOperationSource(operation)
+        .then(() => setNotice(lang('RelayOperationRecaptureHelp'))).catch((error) => {
+          recoveryRequestRef.current = undefined;
+          setNotice(lang('RelayOperationUnavailable'));
+          handleError(error);
+        });
+    };
+    window.addEventListener('relay-media-recapture', handleRecapture);
+    return () => window.removeEventListener('relay-media-recapture', handleRecapture);
+  }, [lang]);
+
+  const handleOperationChat = useLastCallback(async (operation: MediaOperation) => {
+    if (!operation.send || operation.send.accountId !== getGlobal().currentUserId) {
+      throw new Error('MEDIA_ACCOUNT_CHANGED');
+    }
+    handleCloseOperations();
+    handleSelectApp('telegram');
+    await appSwitchQueueRef.current;
+    getActions().openChat({ id: operation.send.peerId });
+  });
+
+  const isWorkspaceCovered = isOperationsOpen && isOperationsFull;
+
   return (
     <div className={styles.multiRoot}>
       <AppSidebar
@@ -665,7 +842,12 @@ const App = ({
         onSelectApp={handleSelectApp}
       />
 
-      <div className={styles.mainWorkspace}>
+      <div
+        ref={workspaceRef}
+        className={buildClassName(styles.mainWorkspace,
+          isOperationsOpen && !isOperationsFull && styles.workspaceWithOperations,
+          isOperationsOpen && isOperationsFull && styles.workspaceFullOperations)}
+      >
         <div
           ref={nativeViewportRef}
           className={buildClassName(styles.nativeViewport, IS_TAURI && !IS_MAC_OS && styles.withTitlebar)}
@@ -677,6 +859,9 @@ const App = ({
           canNavigate={activeApp === 'x' ? xAppState === 'ready' : instagramAppState === 'ready'}
           isNavigating={isNavigating}
           notice={notice}
+          isOperationsOpen={isOperationsOpen}
+          operationCount={operationsSnapshot.operations.filter(isMediaOperationActive).length}
+          onToggleOperations={handleToggleOperations}
           onLoginX={handleLoginX}
           onNavigate={handleNavigation}
         />
@@ -688,7 +873,8 @@ const App = ({
             IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
             activeApp !== 'telegram' && styles.hidden,
           )}
-          aria-hidden={activeApp !== 'telegram'}
+          inert={activeApp !== 'telegram' || isWorkspaceCovered}
+          aria-hidden={activeApp !== 'telegram' || isWorkspaceCovered}
         >
           <UiLoader page={page} isMobile={isMobile}>
             <Transition
@@ -715,7 +901,8 @@ const App = ({
             IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
             activeApp !== 'x' && styles.hidden,
           )}
-          aria-hidden={activeApp !== 'x'}
+          inert={activeApp !== 'x' || isWorkspaceCovered}
+          aria-hidden={activeApp !== 'x' || isWorkspaceCovered}
           aria-busy={xAppState === 'loading'}
         >
           <div className={styles.xContentArea}>
@@ -785,7 +972,8 @@ const App = ({
             IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
             activeApp !== 'instagram' && styles.hidden,
           )}
-          aria-hidden={activeApp !== 'instagram'}
+          inert={activeApp !== 'instagram' || isWorkspaceCovered}
+          aria-hidden={activeApp !== 'instagram' || isWorkspaceCovered}
           aria-busy={instagramAppState === 'loading'}
         >
           <div className={styles.xContentArea}>
@@ -797,14 +985,14 @@ const App = ({
                     className={styles.xStatusIcon}
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                     focusable="false"
                   >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" strokeWidth="2.5" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
                   </svg>
                   <span className={styles.xSpinner} />
                 </div>
@@ -821,14 +1009,14 @@ const App = ({
                     className={styles.xStatusIcon}
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                     focusable="false"
                   >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" strokeWidth="2.5" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
                   </svg>
                 </div>
                 <h1 className={styles.xStatusTitle}>{lang('RelayInstagramErrorTitle')}</h1>
@@ -844,11 +1032,21 @@ const App = ({
             )}
           </div>
         </div>
+        {isOperationsOpen && (
+          <MediaOperationsPanel
+            snapshot={operationsSnapshot}
+            isFull={isOperationsFull}
+            onClose={handleCloseOperations}
+            onSource={handleOperationSource}
+            onChat={handleOperationChat}
+          />
+        )}
       </div>
       {socialShare && (
         <SocialShareModal
           key={socialShare.requestId}
           request={socialShare}
+          recoverOperation={shareRecovery}
           canSend={activeKey === AppScreens.main}
           onClose={handleCloseSocialShare}
         />

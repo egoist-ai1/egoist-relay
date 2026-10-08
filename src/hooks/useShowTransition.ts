@@ -85,24 +85,27 @@ export default function useShowTransition<RefType extends HTMLElement = HTMLDivE
 
   useSyncEffectWithPrevDeps(([prevIsOpen]) => {
     const options = optionsRef.current;
-
-    if (shouldForceOpen) {
-      setState('open');
-      return;
-    }
-
-    if (isOpen) {
-      if (closingTimeoutRef.current) {
+    let isCancelled = false;
+    const cancelTransition = () => {
+      isCancelled = true;
+      if (closingTimeoutRef.current !== undefined) {
         clearTimeout(closingTimeoutRef.current);
         closingTimeoutRef.current = undefined;
       }
+    };
 
+    if (shouldForceOpen) {
+      setState('open');
+      return cancelTransition;
+    }
+
+    if (isOpen) {
       if (options.noOpenTransition || (prevIsOpen === undefined && options.noMountTransition)) {
         setState('open');
       } else {
         setState('scheduled-open');
         requestMeasure(() => {
-          setState('open');
+          if (!isCancelled) setState('open');
         });
       }
     } else if (prevIsOpen === undefined || options.noCloseTransition) {
@@ -111,10 +114,12 @@ export default function useShowTransition<RefType extends HTMLElement = HTMLDivE
       setState('closing');
 
       closingTimeoutRef.current = window.setTimeout(() => {
+        closingTimeoutRef.current = undefined;
         setState('closed');
         onCloseEndLast();
       }, options.closeDuration);
     }
+    return cancelTransition;
   }, [isOpen, shouldForceOpen]);
 
   const applyClassNames = useLastCallback(() => {

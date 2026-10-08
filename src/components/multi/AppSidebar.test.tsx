@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { createElement } from '../../lib/teact/teact';
 import TeactDOM from '../../lib/teact/teact-dom';
 
+import type { AppId, InstagramAppState, XAppState } from './AppSidebar';
+
 import { requestMutation } from '../../lib/fasterdom/fasterdom';
 
 import AppSidebar from './AppSidebar';
@@ -11,11 +13,15 @@ vi.mock('../../hooks/useLang', () => ({ default: () => (key: string) => key }));
 let container: HTMLElement;
 const onSelectApp = vi.fn();
 
-function renderSidebar(xAppState: 'ready' | 'loading' | 'error' | 'auth-required' = 'ready') {
+function renderSidebar(
+  xAppState: XAppState = 'ready',
+  activeApp: AppId = 'telegram',
+  instagramAppState: InstagramAppState = 'ready',
+) {
   return new Promise<void>((resolve) => {
     requestMutation(() => {
       TeactDOM.render(createElement(AppSidebar, {
-        activeApp: 'telegram', xAppState, instagramAppState: 'ready', onSelectApp,
+        activeApp, xAppState, instagramAppState, onSelectApp,
       }), container);
       resolve();
     });
@@ -48,7 +54,7 @@ describe('AppSidebar complete navigation tile', () => {
   test('The visible label activates the same control as its icon', async () => {
     await renderSidebar();
     const instagram = getAppButton('instagram');
-    const label = instagram.querySelector<HTMLElement>('span:last-child')!;
+    const label = instagram.querySelector<HTMLElement>('[class*="appLabel"]')!;
     expect(label.textContent).toBe('RelayInstagramTitle');
     label.click();
     expect(onSelectApp).toHaveBeenCalledExactlyOnceWith('instagram');
@@ -70,6 +76,33 @@ describe('AppSidebar complete navigation tile', () => {
     pressNavigationKey(instagram, 'Home');
     expect(document.activeElement).toBe(telegram);
     expect(onSelectApp).not.toHaveBeenCalled();
+  });
+
+  test.each(['telegram', 'x', 'instagram'] as const)(
+    'Preserves the selected %s pane relationship after switching services', async (activeApp) => {
+      await renderSidebar('ready', activeApp);
+      for (const app of ['telegram', 'x', 'instagram']) {
+        const button = getAppButton(app);
+        expect(button.getAttribute('aria-controls')).toBe(`relay-${app}-pane`);
+        expect(button.hasAttribute('aria-pressed')).toBe(false);
+        expect(button.tabIndex).toBe(app === activeApp ? 0 : -1);
+        if (app === activeApp) expect(button.getAttribute('aria-current')).toBe('page');
+        else expect(button.getAttribute('aria-current')).toBeNull();
+      }
+    },
+  );
+
+  test.each([
+    ['loading', 'RelayInstagramLoadingTitle', 'true'],
+    ['error', 'RelayInstagramErrorTitle', 'false'],
+  ] as const)('Exposes Instagram %s without losing its service action', async (state, title, busy) => {
+    await renderSidebar('ready', 'telegram', state);
+    const button = getAppButton('instagram');
+    expect(button.getAttribute('aria-label')).toContain(title);
+    expect(button.getAttribute('aria-busy')).toBe(busy);
+    expect(button.disabled).toBe(false);
+    button.click();
+    expect(onSelectApp).toHaveBeenCalledExactlyOnceWith('instagram');
   });
 
   test.each([

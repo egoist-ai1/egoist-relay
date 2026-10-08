@@ -1,7 +1,11 @@
 .Switcher {
   position: relative;
+
   display: inline-flex;
   align-items: center;
+
+  min-width: 2.125rem;
+  min-height: 1.75rem;
   margin: 0;
 
   &.disabled {
@@ -11,6 +15,10 @@
 
   &.inactive {
     pointer-events: none;
+
+    input {
+      visibility: hidden;
+    }
   }
 
   body.no-page-transitions &,
@@ -27,13 +35,15 @@
 
   input {
     position: absolute;
-    z-index: var(--z-below);
 
-    width: 0;
-    height: 0;
+    overflow: hidden;
 
-    visibility: hidden;
+    width: 0.0625rem;
+    height: 0.0625rem;
+    margin: 0;
+
     opacity: 0;
+    clip-path: inset(50%);
   }
 
   .widget {
@@ -51,7 +61,7 @@
 
     background-color: var(--color-gray);
 
-    transition: background-color 150ms;
+    transition: background-color 140ms ease;
   }
 
   .widget:after {
@@ -68,7 +78,7 @@
 
     background-color: var(--color-background);
 
-    transition: transform 200ms;
+    transition: background-color 140ms ease, border-color 140ms ease;
   }
 
   input:checked + .widget {
@@ -78,25 +88,20 @@
   input:checked + .widget:after {
     transform: translateX(100%);
     border-color: var(--color-primary);
+    background-color: var(--color-primary-text);
   }
 
-  :global(.theme-dark) & {
-    .widget {
-      background-color: #2C2C30;
+  &:has(:focus-visible) .widget {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: 0.1875rem;
+  }
+}
 
-      &:after {
-        border-color: #2C2C30;
-        background-color: #FFFFFF;
-      }
-    }
-
-    input:checked + .widget {
-      background-color: #FFFFFF !important;
-
-      &:after {
-        border-color: #FFFFFF !important;
-        background-color: #000000 !important;
-      }
+@media (prefers-reduced-motion: reduce) {
+  .Switcher {
+    .widget,
+    .widget::after {
+      transition: none;
     }
   }
 }

@@ -95,6 +95,7 @@ import FooterActionBar from './footer/FooterActionBar';
 import FrozenAccountPlaceholder from './FrozenAccountPlaceholder';
 import MessageList from './MessageList';
 import MessageSelectToolbar from './MessageSelectToolbar';
+import MiddleEmptyState from './MiddleEmptyState';
 import MiddleHeader from './MiddleHeader';
 import MiddleHeaderPanesIsland from './MiddleHeaderPanesIsland';
 import AudioPlayer from './panes/AudioPlayer';
@@ -578,6 +579,7 @@ function MiddleColumn({
         />
       )}
       <div id="middle-column-portals" />
+      {!(renderingChatId && renderingThreadId) && <MiddleEmptyState />}
       <AudioPlayer
         className="island-player"
         isHidden={hasActiveMiddleSearch || isRichInputExpanded || (isTablet && isLeftColumnShown)}

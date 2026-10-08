@@ -3,6 +3,7 @@ import { getGlobal } from '../../global';
 
 import type { ApiAttachment, ApiMessage, ApiOnProgress } from '../../api/types';
 import type { ThreadId } from '../../types';
+import type { SavedMedia } from './mediaOperations.types';
 import { MAIN_THREAD_ID } from '../../api/types';
 
 import { getPeerStarsForMessage } from '../../global/actions/api/messages';
@@ -18,7 +19,7 @@ import buildAttachment from '../middle/composer/helpers/buildAttachment';
 
 export type SocialShareRequest = {
   requestId: string;
-  service: 'x' | 'instagram';
+  service: 'x';
   url: string;
   text?: string;
   media?: { url: string; type: 'photo' | 'video' }[];
@@ -26,7 +27,7 @@ export type SocialShareRequest = {
 };
 
 export type SocialShareTarget = { peerId: string; threadId?: ThreadId };
-export type SocialShareMode = 'link' | 'media';
+export type SocialShareMode = 'link' | 'media' | 'file';
 export type SocialShareSuccess = { recipientName: string; count: number };
 export type SocialMediaProgress = {
   requestId: string;
@@ -45,7 +46,7 @@ const MEDIA_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image
 export function isSocialShareRequest(value: unknown): value is SocialShareRequest {
   if (!value || typeof value !== 'object') return false;
   const request = value as SocialShareRequest;
-  if (!/^[a-z0-9-]{16,64}$/i.test(request.requestId) || !['x', 'instagram'].includes(request.service)) return false;
+  if (!/^[a-z0-9-]{16,64}$/i.test(request.requestId) || request.service !== 'x') return false;
   try {
     const url = new URL(request.url);
     if (url.protocol !== 'https:' || url.username || url.password || url.port) return false;
@@ -120,16 +121,19 @@ export async function resolveSocialShareMedia(
 
 export async function saveSocialShareMedia(
   request: SocialShareRequest, isCanceled: () => boolean, onProgress: (index: number) => void,
-): Promise<void> {
+): Promise<SavedMedia[]> {
   const { invoke } = await import('@tauri-apps/api/core');
   const mediaCount = getSocialShareMediaCount(request);
   if (!mediaCount) throw new Error('SOCIAL_SHARE_INVALID_MEDIA');
+  const saved: SavedMedia[] = [];
   for (let index = 0; index < mediaCount; index++) {
     if (isCanceled()) throw new Error('SOCIAL_SHARE_CANCELED');
     onProgress(index);
-    await invoke('multi_social_save_media', { requestId: request.requestId, index });
+    const file = await invoke<SavedMedia>('multi_social_save_media', { requestId: request.requestId, index });
+    saved.push(file);
     if (isCanceled()) throw new Error('SOCIAL_SHARE_CANCELED');
   }
+  return saved;
 }
 
 export function releaseSocialShareMedia(attachments: ApiAttachment[]) {
@@ -215,7 +219,7 @@ export async function getSocialSharePrice(target: SocialShareTarget): Promise<nu
 }
 
 export function createSocialShareJob(
-  request: SocialShareRequest, target: SocialShareTarget, attachments: ApiAttachment[],
+  request: SocialShareRequest, target: SocialShareTarget, attachments: ApiAttachment[], mode: SocialShareMode = 'media',
 ): ShareSendJob {
   const randomId = () => {
     const value = crypto.getRandomValues(new Uint32Array(2));
@@ -225,18 +229,24 @@ export function createSocialShareJob(
     target: { ...target }, confirmed: 0, busy: false,
     items: [
       ...getSocialShareTextParts(request).map((text) => ({ text, randomId: randomId() })),
-      ...attachments.map((attachment) => ({ attachment, randomId: randomId() })),
+      ...attachments.map((attachment) => ({
+        attachment: mode === 'file' ? { ...attachment, shouldSendAsFile: true as const } : attachment,
+        randomId: randomId(),
+      })),
     ],
   };
 }
 
 export async function sendSocialShareJob(
   job: ShareSendJob, price: number, onProgress: (confirmed: number, progress?: number) => void,
+  lifecycle: { isCanceled?: () => boolean; onBeforeSend?: () => Promise<void>;
+    onConfirmed?: (confirmed: number) => Promise<void>; onDispatch?: NoneToVoidFunction; } = {},
 ): Promise<void> {
   if (job.busy) throw new Error('SOCIAL_SHARE_BUSY');
   job.busy = true;
   try {
     for (; job.confirmed < job.items.length;) {
+      if (lifecycle.isCanceled?.()) throw new Error('SOCIAL_SHARE_CANCELED');
       const item = job.items[job.confirmed];
       const chat = assertSocialShareTarget(job.target, item.attachment ? [item.attachment] : []);
       const params = {
@@ -252,15 +262,32 @@ export async function sendSocialShareJob(
         shouldPreserveDraft: true,
         shouldSkipFocus: true,
       };
+      await lifecycle.onBeforeSend?.();
+      if (lifecycle.isCanceled?.()) throw new Error('SOCIAL_SHARE_CANCELED');
       item.localMessage ||= await callApi('sendMessageLocal', params);
       if (!item.localMessage) throw new Error('SOCIAL_SHARE_UNCONFIRMED');
+      if (lifecycle.isCanceled?.()) throw new Error('SOCIAL_SHARE_CANCELED');
       const progress: ApiOnProgress = (value) => onProgress(job.confirmed, value);
+      lifecycle.onDispatch?.();
       const confirmed = await callApi('sendMessage', { ...params, localMessage: item.localMessage }, progress);
       if (confirmed !== true) throw new Error('SOCIAL_SHARE_UNCONFIRMED');
       job.confirmed++;
+      await lifecycle.onConfirmed?.(job.confirmed);
       onProgress(job.confirmed);
     }
   } finally {
     job.busy = false;
   }
+}
+
+export async function getSocialShareFingerprints(job: ShareSendJob): Promise<string[]> {
+  const results: string[] = [];
+  for (const item of job.items) {
+    if (item.attachment && !item.attachment.blob) throw new Error('SOCIAL_SHARE_INVALID_MEDIA');
+    const bytes = item.attachment ? await item.attachment.blob!.arrayBuffer()
+      : new TextEncoder().encode(item.text || '').buffer;
+    const hash = await crypto.subtle.digest('SHA-256', bytes);
+    results.push(Array.from(new Uint8Array(hash), (byte) => byte.toString(16).padStart(2, '0')).join(''));
+  }
+  return results;
 }

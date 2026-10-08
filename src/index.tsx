@@ -30,7 +30,6 @@ import setupTauriListeners from './util/tauri/setupTauriListeners';
 import updateWebmanifest from './util/updateWebmanifest';
 
 import App from './components/App';
-import YouTubePlayerSmoke from './components/test/YouTubePlayerSmoke';
 
 import './assets/fonts/roboto.css';
 import './styles/index.scss';
@@ -113,7 +112,10 @@ async function init() {
       const fixtureRoot = document.createElement('div');
       fixtureRoot.id = 'relay-youtube-smoke-root';
       document.body.append(fixtureRoot);
-      TeactDOM.render(<YouTubePlayerSmoke />, fixtureRoot);
+      // Диагностический стенд подгружается только в режиме смоук-теста: плеер не попадает в стартовый чанк
+      void import('./components/test/YouTubePlayerSmoke').then(({ default: YouTubePlayerSmoke }) => {
+        TeactDOM.render(<YouTubePlayerSmoke />, fixtureRoot);
+      });
     }
 
     betterView();

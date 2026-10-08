@@ -1,6 +1,7 @@
+use crate::research_spool::{self, SpoolWriter};
 use serde::Deserialize;
 use serde_json::{Value, json};
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
 use std::process::{Child, ChildStdin, Command, Stdio};
@@ -12,6 +13,22 @@ use tauri::{Emitter, Manager};
 const MAX_FRAME: usize = 262144;
 const MAX_MEDIA: u64 = 1073741824;
 const MAX_JOB_BYTES: u64 = 2147483648;
+const MAX_TELEGRAM_RUNS: usize = 3;
+// Last-resort ceiling for run starts, independent of the daemon pacing
+const EMERGENCY_RUNS_PER_MINUTE: usize = 90;
+const EMERGENCY_WINDOW: Duration = Duration::from_secs(60);
+const MAX_FEATURES: usize = 16;
+const MAX_WAIT_SECONDS: u64 = 86400;
+const SPOOL_TERMINAL_CODES: [&str; 7] = [
+  "INVALID_MEDIA",
+  "MEDIA_LIMIT",
+  "RESUME_MISMATCH",
+  "DISK_RESERVE",
+  "SPOOL_UNSAFE",
+  "MEDIA_SIZE_MISMATCH",
+  "SPOOL_IO",
+];
+static RUN_STARTS: LazyLock<Mutex<VecDeque<Instant>>> = LazyLock::new(|| Mutex::new(VecDeque::new()));
 static ACTIVE: LazyLock<Mutex<Option<Bridge>>> = LazyLock::new(|| Mutex::new(None));
 static FRONTEND_REGISTERED: AtomicBool = AtomicBool::new(false);
 static STOPPING: AtomicBool = AtomicBool::new(false);
@@ -36,6 +53,7 @@ struct Draining {
 
 struct Bridge {
   runtime_id: String,
+  state_root: PathBuf,
   app: tauri::AppHandle,
   child: Arc<Mutex<Child>>,
   stdin: Arc<Mutex<ChildStdin>>,
@@ -62,6 +80,16 @@ struct Pending {
   parts: HashMap<String, (u64, bool, usize)>,
   media: HashMap<String, Media>,
   total_bytes: u64,
+  spool: Option<SpoolPlan>,
+  spool_writer: Option<SharedSpool>,
+}
+
+type SharedSpool = Arc<Mutex<Option<SpoolWriter>>>;
+
+#[derive(Clone)]
+struct SpoolPlan {
+  key: String,
+  resume_offset: u64,
 }
 
 struct Media {
@@ -69,6 +97,7 @@ struct Media {
   bytes: u64,
   declared: Option<u64>,
   closed: bool,
+  spool: bool,
 }
 
 #[derive(Deserialize)]
@@ -116,12 +145,65 @@ fn reserve_startup(
   Ok(true)
 }
 
-fn draining_busy(provider: Option<&str>) -> bool {
-  provider.is_some_and(|provider| {
-    DRAINING.lock().map_or(true, |leases| {
-      leases.values().any(|lease| lease.provider == provider)
+fn provider_capacity(provider: Option<&str>) -> usize {
+  if provider == Some("telegram") {
+    MAX_TELEGRAM_RUNS
+  } else {
+    1
+  }
+}
+
+fn draining_count(provider: Option<&str>) -> usize {
+  provider.map_or(0, |provider| {
+    DRAINING.lock().map_or(usize::MAX, |leases| {
+      leases.values().filter(|lease| lease.provider == provider).count()
     })
   })
+}
+
+// Check-and-record: a start is counted only when it is accepted
+fn emergency_check(window: &mut VecDeque<Instant>, now: Instant, cap: usize) -> Result<(), Duration> {
+  while window
+    .front()
+    .is_some_and(|started| now.duration_since(*started) >= EMERGENCY_WINDOW)
+  {
+    window.pop_front();
+  }
+  if window.len() >= cap {
+    let oldest = *window.front().unwrap();
+    return Err(EMERGENCY_WINDOW.saturating_sub(now.duration_since(oldest)));
+  }
+  window.push_back(now);
+  Ok(())
+}
+
+fn parse_spool(provider: Option<&str>, input: &Value) -> Result<Option<SpoolPlan>, ()> {
+  let sink = match input.get("mediaSink") {
+    None => None,
+    Some(value) => Some(value.as_str().ok_or(())?),
+  };
+  let key = input.get("mediaKey");
+  match sink {
+    Some("spool") => {
+      let key = key
+        .and_then(Value::as_str)
+        .filter(|key| research_spool::valid_key(key))
+        .ok_or(())?;
+      let resume_offset = match input.get("resumeOffset") {
+        None => 0,
+        Some(value) => value.as_u64().ok_or(())?,
+      };
+      if provider != Some("telegram") || resume_offset % research_spool::ALIGN != 0 {
+        return Err(());
+      }
+      Ok(Some(SpoolPlan {
+        key: key.to_string(),
+        resume_offset,
+      }))
+    }
+    None | Some("json") if key.is_none() => Ok(None),
+    _ => Err(()),
+  }
 }
 
 fn identifier(value: &str, maximum: usize) -> bool {
@@ -146,7 +228,13 @@ fn operation_allowed(provider: &str, operation: &str) -> bool {
     "discover" | "read" | "search" | "channel_history" | "chat_export" | "download"
   );
   match provider {
-    "telegram" => common || matches!(operation, "chat_info" | "join_chat"),
+    "telegram" => {
+      common
+        || matches!(
+          operation,
+          "chat_info" | "join_chat" | "probe" | "comments" | "topics" | "similar_channels" | "invite_preview"
+        )
+    }
     "x" => common || matches!(operation, "profile" | "article" | "read_thread"),
     "instagram" => common || matches!(operation, "profile" | "read_thread"),
     _ => false,
@@ -352,7 +440,9 @@ fn dispatch(app: &tauri::AppHandle, expected_runtime: &str, request: Request) {
   let expected_binding = request.expected_account.as_ref().and_then(binding);
   let mut nodes = 0;
   let run = method == "run";
+  let spool_plan = parse_spool(provider, &input);
   let valid = request.r#type == "request"
+    && spool_plan.is_ok()
     && matches!(method, "status" | "capabilities" | "run")
     && (1..=300000).contains(&deadline_ms)
     && ((run
@@ -381,29 +471,38 @@ fn dispatch(app: &tauri::AppHandle, expected_runtime: &str, request: Request) {
     else {
       return;
     };
-    let fail = if !valid {
-      Some("INVALID_REQUEST")
+    let fail: Option<(&str, Option<Duration>)> = if !valid {
+      Some(("INVALID_REQUEST", None))
     } else if bridge.pending.contains_key(&request.request_id) {
-      Some("REQUEST_REPLAY")
+      Some(("REQUEST_REPLAY", None))
     } else if bridge.pending.len() >= 16 {
-      Some("BRIDGE_BUSY")
+      Some(("BRIDGE_BUSY", None))
     } else if run
-      && (draining_busy(provider)
-        || bridge
+      && draining_count(provider).saturating_add(
+        bridge
           .pending
           .values()
-          .any(|item| item.provider.as_deref() == provider))
+          .filter(|item| item.provider.as_deref() == provider)
+          .count(),
+      ) >= provider_capacity(provider)
     {
-      Some("PROVIDER_BUSY")
+      Some(("PROVIDER_BUSY", None))
     } else if !bridge.helper_ready
       || ((provider.is_none() || provider == Some("telegram")) && !bridge.frontend_ready)
     {
-      Some("INITIALIZING")
+      Some(("INITIALIZING", None))
+    } else if run && provider == Some("telegram") {
+      match RUN_STARTS.lock() {
+        Ok(mut window) => emergency_check(&mut window, Instant::now(), EMERGENCY_RUNS_PER_MINUTE)
+          .err()
+          .map(|wait| ("RATE_LIMITED", Some(wait))),
+        Err(_) => Some(("BRIDGE_UNAVAILABLE", None)),
+      }
     } else {
       None
     };
-    if let Some(reason) = fail {
-      Err((bridge.stdin.clone(), reason))
+    if let Some((reason, wait)) = fail {
+      Err((bridge.stdin.clone(), reason, wait))
     } else {
       bridge.pending.insert(
         request.request_id.clone(),
@@ -421,18 +520,22 @@ fn dispatch(app: &tauri::AppHandle, expected_runtime: &str, request: Request) {
           parts: HashMap::new(),
           media: HashMap::new(),
           total_bytes: 0,
+          spool: spool_plan.clone().ok().flatten(),
+          spool_writer: None,
         },
       );
       Ok(())
     }
   };
-  if let Err((stdin, reason)) = registration {
-    let _ = write_event(
-      &stdin,
-      &request.request_id,
-      &request.nonce,
-      json!({"kind":"error","code":reason,"reason":reason}),
-    );
+  if let Err((stdin, reason, wait)) = registration {
+    let mut event = json!({"kind":"error","code":reason,"reason":reason});
+    if let Some(wait) = wait {
+      let seconds = wait.as_secs().saturating_add(1).min(MAX_WAIT_SECONDS);
+      event["seconds"] = json!(seconds);
+      event["retryAfterMs"] = json!(seconds * 1000);
+      event["waitKind"] = json!("EMERGENCY_CAP");
+    }
+    let _ = write_event(&stdin, &request.request_id, &request.nonce, event);
     return;
   }
   let Ok(_delivery) = OWNER_DELIVERY.lock() else {
@@ -624,6 +727,7 @@ fn start_owned(
   }
   *active = Some(Bridge {
     runtime_id: runtime_id.to_string(),
+    state_root: state_root.clone(),
     app: app.clone(),
     child,
     stdin,
@@ -1009,6 +1113,7 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
     if !uncertain {
       event.as_object_mut().unwrap().remove("completionUncertain");
     }
+    sanitize_wait(event);
     return Ok(true);
   }
   if kind == "status" {
@@ -1066,9 +1171,17 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
       fields.retain(|key, _| {
         matches!(
           key.as_str(),
-          "provider" | "state" | "reason" | "operations" | "accountRef" | "accountEpoch"
+          "provider"
+            | "state"
+            | "reason"
+            | "operations"
+            | "accountRef"
+            | "accountEpoch"
+            | "maxConcurrent"
+            | "features"
         )
       });
+      sanitize_capabilities(fields, provider == "telegram");
       fields.insert("reason".into(), Value::String(reason));
     }
     if pending.method != "run" {
@@ -1205,9 +1318,29 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
         None | Some(Value::Null) => None,
         Some(value) => Some(value.as_u64().ok_or("INVALID_MEDIA")?),
       };
+      let is_spool = match event.get("sink").and_then(Value::as_str) {
+        None => false,
+        Some("spool") => true,
+        Some(_) => return Err("INVALID_MEDIA".into()),
+      };
+      if is_spool != pending.spool.is_some() || (is_spool && declared.is_none()) {
+        return Err("INVALID_MEDIA".into());
+      }
+      let resume_from = match event.get("resumeFrom") {
+        None | Some(Value::Null) => 0,
+        Some(value) => value.as_u64().ok_or("INVALID_MEDIA")?,
+      };
+      if resume_from % research_spool::ALIGN != 0
+        || declared.is_some_and(|bytes| resume_from >= bytes && resume_from > 0)
+        || (resume_from > 0 && declared.is_none())
+        || (is_spool && resume_from != pending.spool.as_ref().map_or(0, |plan| plan.resume_offset))
+        || (is_spool && pending.spool_writer.is_none())
+      {
+        return Err("INVALID_MEDIA".into());
+      }
       if declared.is_some_and(|bytes| bytes > MAX_MEDIA)
         || pending.media.len() >= 500
-        || pending.media.values().filter(|media| !media.closed).count() >= 8
+        || pending.media.values().filter(|media| !media.closed).count() >= if is_spool { 1 } else { 8 }
         || pending.media.contains_key(id)
       {
         return Err("MEDIA_LIMIT".into());
@@ -1216,9 +1349,10 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
         id.to_string(),
         Media {
           next_sequence: 0,
-          bytes: 0,
+          bytes: resume_from,
           declared,
           closed: false,
+          spool: is_spool,
         },
       );
     }
@@ -1239,6 +1373,9 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
       )
       .ok_or("INVALID_MEDIA")?;
       let media = pending.media.get_mut(id).ok_or("INVALID_MEDIA")?;
+      if media.spool {
+        return Err("INVALID_MEDIA".into());
+      }
       if media.closed
         || media.next_sequence != sequence
         || media.bytes + bytes > MAX_MEDIA
@@ -1263,10 +1400,17 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
       if media.closed
         || media.bytes != total
         || media.declared.is_some_and(|declared| declared != total)
+        || (media.spool && event.get("spool").is_none())
       {
         return Err("MEDIA_SIZE_MISMATCH".into());
       }
       media.closed = true;
+      if media.spool {
+        pending.spool_writer = None;
+      } else if let Some(fields) = event.as_object_mut() {
+        fields.remove("spool");
+        fields.remove("sink");
+      }
     }
     "done" => {
       if !event.get("coverage").is_some_and(Value::is_object)
@@ -1298,17 +1442,80 @@ fn validate_event(pending: &mut Pending, event: &mut Value) -> Result<bool, Stri
   Ok(false)
 }
 
-fn busy_provider_status(providers: &mut [Value], pending: &HashMap<String, Pending>) {
+// A provider is busy only when every slot is taken by a pending run or a lease that still drains
+fn busy_provider_status(
+  providers: &mut [Value],
+  pending: &HashMap<String, Pending>,
+  leases: &HashMap<String, Draining>,
+) {
   for status in providers {
     let provider = status.get("provider").and_then(Value::as_str);
-    if provider.is_some()
-      && pending
-        .values()
-        .any(|item| item.method == "run" && item.provider.as_deref() == provider)
-    {
+    let running = pending
+      .values()
+      .filter(|item| item.method == "run" && item.provider.as_deref() == provider)
+      .count();
+    let draining = leases
+      .values()
+      .filter(|lease| Some(lease.provider.as_str()) == provider)
+      .count();
+    if provider.is_some() && running + draining > 0 && running + draining >= provider_capacity(provider) {
       status["state"] = json!("unavailable");
       status["reason"] = json!("PROVIDER_BUSY");
     }
+  }
+}
+
+fn sanitize_wait(event: &mut Value) {
+  let Some(fields) = event.as_object_mut() else {
+    return;
+  };
+  if !fields
+    .get("seconds")
+    .and_then(Value::as_u64)
+    .is_some_and(|seconds| seconds <= MAX_WAIT_SECONDS)
+  {
+    fields.remove("seconds");
+  }
+  if !fields
+    .get("waitKind")
+    .and_then(Value::as_str)
+    .is_some_and(|kind| kind.len() <= 32 && code(kind))
+  {
+    fields.remove("waitKind");
+  }
+  if !fields
+    .get("retryAfterMs")
+    .and_then(Value::as_u64)
+    .is_some_and(|millis| millis <= MAX_WAIT_SECONDS * 1000)
+  {
+    fields.remove("retryAfterMs");
+  }
+}
+
+fn sanitize_capabilities(fields: &mut serde_json::Map<String, Value>, is_telegram: bool) {
+  let slots_ok = is_telegram
+    && fields
+      .get("maxConcurrent")
+      .and_then(Value::as_u64)
+      .is_some_and(|slots| (1..=MAX_TELEGRAM_RUNS as u64).contains(&slots));
+  if !slots_ok {
+    fields.remove("maxConcurrent");
+  }
+  let features_ok = is_telegram
+    && fields.get("features").and_then(Value::as_array).is_some_and(|features| {
+      features.len() <= MAX_FEATURES
+        && features.iter().all(|feature| {
+          feature.as_str().is_some_and(|name| {
+            !name.is_empty()
+              && name.len() <= 32
+              && name
+                .bytes()
+                .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'_')
+          })
+        })
+    });
+  if !features_ok {
+    fields.remove("features");
   }
 }
 
@@ -1336,19 +1543,6 @@ fn settle_draining(
   }
 }
 
-fn busy_draining_status(providers: &mut [Value], leases: &HashMap<String, Draining>) {
-  for status in providers {
-    if status
-      .get("provider")
-      .and_then(Value::as_str)
-      .is_some_and(|provider| leases.values().any(|lease| lease.provider == provider))
-    {
-      status["state"] = json!("unavailable");
-      status["reason"] = json!("PROVIDER_BUSY");
-    }
-  }
-}
-
 pub(crate) fn publish(request_id: &str, nonce: &str, mut event: Value) -> Result<(), String> {
   if !event.is_object()
     || serde_json::to_vec(&event)
@@ -1357,6 +1551,13 @@ pub(crate) fn publish(request_id: &str, nonce: &str, mut event: Value) -> Result
       > MAX_FRAME - 512
   {
     return Err("FRAME_TOO_LARGE".into());
+  }
+  if let Err(code) = prepare_spool_event(request_id, nonce, &mut event) {
+    if SPOOL_TERMINAL_CODES.contains(&code.as_str()) {
+      // The daemon gets the precise cause; the renderer sees the same code as the failure of this reply
+      let _ = publish(request_id, nonce, json!({"kind":"error","code":code}));
+    }
+    return Err(code);
   }
   {
     let mut leases = DRAINING.lock().map_err(|_| "BRIDGE_UNAVAILABLE")?;
@@ -1405,9 +1606,9 @@ pub(crate) fn publish(request_id: &str, nonce: &str, mut event: Value) -> Result
         return Err("INVALID_STATUS".into());
       }
       providers.extend(social_status);
-      busy_provider_status(providers, &bridge.pending);
-      busy_draining_status(
+      busy_provider_status(
         providers,
+        &bridge.pending,
         &*DRAINING.lock().map_err(|_| "BRIDGE_UNAVAILABLE")?,
       );
     }
@@ -1441,6 +1642,237 @@ pub(crate) fn publish(request_id: &str, nonce: &str, mut event: Value) -> Result
     stdin
   };
   write_event(&output, request_id, nonce, event)
+}
+
+fn prepare_spool_event(request_id: &str, nonce: &str, event: &mut Value) -> Result<(), String> {
+  match event.get("kind").and_then(Value::as_str) {
+    Some("media_open") if event.get("sink").and_then(Value::as_str) == Some("spool") => {
+      open_spool(request_id, nonce, event)
+    }
+    Some("media_close") => close_spool(request_id, nonce, event),
+    _ => Ok(()),
+  }
+}
+
+// The file is opened and a resumed prefix is hashed outside the bridge lock
+fn open_spool(request_id: &str, nonce: &str, event: &Value) -> Result<(), String> {
+  let declared = event
+    .get("declaredBytes")
+    .and_then(Value::as_u64)
+    .ok_or("INVALID_MEDIA")?;
+  let fingerprint = event
+    .get("fingerprint")
+    .and_then(Value::as_str)
+    .filter(|value| research_spool::valid_fingerprint(value))
+    .ok_or("INVALID_MEDIA")?;
+  let resume_from = match event.get("resumeFrom") {
+    None | Some(Value::Null) => 0,
+    Some(value) => value.as_u64().ok_or("INVALID_MEDIA")?,
+  };
+  let (plan, state_root) = {
+    let active = ACTIVE.lock().map_err(|_| "BRIDGE_UNAVAILABLE")?;
+    let bridge = active.as_ref().ok_or("BRIDGE_UNAVAILABLE")?;
+    let pending = bridge
+      .pending
+      .get(request_id)
+      .ok_or("REQUEST_NOT_PENDING")?;
+    if pending.nonce != nonce || pending.cancelled || pending.provider.as_deref() != Some("telegram") {
+      return Err("REQUEST_NOT_PENDING".into());
+    }
+    if pending.spool_writer.is_some() {
+      return Err("MEDIA_LIMIT".into());
+    }
+    (
+      pending.spool.clone().ok_or("INVALID_MEDIA")?,
+      bridge.state_root.clone(),
+    )
+  };
+  if resume_from != plan.resume_offset {
+    return Err("INVALID_MEDIA".into());
+  }
+  research_spool::prune(&state_root, std::time::SystemTime::now());
+  let writer = SpoolWriter::open(
+    &state_root,
+    &plan.key,
+    fingerprint,
+    declared,
+    resume_from,
+    &research_spool::free_space,
+  )
+  .map_err(|error| error.code().to_string())?;
+  let mut active = ACTIVE.lock().map_err(|_| "BRIDGE_UNAVAILABLE")?;
+  let pending = active
+    .as_mut()
+    .and_then(|bridge| bridge.pending.get_mut(request_id))
+    .ok_or("REQUEST_NOT_PENDING")?;
+  if pending.nonce != nonce || pending.cancelled {
+    return Err("REQUEST_NOT_PENDING".into());
+  }
+  pending.spool_writer = Some(Arc::new(Mutex::new(Some(writer))));
+  Ok(())
+}
+
+// Closing finalizes the file (sync, rename, hash) and puts the verified result into the event the daemon reads
+fn close_spool(request_id: &str, nonce: &str, event: &mut Value) -> Result<(), String> {
+  let Some(media_id) = event.get("mediaId").and_then(Value::as_str).map(str::to_string) else {
+    return Ok(());
+  };
+  let handle = {
+    let active = ACTIVE.lock().map_err(|_| "BRIDGE_UNAVAILABLE")?;
+    let Some(pending) = active
+      .as_ref()
+      .and_then(|bridge| bridge.pending.get(request_id))
+    else {
+      return Ok(());
+    };
+    if pending.nonce != nonce
+      || !pending
+        .media
+        .get(&media_id)
+        .is_some_and(|media| media.spool && !media.closed)
+    {
+      return Ok(());
+    }
+    pending.spool_writer.clone()
+  };
+  let total = event
+    .get("totalBytes")
+    .and_then(Value::as_u64)
+    .ok_or("INVALID_MEDIA")?;
+  let writer = handle
+    .ok_or("INVALID_MEDIA")?
+    .lock()
+    .map_err(|_| "SPOOL_IO")?
+    .take()
+    .ok_or("INVALID_MEDIA")?;
+  let done = writer.finish(total).map_err(|error| error.code().to_string())?;
+  event["sink"] = json!("spool");
+  event["spool"] = done.to_value();
+  Ok(())
+}
+
+// Accounting for one raw piece; the same limits and ordering as base64 chunks apply
+fn account_spool_chunk(
+  pending: &mut Pending,
+  media_id: &str,
+  sequence: u64,
+  length: u64,
+) -> Result<SharedSpool, String> {
+  if !pending.scoped || pending.cancelled {
+    return Err("INVALID_MEDIA".into());
+  }
+  let writer = pending.spool_writer.clone().ok_or("INVALID_MEDIA")?;
+  let media = pending.media.get_mut(media_id).ok_or("INVALID_MEDIA")?;
+  if !media.spool || media.closed || media.next_sequence != sequence {
+    return Err("INVALID_MEDIA".into());
+  }
+  if length == 0
+    || length > research_spool::MAX_CHUNK as u64
+    || media.bytes + length > MAX_MEDIA
+    || media.declared.is_some_and(|declared| media.bytes + length > declared)
+    || pending.total_bytes + length > MAX_JOB_BYTES
+  {
+    return Err("MEDIA_LIMIT".into());
+  }
+  media.next_sequence += 1;
+  media.bytes += length;
+  pending.total_bytes += length;
+  Ok(writer)
+}
+
+struct MediaChunk {
+  request_id: String,
+  nonce: String,
+  media_id: String,
+  sequence: u64,
+  bytes: Vec<u8>,
+}
+
+fn parse_media_chunk(request: &tauri::ipc::Request<'_>) -> Result<MediaChunk, String> {
+  let tauri::ipc::InvokeBody::Raw(bytes) = request.body() else {
+    return Err("INVALID_MEDIA".into());
+  };
+  let header = |name: &str| {
+    request
+      .headers()
+      .get(name)
+      .and_then(|value| value.to_str().ok())
+      .map(str::to_string)
+      .ok_or_else(|| "INVALID_MEDIA".to_string())
+  };
+  let chunk = MediaChunk {
+    request_id: header("x-request-id")?,
+    nonce: header("x-nonce")?,
+    media_id: header("x-media-id")?,
+    sequence: header("x-sequence")?
+      .parse()
+      .map_err(|_| "INVALID_MEDIA".to_string())?,
+    bytes: bytes.clone(),
+  };
+  if !identifier(&chunk.request_id, 64)
+    || chunk.nonce.len() != 64
+    || !chunk.nonce.bytes().all(|byte| byte.is_ascii_hexdigit())
+    || !identifier(&chunk.media_id, 128)
+    || chunk.bytes.is_empty()
+    || chunk.bytes.len() > research_spool::MAX_CHUNK
+  {
+    return Err("INVALID_MEDIA".into());
+  }
+  Ok(chunk)
+}
+
+#[tauri::command]
+pub(crate) async fn relay_research_media_chunk(
+  webview: tauri::Webview,
+  request: tauri::ipc::Request<'_>,
+) -> Result<(), String> {
+  if !trusted_main(&webview) {
+    return Err("RESEARCH_REPLY_DENIED".into());
+  }
+  let chunk = parse_media_chunk(&request)?;
+  tauri::async_runtime::spawn_blocking(move || handle_media_chunk(chunk))
+    .await
+    .map_err(|_| "RESEARCH_DISPATCH_UNAVAILABLE".to_string())?
+}
+
+fn handle_media_chunk(chunk: MediaChunk) -> Result<(), String> {
+  let writer = {
+    let mut active = ACTIVE.lock().map_err(|_| "BRIDGE_UNAVAILABLE")?;
+    let pending = active
+      .as_mut()
+      .and_then(|bridge| bridge.pending.get_mut(&chunk.request_id))
+      .ok_or("REQUEST_NOT_PENDING")?;
+    if pending.nonce != chunk.nonce
+      || pending.provider.as_deref() != Some("telegram")
+      || pending.deadline <= Instant::now()
+    {
+      return Err("REQUEST_NOT_PENDING".into());
+    }
+    account_spool_chunk(
+      pending,
+      &chunk.media_id,
+      chunk.sequence,
+      chunk.bytes.len() as u64,
+    )?
+  };
+  let appended = writer
+    .lock()
+    .map_err(|_| "SPOOL_IO".to_string())
+    .and_then(|mut guard| {
+      guard
+        .as_mut()
+        .ok_or_else(|| "INVALID_MEDIA".to_string())?
+        .append(chunk.sequence, &chunk.bytes)
+        .map_err(|error| error.code().to_string())
+    });
+  if let Err(code) = &appended {
+    let _ = publish(
+      &chunk.request_id,
+      &chunk.nonce,
+      json!({"kind":"error","code":code}),
+    );
+  }
+  appended
 }
 
 #[tauri::command]
@@ -1528,6 +1960,8 @@ mod tests {
       parts: HashMap::new(),
       media: HashMap::new(),
       total_bytes: 0,
+      spool: None,
+      spool_writer: None,
     }
   }
   fn bound(kind: &str) -> Value {
@@ -1724,24 +2158,26 @@ mod tests {
   }
   #[test]
   fn cancelled_run_remains_busy_until_owned_terminal_settlement() {
-    let mut lease = scoped();
-    lease.cancelled = true;
-    lease.deadline = Instant::now() - Duration::from_secs(1);
     let mut leases = HashMap::new();
-    leases.insert("job".into(), lease);
+    for index in 0..MAX_TELEGRAM_RUNS {
+      let mut lease = scoped();
+      lease.cancelled = true;
+      lease.deadline = Instant::now() - Duration::from_secs(1);
+      leases.insert(format!("job{index}"), lease);
+    }
     let mut providers = vec![
       json!({"provider":"telegram","state":"ready","reason":"READY","operations":["read"],"accountRef":"account-ref","accountEpoch":"epoch-1"}),
       json!({"provider":"x","state":"ready"}),
     ];
-    busy_provider_status(&mut providers, &leases);
+    busy_provider_status(&mut providers, &leases, &HashMap::new());
     assert_eq!(providers[0]["state"], json!("unavailable"));
     assert_eq!(providers[0]["reason"], json!("PROVIDER_BUSY"));
     assert_eq!(providers[0]["accountRef"], json!("account-ref"));
     assert_eq!(providers[0]["operations"], json!(["read"]));
     assert_eq!(providers[1]["state"], json!("ready"));
-    leases.remove("job");
+    leases.clear();
     let mut fresh = vec![json!({"provider":"telegram","state":"ready"})];
-    busy_provider_status(&mut fresh, &leases);
+    busy_provider_status(&mut fresh, &leases, &HashMap::new());
     assert_eq!(fresh[0]["state"], json!("ready"));
   }
   #[test]
@@ -1767,5 +2203,314 @@ mod tests {
     assert_eq!(validate_event(&mut pending, &mut plain), Ok(true));
     assert!(plain.get("completionUncertain").is_none());
     assert_eq!(plain["reason"], json!("STALE_ACCOUNT"));
+  }
+
+  fn lease(provider: &str) -> Draining {
+    Draining {
+      nonce: "n".into(),
+      provider: provider.into(),
+    }
+  }
+  #[test]
+  fn telegram_has_three_slots_and_other_providers_one() {
+    assert_eq!(provider_capacity(Some("telegram")), 3);
+    assert_eq!(provider_capacity(Some("x")), 1);
+    assert_eq!(provider_capacity(Some("instagram")), 1);
+    let mut leases = HashMap::new();
+    leases.insert("a".to_string(), lease("telegram"));
+    leases.insert("b".to_string(), lease("x"));
+    let mut providers = vec![
+      json!({"provider":"telegram","state":"ready"}),
+      json!({"provider":"x","state":"ready"}),
+    ];
+    busy_provider_status(&mut providers, &HashMap::new(), &leases);
+    assert_eq!(providers[0]["state"], json!("ready"));
+    assert_eq!(providers[1]["reason"], json!("PROVIDER_BUSY"));
+    // Running requests and draining leases fill the same three slots
+    let mut running = HashMap::new();
+    running.insert("r1".to_string(), scoped());
+    running.insert("r2".to_string(), scoped());
+    let mut telegram = vec![json!({"provider":"telegram","state":"ready"})];
+    busy_provider_status(&mut telegram, &running, &HashMap::new());
+    assert_eq!(telegram[0]["state"], json!("ready"));
+    let mut one = HashMap::new();
+    one.insert("a".to_string(), lease("telegram"));
+    busy_provider_status(&mut telegram, &running, &one);
+    assert_eq!(telegram[0]["reason"], json!("PROVIDER_BUSY"));
+  }
+  #[test]
+  fn emergency_cap_counts_accepted_starts_and_names_the_wait() {
+    let start = Instant::now();
+    let mut window = VecDeque::new();
+    for index in 0..EMERGENCY_RUNS_PER_MINUTE {
+      let at = start + Duration::from_millis(index as u64 * 100);
+      assert_eq!(emergency_check(&mut window, at, EMERGENCY_RUNS_PER_MINUTE), Ok(()));
+    }
+    let refused = start + Duration::from_secs(10);
+    let wait = emergency_check(&mut window, refused, EMERGENCY_RUNS_PER_MINUTE).unwrap_err();
+    assert_eq!(wait, Duration::from_secs(50));
+    assert_eq!(window.len(), EMERGENCY_RUNS_PER_MINUTE);
+    // The oldest start leaves the window after a minute
+    let later = start + Duration::from_secs(60);
+    assert_eq!(emergency_check(&mut window, later, EMERGENCY_RUNS_PER_MINUTE), Ok(()));
+    assert_eq!(window.len(), EMERGENCY_RUNS_PER_MINUTE);
+  }
+  #[test]
+  fn stage_two_operations_are_telegram_only() {
+    for operation in ["probe", "comments", "topics", "similar_channels", "invite_preview"] {
+      assert!(operation_allowed("telegram", operation));
+      assert!(!operation_allowed("x", operation));
+      assert!(!operation_allowed("instagram", operation));
+    }
+  }
+  #[test]
+  fn status_keeps_valid_capabilities_and_drops_invalid_ones() {
+    let mut pending = pending();
+    pending.method = "status".into();
+    let mut event = json!({"kind":"status","providers":[{"provider":"telegram","state":"ready","operations":["read","probe"],"maxConcurrent":3,"features":["offset_date","min_id","media_spool"]}]});
+    assert_eq!(validate_event(&mut pending, &mut event), Ok(true));
+    assert_eq!(event["providers"][0]["maxConcurrent"], json!(3));
+    assert_eq!(
+      event["providers"][0]["features"],
+      json!(["offset_date", "min_id", "media_spool"])
+    );
+    for (slots, features) in [
+      (json!(4), json!(["ok"])),
+      (json!(0), json!(["Bad-Name"])),
+      (json!("3"), json!("offset_date")),
+      (json!(2), json!(vec!["a"; 17])),
+    ] {
+      let mut event = json!({"kind":"status","providers":[{"provider":"telegram","state":"ready","maxConcurrent":slots,"features":features}]});
+      assert_eq!(validate_event(&mut pending, &mut event), Ok(true));
+      let provider = &event["providers"][0];
+      assert!(provider.get("features").is_none() || provider["features"] == json!(["ok"]));
+      assert!(provider.get("maxConcurrent").is_none() || provider["maxConcurrent"] == json!(2));
+    }
+    let mut social = json!({"kind":"status","providers":[{"provider":"x","state":"ready","maxConcurrent":3,"features":["offset_date"]}]});
+    assert_eq!(validate_event(&mut pending, &mut social), Ok(true));
+    assert!(social["providers"][0].get("maxConcurrent").is_none());
+    assert!(social["providers"][0].get("features").is_none());
+  }
+  #[test]
+  fn rate_limit_error_keeps_structured_wait_and_drops_invalid_fields() {
+    let mut pending = scoped();
+    let mut error = json!({"kind":"error","code":"RATE_LIMITED","seconds":31,"waitKind":"FLOOD_WAIT","retryAfterMs":31000,"reason":"raw text"});
+    assert_eq!(validate_event(&mut pending, &mut error), Ok(true));
+    assert_eq!(error["code"], json!("RATE_LIMITED"));
+    assert_eq!(error["reason"], json!("RATE_LIMITED"));
+    assert_eq!(error["seconds"], json!(31));
+    assert_eq!(error["waitKind"], json!("FLOOD_WAIT"));
+    assert_eq!(error["retryAfterMs"], json!(31000));
+    let mut bad = json!({"kind":"error","code":"RATE_LIMITED","seconds":86401,"waitKind":"flood wait","retryAfterMs":-5});
+    assert_eq!(validate_event(&mut pending, &mut bad), Ok(true));
+    assert!(bad.get("seconds").is_none());
+    assert!(bad.get("waitKind").is_none());
+    assert!(bad.get("retryAfterMs").is_none());
+  }
+  #[test]
+  fn done_may_carry_a_structured_flood_wait_for_the_daemon() {
+    let mut pending = scoped();
+    let mut records = bound("records");
+    records["records"] = json!([{"type":"post","id":"1"}]);
+    assert_eq!(validate_event(&mut pending, &mut records), Ok(false));
+    let mut done = bound("done");
+    done["outcome"] = json!("partial");
+    done["count"] = json!(1);
+    done["coverage"] = json!({});
+    done["reason"] = json!("FLOOD_WAIT");
+    done["floodWait"] = json!({"seconds":12,"waitKind":"FLOOD_WAIT"});
+    assert_eq!(validate_event(&mut pending, &mut done), Ok(true));
+    assert_eq!(done["floodWait"]["seconds"], json!(12));
+  }
+  #[test]
+  fn spool_plan_accepts_only_checked_hex_aligned_offsets_for_telegram() {
+    let key = "0123456789abcdef0123456789abcdef";
+    let plan = parse_spool(Some("telegram"), &json!({"mediaSink":"spool","mediaKey":key,"resumeOffset":2097152}))
+      .unwrap()
+      .unwrap();
+    assert_eq!(plan.key, key);
+    assert_eq!(plan.resume_offset, 2097152);
+    assert!(parse_spool(Some("telegram"), &json!({"channel":"a"})).unwrap().is_none());
+    assert!(parse_spool(Some("telegram"), &json!({"mediaSink":"json"})).unwrap().is_none());
+    // JSON resume is allowed without a spool key
+    assert!(parse_spool(Some("telegram"), &json!({"resumeOffset":1048576})).unwrap().is_none());
+    for input in [
+      json!({"mediaSink":"spool"}),
+      json!({"mediaSink":"spool","mediaKey":"../../x"}),
+      json!({"mediaSink":"spool","mediaKey":key,"resumeOffset":4096}),
+      json!({"mediaSink":"json","mediaKey":key}),
+      json!({"mediaSink":"elsewhere"}),
+      json!({"mediaSink":7}),
+    ] {
+      assert!(parse_spool(Some("telegram"), &input).is_err(), "{input}");
+    }
+    assert!(parse_spool(Some("x"), &json!({"mediaSink":"spool","mediaKey":key})).is_err());
+  }
+  fn spool_pending() -> Pending {
+    let mut pending = scoped();
+    pending.spool = Some(SpoolPlan {
+      key: "0123456789abcdef0123456789abcdef".into(),
+      resume_offset: 0,
+    });
+    pending
+  }
+  fn media_open(sink: Option<&str>, declared: u64, resume_from: Option<u64>) -> Value {
+    let mut open = bound("media_open");
+    open["mediaId"] = json!("m");
+    open["fileName"] = json!("asset.bin");
+    open["mimeType"] = json!("application/octet-stream");
+    open["sourceUrl"] = json!("https://t.me/test/1");
+    open["declaredBytes"] = json!(declared);
+    if let Some(sink) = sink {
+      open["sink"] = json!(sink);
+    }
+    if let Some(resume_from) = resume_from {
+      open["resumeFrom"] = json!(resume_from);
+    }
+    open
+  }
+  fn dummy_writer() -> SharedSpool {
+    let root = std::env::var_os("EGOIST_RELAY_TEST_WORK")
+      .or_else(|| std::env::var_os("EGOIST_RELAY_AUDIT_WORK"))
+      .map(PathBuf::from)
+      .expect("Native file tests require EGOIST_RELAY_TEST_WORK or EGOIST_RELAY_AUDIT_WORK")
+      .join(format!("bridge-spool-{}", uuid::Uuid::new_v4()));
+    std::fs::create_dir_all(&root).unwrap();
+    let writer = SpoolWriter::open(
+      &root,
+      "0123456789abcdef0123456789abcdef",
+      "fedcba9876543210",
+      3 * research_spool::ALIGN,
+      0,
+      &|_| Some(u64::MAX),
+    )
+    .unwrap();
+    Arc::new(Mutex::new(Some(writer)))
+  }
+  #[test]
+  fn spool_media_requires_matching_sink_and_never_accepts_base64_chunks() {
+    let mut pending = spool_pending();
+    // A JSON open in spool mode and a spool open in JSON mode are both protocol errors
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(None, 10, None)),
+      Err("INVALID_MEDIA".into())
+    );
+    let mut plain = scoped();
+    assert_eq!(
+      validate_event(&mut plain, &mut media_open(Some("spool"), 10, None)),
+      Err("INVALID_MEDIA".into())
+    );
+    // The native side attaches the writer before the open event is accepted
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(Some("spool"), 10, None)),
+      Err("INVALID_MEDIA".into())
+    );
+    pending.spool_writer = Some(dummy_writer());
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(Some("spool"), 3 * research_spool::ALIGN, None)),
+      Ok(false)
+    );
+    let mut chunk = bound("media_chunk");
+    chunk["mediaId"] = json!("m");
+    chunk["sequence"] = json!(0);
+    chunk["base64"] = json!("AA==");
+    assert_eq!(validate_event(&mut pending, &mut chunk), Err("INVALID_MEDIA".into()));
+    // A second open stream is refused: spool mode keeps one file at a time
+    let mut second = media_open(Some("spool"), 10, None);
+    second["mediaId"] = json!("m2");
+    assert_eq!(validate_event(&mut pending, &mut second), Err("MEDIA_LIMIT".into()));
+  }
+  #[test]
+  fn spool_chunks_follow_order_size_and_declared_length() {
+    let mut pending = spool_pending();
+    pending.spool_writer = Some(dummy_writer());
+    let declared = 3 * research_spool::ALIGN;
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(Some("spool"), declared, None)),
+      Ok(false)
+    );
+    let mib = research_spool::ALIGN;
+    assert!(account_spool_chunk(&mut pending, "m", 1, mib).is_err());
+    assert!(account_spool_chunk(&mut pending, "m", 0, 0).is_err());
+    assert!(account_spool_chunk(&mut pending, "m", 0, research_spool::MAX_CHUNK as u64 + 1).is_err());
+    assert!(account_spool_chunk(&mut pending, "other", 0, mib).is_err());
+    assert!(account_spool_chunk(&mut pending, "m", 0, mib).is_ok());
+    assert!(account_spool_chunk(&mut pending, "m", 1, 2 * mib).is_ok());
+    // One byte over the declared length is refused
+    assert_eq!(
+      account_spool_chunk(&mut pending, "m", 2, 1).err(),
+      Some("MEDIA_LIMIT".into())
+    );
+    assert_eq!(pending.total_bytes, 3 * mib);
+    // Closing needs the verified native result and the exact byte count
+    let mut close = bound("media_close");
+    close["mediaId"] = json!("m");
+    close["totalBytes"] = json!(declared);
+    assert_eq!(validate_event(&mut pending, &mut close), Err("MEDIA_SIZE_MISMATCH".into()));
+    close["spool"] = json!({"name":"x.done","bytes":declared,"sha256":"00"});
+    assert_eq!(validate_event(&mut pending, &mut close), Ok(false));
+    assert!(pending.spool_writer.is_none());
+  }
+  #[test]
+  fn resumed_media_counts_the_prefix_and_checks_the_aligned_offset() {
+    let mib = research_spool::ALIGN;
+    // JSON path resume
+    let mut pending = scoped();
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(None, 3 * mib, Some(mib + 1))),
+      Err("INVALID_MEDIA".into())
+    );
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(None, 3 * mib, Some(3 * mib))),
+      Err("INVALID_MEDIA".into())
+    );
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(None, 3 * mib, Some(2 * mib))),
+      Ok(false)
+    );
+    let mut chunk = bound("media_chunk");
+    chunk["mediaId"] = json!("m");
+    chunk["sequence"] = json!(0);
+    chunk["base64"] = json!("AA==");
+    assert_eq!(validate_event(&mut pending, &mut chunk), Ok(false));
+    let mut early = bound("media_close");
+    early["mediaId"] = json!("m");
+    early["totalBytes"] = json!(3 * mib);
+    assert_eq!(validate_event(&mut pending, &mut early), Err("MEDIA_SIZE_MISMATCH".into()));
+    // A page cannot smuggle spool fields into a JSON-mode close
+    let mut pending = scoped();
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(None, 1, None)),
+      Ok(false)
+    );
+    let mut chunk = bound("media_chunk");
+    chunk["mediaId"] = json!("m");
+    chunk["sequence"] = json!(0);
+    chunk["base64"] = json!("AA==");
+    assert_eq!(validate_event(&mut pending, &mut chunk), Ok(false));
+    let mut close = bound("media_close");
+    close["mediaId"] = json!("m");
+    close["totalBytes"] = json!(1);
+    close["spool"] = json!({"name":"../../evil","bytes":1,"sha256":"00"});
+    close["sink"] = json!("spool");
+    assert_eq!(validate_event(&mut pending, &mut close), Ok(false));
+    assert!(close.get("spool").is_none());
+    assert!(close.get("sink").is_none());
+  }
+  #[test]
+  fn spool_resume_offset_must_match_the_request_input() {
+    let mib = research_spool::ALIGN;
+    let mut pending = spool_pending();
+    pending.spool.as_mut().unwrap().resume_offset = 2 * mib;
+    pending.spool_writer = Some(dummy_writer());
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(Some("spool"), 3 * mib, Some(mib))),
+      Err("INVALID_MEDIA".into())
+    );
+    assert_eq!(
+      validate_event(&mut pending, &mut media_open(Some("spool"), 3 * mib, Some(2 * mib))),
+      Ok(false)
+    );
+    assert_eq!(pending.media.get("m").unwrap().bytes, 2 * mib);
   }
 }

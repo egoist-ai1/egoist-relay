@@ -2355,6 +2355,7 @@ export interface LangPair {
   'RelayAppSwitcher': undefined;
   'RelaySwitchTelegram': undefined;
   'RelaySwitchX': undefined;
+  'RelayBrand': undefined;
   'RelayTelegramTitle': undefined;
   'RelayXTitle': undefined;
   'RelayXLoadingTitle': undefined;
@@ -2372,6 +2373,8 @@ export interface LangPair {
   'RelayRestore': undefined;
   'RelayXDirectLogin': undefined;
   'RelayLoginShort': undefined;
+  'RelayEmptyChatTitle': undefined;
+  'RelayEmptyChatNote': undefined;
   'RelayXDirectLoginTitle': undefined;
   'RelayXDirectLoginHelp': undefined;
   'RelayXPasswordHelp': undefined;
@@ -2462,6 +2465,103 @@ export interface LangPair {
   'RelayDownloadStarted': undefined;
   'RelayShareMediaAuth': undefined;
   'RelayMediaDiskFull': undefined;
+  'RelayOperationTitle': undefined;
+  'RelayOperationCurrent': undefined;
+  'RelayOperationHistory': undefined;
+  'RelayOperationClose': undefined;
+  'RelayOperationBack': undefined;
+  'RelayOperationEmptyCurrent': undefined;
+  'RelayOperationEmptyHistory': undefined;
+  'RelayOperationLocked': undefined;
+  'RelayOperationPrivacy': undefined;
+  'RelayOperationClear': undefined;
+  'RelayOperationClearHelp': undefined;
+  'RelayOperationClearConfirm': undefined;
+  'RelayOperationQueued': undefined;
+  'RelayOperationResolving': undefined;
+  'RelayOperationDownloading': undefined;
+  'RelayOperationWriting': undefined;
+  'RelayOperationPreparing': undefined;
+  'RelayOperationSending': undefined;
+  'RelayOperationCancelling': undefined;
+  'RelayOperationCompleted': undefined;
+  'RelayOperationFailed': undefined;
+  'RelayOperationCancelled': undefined;
+  'RelayOperationInterrupted': undefined;
+  'RelayOperationUncertain': undefined;
+  'RelayOperationUncertainHelp': undefined;
+  'RelayOperationSave': undefined;
+  'RelayOperationSend': undefined;
+  'RelayOperationDownload': undefined;
+  'RelayOperationUnknownFile': undefined;
+  'RelayOperationUnknownSource': undefined;
+  'RelayOperationOpen': undefined;
+  'RelayOperationReveal': undefined;
+  'RelayOperationSource': undefined;
+  'RelayOperationChat': undefined;
+  'RelayOperationRetry': undefined;
+  'RelayOperationCancel': undefined;
+  'RelayOperationMissingFile': undefined;
+  'RelayOperationCancelHelp': undefined;
+  'RelayOperationConfirmed': undefined;
+  'RelayOperationItem': undefined;
+  'RelayOperationAttempt': undefined;
+  'RelayOperationModeLink': undefined;
+  'RelayOperationModeMedia': undefined;
+  'RelayOperationModeFile': undefined;
+  'RelayOperationLinkHelp': undefined;
+  'RelayOperationMediaHelp': undefined;
+  'RelayOperationFileHelp': undefined;
+  'RelayOperationAccepting': undefined;
+  'RelayOperationQueueFull': undefined;
+  'RelayOperationJournalError': undefined;
+  'RelayOperationAccountChanged': undefined;
+  'RelayOperationSourceChanged': undefined;
+  'RelayOperationRecapture': undefined;
+  'RelayOperationPriceChanged': undefined;
+  'RelayOperationLimit': undefined;
+  'RelayOperationDiskFull': undefined;
+  'RelayOperationTimeout': undefined;
+  'RelayOperationProxy': undefined;
+  'RelayOperationUnavailable': undefined;
+  'RelayOperationError': undefined;
+  'RelayOperationJournalWarning': undefined;
+  'RelayOperationJournalRecovered': undefined;
+  'RelayDownloadBlocked': undefined;
+  'RelayDownloadLimited': undefined;
+  'RelayOperationQueuedNotice': undefined;
+  'RelayOperationMore': undefined;
+  'RelayOperationRecoveryHelp': undefined;
+  'RelayOperationRecaptureHelp': undefined;
+  'RelayOperationSaveAgain': undefined;
+  'RelayOperationSaveRecovery': undefined;
+  'RelayThemeVariants': undefined;
+  'RelayThemeDark': undefined;
+  'RelayThemeLight': undefined;
+  'RelayMiniAppLoadFailed': undefined;
+  'RelaySessionLoggedIn': undefined;
+  'RelaySessionLastActive': undefined;
+  'RelaySessionLoginUnavailable': undefined;
+  'RelaySessionLoginUnavailableLine': undefined;
+  'RelayDeletedMessage': undefined;
+  'RelayDeletedMessageNoCopy': undefined;
+  'RelayDeletedMessageUnknownSender': undefined;
+  'RelayDeletedMessageMark': undefined;
+  'RelayDeletedMessagesTitle': undefined;
+  'RelayKeepDeletedMessages': undefined;
+  'RelayKeepDeletedMessagesHint': undefined;
+  'RelayDeletedMessagesRetention': undefined;
+  'RelayDeletedMessagesLimit': undefined;
+  'RelayClearDeletedMessages': undefined;
+  'RelayClearDeletedMessagesTitle': undefined;
+  'RelayClearDeletedMessagesText': undefined;
+  'RelayClearDeletedMessagesConfirm': undefined;
+  'RelayNetworkTitle': undefined;
+  'RelayRouteLagom': undefined;
+  'RelayRouteDirect': undefined;
+  'RelayRouteMs': undefined;
+  'RelayWarmupSocial': undefined;
+  'RelayWarmupSocialHint': undefined;
 }
 
 export interface LangPairWithVariables<V = LangVariable> {
@@ -4234,6 +4334,21 @@ export interface LangPairWithVariables<V = LangVariable> {
     'total': V;
   };
   'RelayReaderSearchMatches': {
+    'count': V;
+  };
+  'RelaySessionCurrentLogin': {
+    'time': V;
+  };
+  'RelaySessionLoginLine': {
+    'time': V;
+  };
+  'RelayDeletedMessageSent': {
+    'time': V;
+  };
+  'RelayDeletedMessagesDaysOption': {
+    'count': V;
+  };
+  'RelayDeletedMessagesMegabytesOption': {
     'count': V;
   };
 }

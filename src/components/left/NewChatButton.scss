@@ -1,21 +1,25 @@
 .NewChatButton {
+  /* Размер и отступ — единый источник: круг строго фиксированного размера, зона безопасности списка берёт их же */
+  --new-chat-button-size: 3rem;
+  --new-chat-button-offset: 1rem;
+
   position: absolute;
   z-index: var(--z-chat-float-button);
-  right: 1rem;
-  bottom: 1rem;
-  transform: translateY(5rem);
+  right: var(--new-chat-button-offset);
+  bottom: var(--new-chat-button-offset);
+  transform: translateY(calc(var(--new-chat-button-size) + var(--new-chat-button-offset) + 1rem));
 
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform var(--dur-base) var(--ease-spring);
 
   &[dir="rtl"] {
     right: auto;
-    left: 1rem;
+    left: var(--new-chat-button-offset);
   }
 
   body.no-page-transitions & {
     transform: none !important;
     opacity: 0;
-    transition: opacity 0.15s;
+    transition: opacity var(--dur-fast);
 
     &.revealed {
       opacity: 1;
@@ -26,28 +30,49 @@
     transform: translateY(0);
   }
 
-  > .Button {
-    position: relative !important;
+  /* У .Button задан min-height: 3rem, поэтому размеры, min и max задаются парой: круг не растягивается по высоте */
+  > .Button.round {
+    position: relative;
 
-    overflow: hidden !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    overflow: hidden;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
 
-    width: 2.25rem !important;
-    min-width: 2.25rem !important;
-    height: 2.25rem !important;
-    padding: 0 !important;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
-    border-radius: 50% !important;
+    box-sizing: border-box;
+    aspect-ratio: 1;
+    width: var(--new-chat-button-size);
+    min-width: var(--new-chat-button-size);
+    max-width: var(--new-chat-button-size);
+    height: var(--new-chat-button-size);
+    min-height: var(--new-chat-button-size);
+    max-height: var(--new-chat-button-size);
+    margin: 0;
+    padding: 0;
+    border: 0.0625rem solid var(--color-borders);
+    border-radius: 50%;
 
-    color: #000000 !important;
+    color: var(--color-primary-text);
 
-    background-color: #FFFFFF !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+    background-color: var(--color-primary);
+    box-shadow: var(--shadow);
+
+    transition:
+      background-color var(--dur-fast) var(--ease-standard),
+      transform var(--dur-fast) var(--ease-spring);
 
     &:hover {
-      background-color: #F0F0F2 !important;
+      background-color: var(--color-primary-shade);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--color-primary);
+      outline-offset: 0.1875rem;
     }
 
     .icon-new-chat-filled,
@@ -55,56 +80,53 @@
       pointer-events: none;
 
       position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      inset: 0;
 
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      width: 1.125rem !important;
-      height: 1.125rem !important;
+      width: 1.25rem;
+      height: 1.25rem;
       margin: auto;
 
-      font-size: 1.125rem !important;
-      line-height: 1 !important;
-      color: #000000 !important;
+      font-size: 1.25rem;
+      line-height: 1;
+      color: var(--color-primary-text);
 
-      fill: #000000 !important;
-    }
-
-    .icon-new-chat-filled::before {
-      transform: translate(0.5px, 0.5px);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .icon-close::before {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      fill: var(--color-primary-text);
     }
 
     &:not(.active) {
       .icon-new-chat-filled {
-        animation: grow-icon 0.4s ease-out;
+        animation: grow-icon var(--dur-base) var(--ease-standard);
       }
 
       .icon-close {
-        animation: hide-icon 0.4s forwards ease-out;
+        animation: hide-icon var(--dur-base) forwards var(--ease-standard);
       }
     }
 
     &.active {
       .icon-close {
-        animation: grow-icon 0.4s ease-out;
+        animation: grow-icon var(--dur-base) var(--ease-standard);
       }
 
       .icon-new-chat-filled {
-        animation: hide-icon 0.4s forwards ease-out;
+        animation: hide-icon var(--dur-base) forwards var(--ease-standard);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    > .Button.round {
+      .icon-new-chat-filled,
+      .icon-close {
+        animation: none !important;
+      }
+
+      &:active {
+        transform: none;
       }
     }
   }

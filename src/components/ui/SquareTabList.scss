@@ -1,5 +1,5 @@
 .SquareTabList {
-  scrollbar-color: rgba(0, 0, 0, 0);
+  scrollbar-color: transparent;
   scrollbar-width: none;
 
   position: sticky;
@@ -25,7 +25,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
     // `box-shadow` prevents repaint on macOS when hovering out of scrollable container
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.01);
   }

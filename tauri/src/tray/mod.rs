@@ -25,9 +25,9 @@ pub(crate) static TRAY_BASE_ICON: LazyLock<Image<'static>> =
 
 // Menu constants
 pub const MENU_ITEM_QUIT_ID: &str = "quit";
-pub const MENU_ITEM_QUIT_LABEL: &str = "Выйти из Egoist Relay";
+pub const MENU_ITEM_QUIT_LABEL: &str = "Выйти из Sennit";
 pub const MENU_ITEM_OPEN_ID: &str = "open";
-pub const MENU_ITEM_OPEN_LABEL: &str = "Открыть Egoist Relay";
+pub const MENU_ITEM_OPEN_LABEL: &str = "Открыть Sennit";
 
 static MENU_TRANSLATIONS: LazyLock<std::sync::Mutex<HashMap<String, String>>> =
   LazyLock::new(|| std::sync::Mutex::new(HashMap::new()));

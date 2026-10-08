@@ -23,6 +23,7 @@ import useLangString from '../../hooks/useLangString';
 import useLastCallback from '../../hooks/useLastCallback';
 import useMultiaccountInfo from '../../hooks/useMultiaccountInfo';
 
+import SennitMark from '../common/SennitMark';
 import Button from '../ui/Button';
 import Checkbox from '../ui/Checkbox';
 import InputText from '../ui/InputText';
@@ -257,7 +258,7 @@ const AuthPhoneNumber = ({
         />
       )}
       <div className="auth-form">
-        <div id="logo" />
+        <div id="logo"><SennitMark size={44} /></div>
         <h1>{lang('AuthTitle')}</h1>
         <p className="note">{lang('StartText')}</p>
         <form className="form" action="" onSubmit={handleSubmit}>

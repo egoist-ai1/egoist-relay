@@ -766,6 +766,8 @@ const MiddleSearch = ({
         isMobile && styles.mobile,
       )}
       ref={ref}
+      // Закрытая панель не принимает фокус: иначе Tab после композера попадает в невидимые поле и кнопки поиска
+      inert={!isActive}
     >
       <div className={styles.header}>
         {!isMobile && (

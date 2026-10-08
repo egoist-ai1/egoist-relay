@@ -2107,12 +2107,6 @@ const Message = ({
           dir="auto"
           onDoubleClick={handleDoubleClickCopy}
         >
-          {message.isDeletedByPeer && (
-            <div className="ghost-deleted-badge" title="Удалено собеседником (сохранено Egoist Relay)">
-              <Icon name="delete" />
-              <span>Удалено собеседником</span>
-            </div>
-          )}
           {asForwarded && !isInDocumentGroupNotFirst && (
             <>
               {shouldRenderSenderName() && renderSenderName()}

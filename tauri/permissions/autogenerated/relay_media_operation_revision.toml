@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-media-operation-revision"
+description = "Enables the relay_media_operation_revision command without any pre-configured scope."
+commands.allow = ["relay_media_operation_revision"]
+
+[[permission]]
+identifier = "deny-relay-media-operation-revision"
+description = "Denies the relay_media_operation_revision command without any pre-configured scope."
+commands.deny = ["relay_media_operation_revision"]

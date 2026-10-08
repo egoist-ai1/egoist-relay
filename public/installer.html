@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Установка Sennit</title>
+  <style>
+    @font-face {
+      font-family: 'Unbounded';
+      src: url('fonts/Unbounded-Variable.woff2') format('woff2'),
+           url('fonts/unbounded-cyrillic.woff2') format('woff2'),
+           url('fonts/unbounded-latin.woff2') format('woff2');
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    :root {
+      --bg-color: #0A0B0E;
+      --card-bg: #14161A;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-border-focus: rgba(255, 255, 255, 0.25);
+      --text-primary: #FFFFFF;
+      --text-secondary: #71767B;
+      --text-muted: #53575C;
+      --accent-white: #FFFFFF;
+      --accent-black: #000000;
+      --progress-track: #1A1D22;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Unbounded', var(--font-family);
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .titlebar {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      -webkit-app-region: drag;
+      background: rgba(10, 11, 14, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      z-index: 100;
+    }
+
+    .titlebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .titlebar-logo {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .titlebar-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      -webkit-app-region: no-drag;
+    }
+
+    .titlebar-btn {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .titlebar-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+    }
+
+    .titlebar-btn.close:hover {
+      background: #E81123;
+      color: #FFFFFF;
+    }
+
+    .container {
+      flex: 1;
+      padding: 24px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .app-logo-wrap {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: #16181D;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.04);
+      flex-shrink: 0;
+    }
+
+    .app-logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+    }
+
+    .app-title-group h1 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+
+    .app-title-group p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .path-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .path-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      color: var(--text-primary);
+      font-family: monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .path-input:focus {
+      border-color: var(--card-border-focus);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-primary);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+      padding: 6px 0;
+    }
+
+    .checkbox-row:not(:last-child) {
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      padding-bottom: 10px;
+    }
+
+    .checkbox-custom {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.15s ease;
+    }
+
+    .checkbox-row input {
+      display: none;
+    }
+
+    .checkbox-row input:checked + .checkbox-custom {
+      background: #FFFFFF;
+      border-color: #FFFFFF;
+    }
+
+    .checkbox-custom svg {
+      opacity: 0;
+      transform: scale(0.6);
+      transition: all 0.15s ease;
+      stroke: #000000;
+    }
+
+    .checkbox-row input:checked + .checkbox-custom svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .checkbox-text h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .checkbox-text p {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      background: #FFFFFF;
+      color: #000000;
+      border: none;
+      padding: 11px 28px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.12);
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.22);
+      background: #F2F2F2;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .view-progress {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      padding: 20px 0;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .progress-status {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .progress-percent {
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--progress-track);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #E0E0E0, #FFFFFF, #CCCCCC);
+      border-radius: 9999px;
+      position: relative;
+      transition: width 0.25s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shimmer 1.4s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .progress-detail {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 10px;
+    }
+
+    .view-finished {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+      padding: 10px 0;
+    }
+
+    .finish-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 0 32px rgba(255, 255, 255, 0.25);
+      animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .finish-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+
+    .finish-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      max-width: 360px;
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="titlebar" data-tauri-drag-region>
+    <div class="titlebar-brand" data-tauri-drag-region>
+      <img src="favicon-32x32.png" class="titlebar-logo" alt="" />
+      <span>Sennit Setup</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-btn" id="btn-minimize" title="Свернуть">
+        <svg width="10" height="2" viewBox="0 0 10 2" fill="none"><rect width="10" height="1.5" rx="0.75" fill="currentColor"/></svg>
+      </button>
+      <button class="titlebar-btn close" id="btn-close" title="Закрыть">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 1L9 9M9 1L1 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="screen-config">
+      <div class="app-header">
+        <div class="app-logo-wrap">
+          <img src="icon-192x192.png" class="app-logo-img" alt="Sennit" />
+        </div>
+        <div class="app-title-group">
+          <h1>Sennit</h1>
+          <p>Локальный хаб ваших мессенджеров и соцсетей. Sennit by Egoist</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Папка установки</span>
+        <div class="path-row">
+          <input type="text" id="install-path" class="path-input" readonly />
+          <button type="button" class="btn-secondary" id="btn-browse">Обзор...</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="card-label">Параметры</span>
+        
+        <label class="checkbox-row">
+          <input type="checkbox" id="chk-shortcut" checked />
+          <div class="checkbox-custom">
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1.5 5L4.5 8L10.5 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="checkbox-text">
+            <h4>Создать ярлык на рабочем столе</h4>
+            <p>Быстрый доступ к мессенджеру прямо с рабочего стола</p>
+          </div>
+        </label>
+      </div>
+
+      <div class="actions-row">
+        <button type="button" class="btn-primary" id="btn-install">
+          <span>Установить Sennit</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2.5V11.5M7 11.5L10.5 8M7 11.5L3.5 8" stroke="#000000" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="screen-progress" class="view-progress">
+      <div class="app-header" style="margin-bottom: 24px;">
+        <div class="app-logo-wrap" style="width: 48px; height: 48px;">
+          <img src="icon-192x192.png" class="app-logo-img" style="width: 36px; height: 36px;" alt="" />
+        </div>
+        <div class="app-title-group">
+          <h1 style="font-size: 17px;">Установка компонентов...</h1>
+          <p id="progress-subtext">Пожалуйста, подождите завершения процесса</p>
+        </div>
+      </div>
+
+      <div class="progress-header">
+        <span class="progress-status" id="progress-text">Подготовка к установке...</span>
+        <span class="progress-percent" id="progress-percent">0%</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <p class="progress-detail" id="progress-detail">Инициализация среды развертывания...</p>
+    </div>
+
+    <div id="screen-finished" class="view-finished">
+      <div class="finish-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6.5" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2 class="finish-title">Установка завершена</h2>
+      <p class="finish-desc" id="finish-desc">
+        Sennit успешно установлен на ваш компьютер. Локальный AI-транскрибатор Whisper готов к работе.
+      </p>
+      
+      <div style="display: flex; gap: 12px;">
+        <button type="button" class="btn-primary" id="btn-launch" style="padding: 12px 36px; font-size: 14px;">
+          Запустить Sennit
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tauri = window.__TAURI__;
+
+    document.getElementById('btn-minimize').addEventListener('click', () => {
+      if (tauri && tauri.core) {
+        tauri.core.invoke('minimize_installer').catch(() => {});
+      } else {
+        window.close();
+      }
+    });
+
+    document.getElementById('btn-close').addEventListener('click', () => {
+      if (tauri && tauri.core) {
+        tauri.core.invoke('close_installer').catch(() => {});
+      } else {
+        window.close();
+      }
+    });
+
+    const pathInput = document.getElementById('install-path');
+    let currentInstallPath = '';
+
+    async function initInstaller() {
+      if (tauri && tauri.core) {
+        try {
+          currentInstallPath = await tauri.core.invoke('get_default_install_dir');
+        } catch (e) {
+          currentInstallPath = 'C:\\Users\\Egoist\\AppData\\Local\\Programs\\Egoist Relay';
+        }
+      } else {
+        currentInstallPath = 'C:\\Users\\Egoist\\AppData\\Local\\Programs\\Egoist Relay';
+      }
+      pathInput.value = currentInstallPath;
+    }
+    initInstaller();
+
+    document.getElementById('btn-browse').addEventListener('click', async () => {
+      if (tauri && tauri.core) {
+        try {
+          const selected = await tauri.core.invoke('choose_install_dir');
+          if (selected) {
+            currentInstallPath = selected;
+            pathInput.value = selected;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    });
+
+    const screenConfig = document.getElementById('screen-config');
+    const screenProgress = document.getElementById('screen-progress');
+    const screenFinished = document.getElementById('screen-finished');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const progressPercent = document.getElementById('progress-percent');
+    const progressDetail = document.getElementById('progress-detail');
+
+    function updateProgress(percent, text, detail) {
+      progressBar.style.width = percent + '%';
+      progressPercent.textContent = Math.round(percent) + '%';
+      if (text) progressText.textContent = text;
+      if (detail) progressDetail.textContent = detail;
+    }
+
+    document.getElementById('btn-install').addEventListener('click', async () => {
+      const createShortcut = document.getElementById('chk-shortcut') ? document.getElementById('chk-shortcut').checked : true;
+      const targetDir = pathInput.value.trim() || currentInstallPath;
+
+      screenConfig.style.display = 'none';
+      screenProgress.style.display = 'flex';
+
+      if (tauri && tauri.event) {
+        tauri.event.listen('install-progress', (event) => {
+          const { percent, message, detail } = event.payload;
+          updateProgress(percent, message, detail);
+          if (percent >= 100) {
+            setTimeout(() => {
+              screenProgress.style.display = 'none';
+              screenFinished.style.display = 'flex';
+            }, 600);
+          }
+        });
+      }
+
+      if (tauri && tauri.core) {
+        try {
+          await tauri.core.invoke('perform_install', {
+            targetDir,
+            createShortcut,
+          });
+        } catch (err) {
+          progressText.textContent = 'Ошибка установки';
+          progressDetail.textContent = String(err);
+        }
+      } else {
+        progressText.textContent = 'Установка недоступна в браузере';
+        progressDetail.textContent = 'Запустите установщик Sennit для Windows.';
+      }
+    });
+
+    document.getElementById('btn-launch').addEventListener('click', async () => {
+      const targetDir = pathInput.value.trim() || currentInstallPath;
+      if (tauri && tauri.core) {
+        try {
+          await tauri.core.invoke('launch_installed_app', { targetDir });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

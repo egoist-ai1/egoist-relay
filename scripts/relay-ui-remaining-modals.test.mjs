@@ -59,17 +59,18 @@ try {
   await page.goto(url, { waitUntil: 'domcontentloaded' }); await page.waitForFunction(() => window.__relayRemaining?.open && window.__relayAudit.state().chatCount >= 2, { timeout: 30000 });
   await page.evaluate(() => window.__relayAudit.openChat('101')); await page.waitForFunction(() => window.__relayAudit.state().currentChatId === '101'); await page.waitForTimeout(500);
   const modes = [
-    { id: 'dark-fullhd', width: 1920, height: 1080, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'dark-modern' },
-    { id: 'light-fullhd', width: 1920, height: 1080, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'light-modern' },
-    { id: 'narrow', width: 640, height: 900, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'dark-modern' },
-    { id: 'root32', width: 1920, height: 1080, font: '32px', dir: 'ltr', motion: 'no-preference', theme: 'dark-modern' },
-    { id: 'rtl-reduced', width: 1920, height: 1080, font: '16px', dir: 'rtl', motion: 'reduce', theme: 'dark-modern' },
+    { id: 'dark-fullhd', width: 1920, height: 1080, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'lagom-dark' },
+    { id: 'light-fullhd', width: 1920, height: 1080, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'lagom-light' },
+    { id: 'legacy-light-fullhd', width: 1920, height: 1080, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'light-modern' },
+    { id: 'narrow', width: 640, height: 900, font: '16px', dir: 'ltr', motion: 'no-preference', theme: 'lagom-dark' },
+    { id: 'root32', width: 1920, height: 1080, font: '32px', dir: 'ltr', motion: 'no-preference', theme: 'lagom-dark' },
+    { id: 'rtl-reduced', width: 1920, height: 1080, font: '16px', dir: 'rtl', motion: 'reduce', theme: 'lagom-dark' },
   ];
   for (const mode of modes) {
     await close(); await page.setViewportSize({ width: mode.width, height: mode.height }); await page.emulateMedia({ reducedMotion: mode.motion });
     await page.evaluate((current) => { window.document.documentElement.style.fontSize = current.font; window.document.documentElement.dir = current.dir; window.__relayAudit.applyTheme(current.theme); }, mode); await page.waitForTimeout(150);
     for (const kind of Object.keys(sources)) await run(kind + '-' + mode.id + '-body', kind, async () => {
-      const modal = await open(kind); const result = await geometry(modal); report.lastGeometry = result; assert(result.rootClass.includes('theme-variant-' + mode.theme)); assert.equal(result.themeState, mode.theme === 'light-modern' ? 'light' : 'dark'); assert.equal(result.prefersReducedMotion, mode.motion === 'reduce'); assert(result.controls > 0); assert(result.bodyText.length > 8, 'Concrete body text required');
+      const modal = await open(kind); const result = await geometry(modal); report.lastGeometry = result; assert(result.rootClass.includes('theme-variant-' + mode.theme)); assert.equal(result.themeState, ['lagom-light', 'light-modern'].includes(mode.theme) ? 'light' : 'dark'); assert.equal(result.prefersReducedMotion, mode.motion === 'reduce'); assert(result.controls > 0); assert(result.bodyText.length > 8, 'Concrete body text required');
       const screenshot = `ui-remaining-modal-${label}-${kind}-${mode.id}.png`; await page.screenshot({ path: path.join(evidence, screenshot) }); assert.equal(result.outsideViewport.length, 0, JSON.stringify(result.outsideViewport));
       return { mode, ...result, screenshot, exactBody: true };
     });

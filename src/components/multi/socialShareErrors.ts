@@ -1,6 +1,6 @@
 export type SocialShareError = 'media' | 'send' | 'restricted' | 'close'
   | 'mediaAuth' | 'mediaForbidden' | 'mediaUnavailable' | 'mediaRateLimited' | 'mediaConnection'
-  | 'mediaLimit' | 'mediaDiskFull';
+  | 'mediaLimit' | 'mediaDiskFull' | 'queue' | 'journal';
 
 export function classifySocialShareMediaError(error: unknown): SocialShareError {
   const message = typeof error === 'string' ? error : error instanceof Error ? error.message : '';

@@ -71,7 +71,7 @@
 }
 
 .header {
-  scrollbar-color: rgba(0, 0, 0, 0);
+  scrollbar-color: transparent;
   scrollbar-width: none;
 
   overflow-x: auto;
@@ -88,7 +88,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: transparent;
   }
 
   // Spacer to counter last button margin not being accounted in scroll width

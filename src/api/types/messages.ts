@@ -780,7 +780,9 @@ export interface ApiMessage {
   sendingState?: 'messageSendingStatePending' | 'messageSendingStateFailed';
   forwardInfo?: ApiMessageForwardInfo;
   isDeleting?: boolean;
-  isDeletedByPeer?: boolean;
+  // Unix seconds; set on messages kept in the list after deletion
+  deletedAt?: number;
+  hasNoDeletedCopy?: boolean;
   previousLocalId?: number;
   viewsCount?: number;
   forwardsCount?: number;

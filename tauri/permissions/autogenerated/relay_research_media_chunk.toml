@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-research-media-chunk"
+description = "Enables the relay_research_media_chunk command without any pre-configured scope."
+commands.allow = ["relay_research_media_chunk"]
+
+[[permission]]
+identifier = "deny-relay-research-media-chunk"
+description = "Denies the relay_research_media_chunk command without any pre-configured scope."
+commands.deny = ["relay_research_media_chunk"]

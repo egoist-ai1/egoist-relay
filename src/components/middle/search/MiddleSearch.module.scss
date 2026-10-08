@@ -5,7 +5,7 @@
   --hover-color-reaction: var(--color-background-secondary-accent);
   --text-color-reaction: var(--color-text-secondary);
   --color-reaction-chosen: var(--color-primary);
-  --text-color-reaction-chosen: #FFFFFF;
+  --text-color-reaction-chosen: var(--color-primary-text);
   --hover-color-reaction-chosen: var(--color-primary-shade);
 
   pointer-events: none;
@@ -268,7 +268,7 @@
 }
 
 .selectedType {
-  color: var(--color-white) !important;
+  color: var(--color-primary-text) !important;
   background-color: var(--color-primary);
 
   &:hover {

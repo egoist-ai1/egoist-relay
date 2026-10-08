@@ -49,6 +49,8 @@ const INITIAL_KEYS: LangKey[] = [
   'RelayAppSwitcher',
   'RelaySwitchTelegram',
   'RelaySwitchX',
+  'RelayBrand',
+  'Settings',
   'RelayTelegramTitle',
   'RelayXTitle',
   'RelayXLoadingTitle',

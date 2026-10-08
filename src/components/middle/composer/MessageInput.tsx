@@ -744,6 +744,12 @@ const MessageInput = ({
         return false;
       }
 
+      // Быстрый переход в поле ввода — только когда фокус нигде не стоит; Tab с кнопки, вкладки или чата
+      // идёт по порядку страницы (WCAG 2.4.3), иначе после паузы клавиатурный обход «прыгает» в композер
+      if (target && target !== document.body && target !== document.documentElement) {
+        return false;
+      }
+
       captureFirstTab(e);
       return undefined;
     }

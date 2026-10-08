@@ -11,8 +11,23 @@ import * as mediaLoader from '../../util/mediaLoader';
 
 import DownloadManager from './DownloadManager';
 
-const { getGlobal, cancelDownloads, notify } = vi.hoisted(() => ({
+const { getGlobal, cancelDownloads, notify, nativeBridge } = vi.hoisted(() => ({
   getGlobal: vi.fn(), cancelDownloads: vi.fn(), notify: vi.fn(),
+  nativeBridge: {
+    enabled: false, invoke: vi.fn(), operationId: 'native-download-test',
+    listeners: new Map<string, (event: { payload: unknown }) => void>(),
+  },
+}));
+vi.mock('@tauri-apps/api/core', () => ({ invoke: nativeBridge.invoke, isTauri: () => nativeBridge.enabled }));
+vi.mock('@tauri-apps/api/event', () => ({
+  listen: (name: string, callback: (event: { payload: unknown }) => void) => {
+    nativeBridge.listeners.set(name, callback);
+    return Promise.resolve(() => {});
+  },
+}));
+vi.mock('../../util/browser/globalEnvironment', async (importOriginal) => ({
+  ...await importOriginal<typeof import('../../util/browser/globalEnvironment')>(),
+  get IS_TAURI() { return nativeBridge.enabled; },
 }));
 vi.mock('../../global', () => ({
   getGlobal, getActions: () => ({ cancelMediaHashDownloads: cancelDownloads, showNotification: notify }),
@@ -48,6 +63,14 @@ function prepareDownload(filename = 'synthetic.png', format = ApiMediaFormat.Blo
 
 beforeEach(() => {
   vi.clearAllMocks();
+  nativeBridge.enabled = false;
+  nativeBridge.operationId = crypto.randomUUID();
+  nativeBridge.invoke.mockImplementation((command: string, args?: { fileName?: string }) => {
+    if (command === 'relay_media_download_file_name') return Promise.resolve(args?.fileName);
+    if (command === 'relay_media_download_prepare') return Promise.resolve(nativeBridge.operationId);
+    if (command === 'relay_media_operation_action') return Promise.resolve(undefined);
+    throw new Error(`Unexpected native command: ${command}`);
+  });
   releases.length = 0;
   container = document.createElement('div');
   document.body.append(container);
@@ -158,5 +181,68 @@ describe('Download completion and cancellation', () => {
     await renderManager();
     await vi.waitFor(() => expect(notify).toHaveBeenCalledOnce());
     expect(open).not.toHaveBeenCalled();
+  });
+});
+
+function emitNative(name: string, payload: unknown) {
+  nativeBridge.listeners.get(name)?.({ payload });
+}
+
+describe('Native file completion', () => {
+  test('Keeps a Telegram save active until its matching download-finished result arrives', async () => {
+    nativeBridge.enabled = true;
+    await renderManager();
+    await vi.waitFor(() => expect(downloadFile).toHaveBeenCalledOnce());
+    expect(nativeBridge.invoke).toHaveBeenCalledWith('relay_media_download_prepare', {
+      url: 'blob:synthetic', fileName: 'synthetic.png',
+    });
+    expect(cancelDownloads).not.toHaveBeenCalled();
+    expect(releases[0]).not.toHaveBeenCalled();
+    emitNative('download-finished', { operationId: 'unrelated', success: true, path: 'C:/Downloads/other.png' });
+    emitNative('relay-media-download-started', { operationId: nativeBridge.operationId });
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 20);
+    });
+    expect(cancelDownloads).not.toHaveBeenCalled();
+    expect(releases[0]).not.toHaveBeenCalled();
+    emitNative('download-finished', {
+      operationId: nativeBridge.operationId, success: true, path: 'C:/Downloads/synthetic.png',
+    });
+    await vi.waitFor(() => expect(cancelDownloads).toHaveBeenCalledWith({ mediaHashes: ['synthetic'] }));
+    await vi.waitFor(() => expect(releases[0]).toHaveBeenCalled());
+    expect(notify).not.toHaveBeenCalled();
+  });
+
+  test('Does not finish a DownloadUrl at window opening and reports a later native disk failure', async () => {
+    nativeBridge.enabled = true;
+    prepareDownload('synthetic.bin', ApiMediaFormat.DownloadUrl);
+    fetchMedia.mockResolvedValue('https://telegram.test/download?token=synthetic');
+    const downloadWindow = { addEventListener: vi.fn() } as unknown as Window;
+    const open = vi.spyOn(window, 'open').mockReturnValue(downloadWindow);
+    await renderManager();
+    await vi.waitFor(() => expect(open).toHaveBeenCalledOnce());
+    expect(cancelDownloads).not.toHaveBeenCalled();
+    expect(releases[0]).not.toHaveBeenCalled();
+    emitNative('download-finished', {
+      operationId: nativeBridge.operationId, success: false, error: 'MEDIA_DISK_FULL',
+    });
+    await vi.waitFor(() => expect(notify).toHaveBeenCalledWith({ message: { key: 'RelayDownloadFailed' } }));
+    expect(cancelDownloads).toHaveBeenCalledWith({ mediaHashes: ['synthetic'] });
+    await vi.waitFor(() => expect(releases[0]).toHaveBeenCalled());
+  });
+
+  test('Cancels the native waiter when the Telegram download is removed without reporting a false save', async () => {
+    nativeBridge.enabled = true;
+    await renderManager();
+    await vi.waitFor(() => expect(downloadFile).toHaveBeenCalledOnce());
+    activeDownloads = {};
+    await renderManager();
+    await vi.waitFor(() => expect(nativeBridge.invoke).toHaveBeenCalledWith('relay_media_operation_action', {
+      action: { type: 'cancel', id: nativeBridge.operationId },
+    }));
+    expect(cancelDownloads).not.toHaveBeenCalled();
+    expect(notify).not.toHaveBeenCalled();
+    expect(mediaLoader.cancelProgress).toHaveBeenCalled();
+    expect(releases[0]).toHaveBeenCalled();
   });
 });

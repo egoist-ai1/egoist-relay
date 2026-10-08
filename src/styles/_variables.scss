@@ -104,11 +104,14 @@
     --color-interactive-element-hover: rgba(var(--color-text-secondary-rgb), 0.08);
     --color-composer-button: #{$color-text-secondary}CC;
     --color-toast-background: #202020CC;
+    --color-toast-text: #FFFFFF;
 
     --color-voice-transcribe-button: #e8f3ff;
     --color-voice-transcribe-button-own: #cceebf;
 
     --color-primary: #{$color-primary};
+    --color-primary-text: #{$color-white};
+    --spinner-primary-data: var(--spinner-white-data);
     --color-primary-shade: #{color.mix($color-primary, $color-black, 92%)};
     --color-primary-shade-darker: #{color.mix($color-primary, $color-black, 84%)};
     --color-primary-shade-rgb: #{toRGB(color.mix($color-primary, $color-black, 92%))};
@@ -183,6 +186,7 @@
     --color-chat-username: #3C7EB0;
     --color-chat-hover: #{$color-chat-hover};
     --color-chat-active: #{$color-chat-active};
+    --color-chat-active-text: #{$color-white};
     --color-item-hover: #{$color-item-hover};
     --color-item-active: #{$color-item-active};
 
@@ -241,7 +245,7 @@
     --border-radius-default: 1rem;
     --border-radius-default-small: 0.625rem;
     --border-radius-default-tiny: 0.375rem;
-    --border-radius-messages: 0.9375rem;
+    --border-radius-messages: 0.75rem;
     --border-radius-messages-small: 0.375rem;
     --border-radius-forum-avatar: 33.3333%;
     --messages-container-width: 48rem;

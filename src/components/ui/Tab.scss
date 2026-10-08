@@ -22,6 +22,11 @@
     outline: none;
   }
 
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-text);
+    outline-offset: -0.125rem;
+  }
+
   &--interactive {
     cursor: var(--custom-cursor, pointer);
 
@@ -70,8 +75,9 @@
 
     font-size: 0.875rem;
     font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
     line-height: 1.3125rem;
-    color: white;
+    color: var(--color-background);
     text-align: center;
 
     background: var(--color-gray);
@@ -83,13 +89,9 @@
   }
 
   &__badge--active {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary-text) !important;
     background: var(--color-primary) !important;
-
-    :global(.theme-dark) & {
-      font-weight: var(--font-weight-bold);
-      color: #000000 !important;
-      background: #FFFFFF !important;
-    }
   }
 
   .blocked {

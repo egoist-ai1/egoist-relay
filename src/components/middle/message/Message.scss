@@ -10,7 +10,7 @@
   --hover-color-reaction: var(--color-message-reaction-hover);
   --text-color-reaction: var(--accent-color);
   --color-reaction-chosen: var(--accent-color);
-  --text-color-reaction-chosen: #FFFFFF;
+  --text-color-reaction-chosen: var(--color-primary-text);
   --hover-color-reaction-chosen: var(--color-message-reaction-chosen-hover);
   --active-color: var(--color-reply-active);
   --max-width: 40rem;
@@ -40,13 +40,13 @@
   margin-bottom: 0.375rem;
 
   .theme-dark & {
-    --color-reaction: rgba(255, 255, 255, 0.08);
-    --hover-color-reaction: rgba(255, 255, 255, 0.14);
+    --color-reaction: rgba(var(--color-text-rgb), 0.08);
+    --hover-color-reaction: rgba(var(--color-text-rgb), 0.14);
     --text-color-reaction: var(--color-text);
 
-    --color-reaction-chosen: #FFFFFF;
-    --hover-color-reaction-chosen: #E2E2E2;
-    --text-color-reaction-chosen: #000000;
+    --color-reaction-chosen: var(--color-primary);
+    --hover-color-reaction-chosen: var(--color-primary-shade);
+    --text-color-reaction-chosen: var(--color-primary-text);
   }
 
   &.is-swiped {
@@ -208,9 +208,9 @@
     padding-left: 2.75rem;
 
     .message-content.has-solid-background {
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border: 1px solid var(--color-borders) !important;
       background: var(--color-background-secondary) !important;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 1px 4px var(--color-light-shadow);
     }
 
     .no-avatars &,
@@ -290,9 +290,9 @@
     padding-left: 0.5rem;
 
     .message-content.has-solid-background {
-      border: 1px solid rgba(96, 165, 250, 0.22) !important;
+      border: 1px solid rgba(var(--color-text-rgb), 0.1) !important;
       background: var(--color-background-own) !important;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 1px 4px var(--color-light-shadow);
 
       html.theme-light & {
         --accent-color: var(--solid-bubble-text);
@@ -307,13 +307,13 @@
     }
 
     .theme-dark & {
-      --color-reaction: rgba(255, 255, 255, 0.08);
-      --hover-color-reaction: rgba(255, 255, 255, 0.14);
+      --color-reaction: rgba(var(--color-text-rgb), 0.08);
+      --hover-color-reaction: rgba(var(--color-text-rgb), 0.14);
       --text-color-reaction: var(--color-text);
 
-      --color-reaction-chosen: #FFFFFF;
-      --hover-color-reaction-chosen: #E2E2E2;
-      --text-color-reaction-chosen: #000000;
+      --color-reaction-chosen: var(--color-primary);
+      --hover-color-reaction-chosen: var(--color-primary-shade);
+      --text-color-reaction-chosen: var(--color-primary-text);
     }
 
     body.is-ios &,
@@ -513,25 +513,25 @@
 
   &.is-selected {
     .message-select-control {
-      border-color: #FFFFFF !important;
-      color: #000000 !important;
-      background: #FFFFFF !important;
+      border-color: var(--color-primary) !important;
+      color: var(--color-primary-text) !important;
+      background: var(--color-primary) !important;
 
       .icon,
       .message-select-control-icon,
       svg {
-        color: #000000 !important;
-        fill: #000000 !important;
-        stroke: #000000 !important;
+        color: var(--color-primary-text) !important;
+        fill: var(--color-primary-text) !important;
+        stroke: var(--color-primary-text) !important;
       }
 
       &.group-select {
         background: transparent !important;
 
         &.is-selected {
-          border-color: #FFFFFF !important;
-          color: #000000 !important;
-          background: #FFFFFF !important;
+          border-color: var(--color-primary) !important;
+          color: var(--color-primary-text) !important;
+          background: var(--color-primary) !important;
         }
       }
     }
@@ -540,9 +540,9 @@
   .File.file-is-selected {
     .message-select-control {
       border-color: var(--color-primary);
-      color: white;
+      color: var(--color-primary-text);
       background: var(--color-primary);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 2px 6px var(--color-light-shadow);
     }
   }
 
@@ -586,7 +586,7 @@
       height: 1.375rem;
       border-radius: 50%;
 
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 5px var(--color-light-shadow);
 
       transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
     }
@@ -685,10 +685,10 @@
       .Audio:not(.audio-is-selected),
       .File:not(.file-is-selected) {
         .message-select-control:not(.group-select) {
-          border: 2px solid rgba(255, 255, 255, 0.85);
-          background: rgba(0, 0, 0, 0.45);
+          border: 2px solid var(--color-text);
+          background: color-mix(in srgb, var(--color-background) 60%, transparent);
           backdrop-filter: blur(4px);
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 1px 4px var(--color-light-shadow);
 
           &::after {
             display: none;
@@ -701,10 +701,10 @@
           .Audio:not(.audio-is-selected),
           .File:not(.file-is-selected) {
             .message-select-control:not(.group-select) {
-              border: 2px solid rgba(255, 255, 255, 0.85);
-              background: rgba(0, 0, 0, 0.35);
+              border: 2px solid var(--color-text);
+              background: color-mix(in srgb, var(--color-background) 60%, transparent);
               backdrop-filter: blur(4px);
-              box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+              box-shadow: 0 1px 4px var(--color-light-shadow);
 
               &::after {
                 display: none;
@@ -766,11 +766,11 @@
 
     width: 1.5rem;
     height: 1.5rem;
-    border: 2px solid white;
+    border: 2px solid rgba(var(--color-text-rgb), 0.5);
     border-radius: 50%;
 
     font-size: 1rem;
-    color: white;
+    color: var(--color-text);
 
     opacity: 0;
 
@@ -778,10 +778,6 @@
 
     &-icon {
       font-weight: var(--font-weight-semibold);
-    }
-
-    .theme-dark & {
-      border-color: #ffffff80;
     }
   }
 
@@ -899,10 +895,16 @@
   }
 
   .message-action-button {
+
+    --button-text-color: var(--color-text-secondary);
+    --button-active-text-color: var(--color-text);
+    --button-active-background-color: rgba(var(--color-text-rgb), 0.08);
+    --button-no-ripple-background-color: rgba(var(--color-text-rgb), 0.16);
+    --ripple-color: rgba(var(--color-text-rgb), 0.08);
+
     overflow: visible;
     width: 2.25rem;
     height: 2.25rem;
-    color: white;
 
     &.action-summary .icon {
       font-size: 1.25rem;
@@ -959,30 +961,4 @@
 
 .media-inner {
   overflow: hidden;
-}
-
-.ghost-deleted-badge {
-  user-select: none;
-
-  display: inline-flex;
-  gap: 0.375rem;
-  align-items: center;
-
-  margin-bottom: 0.375rem;
-  padding: 0.125rem 0.5rem;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 0.375rem;
-
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-semibold);
-  color: #F87171;
-  letter-spacing: 0.02em;
-
-  background: rgba(239, 68, 68, 0.15);
-
-  .icon {
-    font-size: 0.8125rem;
-    color: inherit;
-    fill: currentColor;
-  }
 }

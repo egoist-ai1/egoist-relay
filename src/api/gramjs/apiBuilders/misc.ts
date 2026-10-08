@@ -95,8 +95,10 @@ export function buildApiSession(session: GramJs.Authorization): ApiSession {
     areCallsEnabled: !session.callRequestsDisabled,
     areSecretChatsEnabled: !session.encryptedRequestsDisabled,
     isUnconfirmed: session.unconfirmed,
+    // 0 = Telegram не отдал время входа; интерфейс покажет «недоступно», а не выдумает дату
+    dateCreated: session.dateCreated || 0,
     ...pick(session, [
-      'deviceModel', 'platform', 'systemVersion', 'appName', 'appVersion', 'dateCreated', 'dateActive',
+      'deviceModel', 'platform', 'systemVersion', 'appName', 'appVersion', 'dateActive',
       'ip', 'country', 'region',
     ]),
   };
@@ -106,8 +108,9 @@ export function buildApiWebSession(session: GramJs.WebAuthorization): ApiWebSess
   return {
     hash: String(session.hash),
     botId: buildApiPeerId(session.botId, 'user'),
+    dateCreated: session.dateCreated || 0,
     ...pick(session, [
-      'platform', 'browser', 'dateCreated', 'dateActive', 'ip', 'region', 'domain',
+      'platform', 'browser', 'dateActive', 'ip', 'region', 'domain',
     ]),
   };
 }

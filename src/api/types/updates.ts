@@ -113,6 +113,16 @@ export type ApiUpdateConnectionState = {
   connectionState: ApiUpdateConnectionStateType;
 };
 
+export type ApiConnectionRoute = {
+  kind: 'lagom' | 'direct';
+  rttMs?: number;
+};
+
+export type ApiUpdateConnectionRoute = {
+  '@type': 'updateConnectionRoute';
+  route?: ApiConnectionRoute;
+};
+
 export type ApiUpdateCurrentUser = {
   '@type': 'updateCurrentUser';
   currentUser: ApiUser;
@@ -386,14 +396,14 @@ export type ApiUpdateMessageSendFailed = {
   '@type': 'updateMessageSendFailed';
   chatId: string;
   localId: number;
-  error: string;
+  error?: string;
 };
 
 export type ApiUpdateScheduledMessageSendFailed = {
   '@type': 'updateScheduledMessageSendFailed';
   chatId: string;
   localId: number;
-  error: string;
+  error?: string;
 };
 
 export type ApiUpdateCommonBoxMessages = {
@@ -440,6 +450,7 @@ export type ApiUpdateDeleteMessages = {
   '@type': 'deleteMessages';
   ids: number[];
   chatId?: string;
+  isDeletedByMe?: boolean;
 };
 
 export type ApiUpdateDeleteScheduledMessages = {
@@ -986,7 +997,8 @@ export type ApiUpdateWebPage = {
 
 export type ApiUpdate = (
   ApiUpdateReady | ApiUpdateSession | ApiUpdateWebAuthTokenFailed | ApiUpdateRequestUserUpdate |
-  ApiUpdateAuthorizationState | ApiUpdateAuthorizationError | ApiUpdateConnectionState | ApiUpdateCurrentUser |
+  ApiUpdateAuthorizationState | ApiUpdateAuthorizationError | ApiUpdateConnectionState |
+  ApiUpdateConnectionRoute | ApiUpdateCurrentUser |
   ApiUpdateChat | ApiUpdateChatTypingStatus | ApiUpdateChatFullInfo | ApiUpdatePinnedChatIds |
   ApiUpdateChatMembers | ApiUpdateChatParticipantRank | ApiUpdateChatJoin | ApiUpdateChatLeave
   | ApiUpdateChatPinned | ApiUpdatePinnedMessageIds |

@@ -1,6 +1,6 @@
 {
-    "name": "Telegram Web",
-    "short_name": "Telegram Web",
+    "name": "Sennit",
+    "short_name": "Sennit",
     "description": "Telegram is a cloud-based mobile and desktop messaging app with a focus on security and speed.",
     "start_url": "./",
     "gcm_sender_id": "122867383838",

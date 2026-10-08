@@ -35,6 +35,7 @@ import {
   MTProtoSender,
   UpdateConnectionState,
 } from '../network';
+import { adaptivePingTimeout, routeHealth, WakeableTimer } from '../network/connectionPolicy';
 import { Api } from '../tl';
 import {
   getCurrentPassword,
@@ -405,29 +406,48 @@ class TelegramClient {
       throw new Error('Sender is not initialized');
     }
 
+    // Смена сети или возврат из сна будят цикл сразу и запускают быструю проверку вместо ожидания таймера
+    const pingTimer = new WakeableTimer();
+    let hasNetworkChanged = false;
+    const handleOnline = () => {
+      hasNetworkChanged = true;
+      pingTimer.notify();
+    };
+    self.addEventListener('online', handleOnline);
+
     while (!this._destroyed) {
-      await sleep(PING_INTERVAL);
+      await pingTimer.sleep(PING_INTERVAL);
       if (sender.isReconnecting || this._isSwitchingDc) {
         lastPongAt = undefined;
+        hasNetworkChanged = false;
         continue;
       }
+      const isWakeUpForced = hasNetworkChanged;
+      hasNetworkChanged = false;
 
       try {
         const ping = () => {
           if (this._destroyed) {
             return undefined;
           }
+          const sentAt = Date.now();
           return sender.send(new Api.PingDelayDisconnect({
             pingId: generateRandomBigInt(),
             disconnectDelay: PING_DISCONNECT_DELAY,
-          }));
+          }))?.then((result: unknown) => {
+            const rtt = Date.now() - sentAt;
+            // Поздний ответ на просроченный ping не является честным RTT
+            if (rtt < PING_TIMEOUT) routeHealth.observeRtt(rtt);
+            return result;
+          });
         };
 
         const pingAt = Date.now();
         const lastInterval = lastPongAt ? pingAt - lastPongAt : undefined;
 
-        if (!lastInterval || lastInterval < PING_INTERVAL_TO_WAKE_UP) {
-          await attempts(() => timeout(ping, PING_TIMEOUT), PING_FAIL_ATTEMPTS, PING_FAIL_INTERVAL);
+        if (!isWakeUpForced && (!lastInterval || lastInterval < PING_INTERVAL_TO_WAKE_UP)) {
+          const pingTimeout = adaptivePingTimeout(routeHealth.getRtt());
+          await attempts(() => timeout(ping, pingTimeout), PING_FAIL_ATTEMPTS, PING_FAIL_INTERVAL);
         } else {
           let wakeUpWarningTimeout: TimeoutId | undefined = setTimeout(() => {
             this._handleUpdate(new UpdateConnectionState(UpdateConnectionState.disconnected));
@@ -474,6 +494,7 @@ class TelegramClient {
         lastPongAt = undefined;
       }
     }
+    self.removeEventListener('online', handleOnline);
     this.disconnect();
   }
 
@@ -1247,6 +1268,7 @@ class TelegramClient {
     }
 
     let attempt;
+    let lastError: unknown;
     for (attempt = 0; attempt < this._requestRetries; attempt++) {
       sender.addStateToQueue(state);
       try {
@@ -1255,6 +1277,7 @@ class TelegramClient {
         if (isExported) this.releaseExportedSender(sender);
         return result;
       } catch (e: unknown) {
+        lastError = e;
         if (isResearchRequest) {
           state.finished.resolve();
           if (isExported) this.releaseExportedSender(sender);
@@ -1316,7 +1339,9 @@ class TelegramClient {
       state.resetPromise();
     }
     if (isExported) this.releaseExportedSender(sender);
-    throw new Error(`Request was unsuccessful ${attempt} time(s)`);
+    // An RPC error such as a flood wait keeps its code and wait time for the caller
+    if (lastError instanceof RPCError) throw lastError;
+    throw new Error(`Request was unsuccessful ${attempt} time(s)`, { cause: lastError });
   }
 
   async invokeBeacon(request: Api.AnyRequest, dcId?: number) {

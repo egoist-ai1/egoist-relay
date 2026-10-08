@@ -1,8 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assertNoSecrets, readConfiguration, selectSourceFiles, validateConfiguration, validateGenericPackaging, validateInstallerPathBudget,
-  validateRuntime } from './release-policy.mjs';
+import { assertNoSecrets, readCommandAcl, readConfiguration, selectSourceFiles, validateCommandAcl, validateConfiguration, validateGenericPackaging,
+  validateInstallerPathBudget, validateRuntime } from './release-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 try {
@@ -12,6 +12,7 @@ try {
   const hook = await readFile(path.join(root, 'tauri/installer.nsh'), 'utf8');
   result.packaging = await validateGenericPackaging(root, hook);
   result.installerPath = validateInstallerPathBudget(manifest, hook);
+  result.commandAcl = validateCommandAcl(await readCommandAcl(root));
   const sources = await selectSourceFiles(root);
   for (const file of sources) {
     const bytes = await readFile(path.join(root, file));

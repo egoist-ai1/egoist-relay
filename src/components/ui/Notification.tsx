@@ -208,6 +208,8 @@ const Notification = ({
     <Portal className="Notification-container" containerSelector={containerSelector}>
       <div
         className={buildClassName('Notification', transitionClassNames, className)}
+        role="status"
+        aria-live="polite"
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

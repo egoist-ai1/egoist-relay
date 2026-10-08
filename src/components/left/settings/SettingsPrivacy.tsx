@@ -24,6 +24,7 @@ import Island, { IslandTitle } from '../../gili/layout/Island';
 import Button from '../../ui/Button';
 import Checkbox from '../../ui/Checkbox';
 import ListItem from '../../ui/ListItem';
+import SettingsDeletedMessages from './SettingsDeletedMessages';
 
 type OwnProps = {
   isActive?: boolean;
@@ -495,6 +496,8 @@ const SettingsPrivacy = ({
           onCheck={handleChatInTitleChange}
         />
       </Island>
+
+      <SettingsDeletedMessages />
 
       <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>
         {lang('DeleteMyAccount')}

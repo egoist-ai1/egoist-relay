@@ -16,11 +16,11 @@
   .bubble {
     --offset-y: calc(100% + 0.5rem);
     --offset-x: 0;
-    --animation-start-scale: 0.85;
+    --animation-start-scale: 1;
 
     position: absolute;
     z-index: var(--z-menu-bubble);
-    transform: scale(var(--animation-start-scale));
+    transform: none;
 
     overflow: hidden;
     overscroll-behavior: contain;
@@ -29,20 +29,19 @@
     min-width: 13.5rem;
     margin: 0;
     padding: 0.5rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 0.0625rem solid var(--color-borders);
     border-radius: var(--border-radius-default);
 
     color: var(--color-text);
     list-style: none;
 
-    background-color: var(--color-background-compact-menu, #16181D);
-    backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+    background-color: var(--color-background);
+    box-shadow: 0 0.5rem 1.5rem var(--color-default-shadow);
 
-    transition: opacity 150ms cubic-bezier(0.2, 0, 0.2, 1), transform 150ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+    transition: opacity 140ms ease !important;
 
     &.open {
-      transform: scale(1);
+      transform: none;
 
       .active-view-transition & {
         view-transition-name: open-menu-bubble;
@@ -50,7 +49,7 @@
     }
 
     &.closing {
-      transition: opacity 0.2s ease-in, transform 0.2s ease-in !important;
+      transition: opacity 140ms ease !important;
     }
 
     &.close-fast {
@@ -60,7 +59,7 @@
     body.no-context-menu-animations & {
       --animation-start-scale: 1 !important;
 
-      transition: opacity 0.15s !important;
+      transition: opacity 140ms ease !important;
     }
 
     &.top {
@@ -102,8 +101,7 @@
   &.compact {
     .bubble {
       padding: 0.25rem 0;
-      background: var(--color-background-compact-menu);
-      backdrop-filter: blur(10px);
+      background: var(--color-background);
 
       body.no-menu-blur & {
         background: var(--color-background);
@@ -134,4 +132,11 @@
 // Hacky way to fix z-index issues with overlays in View Transitions
 html::view-transition-group(open-menu-bubble) {
   z-index: var(--z-portal-menu);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Menu .bubble {
+    transform: none !important;
+    transition: none !important;
+  }
 }

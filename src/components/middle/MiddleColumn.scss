@@ -286,3 +286,13 @@
 
   width: 0.5rem;
 }
+
+@container relayTelegram (max-width: 58rem) {
+  #MiddleColumn .middle-column-footer {
+    width: 100%;
+
+    #Main.right-column-open & {
+      transform: none;
+    }
+  }
+}

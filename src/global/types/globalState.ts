@@ -10,6 +10,7 @@ import type {
   ApiChatFullInfo,
   ApiChatlistExportedInvite,
   ApiConfig,
+  ApiConnectionRoute,
   ApiCountry,
   ApiCountryCode,
   ApiEmojiGroup,
@@ -100,6 +101,8 @@ export type GlobalState = {
   };
   isCacheApiSupported?: boolean;
   connectionState?: ApiUpdateConnectionStateType;
+  // Активный маршрут Telegram и сглаженный RTT (локальный мост Lagom или прямой путь)
+  connectionRoute?: ApiConnectionRoute;
   currentUserId?: string;
   isSyncing?: boolean;
   isAppConfigLoaded?: boolean;

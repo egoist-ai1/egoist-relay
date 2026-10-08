@@ -42,9 +42,19 @@
     margin: 0 auto 1.25rem;
   }
 
+  /* Знак Sennit на плитке графита (docs/brand/BRAND.md: знак на контрастном поле, радиус плитки 14/64) */
   #logo {
-    background: url("../../assets/telegram-logo.svg") center no-repeat;
-    background-size: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    border: 0.0625rem solid var(--color-borders);
+    border-radius: 1.0625rem;
+
+    color: var(--color-text);
+
+    background: var(--color-background-secondary);
   }
 
   h1 {
@@ -54,7 +64,7 @@
     font-size: 1.5rem;
     font-weight: var(--font-weight-bold);
     line-height: 1.25;
-    color: #FFFFFF;
+    color: var(--color-text);
     letter-spacing: -0.02em;
   }
 
@@ -76,13 +86,13 @@
 
     margin: -0.25rem 0 0.5rem;
     padding: 0.5rem 0.875rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(var(--color-text-rgb), 0.08);
     border-radius: 0.75rem;
 
     font-size: 0.8125rem;
     line-height: 1.25;
 
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(var(--color-text-rgb), 0.04);
 
     .hint-label {
       font-weight: var(--font-weight-normal);
@@ -91,7 +101,7 @@
 
     .hint-value {
       font-weight: var(--font-weight-semibold);
-      color: #FFFFFF;
+      color: var(--color-text);
       letter-spacing: 0.01em;
     }
   }
@@ -143,22 +153,22 @@
 
   &.text {
     height: 2.75rem;
-    border: 1px solid #28282C !important;
+    border: 1px solid var(--color-borders) !important;
     border-radius: 0.875rem;
 
     font-size: 0.8125rem;
     font-weight: var(--font-weight-semibold) !important;
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
     text-transform: uppercase;
     letter-spacing: 0.03em;
 
-    background: #121214 !important;
+    background: var(--color-background-secondary-accent) !important;
 
     transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 
     &:hover {
-      border-color: #38383E !important;
-      background: #1C1C20 !important;
+      border-color: var(--color-borders-input) !important;
+      background: var(--color-item-active) !important;
     }
   }
 }
@@ -216,7 +226,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.625rem;
+    height: 2.625rem;
     border-radius: 50%;
+
+    /* Часть QR-кода: тёмные модули на светлой подложке читает сканер, тема не меняет; знак белый на чёрном (21:1) */
+    color: #FFFFFF;
 
     background-color: #000000;
   }
@@ -229,8 +248,9 @@
     padding: 10px;
     border-radius: 1.25rem;
 
+    /* Подложка QR-кода всегда светлая: иначе код не считывается */
     background-color: #FFFFFF;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 40px var(--color-default-shadow), 0 0 0 1px rgba(var(--color-text-rgb), 0.08);
 
     canvas {
       display: block;
@@ -244,7 +264,7 @@
     font-family: var(--font-family-heading);
     font-size: 1.25rem;
     font-weight: var(--font-weight-bold);
-    color: #FFFFFF;
+    color: var(--color-text);
     letter-spacing: -0.02em;
   }
 
@@ -272,7 +292,7 @@
       font-size: 0.875rem;
       font-weight: var(--font-weight-normal);
       line-height: 1.45;
-      color: #A1A1A6;
+      color: var(--color-text-secondary);
       text-align: left;
       letter-spacing: -0.01em;
 
@@ -294,16 +314,16 @@
         font-family: var(--font-family-heading) !important;
         font-size: 0.6875rem;
         font-weight: var(--font-weight-bold);
-        color: #000000 !important;
+        color: var(--color-primary-text) !important;
 
-        background: #FFFFFF !important;
+        background: var(--color-primary) !important;
       }
 
       b,
       strong {
         font-family: var(--font-family);
         font-weight: var(--font-weight-semibold);
-        color: #FFFFFF;
+        color: var(--color-text);
         letter-spacing: -0.005em;
       }
     }
@@ -314,23 +334,23 @@
     max-width: 24rem;
     margin-top: 0.5rem;
     padding: 0.875rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.12) !important;
     border-radius: 0.75rem;
 
     font-family: var(--font-family-heading) !important;
     font-size: 0.75rem;
     font-weight: var(--font-weight-bold);
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
-    background: rgba(255, 255, 255, 0.07) !important;
+    background: rgba(var(--color-text-rgb), 0.07) !important;
 
     transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 
     &:hover {
-      border-color: rgba(255, 255, 255, 0.22) !important;
-      background: rgba(255, 255, 255, 0.14) !important;
+      border-color: rgba(var(--color-text-rgb), 0.22) !important;
+      background: rgba(var(--color-text-rgb), 0.14) !important;
     }
 
     &:active {

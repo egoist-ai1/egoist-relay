@@ -64,7 +64,7 @@
 
     width: fit-content;
 
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(var(--color-text-rgb), 0.12);
 
     transition: clip-path var(--slide-transition);
 
@@ -89,18 +89,24 @@
 
     font-size: 1rem;
     font-weight: var(--font-weight-medium);
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--color-text-secondary);
     white-space: nowrap;
 
     &:hover {
-      color: #FFFFFF;
+      color: var(--color-text);
       opacity: 0.95;
+    }
+
+    // Клавиатурный фокус виден: контур внутри вкладки (контейнер обрезает внешний по overflow)
+    &:focus-visible {
+      outline: 0.125rem solid var(--color-text);
+      outline-offset: -0.125rem;
     }
 
     &.tabActive {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
-      background: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text) !important;
+      background: rgba(var(--color-text-rgb), 0.14) !important;
     }
 
     &.vertical {

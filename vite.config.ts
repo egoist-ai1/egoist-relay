@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync, unlinkSync } from 'fs';
 import { dirname, resolve } from 'path';
 import type { NormalizedOutputOptions, OutputBundle, PluginContext } from 'rolldown';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -90,6 +90,7 @@ export default defineConfig(({ mode }): UserConfig => {
   const telegramApiHash = env.TELEGRAM_API_HASH || '';
   const workerReportBundles: OutputBundle[] = [];
   const plugins: PluginOption[] = [
+    createBuildDiagnosticsExclusionPlugin(),
     buildGitInfoPlugin({
       appEnv,
       head: HEAD,
@@ -309,5 +310,25 @@ function getHttpsConfig(httpsCertPath: string, httpsKeyPath: string) {
   return {
     cert: readFileSync(httpsCertPath),
     key: readFileSync(httpsKeyPath),
+  };
+}
+
+function createBuildDiagnosticsExclusionPlugin(): Plugin {
+  let outputDirectory: string;
+
+  return {
+    name: 'relay:exclude-build-diagnostics',
+    apply: 'build',
+    configResolved(config) {
+      outputDirectory = resolve(config.root, config.build.outDir);
+    },
+    closeBundle() {
+      for (const filename of ['build-stats.json', 'statoscope-report.html']) {
+        const filePath = resolve(outputDirectory, filename);
+        if (existsSync(filePath)) {
+          unlinkSync(filePath);
+        }
+      }
+    },
   };
 }

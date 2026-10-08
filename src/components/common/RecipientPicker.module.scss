@@ -6,3 +6,10 @@
     margin-bottom: 0;
   }
 }
+
+/* Низкий диалог выбора: недавние контакты скрываются, список чатов важнее */
+@container pickerDialog (max-height: 34rem) {
+  .recentContacts {
+    display: none;
+  }
+}

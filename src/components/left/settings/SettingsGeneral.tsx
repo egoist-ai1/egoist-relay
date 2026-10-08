@@ -3,7 +3,7 @@ import {
 } from '../../../lib/teact/teact';
 import { getActions, withGlobal } from '../../../global';
 
-import type { SharedSettings } from '../../../global/types';
+import type { GlobalState, SharedSettings } from '../../../global/types';
 import type { TimeFormat } from '../../../types';
 import type { IRadioOption } from '../../ui/RadioGroup';
 import { SettingsScreens } from '../../../types';
@@ -12,6 +12,7 @@ import { selectSharedSettings } from '../../../global/selectors/sharedState';
 import {
   ANTIGRAVITY_THEMES, applyAntigravityTheme, getActiveThemeVariantId,
 } from '../../../util/antigravityThemes';
+import applyMessageTextSize from '../../../util/applyMessageTextSize';
 import {
   IS_ANDROID, IS_IOS, IS_MAC_OS,
 } from '../../../util/browser/windowEnvironment';
@@ -27,6 +28,8 @@ import ListItem from '../../ui/ListItem';
 import RadioGroup from '../../ui/RadioGroup';
 import RangeSlider from '../../ui/RangeSlider';
 
+import styles from './SettingsGeneral.module.scss';
+
 type OwnProps = {
   isActive?: boolean;
   onReset: () => void;
@@ -39,8 +42,11 @@ type StateProps =
     'shouldReplaceTextShortcuts' |
     'timeFormat' |
     'theme' |
-    'shouldUseSystemTheme'
-  )>;
+    'shouldUseSystemTheme' |
+    'shouldWarmupSocialViews'
+  )> & {
+    connectionRoute?: GlobalState['connectionRoute'];
+  };
 
 const SettingsGeneral = ({
   isActive,
@@ -50,6 +56,8 @@ const SettingsGeneral = ({
   timeFormat,
   theme,
   shouldUseSystemTheme,
+  shouldWarmupSocialViews,
+  connectionRoute,
   onReset,
 }: OwnProps & StateProps) => {
   const {
@@ -105,12 +113,7 @@ const SettingsGeneral = ({
   ] : undefined;
 
   const handleMessageTextSizeChange = useCallback((newSize: number) => {
-    document.documentElement.style.setProperty(
-      '--composer-text-size', `${Math.max(newSize, IS_IOS ? 16 : 15)}px`,
-    );
-    document.documentElement.style.setProperty('--message-meta-height', `${Math.floor(newSize * 1.25)}px`);
-    document.documentElement.style.setProperty('--message-text-size', `${newSize}px`);
-    document.documentElement.setAttribute('data-message-text-size', newSize.toString());
+    applyMessageTextSize(newSize);
 
     setSharedSettingOption({ messageTextSize: newSize });
   }, []);
@@ -126,6 +129,10 @@ const SettingsGeneral = ({
 
   const handleTextShortcutReplacementChange = useLastCallback((shouldReplace: boolean) => {
     setSharedSettingOption({ shouldReplaceTextShortcuts: shouldReplace });
+  });
+
+  const handleWarmupSocialChange = useLastCallback((shouldWarmup: boolean) => {
+    setSharedSettingOption({ shouldWarmupSocialViews: shouldWarmup });
   });
 
   useHistoryBack({
@@ -153,13 +160,10 @@ const SettingsGeneral = ({
         </ListItem>
       </Island>
 
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>Темы Antigravity</IslandTitle>
+      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayThemeVariants')}</IslandTitle>
       <Island>
-        <div style={`font-size: 0.8125rem; font-weight: var(--font-weight-semibold);
-          color: var(--color-text-secondary); margin-bottom: 0.5rem; padding: 0 0.5rem;
-          text-transform: uppercase; letter-spacing: 0.5px;`}
-        >
-          Тёмные темы
+        <div className={styles.themeGroupTitle}>
+          {lang('RelayThemeDark')}
         </div>
         <RadioGroup
           name="antigravityDark"
@@ -167,11 +171,8 @@ const SettingsGeneral = ({
           selected={activeVariant}
           onChange={handleThemeVariantChange}
         />
-        <div style={`font-size: 0.8125rem; font-weight: var(--font-weight-semibold);
-          color: var(--color-text-secondary); margin-top: 1rem; margin-bottom: 0.5rem; padding: 0 0.5rem;
-          text-transform: uppercase; letter-spacing: 0.5px;`}
-        >
-          Светлые темы
+        <div className={styles.themeGroupTitle}>
+          {lang('RelayThemeLight')}
         </div>
         <RadioGroup
           name="antigravityLight"
@@ -208,6 +209,24 @@ const SettingsGeneral = ({
           onCheck={handleTextShortcutReplacementChange}
         />
       </Island>
+
+      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayNetworkTitle')}</IslandTitle>
+      <Island>
+        {connectionRoute && (
+          <ListItem inactive>
+            <span>
+              {lang(connectionRoute.kind === 'lagom' ? 'RelayRouteLagom' : 'RelayRouteDirect')}
+              {connectionRoute.rttMs !== undefined && ` · ${Math.round(connectionRoute.rttMs)} ${lang('RelayRouteMs')}`}
+            </span>
+          </ListItem>
+        )}
+        <Checkbox
+          label={lang('RelayWarmupSocial')}
+          subLabel={lang('RelayWarmupSocialHint')}
+          checked={shouldWarmupSocialViews !== false}
+          onCheck={handleWarmupSocialChange}
+        />
+      </Island>
     </div>
   );
 };
@@ -221,9 +240,12 @@ export default memo(withGlobal<OwnProps>(
       shouldReplaceTextShortcuts,
       messageTextSize,
       timeFormat,
+      shouldWarmupSocialViews,
     } = selectSharedSettings(global);
 
     return {
+      shouldWarmupSocialViews,
+      connectionRoute: global.connectionRoute,
       messageSendKeyCombo,
       shouldReplaceTextShortcuts,
       messageTextSize,

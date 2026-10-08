@@ -1,7 +1,8 @@
 @use "../../../styles/mixins";
 
 .container {
-  overflow: hidden;
+  /* При крупном тексте шапка и поиск не помещаются: колонка прокручивается, список сохраняет минимальную высоту */
+  overflow: hidden auto;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -13,7 +14,7 @@
   flex-flow: row wrap;
   flex-shrink: 0;
 
-  max-height: 20rem;
+  max-height: min(20rem, 40%);
   padding: 0.75rem 1.25rem;
   border-bottom: 1px solid var(--color-borders);
 
@@ -38,7 +39,7 @@
   flex-flow: row wrap;
   flex-shrink: 0;
 
-  max-height: 16.5rem;
+  max-height: min(16.5rem, 40%);
   padding-bottom: 0;
 }
 
@@ -71,9 +72,13 @@
 
 .pickerList {
   position: relative;
+
   overflow-x: hidden;
   overflow-y: auto;
   flex-grow: 1;
+
+  /* Шапка с чипами не вытесняет список при крупном тексте и низком окне */
+  min-height: min(6rem, 50%);
 }
 
 .padded {
@@ -93,7 +98,7 @@
   flex: 1 1 auto;
   flex-direction: column;
 
-  min-height: 0;
+  min-height: min(8rem, 50%);
   padding: 0;
 }
 

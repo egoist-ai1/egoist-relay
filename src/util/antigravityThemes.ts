@@ -1,3 +1,6 @@
+import { syncNativeTheme } from './tauri/nativeTheme';
+import { buildLagomVariables, LAGOM_DARK, LAGOM_LIGHT } from './lagomTheme';
+
 export interface AntigravityThemeDefinition {
   id: string;
   name: string;
@@ -8,33 +11,141 @@ export interface AntigravityThemeDefinition {
 
 export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
   {
+    id: 'lagom-dark',
+    name: 'Lagom Dark',
+    category: 'dark',
+    base: 'dark',
+    variables: buildLagomVariables(LAGOM_DARK),
+  },
+  {
+    id: 'lagom-light',
+    name: 'Lagom Light',
+    category: 'light',
+    base: 'light',
+    variables: buildLagomVariables(LAGOM_LIGHT),
+  },
+  {
     id: 'egoist-dark',
-    name: 'Egoist Lagom (OLED Pure Black)',
+    name: 'Egoist Black',
     category: 'dark',
     base: 'dark',
     variables: {
       '--color-background': '#000000',
-      '--color-background-secondary': '#14161A',
-      '--color-background-sidebar': '#0A0B0E',
-      '--color-background-own': '#1C2433',
-      '--color-background-own-apple': '#1C2433',
-      '--color-background-selected': '#1C1F24',
-      '--color-background-own-selected': '#253346',
-      '--color-chat-hover': '#14161A',
-      '--color-chat-active': '#1C1F24',
-      '--color-item-hover': '#14161A',
-      '--color-item-active': '#1C1F24',
-      '--color-text': '#FFFFFF',
-      '--color-text-secondary': '#71767B',
-      '--color-borders': '#22252A',
-      '--color-borders-input': '#2A2D34',
-      '--color-dividers': '#22252A',
-      '--color-primary': '#FFFFFF',
-      '--color-links': '#1D9BF0',
-      '--color-active': '#FFFFFF',
-      '--color-background-compact-menu': '#16181DDD',
-      '--color-background-compact-menu-reactions': '#16181DDD',
-      '--color-background-compact-menu-hover': 'rgba(255, 255, 255, 0.1)',
+      '--color-background-secondary': '#101010',
+      '--color-background-secondary-accent': '#181818',
+      '--color-background-sidebar': '#000000',
+      '--color-background-own': '#181818',
+      '--color-background-own-apple': '#181818',
+      '--color-background-selected': '#181818',
+      '--color-background-own-selected': '#292929',
+      '--color-background-compact-menu': '#181818F5',
+      '--color-background-compact-menu-reactions': '#181818F5',
+      '--color-background-compact-menu-hover': 'rgba(245, 245, 245, 0.1)',
+      '--color-background-menu-separator': '#292929',
+      '--color-web-app-browser': '#000000EE',
+      '--color-webpage-initial-background': '#181818',
+      '--color-text': '#F5F5F5',
+      '--color-text-rgb': '245, 245, 245',
+      '--color-text-lighter': '#D4D4D4',
+      '--color-text-secondary': '#A0A0A0',
+      '--color-text-secondary-rgb': '160, 160, 160',
+      '--color-text-secondary-apple': '#A0A0A0',
+      '--color-text-meta': '#A0A0A0',
+      '--color-text-meta-rgb': '160, 160, 160',
+      '--color-text-meta-colored': '#A0A0A0',
+      '--color-text-meta-apple': '#A0A0A0',
+      '--color-icon-secondary': '#A0A0A0',
+      '--color-text-green': '#D4D4D4',
+      '--color-text-green-rgb': '212, 212, 212',
+      '--color-borders': '#292929',
+      '--color-borders-input': '#292929',
+      '--color-borders-alternate': '#292929',
+      '--color-borders-read-story': '#292929',
+      '--color-dividers': '#292929',
+      '--color-dividers-android': '#292929',
+      '--color-primary': '#F5F5F5',
+      '--color-primary-text': '#000000',
+      '--spinner-primary-data': 'var(--spinner-black-data)',
+      '--color-primary-shade': '#E0E0E0',
+      '--color-primary-shade-darker': '#C9C9C9',
+      '--color-primary-shade-rgb': '224, 224, 224',
+      '--color-primary-opacity': 'rgba(245, 245, 245, 0.2)',
+      '--color-primary-opacity-hover': 'rgba(245, 245, 245, 0.25)',
+      '--color-primary-tint': 'rgba(245, 245, 245, 0.1)',
+      '--color-active': '#F5F5F5',
+      '--color-active-darker': '#C9C9C9',
+      '--color-green': '#58C979',
+      '--color-green-darker': '#479F60',
+      '--color-green-rgb': '88, 201, 121',
+      '--color-success': '#58C979',
+      '--color-error': '#EF5B5B',
+      '--color-error-shade': '#DB5454',
+      '--color-error-rgb': '239, 91, 91',
+      '--color-warning': '#EFB45B',
+      '--color-links': '#F5F5F5',
+      '--color-own-links': '#F5F5F5',
+      '--color-placeholders': '#A0A0A0',
+      '--color-list-icon': '#D4D4D4',
+      '--color-gray': '#A0A0A0',
+      '--color-interactive-active': '#F5F5F5',
+      '--color-interactive-inactive': 'rgba(160, 160, 160, 0.25)',
+      '--color-interactive-buffered': 'rgba(160, 160, 160, 0.25)',
+      '--color-interactive-element-hover': 'rgba(160, 160, 160, 0.08)',
+      '--color-composer-button': '#A0A0A0',
+      '--color-code': '#F5F5F5',
+      '--color-code-own': '#F5F5F5',
+      '--color-code-bg': 'rgba(245, 245, 245, 0.06)',
+      '--color-code-own-bg': 'rgba(245, 245, 245, 0.08)',
+      '--color-accent-own': '#F5F5F5',
+      '--color-accent-own-rgb': '245, 245, 245',
+      '--color-message-meta-own': '#A0A0A0',
+      '--color-message-reaction': '#181818',
+      '--color-message-reaction-hover': '#242424',
+      '--color-message-reaction-own': '#242424',
+      '--color-message-reaction-hover-own': '#292929',
+      '--color-message-reaction-chosen-hover': '#E0E0E0',
+      '--color-message-reaction-chosen-hover-own': '#E0E0E0',
+      '--color-message-non-contact': '#A0A0A0',
+      '--color-message-story-mention-from': '#A0A0A0',
+      '--color-message-story-mention-to': '#D4D4D4',
+      '--color-reply-hover': '#181818',
+      '--color-reply-active': '#292929',
+      '--color-reply-own-hover': '#242424',
+      '--color-reply-own-active': '#292929',
+      '--color-reply-own-hover-apple': '#242424',
+      '--color-reply-own-active-apple': '#292929',
+      '--color-chat-username': '#F5F5F5',
+      '--color-chat-hover': '#181818',
+      '--color-chat-active': '#292929',
+      '--color-chat-active-text': '#F5F5F5',
+      '--color-chat-active-greyed': '#181818',
+      '--color-item-hover': '#181818',
+      '--color-item-active': '#292929',
+      '--color-voice-transcribe-button': '#242424',
+      '--color-voice-transcribe-button-own': '#292929',
+      '--color-selection-highlight': '#505050',
+      '--color-selection-highlight-emoji': 'rgba(80, 80, 80, 0.7)',
+      '--color-telegram-blue': '#F5F5F5',
+      '--color-topic-blue': '#F5F5F5',
+      '--color-topic-yellow': '#E0E0E0',
+      '--color-topic-violet': '#C9C9C9',
+      '--color-topic-green': '#A0A0A0',
+      '--color-topic-rose': '#909090',
+      '--color-topic-red': '#7E7E7E',
+      '--color-topic-grey': '#656565',
+      '--color-forum-hover-unread-topic': '#181818',
+      '--color-forum-unread-topic-hover': '#181818',
+      '--color-forum-hover-unread-topic-hover': '#242424',
+      '--color-deleted-account': '#A0A0A0',
+      '--color-archive': '#A0A0A0',
+      '--color-default-shadow': '#000000CC',
+      '--color-light-shadow': '#00000080',
+      '--color-skeleton-background': 'rgba(160, 160, 160, 0.15)',
+      '--color-skeleton-foreground': 'rgba(245, 245, 245, 0.12)',
+      '--color-scrollbar': 'rgba(160, 160, 160, 0.3)',
+      '--color-scrollbar-code': 'rgba(200, 200, 200, 0.3)',
+      '--color-hover-overlay': 'rgba(245, 245, 245, 0.04)',
+      '--color-toast-background': '#181818EE',
     },
   },
   {
@@ -53,6 +164,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#253346',
       '--color-chat-hover': '#242424',
       '--color-chat-active': '#2B2B2B',
+      '--color-chat-active-text': '#CCCCCC',
       '--color-item-hover': '#242424',
       '--color-item-active': '#2B2B2B',
       '--color-text': '#CCCCCC',
@@ -84,6 +196,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#336699',
       '--color-chat-hover': '#2A2D2E',
       '--color-chat-active': '#37373D',
+      '--color-chat-active-text': '#D4D4D4',
       '--color-item-hover': '#2A2D2E',
       '--color-item-active': '#37373D',
       '--color-text': '#D4D4D4',
@@ -112,6 +225,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#3B4261',
       '--color-chat-hover': '#202334',
       '--color-chat-active': '#292E42',
+      '--color-chat-active-text': '#C0CAF5',
       '--color-item-hover': '#202334',
       '--color-item-active': '#292E42',
       '--color-text': '#C0CAF5',
@@ -120,6 +234,8 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-borders-input': '#3B4261',
       '--color-dividers': '#292E42',
       '--color-primary': '#7AA2F7',
+      '--color-primary-text': '#000000',
+      '--spinner-primary-data': 'var(--spinner-black-data)',
       '--color-links': '#7DCFFF',
       '--color-active': '#7AA2F7',
     },
@@ -140,6 +256,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#49483E',
       '--color-chat-hover': '#272822',
       '--color-chat-active': '#34352D',
+      '--color-chat-active-text': '#F8F8F2',
       '--color-item-hover': '#272822',
       '--color-item-active': '#34352D',
       '--color-text': '#F8F8F2',
@@ -148,6 +265,8 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-borders-input': '#49483E',
       '--color-dividers': '#3E3D32',
       '--color-primary': '#A6E22E',
+      '--color-primary-text': '#000000',
+      '--spinner-primary-data': 'var(--spinner-black-data)',
       '--color-links': '#66D9EF',
       '--color-active': '#A6E22E',
     },
@@ -168,6 +287,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#1A3F6D',
       '--color-chat-hover': '#081B33',
       '--color-chat-active': '#0E2849',
+      '--color-chat-active-text': '#B0C4DE',
       '--color-item-hover': '#081B33',
       '--color-item-active': '#0E2849',
       '--color-text': '#B0C4DE',
@@ -196,6 +316,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#12667A',
       '--color-chat-hover': '#073642',
       '--color-chat-active': '#0A4352',
+      '--color-chat-active-text': '#B5C3C3',
       '--color-item-hover': '#073642',
       '--color-item-active': '#0A4352',
       '--color-text': '#93A1A1',
@@ -204,6 +325,8 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-borders-input': '#0A4352',
       '--color-dividers': '#073642',
       '--color-primary': '#268BD2',
+      '--color-primary-text': '#000000',
+      '--spinner-primary-data': 'var(--spinner-black-data)',
       '--color-links': '#2AA198',
       '--color-active': '#268BD2',
     },
@@ -224,6 +347,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#D8E2EC',
       '--color-chat-hover': '#EAEAEA',
       '--color-chat-active': '#DFDFDF',
+      '--color-chat-active-text': '#1F1F1F',
       '--color-item-hover': '#EAEAEA',
       '--color-item-active': '#DFDFDF',
       '--color-text': '#1F1F1F',
@@ -252,6 +376,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#DEECF9',
       '--color-chat-hover': '#F0F0F0',
       '--color-chat-active': '#E5E5E5',
+      '--color-chat-active-text': '#000000',
       '--color-item-hover': '#F0F0F0',
       '--color-item-active': '#E5E5E5',
       '--color-text': '#000000',
@@ -280,6 +405,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#D4CCDC',
       '--color-chat-hover': '#EDEAE3',
       '--color-chat-active': '#E2DDD4',
+      '--color-chat-active-text': '#333333',
       '--color-item-hover': '#EDEAE3',
       '--color-item-active': '#E2DDD4',
       '--color-text': '#333333',
@@ -308,6 +434,7 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-background-own-selected': '#D1C4AA',
       '--color-chat-hover': '#EBE3CE',
       '--color-chat-active': '#E0D6BD',
+      '--color-chat-active-text': '#35484E',
       '--color-item-hover': '#EBE3CE',
       '--color-item-active': '#E0D6BD',
       '--color-text': '#586E75',
@@ -316,22 +443,41 @@ export const ANTIGRAVITY_THEMES: AntigravityThemeDefinition[] = [
       '--color-borders-input': '#D0C6AE',
       '--color-dividers': '#DFD7C2',
       '--color-primary': '#268BD2',
+      '--color-primary-text': '#000000',
+      '--spinner-primary-data': 'var(--spinner-black-data)',
       '--color-links': '#2AA198',
       '--color-active': '#268BD2',
     },
   },
 ];
 
+const DEFAULT_THEME_VARIANT_ID = 'lagom-dark';
+const THEME_VARIABLES = new Set(ANTIGRAVITY_THEMES.flatMap((theme) => Object.keys(theme.variables)));
+
+const LAGOM_MIGRATION_KEY = 'egoist_theme_lagom_migrated';
+const LEGACY_DEFAULT_VARIANT_ID = 'egoist-dark';
+
 export function getActiveThemeVariantId(): string {
   try {
-    return localStorage.getItem('egoist_theme_variant') || 'dark-modern';
+    let variantId = localStorage.getItem('egoist_theme_variant');
+
+    // Профили до 1.7.0 сохраняли прежний вариант по умолчанию без выбора пользователя: один раз переводим на Lagom
+    if (localStorage.getItem(LAGOM_MIGRATION_KEY) !== '1') {
+      localStorage.setItem(LAGOM_MIGRATION_KEY, '1');
+      if (variantId === LEGACY_DEFAULT_VARIANT_ID) {
+        variantId = DEFAULT_THEME_VARIANT_ID;
+        localStorage.setItem('egoist_theme_variant', variantId);
+      }
+    }
+
+    return ANTIGRAVITY_THEMES.some((theme) => theme.id === variantId) ? variantId! : DEFAULT_THEME_VARIANT_ID;
   } catch {
-    return 'dark-modern';
+    return DEFAULT_THEME_VARIANT_ID;
   }
 }
 
 export function applyAntigravityTheme(variantId: string): void {
-  const theme = ANTIGRAVITY_THEMES.find((t) => t.id === variantId) || ANTIGRAVITY_THEMES[0];
+  const theme = ANTIGRAVITY_THEMES.find((variant) => variant.id === variantId) || ANTIGRAVITY_THEMES[0];
 
   try {
     localStorage.setItem('egoist_theme_variant', theme.id);
@@ -345,19 +491,22 @@ export function applyAntigravityTheme(variantId: string): void {
   root.classList.remove('theme-dark', 'theme-light');
   root.classList.add(theme.base === 'dark' ? 'theme-dark' : 'theme-light');
 
-  // Remove other theme-variant-* classes
-  ANTIGRAVITY_THEMES.forEach((t) => {
-    root.classList.remove(`theme-variant-${t.id}`);
+  ANTIGRAVITY_THEMES.forEach((variant) => {
+    root.classList.remove(`theme-variant-${variant.id}`);
   });
   root.classList.add(`theme-variant-${theme.id}`);
 
-  // Apply custom CSS variables directly on root element
-  Object.entries(theme.variables).forEach(([prop, val]) => {
-    root.style.setProperty(prop, val);
+  THEME_VARIABLES.forEach((property) => {
+    root.style.removeProperty(property);
+  });
+  Object.entries(theme.variables).forEach(([property, value]) => {
+    root.style.setProperty(property, value);
   });
 
   const themeColorTag = document.querySelector('meta[name="theme-color"]');
   if (themeColorTag) {
     themeColorTag.setAttribute('content', theme.variables['--color-background'] || '#000000');
   }
+
+  syncNativeTheme(theme.variables['--color-background'], theme.base === 'dark');
 }

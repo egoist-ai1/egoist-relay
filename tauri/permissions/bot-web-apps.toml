@@ -1,0 +1,4 @@
+[[permission]]
+identifier = "relay-mini-app-host"
+description = "Create, control and close owned Mini App views only from the local main renderer. Remote views have no IPC permissions."
+commands.allow = ["relay_mini_app_open", "relay_mini_app_update", "relay_mini_app_reload", "relay_mini_app_send", "relay_mini_app_close"]

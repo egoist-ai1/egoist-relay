@@ -16,13 +16,13 @@
     min-width: 18rem;
     max-width: 44rem !important;
     padding: 0.875rem 1.125rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.08) !important;
     border-radius: 16px !important;
 
-    color: #E7E9EA !important;
+    color: var(--color-text) !important;
 
-    background-color: #16181C !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    background-color: var(--color-background-secondary) !important;
+    box-shadow: 0 4px 16px var(--color-light-shadow) !important;
 
     @media (max-width: 600px) {
       max-width: 100% !important;
@@ -38,26 +38,26 @@
 
     font-size: 0.75rem !important;
     font-weight: var(--font-weight-medium) !important;
-    color: #71767B !important;
+    color: var(--color-text-secondary) !important;
     text-transform: none;
 
     .ad-about {
       cursor: pointer;
 
       padding: 0.125rem 0.5rem !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(var(--color-text-rgb), 0.1) !important;
       border-radius: 9999px !important;
 
       font-size: 0.6875rem !important;
       font-weight: var(--font-weight-semibold) !important;
-      color: #71767B !important;
+      color: var(--color-text-secondary) !important;
       letter-spacing: 0.02em;
 
-      background: rgba(255, 255, 255, 0.08) !important;
+      background: rgba(var(--color-text-rgb), 0.08) !important;
 
       &:hover {
-        color: #E7E9EA !important;
-        background: rgba(255, 255, 255, 0.14) !important;
+        color: var(--color-text) !important;
+        background: rgba(var(--color-text-rgb), 0.14) !important;
       }
     }
   }
@@ -69,21 +69,21 @@
 
     font-size: 0.9375rem !important;
     font-weight: var(--font-weight-semibold) !important;
-    color: #EFF3F4 !important;
+    color: var(--color-text) !important;
   }
 
   .content-inner {
     padding: 0 !important;
     font-size: 0.875rem !important;
     line-height: 1.48 !important;
-    color: #E7E9EA !important;
+    color: var(--color-text) !important;
 
     .text-content {
       margin: 0.25rem 0 0.75rem !important;
 
       font-weight: var(--font-weight-normal) !important;
       line-height: 1.48 !important;
-      color: #E7E9EA !important;
+      color: var(--color-text) !important;
       word-break: normal !important;
       overflow-wrap: break-word !important;
       white-space: normal !important;
@@ -108,12 +108,12 @@
     font-family: var(--font-family) !important;
     font-size: 0.8125rem !important;
     font-weight: var(--font-weight-bold) !important;
-    color: #0F1419 !important;
+    color: var(--color-primary-text) !important;
     text-transform: uppercase !important;
     letter-spacing: 0.02em !important;
 
-    background: #EFF3F4 !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    background: var(--color-primary) !important;
+    box-shadow: 0 2px 8px var(--color-light-shadow) !important;
 
     transition: background 0.15s ease, transform 0.15s ease, opacity 0.15s ease !important;
 
@@ -124,8 +124,8 @@
     &:hover {
       transform: translateY(-1px) !important;
       opacity: 0.95 !important;
-      background: #FFFFFF !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+      background: var(--color-primary-shade) !important;
+      box-shadow: 0 4px 12px var(--color-light-shadow) !important;
     }
 
     &:active {

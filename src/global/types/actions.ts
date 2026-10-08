@@ -212,6 +212,9 @@ export interface ActionPayloads {
   // settings
   setSettingOption: Partial<AccountSettings> | undefined;
   setSharedSettingOption: Partial<SharedState['settings']> | undefined;
+  setShouldKeepDeletedMessages: { value: boolean };
+  clearDeletedMessages: undefined;
+  restoreDeletedMessages: { chatId: string } & WithTabId;
   updatePerformanceSettings: Partial<PerformanceType>;
   loadPasswordInfo: undefined;
   clearTwoFaError: undefined;

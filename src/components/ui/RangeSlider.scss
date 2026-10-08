@@ -128,6 +128,17 @@
     &::-ms-thumb {
       @include thumb-styles();
     }
+
+    // Клавиатурный фокус: кольцо вокруг бегунка (сам input сброшен миксином reset-range)
+    &:focus-visible::-webkit-slider-thumb {
+      outline: 0.125rem solid var(--color-text);
+      outline-offset: 0.1875rem;
+    }
+
+    &:focus-visible::-moz-range-thumb {
+      outline: 0.125rem solid var(--color-text);
+      outline-offset: 0.1875rem;
+    }
   }
 
   .slider-options {

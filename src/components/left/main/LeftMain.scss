@@ -9,6 +9,11 @@
 
   background: var(--color-background);
 
+  /* Зона безопасности: последняя строка списка не уходит под кнопку создания чата (3rem + отступ 1rem + зазор) */
+  .chat-list {
+    padding-bottom: 5rem;
+  }
+
   > .Transition {
     overflow: hidden;
     flex: 1;

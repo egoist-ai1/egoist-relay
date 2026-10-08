@@ -1,3 +1,4 @@
+import { runInThisContext } from 'node:vm';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { createElement } from '../../lib/teact/teact';
 import TeactDOM from '../../lib/teact/teact-dom';
@@ -5,6 +6,7 @@ import TeactDOM from '../../lib/teact/teact-dom';
 import type { AppId } from '../multi/AppSidebar';
 
 import { requestMutation } from '../../lib/fasterdom/fasterdom';
+import dragScript from '../../../tauri/vendor/tauri/src/window/scripts/drag.js?raw';
 
 import Titlebar from './Titlebar';
 
@@ -48,12 +50,19 @@ vi.mock('../../hooks/useLang', async () => {
 let container: HTMLElement;
 const onLoginX = vi.fn();
 const onNavigate = vi.fn();
+const onToggleOperations = vi.fn();
 
-function renderTitlebar(activeApp: AppId = 'telegram', isNavigating?: boolean, notice?: string) {
+function renderTitlebar(
+  activeApp: AppId = 'telegram',
+  isNavigating?: boolean,
+  notice?: string,
+  isOperationsOpen?: boolean,
+  operationCount?: number,
+) {
   return new Promise<void>((resolve) => {
     requestMutation(() => {
       TeactDOM.render(createElement(Titlebar, {
-        activeApp, isNavigating, notice,
+        activeApp, isNavigating, notice, isOperationsOpen, operationCount, onToggleOperations,
         canNavigate: true, isXAuthRequired: activeApp === 'x', onLoginX, onNavigate,
       }), container);
       resolve();
@@ -120,6 +129,53 @@ describe('Titlebar uses external connectivity without network controls', () => {
     expect(onLoginX).toHaveBeenCalledTimes(1);
     expect(container.querySelector('[role="status"]')?.textContent).toBe('Не удалось сохранить файл');
     expect(nativeWindow.invoke).not.toHaveBeenCalled();
+  });
+
+  test('Retains the operations shortcut, expanded state and active count alongside window controls', async () => {
+    await renderTitlebar('telegram', undefined, undefined, undefined, 3);
+    const operations = getButton('Загрузки и пересылки');
+    expect(operations.getAttribute('aria-keyshortcuts')).toBe('Control+J');
+    expect(operations.getAttribute('aria-controls')).toBe('relay-media-operations');
+    expect(operations.getAttribute('aria-expanded')).toBe('false');
+    expect(operations.textContent).toBe('3');
+    operations.click();
+    expect(onToggleOperations).toHaveBeenCalledTimes(1);
+    await renderTitlebar('instagram', undefined, undefined, true, 0);
+    expect(getButton('Загрузки и пересылки').getAttribute('aria-expanded')).toBe('true');
+    expect(getButton('Загрузки и пересылки').textContent).toBe('');
+    expect(getButton('Обновить страницу')).toBeInstanceOf(HTMLButtonElement);
+    expect(getButton('Close')).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  test('Caption text triggers the shipped drag contract while action buttons retain their own behavior', async () => {
+    await renderTitlebar();
+    const initialNativeInternals = Object.getOwnPropertyDescriptor(window, '__TAURI_INTERNALS__');
+    const listenerSpy = vi.spyOn(document, 'addEventListener');
+    Object.defineProperty(window, '__TAURI_INTERNALS__', {
+      configurable: true, value: { invoke: nativeWindow.invoke },
+    });
+    try {
+      runInThisContext(dragScript.replace('__TEMPLATE_os_name__', '\'windows\''));
+      const captions = container.querySelectorAll('[class*="brand"], [class*="appTitle"]');
+      expect(captions).toHaveLength(2);
+      captions.forEach((caption, index) => {
+        caption.dispatchEvent(new MouseEvent('mousedown', { button: 0, detail: 1, bubbles: true, cancelable: true }));
+        expect(nativeWindow.invoke).toHaveBeenNthCalledWith(index + 1, 'plugin:window|start_dragging');
+      });
+      captions[1].dispatchEvent(new MouseEvent('mousedown', { button: 0, detail: 2, bubbles: true, cancelable: true }));
+      expect(nativeWindow.invoke).toHaveBeenNthCalledWith(3, 'plugin:window|internal_toggle_maximize');
+      for (const button of container.querySelectorAll('button')) {
+        button.dispatchEvent(new MouseEvent('mousedown', { button: 0, detail: 1, bubbles: true, cancelable: true }));
+      }
+      expect(nativeWindow.invoke).toHaveBeenCalledTimes(3);
+    } finally {
+      for (const [type, listener, options] of listenerSpy.mock.calls) {
+        document.removeEventListener(type, listener, options);
+      }
+      listenerSpy.mockRestore();
+      if (initialNativeInternals) Object.defineProperty(window, '__TAURI_INTERNALS__', initialNativeInternals);
+      else Reflect.deleteProperty(window, '__TAURI_INTERNALS__');
+    }
   });
 
   test('Retains minimize, maximize/restore and close through the window API', async () => {

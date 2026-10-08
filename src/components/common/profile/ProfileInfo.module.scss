@@ -202,8 +202,14 @@
   transition: opacity 0.15s;
 
   &:global(:hover),
+  &:global(:focus-visible),
   :global(.is-touch-env) & {
     opacity: 1;
+  }
+
+  &:global(:focus-visible) {
+    outline: 0.125rem solid var(--color-white) !important;
+    outline-offset: -0.25rem;
   }
 
   &_prev {

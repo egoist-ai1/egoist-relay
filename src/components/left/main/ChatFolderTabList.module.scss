@@ -21,30 +21,18 @@
 
     font-size: 0.75rem;
     font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
     line-height: 1.25rem;
-    color: #FFFFFF;
+    color: var(--color-text);
     text-align: center;
 
-    background: #26262A;
+    background: var(--color-item-active);
   }
 
   .badgeActive {
     font-weight: var(--font-weight-bold) !important;
-    color: #000000 !important;
-    background: #FFFFFF !important;
-  }
-
-  :global(html.theme-dark) {
-    .badge {
-      color: #FFFFFF;
-      background: #26262A;
-    }
-
-    .badgeActive {
-      font-weight: var(--font-weight-bold) !important;
-      color: #000000 !important;
-      background: #FFFFFF !important;
-    }
+    color: var(--color-primary-text) !important;
+    background: var(--color-primary) !important;
   }
 
   .tabExtra {
@@ -68,7 +56,7 @@
     border: none;
     border-radius: 50%;
 
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--color-text-secondary);
 
     opacity: 0.5;
     background: none;
@@ -78,18 +66,18 @@
 
     &:hover {
       transform: scale(1.1);
-      color: #FFFFFF;
+      color: var(--color-text);
       opacity: 1;
-      background-color: rgba(255, 255, 255, 0.18);
+      background-color: rgba(var(--color-text-rgb), 0.18);
     }
 
     &Active {
-      color: #FFFFFF;
+      color: var(--color-text);
       opacity: 0.85;
 
       &:hover {
         opacity: 1;
-        background-color: rgba(255, 255, 255, 0.25);
+        background-color: rgba(var(--color-text-rgb), 0.25);
       }
     }
   }

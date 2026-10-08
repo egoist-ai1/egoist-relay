@@ -1,6 +1,7 @@
 /* stylelint-disable @stylistic/value-list-comma-newline-after */
 /* stylelint-disable @stylistic/declaration-colon-newline-after */
-@use "@fontsource-variable/inter";
+@use "fonts";
+@use "lagom-tokens";
 @use "reboot";
 @use "variables";
 @use "mixins";
@@ -12,58 +13,17 @@
 @use "composer-primitives";
 @use "print";
 
-/* Complete Unbounded Font Suite: Latin, Cyrillic, Cyrillic-Ext & Full TTF Fallback */
-@font-face {
-  font-family: "Unbounded";
-  font-weight: 100 900;
-  font-style: normal;
-
-  font-display: swap;
-  src: url("/fonts/unbounded-latin.woff2") format("woff2");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
-    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Unbounded";
-  font-weight: 100 900;
-  font-style: normal;
-
-  font-display: swap;
-  src: url("/fonts/unbounded-cyrillic.woff2") format("woff2");
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-
-@font-face {
-  font-family: "Unbounded";
-  font-weight: 100 900;
-  font-style: normal;
-
-  font-display: swap;
-  src: url("/fonts/unbounded-cyrillic-ext.woff2") format("woff2");
-  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
-}
-
-@font-face {
-  font-family: "Unbounded";
-  font-weight: 100 900;
-  font-style: normal;
-
-  font-display: swap;
-  src: url("/fonts/Unbounded.ttf") format("truetype");
-}
-
 html,
 body {
-  --font-family-display: "Unbounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-heading: "Unbounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-body: "Inter Variable", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-display: "Unbounded", "Segoe UI", system-ui, sans-serif;
+  --font-family-data: "JetBrains Mono", "Cascadia Mono", Consolas, ui-monospace, monospace;
+  --font-family-heading: var(--font-family-body);
+  --font-family-body: "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-family: var(--font-family-body);
-  --font-family-monospace: "Consolas", "SF Mono", "Menlo", "Roboto Mono", monospace;
-  --font-family-numbers-rounded: "Unbounded", sans-serif;
-  --font-family-rounded: "Unbounded", -apple-system, sans-serif;
-  --font-family-condensed: "Unbounded", sans-serif;
+  --font-family-monospace: var(--font-family-data);
+  --font-family-numbers-rounded: var(--font-family-body);
+  --font-family-rounded: var(--font-family-body);
+  --font-family-condensed: var(--font-family-body);
   --font-weight-light: 300;
   --font-weight-book: 350;
   --font-weight-normal: 400;
@@ -83,7 +43,6 @@ body {
 
   font-family: var(--font-family-body) !important;
   font-size: 16px;
-  font-feature-settings: "tnum";
   font-weight: var(--font-weight-normal);
   line-height: 1.45;
   color: var(--color-text);
@@ -100,9 +59,8 @@ body {
   }
 }
 
-/* Default UI text elements use Inter */
-*:not(i):not([class*="icon"]):not(code):not(pre):not(kbd):not(samp) {
-  font-family: var(--font-family-body);
+body {
+  font-size: 1rem;
 }
 
 input, select, textarea, optgroup {
@@ -191,7 +149,7 @@ span.text,
 
 .text-entity-link,
 .message-content a {
-  color: #1D9BF0 !important;
+  color: var(--color-links) !important;
   text-decoration: none !important;
   word-break: break-all;
   transition: opacity 0.15s ease;
@@ -215,7 +173,11 @@ span.text,
   font-size: 0.75rem;
   font-weight: var(--font-weight-normal);
   letter-spacing: normal;
+}
 
+// Приглушение — цветом роли, не прозрачностью: opacity накладывался на --color-text-secondary и в светлой теме
+// (и во вложенных .subtitle > .last-message) опускал контраст ниже 4,5:1
+.message-time {
   opacity: 0.88;
 }
 
@@ -240,22 +202,29 @@ html.theme-dark,
 html.theme-dark body,
 html.theme-dark #root {
   color-scheme: dark;
-  background-color: #000000 !important;
+  background-color: var(--color-background);
+}
+
+/* Запасные значения для тёмных вариантов без собственных ролей; инлайн-переменные темы перекрывают их */
+html.theme-dark {
+  --color-text-rgb: 255, 255, 255;
+  --color-default-shadow: rgba(0, 0, 0, 0.8);
+  --color-light-shadow: rgba(0, 0, 0, 0.4);
 }
 
 html[lang="fa"],
 html[lang="fa"] body {
-  --font-family: "Vazirmatn", "Unbounded", sans-serif;
+  --font-family: "Vazirmatn", "Onest", sans-serif;
 
   &.is-ios,
   &.is-macos {
-    --font-family: "Vazirmatn", "Unbounded", sans-serif;
+    --font-family: "Vazirmatn", "Onest", sans-serif;
   }
 }
 
 body.is-ios {
-  --border-radius-messages: 1rem;
-  --border-radius-messages-small: 0.5rem;
+  --border-radius-messages: 0.75rem;
+  --border-radius-messages-small: 0.375rem;
 }
 
 body.is-tauri {
@@ -688,7 +657,8 @@ body:not(.is-ios) {
 
 .component-theme-dark {
   --color-primary: #FFFFFF;
-  --color-background: #0C0C0E;
+  --color-primary-text: #000000;
+  --color-background: #0D0D0D;
   --color-background-compact-menu: rgba(12, 12, 14, 0.9);
   --color-background-compact-menu-reactions: rgba(12, 12, 14, 0.9);
   --color-background-compact-menu-hover: rgba(255, 255, 255, 0.08);
@@ -697,98 +667,98 @@ body:not(.is-ios) {
   --color-background-secondary-accent: #121212;
   --color-background-own: #1A1A1A;
   --color-background-own-apple: #1A1A1A;
-  --color-background-selected: #1F1F23;
-  --color-background-own-selected: #2A2A2E;
-  --color-chat-hover: #141416;
-  --color-chat-active: #1E1E22;
-  --color-chat-active-greyed: #18181A;
-  --color-item-hover: #141416;
-  --color-item-active: #1C1C20;
+  --color-background-selected: #202020;
+  --color-background-own-selected: #2B2B2B;
+  --color-chat-hover: #151515;
+  --color-chat-active: #1F1F1F;
+  --color-chat-active-greyed: #191919;
+  --color-item-hover: #151515;
+  --color-item-active: #1D1D1D;
   --color-text: #FFFFFF;
   --color-text-rgb: 255, 255, 255;
-  --color-text-secondary: #8E8E93;
-  --color-text-secondary-rgb: 142, 142, 147;
-  --color-icon-secondary: #8E8E93;
-  --color-text-secondary-apple: #8E8E93;
-  --color-borders: #1C1C1E;
-  --color-borders-input: #2C2C2E;
-  --color-placeholders: #636366;
-  --color-dividers: #161618;
-  --color-dividers-android: #121214;
+  --color-text-secondary: #909090;
+  --color-text-secondary-rgb: 160, 160, 160;
+  --color-icon-secondary: #909090;
+  --color-text-secondary-apple: #909090;
+  --color-borders: #1D1D1D;
+  --color-borders-input: #2D2D2D;
+  --color-placeholders: #646464;
+  --color-dividers: #171717;
+  --color-dividers-android: #131313;
   --color-links: #FFFFFF;
-  --color-gray: #636366;
-  --color-list-icon: #8E8E93;
+  --color-gray: #646464;
+  --color-list-icon: #909090;
   --color-default-shadow: rgba(0, 0, 0, 0.8);
   --color-light-shadow: rgba(0, 0, 0, 0.4);
   --color-active: #FFFFFF;
   --color-success: #00C73E;
-  --color-text-meta-colored: #8E8E93;
-  --color-reply-hover: #161618;
-  --color-reply-active: #1E1E20;
-  --color-reply-own-hover: #222224;
-  --color-reply-own-hover-apple: #222224;
-  --color-reply-own-active: #2A2A2D;
-  --color-reply-own-active-apple: #2A2A2D;
+  --color-text-meta-colored: #909090;
+  --color-reply-hover: #171717;
+  --color-reply-active: #1F1F1F;
+  --color-reply-own-hover: #232323;
+  --color-reply-own-hover-apple: #232323;
+  --color-reply-own-active: #2B2B2B;
+  --color-reply-own-active-apple: #2B2B2B;
   --color-accent-own: #FFFFFF;
   --color-accent-own-rgb: 255, 255, 255;
   --color-message-meta-own: rgba(255, 255, 255, 0.6);
   --color-own-links: #FFFFFF;
-  --color-code: #E5E5EA;
+  --color-code: #E7E7E7;
   --color-code-own: #FFFFFF;
-  --color-code-bg: #121214;
-  --color-code-own-bg: #121214;
-  --color-composer-button: #AEAEB2;
-  --color-message-reaction: #141416;
-  --color-message-reaction-hover: #1E1E20;
-  --color-message-reaction-own: #222226;
-  --color-message-reaction-hover-own: #2A2A2E;
+  --color-code-bg: #131313;
+  --color-code-own-bg: #131313;
+  --color-composer-button: #AFAFAF;
+  --color-message-reaction: #151515;
+  --color-message-reaction-hover: #1F1F1F;
+  --color-message-reaction-own: var(--color-borders);
+  --color-message-reaction-hover-own: #2B2B2B;
   --color-message-reaction-chosen-hover: #FFFFFF;
   --color-message-reaction-chosen-hover-own: #FFFFFF;
-  --color-message-non-contact: #8E8E93;
-  --color-voice-transcribe-button: #1C1C1E;
-  --color-voice-transcribe-button-own: #28282A;
-  --color-topic-blue: #E5E5EA;
-  --color-topic-yellow: #D1D1D6;
-  --color-topic-violet: #C7C7CC;
-  --color-topic-green: #AEAEB2;
-  --color-topic-rose: #8E8E93;
-  --color-topic-red: #636366;
-  --color-topic-grey: #48484A;
-  --color-forum-unread-topic-hover: #1C1C1E;
-  --color-forum-hover-unread-topic-hover: #242426;
+  --color-message-non-contact: #909090;
+  --color-voice-transcribe-button: #1D1D1D;
+  --color-voice-transcribe-button-own: #292929;
+  --color-topic-blue: #E7E7E7;
+  --color-topic-yellow: #D3D3D3;
+  --color-topic-violet: #C9C9C9;
+  --color-topic-green: #AFAFAF;
+  --color-topic-rose: #909090;
+  --color-topic-red: #646464;
+  --color-topic-grey: #494949;
+  --color-forum-unread-topic-hover: #1D1D1D;
+  --color-forum-hover-unread-topic-hover: #252525;
   --color-chat-username: #FFFFFF;
 }
 
-html.theme-dark {
+html:is(.theme-dark, .theme-light) {
 
   /* UNIFIED STANDARD POST & CARD DIMENSION ARCHITECTURE:*/
   /* Strict standard widths*/
   --standard-post-width: 30rem;
   --channel-post-width: 43rem;
   .Modal .modal-dialog {
-    border: 1px solid #222226;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
+    border: 1px solid var(--color-borders);
+    box-shadow: 0 12px 36px var(--color-default-shadow);
   }
 
   .Menu .bubble {
-    border: 1px solid #222226;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--color-borders);
+    box-shadow: 0 8px 32px var(--color-default-shadow);
   }
 
   .Notification {
-    border: 1px solid #28282C;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.75);
+    border: 1px solid var(--color-borders);
+    box-shadow: 0 4px 24px var(--color-default-shadow);
   }
 
   .ReactionSelector__items-wrapper,
   .MessageContextMenu_items {
-    border: 1px solid #222226;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--color-borders);
+    box-shadow: 0 8px 32px var(--color-default-shadow);
   }
 
   .MenuItem {
     &:hover .icon {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
   }
 
@@ -800,27 +770,27 @@ html.theme-dark {
 
     > span {
       padding: 0.1875rem 0.5625rem !important;
-      border: 1px solid rgba(255, 255, 255, 0.09) !important;
+      border: 1px solid rgba(var(--color-text-rgb), 0.09) !important;
       border-radius: 10px !important;
 
       font-family: var(--font-family) !important;
       font-size: 0.6875rem !important;
       font-weight: var(--font-weight-medium) !important;
-      color: rgba(255, 255, 255, 0.85) !important;
+      color: var(--color-text) !important;
       text-shadow: none !important;
       text-transform: none !important;
       letter-spacing: normal !important;
 
-      background: rgba(20, 20, 24, 0.82) !important;
+      background: color-mix(in srgb, var(--color-background-secondary) 85%, transparent) !important;
       -webkit-backdrop-filter: blur(10px) !important;
       backdrop-filter: blur(10px) !important;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+      box-shadow: 0 1px 4px var(--color-light-shadow) !important;
     }
 
     &.interactive > span:hover {
       cursor: var(--custom-cursor, pointer);
-      color: #FFFFFF !important;
-      background: rgba(28, 28, 34, 0.95) !important;
+      color: var(--color-text) !important;
+      background: color-mix(in srgb, var(--color-background-secondary-accent) 95%, transparent) !important;
     }
   }
 
@@ -840,15 +810,21 @@ html.theme-dark {
     opacity: 0 !important;
     clip-path: inset(50%) !important;
   }
-
-  /* Pure deep black chat background with tactical micro-grid pattern (zero blue tint)*/
-  /* Refined deep matte obsidian chat background (zero blue/purple tint, calm ambient foundation)*/
   .MessageList,
   #MiddleColumn,
   .chat-background,
   .messages-layout {
-    background-color: #0A0B0E !important;
-    background-image: radial-gradient(ellipse at 50% 40%, #14161c73 0%, #0a0b0ef2 100%) !important;
+    background-color: var(--color-background) !important;
+    background-image: none !important;
+  }
+
+  /* Подложка Main плоская, как и колонка чата: обои Telegram не видны рядом с левой колонкой на узком окне */
+  .main-wallpaper {
+    background-color: var(--color-background) !important;
+
+    &::before {
+      display: none !important;
+    }
   }
 
   .gradientCanvas,
@@ -894,14 +870,6 @@ html.theme-dark {
 
   .ActionMessage {
     align-self: center !important;
-    margin-right: auto !important;
-    margin-left: auto !important;
-  }
-
-  .MiddleHeader {
-    width: 100% !important;
-    max-width: calc(var(--messages-container-width, 48rem) - 2rem) !important;
-    margin-top: calc(var(--middle-panel-inline-padding, 1rem) + var(--middle-header-player-height, 0px)) !important;
     margin-right: auto !important;
     margin-left: auto !important;
   }
@@ -1388,7 +1356,7 @@ html.theme-dark {
 
     .media-inner {
       overflow: hidden;
-      border-radius: 14px;
+      border-radius: var(--border-radius-messages);
       background: transparent !important;
     }
   }
@@ -1423,18 +1391,17 @@ html.theme-dark {
   }
 
   /* INCOMING MESSAGES (Полученные сообщения & посты каналов):*/
-  /* X dark card (#16181C), crisp soft text (#E7E9EA), 0 eye fatigue, perfectly balanced contrast*/
   .Message:not(.own) {
-    --background-color: #16181C !important;
+    --background-color: var(--color-background-secondary) !important;
 
     .message-content:not(.custom-shape):not(.emoji-only) {
-      border: 1px solid #2F3336 !important;
-      border-radius: 18px !important;
+      border: 1px solid var(--color-borders) !important;
+      border-radius: var(--border-radius-messages) !important;
 
-      color: #E7E9EA !important;
+      color: var(--color-text) !important;
 
-      background-color: #16181C !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35) !important;
+      background-color: var(--color-background-secondary) !important;
+      box-shadow: 0 2px 10px var(--color-light-shadow) !important;
 
       &.media:not(.text):not(.has-solid-background),
       &.no-text.media:not(.has-solid-background) {
@@ -1450,13 +1417,13 @@ html.theme-dark {
       &.audio,
       &.document,
       &.has-solid-background {
-        background-color: #16181C !important;
+        background-color: var(--color-background-secondary) !important;
       }
 
       .text-content {
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.48 !important;
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
         letter-spacing: -0.01em !important;
       }
 
@@ -1473,17 +1440,17 @@ html.theme-dark {
       .site-title,
       .site-name {
         font-weight: var(--font-weight-semibold) !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
       }
 
       .file-subtitle,
       .admin-title-plain {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
       }
 
       .text-entity-link,
       a {
-        color: #1D9BF0 !important;
+        color: var(--color-links) !important;
         text-decoration: none !important;
 
         &:hover {
@@ -1505,12 +1472,12 @@ html.theme-dark {
         font-size: 0.84em !important;
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.35 !important;
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
         letter-spacing: 0 !important;
         overflow-wrap: anywhere !important;
         vertical-align: baseline !important;
 
-        background: rgba(255, 255, 255, 0.06) !important;
+        background: rgba(var(--color-text-rgb), 0.06) !important;
         -webkit-box-decoration-break: clone !important;
         box-decoration-break: clone !important;
         box-shadow: none !important;
@@ -1518,12 +1485,12 @@ html.theme-dark {
 
       pre {
         padding: 0.75rem 0.875rem !important;
-        border: 1px solid #2F3336 !important;
+        border: 1px solid var(--color-borders) !important;
         border-radius: 12px !important;
 
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
 
-        background: #000000 !important;
+        background: var(--color-background) !important;
 
         code {
           padding: 0 !important;
@@ -1537,65 +1504,65 @@ html.theme-dark {
       }
 
       .MessageMeta {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
 
         .message-time,
         .message-views {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
       }
 
       .EmbeddedMessage {
-        border-left: 2px solid #1D9BF0 !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 6px !important;
-        color: #E7E9EA !important;
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        color: var(--color-text) !important;
+        background-color: rgba(var(--color-text-rgb), 0.03) !important;
 
         .message-title,
         .embedded-text-wrapper {
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
       }
 
       .WebPage {
         max-width: 100% !important;
-        border: 1px solid #2F3336 !important;
-        border-left: 2px solid #1D9BF0 !important;
+        border: 1px solid var(--color-borders) !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 12px !important;
 
-        color: #E7E9EA !important;
+        color: var(--color-text) !important;
 
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: rgba(var(--color-text-rgb), 0.03) !important;
 
         .site-name,
         .site-title {
           font-weight: var(--font-weight-semibold) !important;
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
 
         .site-description {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
 
         a, .text-entity-link {
-          color: #1D9BF0 !important;
+          color: var(--color-links) !important;
         }
       }
 
       [class*="withBar"]::before {
-        background: #1D9BF0 !important;
+        background: var(--color-links) !important;
       }
 
       .Audio {
         .toogle-play-wrapper .toggle-play {
           border: none !important;
-          color: #0F1419 !important;
-          background-color: #EFF3F4 !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+          color: var(--color-background) !important;
+          background-color: var(--color-text) !important;
+          box-shadow: 0 2px 8px var(--color-light-shadow) !important;
 
           .icon {
-            color: #0F1419 !important;
-            fill: #0F1419 !important;
+            color: var(--color-background) !important;
+            fill: var(--color-background) !important;
           }
         }
 
@@ -1613,20 +1580,20 @@ html.theme-dark {
             margin-inline-start: 0.625rem !important;
             margin-inline-end: 0.25rem !important;
             padding: 0 !important;
-            border: 1px solid #2F3336 !important;
+            border: 1px solid var(--color-borders) !important;
             border-radius: 9999px !important;
 
-            color: #71767B !important;
+            color: var(--color-text-secondary) !important;
 
-            background: rgba(255, 255, 255, 0.08) !important;
+            background: rgba(var(--color-text-rgb), 0.08) !important;
 
             transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 
             &:hover {
               transform: scale(1.05);
-              border-color: rgba(255, 255, 255, 0.25) !important;
-              color: #EFF3F4 !important;
-              background: rgba(255, 255, 255, 0.16) !important;
+              border-color: rgba(var(--color-text-rgb), 0.25) !important;
+              color: var(--color-text) !important;
+              background: rgba(var(--color-text-rgb), 0.16) !important;
             }
 
             &:active {
@@ -1636,7 +1603,7 @@ html.theme-dark {
         }
 
         .voice-duration {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
       }
 
@@ -1649,12 +1616,12 @@ html.theme-dark {
           width: 3.375rem !important;
           height: 3.375rem !important;
           padding: 0 !important;
-          border: 1px solid rgba(255, 255, 255, 0.15) !important;
+          border: 1px solid rgba(var(--color-text-rgb), 0.15) !important;
           border-radius: 10px !important;
 
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
 
-          background: rgba(255, 255, 255, 0.1) !important;
+          background: rgba(var(--color-text-rgb), 0.1) !important;
           clip-path: none !important;
 
           &::after {
@@ -1672,29 +1639,28 @@ html.theme-dark {
         .file-title,
         .file-name {
           font-weight: var(--font-weight-semibold) !important;
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
         }
 
         .file-subtitle {
-          color: rgba(255, 255, 255, 0.6) !important;
+          color: var(--color-text-secondary) !important;
         }
       }
     }
   }
 
   /* OUTGOING MESSAGES (Мои отправленные сообщения):*/
-  /* Elevated slate titanium card (#252733), crisp pure white text (#FFFFFF), white checkmarks, sleek & premium*/
   .Message.own {
-    --background-color: #252733 !important;
+    --background-color: var(--color-background-own) !important;
 
     .message-content:not(.custom-shape):not(.emoji-only) {
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      border-radius: 18px !important;
+      border: 1px solid rgba(var(--color-text-rgb), 0.1) !important;
+      border-radius: var(--border-radius-messages) !important;
 
-      color: #EFF3F4 !important;
+      color: var(--color-text) !important;
 
-      background-color: #202327 !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
+      background-color: var(--color-background-own) !important;
+      box-shadow: 0 2px 10px var(--color-light-shadow) !important;
 
       &.media:not(.text):not(.has-solid-background),
       &.no-text.media:not(.has-solid-background) {
@@ -1710,13 +1676,13 @@ html.theme-dark {
       &.audio,
       &.document,
       &.has-solid-background {
-        background-color: #202327 !important;
+        background-color: var(--color-background-own) !important;
       }
 
       .text-content {
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.48 !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
         letter-spacing: -0.01em !important;
       }
 
@@ -1733,17 +1699,17 @@ html.theme-dark {
       .site-title,
       .site-name {
         font-weight: var(--font-weight-semibold) !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
       }
 
       .file-subtitle,
       .admin-title-plain {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
       }
 
       .text-entity-link,
       a {
-        color: #1D9BF0 !important;
+        color: var(--color-links) !important;
         text-decoration: none !important;
 
         &:hover {
@@ -1765,12 +1731,12 @@ html.theme-dark {
         font-size: 0.84em !important;
         font-weight: var(--font-weight-normal) !important;
         line-height: 1.35 !important;
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
         letter-spacing: 0 !important;
         overflow-wrap: anywhere !important;
         vertical-align: baseline !important;
 
-        background: rgba(255, 255, 255, 0.08) !important;
+        background: rgba(var(--color-text-rgb), 0.08) !important;
         -webkit-box-decoration-break: clone !important;
         box-decoration-break: clone !important;
         box-shadow: none !important;
@@ -1778,12 +1744,12 @@ html.theme-dark {
 
       pre {
         padding: 0.75rem 0.875rem !important;
-        border: 1px solid #2F3336 !important;
+        border: 1px solid var(--color-borders) !important;
         border-radius: 12px !important;
 
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
 
-        background: #000000 !important;
+        background: var(--color-background) !important;
 
         code {
           padding: 0 !important;
@@ -1797,71 +1763,71 @@ html.theme-dark {
       }
 
       .MessageMeta {
-        color: #71767B !important;
+        color: var(--color-text-secondary) !important;
 
         .message-time,
         .message-views {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
 
         .MessageOutgoingStatus,
         .MessageOutgoingStatus * {
-          color: #1D9BF0 !important;
-          fill: #1D9BF0 !important;
+          color: var(--color-links) !important;
+          fill: var(--color-links) !important;
         }
       }
 
       .EmbeddedMessage {
-        border-left: 2px solid #1D9BF0 !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 6px !important;
-        color: #EFF3F4 !important;
-        background-color: rgba(255, 255, 255, 0.04) !important;
+        color: var(--color-text) !important;
+        background-color: rgba(var(--color-text-rgb), 0.04) !important;
 
         .message-title,
         .embedded-text-wrapper {
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
       }
 
       .WebPage {
         max-width: 100% !important;
-        border: 1px solid #2F3336 !important;
-        border-left: 2px solid #1D9BF0 !important;
+        border: 1px solid var(--color-borders) !important;
+        border-left: 2px solid var(--color-links) !important;
         border-radius: 12px !important;
 
-        color: #EFF3F4 !important;
+        color: var(--color-text) !important;
 
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: rgba(var(--color-text-rgb), 0.03) !important;
 
         .site-name,
         .site-title {
           font-weight: var(--font-weight-semibold) !important;
-          color: #EFF3F4 !important;
+          color: var(--color-text) !important;
         }
 
         .site-description {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
 
         a, .text-entity-link {
-          color: #1D9BF0 !important;
+          color: var(--color-links) !important;
         }
       }
 
       [class*="withBar"]::before {
-        background: #1D9BF0 !important;
+        background: var(--color-links) !important;
       }
 
       .Audio {
         .toogle-play-wrapper .toggle-play {
           border: none !important;
-          color: #0F1419 !important;
-          background-color: #EFF3F4 !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+          color: var(--color-background) !important;
+          background-color: var(--color-text) !important;
+          box-shadow: 0 2px 8px var(--color-light-shadow) !important;
 
           .icon {
-            color: #0F1419 !important;
-            fill: #0F1419 !important;
+            color: var(--color-background) !important;
+            fill: var(--color-background) !important;
           }
         }
 
@@ -1879,20 +1845,20 @@ html.theme-dark {
             margin-inline-start: 0.625rem !important;
             margin-inline-end: 0.25rem !important;
             padding: 0 !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid rgba(var(--color-text-rgb), 0.15) !important;
             border-radius: 9999px !important;
 
-            color: #EFF3F4 !important;
+            color: var(--color-text) !important;
 
-            background: rgba(255, 255, 255, 0.1) !important;
+            background: rgba(var(--color-text-rgb), 0.1) !important;
 
             transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 
             &:hover {
               transform: scale(1.05);
-              border-color: rgba(255, 255, 255, 0.3) !important;
-              color: #FFFFFF !important;
-              background: rgba(255, 255, 255, 0.18) !important;
+              border-color: rgba(var(--color-text-rgb), 0.3) !important;
+              color: var(--color-text) !important;
+              background: rgba(var(--color-text-rgb), 0.18) !important;
             }
 
             &:active {
@@ -1902,7 +1868,7 @@ html.theme-dark {
         }
 
         .voice-duration {
-          color: #71767B !important;
+          color: var(--color-text-secondary) !important;
         }
       }
 
@@ -1915,12 +1881,12 @@ html.theme-dark {
           width: 3.375rem !important;
           height: 3.375rem !important;
           padding: 0 !important;
-          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border: 1px solid rgba(var(--color-text-rgb), 0.2) !important;
           border-radius: 10px !important;
 
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
 
-          background: rgba(255, 255, 255, 0.14) !important;
+          background: rgba(var(--color-text-rgb), 0.14) !important;
           clip-path: none !important;
 
           &::after {
@@ -1938,11 +1904,11 @@ html.theme-dark {
         .file-title,
         .file-name {
           font-weight: var(--font-weight-semibold) !important;
-          color: #FFFFFF !important;
+          color: var(--color-text) !important;
         }
 
         .file-subtitle {
-          color: rgba(255, 255, 255, 0.7) !important;
+          color: var(--color-text-secondary) !important;
         }
       }
     }
@@ -1950,26 +1916,26 @@ html.theme-dark {
 
   /* Checkmarks: Distinct double checkmarks for read status*/
   .icon-message-read {
-    color: #38BDF8 !important;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)) !important;
-    fill: #38BDF8 !important;
+    color: var(--color-accent-own) !important;
+    filter: drop-shadow(0 1px 2px var(--color-default-shadow)) !important;
+    fill: var(--color-accent-own) !important;
   }
   .icon-message-succeeded {
-    color: rgba(255, 255, 255, 0.85) !important;
-    fill: rgba(255, 255, 255, 0.85) !important;
+    color: var(--color-text-secondary) !important;
+    fill: var(--color-text-secondary) !important;
   }
 
   /* Audio Download Button: Crisp black arrow on white circular badge*/
   .download-button {
-    border-color: #000000 !important;
-    background-color: #FFFFFF !important;
+    border-color: var(--color-primary-text) !important;
+    background-color: var(--color-primary) !important;
 
     .icon,
     .icon-arrow-down,
     .icon-close {
-      color: #000000 !important;
+      color: var(--color-primary-text) !important;
       opacity: 1 !important;
-      fill: #000000 !important;
+      fill: var(--color-primary-text) !important;
     }
   }
 
@@ -1977,8 +1943,8 @@ html.theme-dark {
   .Button.bot-menu,
   .bot-menu-icon,
   .bot-menu-text {
-    color: #000000 !important;
-    fill: #000000 !important;
+    color: var(--color-primary-text) !important;
+    fill: var(--color-primary-text) !important;
   }
 
   /* Chat list action buttons ("Открыть"): ALWAYS black text on white pill*/
@@ -1986,8 +1952,8 @@ html.theme-dark {
   [class*="ChatBadge-module__miniapp"],
   .Chat [class*="miniapp"] {
     font-weight: var(--font-weight-bold) !important;
-    color: #000000 !important;
-    background-color: #FFFFFF !important;
+    color: var(--color-primary-text) !important;
+    background-color: var(--color-primary) !important;
   }
 
   /* Composer Input Blinking Cursor & Placeholder Artifact Fix*/
@@ -2006,49 +1972,49 @@ html.theme-dark {
 
   /* WebPage link preview cards inside messages - seamlessly merged with message background*/
   .WebPage {
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-left: 3px solid #FFFFFF !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.15) !important;
+    border-left: 3px solid var(--color-text) !important;
     border-radius: 0.375rem !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
 
-    background-color: rgba(255, 255, 255, 0.04) !important;
+    background-color: rgba(var(--color-text-rgb), 0.04) !important;
 
     .site-name,
     .site-title {
       font-weight: var(--font-weight-semibold);
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
 
     .site-description {
-      color: #B0B0B8 !important;
+      color: var(--color-text-secondary) !important;
     }
 
     a, .text-entity-link {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
   }
 
   /* Composer reply / forward boxes*/
   .ComposerEmbeddedMessage {
-    border: 1px solid #222226 !important;
-    border-left: 3px solid #FFFFFF !important;
+    border: 1px solid var(--color-borders) !important;
+    border-left: 3px solid var(--color-text) !important;
     border-radius: 0.375rem;
-    background-color: #101014 !important;
+    background-color: var(--color-background-secondary) !important;
 
     .EmbeddedMessage {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
       background: transparent !important;
 
       .message-title,
       .embedded-text-wrapper {
-        color: #FFFFFF !important;
+        color: var(--color-text) !important;
       }
     }
 
     .embedded-left-icon,
     .embedded-cancel {
-      color: #FFFFFF !important;
+      color: var(--color-text) !important;
     }
   }
 
@@ -2062,7 +2028,7 @@ html.theme-dark {
 
     margin: 0 0.125rem 0 0 !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
 
     transition: opacity 0.2s ease;
 
@@ -2076,8 +2042,8 @@ html.theme-dark {
     }
 
     &:hover {
-      color: #FFFFFF !important;
-      background-color: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text) !important;
+      background-color: rgba(var(--color-text-rgb), 0.14) !important;
     }
   }
 
@@ -2089,7 +2055,7 @@ html.theme-dark {
 
     margin-inline-start: 0.25rem !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text) !important;
 
     transition: opacity 0.2s ease;
 
@@ -2098,26 +2064,21 @@ html.theme-dark {
     }
 
     &:hover {
-      color: #FFFFFF !important;
-      background-color: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text) !important;
+      background-color: rgba(var(--color-text-rgb), 0.14) !important;
     }
-  }
-
-  [class*="peer-color-"] {
-    --accent-color: #FFFFFF !important;
-    --bar-gradient: #FFFFFF !important;
   }
 
   /* File icons in monochrome*/
   .File .file-icon,
   .File .file-progress {
-    border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    color: #FFFFFF !important;
-    background-color: #1c1c20 !important;
+    border: 1px solid rgba(var(--color-text-rgb), 0.18) !important;
+    color: var(--color-text) !important;
+    background-color: var(--color-background-secondary-accent) !important;
 
     &.red {
-      border-color: #FF3B30 !important;
-      background-color: #FF3B30 !important;
+      border-color: var(--color-error) !important;
+      background-color: var(--color-error) !important;
     }
   }
 
@@ -2130,10 +2091,10 @@ html.theme-dark {
   .btn-danger,
   .delete-message,
   .ActionMessage.destructive {
-    color: #FF3B30 !important;
+    color: var(--color-error) !important;
 
     .icon {
-      color: #FF3B30 !important;
+      color: var(--color-error) !important;
     }
   }
 
@@ -2149,8 +2110,8 @@ html.theme-dark {
   .badge.mention,
   .badge.active {
     font-weight: var(--font-weight-bold) !important;
-    color: #000000 !important;
-    background: #FFFFFF !important;
+    color: var(--color-primary-text) !important;
+    background: var(--color-primary) !important;
   }
 
   /* Multi-item Album / Screenshot grid card separation*/
@@ -2172,9 +2133,9 @@ html.theme-dark {
 
       border-radius: 8px !important;
 
-      outline: 1px solid rgba(255, 255, 255, 0.14) !important;
+      outline: 1px solid rgba(var(--color-text-rgb), 0.14) !important;
       outline-offset: -1px !important;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5) !important;
+      box-shadow: 0 3px 12px var(--color-light-shadow) !important;
 
       &,
       & img,
@@ -2184,16 +2145,21 @@ html.theme-dark {
       }
     }
   }
+}
 
-  /* Universal Egoist Shield Monochrome Palette: eliminate all blues, greens, purples, oranges*/
+/* Цвета пиров в тёмных темах нейтрализованы; в светлых остаются цветами платформы (решение F-18 за владельцем) */
+html.theme-dark {
+  [class*="peer-color-"] {
+    --accent-color: #FFFFFF !important;
+    --bar-gradient: #FFFFFF !important;
+  }
+
   @for $i from 0 through 25 {
     .peer-color-#{$i} {
       --accent-color: #FFFFFF !important;
       --bar-gradient: #FFFFFF !important;
-      --accent-background-color: rgba(255, 255, 255, 0.08) !important;
-      --accent-background-active-color: rgba(255, 255, 255, 0.14) !important;
-
-      color: #FFFFFF !important;
+      --accent-background-color: rgba(var(--color-text-rgb), 0.08) !important;
+      --accent-background-active-color: rgba(var(--color-text-rgb), 0.14) !important;
     }
   }
 }
@@ -2215,15 +2181,6 @@ html.theme-dark {
   }
 }
 
-/* Global Dark Mode Portals & Menu Bubble Guarantee*/
-:root,
-body,
-#portals {
-  --color-background-compact-menu: rgba(22, 24, 29, 0.96) !important;
-  --color-background-compact-menu-reactions: rgba(22, 24, 29, 0.96) !important;
-  --color-background-compact-menu-hover: rgba(255, 255, 255, 0.1) !important;
-}
-
 #portals {
   /* ReactionSelector root container and MessageContextMenu bubble must NEVER have background or border*/
   .ReactionSelector {
@@ -2242,13 +2199,13 @@ body,
   .Menu:not(.ReactionSelector) > .bubble,
   .MessageContextMenu_items,
   .dropdown-menu .bubble {
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    border-radius: 14px !important;
+    border: 0.0625rem solid var(--color-borders);
+    border-radius: var(--radius-md) !important;
 
-    color: #FFFFFF !important;
+    color: var(--color-text);
 
-    background: rgba(22, 24, 29, 0.98) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+    background: var(--color-background-compact-menu) !important;
+    box-shadow: 0 4px 20px var(--color-default-shadow) !important;
   }
 
   .MessageContextMenu_items {
@@ -2261,35 +2218,35 @@ body,
 
   /* The reaction bubble capsule*/
   .ReactionSelector__items-wrapper {
-    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border: 0.0625rem solid var(--color-borders);
     border-radius: 20px !important;
-    background: rgba(22, 24, 29, 0.98) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+    background: var(--color-background-compact-menu) !important;
+    box-shadow: 0 4px 16px var(--color-default-shadow) !important;
   }
 
   .ReactionSelector__bubble-big,
   .ReactionSelector__bubble-small {
     border: none !important;
-    background: rgba(22, 24, 29, 0.98) !important;
+    background: var(--color-background-compact-menu) !important;
   }
 
   .MenuItem {
-    color: #FFFFFF !important;
+    color: var(--color-text);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1) !important;
+      background-color: var(--color-item-hover);
     }
 
     .icon {
-      color: rgba(255, 255, 255, 0.75) !important;
+      color: var(--color-text-secondary);
     }
   }
 }
 
-/* Message Selection Mode: White background with black checkmark (Zero blue tint)*/
+/* Message Selection Mode: inverse fill (primary) with a contrasting checkmark*/
 .message-select-control {
-  border: 2px solid rgba(255, 255, 255, 0.5) !important;
-  background: rgba(0, 0, 0, 0.35) !important;
+  border: 2px solid rgba(var(--color-text-rgb), 0.5) !important;
+  background: color-mix(in srgb, var(--color-background) 35%, transparent) !important;
   backdrop-filter: blur(4px);
   transition: opacity 0.15s ease-in-out !important;
 
@@ -2297,16 +2254,16 @@ body,
   .Message.is-selected &,
   .album-item-select-wrapper.is-selected &,
   .File.file-is-selected & {
-    border-color: #FFFFFF !important;
-    color: #000000 !important;
-    background: #FFFFFF !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary-text) !important;
+    background: var(--color-primary) !important;
 
     .icon,
     .message-select-control-icon,
     svg {
-      color: #000000 !important;
-      fill: #000000 !important;
-      stroke: #000000 !important;
+      color: var(--color-primary-text) !important;
+      fill: var(--color-primary-text) !important;
+      stroke: var(--color-primary-text) !important;
     }
   }
 }
@@ -2363,14 +2320,14 @@ body,
   [class*="otherColumn"],
   [class*="main-column"],
   [class*="other-column"] {
-    color: #FFFFFF !important;
+    color: var(--color-text);
 
     span,
     [class*="title"],
     [class*="otherColumnTitle"],
     [class*="other-column-title"] {
       font-weight: var(--font-weight-medium) !important;
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
   }
 
@@ -2378,32 +2335,32 @@ body,
   [class*="lastMessage"],
   [class*="last-message"],
   .last-message {
-    color: rgba(255, 255, 255, 0.9) !important;
+    color: var(--color-text);
 
     .sender-name,
     [class*="senderName"],
     [class*="sender-name"] {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
 
     .colon {
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
 
     .last-message-summary,
     .message-text,
     [class*="last-message-summary"],
     span {
-      color: rgba(255, 255, 255, 0.9) !important;
+      color: var(--color-text);
     }
   }
 
   /* When unread*/
   .unread,
   [class*="unread"] {
-    color: #FFFFFF !important;
-    background: rgba(255, 255, 255, 0.16) !important;
+    color: var(--color-text);
+    background: var(--color-item-active);
 
     *,
     span,
@@ -2411,7 +2368,7 @@ body,
     .message-text,
     .last-message {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
+      color: var(--color-text);
     }
   }
 }
@@ -2421,13 +2378,13 @@ body,
   opacity: 1 !important;
 
   .tab {
-    color: rgba(255, 255, 255, 0.65) !important;
+    color: var(--color-text-secondary);
 
     &[class*="tabActive"],
     &.active {
       font-weight: var(--font-weight-semibold) !important;
-      color: #FFFFFF !important;
-      background: rgba(255, 255, 255, 0.14) !important;
+      color: var(--color-text);
+      background: var(--color-item-active);
     }
   }
 
@@ -2449,7 +2406,7 @@ body,
       ) !important;
   }
 
-  html.theme-dark &.no-text > .content-inner > .Album {
+  html:is(.theme-dark, .theme-light) &.no-text > .content-inner > .Album {
     --message-media-breakout-left: 0rem;
     --message-media-breakout-right: 0rem;
   }

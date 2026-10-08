@@ -2,6 +2,7 @@
   isolation: isolate;
   position: relative;
 
+  container: relayTelegram / inline-size;
   overflow: hidden;
 
   height: 100%;
@@ -42,6 +43,11 @@
   left: 0;
 
   height: 1rem;
+
+  /* Окно перетаскивается за Titlebar, полоса над колонками на Windows не нужна */
+  body.is-windows & {
+    display: none;
+  }
 }
 
 .has-call-header {
@@ -74,41 +80,41 @@
 
 #LeftColumn {
   --left-column-min-width: 16rem;
-  --left-column-max-width: 26.5rem;
+  --left-column-max-width: 21rem;
   --slide-background-color: transparent;
 
   position: relative;
 
   overflow: hidden;
 
-  width: 33vw;
+  width: clamp(16rem, 29cqw, 21rem);
   min-width: var(--left-column-min-width);
   max-width: var(--left-column-max-width);
   height: auto;
-  margin: 1rem;
-  margin-inline-end: 0;
-  border-radius: var(--border-radius-island);
+  margin: 0;
+  border-inline-end: 0.0625rem solid var(--color-borders);
+  border-radius: 0;
 
   background-color: var(--color-background);
-  box-shadow: var(--shadow-island);
+  box-shadow: none;
 
   @media (min-width: 926px) {
-    --left-column-max-width: 40vw;
+    --left-column-max-width: 21rem;
 
     .folders-sidebar-visible & {
-      --left-column-max-width: calc(40vw - var(--folders-sidebar-width));
+      --left-column-max-width: calc(21rem - var(--folders-sidebar-width));
 
       margin-left: 0.5rem;
     }
   }
 
   @media (min-width: 1276px) {
-    --left-column-max-width: 33vw;
+    --left-column-max-width: 21rem;
 
-    width: 25vw;
+    width: clamp(16rem, 29cqw, 21rem);
 
     .folders-sidebar-visible & {
-      --left-column-max-width: calc(33vw - var(--folders-sidebar-width));
+      --left-column-max-width: calc(21rem - var(--folders-sidebar-width));
     }
   }
 
@@ -118,8 +124,9 @@
     left: 1rem;
     transform: translate3d(calc(-100% - 1rem), 0, 0);
 
-    width: 26.5rem !important;
-    height: calc(var(--vh, 1vh) * 100 - 2rem);
+    width: min(26.5rem, calc(100vw - var(--relay-shell-rail-width, 4.5rem) - 2rem)) !important;
+    max-width: min(var(--left-column-max-width), calc(100vw - var(--relay-shell-rail-width, 4.5rem) - 2rem));
+    height: calc(var(--vh, 1vh) * 100 - var(--relay-shell-caption-height, 2.5rem) - 2rem);
     margin: 0;
 
     &::after {

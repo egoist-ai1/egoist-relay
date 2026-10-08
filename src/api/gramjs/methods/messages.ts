@@ -132,6 +132,7 @@ import { requestChatUpdate } from './chats';
 import { handleGramJsUpdate, invokeRequest, uploadFile } from './client';
 
 const FAST_SEND_TIMEOUT = 1000;
+const UNKNOWN_SEND_ERROR = 'UNKNOWN';
 const INPUT_WAVEFORM_LENGTH = 63;
 
 type TranslateTextParams = ({
@@ -519,16 +520,9 @@ export function sendApiMessage(
           console.warn(err);
         }
 
-        if (params.shouldThrowOnSendError) {
-          cancelSendingStatusTimeout();
-          sendApiUpdate({
-            '@type': 'updateMessageSendFailed',
-            chatId: chat.id,
-            localId: localMessage.id,
-            error: (err as Error).message,
-          });
-          throw err;
-        }
+        reportSendFailure(chat.id, localMessage, cancelSendingStatusTimeout, err);
+        if (params.shouldThrowOnSendError) throw err;
+
         await mediaQueue;
         return;
       }
@@ -554,6 +548,9 @@ export function sendApiMessage(
           // eslint-disable-next-line no-console
           console.warn(err);
         }
+
+        reportSendFailure(chat.id, localMessage, cancelSendingStatusTimeout, err);
+        if (params.shouldThrowOnSendError) throw err;
 
         await mediaQueue;
 
@@ -651,7 +648,7 @@ export function sendApiMessage(
         '@type': localMessage.isScheduled ? 'updateScheduledMessageSendFailed' : 'updateMessageSendFailed',
         chatId: chat.id,
         localId: localMessage.id,
-        error: error.errorMessage,
+        error: getSendErrorMessage(error),
       });
       if (params.shouldThrowOnSendError) throw error;
     }
@@ -863,6 +860,24 @@ const groupedUploads: Record<string, {
   cancelSendingStatusTimeouts: Record<string, NoneToVoidFunction>;
 }> = {};
 
+// Network and transport errors have no `errorMessage`, so fall back to the plain message
+function getSendErrorMessage(error: unknown) {
+  const { errorMessage, message } = (error || {}) as { errorMessage?: string; message?: string };
+  return errorMessage || message || UNKNOWN_SEND_ERROR;
+}
+
+function reportSendFailure(
+  chatId: string, localMessage: ApiMessage, cancelSendingStatusTimeout: NoneToVoidFunction, error?: unknown,
+) {
+  cancelSendingStatusTimeout();
+  sendApiUpdate({
+    '@type': localMessage.isScheduled ? 'updateScheduledMessageSendFailed' : 'updateMessageSendFailed',
+    chatId,
+    localId: localMessage.id,
+    error: getSendErrorMessage(error),
+  });
+}
+
 function sendGroupedMedia(
   {
     chat,
@@ -909,63 +924,18 @@ function sendGroupedMedia(
   groupIndex = groupedUploads[groupedId].counter++;
 
   const prevMediaQueue = mediaQueue;
-  mediaQueue = (async () => {
-    let inputMedia: GramJs.TypeInputMedia | undefined;
 
-    if (attachment.gif) {
-      inputMedia = buildInputMediaDocument(attachment.gif, attachment.shouldSendAsSpoiler);
-    } else {
-      let media;
-      try {
-        media = await uploadMedia(localMessage, attachment, onProgress!);
-      } catch (err) {
-        if (DEBUG) {
-          // eslint-disable-next-line no-console
-          console.warn(err);
-        }
+  // Sends the album once every item that is still expected has been uploaded
+  const sendReadyGroupedMedia = async () => {
+    const group = groupedUploads[groupedId];
+    if (!group) return;
 
-        groupedUploads[groupedId].counter--;
+    const { singleMediaByIndex, localMessages, cancelSendingStatusTimeouts } = group;
+    const count = Object.keys(singleMediaByIndex).length;
+    if (count < group.counter) return;
 
-        await prevMediaQueue;
-
-        return;
-      }
-
-      inputMedia = await fetchInputMedia(
-        buildInputPeer(chat.id, chat.accessHash),
-        media,
-      );
-    }
-
-    await prevMediaQueue;
-
-    if (!inputMedia) {
-      groupedUploads[groupedId].counter--;
-
-      if (DEBUG) {
-        // eslint-disable-next-line no-console
-        console.warn('Failed to upload grouped media');
-      }
-
-      return;
-    }
-
-    groupedUploads[groupedId].singleMediaByIndex[groupIndex] = new GramJs.InputSingleMedia({
-      media: inputMedia,
-      randomId,
-      message: text,
-      entities: entities ? entities.map(buildMtpMessageEntity) : undefined,
-    });
-    groupedUploads[groupedId].localMessages[randomId.toString()] = localMessage;
-    groupedUploads[groupedId].cancelSendingStatusTimeouts[randomId.toString()] = cancelSendingStatusTimeout;
-
-    if (Object.keys(groupedUploads[groupedId].singleMediaByIndex).length < groupedUploads[groupedId].counter) {
-      return;
-    }
-
-    const { singleMediaByIndex, localMessages, cancelSendingStatusTimeouts } = groupedUploads[groupedId];
     delete groupedUploads[groupedId];
-    const count = Object.values(singleMediaByIndex).length;
+    if (!count) return;
 
     const update = await invokeRequest(new GramJs.messages.SendMultiMedia({
       clearDraft: true,
@@ -982,10 +952,80 @@ function sendGroupedMedia(
       shouldIgnoreUpdates: true,
     });
 
-    if (!update) return;
+    if (!update) {
+      Object.entries(localMessages).forEach(([key, message]) => {
+        reportSendFailure(chat.id, message, cancelSendingStatusTimeouts[key]);
+      });
+      return;
+    }
 
     Object.values(cancelSendingStatusTimeouts).forEach((cancel) => cancel());
     handleMultipleLocalMessagesUpdate(localMessages, update);
+  };
+
+  // A failed item leaves the album, so the remaining items may be ready to send now
+  const handleItemFailure = async (error?: unknown) => {
+    reportSendFailure(chat.id, localMessage, cancelSendingStatusTimeout, error);
+
+    const group = groupedUploads[groupedId];
+    if (group) group.counter--;
+
+    await prevMediaQueue;
+    await sendReadyGroupedMedia();
+  };
+
+  mediaQueue = (async () => {
+    let inputMedia: GramJs.TypeInputMedia | undefined;
+
+    if (attachment.gif) {
+      inputMedia = buildInputMediaDocument(attachment.gif, attachment.shouldSendAsSpoiler);
+    } else {
+      let media;
+      try {
+        media = await uploadMedia(localMessage, attachment, onProgress!);
+      } catch (err) {
+        if (DEBUG) {
+          // eslint-disable-next-line no-console
+          console.warn(err);
+        }
+
+        await handleItemFailure(err);
+
+        return;
+      }
+
+      inputMedia = await fetchInputMedia(
+        buildInputPeer(chat.id, chat.accessHash),
+        media,
+      );
+    }
+
+    await prevMediaQueue;
+
+    if (!inputMedia) {
+      if (DEBUG) {
+        // eslint-disable-next-line no-console
+        console.warn('Failed to upload grouped media');
+      }
+
+      await handleItemFailure();
+
+      return;
+    }
+
+    const group = groupedUploads[groupedId];
+    if (!group) return;
+
+    group.singleMediaByIndex[groupIndex] = new GramJs.InputSingleMedia({
+      media: inputMedia,
+      randomId,
+      message: text,
+      entities: entities ? entities.map(buildMtpMessageEntity) : undefined,
+    });
+    group.localMessages[randomId.toString()] = localMessage;
+    group.cancelSendingStatusTimeouts[randomId.toString()] = cancelSendingStatusTimeout;
+
+    await sendReadyGroupedMedia();
   })();
 
   return mediaQueue;
@@ -1286,7 +1326,8 @@ async function uploadMedia(message: ApiMessage, attachment: ApiAttachment, onPro
 
   const fetchAndUpload = async (url: string, progressCallback?: (progress: number) => void) => {
     const file = await fetchFile(url, filename);
-    return uploadFile(file, progressCallback);
+    // blobUrl вложения стабилен между повторами отправки: продолжаем с уже загруженных частей
+    return uploadFile(file, progressCallback, progressCallback ? url : undefined);
   };
 
   const isVideo = SUPPORTED_VIDEO_CONTENT_TYPES.has(mimeType);
@@ -1410,6 +1451,7 @@ export async function deleteMessages({
     '@type': 'deleteMessages',
     ids: messageIds,
     ...(isChannel && { chatId: chat.id }),
+    isDeletedByMe: true,
   });
 }
 

@@ -14,7 +14,7 @@ const label = process.env.RELAY_UI_ADDITIONAL_LABEL || 'first';
 const sources = {
   contact: 'src/components/main/NewContactModal.tsx', 'contact-edit': 'src/components/main/NewContactModal.tsx',
   'report-options': 'src/components/modals/reportModal/ReportModal.tsx', 'report-comment': 'src/components/modals/reportModal/ReportModal.tsx',
-  country: 'src/components/common/CountryPickerModal.tsx', ['password']: 'src/components/common/PasswordConfirmModal.tsx',
+  country: 'src/components/common/CountryPickerModal.tsx', password: 'src/components/common/PasswordConfirmModal.tsx',
   'password-loading': 'src/components/common/PasswordConfirmModal.tsx', formatting: 'src/components/common/RemoveFormattingModal.tsx',
   'safe-link': 'src/components/main/SafeLinkModal.tsx', 'browser-close': 'src/components/main/BrowserCloseConfirmationModal.tsx',
   mute: 'src/components/left/MuteChatModal.tsx', pin: 'src/components/common/PinMessageModal.tsx',
@@ -38,7 +38,7 @@ async function open(kind) {
   else await page.evaluate((value) => window.__relayAdditional.open(value), kind);
   await page.waitForTimeout(450);
   const modal = page.locator('dialog[open], .Modal.open:not(dialog) .modal-dialog').last();
-  await modal.waitFor({ state: 'visible', timeout: 4000 });
+  await modal.waitFor({ state: 'visible', timeout: 20000 });
   return modal;
 }
 async function run(id, kind, action) {
@@ -65,8 +65,11 @@ try {
   await page.route('**/*', (route) => { if (new URL(route.request().url()).hostname === '127.0.0.1') return route.continue(); report.blockedRequests += 1; return route.abort(); });
   page.on('pageerror', (error) => report.errors.push({ phase: 'pageerror', error: String(error) }));
   await page.goto(url, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => window.__relayAdditional?.open && window.__relayAudit.state().chatCount >= 2, { timeout: 30000 });
-  await page.evaluate(() => window.__relayAudit.openChat('101')); await page.waitForTimeout(500);
+  // Ждём именно чат 101 сценария relay-ui: два чата сценария по умолчанию (до его загрузки) тоже дают chatCount >= 2
+  // Ждём именно чат 101 сценария relay-ui: два чата сценария по умолчанию тоже дают chatCount >= 2. При холодном кэше Vite
+  // (новая папка RELAY_UI_ADDITIONAL_OUTPUT) страница перезагружается без #mockScenario и чата 101 не будет: повторяйте запуск с той же папкой
+  await page.waitForFunction(() => window.__relayAdditional?.open && window.__relayAudit?.state().chatIds.includes('101'), undefined, { timeout: 60000 });
+  await page.evaluate(() => window.__relayAudit.openChat('101')); await page.waitForFunction(() => window.__relayAudit.state().currentChatId === '101'); await page.waitForTimeout(800);
   const modes = [
     { id: 'fullhd', width: 1920, height: 1080, font: '16px', dir: 'ltr', motion: 'no-preference' },
     { id: 'narrow', width: 640, height: 900, font: '16px', dir: 'ltr', motion: 'no-preference' },

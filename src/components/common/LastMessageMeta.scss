@@ -7,7 +7,7 @@
   .MessageOutgoingStatus {
     margin-right: 0.125rem;
     font-size: 1.125rem;
-    color: rgba(255, 255, 255, 0.75) !important;
+    color: var(--color-text-secondary) !important;
 
     body.is-ios & {
       margin-bottom: -0.125rem;

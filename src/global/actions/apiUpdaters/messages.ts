@@ -12,8 +12,12 @@ import { MAIN_THREAD_ID } from '../../../api/types';
 
 import { ARCHIVED_FOLDER_ID, SERVICE_NOTIFICATIONS_USER_ID } from '../../../config';
 import { areDeepEqual } from '../../../util/areDeepEqual';
+import {
+  type DeletedMessageRecord, deletedMessagesStorage, getDeletedMessagesLimits,
+} from '../../../util/deletedMessages';
 import { isUserId } from '../../../util/entities/ids';
 import { getCurrentTabId } from '../../../util/establishMultitabRole';
+import { handleError } from '../../../util/handleError';
 import {
   buildCollectionByKey, omit, unique,
 } from '../../../util/iteratees';
@@ -71,6 +75,7 @@ import {
   updateQuickReplyMessage,
   updateScheduledMessage,
 } from '../../reducers';
+import { keepDeletedMessages } from '../../reducers/deletedMessages';
 import { addUnreadPollVotes } from '../../reducers/polls';
 import { addUnreadReactions, removeUnreadReactions } from '../../reducers/reactions';
 import { updateTabState } from '../../reducers/tabs';
@@ -110,6 +115,7 @@ import {
   selectUser,
   selectViewportIds,
 } from '../../selectors';
+import { selectSharedSettings } from '../../selectors/sharedState';
 import {
   selectSavedDialogIdFromMessage,
   selectThread,
@@ -907,9 +913,10 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     }
 
     case 'deleteMessages': {
-      const { ids, chatId } = update;
+      const { ids, chatId, isDeletedByMe } = update;
 
-      deleteMessages(global, chatId, ids, actions);
+      const shouldKeep = selectSharedSettings(global).shouldKeepDeletedMessages;
+      deleteMessages(global, chatId, ids, actions, shouldKeep ? { isDeletedByMe } : undefined);
       break;
     }
 
@@ -1163,7 +1170,7 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     case 'updateMessageSendFailed': {
       const { chatId, localId, error } = update;
 
-      if (error.match(/CHAT_SEND_.+?FORBIDDEN/)) {
+      if (error?.match(/CHAT_SEND_.+?FORBIDDEN/)) {
         Object.values(global.byTabId).forEach(({ id: tabId }) => {
           actions.showAllowedMessageTypesNotification({ chatId, tabId });
         });
@@ -1177,7 +1184,7 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     case 'updateScheduledMessageSendFailed': {
       const { chatId, localId, error } = update;
 
-      if (error.match(/CHAT_SEND_.+?FORBIDDEN/)) {
+      if (error?.match(/CHAT_SEND_.+?FORBIDDEN/)) {
         Object.values(global.byTabId).forEach(({ id: tabId }) => {
           actions.showAllowedMessageTypesNotification({ chatId, tabId });
         });
@@ -1508,7 +1515,7 @@ function findLastMessage<T extends GlobalState>(global: T, chatId: string, threa
   let i = listedIds.length;
   while (i--) {
     const message = byId[listedIds[i]];
-    if (message && !message.isDeleting) {
+    if (message && !message.isDeleting && !message.deletedAt) {
       return message;
     }
   }
@@ -1559,8 +1566,20 @@ export function deleteThread<T extends GlobalState>(
 }
 
 export function deleteMessages<T extends GlobalState>(
-  global: T, chatId: string | undefined, ids: number[], actions: RequiredGlobalActions,
+  global: T,
+  chatId: string | undefined,
+  ids: number[],
+  actions: RequiredGlobalActions,
+  keepOptions?: { isDeletedByMe?: boolean },
 ) {
+  const keptIds = new Set<number>();
+  if (keepOptions) {
+    const kept = keepDeletedMessages(global, chatId, ids, { ...keepOptions, deletedAt: getServerTime() });
+    global = kept.global;
+    kept.keptIds.forEach((id) => keptIds.add(id));
+    saveDeletedMessageRecords(global, kept.records, actions);
+  }
+
   // Channel update
 
   if (chatId) {
@@ -1571,9 +1590,11 @@ export function deleteMessages<T extends GlobalState>(
     threadIdsToUpdate.add(MAIN_THREAD_ID);
 
     ids.forEach((id) => {
-      global = updateChatMessage(global, chatId, id, {
-        isDeleting: true,
-      });
+      if (!keptIds.has(id)) {
+        global = updateChatMessage(global, chatId, id, {
+          isDeleting: true,
+        });
+      }
 
       if (selectTopic(global, chatId, id)) {
         global = deleteTopic(global, chatId, id);
@@ -1628,15 +1649,7 @@ export function deleteMessages<T extends GlobalState>(
       global = getGlobal();
       const stillDeletedIds: number[] = [];
       ids.forEach((id) => {
-        const msg = selectChatMessage(global, chatId, id);
-        if (!msg) return;
-        if (!msg.isOutgoing) {
-          // Anti-Delete: retain incoming messages deleted by peer
-          global = updateChatMessage(global, chatId, id, {
-            isDeleting: false,
-            isDeletedByPeer: true,
-          });
-        } else if (msg.isDeleting) {
+        if (selectChatMessage(global, chatId, id)?.isDeleting) {
           stillDeletedIds.push(id);
         }
       });
@@ -1658,19 +1671,11 @@ export function deleteMessages<T extends GlobalState>(
     if (commonBoxChatId) {
       chatIdsToUpdate.push(commonBoxChatId);
 
-      const msg = selectChatMessage(global, commonBoxChatId, id);
-      if (msg && !msg.isOutgoing) {
-        // Anti-Delete: retain incoming messages deleted by peer
+      if (!keptIds.has(id)) {
         global = updateChatMessage(global, commonBoxChatId, id, {
-          isDeletedByPeer: true,
-          isDeleting: false,
+          isDeleting: true,
         });
-        return;
       }
-
-      global = updateChatMessage(global, commonBoxChatId, id, {
-        isDeleting: true,
-      });
 
       const newLastMessage = findLastMessage(global, commonBoxChatId);
       if (newLastMessage) {
@@ -1693,6 +1698,8 @@ export function deleteMessages<T extends GlobalState>(
         global = deletePeerPhoto(global, commonBoxChatId, message.content.action.photo.id, true);
       }
 
+      if (keptIds.has(id)) return;
+
       const isAnimatingAsSnap = selectCanAnimateSnapEffect(global);
 
       setTimeout(() => {
@@ -1708,6 +1715,26 @@ export function deleteMessages<T extends GlobalState>(
   unique(chatIdsToUpdate).forEach((id) => {
     actions.requestChatUpdate({ chatId: id });
   });
+}
+
+function saveDeletedMessageRecords<T extends GlobalState>(
+  global: T,
+  records: DeletedMessageRecord[],
+  actions: RequiredGlobalActions,
+) {
+  if (!records.length) return;
+
+  const limits = getDeletedMessagesLimits(selectSharedSettings(global));
+  const chatIdsWithPlaceholders = unique(records.filter((record) => !record.message).map((record) => record.chatId));
+
+  deletedMessagesStorage.save(records, limits, getServerTime()).then(() => {
+    const currentGlobal = getGlobal();
+    chatIdsWithPlaceholders.forEach((chatId) => {
+      Object.values(currentGlobal.byTabId).forEach(({ id: tabId }) => {
+        actions.restoreDeletedMessages({ chatId, tabId });
+      });
+    });
+  }).catch(handleError);
 }
 
 export function deleteEphemeralMessagesWithAnimation<T extends GlobalState>(

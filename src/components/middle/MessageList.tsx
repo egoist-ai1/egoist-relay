@@ -285,7 +285,7 @@ const MessageList = ({
 }: OwnProps & StateProps) => {
   const {
     loadViewportMessages, setScrollOffset, loadSponsoredMessages, loadMessageReactions, copyMessagesByIds,
-    loadMessageViews, loadPeerStoriesByIds, loadFactChecks, requestChatTranslation,
+    loadMessageViews, loadPeerStoriesByIds, loadFactChecks, requestChatTranslation, restoreDeletedMessages,
   } = getActions();
 
   const containerRef = useRef<HTMLDivElement>();
@@ -579,7 +579,7 @@ const MessageList = ({
 
     const ids = messageIds.filter((id) => {
       const message = messagesById[id];
-      return message && message.reactions && !message.content.action;
+      return message && message.reactions && !message.content.action && !message.deletedAt;
     });
 
     if (!ids.length) return;
@@ -591,7 +591,9 @@ const MessageList = ({
     if (!messageIds || !messagesById || type === 'scheduled' || !isActive) {
       return;
     }
-    const storyDataList = messageIds.map((id) => messagesById[id]?.content.storyData).filter(Boolean);
+    const storyDataList = messageIds
+      .map((id) => (messagesById[id]?.deletedAt ? undefined : messagesById[id]?.content.storyData))
+      .filter(Boolean);
 
     if (!storyDataList.length) return;
 
@@ -614,8 +616,9 @@ const MessageList = ({
       return;
     }
     const global = getGlobal();
-    const ids = messageIds.filter((id) => selectThreadInfo(global, chatId, id)?.isCommentsInfo
-      || messagesById[id]?.viewsCount !== undefined);
+    const ids = messageIds.filter((id) => !messagesById[id]?.deletedAt && (
+      selectThreadInfo(global, chatId, id)?.isCommentsInfo || messagesById[id]?.viewsCount !== undefined
+    ));
 
     if (!ids.length) return;
 
@@ -626,12 +629,21 @@ const MessageList = ({
     if (!messageIds || !messagesById || threadId !== MAIN_THREAD_ID || type === 'scheduled' || !isActive) {
       return;
     }
-    const ids = messageIds.filter((id) => messagesById[id]?.factCheck?.shouldFetch);
+    const ids = messageIds.filter((id) => !messagesById[id]?.deletedAt && messagesById[id]?.factCheck?.shouldFetch);
 
     if (!ids.length) return;
 
     loadFactChecks({ chatId, ids });
   }, MESSAGE_FACT_CHECK_UPDATE_INTERVAL);
+
+  const firstViewportId = messageIds?.[0];
+  const lastViewportId = messageIds?.[messageIds.length - 1];
+  const viewportIdsCount = messageIds?.length;
+  useEffect(() => {
+    if (type !== 'thread' || threadId !== MAIN_THREAD_ID || !isChatLoaded || !viewportIdsCount) return;
+
+    restoreDeletedMessages({ chatId });
+  }, [chatId, type, threadId, isChatLoaded, firstViewportId, lastViewportId, viewportIdsCount]);
 
   const loadMoreAround = useMemo(() => {
     if (type !== 'thread') {
