@@ -1,0 +1,29 @@
+{
+  "mode": "scale",
+  "dir": "C:\\Users\\Egoist\\AppData\\Local\\Temp\\esmcp\\bench\\scale1m",
+  "sources": 5000,
+  "recordsPerSource": 200,
+  "expectedItems": 1000000,
+  "itemsInStore": 1000000,
+  "uniqueKeys": 1000000,
+  "duplicatesReported": 0,
+  "lost": 0,
+  "unexpected": 0,
+  "setIdentical": true,
+  "finalState": "completed",
+  "requests": 5000,
+  "planSeconds": 0.05,
+  "ingestSeconds": 122.9,
+  "totalSeconds": 156.1,
+  "itemsPerSecond": 8138,
+  "dbMiB": 535.6,
+  "dbBytesPerItem": 562,
+  "rawArchiveMiB": 608.8,
+  "rawBytesPerItem": 638,
+  "peakRssIngestMiB": 188,
+  "heapUsedAfterIngestMiB": 20,
+  "peakRssWithVerificationMiB": 188,
+  "planIds": [
+    "pln_7xuo6a4ciotpl87y"
+  ]
+}

@@ -2469,6 +2469,12 @@
           "markdownDescription": "Enables the relay_reconnect_network command without any pre-configured scope."
         },
         {
+          "description": "Enables the relay_research_media_chunk command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-research-media-chunk",
+          "markdownDescription": "Enables the relay_research_media_chunk command without any pre-configured scope."
+        },
+        {
           "description": "Enables the relay_research_ready command without any pre-configured scope.",
           "type": "string",
           "const": "allow-relay-research-ready",
@@ -2781,6 +2787,12 @@
           "markdownDescription": "Denies the relay_reconnect_network command without any pre-configured scope."
         },
         {
+          "description": "Denies the relay_research_media_chunk command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-research-media-chunk",
+          "markdownDescription": "Denies the relay_research_media_chunk command without any pre-configured scope."
+        },
+        {
           "description": "Denies the relay_research_ready command without any pre-configured scope.",
           "type": "string",
           "const": "deny-relay-research-ready",
@@ -2845,6 +2857,12 @@
           "type": "string",
           "const": "relay-research-main",
           "markdownDescription": "Register and reply to addressed research requests in the local main Relay renderer."
+        },
+        {
+          "description": "Deliver raw media bytes from the bundled main renderer to the owned native spool; nonce, request, ordering, size and disk checks stay native.",
+          "type": "string",
+          "const": "relay-research-media",
+          "markdownDescription": "Deliver raw media bytes from the bundled main renderer to the owned native spool; nonce, request, ordering, size and disk checks stay native."
         },
         {
           "description": "Reply only from fixed owned research WebViews; native nonce/origin/scope validation remains mandatory.",

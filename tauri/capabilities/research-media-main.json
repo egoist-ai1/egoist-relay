@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-research-media-main",
+  "description": "Raw research media bytes only from the bundled main renderer",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["relay-research-media"]
+}

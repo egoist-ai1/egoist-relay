@@ -1,0 +1,18 @@
+{
+  "mode": "flood",
+  "sources": 600,
+  "injectedRate": 0.2,
+  "requests": 739,
+  "floods": 139,
+  "floodShare": 0.188,
+  "finalState": "completed",
+  "items": 120000,
+  "expectedItems": 120000,
+  "earlyRetries": 0,
+  "minPauseRatio": 1.19,
+  "medianPauseRatio": 3.13,
+  "breakerOpenings": 28,
+  "virtualHours": 147.7,
+  "agentInterventions": 0,
+  "waitingStatesSeen": 2275
+}

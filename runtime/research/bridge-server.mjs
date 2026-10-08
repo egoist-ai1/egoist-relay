@@ -8,10 +8,12 @@ import { fileURLToPath } from 'node:url';
 export const MAX_FRAME = 262144;
 const MAX_PEERS = 16;
 const OPERATIONS = Object.freeze({
-  telegram: ['discover', 'chat_info', 'read', 'search', 'channel_history', 'chat_export', 'download', 'join_chat'],
+  telegram: ['discover', 'chat_info', 'read', 'search', 'channel_history', 'chat_export', 'download', 'join_chat',
+    'probe', 'comments', 'topics', 'similar_channels', 'invite_preview'],
   x: ['discover', 'profile', 'read', 'search', 'channel_history', 'chat_export', 'download', 'article', 'read_thread'],
   instagram: ['discover', 'profile', 'read', 'search', 'channel_history', 'chat_export', 'download', 'read_thread'],
 });
+const CAPACITY = Object.freeze({ telegram: 3, x: 1, instagram: 1 });
 const PRIVATE_FILES = ['.research-owned.json', 'relay-bridge.json', 'relay-bridge-token'];
 const FORBIDDEN_INPUT = new Set(['script', 'eval', 'method', 'args', 'headers', 'cookies', 'session', 'authKey', 'accessHash', 'outputDirectory', 'stateRoot', 'path', 'expectedAccount']);
 const LOCAL_DIRECTORY = path.dirname(fileURLToPath(import.meta.url));
@@ -179,7 +181,7 @@ export async function startBridge(init, sendNative) {
   function release(request, cancelOwner) {
     if (!pending.delete(request.requestId)) return;
     clearTimeout(request.timer);
-    if (request.provider) providers.delete(request.provider);
+    if (request.provider) providers.get(request.provider)?.delete(request.requestId);
     if (cancelOwner) sendNative({ type: 'cancel', requestId: request.requestId, nonce: request.nonce });
   }
   function hmac(message) { return createHmac('sha256', secret).update(message, 'utf8').digest('hex'); }
@@ -221,7 +223,7 @@ export async function startBridge(init, sendNative) {
       || !OPERATIONS[params.provider]?.includes(params.operation) || !identifier(params.jobId)
       || !keys(params.expectedAccount, ['accountRef', 'accountEpoch']) || !identifier(params.expectedAccount.accountRef,160)
       || !(identifier(params.expectedAccount.accountEpoch,128) || Number.isSafeInteger(params.expectedAccount.accountEpoch) && params.expectedAccount.accountEpoch >= 0)))) { terminal(peer, frame.id, 'INVALID_REQUEST'); return; }
-    if (run && (providers.has(params.provider) || [...pending.values()].some((item) => item.jobId === params.jobId))) { terminal(peer, frame.id, 'PROVIDER_BUSY'); return; }
+    if (run && ((providers.get(params.provider)?.size ?? 0) >= CAPACITY[params.provider] || [...pending.values()].some((item) => item.jobId === params.jobId))) { terminal(peer, frame.id, 'PROVIDER_BUSY'); return; }
     if (run) validateInput(params.input);
     const requestId = randomUUID();
     const nonce = randomBytes(32).toString('hex');
@@ -230,7 +232,7 @@ export async function startBridge(init, sendNative) {
     request.timer = setTimeout(() => { if (pending.has(requestId)) { release(request, true); terminal(peer, frame.id, 'DEADLINE_EXCEEDED', run); } }, deadlineMs);
     request.timer.unref();
     pending.set(requestId, request);
-    if (run) providers.set(params.provider, requestId);
+    if (run) { if (!providers.has(params.provider)) providers.set(params.provider, new Set()); providers.get(params.provider).add(requestId); }
     const dispatch = { type: 'request', requestId, nonce, method: frame.method, deadlineMs };
     if (run) Object.assign(dispatch, { provider: params.provider, operation: params.operation, input: params.input, jobId: params.jobId, expectedAccount: params.expectedAccount });
     sendNative(dispatch);

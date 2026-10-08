@@ -57,6 +57,7 @@ fn main() {
           "relay_get_telegram_transport",
           "relay_research_ready",
           "relay_research_reply",
+          "relay_research_media_chunk",
           "relay_research_social_reply",
           "get_default_install_dir",
           "choose_install_dir",

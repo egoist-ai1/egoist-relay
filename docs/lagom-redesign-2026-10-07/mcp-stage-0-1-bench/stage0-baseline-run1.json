@@ -1,0 +1,48 @@
+{
+  "node": "v24.19.0",
+  "platform": "win32",
+  "date": "2026-10-07T20:56:13.376Z",
+  "verifyProcessMs": {
+    "n": 8,
+    "median": 439.2,
+    "p95": 505.3,
+    "min": 395.8,
+    "max": 505.3
+  },
+  "jobOverheadBefore": {
+    "jobs": 20,
+    "wallMsPerJob": {
+      "n": 20,
+      "median": 1354.6,
+      "p95": 1745.2,
+      "min": 1246.7,
+      "max": 1745.2
+    },
+    "powerShellVerifications": 60,
+    "bridgeStatusCalls": 40,
+    "bridgeRunCalls": 20
+  },
+  "jobOverheadAfter": {
+    "jobs": 20,
+    "wallMsPerJob": {
+      "n": 20,
+      "median": 77.6,
+      "p95": 491,
+      "min": 60.7,
+      "max": 491
+    },
+    "powerShellVerifications": 1,
+    "bridgeStatusCalls": 20,
+    "bridgeRunCalls": 20
+  },
+  "mediaWriterOnly": {
+    "bytes": 104857600,
+    "seconds": 1.83,
+    "mibPerSecond": 54.6
+  },
+  "mediaViaPipe": {
+    "bytes": 104857600,
+    "seconds": 2.3,
+    "mibPerSecond": 43.5
+  }
+}

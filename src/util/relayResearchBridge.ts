@@ -39,10 +39,19 @@ type ProviderStatus = {
   accountRef?: string;
   accountEpoch?: string;
   operations: Operation[];
+  maxConcurrent?: number;
+  features?: string[];
 };
 const OPERATIONS: Operation[] = [
   'discover', 'chat_info', 'read', 'search', 'channel_history', 'chat_export', 'download', 'join_chat',
+  'probe', 'comments', 'topics', 'similar_channels', 'invite_preview',
 ];
+const MAX_PARALLEL_TELEGRAM = 3;
+const MAX_FEATURES = 16;
+const FEATURE_PATTERN = /^[a-z0-9_]{1,32}$/;
+const CHUNK_HEADERS = {
+  requestId: 'x-request-id', nonce: 'x-nonce', mediaId: 'x-media-id', sequence: 'x-sequence',
+} as const;
 const MAX_DEADLINE_MS = 300000;
 const MAX_READY_ATTEMPTS = 20;
 const MAX_READY_WAIT_MS = 120000;
@@ -165,7 +174,8 @@ async function handleRequest(request: Request) {
     });
     return;
   }
-  if ([...ACTIVE_REQUESTS.values()].some((active) => active.request.provider === 'telegram')) {
+  if ([...ACTIVE_REQUESTS.values()].filter((active) => active.request.provider === 'telegram').length
+    >= MAX_PARALLEL_TELEGRAM) {
     await publish(request, {
       kind: 'error', code: 'BUSY', reason: 'BUSY',
     });
@@ -283,11 +293,22 @@ async function fetchStatus(active?: ActiveRequest): Promise<ProviderStatus> {
     return {
       provider: 'telegram', state: provider.state as ProviderStatus['state'],
       accountRef: provider.accountRef, accountEpoch: provider.accountEpoch, operations: [...OPERATIONS],
+      maxConcurrent: readConcurrency(provider), features: readFeatures(provider),
     };
   }
   return {
     provider: 'telegram', state: 'initializing', reason: 'INITIALIZING', operations: [...OPERATIONS],
   };
+}
+function readConcurrency(provider: object) {
+  const value = 'maxConcurrent' in provider ? provider.maxConcurrent : undefined;
+  return typeof value === 'number' && Number.isSafeInteger(value) && value >= 1
+    ? Math.min(value, MAX_PARALLEL_TELEGRAM) : undefined;
+}
+function readFeatures(provider: object) {
+  const value = 'features' in provider ? provider.features : undefined;
+  return Array.isArray(value) && value.length <= MAX_FEATURES
+    && value.every((item) => typeof item === 'string' && FEATURE_PATTERN.test(item)) ? value as string[] : undefined;
 }
 async function callWorker(active: ActiveRequest, args: RelayResearchArgs) {
   const pending = callApi('relayResearch', args);
@@ -339,6 +360,18 @@ async function publishError(active: ActiveRequest, code: string) {
 }
 async function publish(request: Request, event: RelayResearchEvent) {
   const { invoke } = await import('@tauri-apps/api/core');
+  if (event.kind === 'media_chunk' && event.bytes instanceof Uint8Array) {
+    // Direct byte path: the file bytes reach native code as a raw binary body, never as JSON or base64
+    await invoke<void>('relay_research_media_chunk', event.bytes, {
+      headers: {
+        [CHUNK_HEADERS.requestId]: request.requestId,
+        [CHUNK_HEADERS.nonce]: request.nonce,
+        [CHUNK_HEADERS.mediaId]: String(event.mediaId),
+        [CHUNK_HEADERS.sequence]: String(event.sequence),
+      },
+    });
+    return;
+  }
   await invoke<void>('relay_research_reply', {
     requestId: request.requestId, nonce: request.nonce, event,
   });

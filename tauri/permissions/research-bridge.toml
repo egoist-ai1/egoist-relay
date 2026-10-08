@@ -7,3 +7,8 @@ commands.allow = ["relay_research_ready", "relay_research_reply"]
 identifier = "relay-research-social"
 description = "Reply only from fixed owned research WebViews; native nonce/origin/scope validation remains mandatory."
 commands.allow = ["relay_research_social_reply"]
+
+[[permission]]
+identifier = "relay-research-media"
+description = "Deliver raw media bytes from the bundled main renderer to the owned native spool; nonce, request, ordering, size and disk checks stay native."
+commands.allow = ["relay_research_media_chunk"]

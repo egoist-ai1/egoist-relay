@@ -1,0 +1,22 @@
+{
+  "mode": "wait",
+  "trials": 30,
+  "reactionMs": {
+    "inProcess": {
+      "n": 30,
+      "p50": 0.64,
+      "p95": 1.13,
+      "p99": 1.49,
+      "max": 1.49
+    },
+    "namedPipe": {
+      "n": 30,
+      "p50": 0.99,
+      "p95": 3.66,
+      "p99": 4.21,
+      "max": 4.21
+    }
+  },
+  "noChangeWaitMs": 3014,
+  "noChangeWaitRequestedSeconds": 3
+}

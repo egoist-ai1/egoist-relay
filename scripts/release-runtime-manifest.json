@@ -49,8 +49,8 @@
     },
     {
       "path": "runtime/research/bridge-server.mjs",
-      "bytes": 21071,
-      "sha256": "25d511684b6ee756e8ef2f7537f438e6470171c2c1ee9f881beac50e7ebf1eea"
+      "bytes": 21367,
+      "sha256": "55270e19b9317ace1daeb6d63806e736f98851c4ffdbb55d5ad9041e801c73f9"
     },
     {
       "path": "runtime/research/ensure-private-state.ps1",

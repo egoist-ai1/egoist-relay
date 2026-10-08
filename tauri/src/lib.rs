@@ -27,6 +27,7 @@ mod transcription;
 mod worker_job;
 mod telegram_transport;
 mod research_bridge;
+mod research_spool;
 mod research_social;
 
 static RESEARCH_HEADLESS: LazyLock<AtomicBool> = LazyLock::new(|| AtomicBool::new(
@@ -310,6 +311,7 @@ pub fn run() {
     telegram_transport::relay_get_telegram_transport,
     research_bridge::relay_research_ready,
     research_bridge::relay_research_reply,
+    research_bridge::relay_research_media_chunk,
     research_social::relay_research_social_reply,
     installer::get_default_install_dir,
     installer::choose_install_dir,

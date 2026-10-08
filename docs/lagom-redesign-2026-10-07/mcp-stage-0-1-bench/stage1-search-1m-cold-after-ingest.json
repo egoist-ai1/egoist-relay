@@ -1,0 +1,87 @@
+{
+  "mode": "search",
+  "dir": "C:\\Users\\Egoist\\AppData\\Local\\Temp\\esmcp\\bench\\scale1m",
+  "items": 1000000,
+  "classes": {
+    "fts_rare_date": {
+      "n": 400,
+      "p50": 17.56,
+      "p95": 155.44,
+      "p99": 206.12,
+      "max": 263.07,
+      "emptyShare": 0
+    },
+    "fts_medium_date": {
+      "n": 400,
+      "p50": 75.92,
+      "p95": 102.41,
+      "p99": 119.5,
+      "max": 146.45,
+      "emptyShare": 0
+    },
+    "fts_common_date": {
+      "n": 200,
+      "p50": 10.13,
+      "p95": 13.25,
+      "p99": 18.19,
+      "max": 21.03,
+      "emptyShare": 0
+    },
+    "fts_two_terms_date": {
+      "n": 300,
+      "p50": 20.45,
+      "p95": 27,
+      "p99": 32.69,
+      "max": 67.36,
+      "emptyShare": 0
+    },
+    "fts_rare_no_filter": {
+      "n": 300,
+      "p50": 8.73,
+      "p95": 32.03,
+      "p99": 66.59,
+      "max": 116.79,
+      "emptyShare": 0
+    },
+    "fts_relevance_medium": {
+      "n": 200,
+      "p50": 279.16,
+      "p95": 482.02,
+      "p99": 682.35,
+      "max": 1061.41,
+      "emptyShare": 0
+    },
+    "browse_date_window": {
+      "n": 400,
+      "p50": 1.36,
+      "p95": 6.75,
+      "p99": 33.79,
+      "max": 125.49,
+      "emptyShare": 0
+    },
+    "browse_keyset_pages": {
+      "n": 600,
+      "p50": 1.97,
+      "p95": 9.05,
+      "p99": 42.41,
+      "max": 69.74,
+      "emptyShare": 0
+    },
+    "scope_one_source_query": {
+      "n": 300,
+      "p50": 5.56,
+      "p95": 26.85,
+      "p99": 40.77,
+      "max": 58.83,
+      "emptyShare": 0.07
+    }
+  },
+  "statsMs": {
+    "stats_month_all": 1055,
+    "stats_day_window": 54,
+    "stats_author_top": 1976,
+    "stats_terms_sample": 1843
+  },
+  "peakRssMiB": 122.4,
+  "dbMiB": 535.6
+}
