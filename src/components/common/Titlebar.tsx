@@ -11,6 +11,7 @@ import useLang from '../../hooks/useLang';
 import useLastCallback from '../../hooks/useLastCallback';
 
 import Icon from './icons/Icon';
+import SennitMark from './SennitMark';
 
 import styles from './Titlebar.module.scss';
 
@@ -131,7 +132,10 @@ const Titlebar = ({
       role="banner"
     >
       <div className={styles.dragRegion} data-tauri-drag-region>
-        <span className={styles.brand} data-tauri-drag-region>{lang('RelayBrand')}</span>
+        <span className={styles.brand} data-tauri-drag-region>
+          <SennitMark size={12} isInline />
+          {lang('RelayBrand')}
+        </span>
         <span className={styles.appTitle} data-tauri-drag-region>
           {activeApp === 'x'
             ? lang('RelayXTitle')

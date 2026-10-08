@@ -1,4 +1,4 @@
-# Egoist Relay: система интерфейса (Egoist DS, режим Lagom)
+# Sennit (внутреннее имя Egoist Relay): система интерфейса (Egoist DS, режим Lagom)
 
 8 октября 2026, версия 1.7.0. Заменяет контракт композиции B ([1.6.1](DESIGN-1.6.1.md)). Основание: [план цикла](lagom-redesign-2026-10-07/PLAN.md), [frontend-аудит](lagom-redesign-2026-10-07/AUDIT-FRONTEND.md), дизайн-система владельца `Материалы\Egoist Design System\DESIGN.md` (режим Lagom: приложения, без акцента, движение — минимум и пружина на отклик). Значения цвета живут в одном месте — [`src/util/lagomTheme.ts`](../src/util/lagomTheme.ts); неколористические токены — [`src/styles/_lagom-tokens.scss`](../src/styles/_lagom-tokens.scss); шрифты — [`src/styles/_fonts.scss`](../src/styles/_fonts.scss).
 
