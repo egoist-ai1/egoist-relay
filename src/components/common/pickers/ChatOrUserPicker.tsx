@@ -7,7 +7,6 @@ import { getActions, getGlobal, withGlobal } from '../../../global';
 import type { GlobalState } from '../../../global/types';
 import type { AnimationLevel, ThreadId } from '../../../types';
 
-import { PEER_PICKER_ITEM_HEIGHT_PX } from '../../../config';
 import {
   getCanPostInChat, getGroupStatus, getOrderedTopics, getUserStatus, isUserOnline,
 } from '../../../global/helpers';
@@ -22,6 +21,7 @@ import {
 import { selectAnimationLevel } from '../../../global/selectors/sharedState';
 import { selectThread } from '../../../global/selectors/threads';
 import buildClassName from '../../../util/buildClassName';
+import { getPeerPickerItemHeightPx } from '../../../util/chatListMetrics';
 import { mapTruthyValues, mapValues } from '../../../util/iteratees';
 import {
   buildChatSelectionKey,
@@ -84,7 +84,6 @@ const CHAT_LIST_SLIDE = 0;
 const TOPIC_LIST_SLIDE = 1;
 const TOPIC_ICON_SIZE = 2.75 * REM;
 const ITEM_CLASS_NAME = 'ChatOrUserPicker-item';
-const TOPIC_ITEM_HEIGHT_PX = 56;
 
 export type SearchRowRenderProps = {
   inputRef: ElementRef<HTMLInputElement>;
@@ -118,6 +117,8 @@ const ChatOrUserPicker = ({
   onClose,
   onCloseAnimationEnd,
 }: OwnProps & StateProps) => {
+  const peerItemHeight = getPeerPickerItemHeightPx();
+
   const { loadTopics } = getActions();
 
   const oldLang = useOldLang();
@@ -315,12 +316,12 @@ const ChatOrUserPicker = ({
         subtitle={subtitle}
         subtitleClassName={subtitleClassName}
         ripple
-        style={`top: ${(viewportOffset + index) * PEER_PICKER_ITEM_HEIGHT_PX}px;`}
+        style={`top: ${(viewportOffset + index) * peerItemHeight}px;`}
 
         onClick={() => handleClick(id)}
       />
     );
-  }, [currentUserId, oldLang, lang, viewportOffset, selectedIds]);
+  }, [currentUserId, oldLang, lang, viewportOffset, selectedIds, peerItemHeight]);
 
   function renderTopicList() {
     return (
@@ -354,7 +355,7 @@ const ChatOrUserPicker = ({
             className="picker-list custom-scroll"
             items={topicIds}
             withAbsolutePositioning
-            maxHeight={(topicIds?.length || 0) * TOPIC_ITEM_HEIGHT_PX}
+            maxHeight={(topicIds?.length || 0) * peerItemHeight}
             onKeyDown={handleTopicKeyDown}
           >
             {topicIds.map((topicId, i) => {
@@ -372,7 +373,7 @@ const ChatOrUserPicker = ({
                   key={`${forumId}_${topicId}`}
                   className={ITEM_CLASS_NAME}
                   onClick={() => onSelectChatOrUser(forumId!, topicId)}
-                  style={`top: ${i * TOPIC_ITEM_HEIGHT_PX}px;`}
+                  style={`top: ${i * peerItemHeight}px;`}
                   avatarElement={(
                     <div className="picker-avatar-wrapper">
                       <TopicIcon
@@ -392,7 +393,7 @@ const ChatOrUserPicker = ({
             {Boolean(viewportFooter) && (
               <div
                 className="picker-list-spacer"
-                style={`top: ${topicIds.length * TOPIC_ITEM_HEIGHT_PX}px`}
+                style={`top: ${topicIds.length * peerItemHeight}px`}
               />
             )}
           </InfiniteScroll>
@@ -442,7 +443,7 @@ const ChatOrUserPicker = ({
           <ChatListContent
             isOpen={isOpen}
             viewportIds={viewportIds}
-            maxHeight={chatOrUserIds.length * PEER_PICKER_ITEM_HEIGHT_PX}
+            maxHeight={chatOrUserIds.length * peerItemHeight}
             viewportFooter={viewportFooter}
             onLoadMore={getMore}
             onSelect={handleChatSelect}

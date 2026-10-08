@@ -32,6 +32,7 @@
 
 .ChatOrUserPicker {
   .modal-dialog {
+    container: pickerDialog / size;
     overflow: hidden;
 
     max-width: 26.25rem;

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from 'vitest';
 
-import { CHAT_HEIGHT_PX } from '../config';
-import { getChatHeightPx } from './chatListMetrics';
+import { CHAT_HEIGHT_PX, PEER_PICKER_ITEM_HEIGHT_PX } from '../config';
+import { getChatHeightPx, getPeerPickerItemHeightPx } from './chatListMetrics';
 
 afterEach(() => {
   document.documentElement.style.fontSize = '';
@@ -24,5 +24,15 @@ describe('getChatHeightPx', () => {
     document.documentElement.style.fontSize = '';
 
     expect(getChatHeightPx()).toBe(CHAT_HEIGHT_PX);
+  });
+});
+
+describe('getPeerPickerItemHeightPx', () => {
+  test('scales the picker row pitch with the root font size', () => {
+    document.documentElement.style.fontSize = '16px';
+    expect(getPeerPickerItemHeightPx()).toBe(PEER_PICKER_ITEM_HEIGHT_PX);
+
+    document.documentElement.style.fontSize = '32px';
+    expect(getPeerPickerItemHeightPx()).toBe(PEER_PICKER_ITEM_HEIGHT_PX * 2);
   });
 });

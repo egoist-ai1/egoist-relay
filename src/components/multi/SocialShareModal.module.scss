@@ -1,6 +1,9 @@
 .modal {
   :global(.modal-dialog) {
+    /* Высота подстраивается под окно: на низком экране диалог занимает почти всю высоту */
     width: min(26.25rem, calc(100vw - 2rem));
+    height: min(46rem, calc(100% - var(--relay-shell-caption-height, 2.5rem) - 0.5rem));
+    max-height: none;
   }
 
   :global(.modal-content),
@@ -8,9 +11,31 @@
     min-height: 0;
   }
 
+  /* Область списка не сжимается ниже гарантированной высоты, нижний блок ограничен и не вытесняет её */
   :global(.modal-content > .Transition) {
-    flex: 1;
-    min-height: 8rem;
+    flex: 1 1 0;
+    min-height: min(12rem, 45%);
+  }
+
+  :global(.picker-header) {
+    overflow-y: auto;
+    flex-shrink: 0;
+    max-height: 50%;
+  }
+
+  :global(.picker-header .search-input-wrapper) {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+
+    flex-shrink: 0;
+
+    background-color: var(--color-background-secondary);
+  }
+
+  :global(.ChatOrUserPicker_slide > .Transition) {
+    flex: 1 1 0;
+    min-height: 6rem;
   }
 
   :global(.picker-header .search-input:focus-visible) {
@@ -25,7 +50,7 @@
   flex: 0 1 auto;
   flex-direction: column;
 
-  max-height: 60%;
+  max-height: 50%;
 
   font-size: 0.875rem;
   line-height: 1.45;
@@ -34,7 +59,10 @@
 
 .details {
   overflow-y: auto;
+  flex: 0 1 auto;
+
   min-height: 0;
+  max-height: 6.5rem;
   padding-top: 0.125rem;
 }
 
@@ -270,32 +298,50 @@
   }
 }
 
-@media (max-height: 700px) {
-  .modal {
-    :global(.picker-header) {
-      overflow-y: auto;
-      flex-shrink: 0;
-      max-height: 50%;
-    }
+/* Низкий диалог: один ряд кнопок, без пояснений и заголовка источника; список получателей важнее */
+@container pickerDialog (max-height: 34rem) {
+  .source,
+  .help {
+    display: none;
+  }
 
-    :global(.picker-header .search-input-wrapper) {
-      position: sticky;
-      z-index: 1;
-      top: 0;
+  .details {
+    max-height: 4.5rem;
+  }
 
-      flex-shrink: 0;
+  .modes {
+    margin-block: 0.125rem;
+  }
 
-      background-color: var(--color-background-secondary);
-    }
+  .mode {
+    min-height: 2rem;
+  }
 
-    :global(.modal-content .picker-list) {
-      padding-block: 0;
-    }
+  .actions {
+    display: flex;
+    gap: 0.375rem;
+    padding-bottom: 0.375rem;
+  }
 
-    :global(.picker-list),
-    :global(.ChatOrUserPicker_slide > .Transition) {
-      min-height: 3.5rem;
-    }
+  .secondary,
+  .send {
+    overflow: hidden;
+    flex: 0 1 auto;
+
+    min-width: 0;
+    min-height: 2.25rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .send {
+    flex: 1 1 0;
+    width: auto;
+  }
+
+  .modal :global(.picker-list) {
+    margin-block: 0.5rem;
   }
 }
 

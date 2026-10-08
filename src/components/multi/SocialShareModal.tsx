@@ -247,7 +247,7 @@ const SocialShareModal = ({
             aria-label={lang('RelayShareSourceDetails')}
             aria-expanded={isSourceExpanded}
           >
-            <span className={styles.service}>{request.service === 'x' ? 'X' : 'Instagram'}</span>
+            <span className={styles.service}>X</span>
             <span className={styles.sourcePreview} dir="auto">{request.text || request.url}</span>
             <Icon name={isSourceExpanded ? 'up' : 'down'} className={styles.sourceChevron} />
           </button>
@@ -313,7 +313,7 @@ const SocialShareModal = ({
           </fieldset>
         )}
         {hasMedia && (
-          <p className={styles.warning}>
+          <p className={buildClassName(styles.warning, styles.help)}>
             {lang(mode === 'file' ? 'RelayOperationFileHelp'
               : mode === 'media' ? 'RelayOperationMediaHelp' : 'RelayOperationLinkHelp')}
           </p>

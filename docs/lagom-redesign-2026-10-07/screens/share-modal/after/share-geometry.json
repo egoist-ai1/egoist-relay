@@ -1,0 +1,182 @@
+[
+ {
+  "name": "lagom-dark-640x448-100",
+  "list": 97,
+  "visible": 97,
+  "sendX": true,
+  "footer": 118,
+  "dialog": {
+   "top": 44,
+   "bottom": 444,
+   "h": 400
+  },
+  "sendInside": true,
+  "vh": 448,
+  "ok": true
+ },
+ {
+  "name": "lagom-dark-800x560-100",
+  "list": 209,
+  "visible": 209,
+  "sendX": true,
+  "footer": 118,
+  "dialog": {
+   "top": 44,
+   "bottom": 556,
+   "h": 512
+  },
+  "sendInside": true,
+  "vh": 560,
+  "ok": true
+ },
+ {
+  "name": "lagom-dark-1920x1080-100",
+  "list": 196,
+  "visible": 196,
+  "sendX": true,
+  "footer": 224,
+  "dialog": {
+   "top": 192,
+   "bottom": 928,
+   "h": 736
+  },
+  "sendInside": true,
+  "vh": 1080,
+  "ok": true
+ },
+ {
+  "name": "lagom-dark-640x448-200",
+  "list": 128,
+  "visible": 28,
+  "sendX": true,
+  "footer": 119,
+  "dialog": {
+   "top": 88,
+   "bottom": 440,
+   "h": 352
+  },
+  "sendInside": true,
+  "vh": 448,
+  "ok": true
+ },
+ {
+  "name": "lagom-dark-800x560-200",
+  "list": 128,
+  "visible": 56,
+  "sendX": true,
+  "footer": 175,
+  "dialog": {
+   "top": 88,
+   "bottom": 552,
+   "h": 464
+  },
+  "sendInside": true,
+  "vh": 560,
+  "ok": true
+ },
+ {
+  "name": "lagom-dark-1920x1080-200",
+  "list": 379,
+  "visible": 379,
+  "sendX": true,
+  "footer": 237,
+  "dialog": {
+   "top": 88,
+   "bottom": 1072,
+   "h": 984
+  },
+  "sendInside": true,
+  "vh": 1080,
+  "ok": true
+ },
+ {
+  "name": "lagom-light-640x448-100",
+  "list": 97,
+  "visible": 97,
+  "sendX": true,
+  "footer": 118,
+  "dialog": {
+   "top": 44,
+   "bottom": 444,
+   "h": 400
+  },
+  "sendInside": true,
+  "vh": 448,
+  "ok": true
+ },
+ {
+  "name": "lagom-light-800x560-100",
+  "list": 209,
+  "visible": 209,
+  "sendX": true,
+  "footer": 118,
+  "dialog": {
+   "top": 44,
+   "bottom": 556,
+   "h": 512
+  },
+  "sendInside": true,
+  "vh": 560,
+  "ok": true
+ },
+ {
+  "name": "lagom-light-1920x1080-100",
+  "list": 196,
+  "visible": 196,
+  "sendX": true,
+  "footer": 224,
+  "dialog": {
+   "top": 192,
+   "bottom": 928,
+   "h": 736
+  },
+  "sendInside": true,
+  "vh": 1080,
+  "ok": true
+ },
+ {
+  "name": "lagom-light-640x448-200",
+  "list": 128,
+  "visible": 28,
+  "sendX": true,
+  "footer": 119,
+  "dialog": {
+   "top": 88,
+   "bottom": 440,
+   "h": 352
+  },
+  "sendInside": true,
+  "vh": 448,
+  "ok": true
+ },
+ {
+  "name": "lagom-light-800x560-200",
+  "list": 128,
+  "visible": 56,
+  "sendX": true,
+  "footer": 175,
+  "dialog": {
+   "top": 88,
+   "bottom": 552,
+   "h": 464
+  },
+  "sendInside": true,
+  "vh": 560,
+  "ok": true
+ },
+ {
+  "name": "lagom-light-1920x1080-200",
+  "list": 379,
+  "visible": 379,
+  "sendX": true,
+  "footer": 237,
+  "dialog": {
+   "top": 88,
+   "bottom": 1072,
+   "h": 984
+  },
+  "sendInside": true,
+  "vh": 1080,
+  "ok": true
+ }
+]
