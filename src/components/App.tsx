@@ -19,6 +19,7 @@ import { forceMutation } from '../lib/fasterdom/stricterdom.ts';
 import {
   selectActionMessageBg, selectTabState, selectTheme, selectThemeValues,
 } from '../global/selectors';
+import { selectSharedSettings } from '../global/selectors/sharedState';
 import { IS_TAURI } from '../util/browser/globalEnvironment';
 import { IS_INSTALL_PROMPT_SUPPORTED, IS_MAC_OS, PLATFORM_ENV } from '../util/browser/windowEnvironment';
 import buildClassName from '../util/buildClassName';
@@ -30,6 +31,7 @@ import { hasEncryptedSession } from '../util/passcode';
 import { getInitialLocationHash, parseInitialLocationHash } from '../util/routing';
 import { checkSessionLocked, hasStoredSession } from '../util/sessions';
 import { resolveAppBounds } from '../util/tauri/appBounds';
+import { getLastUserInputAt, startSocialWarmup } from '../util/tauri/socialWarmup';
 import { getActionMessageBg, getWallpaperBaseColor } from '../util/wallpaper';
 import { updateSizes } from '../util/windowSize';
 import { getMediaOperationsSnapshot, setMediaOperationsLocked,
@@ -169,6 +171,7 @@ const App = ({
   const nativeStatusListenersReadyRef = useRef<Promise<void>>();
   const nativeStatusListenersRef = useRef<NoneToVoidFunction[]>([]);
   const areServicesPrewarmedRef = useRef(false);
+  const stopSocialWarmupRef = useRef<(() => void) | undefined>();
   const nativeViewportRef = useRef<HTMLDivElement>();
   const nativeBoundsRequestRef = useRef(0);
   const lang = useLang();
@@ -625,6 +628,8 @@ const App = ({
 
     return () => {
       isMountedRef.current = false;
+      stopSocialWarmupRef.current?.();
+      stopSocialWarmupRef.current = undefined;
       nativeBoundsRequestRef.current += 1;
       appSwitchRequestRef.current += 1;
       navigationRequestRef.current += 1;
@@ -638,14 +643,15 @@ const App = ({
     areServicesPrewarmedRef.current = true;
     void prepareNativeStatusListeners().then(async () => {
       const { invoke } = await import('@tauri-apps/api/core');
-      for (const command of PREWARM_COMMANDS) {
-        if (!isMountedRef.current) return;
-        try {
-          await invoke(command);
-        } catch (err) {
-          handleError(new Error('Failed to prewarm a social view', { cause: err }));
-        }
-      }
+      if (!isMountedRef.current) return;
+      stopSocialWarmupRef.current = startSocialWarmup({
+        commands: PREWARM_COMMANDS,
+        isEnabled: () => selectSharedSettings(getGlobal()).shouldWarmupSocialViews !== false,
+        isTelegramReady: () => getGlobal().connectionState === 'connectionStateReady' && Boolean(getGlobal().isSynced),
+        getLastInputAt: getLastUserInputAt,
+        run: (command) => invoke(command),
+        onError: (err) => handleError(new Error('Failed to prewarm a social view', { cause: err })),
+      });
     }).catch((err) => {
       areServicesPrewarmedRef.current = false;
       handleError(new Error('Failed to prepare social view observers', { cause: err }));
@@ -979,14 +985,14 @@ const App = ({
                     className={styles.xStatusIcon}
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                     focusable="false"
                   >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" strokeWidth="2.5" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
                   </svg>
                   <span className={styles.xSpinner} />
                 </div>
@@ -1003,14 +1009,14 @@ const App = ({
                     className={styles.xStatusIcon}
                     fill="none"
                     stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                     focusable="false"
                   >
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" strokeWidth="2.5" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
                   </svg>
                 </div>
                 <h1 className={styles.xStatusTitle}>{lang('RelayInstagramErrorTitle')}</h1>

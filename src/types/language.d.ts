@@ -2373,6 +2373,8 @@ export interface LangPair {
   'RelayRestore': undefined;
   'RelayXDirectLogin': undefined;
   'RelayLoginShort': undefined;
+  'RelayEmptyChatTitle': undefined;
+  'RelayEmptyChatNote': undefined;
   'RelayXDirectLoginTitle': undefined;
   'RelayXDirectLoginHelp': undefined;
   'RelayXPasswordHelp': undefined;
@@ -2554,6 +2556,12 @@ export interface LangPair {
   'RelayClearDeletedMessagesTitle': undefined;
   'RelayClearDeletedMessagesText': undefined;
   'RelayClearDeletedMessagesConfirm': undefined;
+  'RelayNetworkTitle': undefined;
+  'RelayRouteLagom': undefined;
+  'RelayRouteDirect': undefined;
+  'RelayRouteMs': undefined;
+  'RelayWarmupSocial': undefined;
+  'RelayWarmupSocialHint': undefined;
 }
 
 export interface LangPairWithVariables<V = LangVariable> {

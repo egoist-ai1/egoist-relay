@@ -1,0 +1,128 @@
+[
+ {
+  "name": "lagom-dark-640x448-100",
+  "w": 36,
+  "h": 48,
+  "radius": "50%",
+  "bg": "rgb(237, 235, 230)",
+  "usesPrimary": true,
+  "hasBlue": false,
+  "iconDX": 0,
+  "iconDY": 0,
+  "insideColumn": true,
+  "rect": {
+   "x": 371,
+   "y": 368
+  },
+  "focus": {
+   "outline": "none 3px",
+   "shadow": true
+  },
+  "ok": false
+ },
+ {
+  "name": "lagom-dark-800x560-100",
+  "w": 36,
+  "h": 48,
+  "radius": "50%",
+  "bg": "rgb(237, 235, 230)",
+  "usesPrimary": true,
+  "hasBlue": false,
+  "iconDX": 0,
+  "iconDY": 0,
+  "insideColumn": true,
+  "rect": {
+   "x": 371,
+   "y": 480
+  },
+  "focus": {
+   "outline": "none 3px",
+   "shadow": true
+  },
+  "ok": false
+ },
+ {
+  "name": "lagom-dark-1920x1080-100",
+  "w": 36,
+  "h": 48,
+  "radius": "50%",
+  "bg": "rgb(237, 235, 230)",
+  "usesPrimary": true,
+  "hasBlue": false,
+  "iconDX": 0,
+  "iconDY": 0,
+  "insideColumn": true,
+  "rect": {
+   "x": 355,
+   "y": 1016
+  },
+  "focus": {
+   "outline": "none 3px",
+   "shadow": true
+  },
+  "ok": false
+ },
+ {
+  "name": "lagom-dark-640x448-200",
+  "w": 72,
+  "h": 96,
+  "radius": "50%",
+  "bg": "rgb(237, 235, 230)",
+  "usesPrimary": true,
+  "hasBlue": false,
+  "iconDX": 0,
+  "iconDY": 0,
+  "insideColumn": true,
+  "rect": {
+   "x": 582,
+   "y": 288
+  },
+  "focus": {
+   "outline": "none 3px",
+   "shadow": true
+  },
+  "ok": false
+ },
+ {
+  "name": "lagom-dark-800x560-200",
+  "w": 72,
+  "h": 96,
+  "radius": "50%",
+  "bg": "rgb(237, 235, 230)",
+  "usesPrimary": true,
+  "hasBlue": false,
+  "iconDX": 0,
+  "iconDY": 0,
+  "insideColumn": true,
+  "rect": {
+   "x": 662,
+   "y": 400
+  },
+  "focus": {
+   "outline": "none 3px",
+   "shadow": true
+  },
+  "ok": false
+ },
+ {
+  "name": "lagom-dark-1920x1080-200",
+  "w": 72,
+  "h": 96,
+  "radius": "50%",
+  "bg": "rgb(237, 235, 230)",
+  "usesPrimary": true,
+  "hasBlue": false,
+  "iconDX": 0,
+  "iconDY": 0,
+  "insideColumn": true,
+  "rect": {
+   "x": 553,
+   "y": 952
+  },
+  "focus": {
+   "outline": "none 3px",
+   "shadow": true
+  },
+  "ok": false
+ }
+]

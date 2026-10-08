@@ -3233,6 +3233,8 @@
 "RelayRestore" = "Восстановить";
 "RelayXDirectLogin" = "Вход по логину X";
 "RelayLoginShort" = "Войти";
+"RelayEmptyChatTitle" = "Выберите чат";
+"RelayEmptyChatNote" = "Переписка откроется здесь.";
 "RelayXDirectLoginTitle" = "Вход напрямую в X";
 "RelayXDirectLoginHelp" = "Используйте почту или имя пользователя X и пароль от X. Вход через Google внутри Sennit не поддерживается.";
 "RelayXPasswordHelp" = "Если раньше вы входили через Google, нажмите «Забыли пароль?» на странице входа X и задайте пароль для X. Пароль Google здесь не подходит.";
@@ -3434,3 +3436,9 @@
 "RelayClearDeletedMessagesTitle" = "Очистить сохранённые сообщения?";
 "RelayClearDeletedMessagesText" = "Все сохранённые копии удалённых сообщений будут стёрты с этого компьютера. Это нельзя отменить.";
 "RelayClearDeletedMessagesConfirm" = "Очистить";
+"RelayNetworkTitle" = "Сеть";
+"RelayRouteLagom" = "Маршрут: через Lagom";
+"RelayRouteDirect" = "Маршрут: напрямую";
+"RelayRouteMs" = "мс";
+"RelayWarmupSocial" = "Готовить X и Instagram в фоне";
+"RelayWarmupSocialHint" = "Окна сервисов создаются после готовности Telegram, когда вы не вводите текст. Выключите, чтобы экономить память и сеть.";

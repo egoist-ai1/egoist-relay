@@ -16,7 +16,7 @@
 
   background: var(--relay-shell-surface);
 
-  animation: reveal 140ms cubic-bezier(0.2, 0, 0, 1);
+  animation: reveal var(--dur-fast) var(--ease-standard);
 }
 
 .full {
@@ -55,7 +55,7 @@
 
   background: transparent;
 
-  transition: background-color 140ms ease, opacity 140ms ease;
+  transition: background-color var(--dur-fast) var(--ease-standard), opacity var(--dur-fast) var(--ease-standard);
   &:hover {
     background: var(--relay-shell-hover);
   }

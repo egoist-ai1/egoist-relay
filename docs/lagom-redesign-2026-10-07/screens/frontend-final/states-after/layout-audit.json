@@ -1,0 +1,30 @@
+[
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "auth-qr",
+  "found": []
+ }
+]

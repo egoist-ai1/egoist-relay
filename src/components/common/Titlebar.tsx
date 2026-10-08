@@ -133,7 +133,7 @@ const Titlebar = ({
     >
       <div className={styles.dragRegion} data-tauri-drag-region>
         <span className={styles.brand} data-tauri-drag-region>
-          <SennitMark size={12} isInline />
+          <SennitMark size={16} isInline />
           {lang('RelayBrand')}
         </span>
         <span className={styles.appTitle} data-tauri-drag-region>

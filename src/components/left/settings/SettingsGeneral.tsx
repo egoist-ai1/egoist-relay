@@ -3,7 +3,7 @@ import {
 } from '../../../lib/teact/teact';
 import { getActions, withGlobal } from '../../../global';
 
-import type { SharedSettings } from '../../../global/types';
+import type { GlobalState, SharedSettings } from '../../../global/types';
 import type { TimeFormat } from '../../../types';
 import type { IRadioOption } from '../../ui/RadioGroup';
 import { SettingsScreens } from '../../../types';
@@ -42,8 +42,11 @@ type StateProps =
     'shouldReplaceTextShortcuts' |
     'timeFormat' |
     'theme' |
-    'shouldUseSystemTheme'
-  )>;
+    'shouldUseSystemTheme' |
+    'shouldWarmupSocialViews'
+  )> & {
+    connectionRoute?: GlobalState['connectionRoute'];
+  };
 
 const SettingsGeneral = ({
   isActive,
@@ -53,6 +56,8 @@ const SettingsGeneral = ({
   timeFormat,
   theme,
   shouldUseSystemTheme,
+  shouldWarmupSocialViews,
+  connectionRoute,
   onReset,
 }: OwnProps & StateProps) => {
   const {
@@ -124,6 +129,10 @@ const SettingsGeneral = ({
 
   const handleTextShortcutReplacementChange = useLastCallback((shouldReplace: boolean) => {
     setSharedSettingOption({ shouldReplaceTextShortcuts: shouldReplace });
+  });
+
+  const handleWarmupSocialChange = useLastCallback((shouldWarmup: boolean) => {
+    setSharedSettingOption({ shouldWarmupSocialViews: shouldWarmup });
   });
 
   useHistoryBack({
@@ -200,6 +209,24 @@ const SettingsGeneral = ({
           onCheck={handleTextShortcutReplacementChange}
         />
       </Island>
+
+      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayNetworkTitle')}</IslandTitle>
+      <Island>
+        {connectionRoute && (
+          <ListItem inactive>
+            <span>
+              {lang(connectionRoute.kind === 'lagom' ? 'RelayRouteLagom' : 'RelayRouteDirect')}
+              {connectionRoute.rttMs !== undefined && ` · ${Math.round(connectionRoute.rttMs)} ${lang('RelayRouteMs')}`}
+            </span>
+          </ListItem>
+        )}
+        <Checkbox
+          label={lang('RelayWarmupSocial')}
+          subLabel={lang('RelayWarmupSocialHint')}
+          checked={shouldWarmupSocialViews !== false}
+          onCheck={handleWarmupSocialChange}
+        />
+      </Island>
     </div>
   );
 };
@@ -213,9 +240,12 @@ export default memo(withGlobal<OwnProps>(
       shouldReplaceTextShortcuts,
       messageTextSize,
       timeFormat,
+      shouldWarmupSocialViews,
     } = selectSharedSettings(global);
 
     return {
+      shouldWarmupSocialViews,
+      connectionRoute: global.connectionRoute,
       messageSendKeyCombo,
       shouldReplaceTextShortcuts,
       messageTextSize,

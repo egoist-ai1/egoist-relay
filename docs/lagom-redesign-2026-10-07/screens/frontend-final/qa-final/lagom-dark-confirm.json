@@ -1,0 +1,1239 @@
+{
+ "key": [],
+ "all": [
+  {
+   "path": "div.modal-title<div.modal-header<div.modal-dialog",
+   "text": "Удаление тестового объек",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "20px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 16.195448028411267,
+   "fgHex": "#edebe6",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "p<div.modal-content<div.modal-dialog",
+   "text": "Подтверждение в изолиров",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 16.195448028411267,
+   "fgHex": "#edebe6",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "button.Button<div.dialog-buttons<div.modal-content",
+   "text": "Удалить тестовый объект",
+   "fg": "rgb(255, 90, 78)",
+   "fontSize": "16px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 6.270923356839735,
+   "fgHex": "#ff5a4e",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "button.Button<div.dialog-buttons<div.modal-content",
+   "text": "Отмена",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 16.195448028411267,
+   "fgHex": "#edebe6",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.AppSidebar-module__appLabel<button.AppSidebar-module__appButton<div.AppSidebar-module__appItem",
+   "text": "Telegram",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "11px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.653069946791364,
+   "fgHex": "#edebe6",
+   "bgHex": "#26262a"
+  },
+  {
+   "path": "span.AppSidebar-module__appLabel<button.AppSidebar-module__appButton<div.AppSidebar-module__appItem",
+   "text": "X",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.AppSidebar-module__appLabel<button.AppSidebar-module__appButton<div.AppSidebar-module__appItem",
+   "text": "Instagram",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.Titlebar-module__brand<div.Titlebar-module__dragRegion<div.Titlebar-module__titlebar",
+   "text": "Sennit",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "11px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 16.195448028411267,
+   "fgHex": "#edebe6",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.Titlebar-module__appTitle<div.Titlebar-module__dragRegion<div.Titlebar-module__titlebar",
+   "text": "Telegram",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "12px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.Titlebar-module__gridIndex<div.Titlebar-module__dragRegion<div.Titlebar-module__titlebar",
+   "text": "01/03",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "ER",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "12px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "div.StoryRibbon-module__name<div.StoryRibbon-module__peer<div.StoryRibbon-module__root",
+   "text": "Создать",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.TabList-module__tabTitle<div.TabList-module__tab<div.TabList",
+   "text": "All",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.14)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 11.558127419928523,
+   "fgHex": "#edebe6",
+   "bgHex": "#2d2d2d"
+  },
+  {
+   "path": "span.TabList-module__tabTitle<div.TabList-module__tab<div.TabList",
+   "text": "Все чаты",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "16px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "R",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "23px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "h3.fullName<div.title<div.info-row",
+   "text": "Relay Новости",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 16.195448028411267,
+   "fgHex": "#edebe6",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.time<div.LastMessageMeta<div.info-row",
+   "text": "Sep 19",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.last-message-summary<p.last-message<div.subtitle",
+   "text": "Интерфейс остаётся быстр",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "МВ",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "23px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "h3.fullName<div.title<div.info-row",
+   "text": "Марина Волкова",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.653069946791364,
+   "fgHex": "#edebe6",
+   "bgHex": "#26262a"
+  },
+  {
+   "path": "span.time<div.LastMessageMeta<div.info-row",
+   "text": "Sep 19",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.653069946791364,
+   "fgHex": "#edebe6",
+   "bgHex": "#26262a"
+  },
+  {
+   "path": "span.last-message-summary<p.last-message<div.subtitle",
+   "text": "Отлично",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.653069946791364,
+   "fgHex": "#edebe6",
+   "bgHex": "#26262a"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "МВ",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "17px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "h3.fullName<div.title<div.info",
+   "text": "Марина Волкова",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "18px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 16.195448028411267,
+   "fgHex": "#edebe6",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span.DotAnimation<div.info<div.ChatInfo",
+   "text": "обновление",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "15px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "span<div.sticky-date<div.message-date-group",
+   "text": "19 сентября",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "11px",
+   "fontWeight": "500",
+   "layers": [
+    "color(srgb 0.0784314 0.0784314 0.0862745 / 0.85)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.564447850679286,
+   "fgHex": "#edebe6",
+   "bgHex": "#131315"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "МВ",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "div.text-content<div.content-inner<div.message-content",
+   "text": "Привет! Проверим новый и",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.message-time<span.MessageMeta<div.text-content",
+   "text": "19:10",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 0.88,
+   "unknown": false,
+   "ratio": 12.082068088481451,
+   "fgHex": "#d3d1cd",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "p.embedded-text-wrapper<div.message-text<div.PeerColorWrapper-module__root",
+   "text": "Привет! Проверим новый и",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "14px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.04)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 11.371150844515578,
+   "fgHex": "#edebe6",
+   "bgHex": "#2e2e32"
+  },
+  {
+   "path": "span.embedded-sender<span.embedded-sender-wrapper<div.message-title",
+   "text": "Марина Волкова",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "14px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.04)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 11.371150844515578,
+   "fgHex": "#edebe6",
+   "bgHex": "#2e2e32"
+  },
+  {
+   "path": "div.text-content<div.content-inner<div.message-content",
+   "text": "Да, всё выглядит спокойн",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.653069946791364,
+   "fgHex": "#edebe6",
+   "bgHex": "#26262a"
+  },
+  {
+   "path": "span.message-time<span.MessageMeta<div.text-content",
+   "text": "19:11",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(38, 38, 42)"
+   ],
+   "opacity": 0.88,
+   "unknown": false,
+   "ratio": 10.115385882316371,
+   "fgHex": "#d5d3cf",
+   "bgHex": "#26262a"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "ER",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.letters<div.inner<div.Avatar",
+   "text": "МВ",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "700",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "div.text-content<div.content-inner<div.message-content",
+   "text": "Отлично",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.ReactionStaticEmoji__fallback<div.ReactionStaticEmoji<div.ReactionAnimatedEmoji-module__root",
+   "text": "❤",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "20px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.08)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.810739158890009,
+   "fgHex": "#edebe6",
+   "bgHex": "#252527"
+  },
+  {
+   "path": "span.ReactionButton-module__counter<button.Button<div.Reactions",
+   "text": "4",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "14px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.08)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.810739158890009,
+   "fgHex": "#edebe6",
+   "bgHex": "#252527"
+  },
+  {
+   "path": "span.ReactionStaticEmoji__fallback<div.ReactionStaticEmoji<div.ReactionAnimatedEmoji-module__root",
+   "text": "🔥",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "20px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.08)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.810739158890009,
+   "fgHex": "#edebe6",
+   "bgHex": "#252527"
+  },
+  {
+   "path": "span.ReactionButton-module__counter<button.Button<div.Reactions",
+   "text": "2",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "14px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(237, 235, 230, 0.08)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 12.810739158890009,
+   "fgHex": "#edebe6",
+   "bgHex": "#252527"
+  },
+  {
+   "path": "span.message-time<span.MessageMeta<div.Reactions",
+   "text": "19:12",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 0.88,
+   "unknown": false,
+   "ratio": 12.082068088481451,
+   "fgHex": "#d3d1cd",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.placeholder-text<div.input-scroller-content<div.custom-scroll",
+   "text": "Message",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "16px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.MessageSelectToolbar-count<div.MessageSelectToolbar-inner<div.MessageSelectToolbar",
+   "text": "0 messages selected",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "16px",
+   "fontWeight": "500",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgb(14, 14, 15)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.594692273896464,
+   "fgHex": "#8c8a85",
+   "bgHex": "#0e0e0f"
+  },
+  {
+   "path": "h2.MediaOperationsPanel-module__heading<header.MediaOperationsPanel-module__header<div.MediaOperationsPanel-module__root",
+   "text": "Загрузки и пересылки",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "16px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__tabButton<div.MediaOperationsPanel-module__tabs<div.MediaOperationsPanel-module__root",
+   "text": "Текущие",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__tabButton<div.MediaOperationsPanel-module__tabs<div.MediaOperationsPanel-module__root",
+   "text": "История",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.MediaOperationsPanel-module__kind<div.MediaOperationsPanel-module__row<li.MediaOperationsPanel-module__operation",
+   "text": "Сохранение",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.MediaOperationsPanel-module__source<div.MediaOperationsPanel-module__row<li.MediaOperationsPanel-module__operation",
+   "text": "Instagram",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "time.MediaOperationsPanel-module__timestamp<div.MediaOperationsPanel-module__row<li.MediaOperationsPanel-module__operation",
+   "text": "8 окт., 19:06",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "h3.MediaOperationsPanel-module__operationTitle<li.MediaOperationsPanel-module__operation<ol.MediaOperationsPanel-module__list",
+   "text": "Набережная.jpg",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "15px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "p.MediaOperationsPanel-module__stage<li.MediaOperationsPanel-module__operation<ol.MediaOperationsPanel-module__list",
+   "text": "Готово",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span<div.MediaOperationsPanel-module__file<li.MediaOperationsPanel-module__operation",
+   "text": "Набережная.jpg",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.MediaOperationsPanel-module__meta<div.MediaOperationsPanel-module__file<li.MediaOperationsPanel-module__operation",
+   "text": "3.0 MiB",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "12px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__actionButton<div.MediaOperationsPanel-module__actions<div.MediaOperationsPanel-module__file",
+   "text": "Открыть файл",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__actionButton<div.MediaOperationsPanel-module__actions<div.MediaOperationsPanel-module__file",
+   "text": "Показать в папке",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__actionButton<div.MediaOperationsPanel-module__actions<li.MediaOperationsPanel-module__operation",
+   "text": "К источнику",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.MediaOperationsPanel-module__kind<div.MediaOperationsPanel-module__row<li.MediaOperationsPanel-module__operation",
+   "text": "Сохранение",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "span.MediaOperationsPanel-module__source<div.MediaOperationsPanel-module__row<li.MediaOperationsPanel-module__operation",
+   "text": "X",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "time.MediaOperationsPanel-module__timestamp<div.MediaOperationsPanel-module__row<li.MediaOperationsPanel-module__operation",
+   "text": "8 окт., 19:06",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "h3.MediaOperationsPanel-module__operationTitle<li.MediaOperationsPanel-module__operation<ol.MediaOperationsPanel-module__list",
+   "text": "clip.mp4",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "15px",
+   "fontWeight": "600",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "p.MediaOperationsPanel-module__stage<li.MediaOperationsPanel-module__operation<ol.MediaOperationsPanel-module__list",
+   "text": "Не удалось завершить",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "p.MediaOperationsPanel-module__error<li.MediaOperationsPanel-module__operation<ol.MediaOperationsPanel-module__list",
+   "text": "Не удалось выполнить дей",
+   "fg": "rgb(255, 90, 78)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.979699192714579,
+   "fgHex": "#ff5a4e",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__actionButton<div.MediaOperationsPanel-module__actions<li.MediaOperationsPanel-module__operation",
+   "text": "Повторить",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__actionButton<div.MediaOperationsPanel-module__actions<li.MediaOperationsPanel-module__operation",
+   "text": "К источнику",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "p.MediaOperationsPanel-module__footerText<footer.MediaOperationsPanel-module__footer<div.MediaOperationsPanel-module__root",
+   "text": "Локальный журнал · 30 дн",
+   "fg": "rgb(140, 138, 133)",
+   "fontSize": "11px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 5.334872549066647,
+   "fgHex": "#8c8a85",
+   "bgHex": "#141416"
+  },
+  {
+   "path": "button.MediaOperationsPanel-module__actionButton<footer.MediaOperationsPanel-module__footer<div.MediaOperationsPanel-module__root",
+   "text": "Очистить историю",
+   "fg": "rgb(237, 235, 230)",
+   "fontSize": "13px",
+   "fontWeight": "400",
+   "layers": [
+    "rgba(0, 0, 0, 0)",
+    "rgba(0, 0, 0, 0)",
+    "rgb(20, 20, 22)"
+   ],
+   "opacity": 1,
+   "unknown": false,
+   "ratio": 15.443325008192538,
+   "fgHex": "#edebe6",
+   "bgHex": "#141416"
+  }
+ ],
+ "bad": []
+}

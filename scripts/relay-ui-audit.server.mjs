@@ -1,3 +1,4 @@
+import { createReadStream, existsSync } from 'node:fs';
 import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -49,6 +50,13 @@ export async function startAuditServer(output, port = 1251, { baselineDirectory 
         catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
       },
       configureServer(instance) {
+        // Эмодзи: в сборке их копирует vite-plugin-static-copy, в харнессе отдаём из пакета emoji-data-ios
+        instance.middlewares.use((request, response, next) => {
+          const match = /^\/(img-apple-(?:64|160))\/([\w-]+\.png)(?:\?.*)?$/.exec(request.url || '');
+          const file = match && path.join(project, 'node_modules', 'emoji-data-ios', match[1], match[2]);
+          if (!file || !existsSync(file)) { next(); return; }
+          response.setHeader('content-type', 'image/png'); createReadStream(file).pipe(response);
+        });
         instance.middlewares.use('/relay-ui-audit', async (_request, response, next) => {
           try {
             const html = await instance.transformIndexHtml('/relay-ui-audit',

@@ -1,0 +1,80 @@
+.root {
+  pointer-events: none;
+
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.5rem;
+
+  text-align: center;
+}
+
+.mark {
+  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.title {
+  margin: 0;
+
+  font-size: 1.1875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+/* Кресты приводки Egoist Grid: только на пустых и статусных экранах */
+.cross {
+  --cross-arm: 0.875rem;
+  --cross-inset: 1.5rem;
+
+  position: absolute;
+
+  width: var(--cross-arm);
+  height: var(--cross-arm);
+
+  color: var(--grid-ink);
+
+  background:
+    linear-gradient(currentcolor, currentcolor) center / 100% 0.0625rem no-repeat,
+    linear-gradient(currentcolor, currentcolor) center / 0.0625rem 100% no-repeat;
+
+  &[data-corner="start-top"] {
+    inset-block-start: var(--cross-inset);
+    inset-inline-start: var(--cross-inset);
+  }
+
+  &[data-corner="end-top"] {
+    inset-block-start: var(--cross-inset);
+    inset-inline-end: var(--cross-inset);
+  }
+
+  &[data-corner="start-bottom"] {
+    inset-block-end: var(--cross-inset);
+    inset-inline-start: var(--cross-inset);
+  }
+
+  &[data-corner="end-bottom"] {
+    inset-block-end: var(--cross-inset);
+    inset-inline-end: var(--cross-inset);
+  }
+}
+
+@media (max-height: 30rem) {
+  .cross {
+    display: none;
+  }
+}

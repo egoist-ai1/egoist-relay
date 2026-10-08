@@ -52,7 +52,7 @@ export default {
   "RelayAppSwitcher": "Приложения",
   "RelaySwitchTelegram": "Переключиться на Telegram",
   "RelaySwitchX": "Переключиться на X",
-  "RelayBrand": "Relay",
+  "RelayBrand": "Sennit",
   "Settings": "Настройки",
   "RelayTelegramTitle": "Telegram",
   "RelayXTitle": "X",

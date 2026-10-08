@@ -42,9 +42,19 @@
     margin: 0 auto 1.25rem;
   }
 
+  /* Знак Sennit на плитке графита (docs/brand/BRAND.md: знак на контрастном поле, радиус плитки 14/64) */
   #logo {
-    background: url("../../assets/telegram-logo.svg") center no-repeat;
-    background-size: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    border: 0.0625rem solid var(--color-borders);
+    border-radius: 1.0625rem;
+
+    color: var(--color-text);
+
+    background: var(--color-background-secondary);
   }
 
   h1 {
@@ -216,9 +226,17 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2.625rem;
+    height: 2.625rem;
     border-radius: 50%;
 
-    /* Часть QR-кода: тёмные модули на светлой подложке читает сканер, тема не меняет */
+    /* Часть QR-кода: тёмные модули на светлой подложке читает сканер, тема не меняет; знак белый на чёрном (21:1) */
+    color: #FFFFFF;
+
     background-color: #000000;
   }
 

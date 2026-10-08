@@ -1,0 +1,18 @@
+[
+ {
+  "theme": "lagom-dark",
+  "before": "false",
+  "afterEnter": "true",
+  "afterSpace": "false",
+  "outline": "solid 2px",
+  "placeholderRowsWithoutButton": 1
+ },
+ {
+  "theme": "lagom-light",
+  "before": "false",
+  "afterEnter": "true",
+  "afterSpace": "false",
+  "outline": "solid 2px",
+  "placeholderRowsWithoutButton": 1
+ }
+]

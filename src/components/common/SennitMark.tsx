@@ -29,7 +29,7 @@ const SennitMark = ({ size = 16, className, isInline }: OwnProps) => (
     <path
       d="M50 14.5H25A8.75 8.75 0 0 0 25 32H39A8.75 8.75 0 0 1 39 49.5H14"
       stroke="currentColor"
-      strokeWidth="9"
+      stroke-width="9"
       mask="url(#sennit-mark-gaps)"
     />
   </svg>

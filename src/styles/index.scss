@@ -818,6 +818,15 @@ html:is(.theme-dark, .theme-light) {
     background-image: none !important;
   }
 
+  /* Подложка Main плоская, как и колонка чата: обои Telegram не видны рядом с левой колонкой на узком окне */
+  .main-wallpaper {
+    background-color: var(--color-background) !important;
+
+    &::before {
+      display: none !important;
+    }
+  }
+
   .gradientCanvas,
   .chat-background .canvas,
   .chat-background canvas {

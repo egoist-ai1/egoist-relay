@@ -63,6 +63,15 @@
 
   .yellow .inner {
     background-image: var(--spinner-yellow-data);
+
+    /* Lagom монохромный: статус соединения тем же ходом, что обычный спиннер (blue следует теме) */
+    :global(html[class*="theme-variant-lagom"]) & {
+      background-image: var(--spinner-blue-data);
+    }
+
+    :global(html.theme-dark[class*="theme-variant-lagom"]) & {
+      background-image: var(--spinner-white-data);
+    }
   }
 
   .inner {

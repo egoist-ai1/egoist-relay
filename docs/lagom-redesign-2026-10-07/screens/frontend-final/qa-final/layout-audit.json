@@ -1,0 +1,4370 @@
+[
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "chat",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "operations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "share",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "toast",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "auth-code",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "auth-password",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "menu",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "controls",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "confirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "date",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "nested",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Main",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:EditProfile",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Notifications",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:DataStorage",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Language",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:ActiveSessions",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:General",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:GeneralChatBackground",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:GeneralChatBackgroundColor",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Privacy",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:AutoDeleteMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneNumber",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyAddByPhone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyLastSeen",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyProfilePhoto",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBio",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBirthday",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGifts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneCall",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneP2P",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyForwarding",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyVoiceMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGroupChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneNumberAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneNumberDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyLastSeenAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyLastSeenDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyProfilePhotoAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyProfilePhotoDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBioAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBioDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBirthdayAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBirthdayDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGiftsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGiftsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneCallAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneCallDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneP2PAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneP2PDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyForwardingAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyForwardingDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyVoiceMessagesAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyVoiceMessagesDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGroupChatsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGroupChatsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBlockedUsers",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyNoPaidMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Performance",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Folders",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersCreateFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersEditFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersEditFolderFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersEditFolderInvites",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersIncludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersIncludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersExcludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersExcludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaRecoveryEmailCurrentPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaRecoveryEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaRecoveryEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:ActiveWebsites",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeNewPasscode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeNewPasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeChangePasscodeCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeChangePasscodeNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeChangePasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Experimental",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Stickers",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:QuickReaction",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:CustomEmoji",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:DoNotTranslate",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersShare",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Passkeys",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "chat",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "operations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "share",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "toast",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "auth-code",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "auth-password",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "menu",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "controls",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "confirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "date",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "nested",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Main",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:EditProfile",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Notifications",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:DataStorage",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Language",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:ActiveSessions",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:General",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:GeneralChatBackground",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:GeneralChatBackgroundColor",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Privacy",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:AutoDeleteMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneNumber",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyAddByPhone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyLastSeen",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyProfilePhoto",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBio",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBirthday",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGifts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneCall",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneP2P",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyForwarding",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyVoiceMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGroupChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneNumberAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneNumberDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyLastSeenAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyLastSeenDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyProfilePhotoAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyProfilePhotoDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBioAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBioDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBirthdayAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBirthdayDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGiftsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGiftsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneCallAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneCallDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneP2PAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneP2PDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyForwardingAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyForwardingDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyVoiceMessagesAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyVoiceMessagesDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGroupChatsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGroupChatsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBlockedUsers",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyNoPaidMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Performance",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Folders",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersCreateFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersEditFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersEditFolderFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersEditFolderInvites",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersIncludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersIncludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersExcludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersExcludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaRecoveryEmailCurrentPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaRecoveryEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaRecoveryEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:ActiveWebsites",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeNewPasscode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeNewPasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeChangePasscodeCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeChangePasscodeNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeChangePasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Experimental",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Stickers",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:QuickReaction",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:CustomEmoji",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:DoNotTranslate",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersShare",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Passkeys",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "chat",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "operations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "share",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "toast",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-code",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-password",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "menu",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "controls",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "confirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "date",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "nested",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Main",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:EditProfile",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Notifications",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:DataStorage",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Language",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:ActiveSessions",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:General",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:GeneralChatBackground",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:GeneralChatBackgroundColor",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Privacy",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:AutoDeleteMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneNumber",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyAddByPhone",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyLastSeen",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyProfilePhoto",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBio",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBirthday",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGifts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneCall",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneP2P",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyForwarding",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyVoiceMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGroupChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneNumberAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneNumberDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyLastSeenAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyLastSeenDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyProfilePhotoAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyProfilePhotoDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBioAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBioDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBirthdayAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBirthdayDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGiftsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGiftsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneCallAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneCallDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneP2PAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneP2PDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyForwardingAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyForwardingDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyVoiceMessagesAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyVoiceMessagesDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGroupChatsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGroupChatsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBlockedUsers",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyNoPaidMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Performance",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Folders",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersCreateFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersEditFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersEditFolderFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersEditFolderInvites",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersIncludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersIncludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersExcludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersExcludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaRecoveryEmailCurrentPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaRecoveryEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaRecoveryEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:ActiveWebsites",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeNewPasscode",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeNewPasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeChangePasscodeCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeChangePasscodeNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeChangePasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Experimental",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Stickers",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:QuickReaction",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:CustomEmoji",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:DoNotTranslate",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersShare",
+  "found": []
+ },
+ {
+  "theme": "lagom-dark",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Passkeys",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "chat",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "operations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "share",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "toast",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "auth-code",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "auth-password",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "menu",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "controls",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "confirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "date",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "nested",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Main",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:EditProfile",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Notifications",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:DataStorage",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Language",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:ActiveSessions",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:General",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:GeneralChatBackground",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:GeneralChatBackgroundColor",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Privacy",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:AutoDeleteMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneNumber",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyAddByPhone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyLastSeen",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyProfilePhoto",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBio",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBirthday",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGifts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneCall",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneP2P",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyForwarding",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyVoiceMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGroupChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneNumberAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneNumberDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyLastSeenAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyLastSeenDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyProfilePhotoAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyProfilePhotoDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBioAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBioDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBirthdayAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBirthdayDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGiftsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGiftsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneCallAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneCallDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneP2PAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyPhoneP2PDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyForwardingAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyForwardingDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyVoiceMessagesAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyVoiceMessagesDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGroupChatsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyGroupChatsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyBlockedUsers",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PrivacyNoPaidMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Performance",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Folders",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersCreateFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersEditFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersEditFolderFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersEditFolderInvites",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersIncludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersIncludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersExcludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersExcludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaNewPasswordEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaChangePasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaRecoveryEmailCurrentPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaRecoveryEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaRecoveryEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:TwoFaCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:ActiveWebsites",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeNewPasscode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeNewPasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeChangePasscodeCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeChangePasscodeNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeChangePasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:PasscodeCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Experimental",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Stickers",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:QuickReaction",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:CustomEmoji",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:DoNotTranslate",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:FoldersShare",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 640,
+  "h": 448,
+  "name": "settings:Passkeys",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "chat",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "operations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "share",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "toast",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "auth-code",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "auth-password",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "menu",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "controls",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "confirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "date",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "nested",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Main",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:EditProfile",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Notifications",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:DataStorage",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Language",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:ActiveSessions",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:General",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:GeneralChatBackground",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:GeneralChatBackgroundColor",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Privacy",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:AutoDeleteMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneNumber",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyAddByPhone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyLastSeen",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyProfilePhoto",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBio",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBirthday",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGifts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneCall",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneP2P",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyForwarding",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyVoiceMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGroupChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneNumberAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneNumberDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyLastSeenAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyLastSeenDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyProfilePhotoAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyProfilePhotoDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBioAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBioDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBirthdayAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBirthdayDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGiftsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGiftsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneCallAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneCallDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneP2PAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyPhoneP2PDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyForwardingAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyForwardingDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyVoiceMessagesAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyVoiceMessagesDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGroupChatsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyGroupChatsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyBlockedUsers",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PrivacyNoPaidMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Performance",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Folders",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersCreateFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersEditFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersEditFolderFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersEditFolderInvites",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersIncludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersIncludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersExcludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersExcludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaNewPasswordEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaChangePasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaRecoveryEmailCurrentPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaRecoveryEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaRecoveryEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:TwoFaCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:ActiveWebsites",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeNewPasscode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeNewPasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeChangePasscodeCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeChangePasscodeNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeChangePasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:PasscodeCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Experimental",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Stickers",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:QuickReaction",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:CustomEmoji",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:DoNotTranslate",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:FoldersShare",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 800,
+  "h": 560,
+  "name": "settings:Passkeys",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "chat",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "operations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "share",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "toast",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-phone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-code",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-password",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "auth-qr",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "menu",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "controls",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "confirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "date",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "nested",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Main",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:EditProfile",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Notifications",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:DataStorage",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Language",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:ActiveSessions",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:General",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:GeneralChatBackground",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:GeneralChatBackgroundColor",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Privacy",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:AutoDeleteMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneNumber",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyAddByPhone",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyLastSeen",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyProfilePhoto",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBio",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBirthday",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGifts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneCall",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneP2P",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyForwarding",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyVoiceMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGroupChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneNumberAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneNumberDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyLastSeenAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyLastSeenDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyProfilePhotoAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyProfilePhotoDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBioAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBioDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBirthdayAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBirthdayDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGiftsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGiftsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneCallAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneCallDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneP2PAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyPhoneP2PDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyForwardingAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyForwardingDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyVoiceMessagesAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyVoiceMessagesDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGroupChatsAllowedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyGroupChatsDeniedContacts",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyBlockedUsers",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PrivacyNoPaidMessages",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Performance",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Folders",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersCreateFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersEditFolder",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersEditFolderFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersEditFolderInvites",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersIncludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersIncludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersExcludedChats",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersExcludedChatsFromChatList",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaNewPasswordEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaChangePasswordHint",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaRecoveryEmailCurrentPassword",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaRecoveryEmail",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaRecoveryEmailCode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:TwoFaCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:ActiveWebsites",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeDisabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeNewPasscode",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeNewPasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeEnabled",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeChangePasscodeCurrent",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeChangePasscodeNew",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeChangePasscodeConfirm",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeTurnOff",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:PasscodeCongratulations",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Experimental",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Stickers",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:QuickReaction",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:CustomEmoji",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:DoNotTranslate",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:FoldersShare",
+  "found": []
+ },
+ {
+  "theme": "lagom-light",
+  "w": 1920,
+  "h": 1080,
+  "name": "settings:Passkeys",
+  "found": []
+ }
+]

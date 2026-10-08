@@ -549,6 +549,7 @@ const Main = ({
   }, [isMiddleColumnOpen, isRightColumnOpen, noRightColumnAnimation, forceUpdate]);
 
   const bgClassName = buildClassName(
+    'main-wallpaper',
     !noRightColumnAnimation && backgroundStyles.withTransition,
   );
 

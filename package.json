@@ -19,6 +19,7 @@
     "release:preflight": "node scripts/release-preflight.mjs",
     "release:test": "node --test scripts/release-policy.test.mjs",
     "release:sources": "node scripts/release-sources.mjs",
+    "release:installer": "node scripts/build-installer.mjs",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",

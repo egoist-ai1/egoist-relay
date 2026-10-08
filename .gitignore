@@ -22,3 +22,7 @@ runtime/media/*.exe
 runtime/**/*.exe
 runtime/**/*.dll
 runtime/**/*.bin
+
+# Отчёты анализа сборки (пересоздаются, в dist не попадают)
+public/build-stats.json
+public/statoscope-report.html

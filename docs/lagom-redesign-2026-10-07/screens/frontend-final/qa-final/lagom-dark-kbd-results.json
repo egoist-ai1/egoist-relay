@@ -1,0 +1,132 @@
+[
+ {
+  "name": "Первый Tab с пустого фокуса ведёт в поле ввода (быстрый путь Telegram Web A)",
+  "ok": true,
+  "detail": "DIV:Message"
+ },
+ {
+  "name": "Tab из поля поиска не теряет фокус (не уходит на body)",
+  "ok": true,
+  "detail": "BUTTON:Conversation.SearchPlaceholder {\"backButton\":\"Return to chat list\",\"chats\":2,\"tabs\":2}"
+ },
+ {
+  "name": "Tab-обход: rail → вкладки папок → поиск → чаты → композер в порядке DOM",
+  "ok": true,
+  "detail": "rail=1 search=7 tabs=8 chat=9 composer=21"
+ },
+ {
+  "name": "Фокус виден на каждой остановке Tab (outline/тень/обёртка)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "Вкладки папок: role=tab, aria-selected, одна остановка Tab (roving)",
+  "ok": true,
+  "detail": "остановок=1"
+ },
+ {
+  "name": "Rail: одна остановка Tab на весь блок (roving tabindex)",
+  "ok": true,
+  "detail": "остановок=1"
+ },
+ {
+  "name": "Цели Tab не меньше 24×24 px (WCAG 2.5.8), по DOM-списку видимых tabbable",
+  "ok": true,
+  "detail": "целей=25; мелких: "
+ },
+ {
+  "name": "Вкладки: ArrowRight выбирает и фокусирует следующую",
+  "ok": true,
+  "detail": "{\"idx\":1,\"focus\":1}"
+ },
+ {
+  "name": "Вкладки: Home возвращает на первую",
+  "ok": true,
+  "detail": "selected=0"
+ },
+ {
+  "name": "Rail: ArrowDown переносит фокус на следующий сервис",
+  "ok": true,
+  "detail": "фокус=x"
+ },
+ {
+  "name": "Rail: ArrowUp возвращает",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "Rail: ровно одна кнопка с tabindex=0",
+  "ok": true,
+  "detail": "tabindex0=1"
+ },
+ {
+  "name": "Ctrl+J с фокусом на поиска: панель открыта, фокус внутри",
+  "ok": true,
+  "detail": "{\"open\":true,\"inPanel\":true,\"role\":\"region\",\"label\":null}"
+ },
+ {
+  "name": "Esc закрывает панель и возвращает фокус на поиска",
+  "ok": true,
+  "detail": "до=INPUT|telegram-search-input после=INPUT|telegram-search-input закрыта=true (фокусируемых в панели: 3)"
+ },
+ {
+  "name": "Ctrl+J с фокусом на rail: панель открыта, фокус внутри",
+  "ok": true,
+  "detail": "{\"open\":true,\"inPanel\":true,\"role\":\"region\",\"label\":null}"
+ },
+ {
+  "name": "Esc закрывает панель и возвращает фокус на rail",
+  "ok": true,
+  "detail": "до=BUTTON|Переключиться на Telegram после=BUTTON|Переключиться на Telegram закрыта=true (фокусируемых в панели: 3)"
+ },
+ {
+  "name": "Ctrl+J с фокусом на композера: панель открыта, фокус внутри",
+  "ok": true,
+  "detail": "{\"open\":true,\"inPanel\":true,\"role\":\"region\",\"label\":null}"
+ },
+ {
+  "name": "Esc закрывает панель и возвращает фокус на композера",
+  "ok": true,
+  "detail": "до=DIV|Message после=DIV|Message закрыта=true (фокусируемых в панели: 3)"
+ },
+ {
+  "name": "Панель операций: фокус виден на всех кнопках/вкладках",
+  "ok": true,
+  "detail": "остановок=2; "
+ },
+ {
+  "name": "Модальное окно: диалог открыт, роль/aria-modal, фокус внутри",
+  "ok": true,
+  "detail": "{\"has\":true,\"role\":\"DIV\",\"modal\":null,\"inDialog\":true}"
+ },
+ {
+  "name": "Модальное окно: Tab/Shift+Tab не выводят фокус за пределы (28 нажатий)",
+  "ok": true,
+  "detail": "вышло=0; уникальных остановок=6"
+ },
+ {
+  "name": "Модальное окно: фокус виден на текущей остановке",
+  "ok": true,
+  "detail": "BUTTON:Close"
+ },
+ {
+  "name": "Модальное окно: Esc закрывает",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "Модальное окно: фокус возвращён на композер",
+  "ok": true,
+  "detail": "DIV|Message"
+ },
+ {
+  "name": "Настройки: у ползунка размера шрифта фокус виден (пиксели отличаются от неактивного)",
+  "ok": true,
+  "detail": "focused=true"
+ },
+ {
+  "name": "Настройки: фокус виден на кнопках, радио-темах, чекбоксах, переключателях",
+  "ok": true,
+  "detail": "остановок=16; без индикатора: "
+ }
+]
