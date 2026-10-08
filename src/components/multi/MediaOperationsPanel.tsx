@@ -371,6 +371,7 @@ const MediaOperationsPanel = ({ snapshot, isFull, onClose, onSource, onChat }: O
                           )}
                           {['failed', 'interrupted', 'cancelled'].includes(operation.stage)
                             && operation.kind !== 'download'
+                            && operation.service !== 'instagram'
                             && operation.sourceUrl && (
                             <button
                               className={styles.actionButton}

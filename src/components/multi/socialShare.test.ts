@@ -65,6 +65,16 @@ describe('Social share payloads', () => {
     expect(isSocialShareRequest({ ...request, url: 'https://x.com/settings' })).toBe(false);
   });
 
+  test('Rejects Instagram share requests in every form', () => {
+    const reel = 'https://www.instagram.com/reel/AbCdE12345/';
+    expect(isSocialShareRequest({ ...request, service: 'instagram', url: reel })).toBe(false);
+    expect(isSocialShareRequest({ ...request, service: 'instagram', url: 'https://www.instagram.com/p/AbCdE12345/' }))
+      .toBe(false);
+    expect(isSocialShareRequest({ ...request, url: reel })).toBe(false);
+    expect(isSocialShareRequest({ ...request, service: 'instagram' })).toBe(false);
+    expect(isSocialShareRequest(request)).toBe(true);
+  });
+
   test.each([
     { mimeType: 'image/svg+xml' }, { name: '../../test.jpg' }, { name: '' }, { size: 4 }, { index: 1 },
   ])('Rejects untrusted media header %o', (header) => {

@@ -328,7 +328,7 @@ const App = ({
     if (!IS_TAURI) return undefined;
     let mounted = true;
     let release: NoneToVoidFunction | undefined;
-    void import('@tauri-apps/api/event').then(({ listen }) => listen<{ service?: 'x' | 'instagram' }>(
+    void import('@tauri-apps/api/event').then(({ listen }) => listen<{ service?: 'x' }>(
       'multi-social-share-error', ({ payload }) => {
         if (!mounted || desiredAppRef.current === 'telegram'
           || (payload?.service && payload.service !== desiredAppRef.current)) return;

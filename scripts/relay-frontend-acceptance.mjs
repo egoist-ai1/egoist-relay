@@ -131,9 +131,9 @@ try {
       return { colors, retainedTheme: theme, themeClass, layout: restored }; });
   }
   await run('saved-messages-icon-contrast', async () => { await reset();
-    await page.locator('[data-relay-app=instagram]').click(); await settle();
+    await page.locator('[data-relay-app=x]').click(); await settle();
     await page.evaluate(() => window.__relayNativeMock.emit('multi-social-share', { requestId: 'frontend-icon-contrast-0001',
-      service: 'instagram', url: 'https://www.instagram.com/p/RELAYAUDIT/', unavailableMedia: true }));
+      service: 'x', url: 'https://x.com/relayaudit/status/1234567890123456789', unavailableMedia: true }));
     await page.getByRole('dialog').waitFor({state:'visible'}); await settle();
     const icons = await page.getByRole('dialog').locator('.icon').evaluateAll((elements) => elements
       .filter((e) => e.className.includes('saved')).map((e) => ({className:e.className, color:getComputedStyle(e).color,

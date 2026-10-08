@@ -19,7 +19,7 @@ import buildAttachment from '../middle/composer/helpers/buildAttachment';
 
 export type SocialShareRequest = {
   requestId: string;
-  service: 'x' | 'instagram';
+  service: 'x';
   url: string;
   text?: string;
   media?: { url: string; type: 'photo' | 'video' }[];
@@ -46,7 +46,7 @@ const MEDIA_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image
 export function isSocialShareRequest(value: unknown): value is SocialShareRequest {
   if (!value || typeof value !== 'object') return false;
   const request = value as SocialShareRequest;
-  if (!/^[a-z0-9-]{16,64}$/i.test(request.requestId) || !['x', 'instagram'].includes(request.service)) return false;
+  if (!/^[a-z0-9-]{16,64}$/i.test(request.requestId) || request.service !== 'x') return false;
   try {
     const url = new URL(request.url);
     if (url.protocol !== 'https:' || url.username || url.password || url.port) return false;

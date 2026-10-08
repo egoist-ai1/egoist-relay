@@ -1626,7 +1626,6 @@ fn create_instagram_webview(
   let ig_data_dir = get_service_data_directory(app_handle, INSTAGRAM_APP)?;
   std::fs::create_dir_all(&ig_data_dir)
     .map_err(|error| format!("Failed to create the Instagram profile: {error}"))?;
-  let share_token = uuid::Uuid::new_v4().to_string();
   #[cfg(windows)]
   let ready_token = uuid::Uuid::new_v4().to_string();
   begin_service_load(app_handle, INSTAGRAM_APP);
@@ -1640,7 +1639,7 @@ fn create_instagram_webview(
   .background_color(crate::native_theme::background_color())
   .disable_drag_drop_handler()
   .on_download(|webview, event| handle_download(&webview, INSTAGRAM_APP, event))
-  .initialization_script(&crate::social_share::create_enhancer_script(INSTAGRAM_ENHANCER_SCRIPT, &share_token, INSTAGRAM_APP));
+  .initialization_script(INSTAGRAM_ENHANCER_SCRIPT);
 
   #[cfg(windows)]
   let webview_builder = webview_builder.initialization_script(&create_service_ready_script(&ready_token));
@@ -1650,7 +1649,6 @@ fn create_instagram_webview(
       create_service_auth_window(&new_window_app, INSTAGRAM_APP, url, features)
     })
     .on_navigation(move |url| {
-      if crate::social_share::intercept_navigation(&navigation_app, INSTAGRAM_APP, &share_token, url) { return false; }
       if is_instagram_internal_url(url) {
         return true;
       }

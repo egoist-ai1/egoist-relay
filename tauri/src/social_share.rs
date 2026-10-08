@@ -21,6 +21,8 @@ const BATCH_TIMEOUT: Duration = Duration::from_secs(180);
 const SAVE_TIMEOUT: Duration = Duration::from_secs(900);
 const DETACHED_TTL: Duration = Duration::from_secs(4 * 60 * 60);
 const MAX_DETACHED: usize = 9;
+// Sharing to Telegram exists only for X; every other service is rejected.
+const SHARE_SERVICE: &str = "x";
 
 #[derive(serde::Deserialize, serde::Serialize, Clone)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -111,10 +113,8 @@ pub fn multi_social_set_labels(
   }
   *SHARE_LABEL.lock().map_err(|_| "SHARE_UNAVAILABLE")? = share_label.clone();
   let label = serde_json::to_string(&share_label).map_err(|_| "SHARE_INPUT_DENIED")?;
-  for service in ["x", "instagram"] {
-    if let Some(remote) = app_handle.get_webview(service_label(service)?) {
-      remote.eval(format!("if(typeof window.__egoistRelayUpdateShareLabel==='function')window.__egoistRelayUpdateShareLabel({label});")).map_err(|_| "SHARE_UNAVAILABLE")?;
-    }
+  if let Some(remote) = app_handle.get_webview(service_label(SHARE_SERVICE)?) {
+    remote.eval(format!("if(typeof window.__egoistRelayUpdateShareLabel==='function')window.__egoistRelayUpdateShareLabel({label});")).map_err(|_| "SHARE_UNAVAILABLE")?;
   }
   Ok(())
 }
@@ -196,7 +196,8 @@ fn accept_share(
 }
 
 fn validate_request(mut request: ShareRequest, service: &str) -> Result<ShareRequest, String> {
-  if request.service != service
+  if service != SHARE_SERVICE
+    || request.service != service
     || uuid::Uuid::parse_str(&request.request_id).is_err()
     || request.request_id.len() != 36
     || request.media.len() > MAX_MEDIA
@@ -216,24 +217,15 @@ fn validate_request(mut request: ShareRequest, service: &str) -> Result<ShareReq
     .ok_or("SHARE_URL_DENIED")?
     .filter(|segment| !segment.is_empty())
     .collect();
-  let valid = if service == "x" {
-    segments.len() == 3
-      && segments[1] == "status"
-      && !segments[0].is_empty()
-      && segments[0].len() <= 30
-      && segments[0]
-        .chars()
-        .all(|ch| ch.is_ascii_alphanumeric() || ch == '_')
-      && (5..=24).contains(&segments[2].len())
-      && segments[2].chars().all(|ch| ch.is_ascii_digit())
-  } else {
-    segments.len() == 2
-      && matches!(segments[0], "p" | "reel" | "reels")
-      && (5..=80).contains(&segments[1].len())
-      && segments[1]
-        .chars()
-        .all(|ch| ch.is_ascii_alphanumeric() || ch == '_' || ch == '-')
-  };
+  let valid = segments.len() == 3
+    && segments[1] == "status"
+    && !segments[0].is_empty()
+    && segments[0].len() <= 30
+    && segments[0]
+      .chars()
+      .all(|ch| ch.is_ascii_alphanumeric() || ch == '_')
+    && (5..=24).contains(&segments[2].len())
+    && segments[2].chars().all(|ch| ch.is_ascii_digit());
   if !valid {
     return Err("SHARE_URL_DENIED".into());
   }
@@ -252,7 +244,6 @@ fn validate_request(mut request: ShareRequest, service: &str) -> Result<ShareReq
 fn is_service_origin(url: &Url, service: &str) -> bool {
   let allowed = match service {
     "x" => ["x.com", "www.x.com", "twitter.com", "www.twitter.com"].as_slice(),
-    "instagram" => ["instagram.com", "www.instagram.com"].as_slice(),
     _ => return false,
   };
   url.scheme() == "https"
@@ -286,12 +277,6 @@ fn is_media_url(value: &str, service: &str) -> bool {
   }
   match service {
     "x" => matches!(host, "pbs.twimg.com" | "video.twimg.com"),
-    "instagram" => {
-      host == "cdninstagram.com"
-        || host.ends_with(".cdninstagram.com")
-        || host == "fbcdn.net"
-        || host.ends_with(".fbcdn.net")
-    }
     _ => false,
   }
 }
@@ -299,7 +284,6 @@ fn is_media_url(value: &str, service: &str) -> bool {
 fn service_label(service: &str) -> Result<&'static str, String> {
   match service {
     "x" => Ok("x_webview"),
-    "instagram" => Ok("instagram_webview"),
     _ => Err("SHARE_SOURCE_DENIED".into()),
   }
 }
@@ -930,6 +914,44 @@ mod tests {
   }
 
 
+  fn request_for(service: &str, url: &str, media_url: Option<&str>) -> ShareRequest {
+    ShareRequest {
+      request_id: uuid::Uuid::new_v4().to_string(),
+      service: service.into(),
+      url: url.into(),
+      text: None,
+      media: media_url.map(|url| ShareMedia { url: url.into(), media_type: "video".into() }).into_iter().collect(),
+      unavailable_media: false,
+    }
+  }
+
+  #[test]
+  fn instagram_share_requests_are_rejected_in_every_form() {
+    let reel = "https://www.instagram.com/reel/AbCdE12345/";
+    let media = Some("https://scontent.cdninstagram.com/v/reel.mp4");
+    assert_eq!(validate_request(request_for("instagram", reel, media), "instagram").err(), Some("SHARE_INPUT_DENIED".into()));
+    assert!(validate_request(request_for("instagram", reel, None), "x").is_err());
+    assert!(validate_request(request_for("x", reel, None), "instagram").is_err());
+    assert!(validate_request(request_for("instagram", "https://www.instagram.com/p/AbCdE12345/", None), "instagram").is_err());
+    assert!(!is_service_origin(&Url::parse(reel).unwrap(), "instagram"));
+    assert!(!is_media_url("https://scontent.cdninstagram.com/v/reel.mp4", "instagram"));
+    assert!(!is_media_url("https://scontent.cdninstagram.com/v/reel.mp4", "x"));
+    assert_eq!(service_label("instagram"), Err("SHARE_SOURCE_DENIED".to_string()));
+    assert!(build_restored_share(&uuid::Uuid::new_v4().to_string(), "instagram", reel, Some(1)).is_err());
+  }
+
+  #[test]
+  fn x_share_requests_still_validate_and_drop_query_strings() {
+    let status = "https://x.com/name/status/1234567890123456789?s=20&t=secret";
+    let media = Some("https://video.twimg.com/ext_tw_video/1/pu/vid/avc1/1280x720/clip.mp4");
+    let request = validate_request(request_for("x", status, media), "x").unwrap();
+    assert_eq!(request.url, "https://x.com/name/status/1234567890123456789");
+    assert_eq!(request.media.len(), 1);
+    assert!(validate_request(request_for("x", "https://x.com/name/status/abc", None), "x").is_err());
+    assert!(validate_request(request_for("x", "https://x.com/name/status/1234567890123456789", Some("https://evil.test/a.mp4")), "x").is_err());
+    assert_eq!(service_label("x"), Ok("x_webview"));
+  }
+
   #[test]
   fn restoration_uses_only_a_canonical_registered_single_item_source() {
     let operation_id = uuid::Uuid::new_v4().to_string();
@@ -939,7 +961,7 @@ mod tests {
     assert!(restored.media.is_empty());
     assert!(restored.text.is_none());
     assert!(restored.unavailable_media);
-    assert!(matches!(build_restored_share(&operation_id, "instagram", "https://www.instagram.com/reel/AbCdE12345/", Some(2)), Err(error) if error == "MEDIA_RECAPTURE_REQUIRED"));
+    assert!(matches!(build_restored_share(&operation_id, "x", "https://x.com/name/status/1234567890123456789", Some(2)), Err(error) if error == "MEDIA_RECAPTURE_REQUIRED"));
     assert!(build_restored_share(&operation_id, "x", "https://evil.test/video", None).is_err());
     assert!(build_restored_share(&operation_id, "youtube", "https://www.youtube.com/watch?v=abcdefghijk", None).is_err());
   }
