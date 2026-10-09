@@ -172,12 +172,27 @@
     }
     observeVideos(document);
     updatePresentationRoute();
-    const observer = new MutationObserver((records) => {
+    // Комментарии и лента добавляют сотни узлов подряд: видео ищем один раз за кадр, а не на каждый узел
+    const addedNodes = new Set();
+    const removedNodes = new Set();
+    let isFlushScheduled = false;
+    const flush = () => {
+      isFlushScheduled = false;
       updatePresentationRoute();
-      records.forEach(({ addedNodes, removedNodes }) => {
-        removedNodes.forEach((node) => { if (node instanceof Element) forgetVideos(node); });
-        addedNodes.forEach((node) => { if (node instanceof Element) observeVideos(node); });
+      removedNodes.forEach((node) => forgetVideos(node));
+      removedNodes.clear();
+      addedNodes.forEach((node) => { if (node.isConnected) observeVideos(node); });
+      addedNodes.clear();
+    };
+    const observer = new MutationObserver((records) => {
+      records.forEach((record) => {
+        record.removedNodes.forEach((node) => { if (node instanceof Element) removedNodes.add(node); });
+        record.addedNodes.forEach((node) => { if (node instanceof Element) addedNodes.add(node); });
       });
+      if (isFlushScheduled) return;
+      isFlushScheduled = true;
+      // В скрытом WebView кадры не рисуются, но preload у новых видео надо сбросить сразу
+      if (document.hidden) setTimeout(flush, 50); else window.requestAnimationFrame(flush);
     });
     observer.observe(document.body, { childList: true, subtree: true });
   }

@@ -45,6 +45,14 @@ const X_SERVICE_BROWSER_ARGUMENTS: &str = concat!(
   "--autoplay-policy=no-user-gesture-required ",
   "--host-resolver-rules=\"MAP abs.twimg.com ton.twimg.com, MAP pbs.twimg.com ton.twimg.com\"",
 );
+// QUIC под обходом DPI зависает на части хостов Meta (профиль помечает их broken), поэтому
+// Instagram ходит по TCP. Окна входа делят профиль, и им нужны те же аргументы.
+#[cfg(windows)]
+const INSTAGRAM_SERVICE_BROWSER_ARGUMENTS: &str = concat!(
+  "--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection ",
+  "--autoplay-policy=no-user-gesture-required ",
+  "--disable-quic",
+);
 
 pub(crate) fn apply_service_network_profile<R: tauri::Runtime>(
   builder: WebviewBuilder<R>,
@@ -53,6 +61,10 @@ pub(crate) fn apply_service_network_profile<R: tauri::Runtime>(
   #[cfg(windows)]
   if service == X_APP {
     return builder.additional_browser_args(X_SERVICE_BROWSER_ARGUMENTS);
+  }
+  #[cfg(windows)]
+  if service == INSTAGRAM_APP {
+    return builder.additional_browser_args(INSTAGRAM_SERVICE_BROWSER_ARGUMENTS);
   }
   #[cfg(not(windows))]
   let _ = service;
@@ -835,7 +847,7 @@ fn install_service_load_observers(
       ICoreWebView2_2,
     },
     DOMContentLoadedEventHandler, NavigationCompletedEventHandler, NavigationStartingEventHandler,
-    ProcessFailedEventHandler, WebMessageReceivedEventHandler,
+    ProcessFailedEventHandler, SourceChangedEventHandler, WebMessageReceivedEventHandler,
   };
   let app = webview.app_handle().clone();
   webview.with_webview(move |platform| {
@@ -936,6 +948,20 @@ fn install_service_load_observers(
           complete_service_load(&ready_app, service);
           Ok(())
         })), &mut registration)?;
+        if service == INSTAGRAM_APP {
+          // SPA-переходы в Reels и обратно не создают навигацию документа, но меняют адрес
+          let source_app = app.clone();
+          core.add_SourceChanged(&SourceChangedEventHandler::create(Box::new(move |sender, _| {
+            let Some(sender) = sender else { return Ok(()); };
+            let mut source = windows_core::PWSTR::null();
+            sender.Source(&mut source)?;
+            let source = webview2_com::take_pwstr(source);
+            if let Ok(url) = Url::parse(&source) {
+              crate::instagram_view::apply(&source_app, INSTAGRAM_WEBVIEW_LABEL, Some(url.path()));
+            }
+            Ok(())
+          })), &mut registration)?;
+        }
         let failed_app = app.clone();
         core.add_ProcessFailed(&ProcessFailedEventHandler::create(Box::new(move |_, args| {
           let Some(args) = args else { return Ok(()); };
@@ -1159,7 +1185,7 @@ fn create_service_auth_window(
   let builder = if service == X_APP {
     builder.additional_browser_args(X_SERVICE_BROWSER_ARGUMENTS)
   } else {
-    builder
+    builder.additional_browser_args(INSTAGRAM_SERVICE_BROWSER_ARGUMENTS)
   };
 
   let builder = builder
@@ -1278,6 +1304,7 @@ fn apply_webview_bounds(
   let webview = app_handle
     .get_webview(label)
     .ok_or_else(|| format!("{label} webview is not available"))?;
+  let (width, height) = (bounds.width, bounds.height);
   let bounds = Rect {
     position: Position::Logical(LogicalPosition::new(bounds.x as f64, bounds.y as f64)),
     size: Size::Logical(LogicalSize::new(bounds.width as f64, bounds.height as f64)),
@@ -1285,7 +1312,11 @@ fn apply_webview_bounds(
 
   webview
     .set_bounds(bounds)
-    .map_err(|error| format!("Failed to resize {label}: {error}"))
+    .map_err(|error| format!("Failed to resize {label}: {error}"))?;
+  if label == INSTAGRAM_WEBVIEW_LABEL {
+    crate::instagram_view::remember_bounds(app_handle, label, width, height);
+  }
+  Ok(())
 }
 
 fn resolve_x_bounds(
@@ -1641,6 +1672,7 @@ fn create_instagram_webview(
   .on_download(|webview, event| handle_download(&webview, INSTAGRAM_APP, event))
   .initialization_script(INSTAGRAM_ENHANCER_SCRIPT);
 
+  let webview_builder = apply_service_network_profile(webview_builder, INSTAGRAM_APP);
   #[cfg(windows)]
   let webview_builder = webview_builder.initialization_script(&create_service_ready_script(&ready_token));
 
@@ -1691,6 +1723,9 @@ fn create_instagram_webview(
       return Err(format!("Failed to create Instagram webview: {err}"));
     }
   };
+
+  crate::instagram_view::reset();
+  crate::instagram_view::remember_bounds(app_handle, INSTAGRAM_WEBVIEW_LABEL, bounds.width, bounds.height);
 
   #[cfg(windows)]
   {

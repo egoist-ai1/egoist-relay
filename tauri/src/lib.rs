@@ -15,6 +15,7 @@ use crate::window::{WINDOW_STATES, WindowState};
 
 pub mod installer;
 pub mod multi_app;
+mod instagram_view;
 mod runtime;
 mod system_proxy;
 mod media_operations;
