@@ -948,8 +948,8 @@ fn install_service_load_observers(
           complete_service_load(&ready_app, service);
           Ok(())
         })), &mut registration)?;
-        if service == INSTAGRAM_APP {
-          // SPA-переходы в Reels и обратно не создают навигацию документа, но меняют адрес
+        {
+          // SPA-переходы (например, в Reels и обратно) не создают навигацию документа, но меняют адрес
           let source_app = app.clone();
           core.add_SourceChanged(&SourceChangedEventHandler::create(Box::new(move |sender, _| {
             let Some(sender) = sender else { return Ok(()); };
@@ -957,7 +957,7 @@ fn install_service_load_observers(
             sender.Source(&mut source)?;
             let source = webview2_com::take_pwstr(source);
             if let Ok(url) = Url::parse(&source) {
-              crate::instagram_view::apply(&source_app, INSTAGRAM_WEBVIEW_LABEL, Some(url.path()));
+              crate::instagram_view::apply(&source_app, get_service_label(service), Some(url.path()));
             }
             Ok(())
           })), &mut registration)?;
@@ -1107,6 +1107,9 @@ fn create_x_webview(
       return Err(format!("Failed to create X webview: {err}"));
     }
   };
+
+  crate::instagram_view::reset(X_WEBVIEW_LABEL);
+  crate::instagram_view::remember_bounds(app_handle, X_WEBVIEW_LABEL, bounds.width, bounds.height);
 
   #[cfg(windows)]
   {
@@ -1313,9 +1316,7 @@ fn apply_webview_bounds(
   webview
     .set_bounds(bounds)
     .map_err(|error| format!("Failed to resize {label}: {error}"))?;
-  if label == INSTAGRAM_WEBVIEW_LABEL {
-    crate::instagram_view::remember_bounds(app_handle, label, width, height);
-  }
+  crate::instagram_view::remember_bounds(app_handle, label, width, height);
   Ok(())
 }
 
@@ -1724,7 +1725,7 @@ fn create_instagram_webview(
     }
   };
 
-  crate::instagram_view::reset();
+  crate::instagram_view::reset(INSTAGRAM_WEBVIEW_LABEL);
   crate::instagram_view::remember_bounds(app_handle, INSTAGRAM_WEBVIEW_LABEL, bounds.width, bounds.height);
 
   #[cfg(windows)]

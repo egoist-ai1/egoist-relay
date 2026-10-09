@@ -57,6 +57,16 @@ body {
   @media (max-width: 600px) {
     height: calc(var(--vh, 1vh) * 100);
   }
+
+  // Большие портретные мониторы (1440x2560): интерфейс на rem увеличивается пропорционально
+  // экрану. Границы нативных окон берутся из DOM, поэтому масштаб шрифта их не ломает
+  @media (min-width: 1000px) and (min-height: 1700px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 1300px) and (min-height: 2300px) {
+    font-size: 20px;
+  }
 }
 
 body {

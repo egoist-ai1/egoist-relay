@@ -146,7 +146,7 @@ try {
     { name: 'long-operation-notice', activeApp: 'x', xAppState: 'auth-required',
       notice: `${strings.RelayDownloadFailed} ${strings.RelayAppSwitchError}` },
   ];
-  for (const viewport of [{ width: 800, height: 560 }, { width: 1024, height: 768 }, { width: 1280, height: 800 }, { width: 1920, height: 1080 }, { width: 640, height: 448 }, { width: 533, height: 373 }]) {
+  for (const viewport of [{ width: 800, height: 560 }, { width: 1024, height: 768 }, { width: 1280, height: 800 }, { width: 1920, height: 1080 }, { width: 1440, height: 2560 }, { width: 1080, height: 1920 }, { width: 640, height: 448 }, { width: 533, height: 373 }]) {
     await page.setViewportSize(viewport);
     for (const scenario of scenarios) {
       await setModel({ ...scenario, notice: scenario.notice });

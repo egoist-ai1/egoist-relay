@@ -258,6 +258,13 @@
   stroke: currentColor;
 }
 
+// Широкое окно: уведомление не обрезается, пока в заголовке есть свободное место
+@container relayWorkspace (min-width: 70rem) {
+  .notice {
+    max-width: 40rem;
+  }
+}
+
 @container relayWorkspace (max-width: 46rem) {
   .notice {
     max-width: 8rem;
