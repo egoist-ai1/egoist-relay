@@ -1,6 +1,6 @@
  [package]
 name = "egoist_relay"
-version = "1.8.1"
+version = "1.8.2"
 description = "Sennit by Egoist"
 authors = ["Alexander Zinchuk"]
 license = "GPLv3"

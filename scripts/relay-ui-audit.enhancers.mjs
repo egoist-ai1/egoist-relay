@@ -47,6 +47,29 @@ try{
   assert.equal(state.playing.paused,false);assert.equal(state.paused.plays,0);
   await page.close();return {state,playback:'mocked property and play/pause callbacks; no real decoder/network'};
  });
+ await record('instagram-reels-fit',['scripts/instagram-enhancer.js'],async()=>{
+  const items=Array.from({length:3},(_,i)=>'<div class="item"><div class="unit"><div class="row"><div class="card"><video id="v'+i+'" style="width:100%;height:100%"></video></div><div class="actions"><svg width="24" height="24"><rect width="24" height="24"/></svg><span class="label">Отметки "Нравится"</span><svg width="24" height="24"><rect width="24" height="24"/></svg></div></div></div></div>').join('');
+  const page=await fixture('https://www.instagram.com/reels/AbCdE12345/','<html><body style="margin:0;background:#101012;color:white"><style>.scroll{height:100vh;width:100vw;overflow-y:auto;scroll-snap-type:y mandatory;padding-top:32px;box-sizing:border-box}.item{display:flex;justify-content:center;padding:0 32px;scroll-snap-align:start}.unit{padding:16px 0}.row{display:flex}.card{width:392px;height:697px;background:#335}.actions{width:60px;margin-left:12px;display:flex;flex-direction:column;align-items:center}.label{width:max-content}.bar{position:fixed;left:0;bottom:0;width:100%;height:50px;background:#000}</style><div class="scroll">'+items+'</div><div class="bar"></div></body></html>');
+  await page.setViewportSize({width:536,height:988});
+  await page.addScriptTag({content:await readFile(path.join(project,'scripts/instagram-enhancer.js'),'utf8')});
+  await page.evaluate(()=>window.__egoistRelaySetActive(true));await page.waitForTimeout(150);
+  const state=await page.evaluate(()=>{
+   const rect=(element)=>{const bounds=element.getBoundingClientRect();return {left:bounds.left,right:bounds.right,top:bounds.top,bottom:bounds.bottom};};
+   const items=[...document.querySelectorAll('.item')];
+   const label=document.querySelector('.label');
+   return {pageHeight:items[0].getBoundingClientRect().height,nextTop:items[1].getBoundingClientRect().top,card:rect(document.querySelector('.card')),icons:Math.max(...[...document.querySelectorAll('.actions svg')].map(icon=>icon.getBoundingClientRect().right)),labelDisplay:getComputedStyle(label).display,width:window.innerWidth};
+  });
+  assert.equal(state.labelDisplay,'none');
+  assert.equal(state.pageHeight,938);
+  assert.ok(state.nextTop>=938,'the next reel must stay under the bottom bar');
+  assert.ok(state.card.left>=0&&state.icons<=state.width,'the reel and its buttons fit the width');
+  assert.ok(state.card.right-state.card.left>392,'the reel is scaled up');
+  assert.ok(Math.abs(state.card.left-(state.width-state.icons))<=12,'left and right margins are balanced');
+  await page.evaluate(()=>{window.history.pushState({},'','/direct/inbox/');});await page.waitForTimeout(150);
+  await page.evaluate(()=>document.body.append(document.createElement('i')));await page.waitForTimeout(150);
+  assert.equal(await page.evaluate(()=>document.querySelectorAll('[data-egoist-reel-item]').length),0);
+  await page.close();return state;
+ });
  const photoCases=[
   {id:'x-photo-original',service:'x',current:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=small',srcset:'',expected:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=orig'},
  ];

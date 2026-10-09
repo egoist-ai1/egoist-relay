@@ -18,7 +18,16 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #8888; border-radius: 0.5rem; }
     ::-webkit-scrollbar-thumb:hover { background: #888c; }
+    [data-egoist-reel-scroller] { padding-top: 0 !important; }
+    [data-egoist-reel-item] { height: var(--egoist-reel-h) !important; align-items: center !important; box-sizing: border-box !important; }
+    [data-egoist-reel-unit] { transform: translateX(var(--egoist-reel-dx, 0px)) scale(var(--egoist-reel-scale, 1)); transform-origin: center center; flex: none; }
+    [data-egoist-reel-hide] { display: none !important; }
   `;
+  // Reels: каждая страница ленты занимает всю видимую область, ролик с кнопками центрируется и масштабируется
+  const REELS_MARGIN = 10;
+  const REELS_MAX_SCALE = 3;
+  const REELS_BOTTOM_BAR_MAX = 160;
+  const REELS_LIKE_LABEL = /^(отметки\s*["«“]?нравится["»”]?|likes?)$/i;
   const pausedVideos = new Set();
   const observedVideos = new WeakSet();
   const videoPreloads = new WeakMap();
@@ -104,6 +113,7 @@
   function setActive(active) {
     isAppActive = active;
     updateVisibility();
+    if (isActive) fitReels();
   }
 
   function updateVisibility() {
@@ -163,6 +173,99 @@
     });
   }
 
+  function isReelsRoute() {
+    const path = window.location.pathname;
+    return (path === '/reels' || path.startsWith('/reels/')) && !path.startsWith('/reels/audio/');
+  }
+
+  function clearReelsFit() {
+    document.querySelectorAll('[data-egoist-reel-scroller], [data-egoist-reel-item], [data-egoist-reel-unit], [data-egoist-reel-hide]')
+      .forEach((element) => {
+        ['scroller', 'item', 'unit', 'hide'].forEach((name) => element.removeAttribute('data-egoist-reel-' + name));
+        element.style.removeProperty('--egoist-reel-h');
+        element.style.removeProperty('--egoist-reel-scale');
+        element.style.removeProperty('--egoist-reel-dx');
+      });
+  }
+
+  // Нижняя панель Instagram (узкая раскладка) перекрывает ленту: её высоту вычитаем из страницы ролика
+  function getBottomBarHeight() {
+    let height = 0;
+    document.querySelectorAll('div, nav').forEach((element) => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.width < window.innerWidth * 0.8 || bounds.height < 30 || bounds.height > REELS_BOTTOM_BAR_MAX
+        || Math.abs(bounds.bottom - window.innerHeight) > 2) return;
+      if (getComputedStyle(element).position === 'fixed') height = Math.max(height, bounds.height);
+    });
+    return height;
+  }
+
+  function getActiveReelVideo() {
+    const visible = Array.from(document.querySelectorAll('video')).filter((video) => {
+      const bounds = video.getBoundingClientRect();
+      return bounds.width > 0 && bounds.bottom > 0 && bounds.top < window.innerHeight;
+    });
+    return visible.find((video) => !video.paused) || visible[0];
+  }
+
+  function fitReels() {
+    if (!isReelsRoute()) {
+      clearReelsFit();
+      return;
+    }
+    if (!isActive) return;
+    const video = getActiveReelVideo();
+    if (!video) return;
+    let item = video;
+    while (item && item !== document.body && getComputedStyle(item).scrollSnapAlign === 'none') item = item.parentElement;
+    const scroller = item && item.parentElement;
+    if (!scroller || item === document.body || !/y/.test(getComputedStyle(scroller).scrollSnapType)) return;
+    const unit = item.firstElementChild;
+    if (!unit || !unit.offsetWidth || !unit.offsetHeight) return;
+
+    const pageHeight = Math.max(200, scroller.clientHeight - getBottomBarHeight());
+    scroller.setAttribute('data-egoist-reel-scroller', '');
+    const heightValue = pageHeight + 'px';
+    if (scroller.style.getPropertyValue('--egoist-reel-h') !== heightValue) scroller.style.setProperty('--egoist-reel-h', heightValue);
+    // Видимая ширина группы «ролик + кнопки» (от края ролика до правой иконки) в единицах раскладки
+    const currentScale = parseFloat(scroller.style.getPropertyValue('--egoist-reel-scale')) || 1;
+    const currentShift = parseFloat(scroller.style.getPropertyValue('--egoist-reel-dx')) || 0;
+    const getVisualEdges = () => {
+      let right = 0;
+      unit.querySelectorAll('svg, img').forEach((icon) => {
+        const bounds = icon.getBoundingClientRect();
+        if (bounds.width > 0 && bounds.height > 0) right = Math.max(right, bounds.right);
+      });
+      return { left: video.getBoundingClientRect().left, right };
+    };
+    const edges = getVisualEdges();
+    const groupWidth = edges.right > edges.left ? (edges.right - edges.left) / currentScale : unit.offsetWidth;
+    const scale = Math.max(1, Math.min(REELS_MAX_SCALE,
+      (scroller.clientWidth - 2 * REELS_MARGIN) / groupWidth, pageHeight / unit.offsetHeight));
+    const scaleValue = String(Math.floor(scale * 100) / 100);
+    if (scroller.style.getPropertyValue('--egoist-reel-scale') !== scaleValue) scroller.style.setProperty('--egoist-reel-scale', scaleValue);
+    // Равные поля слева и справа: после смены масштаба измеряем группу заново и сдвигаем
+    const fitted = getVisualEdges();
+    const shift = Math.round(currentShift + (scroller.clientWidth - fitted.right - fitted.left) / 2);
+    if (fitted.right > fitted.left && Math.abs(shift - currentShift) >= 1) {
+      scroller.style.setProperty('--egoist-reel-dx', shift + 'px');
+    }
+    Array.from(scroller.children).forEach((page) => {
+      if (getComputedStyle(page).scrollSnapAlign === 'none') return;
+      page.setAttribute('data-egoist-reel-item', '');
+      const pageUnit = page.firstElementChild;
+      if (!pageUnit) return;
+      pageUnit.setAttribute('data-egoist-reel-unit', '');
+      if (Math.abs(page.getBoundingClientRect().top) > window.innerHeight * 2) return;
+      // Подпись «Отметки "Нравится"» под сердечком шире колонки кнопок: убираем, оставляем сердечко
+      pageUnit.querySelectorAll('span, div').forEach((label) => {
+        if (label.childElementCount === 0 && REELS_LIKE_LABEL.test(label.textContent.trim())) {
+          label.setAttribute('data-egoist-reel-hide', '');
+        }
+      });
+    });
+  }
+
   function initialize() {
     if (!document.getElementById(STYLE_ID)) {
       const style = document.createElement('style');
@@ -179,6 +282,7 @@
     const flush = () => {
       isFlushScheduled = false;
       updatePresentationRoute();
+      fitReels();
       removedNodes.forEach((node) => forgetVideos(node));
       removedNodes.clear();
       addedNodes.forEach((node) => { if (node.isConnected) observeVideos(node); });
@@ -205,6 +309,7 @@
   window.__egoistRelaySetActive = setActive;
   window.addEventListener('wheel', handleWheel, { passive: false });
   window.addEventListener('popstate', updatePresentationRoute);
+  window.addEventListener('resize', () => window.requestAnimationFrame(fitReels));
   document.addEventListener('visibilitychange', updateVisibility);
   document.addEventListener('play', (event) => {
     if (!isActive && event.target instanceof HTMLVideoElement) {
