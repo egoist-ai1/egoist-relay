@@ -12,6 +12,10 @@ use std::collections::BTreeMap;
 /// Стратегия доменов исходящего `proxy`: Xray сам разрешает имена через DoH владельца и отдаёт серверу IP.
 /// Цена — +1 RTT на новый домен. Если на замерах появятся лаги, переключить на `"AsIs"`.
 pub const PROXY_DOMAIN_STRATEGY: &str = "UseIPv4";
+/// Таймаут приватного DoH, мс: после него запрос уходит на резерв (по умолчанию в Xray 4000).
+pub const DOH_TIMEOUT_MS: u32 = 2000;
+/// Сколько секунд после истечения TTL кэш DNS отдаёт старый ответ, пока запись обновляется в фоне.
+pub const SERVE_EXPIRED_TTL_S: u32 = 300;
 /// Публичный DoH как резерв, когда приватный недоступен (иначе истёкший DoH валит обе ступени).
 pub const DOH_PUBLIC_FALLBACK: bool = true;
 /// Публичные DoH для bootstrap и резерва: `https+local` — запрос идёт напрямую, мимо маршрутизации.
@@ -187,7 +191,8 @@ fn dns_section(input: &ConfigInput, doh_host: &str) -> Value {
     servers.push(json!({ "address": PUBLIC_DOH_PRIMARY, "domains": bootstrap_domains, "skipFallback": true }));
     servers.push(json!({ "address": PUBLIC_DOH_SECONDARY, "domains": bootstrap_domains, "skipFallback": true }));
   }
-  servers.push(json!({ "address": input.doh }));
+  // Приватный DoH идёт через туннель: зависший пул HTTP/2 не должен держать новое соединение 4 с (по умолчанию)
+  servers.push(json!({ "address": input.doh, "timeoutMs": DOH_TIMEOUT_MS }));
   if DOH_PUBLIC_FALLBACK {
     servers.push(json!(PUBLIC_DOH_PRIMARY));
     servers.push(json!(PUBLIC_DOH_SECONDARY));
@@ -203,7 +208,8 @@ fn dns_section(input: &ConfigInput, doh_host: &str) -> Value {
   if let Some(node) = input.node { cached(&node.server); }
   for host in input.node_hosts { cached(host); }
 
-  json!({ "tag": TAG_DNS, "servers": servers, "hosts": hosts, "queryStrategy": "UseIPv4" })
+  json!({ "tag": TAG_DNS, "servers": servers, "hosts": hosts, "queryStrategy": "UseIPv4",
+    "serveStale": true, "serveExpiredTTL": SERVE_EXPIRED_TTL_S })
 }
 
 /// Исходящее `proxy` из узла, uTLS по умолчанию chrome.
@@ -412,6 +418,9 @@ mod tests {
     assert_eq!(servers[1]["skipFallback"], true);
     assert_eq!(servers[1]["domains"], servers[0]["domains"]);
     assert_eq!(servers[2]["address"], DOH);
+    assert_eq!(servers[2]["timeoutMs"], DOH_TIMEOUT_MS);
+    assert_eq!(config["dns"]["serveStale"], true);
+    assert_eq!(config["dns"]["serveExpiredTTL"], SERVE_EXPIRED_TTL_S);
     assert_eq!(servers[3], json!(PUBLIC_DOH_PRIMARY));
     assert_eq!(servers[4], json!(PUBLIC_DOH_SECONDARY));
     assert_eq!(config["dns"]["queryStrategy"], "UseIPv4");

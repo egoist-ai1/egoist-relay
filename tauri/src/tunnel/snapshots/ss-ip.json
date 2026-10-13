@@ -9,6 +9,8 @@
   "dns": {
     "hosts": {},
     "queryStrategy": "UseIPv4",
+    "serveExpiredTTL": 300,
+    "serveStale": true,
     "servers": [
       {
         "address": "https+local://1.1.1.1/dns-query",
@@ -25,7 +27,8 @@
         "skipFallback": true
       },
       {
-        "address": "https://dns.example.net/dns-query"
+        "address": "https://dns.example.net/dns-query",
+        "timeoutMs": 2000
       },
       "https+local://1.1.1.1/dns-query",
       "https+local://8.8.8.8/dns-query"
