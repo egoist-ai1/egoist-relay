@@ -235,7 +235,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 123_456_789,
             payload_sha256: sha,
-            meta: Meta { product: "Sennit".into(), version: "1.7.1".into(), payload_name: "Sennit-Payload-1.7.1.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
+            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "Egoist-Social-Payload-1.7.1.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
         };
         let mut file = vec![0x4du8; stub];
         file.extend_from_slice(payload);
@@ -276,7 +276,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 7,
             payload_sha256: sha,
-            meta: Meta { product: "Sennit".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "t".into() },
+            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "t".into() },
         };
         let body_len = stub_len + payload.len() + encode(&tail).len();
         let cert = vec![0xC5u8; 56];

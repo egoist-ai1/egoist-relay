@@ -22,6 +22,8 @@ type OwnProps = {
   instagramAppState?: InstagramAppState;
   // Сервисы, чей WebView усыплён оболочкой (скрыт и приостановлен)
   sleepingApps?: AppId[];
+  // Скрытые сервисы не показываются в rail; Telegram скрыть нельзя
+  hiddenApps?: AppId[];
   onSelectApp: (app: AppId) => void;
 };
 
@@ -105,6 +107,7 @@ const AppSidebar = ({
   xAppState,
   instagramAppState = 'idle',
   sleepingApps,
+  hiddenApps,
   onSelectApp,
 }: OwnProps) => {
   const lang = useLang();
@@ -144,7 +147,7 @@ const AppSidebar = ({
       <div className={styles.dragHeader} data-tauri-drag-region />
 
       <div ref={appListRef} className={styles.appList} onKeyDown={handleNavigationKey}>
-        {SERVICES.map((def) => {
+        {SERVICES.filter((def) => def.id === 'telegram' || !hiddenApps?.includes(def.id)).map((def) => {
           const state: ServiceState = def.id === 'x' ? xAppState
             : def.id === 'instagram' ? instagramAppState : 'ready';
           const isActive = activeApp === def.id;

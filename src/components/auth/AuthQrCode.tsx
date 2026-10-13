@@ -23,7 +23,7 @@ import useLastCallback from '../../hooks/useLastCallback';
 import useMediaTransitionDeprecated from '../../hooks/useMediaTransitionDeprecated';
 import useMultiaccountInfo from '../../hooks/useMultiaccountInfo';
 
-import SennitMark from '../common/SennitMark';
+import BrandMark from '../common/BrandMark';
 import Button from '../ui/Button';
 import Loading from '../ui/Loading';
 
@@ -166,7 +166,7 @@ const AuthQrCode = ({
               ref={qrCodeRef}
             />
             <div className="qr-plane">
-              <SennitMark size={QR_MARK_SIZE} />
+              <BrandMark size={QR_MARK_SIZE} />
             </div>
           </div>
           {!isQrMounted && <div className="qr-loading"><Loading /></div>}

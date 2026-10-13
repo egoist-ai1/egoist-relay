@@ -10,8 +10,8 @@ import { handleError } from '../../util/handleError';
 import useLang from '../../hooks/useLang';
 import useLastCallback from '../../hooks/useLastCallback';
 
+import BrandMark from './BrandMark';
 import Icon from './icons/Icon';
-import SennitMark from './SennitMark';
 
 import styles from './Titlebar.module.scss';
 
@@ -128,7 +128,7 @@ const Titlebar = ({
     >
       <div className={styles.dragRegion} data-tauri-drag-region>
         <span className={styles.brand} data-tauri-drag-region>
-          <SennitMark size={16} isInline />
+          <BrandMark size={16} isInline />
           {lang('RelayBrand')}
         </span>
         <span className={styles.appTitle} data-tauri-drag-region>

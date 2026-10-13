@@ -1,7 +1,7 @@
 {
   "name": "egoist-relay",
   "version": "1.8.3",
-  "description": "Sennit by Egoist - Telegram, X and Instagram with Windows network integration",
+  "description": "Egoist Social - Telegram, X and Instagram with Windows network integration",
   "author": "Alexander Zinchuk (alexander@zinchuk.com)",
   "license": "GPL-3.0-or-later",
   "type": "module",

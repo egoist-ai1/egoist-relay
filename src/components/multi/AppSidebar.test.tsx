@@ -17,11 +17,12 @@ function renderSidebar(
   xAppState: XAppState = 'ready',
   activeApp: AppId = 'telegram',
   instagramAppState: InstagramAppState = 'ready',
+  hiddenApps?: AppId[],
 ) {
   return new Promise<void>((resolve) => {
     requestMutation(() => {
       TeactDOM.render(createElement(AppSidebar, {
-        activeApp, xAppState, instagramAppState, onSelectApp,
+        activeApp, xAppState, instagramAppState, hiddenApps, onSelectApp,
       }), container);
       resolve();
     });
@@ -100,6 +101,30 @@ describe('AppSidebar complete navigation tile', () => {
     pressNavigationKey(instagram, 'Home');
     expect(document.activeElement).toBe(telegram);
     expect(onSelectApp).not.toHaveBeenCalled();
+  });
+
+  test('Hidden services are not rendered and Telegram cannot be hidden', async () => {
+    await renderSidebar('ready', 'telegram', 'ready', ['x', 'telegram']);
+    expect(container.querySelector('[data-relay-app="x"]')).toBeNull();
+    expect(getAppButton('telegram')).not.toBeNull();
+    expect(getAppButton('instagram')).not.toBeNull();
+  });
+
+  test('Keyboard navigation wraps over the visible services only', async () => {
+    await renderSidebar('ready', 'telegram', 'ready', ['x']);
+    const telegram = getAppButton('telegram');
+    const instagram = getAppButton('instagram');
+    telegram.focus();
+    pressNavigationKey(telegram, 'ArrowDown');
+    expect(document.activeElement).toBe(instagram);
+    pressNavigationKey(instagram, 'ArrowDown');
+    expect(document.activeElement).toBe(telegram);
+    pressNavigationKey(telegram, 'End');
+    expect(document.activeElement).toBe(instagram);
+    pressNavigationKey(instagram, 'ArrowUp');
+    expect(document.activeElement).toBe(telegram);
+    pressNavigationKey(telegram, 'Home');
+    expect(document.activeElement).toBe(telegram);
   });
 
   test.each(['telegram', 'x', 'instagram'] as const)(

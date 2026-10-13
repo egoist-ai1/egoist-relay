@@ -1,5 +1,5 @@
 import {
-  useEffect, useLayoutEffect, useRef, useState,
+  useEffect, useLayoutEffect, useMemo, useRef, useState,
 } from '../lib/teact/teact';
 import { getActions, getGlobal, withGlobal } from '../global';
 
@@ -73,6 +73,8 @@ type StateProps = {
   inactiveReason?: 'auth' | 'otherClient';
   hasWebAuthTokenFailed?: boolean;
   isTestServer?: boolean;
+  shouldHideX?: boolean;
+  shouldHideInstagram?: boolean;
   theme: ThemeKey;
   customBackgroundColor?: string;
   actionMessageBg?: string;
@@ -90,6 +92,17 @@ const ACTIVE_PAGE_TITLE = IS_TAURI ? PAGE_TITLE_TAURI : PAGE_TITLE;
 const INACTIVE_PAGE_TITLE = `${ACTIVE_PAGE_TITLE} ${INACTIVE_MARKER}`;
 const NOTICE_DURATION = 6000;
 const PREWARM_COMMANDS = ['multi_prewarm_x', 'multi_prewarm_instagram'] as const;
+const PREWARM_COMMAND_APPS: Record<(typeof PREWARM_COMMANDS)[number], AppId> = {
+  multi_prewarm_x: 'x',
+  multi_prewarm_instagram: 'instagram',
+};
+
+function buildHiddenApps(shouldHideX?: boolean, shouldHideInstagram?: boolean) {
+  const hiddenApps: AppId[] = [];
+  if (shouldHideX) hiddenApps.push('x');
+  if (shouldHideInstagram) hiddenApps.push('instagram');
+  return hiddenApps;
+}
 
 type XStatusPayload = {
   state: Exclude<XAppState, 'idle'>;
@@ -142,6 +155,8 @@ const App = ({
   inactiveReason,
   hasWebAuthTokenFailed,
   isTestServer,
+  shouldHideX,
+  shouldHideInstagram,
   theme,
   customBackgroundColor,
   actionMessageBg,
@@ -151,6 +166,7 @@ const App = ({
   const [xAppState, setXAppState] = useState<XAppState>('idle');
   const [xFailureDetails, setXFailureDetails] = useState<XFailureDetails>();
   const [instagramAppState, setInstagramAppState] = useState<InstagramAppState>('idle');
+  const [sleepingApps, setSleepingApps] = useState<AppId[]>([]);
   const [isNavigating, setIsNavigating] = useState(false);
   const [notice, setNotice] = useState<string>();
   const [isOperationsOpen, setIsOperationsOpen] = useState(false);
@@ -174,6 +190,10 @@ const App = ({
   const stopSocialWarmupRef = useRef<(() => void) | undefined>();
   const nativeViewportRef = useRef<HTMLDivElement>();
   const nativeBoundsRequestRef = useRef(0);
+  const hiddenApps = useMemo(
+    () => buildHiddenApps(shouldHideX, shouldHideInstagram),
+    [shouldHideX, shouldHideInstagram],
+  );
   const lang = useLang();
   const isMobileOs = PLATFORM_ENV === 'iOS' || PLATFORM_ENV === 'Android';
 
@@ -647,6 +667,11 @@ const App = ({
       stopSocialWarmupRef.current = startSocialWarmup({
         commands: PREWARM_COMMANDS,
         isEnabled: () => selectSharedSettings(getGlobal()).shouldWarmupSocialViews !== false,
+        isCommandEnabled: (command) => {
+          const { shouldHideX: isXHidden, shouldHideInstagram: isInstagramHidden } = selectSharedSettings(getGlobal());
+          return !buildHiddenApps(isXHidden, isInstagramHidden)
+            .includes(PREWARM_COMMAND_APPS[command as keyof typeof PREWARM_COMMAND_APPS]);
+        },
         isTelegramReady: () => getGlobal().connectionState === 'connectionStateReady' && Boolean(getGlobal().isSynced),
         getLastInputAt: getLastUserInputAt,
         run: (command) => invoke(command),
@@ -742,7 +767,7 @@ const App = ({
   });
 
   const handleSelectApp = useLastCallback((app: AppId) => {
-    if (socialShareRef.current) return;
+    if (socialShareRef.current || hiddenApps.includes(app)) return;
     if (isOperationsFull && isOperationsOpen) handleCloseOperations();
 
     if (app === desiredAppRef.current) {
@@ -791,6 +816,11 @@ const App = ({
     });
   });
 
+  // Если активный сервис скрыли в настройках, возвращаемся в Telegram
+  useEffect(() => {
+    if (hiddenApps.includes(activeApp)) handleSelectApp('telegram');
+  }, [hiddenApps, activeApp]);
+
   const handleOperationSource = useLastCallback(async (operation: MediaOperation) => {
     if (!operation.sourceUrl) return;
     handleCloseOperations();
@@ -831,6 +861,31 @@ const App = ({
     getActions().openChat({ id: operation.send.peerId });
   });
 
+  // Оболочка усыпляет скрытые сервисы и будит при показе; rail показывает это меткой сна
+  useEffect(() => {
+    if (!IS_TAURI) return undefined;
+    let mounted = true;
+    let release: NoneToVoidFunction | undefined;
+    void import('@tauri-apps/api/event').then(({ listen }) => listen<{ service?: string; sleeping?: boolean }>(
+      'multi-service-sleep', ({ payload }) => {
+        const service = payload?.service;
+        if (!mounted || (service !== 'x' && service !== 'instagram' && service !== 'telegram')) return;
+        setSleepingApps((current) => {
+          const has = current.includes(service);
+          if (payload.sleeping) return has ? current : [...current, service];
+          return has ? current.filter((id) => id !== service) : current;
+        });
+      },
+    )).then((unlisten) => {
+      if (mounted) release = unlisten;
+      else unlisten();
+    }).catch(handleError);
+    return () => {
+      mounted = false;
+      release?.();
+    };
+  }, []);
+
   const isWorkspaceCovered = isOperationsOpen && isOperationsFull;
 
   return (
@@ -839,6 +894,8 @@ const App = ({
         activeApp={activeApp}
         xAppState={xAppState}
         instagramAppState={instagramAppState}
+        sleepingApps={sleepingApps}
+        hiddenApps={hiddenApps}
         onSelectApp={handleSelectApp}
       />
 
@@ -1071,6 +1128,8 @@ export default withGlobal(
       customBackgroundColor: getWallpaperBaseColor(theme, themeValues || {}),
       isTestServer: global.config?.isTestServer,
       actionMessageBg: selectActionMessageBg(global),
+      shouldHideX: selectSharedSettings(global).shouldHideX,
+      shouldHideInstagram: selectSharedSettings(global).shouldHideInstagram,
     };
   },
 )(App);

@@ -13,6 +13,8 @@ export interface SocialWarmupOptions {
   /** Команды Tauri, которые создают окна; выполняются по очереди. */
   commands: readonly string[];
   isEnabled: () => boolean;
+  /** Отсекает команды скрытых сервисов; пропущенная команда выполнится, когда сервис снова покажут. */
+  isCommandEnabled?: (command: string) => boolean;
   isTelegramReady: () => boolean;
   /** Время последнего ввода пользователя, мс эпохи. */
   getLastInputAt: () => number;
@@ -22,11 +24,17 @@ export interface SocialWarmupOptions {
 
 /** Запускает отложенный прогрев и возвращает функцию отмены. */
 export function startSocialWarmup(options: SocialWarmupOptions) {
-  const { commands, isEnabled, isTelegramReady, getLastInputAt, run, onError } = options;
+  const {
+    commands, isEnabled, isCommandEnabled, isTelegramReady, getLastInputAt, run, onError,
+  } = options;
   let isCancelled = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
   let readySince: number | undefined;
-  let index = 0;
+  const doneCommands = new Set<string>();
+
+  const findNextCommand = () => commands.find((command) => (
+    !doneCommands.has(command) && (isCommandEnabled?.(command) ?? true)
+  ));
 
   const schedule = (delay: number) => {
     timer = setTimeout(tick, delay);
@@ -34,9 +42,16 @@ export function startSocialWarmup(options: SocialWarmupOptions) {
 
   function tick() {
     timer = undefined;
-    if (isCancelled || index >= commands.length) return;
+    if (isCancelled || doneCommands.size >= commands.length) return;
     if (!isEnabled()) {
       // Выключенная настройка не расходует ресурсы; включение подхватит следующий опрос
+      readySince = undefined;
+      schedule(WARMUP_POLL_MS * 5);
+      return;
+    }
+    const command = findNextCommand();
+    if (!command) {
+      // Остались только скрытые сервисы; показ одного из них подхватит следующий опрос
       readySince = undefined;
       schedule(WARMUP_POLL_MS * 5);
       return;
@@ -55,9 +70,9 @@ export function startSocialWarmup(options: SocialWarmupOptions) {
       return;
     }
 
-    const command = commands[index++];
+    doneCommands.add(command);
     run(command).catch((error) => onError?.(error)).finally(() => {
-      if (!isCancelled && index < commands.length) schedule(WARMUP_STEP_GAP_MS);
+      if (!isCancelled && doneCommands.size < commands.length) schedule(WARMUP_STEP_GAP_MS);
     });
   }
 

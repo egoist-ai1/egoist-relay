@@ -403,6 +403,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92773504d58c093f6de2459af4af33faa518c13451eb8f2b5698ed3d36e7c813"
 
 [[package]]
+name = "egoist-social-setup"
+version = "1.7.1"
+dependencies = [
+ "serde_json",
+ "sha2",
+ "tao",
+ "tauri-winres",
+ "windows-sys 0.61.2",
+ "wry",
+]
+
+[[package]]
 name = "embed-resource"
 version = "3.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1601,18 +1613,6 @@ name = "semver"
 version = "1.0.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd"
-
-[[package]]
-name = "sennit-setup"
-version = "1.7.1"
-dependencies = [
- "serde_json",
- "sha2",
- "tao",
- "tauri-winres",
- "windows-sys 0.61.2",
- "wry",
-]
 
 [[package]]
 name = "serde"

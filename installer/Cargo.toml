@@ -1,8 +1,8 @@
 [package]
-name = "sennit-setup"
+name = "egoist-social-setup"
 version = "1.7.1"
 edition = "2021"
-description = "Sennit by Egoist: фирменный установщик (оболочка вокруг NSIS-установщика Tauri)"
+description = "Egoist Social: фирменный установщик (оболочка вокруг NSIS-установщика Tauri)"
 license = "GPL-3.0-only"
 publish = false
 
@@ -10,7 +10,7 @@ publish = false
 [workspace]
 
 [[bin]]
-name = "Sennit-Setup"
+name = "Egoist-Social-Setup"
 path = "src/main.rs"
 
 [dependencies]

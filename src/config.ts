@@ -8,7 +8,7 @@ import type {
 
 export const APP_CODE_NAME = 'A';
 export const APP_ENV = import.meta.env.TG_APP_ENV || (import.meta.env.PROD ? 'production' : 'development');
-export const APP_NAME = import.meta.env.TG_APP_NAME || 'Sennit';
+export const APP_NAME = import.meta.env.TG_APP_NAME || 'Egoist Social';
 
 export const PRODUCTION_HOSTNAME = 'web.telegram.org';
 export const PRODUCTION_URL = 'https://web.telegram.org/a';
@@ -36,7 +36,7 @@ export const DEBUG_ALERT_MSG = 'Shoot!\nSomething went wrong, please see the err
 export const DEBUG_GRAMJS = false;
 
 export const PAGE_TITLE = import.meta.env.TG_APP_TITLE;
-export const PAGE_TITLE_TAURI = 'Sennit';
+export const PAGE_TITLE_TAURI = 'Egoist Social';
 export const INACTIVE_MARKER = '[Inactive]';
 export const TELEGRAM_API_ID = Number(import.meta.env.TG_TELEGRAM_API_ID);
 export const TELEGRAM_API_HASH = import.meta.env.TG_TELEGRAM_API_HASH;

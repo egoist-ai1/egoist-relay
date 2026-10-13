@@ -1,4 +1,4 @@
-// Ресурсы exe: иконка, версия, название «Sennit Setup», манифест (asInvoker, UTF-8).
+// Ресурсы exe: иконка, версия, название «Egoist Social Setup», манифест (asInvoker, UTF-8).
 fn main() {
     println!("cargo:rerun-if-changed=assets");
     println!("cargo:rerun-if-changed=build.rs");
@@ -19,13 +19,13 @@ fn main() {
         let packed = (a << 48) | (b << 32) | (c << 16);
         let mut res = tauri_winres::WindowsResource::new();
         res.set_icon("assets/icon.ico");
-        res.set_manifest(include_str!("assets/sennit-setup.manifest"));
-        res.set("ProductName", "Sennit");
-        res.set("FileDescription", "Sennit Setup");
+        res.set_manifest(include_str!("assets/egoist-social-setup.manifest"));
+        res.set("ProductName", "Egoist Social");
+        res.set("FileDescription", "Egoist Social Setup");
         res.set("CompanyName", "Egoist");
-        res.set("LegalCopyright", "Sennit by Egoist");
-        res.set("OriginalFilename", "Sennit-Setup.exe");
-        res.set("InternalName", "Sennit-Setup");
+        res.set("LegalCopyright", "Egoist");
+        res.set("OriginalFilename", "Egoist-Social-Setup.exe");
+        res.set("InternalName", "Egoist-Social-Setup");
         res.set("FileVersion", version);
         res.set("ProductVersion", version);
         res.set_version_info(tauri_winres::VersionInfo::FILEVERSION, packed);

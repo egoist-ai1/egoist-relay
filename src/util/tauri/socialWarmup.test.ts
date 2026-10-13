@@ -56,6 +56,23 @@ describe('startSocialWarmup', () => {
     expect(run).toHaveBeenCalledTimes(2);
   });
 
+  test('skips hidden services and warms them up once they are shown', async () => {
+    const hidden = new Set<string>(['multi_prewarm_x']);
+    const { state, run } = setup({ isCommandEnabled: (command) => !hidden.has(command) });
+    state.ready = true;
+    await vi.advanceTimersByTimeAsync(WARMUP_READY_DELAY_MS + 3000);
+    expect(run).toHaveBeenCalledTimes(1);
+    expect(run).toHaveBeenLastCalledWith('multi_prewarm_instagram');
+
+    await vi.advanceTimersByTimeAsync(60000);
+    expect(run).toHaveBeenCalledTimes(1);
+
+    hidden.clear();
+    await vi.advanceTimersByTimeAsync(WARMUP_READY_DELAY_MS + 10000);
+    expect(run).toHaveBeenCalledTimes(2);
+    expect(run).toHaveBeenLastCalledWith('multi_prewarm_x');
+  });
+
   test('a lost connection resets the readiness delay', async () => {
     const { state, run } = setup();
     state.ready = true;

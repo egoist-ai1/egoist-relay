@@ -27,11 +27,11 @@ pub fn utc_iso(secs: u64) -> String {
     format!("{y:04}-{m:02}-{d:02}T{:02}:{:02}:{:02}Z", rem / 3600, rem % 3600 / 60, rem % 60)
 }
 
-/// Имя файла журнала: `Sennit-Setup-1.7.1-20261008-143000.log` (UTC).
+/// Имя файла журнала: `Egoist-Social-Setup-1.7.1-20261008-143000.log` (UTC).
 pub fn log_file_name(version: &str, secs: u64) -> String {
     let iso = utc_iso(secs);
     let compact: String = iso.chars().filter(|c| c.is_ascii_digit()).collect();
-    format!("Sennit-Setup-{version}-{}-{}.log", &compact[..8], &compact[8..14])
+    format!("Egoist-Social-Setup-{version}-{}-{}.log", &compact[..8], &compact[8..14])
 }
 
 pub struct Log {
@@ -97,7 +97,7 @@ pub fn cleanup_stale(temp_root: &Path) {
     let Ok(rd) = std::fs::read_dir(temp_root) else { return };
     for e in rd.flatten() {
         let name = e.file_name().to_string_lossy().into_owned();
-        if !name.starts_with("Sennit-Setup-") {
+        if !(name.starts_with("Egoist-Social-Setup-") || name.starts_with("Sennit-Setup-")) {
             continue;
         }
         let Ok(ft) = e.file_type() else { continue };
@@ -127,12 +127,12 @@ mod tests {
 
     #[test]
     fn log_name() {
-        assert_eq!(log_file_name("1.7.1", 1_791_469_800), "Sennit-Setup-1.7.1-20261008-143000.log");
+        assert_eq!(log_file_name("1.7.1", 1_791_469_800), "Egoist-Social-Setup-1.7.1-20261008-143000.log");
     }
 
     #[test]
     fn dir_size_counts_nested_files() {
-        let root = std::env::temp_dir().join(format!("sennit-test-dirsize-{}", std::process::id()));
+        let root = std::env::temp_dir().join(format!("egoist-social-test-dirsize-{}", std::process::id()));
         std::fs::create_dir_all(root.join("a/b")).unwrap();
         std::fs::write(root.join("x"), [0u8; 10]).unwrap();
         std::fs::write(root.join("a/b/y"), [0u8; 25]).unwrap();

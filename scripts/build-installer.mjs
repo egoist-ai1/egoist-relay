@@ -1,4 +1,4 @@
-// Сборка фирменного установщика: installer/target/release/Sennit-Setup.exe + NSIS-установщик Tauri (payload) + хвост.
+// Сборка фирменного установщика: installer/target/release/Egoist-Social-Setup.exe + NSIS-установщик Tauri (payload) + хвост.
 // Формат хвоста описан в installer/src/tail.rs. Файлы пишутся потоково, 540 МБ в память не грузятся.
 //
 // Порядок для подписанного выпуска: собрать этим скриптом, затем подписать ГОТОВЫЙ файл (signtool).
@@ -95,7 +95,7 @@ export async function buildInstaller({ stub, payload, outDir, version, installBy
   const payloadStat = await stat(payload);
   if (!stubStat.size || !payloadStat.size) throw new Error('Пустой stub или payload');
   await mkdir(outDir, { recursive: true });
-  const outFile = path.join(outDir, `Sennit-Setup-${version}.exe`);
+  const outFile = path.join(outDir, `Egoist-Social-Setup-${version}.exe`);
   const part = `${outFile}.part`;
   const payloadSha256 = await sha256File(payload);
   const tail = encodeTail({
@@ -103,7 +103,7 @@ export async function buildInstaller({ stub, payload, outDir, version, installBy
     payloadLen: payloadStat.size,
     installBytes,
     payloadSha256,
-    meta: { product: 'Sennit', version, payloadName: `Sennit-Payload-${version}.exe`, builtAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z') },
+    meta: { product: 'Egoist Social', version, payloadName: `Egoist-Social-Payload-${version}.exe`, builtAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z') },
   });
   try {
     const out = createWriteStream(part);
@@ -151,7 +151,7 @@ async function main() {
   const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   const version = arg('version') ?? pkg.version;
   const outDir = arg('out') ?? path.join(root, 'release', version);
-  const name = `Sennit-Setup-${version}.exe`;
+  const name = `Egoist-Social-Setup-${version}.exe`;
   if (flag('rehash')) {
     const file = path.join(outDir, name);
     const hex = (await sha256File(file)).toString('hex');
@@ -162,7 +162,7 @@ async function main() {
     process.stdout.write(`${name}: SHA-256 ${hex} (пересчитан)\n`);
     return;
   }
-  const stub = arg('stub') ?? path.join(root, 'installer/target/release/Sennit-Setup.exe');
+  const stub = arg('stub') ?? path.join(root, 'installer/target/release/Egoist-Social-Setup.exe');
   const payload = arg('payload') ?? await findPayload(version);
   const installBytes = Number(arg('install-bytes') ?? await expectedInstallBytes());
   const r = await buildInstaller({ stub, payload, outDir, version, installBytes, verify: !flag('no-verify') });

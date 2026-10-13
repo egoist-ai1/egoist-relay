@@ -43,7 +43,9 @@ type StateProps =
     'timeFormat' |
     'theme' |
     'shouldUseSystemTheme' |
-    'shouldWarmupSocialViews'
+    'shouldWarmupSocialViews' |
+    'shouldHideX' |
+    'shouldHideInstagram'
   )> & {
     connectionRoute?: GlobalState['connectionRoute'];
   };
@@ -57,6 +59,8 @@ const SettingsGeneral = ({
   theme,
   shouldUseSystemTheme,
   shouldWarmupSocialViews,
+  shouldHideX,
+  shouldHideInstagram,
   connectionRoute,
   onReset,
 }: OwnProps & StateProps) => {
@@ -135,6 +139,14 @@ const SettingsGeneral = ({
     setSharedSettingOption({ shouldWarmupSocialViews: shouldWarmup });
   });
 
+  const handleShowXChange = useLastCallback((shouldShow: boolean) => {
+    setSharedSettingOption({ shouldHideX: !shouldShow });
+  });
+
+  const handleShowInstagramChange = useLastCallback((shouldShow: boolean) => {
+    setSharedSettingOption({ shouldHideInstagram: !shouldShow });
+  });
+
   useHistoryBack({
     isActive,
     onBack: onReset,
@@ -210,6 +222,23 @@ const SettingsGeneral = ({
         />
       </Island>
 
+      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayServicesTitle')}</IslandTitle>
+      <Island>
+        <Checkbox
+          label={lang('RelayShowX')}
+          checked={!shouldHideX}
+          onCheck={handleShowXChange}
+        />
+        <Checkbox
+          label={lang('RelayShowInstagram')}
+          checked={!shouldHideInstagram}
+          onCheck={handleShowInstagramChange}
+        />
+        <ListItem inactive>
+          <span>{lang('RelayServicesHint')}</span>
+        </ListItem>
+      </Island>
+
       <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayNetworkTitle')}</IslandTitle>
       <Island>
         {connectionRoute && (
@@ -241,10 +270,14 @@ export default memo(withGlobal<OwnProps>(
       messageTextSize,
       timeFormat,
       shouldWarmupSocialViews,
+      shouldHideX,
+      shouldHideInstagram,
     } = selectSharedSettings(global);
 
     return {
       shouldWarmupSocialViews,
+      shouldHideX,
+      shouldHideInstagram,
       connectionRoute: global.connectionRoute,
       messageSendKeyCombo,
       shouldReplaceTextShortcuts,

@@ -133,7 +133,7 @@ pub fn run(cfg: UiConfig) -> Result<i32, String> {
         _ => None,
     };
     let window = WindowBuilder::new()
-        .with_title("Sennit Setup")
+        .with_title("Egoist Social Setup")
         .with_inner_size(LogicalSize::new(WINDOW_W, WINDOW_H))
         .with_resizable(false)
         .with_maximizable(false)
@@ -156,7 +156,7 @@ pub fn run(cfg: UiConfig) -> Result<i32, String> {
     }
 
     // Каталог данных WebView2 — во временной папке, а не рядом с установщиком.
-    let data_dir = std::env::temp_dir().join("Sennit-Setup-webview");
+    let data_dir = std::env::temp_dir().join("Egoist-Social-Setup-webview");
     let mut web_context = WebContext::new(Some(data_dir.clone()));
 
     let ipc_proxy = Mutex::new(proxy.clone());
@@ -345,7 +345,7 @@ pub fn run(cfg: UiConfig) -> Result<i32, String> {
 
 /// Убирает данные WebView2 после закрытия окна (best effort: процессы WebView2 завершаются не мгновенно).
 pub fn cleanup_webview_data() {
-    let dir = std::env::temp_dir().join("Sennit-Setup-webview");
+    let dir = std::env::temp_dir().join("Egoist-Social-Setup-webview");
     std::thread::sleep(std::time::Duration::from_millis(400));
     let _ = std::fs::remove_dir_all(&dir);
 }

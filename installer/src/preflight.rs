@@ -67,7 +67,7 @@ pub fn space_needed(payload_len: u64, install_bytes: u64, same_volume: bool) -> 
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Cause {
-    /// Сам Sennit запущен (NSIS вернул 2).
+    /// Сам Egoist Social запущен (NSIS вернул 2).
     AppRunning,
     /// Скрипт NSIS остановил установку проверками (1): старая Windows, путь, откат версии.
     ScriptAbort,
