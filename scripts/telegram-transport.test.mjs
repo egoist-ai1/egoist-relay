@@ -143,3 +143,77 @@ test('requests with a wrong token or origin are still rejected', async () => {
     lagom.close();
   }
 });
+
+/** Сырой HTTP Upgrade без ws-клиента, чтобы оборвать соединение RST'ом в нужный момент. */
+function sendRawUpgrade(transport, search) {
+  const { port } = new URL(transport.url);
+  const url = new URL(transport.url);
+  return new Promise((resolve, reject) => {
+    const socket = net.createConnection({ host: '127.0.0.1', port: Number(port) }, () => {
+      socket.write([
+        `GET /apiws${search ?? url.search}&dc=2 HTTP/1.1`, `Host: 127.0.0.1:${port}`, 'Connection: Upgrade', 'Upgrade: websocket',
+        `Origin: ${ORIGIN}`, 'Sec-WebSocket-Version: 13', 'Sec-WebSocket-Protocol: binary',
+        `Sec-WebSocket-Key: ${randomBytes(16).toString('base64')}`, '', '',
+      ].join('\r\n'));
+      resolve(socket);
+    });
+    socket.on('error', reject);
+  });
+}
+
+test('RST of the raw socket while waiting for Lagom does not kill the bridge', async () => {
+  // Lagom недоступен (порт закрыт): upgrade ждёт openProxy, и в это время клиент рвёт соединение
+  const lagomPort = await getFreePort();
+  writeConfig(lagomPort);
+  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+  let failure;
+  const onUncaught = (error) => { failure = error; };
+  process.on('uncaughtException', onUncaught);
+  try {
+    for (let index = 0; index < 3; index++) {
+      const raw = await sendRawUpgrade(transport);
+      raw.on('error', () => {});
+      await new Promise((resolve) => setTimeout(resolve, 30));
+      raw.resetAndDestroy();
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    assert.equal(failure, undefined, `bridge raised ${failure?.code}`);
+    // Lagom вернулся: следующий connect получает ответ
+    const lagom = await new Promise((resolve) => {
+      const server = net.createServer();
+      server.listen({ host: '127.0.0.1', port: lagomPort }, () => resolve(server));
+    });
+    const result = await connect(`${transport.url}&dc=2`);
+    assert.equal(result.opened, true);
+    result.socket.close();
+    lagom.close();
+  } finally {
+    process.removeListener('uncaughtException', onUncaught);
+    transport.close();
+  }
+});
+
+test('RST after a 403 does not kill the bridge', async () => {
+  const lagom = await listen(() => undefined);
+  writeConfig(lagom.address().port);
+  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+  let failure;
+  const onUncaught = (error) => { failure = error; };
+  process.on('uncaughtException', onUncaught);
+  try {
+    for (let index = 0; index < 5; index++) {
+      const raw = await sendRawUpgrade(transport, `?token=${randomBytes(32).toString('hex')}`);
+      raw.on('error', () => {});
+      raw.resetAndDestroy();
+    }
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    assert.equal(failure, undefined, `bridge raised ${failure?.code}`);
+    const result = await connect(`${transport.url}&dc=2`);
+    assert.equal(result.opened, true);
+    result.socket.close();
+  } finally {
+    process.removeListener('uncaughtException', onUncaught);
+    transport.close();
+    lagom.close();
+  }
+});

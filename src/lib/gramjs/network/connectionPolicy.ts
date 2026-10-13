@@ -62,6 +62,8 @@ export interface RaceResult<T> {
   value: T;
   /** Время от старта гонки до открытия победителя. */
   elapsedMs: number;
+  /** Кандидаты, которые реально отказали до победы другого (проигрыш по abort сюда не входит). */
+  failures: RouteCandidate[];
 }
 
 /**
@@ -82,6 +84,7 @@ export function raceRoutes<T>(
     const startedAt = Date.now();
     const controllers: AbortController[] = [];
     const errors: Error[] = [];
+    const failures: RouteCandidate[] = [];
     let started = 0;
     let failed = 0;
     let isSettled = false;
@@ -121,10 +124,13 @@ export function raceRoutes<T>(
         controllers.forEach((other, otherIndex) => {
           if (otherIndex !== index) other.abort();
         });
-        resolve({ candidate, value, elapsedMs: Date.now() - startedAt });
+        resolve({
+          candidate, value, elapsedMs: Date.now() - startedAt, failures,
+        });
       }, (error: unknown) => {
         if (isSettled) return;
         errors.push(error instanceof Error ? error : new Error(String(error)));
+        failures.push(candidate);
         failed++;
         if (failed >= candidates.length) {
           finish();

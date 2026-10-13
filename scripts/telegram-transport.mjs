@@ -72,9 +72,14 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
   });
   let pendingUpgrades = 0;
   server.on('upgrade', (request, socket, head) => {
+    // RST от клиента на сыром сокете не должен ронять процесс: до передачи в ws обработчика 'error' нет
+    const onRawError = () => socket.destroy();
+    socket.on('error', onRawError);
     const route = parseRoute(request, tokenBytes, allowedOrigins);
     if (isClosing || !route || connections.size + pendingUpgrades >= MAX_CONNECTIONS) {
       socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');
+      // слушатель живёт до закрытия: RST после end() тоже приходит как 'error'
+      socket.once('close', () => socket.removeListener('error', onRawError));
       return;
     }
     // WebSocket открывается только после того, как достигнут Lagom: открытый сокет означает рабочий маршрут,
@@ -88,10 +93,14 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
       }
       socket.setTimeout(0);
       webSockets.handleUpgrade(request, socket, head, (webSocket) => {
+        // дальше ошибки сокета обрабатывает ws
+        socket.removeListener('error', onRawError);
         const connection = createConnection(webSocket, route, proxy, () => connections.delete(connection));
         connections.add(connection);
       });
     }, () => {
+      if (socket.destroyed) return;
+      socket.once('close', () => socket.removeListener('error', onRawError));
       socket.end('HTTP/1.1 503 Service Unavailable\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');
     }).finally(() => { pendingUpgrades--; });
   });
@@ -468,14 +477,38 @@ export function runTelegramTransportChild() {
   process.on('SIGTERM', stop);
   process.on('SIGINT', stop);
   process.stdout.on('error', stop);
+  // Причина падения пишется в stderr одной JSON-строкой без url, токена и заголовков
+  process.on('uncaughtException', (error) => fatal('uncaughtException', error));
+  process.on('unhandledRejection', (error) => fatal('unhandledRejection', error));
 
-  function stop() {
+  function fatal(kind, error) {
+    try {
+      process.stderr.write(`${JSON.stringify({
+        event: kind,
+        name: typeof error?.name === 'string' ? error.name : undefined,
+        code: typeof error?.code === 'string' ? error.code : undefined,
+        message: typeof error?.message === 'string' ? error.message.slice(0, 200) : undefined,
+      })}\n`);
+    } catch { /* stderr недоступен */ }
+    process.exit(1);
+  }
+
+  function stop(reason) {
     if (isStopping) return;
     isStopping = true;
+    try {
+      process.stderr.write(`${JSON.stringify({ event: 'exit', reason: describeStopReason(reason) })}\n`);
+    } catch { /* stderr недоступен */ }
     clearTimeout(deadline);
     transport?.close();
     if (!transport) process.stdout.write(`${JSON.stringify({ status: 'unavailable' })}\n`);
     process.stdin.destroy();
     process.exitCode = 0;
   }
+}
+
+function describeStopReason(reason) {
+  if (typeof reason === 'string') return reason;
+  if (reason instanceof Error) return typeof reason.code === 'string' ? reason.code : reason.name;
+  return 'stop';
 }

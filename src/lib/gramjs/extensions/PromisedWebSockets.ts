@@ -322,7 +322,9 @@ export default class PromisedWebSockets {
       raceRoutes(candidates, (candidate, signal) => this.openCandidate(candidate, signal), {
         staggerMs: ROUTE_RACE_STAGGER,
         dispose: (socket) => socket.close(),
-      }, raceAbort.signal).then(({ candidate, value: client, elapsedMs }) => {
+      }, raceAbort.signal).then(({
+        candidate, value: client, elapsedMs, failures,
+      }) => {
         if (this.closed || hasResolved || raceAbort.signal.aborted) {
           client.close();
           return;
@@ -335,6 +337,8 @@ export default class PromisedWebSockets {
         this.rejectConnect = undefined;
         this.raceAbort = undefined;
         this.timeout = CONNECTION_TIMEOUT;
+        // Реальный отказ проигравшего (не abort) нужен, чтобы сработали понижение на 60 с и фоновая проба
+        failures.forEach((failed) => routeHealth.recordFailure(failed.kind));
         routeHealth.recordSuccess(candidate.kind);
         if (candidate.kind === 'direct') scheduleLagomProbe();
         // eslint-disable-next-line no-console

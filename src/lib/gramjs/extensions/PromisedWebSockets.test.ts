@@ -135,6 +135,28 @@ describe('PromisedWebSockets routes', () => {
     expect(FakeWebSocket.instances[1].url).toBe('wss://zws2.web.telegram.org:443/apiws');
   });
 
+  test('Lagom refused and direct won: Lagom is marked failed and a probe is due', async () => {
+    const socket = create();
+    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
+    FakeWebSocket.instances[0].fail();
+    await vi.advanceTimersByTimeAsync(0);
+    FakeWebSocket.instances[1].open();
+    await connected;
+    expect(routeHealth.probeDue('lagom', 0)).toBe(true);
+    expect(routeHealth.order(socket.getRouteCandidates('zws2.web.telegram.org', 443, false, false, 2))[0].kind)
+      .toBe('direct');
+  });
+
+  test('Lagom lost the race by abort: it is not marked failed', async () => {
+    const socket = create();
+    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
+    await vi.advanceTimersByTimeAsync(300);
+    FakeWebSocket.instances[1].open();
+    await connected;
+    expect(FakeWebSocket.instances[0].closed).toBe(true);
+    expect(routeHealth.probeDue('lagom', 0)).toBe(false);
+  });
+
   test('test servers and a missing bridge use only the official route', () => {
     const socket = create();
     expect(socket.getRouteCandidates('zws2.web.telegram.org', 443, true).map(({ kind }) => kind)).toEqual(['direct']);

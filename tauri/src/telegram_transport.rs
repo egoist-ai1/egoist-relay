@@ -8,6 +8,11 @@ const STABLE_WORKER_TIME: Duration = Duration::from_secs(30);
 const RECOVERY_BASE_MS: u64 = 250;
 #[cfg(any(windows, test))]
 const RECOVERY_MAX_MS: u64 = 8000;
+/// Предел строки stderr воркера и числа строк, попадающих в журнал за жизнь одного воркера.
+#[cfg(any(windows, test))]
+const STDERR_LINE_LIMIT: usize = 2048;
+#[cfg(any(windows, test))]
+const STDERR_LINES_PER_WORKER: usize = 50;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 
 struct ActiveTransport {
@@ -111,22 +116,44 @@ fn supervise_transport(
   let mut recovery_attempt: u32 = 0;
   let mut started = Instant::now();
   loop {
-    if !matches!(worker.child.try_wait(), Ok(None)) {
+    let exit = worker.child.try_wait();
+    if !matches!(exit, Ok(None)) {
+      // Штатная остановка (выход приложения, замена воркера) — не падение, журнал не засоряем
+      if !matches!(stop.try_recv(), Err(mpsc::TryRecvError::Empty)) { return; }
       if started.elapsed() >= STABLE_WORKER_TIME { recovery_attempt = 0; }
-      log::warn!("[TelegramTransport] Owned bridge worker exited; recovering its local endpoint");
+      match exit {
+        Ok(Some(status)) => log::warn!(
+          "[TelegramTransport] Owned bridge worker exited ({status}); recovering its local endpoint"),
+        _ => log::warn!(
+          "[TelegramTransport] Owned bridge worker exited (status unavailable); recovering its local endpoint"),
+      }
       drop(worker);
+      let mut failed_attempts: u32 = 0;
       loop {
         let delay = recovery_delay(recovery_attempt, jitter_unit());
         recovery_attempt = recovery_attempt.saturating_add(1);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
-        if let Ok(mut next) = launch_transport(&app, &token, port) {
-          let message = read_status(&mut next);
-          if message.as_ref().is_some_and(|value| value["status"] == "ready" && value["url"] == url) {
-            worker = next;
-            started = Instant::now();
-            log::info!("[TelegramTransport] Owned local bridge endpoint restored");
-            break;
+        let failure = match launch_transport(&app, &token, port) {
+          Err(_) => "launch failed",
+          Ok(mut next) => {
+            let message = read_status(&mut next);
+            match message.as_ref() {
+              None => "read timeout",
+              Some(value) if value["status"] != "ready" => "status unavailable",
+              Some(value) if value["url"] != url => "url mismatch",
+              Some(_) => {
+                worker = next;
+                started = Instant::now();
+                log::info!("[TelegramTransport] Owned local bridge endpoint restored");
+                break;
+              }
+            }
           }
+        };
+        failed_attempts = failed_attempts.saturating_add(1);
+        // Первые 5 подряд, затем каждая 10-я: журнал не растёт, пока мост лежит долго
+        if failed_attempts <= 5 || failed_attempts % 10 == 0 {
+          log::warn!("[TelegramTransport] Bridge restart attempt {failed_attempts} failed: {failure}");
         }
       }
     }
@@ -137,8 +164,8 @@ fn supervise_transport(
   }
 }
 
-/// Pause before restarting a crashed bridge worker: exponential 250 ms to 8 s with 50-100% jitter.
-/// The first retry is fast because the browser side is already failing over to the direct route.
+/// Пауза перед перезапуском упавшего воркера моста: экспонента от 250 мс до 8 с с джиттером 50-100%.
+/// Первая попытка быстрая: браузерная сторона к этому моменту уже идёт прямым маршрутом.
 #[cfg(any(windows, test))]
 fn recovery_delay(attempt: u32, unit: f64) -> Duration {
   let raw = (RECOVERY_BASE_MS << attempt.min(6)).min(RECOVERY_MAX_MS);
@@ -195,7 +222,7 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, port: u16) -> Result<Ow
   crate::social_share::sanitize_media_worker_environment(&mut command);
   command.env_remove("NODE_PATH").env("WS_NO_BUFFER_UTIL", "1").env("WS_NO_UTF_8_VALIDATE", "1");
   command.arg(&script).current_dir(script.parent().ok_or("TELEGRAM_TRANSPORT_UNAVAILABLE")?)
-    .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::null());
+    .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped());
   crate::runtime::hide_command_window(&mut command);
   let mut child = command.spawn().map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   let ownership = match crate::worker_job::WorkerJob::attach(&child) {
@@ -205,6 +232,12 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, port: u16) -> Result<Ow
       return Err("TELEGRAM_TRANSPORT_UNAVAILABLE".into());
     }
   };
+  // Читатель stderr стартует до записи настроек: иначе воркер может встать на заполненном пайпе
+  if let Some(stderr) = child.stderr.take() {
+    let _ = std::thread::Builder::new().name("relay-telegram-transport-stderr".into()).spawn(move || {
+      drain_stderr(stderr, |line| log::warn!("[TelegramTransport] worker stderr: {line}"));
+    });
+  }
   let mut worker = OwnedWorker { child, ownership, _directory: directory };
   let mut origins = vec!["http://tauri.localhost", "https://tauri.localhost", "tauri://localhost"];
   if cfg!(debug_assertions) { origins.push("http://localhost:1234"); }
@@ -214,6 +247,59 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, port: u16) -> Result<Ow
   stdin.write_all(&settings).and_then(|_| stdin.write_all(b"\n"))
     .and_then(|_| stdin.flush()).map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   Ok(worker)
+}
+
+/// Заменяет в строке hex-последовательности длиной от 32 символов (токен моста, ключи) на `<скрыто>`.
+#[cfg(any(windows, test))]
+fn redact(line: &str) -> String {
+  fn flush(run: &mut String, result: &mut String) {
+    if run.len() >= 32 { result.push_str("<скрыто>"); } else { result.push_str(run); }
+    run.clear();
+  }
+  let mut result = String::with_capacity(line.len());
+  let mut run = String::new();
+  for character in line.chars() {
+    if character.is_ascii_hexdigit() {
+      run.push(character);
+    } else {
+      flush(&mut run, &mut result);
+      result.push(character);
+    }
+  }
+  flush(&mut run, &mut result);
+  result
+}
+
+/// Читает stderr воркера до конца (иначе он встанет на заполненном пайпе), строки режет по лимиту
+/// и отдаёт в `sink` не более `STDERR_LINES_PER_WORKER` штук уже без секретов.
+#[cfg(any(windows, test))]
+fn drain_stderr<R: std::io::Read>(reader: R, mut sink: impl FnMut(&str)) {
+  use std::io::{BufRead, BufReader, Read};
+  let mut reader = BufReader::new(reader);
+  let mut logged = 0usize;
+  loop {
+    let mut line = Vec::new();
+    match reader.by_ref().take(STDERR_LINE_LIMIT as u64).read_until(b'\n', &mut line) {
+      Ok(0) | Err(_) => return,
+      Ok(_) => {}
+    }
+    // Хвост слишком длинной строки отбрасываем до перевода строки
+    if line.last() != Some(&b'\n') && line.len() >= STDERR_LINE_LIMIT {
+      let mut skipped = Vec::new();
+      while let Ok(size) = reader.by_ref().take(STDERR_LINE_LIMIT as u64).read_until(b'\n', &mut skipped) {
+        if size == 0 || skipped.last() == Some(&b'\n') { break; }
+        skipped.clear();
+      }
+    }
+    if logged < STDERR_LINES_PER_WORKER {
+      let text = String::from_utf8_lossy(&line);
+      let text = text.trim_end();
+      if !text.is_empty() {
+        logged += 1;
+        sink(&redact(text));
+      }
+    }
+  }
 }
 
 #[cfg(windows)]
@@ -246,6 +332,34 @@ mod tests {
     assert_eq!(full, vec![250, 500, 1000, 2000, 4000, 8000, 8000, 8000]);
     let half: Vec<u64> = (0..4).map(|attempt| recovery_delay(attempt, 0.0).as_millis() as u64).collect();
     assert_eq!(half, vec![125, 250, 500, 1000]);
+  }
+
+  #[test]
+  fn redact_hides_tokens_and_long_hex_only() {
+    let token = "a1".repeat(32);
+    assert_eq!(
+      redact(&format!("ws://127.0.0.1:1/apiws?token={token} failed")),
+      "ws://127.0.0.1:1/apiws?token=<скрыто> failed"
+    );
+    assert_eq!(redact(&"f".repeat(31)), "f".repeat(31));
+    assert_eq!(redact(&"F".repeat(32)), "<скрыто>");
+    assert_eq!(redact("ECONNRESET: тест"), "ECONNRESET: тест");
+  }
+
+  #[test]
+  fn stderr_drain_limits_lines_and_reads_to_eof() {
+    let token = "0f".repeat(32);
+    let mut input = format!("token={token}\n");
+    input.push_str(&"x".repeat(5000));
+    input.push('\n');
+    for index in 0..100 { input.push_str(&format!("line {index}\n")); }
+    let mut lines = Vec::new();
+    drain_stderr(input.as_bytes(), |line| lines.push(line.to_string()));
+    assert_eq!(lines.len(), STDERR_LINES_PER_WORKER);
+    assert_eq!(lines[0], "token=<скрыто>");
+    assert_eq!(lines[1].len(), STDERR_LINE_LIMIT);
+    assert_eq!(lines[2], "line 0");
+    assert!(lines.iter().all(|line| !line.contains(&token)));
   }
 
   #[test]
