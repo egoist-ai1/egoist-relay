@@ -174,4 +174,7 @@ FunctionEnd
     SetErrorLevel 1
     Abort "RELAY_LEGACY_RUNTIME_CHECK_FAILED: Obsolete runtime validation failed."
   ${EndIf}
+  ; Пока старый exe заменялся, Explorer мог закешировать пустой значок для ярлыков (рабочий стол, «Пуск»,
+  ; панель задач). SHCNE_ASSOCCHANGED заставляет оболочку перечитать значки уже из нового exe.
+  System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0, p 0, p 0)'
 !macroend
