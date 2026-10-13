@@ -184,7 +184,10 @@ export default defineConfig(({ mode }): UserConfig => {
     css: {
       modules: {
         localsConvention: 'camelCase',
-        generateScopedName: isProductionApp ? '[hash:base64:8]' : '[name]__[local]',
+        // В сборке имя модуля и класса сохраняются, как в разработке: глобальные правила темы Lagom
+        // (`[class*="activeIndicator"]` и т. п. в styles/index.scss) должны совпадать и там, и там.
+        // Хэш в конце исключает совпадение одноимённых модулей из разных папок.
+        generateScopedName: isProductionApp ? '[name]__[local]__[hash:base64:5]' : '[name]__[local]',
       },
     },
     server: {

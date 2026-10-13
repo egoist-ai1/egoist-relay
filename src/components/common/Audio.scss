@@ -328,6 +328,8 @@
       width: 1.75rem !important;
       min-width: 1.75rem !important;
       height: 1.75rem !important;
+      // `.Button` задаёт min-height: 3rem, он сильнее height: без этого кнопка вытягивается и наезжает на время
+      min-height: 1.75rem !important;
       margin-inline-start: 0.375rem;
       margin-inline-end: 0.25rem;
       padding: 0 !important;
