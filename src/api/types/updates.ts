@@ -114,7 +114,7 @@ export type ApiUpdateConnectionState = {
 };
 
 export type ApiConnectionRoute = {
-  kind: 'lagom' | 'direct';
+  kind: 'wss' | 'mtproxy';
   rttMs?: number;
 };
 

@@ -7,11 +7,11 @@ const CONNECTION_TIMEOUT = 3000;
 const MAX_TIMEOUT = 30000;
 // Рост таймаута подключения ограничен: после сна или смены сети ждать 30 с одну попытку нельзя
 const MAX_CONNECT_TIMEOUT = 8000;
-// Локальный мост отвечает за миллисекунды; долгое ожидание означает, что Lagom недоступен
-const LAGOM_CONNECT_TIMEOUT = 2500;
+// Мост открывает TCP к MTProxy через SOCKS туннеля до апгрейда WebSocket: нужен запас на хэндшейк через VPN
+const MTPROXY_CONNECT_TIMEOUT = 5000;
 // Через сколько стартует второй маршрут, если первый ещё не открылся
 const ROUTE_RACE_STAGGER = 300;
-const LAGOM_PROBE_INTERVAL = 30000;
+const WSS_PROBE_INTERVAL = 30000;
 const noop = () => undefined;
 const MAX_BUFFERED_BYTES = 8 * 1024 * 1024;
 const MAX_INCOMING_BYTES = 64 * 1024 * 1024;
@@ -226,23 +226,26 @@ export default class PromisedWebSockets {
     return this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId)[0].url;
   }
 
-  /** Маршруты по приоритету: локальный мост Lagom, затем прямой wss (WebView2 сам применит системный прокси/PAC). */
+  /**
+   * Маршруты по приоритету: стандартный wss Telegram Web A (WebView2 ведёт его через SOCKS-прокси туннеля),
+   * затем локальный мост к MTProxy, если оболочка сообщила, что ссылка MTProxy задана.
+   */
   getRouteCandidates(
     ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number,
   ): RouteCandidate[] {
-    const direct = this.getDirectLink(ip, port, isTestServer, isPremium, dcId);
+    const wss = this.getWssLink(ip, port, isTestServer, isPremium, dcId);
     if (desktopTransportUrl && !isTestServer) {
       const url = new URL(desktopTransportUrl);
       const match = ip.match(/zws(\d+)(-1)?/i);
       url.searchParams.set('dc', String(dcId || Number(match?.[1]) || 2));
       if (match?.[2]) url.searchParams.set('media', '1');
       if (isPremium) url.searchParams.set('premium', '1');
-      return [{ kind: 'lagom', url: url.toString() }, { kind: 'direct', url: direct }];
+      return [{ kind: 'wss', url: wss }, { kind: 'mtproxy', url: url.toString() }];
     }
-    return [{ kind: 'direct', url: direct }];
+    return [{ kind: 'wss', url: wss }];
   }
 
-  private getDirectLink(ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number) {
+  private getWssLink(ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number) {
     const { location } = globalThis;
     const isTauri = location.protocol === 'tauri:' || location.hostname === 'tauri.localhost';
     const customProxy = isTauri ? undefined
@@ -267,7 +270,7 @@ export default class PromisedWebSockets {
     return new Promise<WebSocket>((resolve, reject) => {
       const socket = new WebSocket(candidate.url, 'binary');
       socket.binaryType = 'arraybuffer';
-      const timeoutMs = candidate.kind === 'lagom' ? LAGOM_CONNECT_TIMEOUT : this.timeout;
+      const timeoutMs = candidate.kind === 'mtproxy' ? MTPROXY_CONNECT_TIMEOUT : this.timeout;
       let hasSettled = false;
       const settle = (error?: Error) => {
         if (hasSettled) return;
@@ -340,7 +343,7 @@ export default class PromisedWebSockets {
         // Реальный отказ проигравшего (не abort) нужен, чтобы сработали понижение на 60 с и фоновая проба
         failures.forEach((failed) => routeHealth.recordFailure(failed.kind));
         routeHealth.recordSuccess(candidate.kind);
-        if (candidate.kind === 'direct') scheduleLagomProbe();
+        if (candidate.kind === 'mtproxy') scheduleWssProbe(candidates.find(({ kind }) => kind === 'wss')?.url);
         // eslint-disable-next-line no-console
         if (elapsedMs > 1500) console.warn(`Telegram route ${candidate.kind} opened in ${elapsedMs}ms`);
         resolve(this);
@@ -452,34 +455,32 @@ export default class PromisedWebSockets {
 let probeTimer: ReturnType<typeof setTimeout> | undefined;
 
 /**
- * Фоновая проверка локального моста после провала: UI не ждёт, успех возвращает Lagom приоритет
- * для следующих подключений. Установленные соединения не трогаются.
+ * Фоновая проверка wss после провала: UI не ждёт, успех возвращает wss приоритет для следующих подключений.
+ * Установленные соединения не трогаются. Проба открывает тот же wss-адрес, что и обычное подключение.
  */
-function scheduleLagomProbe() {
-  if (probeTimer || !desktopTransportUrl) return;
+function scheduleWssProbe(url?: string) {
+  if (probeTimer || !url) return;
   probeTimer = setTimeout(() => {
     probeTimer = undefined;
-    if (!desktopTransportUrl || !routeHealth.probeDue('lagom', LAGOM_PROBE_INTERVAL)) return;
+    if (!routeHealth.probeDue('wss', WSS_PROBE_INTERVAL)) return;
     routeHealth.markProbe();
-    const url = new URL(desktopTransportUrl);
-    url.searchParams.set('dc', '2');
     let socket: WebSocket;
     try {
-      socket = new WebSocket(url.toString(), 'binary');
+      socket = new WebSocket(url, 'binary');
     } catch (err) {
-      scheduleLagomProbe();
+      scheduleWssProbe(url);
       return;
     }
-    const timer = setTimeout(() => socket.close(), LAGOM_CONNECT_TIMEOUT);
+    const timer = setTimeout(() => socket.close(), CONNECTION_TIMEOUT);
     socket.onopen = () => {
       clearTimeout(timer);
-      routeHealth.recordProbeSuccess('lagom');
+      routeHealth.recordProbeSuccess('wss');
       socket.close();
     };
     socket.onclose = () => {
       clearTimeout(timer);
-      if (routeHealth.probeDue('lagom', 0)) scheduleLagomProbe();
+      if (routeHealth.probeDue('wss', 0)) scheduleWssProbe(url);
     };
     socket.onerror = () => undefined;
-  }, LAGOM_PROBE_INTERVAL);
+  }, WSS_PROBE_INTERVAL);
 }

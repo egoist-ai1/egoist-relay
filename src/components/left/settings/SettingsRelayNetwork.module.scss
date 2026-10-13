@@ -1,0 +1,96 @@
+.rows {
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  justify-content: space-between;
+
+  padding-block: 0.375rem;
+
+  font-size: 0.9375rem;
+  line-height: 1.25rem;
+}
+
+.rowLabel {
+  color: var(--color-text-secondary);
+}
+
+.rowValue {
+  margin: 0;
+  text-align: end;
+  overflow-wrap: anywhere;
+}
+
+.state {
+  padding: 0.25rem 1rem 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5rem;
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: -0.125rem;
+  }
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+
+  padding: 0.5rem 1rem;
+}
+
+.progress {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 0.125rem solid var(--color-borders);
+  border-top-color: var(--color-text);
+  border-radius: 50%;
+
+  animation: networkSpin 900ms linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    border-top-color: var(--color-borders);
+    animation: none;
+  }
+}
+
+.error {
+  margin: 0;
+  padding: 0.25rem 1rem;
+
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-error);
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: -0.125rem;
+  }
+}
+
+@keyframes networkSpin {
+  to { transform: rotate(360deg); }
+}

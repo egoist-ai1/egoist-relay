@@ -3,7 +3,7 @@ import {
 } from '../../../lib/teact/teact';
 import { getActions, withGlobal } from '../../../global';
 
-import type { GlobalState, SharedSettings } from '../../../global/types';
+import type { SharedSettings } from '../../../global/types';
 import type { TimeFormat } from '../../../types';
 import type { IRadioOption } from '../../ui/RadioGroup';
 import { SettingsScreens } from '../../../types';
@@ -27,6 +27,7 @@ import Checkbox from '../../ui/Checkbox';
 import ListItem from '../../ui/ListItem';
 import RadioGroup from '../../ui/RadioGroup';
 import RangeSlider from '../../ui/RangeSlider';
+import SettingsRelayNetwork from './SettingsRelayNetwork';
 
 import styles from './SettingsGeneral.module.scss';
 
@@ -46,9 +47,7 @@ type StateProps =
     'shouldWarmupSocialViews' |
     'shouldHideX' |
     'shouldHideInstagram'
-  )> & {
-    connectionRoute?: GlobalState['connectionRoute'];
-  };
+  )>;
 
 const SettingsGeneral = ({
   isActive,
@@ -61,7 +60,6 @@ const SettingsGeneral = ({
   shouldWarmupSocialViews,
   shouldHideX,
   shouldHideInstagram,
-  connectionRoute,
   onReset,
 }: OwnProps & StateProps) => {
   const {
@@ -239,16 +237,8 @@ const SettingsGeneral = ({
         </ListItem>
       </Island>
 
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayNetworkTitle')}</IslandTitle>
+      <SettingsRelayNetwork />
       <Island>
-        {connectionRoute && (
-          <ListItem inactive>
-            <span>
-              {lang(connectionRoute.kind === 'lagom' ? 'RelayRouteLagom' : 'RelayRouteDirect')}
-              {connectionRoute.rttMs !== undefined && ` · ${Math.round(connectionRoute.rttMs)} ${lang('RelayRouteMs')}`}
-            </span>
-          </ListItem>
-        )}
         <Checkbox
           label={lang('RelayWarmupSocial')}
           subLabel={lang('RelayWarmupSocialHint')}
@@ -278,7 +268,6 @@ export default memo(withGlobal<OwnProps>(
       shouldWarmupSocialViews,
       shouldHideX,
       shouldHideInstagram,
-      connectionRoute: global.connectionRoute,
       messageSendKeyCombo,
       shouldReplaceTextShortcuts,
       messageTextSize,

@@ -4,7 +4,8 @@
  * берутся из глобальных setTimeout/Date/Math.random, поэтому тесты идут на виртуальном времени.
  */
 
-export type RouteKind = 'lagom' | 'direct';
+/** wss — стандартный маршрут Telegram Web A (через прокси WebView); mtproxy — локальный мост к MTProxy из настроек. */
+export type RouteKind = 'wss' | 'mtproxy';
 
 export interface RouteCandidate {
   kind: RouteKind;
@@ -159,11 +160,11 @@ const RTT_REPORT_MIN_DELTA = 0.2;
 const RTT_REPORT_MIN_INTERVAL_MS = 10000;
 
 /**
- * Память о рабочем маршруте. Маршрут Lagom приоритетный; после провала он понижается на
+ * Память о рабочем маршруте. Маршрут wss приоритетный; после провала он понижается на
  * `ROUTE_DEMOTE_MS`, а фоновая проверка (`probeDue`/`markProbe`) возвращает его, не блокируя подключение.
  */
 export class RouteHealth {
-  private lastWorking: RouteKind = 'lagom';
+  private lastWorking: RouteKind = 'wss';
 
   private failedAt: Partial<Record<RouteKind, number>> = {};
 
@@ -180,7 +181,7 @@ export class RouteHealth {
   constructor(private readonly now: () => number = Date.now) {}
 
   reset() {
-    this.lastWorking = 'lagom';
+    this.lastWorking = 'wss';
     this.failedAt = {};
     this.probedAt = 0;
     this.active = undefined;
@@ -231,10 +232,10 @@ export class RouteHealth {
     }
   }
 
-  /** Осторожный возврат Lagom после удачной фоновой проверки. */
+  /** Осторожный возврат wss после удачной фоновой проверки. */
   recordProbeSuccess(kind: RouteKind) {
     delete this.failedAt[kind];
-    if (kind === 'lagom') this.lastWorking = 'lagom';
+    if (kind === 'wss') this.lastWorking = 'wss';
   }
 
   observeRtt(rttMs: number, shouldEmit = true) {

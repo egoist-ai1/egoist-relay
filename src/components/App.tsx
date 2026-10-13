@@ -31,6 +31,7 @@ import { hasEncryptedSession } from '../util/passcode';
 import { getInitialLocationHash, parseInitialLocationHash } from '../util/routing';
 import { checkSessionLocked, hasStoredSession } from '../util/sessions';
 import { resolveAppBounds } from '../util/tauri/appBounds';
+import { setServiceEnabled } from '../util/tauri/relayNetwork';
 import { getLastUserInputAt, startSocialWarmup } from '../util/tauri/socialWarmup';
 import { getActionMessageBg, getWallpaperBaseColor } from '../util/wallpaper';
 import { updateSizes } from '../util/windowSize';
@@ -46,6 +47,7 @@ import useFileHoverOpen, {
 } from '../hooks/useFileHoverOpen';
 import useLang from '../hooks/useLang';
 import useLastCallback from '../hooks/useLastCallback';
+import useNetworkStatus from '../hooks/useNetworkStatus';
 import usePrevious from '../hooks/usePrevious';
 import useResizeObserver from '../hooks/useResizeObserver';
 import { useSignalEffect } from '../hooks/useSignalEffect';
@@ -195,7 +197,17 @@ const App = ({
     [shouldHideX, shouldHideInstagram],
   );
   const lang = useLang();
+  const networkStatus = useNetworkStatus();
   const isMobileOs = PLATFORM_ENV === 'iOS' || PLATFORM_ENV === 'Android';
+
+  // Скрытый сервис не должен нагружать сеть: оболочка узнаёт о флагах при старте и при каждом изменении
+  useEffect(() => {
+    void setServiceEnabled('x', !shouldHideX).catch(handleError);
+  }, [shouldHideX]);
+
+  useEffect(() => {
+    void setServiceEnabled('instagram', !shouldHideInstagram).catch(handleError);
+  }, [shouldHideInstagram]);
 
   const measureNativeBounds = useLastCallback(async () => {
     const { getCurrentWindow } = await import('@tauri-apps/api/window');
@@ -896,6 +908,7 @@ const App = ({
         instagramAppState={instagramAppState}
         sleepingApps={sleepingApps}
         hiddenApps={hiddenApps}
+        networkRoutes={networkStatus?.services}
         onSelectApp={handleSelectApp}
       />
 

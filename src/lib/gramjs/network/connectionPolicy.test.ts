@@ -7,8 +7,8 @@ import {
   adaptivePingTimeout, backoffDelay, raceRoutes, RouteHealth, RouteRaceError, sleepUntilOnline, WakeableTimer,
 } from './connectionPolicy';
 
-const LAGOM: RouteCandidate = { kind: 'lagom', url: 'ws://127.0.0.1:1/apiws' };
-const DIRECT: RouteCandidate = { kind: 'direct', url: 'wss://zws2.web.telegram.org:443/apiws' };
+const WSS: RouteCandidate = { kind: 'wss', url: 'ws://127.0.0.1:1/apiws' };
+const MTPROXY: RouteCandidate = { kind: 'mtproxy', url: 'wss://zws2.web.telegram.org:443/apiws' };
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -54,97 +54,97 @@ describe('raceRoutes', () => {
 
   test('the first route wins without starting the second one when it opens within the stagger', async () => {
     const { pending, open } = deferredOpen();
-    const race = raceRoutes([LAGOM, DIRECT], open, { staggerMs: 300 });
+    const race = raceRoutes([WSS, MTPROXY], open, { staggerMs: 300 });
     await vi.advanceTimersByTimeAsync(40);
-    pending.get('lagom')!.resolve('lagom-socket');
-    await expect(race).resolves.toMatchObject({ candidate: LAGOM, value: 'lagom-socket', elapsedMs: 40 });
+    pending.get('wss')!.resolve('wss-socket');
+    await expect(race).resolves.toMatchObject({ candidate: WSS, value: 'wss-socket', elapsedMs: 40 });
     await vi.advanceTimersByTimeAsync(1000);
-    expect(pending.has('direct')).toBe(false);
+    expect(pending.has('mtproxy')).toBe(false);
   });
 
   test('a failed first route starts the next one immediately', async () => {
     const { pending, open } = deferredOpen();
-    const race = raceRoutes([LAGOM, DIRECT], open, { staggerMs: 300 });
+    const race = raceRoutes([WSS, MTPROXY], open, { staggerMs: 300 });
     await vi.advanceTimersByTimeAsync(160);
-    pending.get('lagom')!.reject(new Error('503'));
+    pending.get('wss')!.reject(new Error('503'));
     await vi.advanceTimersByTimeAsync(0);
-    expect(pending.has('direct')).toBe(true);
+    expect(pending.has('mtproxy')).toBe(true);
     await vi.advanceTimersByTimeAsync(120);
-    pending.get('direct')!.resolve('direct-socket');
-    await expect(race).resolves.toMatchObject({ candidate: DIRECT, elapsedMs: 280 });
+    pending.get('mtproxy')!.resolve('mtproxy-socket');
+    await expect(race).resolves.toMatchObject({ candidate: MTPROXY, elapsedMs: 280 });
   });
 
   test('a slow first route is overtaken after the stagger and the loser is aborted', async () => {
     const { pending, open } = deferredOpen();
     const dispose = vi.fn();
-    const race = raceRoutes([LAGOM, DIRECT], open, { staggerMs: 300, dispose });
+    const race = raceRoutes([WSS, MTPROXY], open, { staggerMs: 300, dispose });
     await vi.advanceTimersByTimeAsync(300);
-    expect(pending.has('direct')).toBe(true);
+    expect(pending.has('mtproxy')).toBe(true);
     await vi.advanceTimersByTimeAsync(100);
-    pending.get('direct')!.resolve('direct-socket');
-    await expect(race).resolves.toMatchObject({ candidate: DIRECT, elapsedMs: 400 });
-    expect(pending.get('lagom')!.signal.aborted).toBe(true);
-    expect(pending.get('direct')!.signal.aborted).toBe(false);
+    pending.get('mtproxy')!.resolve('mtproxy-socket');
+    await expect(race).resolves.toMatchObject({ candidate: MTPROXY, elapsedMs: 400 });
+    expect(pending.get('wss')!.signal.aborted).toBe(true);
+    expect(pending.get('mtproxy')!.signal.aborted).toBe(false);
     // Проигравший, всё же открывшийся после отмены, закрывается
-    pending.get('lagom')!.resolve('late-lagom-socket');
+    pending.get('wss')!.resolve('late-wss-socket');
     await vi.advanceTimersByTimeAsync(0);
-    expect(dispose).toHaveBeenCalledWith('late-lagom-socket', LAGOM);
+    expect(dispose).toHaveBeenCalledWith('late-wss-socket', WSS);
   });
 
   test('rejects with every error when all routes fail', async () => {
     const { pending, open } = deferredOpen();
-    const race = raceRoutes([LAGOM, DIRECT], open, { staggerMs: 300 });
+    const race = raceRoutes([WSS, MTPROXY], open, { staggerMs: 300 });
     const assertion = expect(race).rejects.toBeInstanceOf(RouteRaceError);
-    pending.get('lagom')!.reject(new Error('503'));
+    pending.get('wss')!.reject(new Error('503'));
     await vi.advanceTimersByTimeAsync(0);
-    pending.get('direct')!.reject(new Error('timeout'));
+    pending.get('mtproxy')!.reject(new Error('timeout'));
     await assertion;
   });
 
   test('an external abort cancels every attempt', async () => {
     const { pending, open } = deferredOpen();
     const controller = new AbortController();
-    const race = raceRoutes([LAGOM, DIRECT], open, { staggerMs: 300 }, controller.signal);
+    const race = raceRoutes([WSS, MTPROXY], open, { staggerMs: 300 }, controller.signal);
     const assertion = expect(race).rejects.toBeInstanceOf(RouteRaceError);
     await vi.advanceTimersByTimeAsync(350);
     controller.abort();
     await assertion;
-    expect(pending.get('lagom')!.signal.aborted).toBe(true);
-    expect(pending.get('direct')!.signal.aborted).toBe(true);
+    expect(pending.get('wss')!.signal.aborted).toBe(true);
+    expect(pending.get('mtproxy')!.signal.aborted).toBe(true);
   });
 });
 
 describe('RouteHealth', () => {
-  test('keeps Lagom first by default and demotes it for a minute after a failure', () => {
+  test('keeps wss first by default and demotes it for a minute after a failure', () => {
     let now = 1000;
     const health = new RouteHealth(() => now);
-    expect(health.order([LAGOM, DIRECT]).map(({ kind }) => kind)).toEqual(['lagom', 'direct']);
-    health.recordFailure('lagom');
-    expect(health.order([LAGOM, DIRECT]).map(({ kind }) => kind)).toEqual(['direct', 'lagom']);
+    expect(health.order([WSS, MTPROXY]).map(({ kind }) => kind)).toEqual(['wss', 'mtproxy']);
+    health.recordFailure('wss');
+    expect(health.order([WSS, MTPROXY]).map(({ kind }) => kind)).toEqual(['mtproxy', 'wss']);
     now += 61000;
-    expect(health.order([LAGOM, DIRECT]).map(({ kind }) => kind)).toEqual(['lagom', 'direct']);
+    expect(health.order([WSS, MTPROXY]).map(({ kind }) => kind)).toEqual(['wss', 'mtproxy']);
   });
 
   test('remembers the last working route', () => {
     const health = new RouteHealth(() => 0);
-    health.recordSuccess('direct');
-    expect(health.order([LAGOM, DIRECT]).map(({ kind }) => kind)).toEqual(['direct', 'lagom']);
+    health.recordSuccess('mtproxy');
+    expect(health.order([WSS, MTPROXY]).map(({ kind }) => kind)).toEqual(['mtproxy', 'wss']);
   });
 
-  test('a background probe returns Lagom without touching the active route', () => {
+  test('a background probe returns wss without touching the active route', () => {
     let now = 0;
     const health = new RouteHealth(() => now);
-    health.recordFailure('lagom');
-    health.recordSuccess('direct');
-    expect(health.probeDue('lagom', 30000)).toBe(false);
+    health.recordFailure('wss');
+    health.recordSuccess('mtproxy');
+    expect(health.probeDue('wss', 30000)).toBe(false);
     now = 30000;
-    expect(health.probeDue('lagom', 30000)).toBe(true);
+    expect(health.probeDue('wss', 30000)).toBe(true);
     health.markProbe();
-    expect(health.probeDue('lagom', 30000)).toBe(false);
-    health.recordProbeSuccess('lagom');
-    expect(health.getStatus()?.kind).toBe('direct');
-    expect(health.order([LAGOM, DIRECT])[0].kind).toBe('lagom');
-    expect(health.probeDue('lagom', 0)).toBe(false);
+    expect(health.probeDue('wss', 30000)).toBe(false);
+    health.recordProbeSuccess('wss');
+    expect(health.getStatus()?.kind).toBe('mtproxy');
+    expect(health.order([WSS, MTPROXY])[0].kind).toBe('wss');
+    expect(health.probeDue('wss', 0)).toBe(false);
   });
 
   test('reports route changes at once and RTT changes only when meaningful', () => {
@@ -152,9 +152,9 @@ describe('RouteHealth', () => {
     const health = new RouteHealth(() => now);
     const reports: Array<RouteStatus | undefined> = [];
     health.setListener((status) => reports.push(status));
-    health.recordSuccess('lagom');
+    health.recordSuccess('wss');
     health.observeRtt(80);
-    expect(reports).toEqual([{ kind: 'lagom', rttMs: undefined }, { kind: 'lagom', rttMs: 80 }]);
+    expect(reports).toEqual([{ kind: 'wss', rttMs: undefined }, { kind: 'wss', rttMs: 80 }]);
     now += 1000;
     health.observeRtt(84);
     expect(reports).toHaveLength(2);
@@ -163,7 +163,7 @@ describe('RouteHealth', () => {
     health.observeRtt(400);
     health.observeRtt(400);
     expect(reports.length).toBeGreaterThan(2);
-    health.recordFailure('lagom');
+    health.recordFailure('wss');
     expect(reports[reports.length - 1]).toBeUndefined();
   });
 
@@ -225,12 +225,12 @@ describe('synthetic benchmark', () => {
     };
   }
 
-  async function timeToConnect(lagomMode: 'refused' | 'blackhole' | 'ok', directLatency: number) {
+  async function timeToConnect(wssMode: 'refused' | 'blackhole' | 'ok', mtproxyLatency: number) {
     const open = (candidate: RouteCandidate, signal: AbortSignal) => new Promise<string>((resolve, reject) => {
-      const lagomLatency = { ok: 4, refused: 165, blackhole: 2500 }[lagomMode];
-      const latency = candidate.kind === 'direct' ? directLatency : lagomLatency;
+      const wssLatency = { ok: 4, refused: 165, blackhole: 2500 }[wssMode];
+      const latency = candidate.kind === 'mtproxy' ? mtproxyLatency : wssLatency;
       const timer = setTimeout(() => {
-        if (candidate.kind === 'lagom' && lagomMode !== 'ok') reject(new Error('lagom unavailable'));
+        if (candidate.kind === 'wss' && wssMode !== 'ok') reject(new Error('wss unavailable'));
         else resolve(candidate.kind);
       }, latency);
       signal.addEventListener('abort', () => {
@@ -238,18 +238,18 @@ describe('synthetic benchmark', () => {
         reject(new Error('aborted'));
       });
     });
-    const race = raceRoutes([LAGOM, DIRECT], open, { staggerMs: 300 });
+    const race = raceRoutes([WSS, MTPROXY], open, { staggerMs: 300 });
     await vi.advanceTimersByTimeAsync(5000);
     return (await race).elapsedMs;
   }
 
-  test('failover to the direct route', async () => {
+  test('failover to the mtproxy route', async () => {
     const refused = await timeToConnect('refused', 120);
     const blackhole = await timeToConnect('blackhole', 120);
     const healthy = await timeToConnect('ok', 120);
-    // До правки: мост Lagom сразу «открывался» и умирал через ~2,4 с без шанса на прямой путь (проверено на старом
+    // До правки: локальный мост сразу «открывался» и умирал через ~2,4 с без шанса на запасной путь (проверено на старом
     // мосту, scratch-бенч); при чёрной дыре клиент ждал 3 с, спал 2 с и повторял тот же маршрут.
-    report(`failover ms: lagom refused=${refused}, lagom blackhole=${blackhole}, lagom healthy=${healthy}`);
+    report(`failover ms: wss refused=${refused}, wss blackhole=${blackhole}, wss healthy=${healthy}`);
     expect(refused).toBe(285);
     expect(blackhole).toBe(420);
     expect(healthy).toBe(4);

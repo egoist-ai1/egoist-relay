@@ -2,6 +2,7 @@ import type { TeactNode } from '../../lib/teact/teact';
 import { memo, useRef } from '../../lib/teact/teact';
 
 import type { RegularLangKey } from '../../types/language';
+import type { NetworkServiceRoute } from '../../util/tauri/relayNetwork';
 
 import buildClassName from '../../util/buildClassName';
 
@@ -24,6 +25,8 @@ type OwnProps = {
   sleepingApps?: AppId[];
   // Скрытые сервисы не показываются в rail; Telegram скрыть нельзя
   hiddenApps?: AppId[];
+  // Маршрут сервиса из статуса сети: недоступный помечается ошибкой, прямой отмечен только в подписи
+  networkRoutes?: Record<AppId, NetworkServiceRoute>;
   onSelectApp: (app: AppId) => void;
 };
 
@@ -108,6 +111,7 @@ const AppSidebar = ({
   instagramAppState = 'idle',
   sleepingApps,
   hiddenApps,
+  networkRoutes,
   onSelectApp,
 }: OwnProps) => {
   const lang = useLang();
@@ -151,11 +155,16 @@ const AppSidebar = ({
           const state: ServiceState = def.id === 'x' ? xAppState
             : def.id === 'instagram' ? instagramAppState : 'ready';
           const isActive = activeApp === def.id;
-          const indicator = resolveIndicator(state, Boolean(sleepingApps?.includes(def.id)));
+          const route = networkRoutes?.[def.id];
+          const isNetworkDown = route === 'unavailable' && state !== 'loading';
+          const indicator = isNetworkDown
+            ? 'error' : resolveIndicator(state, Boolean(sleepingApps?.includes(def.id)));
           const stateKey = state === 'loading' ? def.loadingKey
             : state === 'error' ? def.errorKey
               : state === 'auth-required' ? def.authKey
-                : indicator === 'sleep' ? 'RelayServiceSleeping' : undefined;
+                : isNetworkDown ? 'RelayNetRailUnavailable'
+                  : route === 'direct' ? 'RelayNetRailDirect'
+                    : indicator === 'sleep' ? 'RelayServiceSleeping' : undefined;
           const stateLabel = stateKey ? lang(stateKey) : undefined;
           const switchLabel = lang(def.switchKey);
 

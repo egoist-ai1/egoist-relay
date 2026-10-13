@@ -2562,9 +2562,53 @@ export interface LangPair {
   'RelayClearDeletedMessagesText': undefined;
   'RelayClearDeletedMessagesConfirm': undefined;
   'RelayNetworkTitle': undefined;
-  'RelayRouteLagom': undefined;
-  'RelayRouteDirect': undefined;
-  'RelayRouteMs': undefined;
+  'RelayNetStatus': undefined;
+  'RelayNetStateTunnel': undefined;
+  'RelayNetStateDnsOnly': undefined;
+  'RelayNetStateDown': undefined;
+  'RelayNetStateStarting': undefined;
+  'RelayNetStateRestart': undefined;
+  'RelayNetStateNotConfigured': undefined;
+  'RelayNetNode': undefined;
+  'RelayNetDns': undefined;
+  'RelayNetDnsFallback': undefined;
+  'RelayNetDnsDown': undefined;
+  'RelayNetDnsNone': undefined;
+  'RelayNetRouteTunnel': undefined;
+  'RelayNetRouteDirect': undefined;
+  'RelayNetRouteUnavailable': undefined;
+  'RelayNetRouteDisabled': undefined;
+  'RelayNetRouteUnknown': undefined;
+  'RelayNetRailUnavailable': undefined;
+  'RelayNetRailDirect': undefined;
+  'RelayNetKey': undefined;
+  'RelayNetKeyEmbedded': undefined;
+  'RelayNetKeyOverride': undefined;
+  'RelayNetKeyNone': undefined;
+  'RelayNetResetEmbedded': undefined;
+  'RelayNetResetTitle': undefined;
+  'RelayNetResetText': undefined;
+  'RelayNetResetConfirm': undefined;
+  'RelayNetResetDone': undefined;
+  'RelayNetReplaceTitle': undefined;
+  'RelayNetVpnLabel': undefined;
+  'RelayNetVpnHint': undefined;
+  'RelayNetDohLabel': undefined;
+  'RelayNetMtproxyLabel': undefined;
+  'RelayNetApply': undefined;
+  'RelayNetApplying': undefined;
+  'RelayNetApplied': undefined;
+  'RelayNetRefreshSub': undefined;
+  'RelayNetRefreshing': undefined;
+  'RelayNetSubNever': undefined;
+  'RelayNetSubDone': undefined;
+  'RelayNetErrInvalidVpn': undefined;
+  'RelayNetErrInvalidDoh': undefined;
+  'RelayNetErrInvalidMtproxy': undefined;
+  'RelayNetErrProbeFailed': undefined;
+  'RelayNetErrApplyFailed': undefined;
+  'RelayNetErrSubscription': undefined;
+  'RelayNetErrUnknown': undefined;
   'RelayWarmupSocial': undefined;
   'RelayWarmupSocialHint': undefined;
 }
@@ -4355,6 +4399,15 @@ export interface LangPairWithVariables<V = LangVariable> {
   };
   'RelayDeletedMessagesMegabytesOption': {
     'count': V;
+  };
+  'RelayNetNodeCount': {
+    'count': V;
+  };
+  'RelayNetDnsPrivate': {
+    'host': V;
+  };
+  'RelayNetSubUpdated': {
+    'date': V;
   };
 }
 

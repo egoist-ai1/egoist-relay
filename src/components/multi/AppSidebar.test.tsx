@@ -87,6 +87,29 @@ describe('AppSidebar complete navigation tile', () => {
     expect(onSelectApp).toHaveBeenCalledExactlyOnceWith('x');
   });
 
+  test('Unavailable network route shows the error dot, direct stays quiet', async () => {
+    await new Promise<void>((resolve) => {
+      requestMutation(() => {
+        TeactDOM.render(createElement(AppSidebar, {
+          activeApp: 'telegram',
+          xAppState: 'ready',
+          instagramAppState: 'ready',
+          networkRoutes: { telegram: 'tunnel', x: 'unavailable', instagram: 'direct' },
+          onSelectApp,
+        }), container);
+        resolve();
+      });
+    });
+    const x = getAppButton('x');
+    expect(x.dataset.relayIndicator).toBe('error');
+    expect(x.getAttribute('aria-label')).toContain('RelayNetRailUnavailable');
+    expect(x.querySelector('[class*="stateDotError"]')).not.toBeNull();
+    const instagram = getAppButton('instagram');
+    expect(instagram.dataset.relayIndicator).toBeUndefined();
+    expect(instagram.getAttribute('aria-label')).toContain('RelayNetRailDirect');
+    expect(getAppButton('telegram').dataset.relayIndicator).toBeUndefined();
+  });
+
   test('Arrow keys wrap and Home/End retain the current app until activation', async () => {
     await renderSidebar();
     const telegram = getAppButton('telegram');

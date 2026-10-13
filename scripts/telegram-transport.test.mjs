@@ -1,36 +1,74 @@
 import assert from 'node:assert/strict';
 import { createDecipheriv, randomBytes } from 'node:crypto';
-import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
-import os from 'node:os';
-import path from 'node:path';
 import test from 'node:test';
 
 import { WebSocket } from 'ws';
 
-import { createTelegramTransport } from './telegram-transport.mjs';
+import { createTelegramTransport, parseMtproxyLink } from './telegram-transport.mjs';
 
-// Тесты идут только по loopback с поддельным Lagom и случайным тестовым secret; живые сети и реальный Lagom не затрагиваются.
+// Тесты идут только по loopback: поддельный SOCKS5 туннеля и поддельный MTProxy со случайным secret; живые сети не затрагиваются.
 const ORIGIN = 'http://tauri.localhost';
 const token = randomBytes(32).toString('hex');
-const previousProgramData = process.env.ProgramData;
-let root;
+const SECRET_HEX = randomBytes(16).toString('hex');
+const LINK = `tg://proxy?server=mtproxy.example.test&port=8443&secret=dd${SECRET_HEX}`;
 
-test.before(() => {
-  root = realpathSync.native(mkdtempSync(path.join(os.tmpdir(), 'relay-transport-')));
-  process.env.ProgramData = root;
-});
-test.after(() => {
-  if (previousProgramData === undefined) delete process.env.ProgramData; else process.env.ProgramData = previousProgramData;
-  rmSync(root, { recursive: true, force: true });
-});
+/**
+ * Поддельный SOCKS5 туннеля без авторизации: запоминает запрошенные тип адреса, имя и порт,
+ * затем соединяет с `targetPort`. `refuse` отвечает кодом 5 (connection refused).
+ */
+function startSocks(targetPort, { refuse = false } = {}) {
+  const requests = [];
+  return new Promise((resolve) => {
+    const server = net.createServer((client) => {
+      let stage = 'greeting';
+      let buffered = Buffer.alloc(0);
+      client.on('error', () => {});
+      client.on('data', function onData(chunk) {
+        buffered = Buffer.concat([buffered, chunk]);
+        if (stage === 'greeting' && buffered.length >= 3) {
+          buffered = buffered.subarray(3);
+          client.write(Buffer.from([5, 0]));
+          stage = 'request';
+        }
+        if (stage === 'request' && buffered.length >= 5) {
+          const kind = buffered[3];
+          const length = kind === 3 ? 5 + buffered[4] + 2 : kind === 1 ? 10 : 22;
+          if (buffered.length < length) return;
+          const host = kind === 3 ? buffered.toString('ascii', 5, 5 + buffered[4]) : undefined;
+          requests.push({ kind, host, port: buffered.readUInt16BE(length - 2) });
+          stage = 'piped';
+          client.removeListener('data', onData);
+          if (refuse) {
+            client.end(Buffer.from([5, 5, 0, 1, 0, 0, 0, 0, 0, 0]));
+            return;
+          }
+          const upstream = net.connect({ host: '127.0.0.1', port: targetPort }, () => {
+            client.write(Buffer.from([5, 0, 0, 1, 127, 0, 0, 1, 0, 0]));
+            client.pipe(upstream);
+            upstream.pipe(client);
+          });
+          upstream.on('error', () => client.destroy());
+          client.on('close', () => upstream.destroy());
+        }
+      });
+    });
+    server.listen({ host: '127.0.0.1', port: 0 }, () => resolve({ server, requests, port: server.address().port }));
+  });
+}
 
-function writeConfig(port) {
-  const directory = path.join(root, 'EgoistShield', 'Runtime', 'TelegramProxy');
-  mkdirSync(directory, { recursive: true });
-  writeFileSync(path.join(directory, 'config.json'), JSON.stringify({
-    host: '127.0.0.1', port, secret: randomBytes(16).toString('hex'),
-  }));
+function startBridge(socks, overrides = {}) {
+  return createTelegramTransport({
+    token, origins: [ORIGIN], port: 0, socksPort: socks.port, mtproxy: LINK, ...overrides,
+  });
+}
+
+async function expectCode(promise, code) {
+  await assert.rejects(promise, (error) => {
+    assert.equal(error.code, code);
+    assert.ok(!String(error.message).includes(SECRET_HEX));
+    return true;
+  });
 }
 
 function listen(onConnection) {
@@ -72,75 +110,124 @@ function connect(url) {
   });
 }
 
-test('WebSocket opens only after Lagom TCP is reached and the header is forwarded to it', async () => {
+test('WebSocket opens only after MTProxy is reached through SOCKS by name, and the header is forwarded', async () => {
   const received = [];
-  let accepted = 0;
-  const lagom = await listen((socket) => {
-    accepted++;
-    socket.on('data', (chunk) => received.push(chunk));
-  });
-  writeConfig(lagom.address().port);
-  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+  const mtproxy = await listen((socket) => socket.on('data', (chunk) => received.push(chunk)));
+  const socks = await startSocks(mtproxy.address().port);
+  const transport = await startBridge(socks);
   try {
-    assert.equal(transport.reason, undefined);
-    const acceptedBefore = accepted;
     const result = await connect(`${transport.url}&dc=2`);
     assert.equal(result.opened, true);
-    assert.equal(accepted - acceptedBefore, 1, 'Lagom must be connected before the WebSocket upgrade completes');
+    assert.deepEqual(socks.requests, [{ kind: 3, host: 'mtproxy.example.test', port: 8443 }],
+      'the name must go to SOCKS as a string (socks5h) before the upgrade completes');
     result.socket.send(createBrowserHeader());
     await new Promise((resolve) => setTimeout(resolve, 200));
     assert.equal(Buffer.concat(received).length, 64);
     result.socket.close();
   } finally {
     transport.close();
-    lagom.close();
+    socks.server.close();
+    mtproxy.close();
   }
 });
 
-test('unavailable Lagom gives an immediate 503 instead of a dead open socket', async () => {
-  writeConfig(await getFreePort());
-  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+test('refused SOCKS CONNECT gives 503 instead of a dead open socket', async () => {
+  const socks = await startSocks(1, { refuse: true });
+  const transport = await startBridge(socks);
   try {
-    assert.equal(transport.reason, 'LAGOM_LISTENER_UNAVAILABLE');
     const result = await connect(`${transport.url}&dc=2`);
     assert.equal(result.opened, false);
     assert.equal(result.status, 503);
-    assert.ok(result.ms < 2500, `failed after ${result.ms}ms; client falls back to the direct route at 2500ms`);
+    assert.ok(result.ms < 4500, `failed after ${result.ms}ms; the client waits 5000ms for the bridge`);
   } finally {
     transport.close();
+    socks.server.close();
   }
 });
 
-test('bridge recovers when Lagom returns without restarting', async () => {
-  const port = await getFreePort();
-  writeConfig(port);
-  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+test('a closed SOCKS port gives 503 without killing the bridge', async () => {
+  const transport = await startBridge({ port: await getFreePort() });
   try {
-    assert.equal((await connect(`${transport.url}&dc=2`)).opened, false);
-    const lagom = await new Promise((resolve) => {
-      const server = net.createServer();
-      server.listen({ host: '127.0.0.1', port }, () => resolve(server));
-    });
-    const result = await connect(`${transport.url}&dc=2`);
-    assert.equal(result.opened, true);
-    result.socket.close();
-    lagom.close();
+    assert.equal((await connect(`${transport.url}&dc=2`)).status, 503);
+    assert.equal((await connect(`${transport.url}&dc=3`)).status, 503);
   } finally {
     transport.close();
   }
 });
 
 test('requests with a wrong token or origin are still rejected', async () => {
-  const lagom = await listen(() => undefined);
-  writeConfig(lagom.address().port);
-  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+  const mtproxy = await listen(() => undefined);
+  const socks = await startSocks(mtproxy.address().port);
+  const transport = await startBridge(socks);
   try {
     const wrongToken = transport.url.replace(token, randomBytes(32).toString('hex'));
     assert.equal((await connect(`${wrongToken}&dc=2`)).status, 403);
     assert.equal((await connect(`${transport.url}&dc=9`)).status, 403);
   } finally {
     transport.close();
-    lagom.close();
+    socks.server.close();
+    mtproxy.close();
+  }
+});
+
+test('config errors have stable codes and never contain the secret', async () => {
+  const socks = { port: 1 };
+  await expectCode(startBridge(socks, { mtproxy: undefined }), 'MTPROXY_NOT_CONFIGURED');
+  await expectCode(startBridge(socks, { mtproxy: '' }), 'MTPROXY_NOT_CONFIGURED');
+  await expectCode(startBridge({}), 'TUNNEL_SOCKS_MISSING');
+  await expectCode(startBridge(socks, { mtproxy: `https://example.com/proxy?server=a.test&port=1&secret=${SECRET_HEX}` }),
+    'MTPROXY_INVALID_LINK');
+  await expectCode(startBridge(socks, { mtproxy: `tg://proxy?server=a.test&port=443&secret=${SECRET_HEX.slice(2)}` }),
+    'MTPROXY_INVALID_SECRET');
+  const domain = Buffer.from('example.com').toString('hex');
+  await expectCode(startBridge(socks, { mtproxy: `tg://proxy?server=a.test&port=443&secret=ee${SECRET_HEX}${domain}` }),
+    'MTPROXY_FAKETLS_UNSUPPORTED');
+});
+
+test('loopback MTProxy (the local Lagom proxy) is rejected', async () => {
+  for (const server of ['127.0.0.1', '127.1.2.3', 'localhost', '[::1]', '0.0.0.0']) {
+    await expectCode(startBridge({ port: 1 }, {
+      mtproxy: `tg://proxy?server=${encodeURIComponent(server)}&port=1443&secret=dd${SECRET_HEX}`,
+    }), 'MTPROXY_LOOPBACK_UNSUPPORTED');
+  }
+});
+
+test('parseMtproxyLink understands tg:// and t.me links, hex dd/ee and base64url secrets', () => {
+  const key = Buffer.from(SECRET_HEX, 'hex');
+  const plain = parseMtproxyLink(`tg://proxy?server=a.example&port=443&secret=${SECRET_HEX}`);
+  assert.deepEqual([plain.host, plain.port, plain.mode], ['a.example', 443, 'plain']);
+  assert.ok(plain.secret.equals(key));
+  const padded = parseMtproxyLink(`https://t.me/proxy?server=1.2.3.4&port=8443&secret=dd${SECRET_HEX}`);
+  assert.deepEqual([padded.host, padded.port, padded.mode], ['1.2.3.4', 8443, 'dd']);
+  assert.ok(padded.secret.equals(key));
+  const domain = Buffer.from('example.com').toString('hex');
+  const faketls = parseMtproxyLink(`tg://proxy?server=a.example&port=443&secret=ee${SECRET_HEX}${domain}`);
+  assert.equal(faketls.mode, 'faketls');
+  assert.ok(faketls.secret.equals(key));
+  const encoded = Buffer.concat([Buffer.from([0xdd]), key]).toString('base64url');
+  const base64 = parseMtproxyLink(`tg://proxy?server=a.example&port=443&secret=${encoded}`);
+  assert.equal(base64.mode, 'dd');
+  assert.ok(base64.secret.equals(key));
+  assert.equal(parseMtproxyLink(`tg://proxy?server=%5B2001%3Adb8%3A%3A1%5D&port=443&secret=${SECRET_HEX}`).host, '2001:db8::1');
+});
+
+test('SOCKS CONNECT for IPv4 and IPv6 MTProxy hosts uses address types, not names', async () => {
+  const mtproxy = await listen(() => undefined);
+  const socks = await startSocks(mtproxy.address().port);
+  try {
+    for (const [server, kind] of [['203.0.113.7', 1], ['2001:db8::1', 4]]) {
+      const transport = await startBridge(socks, {
+        mtproxy: `tg://proxy?server=${encodeURIComponent(server)}&port=443&secret=dd${SECRET_HEX}`,
+      });
+      const result = await connect(`${transport.url}&dc=2`);
+      assert.equal(result.opened, true);
+      assert.equal(socks.requests.at(-1).kind, kind);
+      result.socket.close();
+      transport.close();
+    }
+  } finally {
+    socks.server.close();
+    mtproxy.close();
   }
 });
 
@@ -161,11 +248,10 @@ function sendRawUpgrade(transport, search) {
   });
 }
 
-test('RST of the raw socket while waiting for Lagom does not kill the bridge', async () => {
-  // Lagom недоступен (порт закрыт): upgrade ждёт openProxy, и в это время клиент рвёт соединение
-  const lagomPort = await getFreePort();
-  writeConfig(lagomPort);
-  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+test('RST of the raw socket while waiting for the SOCKS tunnel does not kill the bridge', async () => {
+  // SOCKS молчит (принимает соединение, но не отвечает): upgrade ждёт openProxy, и в это время клиент рвёт соединение
+  const silent = await listen(() => undefined);
+  const transport = await startBridge({ port: silent.address().port });
   let failure;
   const onUncaught = (error) => { failure = error; };
   process.on('uncaughtException', onUncaught);
@@ -176,27 +262,19 @@ test('RST of the raw socket while waiting for Lagom does not kill the bridge', a
       await new Promise((resolve) => setTimeout(resolve, 30));
       raw.resetAndDestroy();
     }
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 300));
     assert.equal(failure, undefined, `bridge raised ${failure?.code}`);
-    // Lagom вернулся: следующий connect получает ответ
-    const lagom = await new Promise((resolve) => {
-      const server = net.createServer();
-      server.listen({ host: '127.0.0.1', port: lagomPort }, () => resolve(server));
-    });
-    const result = await connect(`${transport.url}&dc=2`);
-    assert.equal(result.opened, true);
-    result.socket.close();
-    lagom.close();
   } finally {
     process.removeListener('uncaughtException', onUncaught);
     transport.close();
+    silent.close();
   }
 });
 
 test('RST after a 403 does not kill the bridge', async () => {
-  const lagom = await listen(() => undefined);
-  writeConfig(lagom.address().port);
-  const transport = await createTelegramTransport({ token, origins: [ORIGIN], port: 0 });
+  const mtproxy = await listen(() => undefined);
+  const socks = await startSocks(mtproxy.address().port);
+  const transport = await startBridge(socks);
   let failure;
   const onUncaught = (error) => { failure = error; };
   process.on('uncaughtException', onUncaught);
@@ -214,6 +292,7 @@ test('RST after a 403 does not kill the bridge', async () => {
   } finally {
     process.removeListener('uncaughtException', onUncaught);
     transport.close();
-    lagom.close();
+    socks.server.close();
+    mtproxy.close();
   }
 });

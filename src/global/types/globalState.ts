@@ -101,7 +101,7 @@ export type GlobalState = {
   };
   isCacheApiSupported?: boolean;
   connectionState?: ApiUpdateConnectionStateType;
-  // Активный маршрут Telegram и сглаженный RTT (локальный мост Lagom или прямой путь)
+  // Активный маршрут Telegram и сглаженный RTT (wss или локальный мост к MTProxy)
   connectionRoute?: ApiConnectionRoute;
   currentUserId?: string;
   isSyncing?: boolean;

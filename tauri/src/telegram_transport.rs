@@ -15,6 +15,27 @@ const STDERR_LINE_LIMIT: usize = 2048;
 const STDERR_LINES_PER_WORKER: usize = 50;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 
+/// Настройки моста к MTProxy: порт SOCKS туннеля и ссылка MTProxy (`tg://proxy?...` или `https://t.me/proxy?...`).
+/// Ссылка содержит secret: не логируется и не возвращается во фронтенд.
+#[derive(Clone)]
+pub(crate) struct BridgeConfig {
+  pub(crate) socks_port: u16,
+  pub(crate) mtproxy: String,
+}
+
+/// Источник настроек моста. Вызывается при каждом запуске и перезапуске воркера, чтобы подхватить смену значений.
+/// `None` — MTProxy не задан или туннель не готов: мост не запускается, Telegram идёт по стандартному wss.
+pub(crate) type BridgeConfigProvider = fn() -> Option<BridgeConfig>;
+
+/// Провайдер по умолчанию.
+// TODO(tunnel): подключить `crate::tunnel`: вернуть `Some(BridgeConfig { socks_port: P_socks, mtproxy })`,
+// когда в сохранённых настройках сети задана ссылка MTProxy и Xray готов; иначе `None`.
+// После смены ссылки в `relay_network_apply` вызвать `telegram_transport::shutdown()`, чтобы воркер
+// перезапустился с новым значением при следующем обращении фронтенда.
+fn tunnel_bridge_config() -> Option<BridgeConfig> {
+  None
+}
+
 struct ActiveTransport {
   url: String,
   alive: Arc<AtomicBool>,
@@ -25,6 +46,19 @@ struct ActiveTransport {
 pub(crate) struct TransportStatus {
   #[serde(skip_serializing_if = "Option::is_none")]
   url: Option<String>,
+  /// Маршрут MTProxy доступен: мост запущен и `url` задан. Без него Telegram использует только wss.
+  mtproxy: bool,
+}
+
+/// Настройки, которые воркер читает первой строкой stdin: сам мост (токен, origin, порт) и конфиг MTProxy.
+#[cfg(any(windows, test))]
+fn worker_settings(token: &str, port: u16, config: &BridgeConfig, include_dev_origin: bool) -> serde_json::Value {
+  let mut origins = vec!["http://tauri.localhost", "https://tauri.localhost", "tauri://localhost"];
+  if include_dev_origin { origins.push("http://localhost:1234"); }
+  serde_json::json!({
+    "token": token, "origins": origins, "port": port,
+    "socksPort": config.socks_port, "mtproxy": config.mtproxy,
+  })
 }
 
 #[tauri::command]
@@ -39,24 +73,26 @@ pub(crate) async fn relay_get_telegram_transport(
   if !is_local || (label != "main" && uuid::Uuid::parse_str(label).is_err()) {
     return Err("TELEGRAM_TRANSPORT_DENIED".into());
   }
-  tauri::async_runtime::spawn_blocking(move || start_transport(app))
+  tauri::async_runtime::spawn_blocking(move || start_transport(app, tunnel_bridge_config))
     .await.map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE".to_string())?
 }
 
 #[cfg(not(windows))]
-fn start_transport(_app: tauri::AppHandle) -> Result<TransportStatus, String> {
+fn start_transport(_app: tauri::AppHandle, _provider: BridgeConfigProvider) -> Result<TransportStatus, String> {
   Ok(TransportStatus::default())
 }
 
 #[cfg(windows)]
-fn start_transport(app: tauri::AppHandle) -> Result<TransportStatus, String> {
+fn start_transport(app: tauri::AppHandle, provider: BridgeConfigProvider) -> Result<TransportStatus, String> {
   let mut active = ACTIVE.lock().map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   if let Some(worker) = active.as_ref() && worker.alive.load(Ordering::Acquire) {
-    return Ok(TransportStatus { url: Some(worker.url.clone()) });
+    return Ok(TransportStatus { url: Some(worker.url.clone()), mtproxy: true });
   }
   if let Some(worker) = active.take() {
     let _ = worker.stop.send(());
   }
+  // Мост нужен только для ступени MTProxy: без ссылки (или без туннеля) процесс не создаётся
+  let Some(config) = provider() else { return Ok(TransportStatus::default()); };
 
   let token = format!("{}{}", uuid::Uuid::new_v4().simple(), uuid::Uuid::new_v4().simple());
   let (stop, stop_receiver) = mpsc::channel();
@@ -64,14 +100,14 @@ fn start_transport(app: tauri::AppHandle) -> Result<TransportStatus, String> {
   let alive = Arc::new(AtomicBool::new(false));
   let worker_alive = alive.clone();
   std::thread::Builder::new().name("relay-telegram-transport".into()).spawn(move || {
-    supervise_transport(app, token, stop_receiver, ready, worker_alive.clone());
+    supervise_transport(app, token, config, provider, stop_receiver, ready, worker_alive.clone());
     worker_alive.store(false, Ordering::Release);
   }).map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
 
   match ready_receiver.recv_timeout(START_TIMEOUT) {
     Ok(Ok(Some(url))) => {
       *active = Some(ActiveTransport { url: url.clone(), alive, stop });
-      Ok(TransportStatus { url: Some(url) })
+      Ok(TransportStatus { url: Some(url), mtproxy: true })
     }
     Ok(Ok(None)) => Ok(TransportStatus::default()),
     _ => {
@@ -85,11 +121,13 @@ fn start_transport(app: tauri::AppHandle) -> Result<TransportStatus, String> {
 fn supervise_transport(
   app: tauri::AppHandle,
   token: String,
+  config: BridgeConfig,
+  provider: BridgeConfigProvider,
   stop: mpsc::Receiver<()>,
   ready: mpsc::SyncSender<Result<Option<String>, String>>,
   alive: Arc<AtomicBool>,
 ) {
-  let mut worker = match launch_transport(&app, &token, 0) {
+  let mut worker = match launch_transport(&app, &token, &config, 0) {
     Ok(worker) => worker,
     Err(error) => { let _ = ready.send(Err(error)); return; }
   };
@@ -104,11 +142,6 @@ fn supervise_transport(
     let _ = ready.send(Err("TELEGRAM_TRANSPORT_UNAVAILABLE".into()));
     return;
   };
-  if let Some(reason) = message.as_ref().and_then(|value| value["reason"].as_str())
-    .filter(|reason| matches!(*reason, "LAGOM_CONFIG_ACCESS_DENIED" | "LAGOM_CONFIG_UNAVAILABLE"
-      | "LAGOM_LISTENER_UNAVAILABLE" | "LAGOM_INVALID_CONFIG")) {
-    log::warn!("[TelegramTransport] Local bridge ready; Lagom route pending: {reason}");
-  }
   alive.store(true, Ordering::Release);
   let port = url::Url::parse(&url).ok().and_then(|url| url.port()).unwrap();
   if ready.send(Ok(Some(url.clone()))).is_err() { return; }
@@ -133,8 +166,10 @@ fn supervise_transport(
         let delay = recovery_delay(recovery_attempt, jitter_unit());
         recovery_attempt = recovery_attempt.saturating_add(1);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
-        let failure = match launch_transport(&app, &token, port) {
-          Err(_) => "launch failed",
+        // Настройки читаются заново: SOCKS-порт и ссылка MTProxy могли смениться; без них мост не поднимается
+        let failure = match provider().ok_or("no bridge config")
+          .and_then(|config| launch_transport(&app, &token, &config, port).map_err(|_| "launch failed")) {
+          Err(reason) => reason,
           Ok(mut next) => {
             let message = read_status(&mut next);
             match message.as_ref() {
@@ -211,7 +246,7 @@ struct OwnedWorker {
 }
 
 #[cfg(windows)]
-fn launch_transport(app: &tauri::AppHandle, token: &str, port: u16) -> Result<OwnedWorker, String> {
+fn launch_transport(app: &tauri::AppHandle, token: &str, config: &BridgeConfig, port: u16) -> Result<OwnedWorker, String> {
   use std::io::Write;
   use std::process::{Command, Stdio};
   let node = crate::runtime::find_node_binary(app).map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
@@ -239,9 +274,7 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, port: u16) -> Result<Ow
     });
   }
   let mut worker = OwnedWorker { child, ownership, _directory: directory };
-  let mut origins = vec!["http://tauri.localhost", "https://tauri.localhost", "tauri://localhost"];
-  if cfg!(debug_assertions) { origins.push("http://localhost:1234"); }
-  let settings = serde_json::to_vec(&serde_json::json!({ "token": token, "origins": origins, "port": port }))
+  let settings = serde_json::to_vec(&worker_settings(token, port, config, cfg!(debug_assertions)))
     .map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   let stdin = worker.child.stdin.as_mut().ok_or("TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   stdin.write_all(&settings).and_then(|_| stdin.write_all(b"\n"))
@@ -360,6 +393,26 @@ mod tests {
     assert_eq!(lines[1].len(), STDERR_LINE_LIMIT);
     assert_eq!(lines[2], "line 0");
     assert!(lines.iter().all(|line| !line.contains(&token)));
+  }
+
+  #[test]
+  fn worker_settings_carry_socks_port_and_link_in_one_json_line() {
+    let config = BridgeConfig { socks_port: 31337, mtproxy: "tg://proxy?server=a.test&port=443&secret=dd00".into() };
+    let value = worker_settings("t".repeat(64).as_str(), 0, &config, false);
+    assert_eq!(value["socksPort"], 31337);
+    assert_eq!(value["mtproxy"], "tg://proxy?server=a.test&port=443&secret=dd00");
+    assert_eq!(value["origins"].as_array().unwrap().len(), 3);
+    assert!(!serde_json::to_string(&value).unwrap().contains('\n'));
+    assert_eq!(worker_settings("t", 0, &config, true)["origins"].as_array().unwrap().len(), 4);
+  }
+
+  #[test]
+  fn bridge_does_not_start_without_tunnel_config() {
+    // Пока туннель не подключён, провайдер возвращает None, и воркер не создаётся
+    assert!(tunnel_bridge_config().is_none());
+    let status = serde_json::to_value(TransportStatus::default()).unwrap();
+    assert_eq!(status["mtproxy"], false);
+    assert!(status.get("url").is_none());
   }
 
   #[test]
