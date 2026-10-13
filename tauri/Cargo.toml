@@ -1,6 +1,6 @@
  [package]
 name = "egoist_relay"
-version = "1.9.2"
+version = "1.9.3"
 description = "Egoist Social"
 authors = ["Alexander Zinchuk"]
 license = "GPLv3"

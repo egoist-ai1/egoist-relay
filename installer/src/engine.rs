@@ -170,6 +170,18 @@ pub fn existing_install() -> Existing {
     Existing { dir, version }
 }
 
+/// Аргументы NSIS. Тихое обновление идёт с `/UPDATE`, как у штатного обновлятора Tauri: без него шаблон
+/// Tauri вызывает старый деинсталлятор как полное удаление, тот открепляет приложение от панели задач и
+/// удаляет ярлыки; новые создаются заново, а закрепление на панели задач остаётся с пустым значком. Первую установку `/UPDATE` не получает:
+/// в этом режиме NSIS не создаёт ярлыки и не ставит WebView2.
+pub fn nsis_args(nsis_gui: bool, is_update: bool) -> Vec<&'static str> {
+    match (nsis_gui, is_update) {
+        (true, _) => vec![],
+        (false, true) => vec!["/S", "/UPDATE"],
+        (false, false) => vec!["/S"],
+    }
+}
+
 /// Куда NSIS будет ставить: прежняя папка либо `%LOCALAPPDATA%\Egoist Relay` (режим currentUser).
 pub fn target_dir(existing: &Existing) -> PathBuf {
     if let Some(d) = &existing.dir {
@@ -334,13 +346,12 @@ impl<'a> Runner<'a> {
         self.ctx.shared.phase.store(PHASE_LOCKED, Ordering::SeqCst);
         self.stage(3, "Установка файлов", "Запись файлов, ярлыки, запись в «Приложения и возможности»");
         let mut cmd = Command::new(&payload_path);
-        if !self.opts.nsis_gui {
-            cmd.arg("/S");
-        }
+        let nsis_args = nsis_args(self.opts.nsis_gui, existing.version.is_some() && app_exe.is_file());
+        cmd.args(&nsis_args);
         cmd.current_dir(&tmp_dir).stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null()).creation_flags(0);
         // Ребёнок живёт в TempGuard: при любом выходе (ошибка, паника) guard дождётся NSIS и только потом удалит папку.
         let spawned = cmd.spawn().map_err(|e| Failure::io("SETUP-SPAWN", "Не удалось запустить установщик NSIS", &e))?;
-        self.log(&format!("NSIS запущен (pid {}), аргументы: {}", spawned.id(), if self.opts.nsis_gui { "(штатный мастер)" } else { "/S" }));
+        self.log(&format!("NSIS запущен (pid {}), аргументы: {}", spawned.id(), if self.opts.nsis_gui { "(штатный мастер)".to_string() } else { nsis_args.join(" ") }));
         guard.child = Some(spawned);
         let mut tracker = InstallProgress::new(tail.install_bytes);
         let mut stall = StallDetector::new(STALL_SECS);
@@ -641,6 +652,13 @@ mod tests {
     use super::*;
     use crate::tail::{encode, Meta};
     use std::io::Cursor;
+
+    #[test]
+    fn silent_update_keeps_shortcuts_and_first_install_creates_them() {
+        assert_eq!(nsis_args(false, true), vec!["/S", "/UPDATE"]);
+        assert_eq!(nsis_args(false, false), vec!["/S"]);
+        assert!(nsis_args(true, true).is_empty());
+    }
 
     #[test]
     fn hash_stream_matches_sha256_and_reports_progress() {
