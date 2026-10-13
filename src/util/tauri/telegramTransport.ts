@@ -16,3 +16,17 @@ export async function getDesktopTelegramTransport(): Promise<string | undefined>
     return undefined;
   }
 }
+
+/**
+ * Оболочка сообщает, что MTProxy в настройках сети сменился и мост остановлен: адрес `getDesktopTelegramTransport()`
+ * нужно запросить заново и переподключить GramJS. Возвращает функцию отписки.
+ */
+export async function watchDesktopTelegramTransportChange(callback: NoneToVoidFunction): Promise<NoneToVoidFunction> {
+  if (!IS_TAURI) return () => undefined;
+  try {
+    const { listen } = await import('@tauri-apps/api/event');
+    return await listen('relay-telegram-transport-changed', () => callback());
+  } catch (err) {
+    return () => undefined;
+  }
+}

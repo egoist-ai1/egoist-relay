@@ -17,7 +17,6 @@ pub mod installer;
 pub mod multi_app;
 mod instagram_view;
 mod runtime;
-mod system_proxy;
 mod media_operations;
 mod social_share;
 mod inline_media;
@@ -28,6 +27,7 @@ mod transcription;
 mod worker_job;
 mod dpapi;
 mod tunnel;
+mod network;
 mod telegram_transport;
 mod research_bridge;
 mod research_spool;
@@ -151,7 +151,7 @@ fn relay_control_status(app: tauri::AppHandle) -> serde_json::Value {
     "primaryWindowCount": usize::from(windows.contains_key("main")),
     "legacyTelegramWindowCount": windows.keys().filter(|label| Uuid::parse_str(label).is_ok()).count(),
     "updaterEnabled": WITH_UPDATER == "true",
-    "networkMode": "system",
+    "networkMode": "tunnel",
     "youtubeEmbedReferer": youtube_player::diagnostics()
   })
 }
@@ -287,6 +287,8 @@ pub fn run() {
     }
     // Manage app state
     app.manage(AppState::new(AppStateStruct::default()));
+    // Туннель поднимается до окон: WebView получают порт SOCKS при создании; без туннеля прокси смотрит на закрытый порт
+    network::start(app.handle());
     if let Err(err) = inline_media::initialize(app.handle()) {
       log::warn!("[EgoistRelay] Cannot clean temporary media: {err}");
     }
@@ -324,6 +326,11 @@ pub fn run() {
     set_menu_translations,
     relay_control_status,
     telegram_transport::relay_get_telegram_transport,
+    network::relay_network_status,
+    network::relay_network_apply,
+    network::relay_network_reset,
+    network::relay_network_refresh_subscription,
+    network::relay_network_set_service_enabled,
     research_bridge::relay_research_ready,
     research_bridge::relay_research_reply,
     research_bridge::relay_research_media_chunk,
@@ -379,6 +386,8 @@ pub fn run() {
         research_bridge::shutdown();
         inline_media::shutdown();
         transcription::shutdown();
+        // Последним: Xray нужен мосту и медиа-воркерам до их остановки
+        tunnel::stop();
       }
       _ => {}
     });
@@ -524,7 +533,7 @@ pub(crate) fn open_new_window(
 fn create_main_window(app: &tauri::AppHandle) -> Result<tauri::WebviewWindow, String> {
   let config = app.config().app.windows.iter().find(|window| window.label == "main")
     .ok_or("Main window configuration is missing")?;
-  let mut main_builder = tauri::WebviewWindowBuilder::from_config(app, config)
+  let main_builder = tauri::WebviewWindowBuilder::from_config(app, config)
     .map_err(|err| err.to_string())?
   .visible(!should_avoid_foreground())
   .focused(!should_avoid_foreground())
@@ -534,6 +543,10 @@ fn create_main_window(app: &tauri::AppHandle) -> Result<tauri::WebviewWindow, St
     env!("CARGO_PKG_VERSION"), WITH_UPDATER == "true", youtube_player::smoke_fixture_enabled()
   ))
   .on_download(|window, event| multi_app::handle_download(&window, "telegram", event));
+
+  // Главное окно (Telegram) тоже ходит в сеть только через туннель; окна с window_features наследуют окружение
+  #[cfg(windows)]
+  let mut main_builder = main_builder.additional_browser_args(&multi_app::service_browser_arguments("telegram"));
 
   if std::env::var("EGOIST_RELAY_SMOKE_TEST").as_deref() == Ok("1") {
     let profile = std::env::var_os("EGOIST_RELAY_TEST_PROFILE")

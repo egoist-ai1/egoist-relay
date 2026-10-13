@@ -109,14 +109,15 @@ pub(crate) async fn relay_mini_app_open(webview: Webview, app_handle: AppHandle,
       let script = BRIDGE_SCRIPT.replace("'__RELAY_MINI_APP_NONCE__'", &serde_json::to_string(&nonce).unwrap());
       let popup_app = app_handle.clone(); let popup_id = id.clone();
       let builder = WebviewBuilder::new(&label, WebviewUrl::External(Url::parse("about:blank").unwrap()))
-        .focused(false).data_directory(data_dir).disable_drag_drop_handler()
+        .focused(false)
+        // Мини-приложения ходят в сеть только через туннель; своё окружение (каталог mini-apps), аргументы едины
+        .additional_browser_args(&crate::multi_app::service_browser_arguments("mini-apps")).data_directory(data_dir).disable_drag_drop_handler()
         .background_color(crate::native_theme::background_color())
         .initialization_script(script)
         .on_navigation(|next| next.as_str() == "about:blank" || parse_app_url(next.as_str()).is_ok())
         .on_new_window(move |next, features| create_popup(&popup_app, &popup_id, next, features))
         .on_download(|view, event| crate::multi_app::handle_download(&view, "telegram", event));
-      // The browser engine uses the current Windows/PAC policy for documents and subresources.
-      // No URL-specific proxy is pinned to this multi-origin WebView.
+      // Весь трафик WebView идёт в SOCKS5 туннеля (аргументы выше); системный прокси и PAC не используются.
       let view = main.add_child(builder, LogicalPosition::new(bounds.x as f64, bounds.y as f64),
         LogicalSize::new(bounds.width.max(1) as f64, bounds.height.max(1) as f64)).map_err(|_| "MINI_APP_CREATE_FAILED")?;
       view.hide().map_err(|_| "MINI_APP_VISIBILITY_FAILED")?;

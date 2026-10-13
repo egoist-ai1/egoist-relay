@@ -15,7 +15,9 @@ import generateUniqueId from '../../../util/generateUniqueId';
 import { handleError } from '../../../util/handleError';
 import { ACCOUNT_SLOT, DATA_BROADCAST_CHANNEL_NAME } from '../../../util/multiaccount';
 import { pause, throttleWithTickEnd } from '../../../util/schedulers';
-import { getDesktopTelegramTransport } from '../../../util/tauri/telegramTransport';
+import {
+  getDesktopTelegramTransport, watchDesktopTelegramTransportChange,
+} from '../../../util/tauri/telegramTransport';
 
 type RequestState = {
   messageId: string;
@@ -110,6 +112,12 @@ export async function initApi(onUpdate: OnApiUpdate, initialArgs: ApiInitialArgs
       type: 'module',
     });
     subscribeToWorker(onUpdate);
+    if (!initialArgs.isTestServerRequested) {
+      void watchDesktopTelegramTransportChange(async () => {
+        const url = await getDesktopTelegramTransport();
+        void callApi('setTelegramTransport', { url });
+      });
+    }
 
     if (IS_SAFARI || (initialArgs.platform === 'macOS' && IS_TAURI)) {
       setupHealthCheck();

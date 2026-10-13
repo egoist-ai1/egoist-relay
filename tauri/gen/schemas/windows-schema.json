@@ -2463,6 +2463,36 @@
           "markdownDescription": "Enables the relay_mini_app_update command without any pre-configured scope."
         },
         {
+          "description": "Enables the relay_network_apply command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-network-apply",
+          "markdownDescription": "Enables the relay_network_apply command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the relay_network_refresh_subscription command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-network-refresh-subscription",
+          "markdownDescription": "Enables the relay_network_refresh_subscription command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the relay_network_reset command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-network-reset",
+          "markdownDescription": "Enables the relay_network_reset command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the relay_network_set_service_enabled command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-network-set-service-enabled",
+          "markdownDescription": "Enables the relay_network_set_service_enabled command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the relay_network_status command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-network-status",
+          "markdownDescription": "Enables the relay_network_status command without any pre-configured scope."
+        },
+        {
           "description": "Enables the relay_reconnect_network command without any pre-configured scope.",
           "type": "string",
           "const": "allow-relay-reconnect-network",
@@ -2779,6 +2809,36 @@
           "type": "string",
           "const": "deny-relay-mini-app-update",
           "markdownDescription": "Denies the relay_mini_app_update command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_network_apply command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-network-apply",
+          "markdownDescription": "Denies the relay_network_apply command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_network_refresh_subscription command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-network-refresh-subscription",
+          "markdownDescription": "Denies the relay_network_refresh_subscription command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_network_reset command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-network-reset",
+          "markdownDescription": "Denies the relay_network_reset command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_network_set_service_enabled command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-network-set-service-enabled",
+          "markdownDescription": "Denies the relay_network_set_service_enabled command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_network_status command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-network-status",
+          "markdownDescription": "Denies the relay_network_status command without any pre-configured scope."
         },
         {
           "description": "Denies the relay_reconnect_network command without any pre-configured scope.",

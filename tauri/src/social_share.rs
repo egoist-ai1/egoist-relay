@@ -632,8 +632,8 @@ fn read_media(
   check_media_deadline(cancel, deadline)?;
   let node = crate::runtime::find_node_binary(app)?;
   check_media_deadline(cancel, deadline)?;
-  let proxy = crate::system_proxy::proxy_for_url_cancellable(&media.url, cancel, deadline)
-    .map_err(|_| check_media_deadline(cancel, deadline).err().unwrap_or_else(|| "MEDIA_PROXY_FAILED".into()))?;
+  // Медиа ходит только через туннель (socks5h, имена разрешает он); пока Xray не готов, прямого выхода нет
+  let proxy = crate::tunnel::media_proxy_url().ok_or("MEDIA_TUNNEL_UNAVAILABLE")?;
   check_media_deadline(cancel, deadline)?;
   let _ = app.emit_to("main", "multi-social-media-progress", serde_json::json!({ "requestId": request.request_id, "index": index, "state": "fetching", "loaded": 0 }));
   let mut command = Command::new(node);
@@ -645,7 +645,7 @@ fn read_media(
     .stdin(Stdio::piped())
     .stdout(Stdio::piped())
     .stderr(Stdio::piped())
-    .env("EGOIST_RELAY_MEDIA_PROXY", proxy.as_ref().map_or("direct", Url::as_str));
+    .env("EGOIST_RELAY_MEDIA_PROXY", &proxy);
   crate::runtime::hide_command_window(&mut command);
   check_media_deadline(cancel, deadline)?;
   let mut child = command.spawn().map_err(|_| "MEDIA_RUNTIME_UNAVAILABLE")?;

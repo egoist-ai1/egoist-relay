@@ -43,34 +43,32 @@ const X_STATUS_EVENT: &str = "multi-x-status";
 const INSTAGRAM_ENHANCER_SCRIPT: &str = include_str!("../../scripts/instagram-enhancer.js");
 const X_ENHANCER_SCRIPT: &str = include_str!("../../scripts/x-enhancer.js");
 const SERVICE_LOAD_TIMEOUT: Duration = Duration::from_secs(45);
-// Explicit arguments retain the pinned Wry 0.57.0 defaults for every X profile view
+/// Аргументы WebView2 для окружения сервиса: значения по умолчанию Wry 0.57.0 (явные аргументы их заменяют),
+/// автозапуск медиа для X и Instagram и сетевая часть туннеля (SOCKS5, без QUIC и утечек WebRTC UDP).
+/// Окружения с одним каталогом данных (профиль, окна входа, research) обязаны получать одинаковую строку,
+/// иначе WebView2 вернёт ERROR_INVALID_STATE, поэтому строку везде собирает только эта функция.
 #[cfg(windows)]
-const X_SERVICE_BROWSER_ARGUMENTS: &str = concat!(
-  "--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection ",
-  "--autoplay-policy=no-user-gesture-required ",
-  "--host-resolver-rules=\"MAP abs.twimg.com ton.twimg.com, MAP pbs.twimg.com ton.twimg.com\"",
-);
-// QUIC под обходом DPI зависает на части хостов Meta (профиль помечает их broken), поэтому
-// Instagram ходит по TCP. Окна входа делят профиль, и им нужны те же аргументы.
-#[cfg(windows)]
-const INSTAGRAM_SERVICE_BROWSER_ARGUMENTS: &str = concat!(
-  "--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection ",
-  "--autoplay-policy=no-user-gesture-required ",
-  "--disable-quic",
-);
+pub(crate) fn service_browser_arguments(service: &str) -> String {
+  let mut arguments = String::from("--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection");
+  if service == X_APP || service == INSTAGRAM_APP {
+    arguments.push_str(" --autoplay-policy=no-user-gesture-required");
+  }
+  arguments.push(' ');
+  arguments.push_str(&crate::tunnel::browser_args(service));
+  arguments
+}
+
+/// Выключенный в настройках сети сервис не создаёт WebView и не нагружает сеть.
+pub(crate) fn ensure_service_enabled(service: &str) -> Result<(), String> {
+  if crate::tunnel::service_enabled(service) { Ok(()) } else { Err("SERVICE_DISABLED".to_string()) }
+}
 
 pub(crate) fn apply_service_network_profile<R: tauri::Runtime>(
   builder: WebviewBuilder<R>,
   service: &str,
 ) -> WebviewBuilder<R> {
   #[cfg(windows)]
-  if service == X_APP {
-    return builder.additional_browser_args(X_SERVICE_BROWSER_ARGUMENTS);
-  }
-  #[cfg(windows)]
-  if service == INSTAGRAM_APP {
-    return builder.additional_browser_args(INSTAGRAM_SERVICE_BROWSER_ARGUMENTS);
-  }
+  let builder = builder.additional_browser_args(&service_browser_arguments(service));
   #[cfg(not(windows))]
   let _ = service;
   builder
@@ -235,6 +233,17 @@ fn service_load_timer(service: &str) -> &'static recovery::LoadTimer {
 
 /// Закрывает WebView сервиса и создаёт заново. Вызывающий держит `WEBVIEW_CREATION_LOCK`
 /// (либо вызывает не из главного потока через `spawn_recovery`).
+/// Закрывает WebView сервиса (его выключили в настройках сети): сетевая нагрузка прекращается.
+pub(crate) fn close_service_webview(app: &AppHandle, service: &str) {
+  let label = get_service_label(service);
+  let app_for_main = app.clone();
+  let _ = run_on_main(app, move || {
+    if let Some(webview) = app_for_main.get_webview(label) && let Err(error) = webview.close() {
+      log::warn!("[MultiApp] Failed to close {label}: {error}");
+    }
+  });
+}
+
 fn recreate_service_webview(app: &AppHandle, service: &'static str, reason: &str) -> Result<(), String> {
   let allowed = service_recreate_limiter(service)
     .lock()
@@ -470,7 +479,20 @@ pub fn on_main_window_hidden(app_handle: &AppHandle) {
   }
 }
 
+/// Раз в 10 секунд: окно показано или получило фокус, туннелю пора проверить маршрут (после сна или смены сети).
+fn wake_tunnel_throttled() {
+  static LAST_WAKE_MS: AtomicU64 = AtomicU64::new(0);
+  let now = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_millis() as u64).unwrap_or(0);
+  let last = LAST_WAKE_MS.load(Ordering::Relaxed);
+  if now.saturating_sub(last) >= 10_000
+    && LAST_WAKE_MS.compare_exchange(last, now, Ordering::Relaxed, Ordering::Relaxed).is_ok()
+  {
+    crate::tunnel::wake();
+  }
+}
+
 pub fn on_main_window_shown(app_handle: &AppHandle) {
+  wake_tunnel_throttled();
   sleep::wake(app_handle, TELEGRAM_APP);
   match get_active_app().as_str() {
     X_APP => sleep::wake(app_handle, X_APP),
@@ -1451,6 +1473,7 @@ fn create_x_webview(
   bounds: AppBounds,
   start_hidden: bool,
 ) -> Result<(), String> {
+  ensure_service_enabled(X_APP)?;
   let navigation_app = app_handle.clone();
   let new_window_app = app_handle.clone();
   let x_data_dir = get_service_data_directory(app_handle, X_APP)?;
@@ -1604,11 +1627,7 @@ fn create_service_auth_window(
   .on_download(move |webview, event| handle_download(&webview, service, event));
 
   #[cfg(windows)]
-  let builder = if service == X_APP {
-    builder.additional_browser_args(X_SERVICE_BROWSER_ARGUMENTS)
-  } else {
-    builder.additional_browser_args(INSTAGRAM_SERVICE_BROWSER_ARGUMENTS)
-  };
+  let builder = builder.additional_browser_args(&service_browser_arguments(service));
 
   let builder = builder
     .title(if service == X_APP {
@@ -2080,6 +2099,7 @@ fn create_instagram_webview(
   bounds: AppBounds,
   start_hidden: bool,
 ) -> Result<(), String> {
+  ensure_service_enabled(INSTAGRAM_APP)?;
   let navigation_app = app_handle.clone();
   let new_window_app = app_handle.clone();
   let ig_data_dir = get_service_data_directory(app_handle, INSTAGRAM_APP)?;

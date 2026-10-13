@@ -1,7 +1,7 @@
 export {
   destroy, disconnect, downloadMedia, fetchCurrentUser, repairFileReference, abortChatRequests, abortRequestGroup,
   setForceHttpTransport, setShouldDebugExportedSenders, setAllowHttpTransport, requestChannelDifference,
-  setOpenedChannelIds,
+  setOpenedChannelIds, setTelegramTransport,
 } from './client';
 
 export {

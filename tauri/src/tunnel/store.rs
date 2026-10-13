@@ -136,6 +136,7 @@ impl Store {
   pub fn new(dir: impl Into<PathBuf>) -> Self { Self { dir: dir.into() } }
 
   /// Каталог хранилища.
+  #[cfg(test)]
   pub fn dir(&self) -> &Path { &self.dir }
 
   fn profile_path(&self) -> PathBuf { self.dir.join(PROFILE_FILE) }

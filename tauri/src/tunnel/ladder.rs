@@ -89,9 +89,13 @@ pub struct Ladder {
 
 impl Ladder {
   /// Новый автомат в состоянии `Tunnel`; `now` — текущее время часов.
-  pub fn new(now: Duration) -> Self {
+  #[cfg(test)]
+  pub fn new(now: Duration) -> Self { Self::with_route(now, Route::Tunnel) }
+
+  /// Автомат сразу на заданной ступени: без узла VPN нечего ждать три отказа подряд, старт идёт в `DnsOnly`.
+  pub fn with_route(now: Duration, route: Route) -> Self {
     Self {
-      route: Route::Tunnel,
+      route,
       entered: now,
       proxy_fail: 0,
       proxy_ok: 0,
@@ -254,8 +258,14 @@ pub struct Runner<C: Clock, P: Prober> {
 
 impl<C: Clock, P: Prober> Runner<C, P> {
   /// Новый исполнитель; автомат стартует в Tunnel.
+  #[cfg(test)]
   pub fn new(clock: C, prober: P, targets: Vec<Target>) -> Self {
-    let ladder = Ladder::new(clock.now());
+    Self::with_route(clock, prober, targets, Route::Tunnel)
+  }
+
+  /// Исполнитель, стартующий на заданной ступени (без узлов VPN — сразу `DnsOnly`).
+  pub fn with_route(clock: C, prober: P, targets: Vec<Target>, route: Route) -> Self {
+    let ladder = Ladder::with_route(clock.now(), route);
     Self { ladder, clock, prober, targets }
   }
 
@@ -580,6 +590,20 @@ mod tests {
       self.calls.borrow_mut().push("direct");
       targets.iter().map(|t| (t.service.clone(), true)).collect()
     }
+  }
+
+  #[test]
+  fn runner_without_nodes_starts_in_dns_only_and_probes_direct_at_once() {
+    let time = Rc::new(Cell::new(Duration::ZERO));
+    let prober = FakeProber::default();
+    prober.proxy.set(false);
+    let mut runner = Runner::with_route(FakeClock(time.clone()), prober.clone(), targets_for(|_| true), Route::DnsOnly);
+    assert_eq!(runner.ladder.route(), Route::DnsOnly, "ждать три отказа не нужно");
+    time.set(time.get() + TICK);
+    runner.tick(false);
+    assert_eq!(runner.ladder.route(), Route::DnsOnly);
+    assert_eq!(prober.calls.borrow().last(), Some(&"direct"), "прямые пробы идут с первого тика");
+    assert_eq!(runner.ladder.services().len(), 3);
   }
 
   #[test]

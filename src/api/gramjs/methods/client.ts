@@ -227,6 +227,12 @@ export async function destroy(noLogOut = false, noClearLocalDb = false) {
   client.destroy();
 }
 
+// Оболочка сменила MTProxy в настройках сети: новый адрес моста (или его отсутствие) действует со следующего
+// соединения, а соединение через остановленный мост оборвётся и переподключится по новым маршрутам
+export function setTelegramTransport({ url }: { url?: string }) {
+  setDesktopTelegramTransport(url);
+}
+
 export function disconnect() {
   invalidateResearchAccount();
   client.disconnect();

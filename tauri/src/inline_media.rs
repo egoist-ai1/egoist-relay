@@ -494,8 +494,8 @@ fn run_media_worker(
   let engine = find_resource(app, "yt-dlp.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
   let ffmpeg = find_resource(app, "media/ffmpeg.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
   find_resource(app, "media/ffprobe.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
-  let proxy = crate::system_proxy::proxy_for_url_cancellable(url, cancel, deadline)
-    .map_err(|_| check_deadline(cancel, deadline).err().unwrap_or_else(|| "MEDIA_PROXY_FAILED".into()))?;
+  // Медиа ходит только через туннель (socks5h, имена разрешает он); пока Xray не готов, прямого выхода нет
+  let proxy = crate::tunnel::media_proxy_url().ok_or("MEDIA_TUNNEL_UNAVAILABLE")?;
   if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) {
     return Err("MEDIA_CANCELLED".into());
   }
@@ -511,7 +511,7 @@ fn run_media_worker(
     .current_dir(&directory.path)
     .env("TEMP", &directory.path)
     .env("TMP", &directory.path)
-    .env("EGOIST_RELAY_MEDIA_PROXY", proxy.as_ref().map_or("direct", Url::as_str));
+    .env("EGOIST_RELAY_MEDIA_PROXY", &proxy);
   crate::runtime::hide_command_window(&mut command);
   let mut child = command.spawn().map_err(|_| "MEDIA_RUNTIME_UNAVAILABLE")?;
   let scoped = match WorkerJob::attach(&child) {

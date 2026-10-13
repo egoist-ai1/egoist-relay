@@ -2053,13 +2053,28 @@ fn ensure_private_directory(_directory: &Path) -> Result<(), String> {
   Err("MEDIA_JOURNAL_WINDOWS_REQUIRED".into())
 }
 
+/// Размер данных журнала и коды ошибок остаются прежними; шифрование — общий `crate::dpapi` со своей entropy журнала.
 #[cfg(windows)]
 fn protect_data(plain: &[u8]) -> Result<Vec<u8>, String> {
-  windows_storage::protect(plain, false)
+  if plain.is_empty() || plain.len() > MAX_ENCRYPTED_BYTES {
+    return Err("MEDIA_JOURNAL_CORRUPT".into());
+  }
+  crate::dpapi::protect_with_entropy(plain, JOURNAL_ENTROPY).map_err(|code| journal_dpapi_error(&code, false))
 }
 #[cfg(windows)]
 fn unprotect_data(encrypted: &[u8]) -> Result<Vec<u8>, String> {
-  windows_storage::protect(encrypted, true)
+  if encrypted.is_empty() || encrypted.len() > MAX_ENCRYPTED_BYTES {
+    return Err("MEDIA_JOURNAL_CORRUPT".into());
+  }
+  crate::dpapi::unprotect_with_entropy(encrypted, JOURNAL_ENTROPY).map_err(|code| journal_dpapi_error(&code, true))
+}
+#[cfg(windows)]
+fn journal_dpapi_error(code: &str, decrypt: bool) -> String {
+  match code {
+    "DPAPI_DECRYPT_FAILED" if decrypt => "MEDIA_JOURNAL_DECRYPT_FAILED",
+    "DPAPI_PROTECT_FAILED" if !decrypt => "MEDIA_JOURNAL_PROTECT_FAILED",
+    _ => "MEDIA_JOURNAL_CORRUPT",
+  }.into()
 }
 #[cfg(not(windows))]
 fn protect_data(_plain: &[u8]) -> Result<Vec<u8>, String> {
@@ -2098,11 +2113,6 @@ mod windows_storage {
   };
 
   #[repr(C)]
-  struct DataBlob {
-    length: u32,
-    data: *mut u8,
-  }
-  #[repr(C)]
   struct SecurityAttributes {
     length: u32,
     descriptor: *mut c_void,
@@ -2118,27 +2128,6 @@ mod windows_storage {
     user: SidAndAttributes,
   }
 
-  #[link(name = "Crypt32")]
-  unsafe extern "system" {
-    fn CryptProtectData(
-      input: *const DataBlob,
-      description: *const u16,
-      entropy: *const DataBlob,
-      reserved: *const c_void,
-      prompt: *const c_void,
-      flags: u32,
-      output: *mut DataBlob,
-    ) -> i32;
-    fn CryptUnprotectData(
-      input: *const DataBlob,
-      description: *mut *mut u16,
-      entropy: *const DataBlob,
-      reserved: *const c_void,
-      prompt: *const c_void,
-      flags: u32,
-      output: *mut DataBlob,
-    ) -> i32;
-  }
   #[link(name = "Advapi32")]
   unsafe extern "system" {
     fn OpenProcessToken(process: *mut c_void, access: u32, token: *mut *mut c_void) -> i32;
@@ -2208,78 +2197,6 @@ mod windows_storage {
   #[link(name = "Ole32")]
   unsafe extern "system" {
     fn CoTaskMemFree(memory: *mut c_void);
-  }
-
-  pub(super) fn protect(value: &[u8], decrypt: bool) -> Result<Vec<u8>, String> {
-    if value.is_empty() || value.len() > MAX_ENCRYPTED_BYTES || value.len() > u32::MAX as usize {
-      return Err("MEDIA_JOURNAL_CORRUPT".into());
-    }
-    let input = DataBlob {
-      length: value.len() as u32,
-      data: value.as_ptr().cast_mut(),
-    };
-    let entropy = DataBlob {
-      length: JOURNAL_ENTROPY.len() as u32,
-      data: JOURNAL_ENTROPY.as_ptr().cast_mut(),
-    };
-    let mut output = DataBlob {
-      length: 0,
-      data: ptr::null_mut(),
-    };
-    // CurrentUser scope and UI_FORBIDDEN bind the journal to this Windows user without prompts
-    let success = unsafe {
-      if decrypt {
-        CryptUnprotectData(
-          &input,
-          ptr::null_mut(),
-          &entropy,
-          ptr::null(),
-          ptr::null(),
-          1,
-          &mut output,
-        )
-      } else {
-        CryptProtectData(
-          &input,
-          ptr::null(),
-          &entropy,
-          ptr::null(),
-          ptr::null(),
-          1,
-          &mut output,
-        )
-      }
-    };
-    if success == 0 {
-      if !output.data.is_null() {
-        unsafe {
-          LocalFree(output.data.cast());
-        }
-      }
-      return Err(
-        if decrypt {
-          "MEDIA_JOURNAL_DECRYPT_FAILED"
-        } else {
-          "MEDIA_JOURNAL_PROTECT_FAILED"
-        }
-        .into(),
-      );
-    }
-    if output.data.is_null() || output.length as usize > MAX_ENCRYPTED_BYTES {
-      if !output.data.is_null() {
-        unsafe {
-          LocalFree(output.data.cast());
-        }
-      }
-      return Err("MEDIA_JOURNAL_CORRUPT".into());
-    }
-    let result =
-      unsafe { std::slice::from_raw_parts(output.data, output.length as usize) }.to_vec();
-    unsafe {
-      std::slice::from_raw_parts_mut(output.data, output.length as usize).fill(0);
-      LocalFree(output.data.cast());
-    }
-    Ok(result)
   }
 
   fn current_user_sid() -> Result<String, String> {

@@ -11,7 +11,6 @@
 //! - [`wake`] — внеочередная серия проб после сна или смены сети.
 //!
 //! Упрощения и известные границы описаны в комментариях к [`apply`] и [`refresh_subscription`].
-#![allow(dead_code)] // Модуль подключается к приложению следующим заданием; до тех пор публичный API не вызывается.
 
 pub mod config;
 pub mod ladder;
@@ -37,6 +36,8 @@ use uri::Node;
 const SUBSCRIPTION_REFRESH: Duration = Duration::from_secs(12 * 3600);
 /// Повтор скачивания, пока в подписке нет ни одного узла.
 const SUBSCRIPTION_RETRY: Duration = Duration::from_secs(60);
+/// Повтор после неудачного обновления, когда рабочий кэш узлов есть.
+const SUBSCRIPTION_FAIL_RETRY: Duration = Duration::from_secs(15 * 60);
 /// Бюджет проверки нового ключа перед заменой.
 const PROBE_BUDGET: Duration = Duration::from_secs(10);
 /// Сколько ждать готовности основного Xray после перезапуска с новым конфигом.
@@ -271,6 +272,9 @@ static INPUTS: LazyLock<Mutex<Inputs>> = LazyLock::new(|| Mutex::new(Inputs::new
 static STATUS: LazyLock<RwLock<NetworkStatus>> = LazyLock::new(|| RwLock::new(Inputs::new().compute()));
 static LISTENERS: LazyLock<Mutex<Vec<Listener>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 static CORE: LazyLock<Mutex<Option<Core>>> = LazyLock::new(|| Mutex::new(None));
+/// Активный MTProxy: только для Rust-кода (мост Telegram), во фронтенд не отдаётся. Отдельно от `CORE`, чтобы
+/// чтение не ждало долгих операций (скачивание подписки).
+static MTPROXY: LazyLock<Mutex<Option<String>>> = LazyLock::new(|| Mutex::new(None));
 
 fn lock<T>(mutex: &Mutex<T>) -> std::sync::MutexGuard<'_, T> {
   mutex.lock().unwrap_or_else(|poisoned| poisoned.into_inner())
@@ -305,6 +309,8 @@ struct MonitorCtx {
   doh_host: Option<String>,
   doh_port: u16,
   subscription: bool,
+  /// Время последнего удачного скачивания подписки, unix мс (0 — не скачивалась).
+  subscription_updated_ms: u64,
 }
 
 impl MonitorCtx {
@@ -382,7 +388,7 @@ pub fn start(app_data_dir: &Path, runtime_dir: &Path) -> Result<Ports, String> {
     monitor: None,
     ctx: Arc::new(Mutex::new(MonitorCtx {
       api: None, nodes: Vec::new(), config_index: 0, current: 0, current_tag: config::TAG_PROXY.into(),
-      tag_seq: 0, targets: Vec::new(), doh_host: None, doh_port: 443, subscription: false,
+      tag_seq: 0, targets: Vec::new(), doh_host: None, doh_port: 443, subscription: false, subscription_updated_ms: 0,
     })),
   };
   if let Err(error) = configure(&mut core, profile) {
@@ -402,6 +408,18 @@ pub fn stop() {
   *guard = None;
   READY.store(false, Ordering::SeqCst);
   update_inputs(|inputs| { inputs.sup = SupState::Starting; inputs.probed = false; });
+}
+
+/// Активный MTProxy из профиля (ступень 2б). Только для Rust-кода: во фронтенд уходит лишь `hasMtproxy`.
+pub(crate) fn mtproxy_link() -> Option<String> { lock(&MTPROXY).clone() }
+
+fn set_mtproxy(link: &str) {
+  *lock(&MTPROXY) = parse_mtproxy(link).map(|_| link.trim().to_string());
+}
+
+/// Включён ли сервис в настройках сети (по умолчанию да). Выключенный не создаёт WebView и не пробуется лестницей.
+pub(crate) fn service_enabled(service: &str) -> bool {
+  lock(&INPUTS).services_enabled.get(service).copied().unwrap_or(true)
 }
 
 /// Порты сессии, если туннель уже запускался.
@@ -434,15 +452,6 @@ pub fn status() -> NetworkStatus {
 /// обычно в нём эмитится событие `relay-network-status`. Отписки нет: подписчик живёт до конца процесса.
 pub fn subscribe(listener: impl Fn(&NetworkStatus) + Send + Sync + 'static) {
   lock(&LISTENERS).push(Arc::new(listener));
-}
-
-/// Подписка через канал: удобно, когда колбэк нельзя держать в замыкании. Сразу присылает текущий статус.
-pub fn subscribe_channel() -> Receiver<NetworkStatus> {
-  let (sender, receiver) = mpsc::channel();
-  let _ = sender.send(status());
-  let sender = Mutex::new(sender);
-  subscribe(move |status| { let _ = lock(&sender).send(status.clone()); });
-  receiver
 }
 
 /// Сообщает о пробуждении системы или смене сети: старые серии проб сбрасываются, идёт быстрый пакет проб.
@@ -521,6 +530,7 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
     READY.store(false, Ordering::SeqCst);
     core.profile = profile;
     core.nodes = Vec::new();
+    set_mtproxy("");
     update_inputs(|inputs| {
       *inputs = Inputs { services_enabled: core.profile.services_enabled.clone(), ..Inputs::new() };
     });
@@ -551,6 +561,7 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
   }
   core.nodes = resolved.nodes.clone();
   core.profile = profile;
+  set_mtproxy(&prov.mtproxy);
   let (doh_host, doh_port) = doh_host_port(prov.doh_url()).unzip();
   {
     let mut ctx = lock(&core.ctx);
@@ -564,6 +575,7 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
     ctx.doh_host = doh_host.clone();
     ctx.doh_port = doh_port.unwrap_or(443);
     ctx.subscription = resolved.subscription;
+    ctx.subscription_updated_ms = core.profile.subscription_updated_at_ms;
   }
   let label = lock(&core.ctx).label();
   update_inputs(|inputs| {
@@ -603,13 +615,15 @@ fn now_ms() -> u64 {
 
 fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<AtomicBool>) {
   let Some(ports) = PORTS.get().copied() else { return; };
-  let targets = lock(&ctx).targets.clone();
-  let mut runner = Runner::new(SystemClock::new(), NetProber { probe_proxy: ports.probe_proxy, probe_direct: ports.probe_direct }, targets);
+  let (targets, no_nodes) = { let ctx = lock(&ctx); (ctx.targets.clone(), ctx.nodes.is_empty()) };
+  // Без узла (подписка ещё не скачана) ждать три отказа проб незачем: сразу ступень 2, трафик идёт напрямую через DoH
+  let start_route = if no_nodes { Route::DnsOnly } else { Route::Tunnel };
+  let mut runner = Runner::with_route(SystemClock::new(), NetProber { probe_proxy: ports.probe_proxy, probe_direct: ports.probe_direct }, targets, start_route);
   let mut seen_generation = GENERATION.load(Ordering::SeqCst);
   let mut applied_direct = false;
   let mut rotations: usize = 0;
   let mut tick_no: u32 = 0;
-  let mut last_refresh = Instant::now();
+  let mut refresh = RefreshState::default();
   let mut probed = false;
   loop {
     match stop.recv_timeout(runner.ladder.next_delay()) {
@@ -688,12 +702,12 @@ fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<
       }
     }
     tick_no = tick_no.wrapping_add(1);
-    // Подписка: раз в 12 часов, а пока узлов нет, раз в минуту
-    let (subscription, empty) = { let ctx = lock(&ctx); (ctx.subscription, ctx.nodes.is_empty()) };
-    let due = if empty { SUBSCRIPTION_RETRY } else { SUBSCRIPTION_REFRESH };
-    if subscription && last_refresh.elapsed() >= due && !cancelled.load(Ordering::SeqCst) {
-      last_refresh = Instant::now();
-      refresh_from_monitor();
+    // Подписка: сразу после готовности Xray, если кэш пуст или старше 12 часов; дальше раз в 12 часов
+    let (subscription, empty, updated_ms) = { let ctx = lock(&ctx); (ctx.subscription, ctx.nodes.is_empty(), ctx.subscription_updated_ms) };
+    if subscription && !cancelled.load(Ordering::SeqCst) && refresh.due(now_ms(), updated_ms, empty) {
+      refresh.attempted(now_ms());
+      // Неудача не стирает кэш; следующая попытка по расписанию RefreshState
+      let _ = refresh_from_monitor();
     }
   }
 }
@@ -711,12 +725,38 @@ fn rotate(ctx: &mut MonitorCtx, api: &Api) -> Result<(), String> {
   Ok(())
 }
 
-fn refresh_from_monitor() {
+/// Возвращает `None`, если ядро занято или остановлено (попытка не считается), иначе успех обновления.
+fn refresh_from_monitor() -> Option<bool> {
   // try_lock: если идёт apply/reset, не ждём (иначе взаимная блокировка с остановкой монитора)
-  let Ok(mut guard) = CORE.try_lock() else { return; };
-  if let Some(core) = guard.as_mut() {
-    if let Err(error) = refresh_locked(core) { log::warn!("[Tunnel] обновление подписки: {error}"); }
+  let mut guard = CORE.try_lock().ok()?;
+  let core = guard.as_mut()?;
+  match refresh_locked(core) {
+    Ok(()) => Some(true),
+    Err(error) => {
+      // Рабочий кэш узлов остаётся как был; код ошибки без адреса подписки
+      log::warn!("[Tunnel] обновление подписки: {error}");
+      Some(false)
+    }
   }
+}
+
+/// Расписание скачивания подписки по виртуальному времени (миллисекунды unix), без часов и сети.
+#[derive(Debug, Default)]
+struct RefreshState {
+  last_attempt_ms: Option<u64>,
+}
+
+impl RefreshState {
+  /// Пора ли качать: кэш пуст или старше 12 часов; между попытками минута без узлов и 15 минут после отказа.
+  fn due(&self, now_ms: u64, updated_ms: u64, no_nodes: bool) -> bool {
+    let stale = updated_ms == 0 || now_ms.saturating_sub(updated_ms) >= SUBSCRIPTION_REFRESH.as_millis() as u64;
+    if !(no_nodes || stale) { return false; }
+    let Some(last) = self.last_attempt_ms else { return true; };
+    let gap = if no_nodes { SUBSCRIPTION_RETRY } else { SUBSCRIPTION_FAIL_RETRY };
+    now_ms.saturating_sub(last) >= gap.as_millis() as u64
+  }
+
+  fn attempted(&mut self, now_ms: u64) { self.last_attempt_ms = Some(now_ms); }
 }
 
 // ---------- команды ----------
@@ -786,6 +826,7 @@ pub fn apply(request: ApplyRequest) -> Result<NetworkStatus, NetworkError> {
       }
     } else {
       core.profile = profile;
+      set_mtproxy(core.profile.active().map(|p| p.mtproxy.as_str()).unwrap_or(""));
       let has_mtproxy = core.profile.active().map(|p| parse_mtproxy(&p.mtproxy).is_some()).unwrap_or(false);
       let source = if core.profile.override_.is_some() { Source::Override } else { Source::Embedded };
       update_inputs(|inputs| { inputs.has_mtproxy = has_mtproxy; inputs.source = source; inputs.last_error = None; });
@@ -843,6 +884,7 @@ fn refresh_locked(core: &mut Core) -> Result<(), NetworkError> {
     core.nodes = parsed.nodes.clone();
     let mut ctx = lock(&core.ctx);
     ctx.nodes = parsed.nodes.clone();
+    ctx.subscription_updated_ms = core.profile.subscription_updated_at_ms;
     drop(ctx);
     let updated = Some(core.profile.subscription_updated_at_ms);
     update_inputs(|inputs| {
@@ -920,15 +962,20 @@ fn fetch_subscription(url: &str, socks_port: u16) -> Result<String, String> {
   if !matches!(parsed.scheme(), "http" | "https") || url.contains(['"', '\n', '\r', '\\']) {
     return Err("TUNNEL_SUBSCRIPTION_URL".into());
   }
+  // Только абсолютный путь к системному curl: поиск по PATH подсунул бы чужой исполняемый файл
   let curl = std::env::var_os("SystemRoot")
     .map(|root| PathBuf::from(root).join("System32").join("curl.exe"))
     .filter(|path| path.is_file())
-    .unwrap_or_else(|| PathBuf::from("curl.exe"));
+    .ok_or_else(|| "TUNNEL_CURL_MISSING".to_string())?;
   let mut command = Command::new(curl);
-  command.args(["-sS", "--fail", "--location", "--max-time", "25", "--max-filesize", "5242880", "-K", "-"])
+  command.args(["-sS", "--fail", "--location", "--max-redirs", "5", "--connect-timeout", "10", "--max-time", "25", "--max-filesize", "5242880", "-K", "-"])
     .arg("--proxy").arg(format!("socks5h://127.0.0.1:{socks_port}"))
     .args(["-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"])
     .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::null());
+  // Свои настройки прокси из окружения curl не нужны: путь задан явно, `-K` читает только stdin
+  for name in ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "all_proxy", "no_proxy", "CURL_HOME"] {
+    command.env_remove(name);
+  }
   #[cfg(windows)]
   {
     use std::os::windows::process::CommandExt;
@@ -1070,6 +1117,33 @@ mod tests {
     update_inputs(|inputs| inputs.last_error = Some("TEST_ONLY".into()));
     assert_eq!(received.lock().unwrap().len(), before + 1, "одинаковый статус второй раз не рассылается");
     update_inputs(|inputs| inputs.last_error = None);
+  }
+
+  #[test]
+  fn refresh_schedule_on_virtual_time() {
+    const HOUR: u64 = 3_600_000;
+    const MINUTE: u64 = 60_000;
+    let now = 100 * HOUR;
+    let mut state = RefreshState::default();
+    // пустой кэш: качаем сразу, дальше раз в минуту
+    assert!(state.due(now, 0, true));
+    state.attempted(now);
+    assert!(!state.due(now + 30_000, 0, true));
+    assert!(state.due(now + MINUTE, 0, true));
+    // свежий кэш с узлами: не качаем
+    let mut state = RefreshState::default();
+    assert!(!state.due(now, now - HOUR, false));
+    // старше 12 часов на старте: качаем сразу
+    assert!(state.due(now, now - 12 * HOUR, false));
+    state.attempted(now);
+    // отказ при рабочем кэше: повтор не раньше чем через 15 минут, кэш остаётся рабочим
+    assert!(!state.due(now + 14 * MINUTE, now - 12 * HOUR, false));
+    assert!(state.due(now + 15 * MINUTE, now - 12 * HOUR, false));
+    // после удачи отсчёт идёт от нового времени обновления
+    assert!(!state.due(now + 15 * MINUTE, now + 14 * MINUTE, false));
+    assert!(state.due(now + 12 * HOUR + 14 * MINUTE, now + 14 * MINUTE, false));
+    // кэш никогда не скачивался (0), но узлы есть из ссылки-файла: тоже качаем
+    assert!(RefreshState::default().due(now, 0, false));
   }
 
   #[test]

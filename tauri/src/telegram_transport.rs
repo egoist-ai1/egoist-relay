@@ -27,13 +27,16 @@ pub(crate) struct BridgeConfig {
 /// `None` — MTProxy не задан или туннель не готов: мост не запускается, Telegram идёт по стандартному wss.
 pub(crate) type BridgeConfigProvider = fn() -> Option<BridgeConfig>;
 
-/// Провайдер по умолчанию.
-// TODO(tunnel): подключить `crate::tunnel`: вернуть `Some(BridgeConfig { socks_port: P_socks, mtproxy })`,
-// когда в сохранённых настройках сети задана ссылка MTProxy и Xray готов; иначе `None`.
-// После смены ссылки в `relay_network_apply` вызвать `telegram_transport::shutdown()`, чтобы воркер
-// перезапустился с новым значением при следующем обращении фронтенда.
+/// Провайдер по умолчанию: порт SOCKS туннеля и MTProxy из сохранённого профиля сети. `None`, пока MTProxy не задан
+/// или Xray не готов. После смены ссылки команды `relay_network_apply` / `relay_network_reset` вызывают
+/// [`shutdown`], и воркер перезапускается с новым значением при следующем обращении фронтенда.
 fn tunnel_bridge_config() -> Option<BridgeConfig> {
-  None
+  bridge_config_from(crate::tunnel::ports().map(|ports| ports.socks), crate::tunnel::media_proxy_url().is_some(), crate::tunnel::mtproxy_link())
+}
+
+fn bridge_config_from(socks_port: Option<u16>, tunnel_ready: bool, mtproxy: Option<String>) -> Option<BridgeConfig> {
+  if !tunnel_ready { return None; }
+  Some(BridgeConfig { socks_port: socks_port?, mtproxy: mtproxy? })
 }
 
 struct ActiveTransport {
@@ -410,6 +413,12 @@ mod tests {
   fn bridge_does_not_start_without_tunnel_config() {
     // Пока туннель не подключён, провайдер возвращает None, и воркер не создаётся
     assert!(tunnel_bridge_config().is_none());
+    let link = "tg://proxy?server=a.test&port=443&secret=dd00".to_string();
+    assert!(bridge_config_from(Some(31337), false, Some(link.clone())).is_none(), "Xray не готов");
+    assert!(bridge_config_from(Some(31337), true, None).is_none(), "MTProxy не задан");
+    assert!(bridge_config_from(None, true, Some(link.clone())).is_none());
+    let config = bridge_config_from(Some(31337), true, Some(link.clone())).unwrap();
+    assert_eq!((config.socks_port, config.mtproxy), (31337, link));
     let status = serde_json::to_value(TransportStatus::default()).unwrap();
     assert_eq!(status["mtproxy"], false);
     assert!(status.get("url").is_none());

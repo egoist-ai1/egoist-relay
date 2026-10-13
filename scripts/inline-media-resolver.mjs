@@ -84,7 +84,7 @@ export function createEngineArgs(input, phase) {
   const selected = input.proxy === '' ? 'direct' : input.proxy ?? process.env.EGOIST_RELAY_MEDIA_PROXY;
   const configured = parseMediaProxy(selected);
   const proxy = configured ? selected : '';
-  const common = ['--ignore-config', '--no-config-locations', '--no-plugin-dirs', '--no-cache-dir', '--no-update', '--no-playlist', '--playlist-items', '1', '--use-extractors', 'Youtube,Instagram,Twitter,end', '--no-remote-components', '--no-js-runtimes', '--js-runtimes', `node:${input.nodePath}`, '--proxy', proxy, '--socket-timeout', '15', '--retries', '1', '--fragment-retries', '1', '--concurrent-fragments', '4', '--extractor-retries', '1', '--no-warnings', '--no-progress', '--quiet', '--xff', 'never', '--no-check-formats', '--batch-file', '-'];
+  const common = ['--ignore-config', '--no-config-locations', '--no-plugin-dirs', '--no-cache-dir', '--no-update', '--hls-prefer-native', '--no-playlist', '--playlist-items', '1', '--use-extractors', 'Youtube,Instagram,Twitter,end', '--no-remote-components', '--no-js-runtimes', '--js-runtimes', `node:${input.nodePath}`, '--proxy', proxy, '--socket-timeout', '15', '--retries', '1', '--fragment-retries', '1', '--concurrent-fragments', '4', '--extractor-retries', '1', '--no-warnings', '--no-progress', '--quiet', '--xff', 'never', '--no-check-formats', '--batch-file', '-'];
   if (input.cookies) common.push('--cookies', path.join(input.tempDir, 'session-cookies.txt'));
   const sourceMetadata = '%(.{extractor_key,duration,is_live,live_status})j';
   if (phase === 'metadata') return [...common, '--skip-download', '--print', sourceMetadata];

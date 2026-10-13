@@ -104,6 +104,7 @@ impl Supervisor {
   pub fn is_ready(&self) -> bool { self.shared.ready.load(Ordering::SeqCst) }
 
   /// Порты сессии.
+  #[cfg(test)]
   pub fn ports(&self) -> Ports { self.shared.spec.ports }
 
   /// Подменяет конфиг и перезапускает Xray на тех же портах (применение нового ключа).
@@ -195,12 +196,10 @@ fn run(shared: Arc<Shared>, commands: Receiver<Command_>, sink: EventSink) {
       attempt = attempt.saturating_add(1);
       delay
     };
-    loop {
-      match commands.recv_timeout(delay) {
-        Ok(Command_::Stop) | Err(mpsc::RecvTimeoutError::Disconnected) => return,
-        Ok(Command_::Restart) => { attempt = 0; break; }
-        Err(mpsc::RecvTimeoutError::Timeout) => break,
-      }
+    match commands.recv_timeout(delay) {
+      Ok(Command_::Stop) | Err(mpsc::RecvTimeoutError::Disconnected) => return,
+      Ok(Command_::Restart) => attempt = 0,
+      Err(mpsc::RecvTimeoutError::Timeout) => {}
     }
   }
 }
@@ -456,6 +455,7 @@ impl TempXray {
   }
 
   /// Порты временного процесса.
+  #[allow(dead_code)]
   pub fn ports(&self) -> Ports { self.spec.ports }
 
   /// `xray api` временного процесса (смена узла при проверке нескольких).

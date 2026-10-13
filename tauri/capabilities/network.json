@@ -1,0 +1,15 @@
+{
+  "identifier": "relay-network",
+  "description": "Network tunnel settings and status for the local main Relay renderer only",
+  "local": true,
+  "webviews": [
+    "main"
+  ],
+  "permissions": [
+    "allow-relay-network-status",
+    "allow-relay-network-apply",
+    "allow-relay-network-reset",
+    "allow-relay-network-refresh-subscription",
+    "allow-relay-network-set-service-enabled"
+  ]
+}

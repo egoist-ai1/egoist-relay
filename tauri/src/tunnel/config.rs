@@ -451,11 +451,11 @@ mod tests {
   #[test]
   fn doh_with_arbitrary_path_is_accepted_as_is() {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
-    for doh in ["https://dns.nextdns.io/abc123", "https://dns.example.net:8443/some/path?x=1"] {
+    for doh in ["https://dns.nextdns.io/id-fixture", "https://dns.example.net:8443/some/path?x=1"] {
       let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh, host_ips: &BTreeMap::new() }).unwrap();
       assert!(config["dns"]["servers"].as_array().unwrap().iter().any(|s| s["address"] == doh));
     }
-    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://dns.nextdns.io/abc123", host_ips: &BTreeMap::new() }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://dns.nextdns.io/id-fixture", host_ips: &BTreeMap::new() }).unwrap();
     assert_eq!(config["dns"]["servers"][0]["domains"], json!(["full:dns.nextdns.io"]));
     assert!(build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://user:pw@dns.example.net/x", host_ips: &BTreeMap::new() }).is_err());
   }
