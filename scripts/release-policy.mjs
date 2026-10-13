@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { lstat, readdir, readFile } from 'node:fs/promises';
@@ -11,10 +12,10 @@ export const SOURCE_FILES = ['LICENSE', 'package.json', 'package-lock.json', 'vi
   'tsconfig.json', 'tsconfig.base.json', 'tsconfig.script.json', 'tsconfig.test.json',
   'tauri/Cargo.toml', 'tauri/Cargo.lock', 'tauri/tauri.conf.json', 'tauri/build.rs', 'tauri/installer.nsh',
   'tauri/installer-processes.ps1', 'tauri/installer-legacy-runtime.json'];
-const REMOVED_NETWORK_FILE = /(?:^|\/)(?:xray(?:\.exe|-provenance\.json)|ciadpi\.exe|egoist-tg-proxy\.exe|(?:XRAY(?:-GO)?|BYEDPI|WS)-LICENSE\.txt)$/i;
+const REMOVED_NETWORK_FILE = /(?:^|\/)(?:ciadpi\.exe|egoist-tg-proxy\.exe|(?:BYEDPI|WS)-LICENSE\.txt)$/i;
 const REMOVED_NETWORK_SOURCE = /^(?:scripts\/(?:app-dns|app-proxy|proxy-bridge|lagom-tunnel)(?:\.|\/)|scripts\/(?:import-lagom|build-personal)|tauri\/(?:installer-(?:dns|tunnel)-profile\.ps1|src\/(?:network|dns_profile|tunnel)\.rs))/i;
 const BLOCKED_PARTS = /^(?:\.git|node_modules|target|dist|release|\.cache|__pycache__|__tests__|screenshots?)$/i;
-const BLOCKED_FILE = /(?:^\.env(?:\.|$)|\.p(?:fx|12|em)$|\.key$|\.dpapi$|\.(?:db|sqlite3?|cookies?)$|(?:^|[-_.])(?:private|enrollment|cookies?|sessions?|credentials)(?=[-_.]|$).*\.(?:json|txt|log)$)/i;
+const BLOCKED_FILE = /(?:^\.env(?:\.|$)|\.p(?:fx|12|em)$|\.key$|\.dpapi$|\.local\.json$|\.(?:db|sqlite3?|cookies?)$|(?:^|[-_.])(?:private|enrollment|cookies?|sessions?|credentials)(?=[-_.]|$).*\.(?:json|txt|log)$)/i;
 const SECRET_PATTERNS = [
   /-----BEGIN (?:[A-Z ]*PRIVATE KEY|OPENSSH PRIVATE KEY)-----/,
   /\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AKIA[A-Z0-9]{16})\b/,
@@ -41,7 +42,7 @@ export function isSafeSourcePath(file) {
 }
 
 export function isRemovedNetworkRuntime(file) {
-  return REMOVED_NETWORK_FILE.test(file) || /^runtime\/licenses\/xray-dependencies\//i.test(file);
+  return REMOVED_NETWORK_FILE.test(file);
 }
 
 export function assertNoSecrets(file, content) {
@@ -53,6 +54,15 @@ export function assertNoSecrets(file, content) {
     const reservedFixture = /(?:^|\.)(?:example\.com|example\.org|example\.net|example|invalid|test)$/.test(host);
     requireCondition(reservedFixture, `Potential secret in source: ${file}`);
   }
+}
+
+/** Секреты сети (provisioning.local.json и любые *.local.json) не должны быть под контролем Git. Вне репозитория проверка пропускается. */
+export function assertProvisioningNotTracked(root, run = spawnSync) {
+  const result = run('git', ['-C', root, 'ls-files', '--', '*.local.json'], { encoding: 'utf8', windowsHide: true });
+  if (result.error || result.status !== 0) return { checked: false };
+  const tracked = String(result.stdout).split(String.fromCharCode(10)).map((line) => line.trim()).filter(Boolean);
+  requireCondition(tracked.length === 0, `Local provisioning file is tracked by Git: ${tracked.join(', ')}`);
+  return { checked: true };
 }
 
 export async function listFiles(directory, prefix = '') {

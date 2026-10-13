@@ -15,6 +15,7 @@ mod demo;
 mod engine;
 mod preflight;
 mod progress;
+mod seed;
 mod tail;
 mod ui;
 mod util;

@@ -3,9 +3,9 @@
 !include WordFunc.nsh
 ; Checked against the frozen runtime manifest by release preflight. Reserve one
 ; separator/NUL and the classic CreateDirectory 8.3 filename margin (12 units).
-!define RELAY_MAX_RUNTIME_RELATIVE_FILE_CHARS 50
-!define RELAY_MAX_RUNTIME_RELATIVE_DIRECTORY_CHARS 21
-!define RELAY_MAX_INSTALL_DIRECTORY_CHARS 208
+!define RELAY_MAX_RUNTIME_RELATIVE_FILE_CHARS 119
+!define RELAY_MAX_RUNTIME_RELATIVE_DIRECTORY_CHARS 111
+!define RELAY_MAX_INSTALL_DIRECTORY_CHARS 135
 
 ; This hidden section is declared before Tauri's WebView2 installation section.
 ; Reject unsupported systems before any dependency or application is installed.

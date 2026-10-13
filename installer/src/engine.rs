@@ -420,6 +420,7 @@ impl<'a> Runner<'a> {
                 &format!("Нажмите «Повторить». Если повторяется, откройте журнал: возможно, файлы удалил антивирус.{}", webview_note()),
             ));
         }
+        self.provision_network(&tail);
         self.progress(1.0, "", true);
         let updated = existing.version.is_some();
 
@@ -436,6 +437,22 @@ impl<'a> Runner<'a> {
             }
         }
         Ok(Outcome::Done { install_dir: final_dir, version: tail.meta.version.clone(), updated, launched })
+    }
+
+    /// Встроенные VPN/DoH → seed.dpapi для приложения. Ошибка не проваливает установку: только запись в журнал.
+    fn provision_network(&self, tail: &Tail) {
+        let Some(secret) = &tail.meta.provisioning else {
+            self.log("встроенной сети в установщике нет, seed не пишется");
+            return;
+        };
+        let Some(dir) = crate::seed::network_dir() else {
+            self.log("ПРЕДУПРЕЖДЕНИЕ: не определён %LOCALAPPDATA%, seed.dpapi не записан");
+            return;
+        };
+        match crate::seed::write_seed(&dir, &secret.0) {
+            Ok(n) => self.log(&format!("seed.dpapi записан ({n} байт)")),
+            Err(e) => self.log(&format!("ПРЕДУПРЕЖДЕНИЕ: seed.dpapi не записан: {e}")),
+        }
     }
 
     fn preflight(&self, existing: &Existing, install_dir: &Path) -> Result<(), Failure> {
@@ -665,7 +682,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 4242,
             payload_sha256: sha,
-            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
+            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "2026-10-08T00:00:00Z".into(), provisioning: None },
         };
         let mut body = payload.to_vec();
         if corrupt {

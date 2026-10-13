@@ -65,12 +65,24 @@ impl From<std::io::Error> for TailError {
     }
 }
 
+/// Секретное содержимое (provisioning): Debug не печатает значение, чтобы оно не попало в журнал.
+#[derive(Clone, PartialEq, Eq)]
+pub struct Secret(pub Vec<u8>);
+
+impl fmt::Debug for Secret {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Secret({} байт)", self.0.len())
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Meta {
     pub product: String,
     pub version: String,
     pub payload_name: String,
     pub built_at: String,
+    /// Встроенные VPN/DoH (JSON `{"schema":1,"vpn":…,"doh":…,"mtproxy":…}`), если сборка с provisioning.
+    pub provisioning: Option<Secret>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -105,6 +117,10 @@ pub fn encode(tail: &Tail) -> Vec<u8> {
         "payloadName": tail.meta.payload_name,
         "builtAt": tail.meta.built_at,
     });
+    let mut meta = meta;
+    if let Some(Secret(p)) = &tail.meta.provisioning {
+        meta["provisioning"] = serde_json::from_slice(p).unwrap();
+    }
     let meta_bytes = serde_json::to_vec(&meta).unwrap();
     let mut t = vec![0u8; TRAILER_LEN];
     t[0..8].copy_from_slice(MAGIC);
@@ -169,7 +185,7 @@ pub fn read<R: Read + Seek>(r: &mut R) -> Result<Tail, TailError> {
     }
     let v: Value = serde_json::from_slice(&meta_bytes).map_err(|_| TailError::BadMeta)?;
     let s = |k: &str| v.get(k).and_then(Value::as_str).map(str::to_owned).ok_or(TailError::BadMeta);
-    let meta = Meta { product: s("product")?, version: s("version")?, payload_name: s("payloadName")?, built_at: s("builtAt")? };
+    let meta = Meta { product: s("product")?, version: s("version")?, payload_name: s("payloadName")?, built_at: s("builtAt")?, provisioning: provisioning_of(&v) };
     // имя payload попадает в путь: только безопасные символы
     if meta.payload_name.is_empty()
         || meta.payload_name.len() > 80
@@ -181,6 +197,16 @@ pub fn read<R: Read + Seek>(r: &mut R) -> Result<Tail, TailError> {
     let mut payload_sha256 = [0u8; 32];
     payload_sha256.copy_from_slice(&t[48..80]);
     Ok(Tail { payload_offset, payload_len, install_bytes, payload_sha256, meta })
+}
+
+/// Встроенный provisioning из meta. Непригодное содержимое (не объект, schema != 1, пустой vpn или doh)
+/// игнорируется: установка без сети лучше, чем отказ установщика.
+fn provisioning_of(meta: &Value) -> Option<Secret> {
+    let p = meta.get("provisioning")?;
+    let ok = p.get("schema").and_then(Value::as_u64) == Some(1)
+        && p.get("vpn").and_then(Value::as_str).is_some_and(|s| !s.trim().is_empty())
+        && p.get("doh").and_then(Value::as_str).is_some_and(|s| !s.trim().is_empty());
+    ok.then(|| Secret(serde_json::to_vec(p).unwrap_or_default()))
 }
 
 /// Если файл подписан Authenticode (запись IMAGE_DIRECTORY_ENTRY_SECURITY указывает на сертификат,
@@ -235,7 +261,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 123_456_789,
             payload_sha256: sha,
-            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "Egoist-Social-Payload-1.7.1.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
+            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "Egoist-Social-Payload-1.7.1.exe".into(), built_at: "2026-10-08T00:00:00Z".into(), provisioning: None },
         };
         let mut file = vec![0x4du8; stub];
         file.extend_from_slice(payload);
@@ -276,7 +302,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 7,
             payload_sha256: sha,
-            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "t".into() },
+            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "t".into(), provisioning: None },
         };
         let body_len = stub_len + payload.len() + encode(&tail).len();
         let cert = vec![0xC5u8; 56];
@@ -360,6 +386,34 @@ mod tests {
         file.extend_from_slice(b"x");
         file.extend_from_slice(&encode(&t));
         assert_eq!(read(&mut Cursor::new(&file)), Err(TailError::BadMeta));
+    }
+
+    #[test]
+    fn provisioning_round_trip_and_debug_hides_value() {
+        let (_, mut tail) = sample(64, b"0123456789");
+        let json = br#"{"schema":1,"vpn":"vless://fake-uuid@example.invalid:443?type=tcp#x","doh":"https://doh.example.invalid/dns-query","mtproxy":""}"#;
+        tail.meta.provisioning = Some(Secret(json.to_vec()));
+        let mut file = vec![0x4du8; 64];
+        file.extend_from_slice(b"0123456789");
+        file.extend_from_slice(&encode(&tail));
+        let got = read(&mut Cursor::new(&file)).unwrap();
+        let a: Value = serde_json::from_slice(&got.meta.provisioning.as_ref().unwrap().0).unwrap();
+        let b: Value = serde_json::from_slice(json).unwrap();
+        assert_eq!(a, b);
+        let dbg = format!("{got:?}");
+        assert!(!dbg.contains("vless") && !dbg.contains("example.invalid"), "{dbg}");
+    }
+
+    #[test]
+    fn invalid_provisioning_is_ignored() {
+        for bad in [r#"{"schema":2,"vpn":"a://b","doh":"https://h/dns-query"}"#, r#"{"schema":1,"vpn":"  ","doh":"https://h/dns-query"}"#, r#"{"schema":1,"vpn":"a://b"}"#, r#""text""#] {
+            let (_, mut tail) = sample(64, b"0123456789");
+            tail.meta.provisioning = Some(Secret(bad.as_bytes().to_vec()));
+            let mut file = vec![0x4du8; 64];
+            file.extend_from_slice(b"0123456789");
+            file.extend_from_slice(&encode(&tail));
+            assert_eq!(read(&mut Cursor::new(&file)).unwrap().meta.provisioning, None, "{bad}");
+        }
     }
 
     #[test]

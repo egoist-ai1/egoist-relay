@@ -34,6 +34,41 @@ export function validatePayloadName(name) {
   }
 }
 
+/** Файл с секретами сети (gitignored). Формат общий с ядром приложения: schema 1, vpn, doh, mtproxy. */
+export const PROVISIONING_FILE = 'provisioning.local.json';
+
+/** Проверка и нормализация provisioning. Значения в тексты ошибок не попадают. */
+export function validateProvisioning(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('provisioning: ожидается объект JSON');
+  if (raw.schema !== 1) throw new Error('provisioning: schema должна быть 1');
+  if (typeof raw.vpn !== 'string' || !raw.vpn.trim()) throw new Error('provisioning: поле vpn пустое');
+  const lines = raw.vpn.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  if (!lines.every((l) => /^[a-z][a-z0-9+.-]*:\/\/\S+$/i.test(l))) throw new Error('provisioning: vpn должен состоять из ссылок вида схема://… (по одной на строку)');
+  if (lines.some((l) => /^https?:\/\//i.test(l)) && lines.length > 1) throw new Error('provisioning: URL подписки задаётся один, без других ссылок');
+  if (typeof raw.doh !== 'string' || !/^https:\/\/[^\s/?#@]+(?:[/?][^\s#]*)?$/i.test(raw.doh.trim())) throw new Error('provisioning: doh должен быть https://хост[:порт][/путь] без логина и пробелов');
+  const mtproxy = raw.mtproxy ?? '';
+  if (typeof mtproxy !== 'string') throw new Error('provisioning: mtproxy должен быть строкой');
+  if (mtproxy.trim() && !/^(tg:\/\/proxy\?|https:\/\/t\.me\/proxy\?)\S+$/i.test(mtproxy.trim())) throw new Error('provisioning: mtproxy должен быть tg://proxy?… или https://t.me/proxy?…');
+  return { schema: 1, vpn: lines.join('\n'), doh: raw.doh.trim(), mtproxy: mtproxy.trim() };
+}
+
+/** Сводка без значений: «provisioning: да, vpn: подписка|ссылок N, doh: да, mtproxy: да/нет». */
+export function describeProvisioning(p) {
+  if (!p) return 'provisioning: нет (сборка без встроенной сети)';
+  const lines = p.vpn.split('\n');
+  const vpn = /^https?:\/\//i.test(lines[0]) ? 'подписка' : `ссылок ${lines.length}`;
+  return `provisioning: да, vpn: ${vpn}, doh: да, mtproxy: ${p.mtproxy ? 'да' : 'нет'}`;
+}
+
+/** Читает provisioning.local.json из корня проекта; нет файла — null. */
+export async function loadProvisioning(file = path.join(root, PROVISIONING_FILE)) {
+  let text;
+  try { text = await readFile(file, 'utf8'); } catch (e) { if (e.code === 'ENOENT') return null; throw e; }
+  let raw;
+  try { raw = JSON.parse(text.replace(/^\uFEFF/, '')); } catch { throw new Error('provisioning: файл не разобран как JSON'); }
+  return validateProvisioning(raw);
+}
+
 export function encodeTail({ payloadOffset, payloadLen, installBytes, payloadSha256, meta }) {
   validatePayloadName(meta.payloadName);
   const metaBytes = Buffer.from(JSON.stringify(meta), 'utf8');
@@ -90,7 +125,7 @@ export function verifyBuilt(file) {
   if (r.status !== 0) throw new Error(`Собранный файл не прошёл --verify (код ${r.status ?? r.signal})`);
 }
 
-export async function buildInstaller({ stub, payload, outDir, version, installBytes, verify = true }) {
+export async function buildInstaller({ stub, payload, outDir, version, installBytes, verify = true, provisioning = null }) {
   const stubStat = await stat(stub);
   const payloadStat = await stat(payload);
   if (!stubStat.size || !payloadStat.size) throw new Error('Пустой stub или payload');
@@ -103,7 +138,7 @@ export async function buildInstaller({ stub, payload, outDir, version, installBy
     payloadLen: payloadStat.size,
     installBytes,
     payloadSha256,
-    meta: { product: 'Egoist Social', version, payloadName: `Egoist-Social-Payload-${version}.exe`, builtAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z') },
+    meta: { product: 'Egoist Social', version, payloadName: `Egoist-Social-Payload-${version}.exe`, builtAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z'), ...(provisioning ? { provisioning: validateProvisioning(provisioning) } : {}) },
   });
   try {
     const out = createWriteStream(part);
@@ -165,7 +200,10 @@ async function main() {
   const stub = arg('stub') ?? path.join(root, 'installer/target/release/Egoist-Social-Setup.exe');
   const payload = arg('payload') ?? await findPayload(version);
   const installBytes = Number(arg('install-bytes') ?? await expectedInstallBytes());
-  const r = await buildInstaller({ stub, payload, outDir, version, installBytes, verify: !flag('no-verify') });
+  const provisioning = flag('no-provisioning') ? null : await loadProvisioning();
+  process.stdout.write(`${describeProvisioning(provisioning)}\n`);
+  if (!provisioning) process.stderr.write('build-installer: ВНИМАНИЕ: нет provisioning.local.json, установщик соберётся без встроенного VPN и DoH\n');
+  const r = await buildInstaller({ stub, payload, outDir, version, installBytes, verify: !flag('no-verify'), provisioning });
   await mergeSums(path.join(outDir, 'SHA256SUMS.txt'), name, r.outSha256);
   await mergeManifest(path.join(outDir, 'manifest.json'), {
     fileName: name,

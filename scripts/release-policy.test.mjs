@@ -4,7 +4,7 @@ import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { assertNoSecrets, assertSafeRelative, isSafeSourcePath, PRODUCT, publicRuntimeResources, readCommandAcl, validateCommandAcl, validateConfiguration,
+import { assertNoSecrets, assertProvisioningNotTracked, assertSafeRelative, isSafeSourcePath, PRODUCT, publicRuntimeResources, readCommandAcl, validateCommandAcl, validateConfiguration,
   validateGenericPackaging, validateRuntime, validateInstallerPathBudget, validateSourceImports } from './release-policy.mjs';
 import { readBoundedBody, validateArchiveEntry } from './release-runtime-archive.mjs';
 
@@ -58,10 +58,24 @@ test('generic configuration rejects provisioning environment, import commands an
     const input = fixture(); input.pkg.scripts = scripts;
     assert.throws(() => validateConfiguration(input), /internal network engines/);
   }
-  for (const name of ['xray.exe', 'ciadpi.exe', 'egoist-tg-proxy.exe', 'licenses/XRAY-LICENSE.txt',
-    'licenses/xray-dependencies/public/LICENSE']) {
+  for (const name of ['ciadpi.exe', 'egoist-tg-proxy.exe', 'licenses/BYEDPI-LICENSE.txt', 'licenses/WS-LICENSE.txt']) {
     assert.throws(() => publicRuntimeResources({ schemaVersion: 1, files: [{ path: `runtime/${name}` }] }), /public runtime/);
   }
+});
+
+test('xray engine and its licenses are public runtime resources; local provisioning is never source', () => {
+  const files = ['xray.exe', 'xray-provenance.json', 'licenses/XRAY-LICENSE.txt', 'licenses/XRAY-GO-LICENSE.txt',
+    'licenses/xray-dependencies/github.com/example/dep@v1.0.0/LICENSE'].map((name) => ({ path: `runtime/${name}` }));
+  const resources = publicRuntimeResources({ schemaVersion: 1, files });
+  assert.equal(Object.keys(resources).length, files.length);
+  for (const file of ['provisioning.local.json', 'network.local.json', 'tauri/seed.dpapi']) assert.equal(isSafeSourcePath(file), false, file);
+});
+
+test('tracked local provisioning fails preflight, absent or untracked passes', () => {
+  const git = (stdout, status = 0) => () => ({ stdout, status });
+  assert.deepEqual(assertProvisioningNotTracked('.', git('')), { checked: true });
+  assert.throws(() => assertProvisioningNotTracked('.', git('provisioning.local.json\n')), /tracked by Git/);
+  assert.deepEqual(assertProvisioningNotTracked('.', git('', 128)), { checked: false });
 });
 
 test('generic installer rejects enrollment hooks and obsolete import helpers', async () => {
@@ -110,17 +124,17 @@ test('runtime rejects unexpected private data and modified helpers', async () =>
     assert.equal((await validateRuntime(root, manifest)).count, 1);
     await mkdir(path.join(root, 'tauri'));
     const retiredBytes = 'old public engine';
-    await writeFile(path.join(root, 'runtime', 'xray.exe'), retiredBytes);
+    await writeFile(path.join(root, 'runtime', 'ciadpi.exe'), retiredBytes);
     await writeFile(path.join(root, 'tauri', 'installer-legacy-runtime.json'), JSON.stringify({ schemaVersion: 1, files: [
-      { path: 'runtime/xray.exe', bytes: retiredBytes.length, sha256: createHash('sha256').update(retiredBytes).digest('hex') }] }));
+      { path: 'runtime/ciadpi.exe', bytes: retiredBytes.length, sha256: createHash('sha256').update(retiredBytes).digest('hex') }] }));
     const withRetired = await validateRuntime(root, manifest);
     assert.equal(withRetired.count, 1); assert.equal(withRetired.retiredSourceFiles, 1); assert.equal(withRetired.retiredFilesBundled, false);
     const widenedWithEngine = { schemaVersion: 1, files: [...manifest.files,
-      { path: 'runtime/xray.exe', bytes: retiredBytes.length, sha256: createHash('sha256').update(retiredBytes).digest('hex') }] };
+      { path: 'runtime/ciadpi.exe', bytes: retiredBytes.length, sha256: createHash('sha256').update(retiredBytes).digest('hex') }] };
     await assert.rejects(validateRuntime(root, widenedWithEngine), /Internal network runtime forbidden/);
-    await writeFile(path.join(root, 'runtime', 'xray.exe'), 'modified retired');
+    await writeFile(path.join(root, 'runtime', 'ciadpi.exe'), 'modified retired');
     await assert.rejects(validateRuntime(root, manifest), /integrity mismatch/);
-    await rm(path.join(root, 'runtime', 'xray.exe'));
+    await rm(path.join(root, 'runtime', 'ciadpi.exe'));
     await writeFile(path.join(root, 'runtime', 'private-enrollment.json'), '{"synthetic":true}');
     await assert.rejects(validateRuntime(root, manifest), /unexpected files/);
     const widenedManifest = { schemaVersion: 1, files: [...manifest.files, { path: 'runtime/private-enrollment.json', bytes: 18,

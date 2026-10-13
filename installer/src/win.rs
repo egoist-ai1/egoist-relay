@@ -247,3 +247,34 @@ pub fn info_box(title: &str, text: &str) {
         MessageBoxW(null_mut(), x.as_ptr(), t.as_ptr(), MB_OK | MB_ICONINFORMATION);
     }
 }
+
+/// Шифрует данные DPAPI текущего пользователя (без entropy и без UI), как это делает ядро приложения.
+pub fn dpapi_protect(data: &[u8]) -> std::io::Result<Vec<u8>> {
+    use windows_sys::Win32::Security::Cryptography::{CryptProtectData, CRYPTPROTECT_UI_FORBIDDEN, CRYPT_INTEGER_BLOB};
+    let input = CRYPT_INTEGER_BLOB { cbData: data.len() as u32, pbData: data.as_ptr() as *mut u8 };
+    let mut out = CRYPT_INTEGER_BLOB { cbData: 0, pbData: null_mut() };
+    // SAFETY: вход указывает на живой срез; выходной буфер выделяет система и освобождается LocalFree.
+    let ok = unsafe { CryptProtectData(&input, null(), null(), null(), null(), CRYPTPROTECT_UI_FORBIDDEN, &mut out) };
+    if ok == 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    let v = unsafe { std::slice::from_raw_parts(out.pbData, out.cbData as usize) }.to_vec();
+    unsafe { LocalFree(out.pbData as *mut c_void) };
+    Ok(v)
+}
+
+/// Обратная операция (нужна тестам: проверить, что seed читается тем же пользователем).
+#[cfg(test)]
+pub fn dpapi_unprotect(data: &[u8]) -> std::io::Result<Vec<u8>> {
+    use windows_sys::Win32::Security::Cryptography::{CryptUnprotectData, CRYPTPROTECT_UI_FORBIDDEN, CRYPT_INTEGER_BLOB};
+    let input = CRYPT_INTEGER_BLOB { cbData: data.len() as u32, pbData: data.as_ptr() as *mut u8 };
+    let mut out = CRYPT_INTEGER_BLOB { cbData: 0, pbData: null_mut() };
+    // SAFETY: см. dpapi_protect.
+    let ok = unsafe { CryptUnprotectData(&input, null_mut(), null(), null(), null(), CRYPTPROTECT_UI_FORBIDDEN, &mut out) };
+    if ok == 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    let v = unsafe { std::slice::from_raw_parts(out.pbData, out.cbData as usize) }.to_vec();
+    unsafe { LocalFree(out.pbData as *mut c_void) };
+    Ok(v)
+}

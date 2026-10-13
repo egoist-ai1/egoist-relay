@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assertNoSecrets, readCommandAcl, readConfiguration, selectSourceFiles, validateCommandAcl, validateConfiguration, validateGenericPackaging,
+import { assertNoSecrets, assertProvisioningNotTracked, readCommandAcl, readConfiguration, selectSourceFiles, validateCommandAcl, validateConfiguration, validateGenericPackaging,
   validateInstallerPathBudget, validateRuntime } from './release-policy.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -13,6 +13,7 @@ try {
   result.packaging = await validateGenericPackaging(root, hook);
   result.installerPath = validateInstallerPathBudget(manifest, hook);
   result.commandAcl = validateCommandAcl(await readCommandAcl(root));
+  result.provisioning = assertProvisioningNotTracked(root);
   const sources = await selectSourceFiles(root);
   for (const file of sources) {
     const bytes = await readFile(path.join(root, file));

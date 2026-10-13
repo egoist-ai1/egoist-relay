@@ -30,14 +30,14 @@ test('upgrade removes only exact old notice bytes and preserves modified engines
     try {
       const notice = path.join(root, 'runtime/licenses/BYEDPI-LICENSE.txt');
       await writeFile(notice, oldNotice);
-      await writeFile(path.join(root, 'runtime/xray.exe'), 'modified synthetic legacy engine');
+      await writeFile(path.join(root, 'runtime/ciadpi.exe'), 'modified synthetic legacy engine');
       await writeFile(path.join(root, 'runtime/user-model.bin'), 'unknown local data');
       await writeFile(path.join(root, 'account-profile.json'), 'synthetic account profile');
       const result = migrate(root);
       assert.equal(result.status, 0, result.stderr);
       assert.match(result.stdout, /removed=1 preserved_modified=1/);
       await assert.rejects(readFile(notice), { code: 'ENOENT' });
-      assert.equal(await readFile(path.join(root, 'runtime/xray.exe'), 'utf8'), 'modified synthetic legacy engine');
+      assert.equal(await readFile(path.join(root, 'runtime/ciadpi.exe'), 'utf8'), 'modified synthetic legacy engine');
       assert.equal(await readFile(path.join(root, 'runtime/user-model.bin'), 'utf8'), 'unknown local data');
       assert.equal(await readFile(path.join(root, 'account-profile.json'), 'utf8'), 'synthetic account profile');
       assert.equal(migrate(root).status, 0, 'Cleanup must be repeatable when exact legacy files are already absent');
@@ -52,7 +52,7 @@ test('migration validates all manifest entries before deleting any exact legacy 
       await writeFile(notice, oldNotice);
       const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
       manifest.files = [manifest.files.find((file) => file.path === 'runtime/licenses/BYEDPI-LICENSE.txt'),
-        { path: 'runtime/licenses/xray-dependencies/../../../../account.json', bytes: 1, sha256: 'a'.repeat(64) }];
+        { path: 'runtime/licenses/WS-LICENSE.txt/../../../../account.json', bytes: 1, sha256: 'a'.repeat(64) }];
       const malformed = path.join(root, 'malformed-migration.json');
       await writeFile(malformed, JSON.stringify(manifest));
       const result = migrate(root, malformed);
