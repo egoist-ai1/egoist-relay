@@ -13,7 +13,7 @@ export const SOURCE_FILES = ['LICENSE', 'package.json', 'package-lock.json', 'vi
   'tauri/Cargo.toml', 'tauri/Cargo.lock', 'tauri/tauri.conf.json', 'tauri/build.rs', 'tauri/installer.nsh',
   'tauri/installer-processes.ps1', 'tauri/installer-legacy-runtime.json'];
 const REMOVED_NETWORK_FILE = /(?:^|\/)(?:ciadpi\.exe|egoist-tg-proxy\.exe|(?:BYEDPI|WS)-LICENSE\.txt)$/i;
-const REMOVED_NETWORK_SOURCE = /^(?:scripts\/(?:app-dns|app-proxy|proxy-bridge|lagom-tunnel)(?:\.|\/)|scripts\/(?:import-lagom|build-personal)|tauri\/(?:installer-(?:dns|tunnel)-profile\.ps1|src\/(?:network|dns_profile|tunnel)\.rs))/i;
+const REMOVED_NETWORK_SOURCE = /^(?:scripts\/(?:app-dns|app-proxy|proxy-bridge|lagom-tunnel)(?:\.|\/)|scripts\/(?:import-lagom|build-personal)|tauri\/(?:installer-(?:dns|tunnel)-profile\.ps1|src\/(?:dns_profile|tunnel)\.rs))/i;
 const BLOCKED_PARTS = /^(?:\.git|node_modules|target|dist|release|\.cache|__pycache__|__tests__|screenshots?)$/i;
 const BLOCKED_FILE = /(?:^\.env(?:\.|$)|\.p(?:fx|12|em)$|\.key$|\.dpapi$|\.local\.json$|\.(?:db|sqlite3?|cookies?)$|(?:^|[-_.])(?:private|enrollment|cookies?|sessions?|credentials)(?=[-_.]|$).*\.(?:json|txt|log)$)/i;
 const SECRET_PATTERNS = [

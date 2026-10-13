@@ -85,7 +85,7 @@ export async function fetchMedia(input, overrides = {}) {
 }
 
 async function getBody(url, proxy, maximum, signal, overrides, destination) {
-  const tunnel = await connectMediaProxy(url.hostname, proxy, signal, overrides);
+  const tunnel = await connectMediaProxy(url.hostname, proxy, signal);
   const secure = (overrides.connectTls || tls.connect)({ socket: tunnel, servername: url.hostname, ALPNProtocols: ['h2', 'http/1.1'], rejectUnauthorized: true });
   const abort = () => secure.destroy(new Error('MEDIA_TIMEOUT'));
   signal.addEventListener('abort', abort, { once: true });

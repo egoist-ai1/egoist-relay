@@ -100,6 +100,15 @@ pub struct NetworkStatus {
   pub last_error: Option<String>,
 }
 
+/// Во фронтенд уходит только регистрируемая часть хоста DoH (последние два label): персональный
+/// поддомен вроде `<id>.dns.nextdns.io` — часть секрета. IP-адрес отдаётся как есть.
+fn public_doh_host(host: &str) -> String {
+  if host.trim_matches(['[', ']']).parse::<std::net::IpAddr>().is_ok() { return host.to_string(); }
+  let labels: Vec<&str> = host.split('.').filter(|label| !label.is_empty()).collect();
+  if labels.len() <= 2 { return host.to_string(); }
+  labels[labels.len() - 2..].join(".")
+}
+
 /// Ошибка команд сети; сериализуется кодом из контракта.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum NetworkError {
@@ -154,6 +163,24 @@ pub struct MtProxy {
   pub secret: String,
 }
 
+/// Первый байт секрета MTProxy. Правило моста `scripts/telegram-transport.mjs`: пары hex-цифр — hex, иначе base64url.
+fn secret_first_byte(secret: &str) -> Option<u8> {
+  let hex = secret.len() % 2 == 0 && secret.bytes().all(|b| b.is_ascii_hexdigit());
+  if hex { return u8::from_str_radix(&secret[..2], 16).ok(); }
+  let trimmed = secret.trim_end_matches('=');
+  if trimmed.len() < 2 || secret.len() - trimmed.len() > 2 { return None; }
+  let value = |c: u8| match c {
+    b'A'..=b'Z' => Some(c - b'A'),
+    b'a'..=b'z' => Some(c - b'a' + 26),
+    b'0'..=b'9' => Some(c - b'0' + 52),
+    b'-' => Some(62),
+    b'_' => Some(63),
+    _ => None,
+  };
+  let bytes = trimmed.as_bytes();
+  Some((value(bytes[0])? << 2) | (value(bytes[1])? >> 4))
+}
+
 /// Разбирает `tg://proxy?server=…&port=…&secret=…` или `https://t.me/proxy?…`.
 pub fn parse_mtproxy(link: &str) -> Option<MtProxy> {
   let url = url::Url::parse(link.trim()).ok()?;
@@ -164,6 +191,8 @@ pub fn parse_mtproxy(link: &str) -> Option<MtProxy> {
   let server = get("server").filter(|v| !v.is_empty() && v.len() <= 255)?;
   let port: u16 = get("port")?.parse().ok().filter(|p| *p > 0)?;
   let secret = get("secret").filter(|v| !v.is_empty() && v.len() <= 256)?;
+  // FakeTLS (первый байт `ee`) мост не поддерживает: отказ здесь, а не молчаливый сбой Telegram позже
+  if secret_first_byte(&secret) == Some(0xee) { return None; }
   Some(MtProxy { server, port, secret })
 }
 
@@ -252,7 +281,7 @@ impl Inputs {
       node_label: self.node_label.clone(),
       node_count: self.node_count,
       doh_state: self.doh_state,
-      doh_host: self.doh_host.clone(),
+      doh_host: self.doh_host.as_deref().map(public_doh_host),
       has_mtproxy: self.has_mtproxy,
       services,
       subscription_updated_at: self.subscription_updated_at,
@@ -484,6 +513,16 @@ fn doh_host_port(doh: &str) -> Option<(String, u16)> {
   Some((url.host_str()?.trim_matches(['[', ']']).to_string(), url.port_or_known_default().unwrap_or(443)))
 }
 
+/// Уникальные доменные имена хостов всех узлов (IP-адреса не нужны: их не надо разрешать).
+fn node_hosts(nodes: &[Node]) -> Vec<String> {
+  let mut hosts: Vec<String> = Vec::new();
+  for node in nodes {
+    let host = node.server.trim_matches(['[', ']']);
+    if host.parse::<std::net::IpAddr>().is_err() && !hosts.iter().any(|known| known == host) { hosts.push(host.to_string()); }
+  }
+  hosts
+}
+
 fn make_spec(core: &Core, ports: Ports, nodes: &[Node], doh: &str, config_name: &str) -> Spec {
   let mut secrets: Vec<String> = nodes.iter().map(|node| node.server.clone()).collect();
   if let Some((host, _)) = doh_host_port(doh) { secrets.push(host); }
@@ -536,11 +575,13 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
     });
     return Ok(());
   };
+  let hosts = node_hosts(&resolved.nodes);
   let config = config::build(&config::ConfigInput {
     ports,
     node: resolved.nodes.first(),
     doh: prov.doh_url(),
     host_ips: &profile.bootstrap_ips,
+    node_hosts: &hosts,
   })?;
   match core.supervisor.as_ref() {
     Some(supervisor) => {
@@ -673,7 +714,10 @@ fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<
     }
     // Ступень применяется в Xray; при сбое API повтор на следующем тике
     let want_direct = runner.ladder.route() != Route::Tunnel;
-    if want_direct != applied_direct {
+    // Без узлов балансера нет (конфиг и так уходит в direct): `xray api bo` упал бы и каждые 5 с спавнил процесс
+    if node_count == 0 {
+      applied_direct = want_direct;
+    } else if want_direct != applied_direct {
       let result = if want_direct { api.override_balancer(config::TAG_DIRECT) } else { api.clear_override() };
       match result {
         Ok(()) => applied_direct = want_direct,
@@ -874,7 +918,8 @@ fn refresh_locked(core: &mut Core) -> Result<(), NetworkError> {
   profile.subscription_cache = body;
   profile.subscription_updated_at_ms = now_ms();
   core.store.save(&profile).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
-  let config_node_changed = core.nodes.first() != parsed.nodes.first();
+  // Пересборка нужна и при новых хостах запасных узлов: их bootstrap-домены живут только в конфиге Xray
+  let config_node_changed = core.nodes.first() != parsed.nodes.first() || node_hosts(&core.nodes) != node_hosts(&parsed.nodes);
   if config_node_changed {
     // Узел в конфиге устарел (или конфиг был без узла): пересборка и перезапуск Xray
     configure(core, profile).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
@@ -922,11 +967,13 @@ fn probe_candidate(core: &Core, candidate: &Provisioning, nodes: &[Node]) -> Res
     let picked = supervisor::pick_ports().map_err(|_| NetworkError::ProbeFailed)?;
     if picked.all().iter().all(|port| !main.all().contains(port)) { break picked; }
   };
+  let hosts = node_hosts(nodes);
   let config = config::build(&config::ConfigInput {
     ports,
     node: nodes.first(),
     doh: candidate.doh_url(),
     host_ips: &BTreeMap::new(),
+    node_hosts: &hosts,
   }).map_err(|_| NetworkError::InvalidDoh)?;
   let spec = make_spec(core, ports, nodes, candidate.doh_url(), "xray-probe.json");
   let remaining = deadline.saturating_duration_since(Instant::now());
@@ -968,7 +1015,7 @@ fn fetch_subscription(url: &str, socks_port: u16) -> Result<String, String> {
     .filter(|path| path.is_file())
     .ok_or_else(|| "TUNNEL_CURL_MISSING".to_string())?;
   let mut command = Command::new(curl);
-  command.args(["-sS", "--fail", "--location", "--max-redirs", "5", "--connect-timeout", "10", "--max-time", "25", "--max-filesize", "5242880", "-K", "-"])
+  command.args(["-q", "-sS", "--fail", "--location", "--max-redirs", "5", "--connect-timeout", "10", "--max-time", "25", "--max-filesize", "5242880", "-K", "-"])
     .arg("--proxy").arg(format!("socks5h://127.0.0.1:{socks_port}"))
     .args(["-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"])
     .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::null());
@@ -1025,7 +1072,7 @@ mod tests {
       "nodeLabel": "Нидерланды",
       "nodeCount": 3,
       "dohState": "fallback",
-      "dohHost": "dns.example.net",
+      "dohHost": "example.net",
       "hasMtproxy": true,
       "services": { "telegram": "unavailable", "x": "direct", "instagram": "disabled" },
       "subscriptionUpdatedAt": 1_760_000_000_000u64,
@@ -1097,9 +1144,31 @@ mod tests {
   }
 
   #[test]
+  fn doh_host_is_reduced_for_frontend() {
+    assert_eq!(public_doh_host("dns.nextdns.io"), "nextdns.io");
+    assert_eq!(public_doh_host("abc123.dns.nextdns.io"), "nextdns.io");
+    assert_eq!(public_doh_host("example.net"), "example.net");
+    assert_eq!(public_doh_host("203.0.113.5"), "203.0.113.5");
+    assert_eq!(public_doh_host("2001:db8::1"), "2001:db8::1");
+  }
+
+  #[test]
+  fn node_hosts_are_unique_domains_of_all_nodes() {
+    let nodes: Vec<Node> = ["trojan://p@a.example.com:443", "trojan://p@b.example.com:443", "trojan://p@a.example.com:8443", "ss://aes-256-gcm:pw@192.0.2.10:8388"]
+      .iter().map(|link| uri::parse_link(link).unwrap()).collect();
+    assert_eq!(node_hosts(&nodes), vec!["a.example.com".to_string(), "b.example.com".to_string()]);
+  }
+
+  #[test]
   fn mtproxy_links() {
-    let parsed = parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=ee00112233445566778899aabbccddeeff").unwrap();
+    let parsed = parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=dd00112233445566778899aabbccddeeff").unwrap();
     assert_eq!((parsed.server.as_str(), parsed.port), ("proxy.example.com", 443));
+    assert!(parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=00112233445566778899aabbccddeeff").is_some());
+    // FakeTLS (ee…): hex и base64url
+    assert!(parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=ee00112233445566778899aabbccddeeff6578616d706c652e6f7267").is_none());
+    assert!(parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=EE00112233445566778899aabbccddeeff").is_none());
+    assert!(parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=7gARIjNEVWZ3iJmqu8zd7_9leGFtcGxlLm9yZw").is_none());
+    assert!(parse_mtproxy("tg://proxy?server=proxy.example.com&port=443&secret=3QARIjNEVWZ3iJmqu8zd7_8").is_some());
     assert!(parse_mtproxy("https://t.me/proxy?server=a.example.com&port=8443&secret=abcdef").is_some());
     assert!(parse_mtproxy("tg://proxy?server=a.example.com&port=0&secret=abcdef").is_none());
     assert!(parse_mtproxy("tg://proxy?server=a.example.com&port=443").is_none());

@@ -3487,7 +3487,7 @@
 "RelayNetSubDone" = "Подписка обновлена";
 "RelayNetErrInvalidVpn" = "Неверный ключ или ссылка подписки";
 "RelayNetErrInvalidDoh" = "Неверная ссылка DNS. Нужен адрес вида https://host/dns-query";
-"RelayNetErrInvalidMtproxy" = "Неверная ссылка MTProxy";
+"RelayNetErrInvalidMtproxy" = "Неверная ссылка MTProxy. FakeTLS-прокси (секрет начинается с ee) не поддерживаются.";
 "RelayNetErrProbeFailed" = "Проверка не прошла, прежние настройки оставлены";
 "RelayNetErrApplyFailed" = "Не удалось применить, прежние настройки оставлены";
 "RelayNetErrSubscription" = "Не удалось обновить подписку";

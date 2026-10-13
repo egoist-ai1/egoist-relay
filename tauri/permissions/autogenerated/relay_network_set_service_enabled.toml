@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-network-set-service-enabled"
+description = "Enables the relay_network_set_service_enabled command without any pre-configured scope."
+commands.allow = ["relay_network_set_service_enabled"]
+
+[[permission]]
+identifier = "deny-relay-network-set-service-enabled"
+description = "Denies the relay_network_set_service_enabled command without any pre-configured scope."
+commands.deny = ["relay_network_set_service_enabled"]

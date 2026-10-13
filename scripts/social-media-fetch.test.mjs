@@ -11,7 +11,7 @@ import { canonicalizeMediaUrl, createEngineArgs, resolveMedia, runEngine, serial
 const photo = Buffer.from([0xff, 0xd8, 0xff, 1, 2, 3]);
 const input = { url: 'https://pbs.twimg.com/media/test.jpg', service: 'x', type: 'photo', index: 0 };
 const previousProxy = process.env.EGOIST_RELAY_MEDIA_PROXY;
-test.before(() => { process.env.EGOIST_RELAY_MEDIA_PROXY = 'direct'; });
+test.before(() => { process.env.EGOIST_RELAY_MEDIA_PROXY = 'http://127.0.0.1:9'; });
 test.after(() => { if (previousProxy === undefined) delete process.env.EGOIST_RELAY_MEDIA_PROXY; else process.env.EGOIST_RELAY_MEDIA_PROXY = previousProxy; });
 
 for (const [status, expected] of [[401, 'MEDIA_AUTH_REQUIRED'], [403, 'MEDIA_HTTP_FORBIDDEN'], [404, 'MEDIA_UNAVAILABLE'], [410, 'MEDIA_UNAVAILABLE'], [429, 'MEDIA_RATE_LIMITED'], [500, 'MEDIA_FETCH_FAILED'], [503, 'MEDIA_FETCH_FAILED'], [502, 'MEDIA_FETCH_FAILED'], [418, 'MEDIA_HTTP_FAILED']]) {
@@ -24,15 +24,15 @@ test('CDN fetching passes only the explicit route to its transport', async () =>
   let hasResolvedLocally = false;
   const result = await fetchMedia(input, {
     lookup: async () => { hasResolvedLocally = true; throw new Error('LOCAL_DNS_USED'); },
-    requestBody: async (url, proxy) => { assert.equal(proxy, undefined); return { body: photo }; },
+    requestBody: async (url, proxy) => { assert.deepEqual(proxy, { protocol: 'http:', hostname: '127.0.0.1', port: 9 }); return { body: photo }; },
   });
   assert.equal(hasResolvedLocally, false);
   assert.equal(result.metadata.size, photo.length);
 });
 
-test('A legacy proxyPort never replaces an explicit direct route', async () => {
+test('A legacy proxyPort never replaces the selected proxy route', async () => {
   const result = await fetchMedia({ ...input, proxyPort: 23333 }, {
-    requestBody: async (url, proxy) => { assert.equal(proxy, undefined); return { body: photo }; },
+    requestBody: async (url, proxy) => { assert.deepEqual(proxy, { protocol: 'http:', hostname: '127.0.0.1', port: 9 }); return { body: photo }; },
   });
   assert.equal(result.metadata.size, photo.length);
 });
@@ -78,15 +78,15 @@ test('Engine processes receive the gated SOCKS route and a sanitized environment
   assert.equal(result.toString(), 'synthetic metadata');
 });
 
-test('Direct engine metadata and downloads disable ambient proxies explicitly', async context => {
+test('Engine metadata and downloads disable ambient proxies explicitly', async context => {
   const keys = ['HTTP_PROXY', 'http_proxy', 'HTTPS_PROXY', 'ALL_PROXY', 'NO_PROXY'];
   const previous = new Map(keys.map(key => [key, process.env[key]]));
   context.after(() => { for (const [key, value] of previous) { if (value === undefined) delete process.env[key]; else process.env[key] = value; } });
   for (const key of keys) process.env[key] = 'http://127.0.0.1:23333';
   for (const phase of ['metadata', 'download']) {
-    await runEngine({ enginePath: 'synthetic-engine', nodePath: process.execPath, tempDir: path.dirname(process.execPath), proxyPort: 23333 }, phase, 'https://www.youtube.com/watch?v=abcdefghijk', new globalThis.AbortController().signal, {
+    await runEngine({ enginePath: 'synthetic-engine', nodePath: process.execPath, tempDir: path.dirname(process.execPath), proxyPort: 23333, proxy: 'socks5h://127.0.0.1:23333' }, phase, 'https://www.youtube.com/watch?v=abcdefghijk', new globalThis.AbortController().signal, {
       spawn: (executable, arguments_, options) => {
-        assert.equal(arguments_[arguments_.indexOf('--proxy') + 1], '');
+        assert.match(arguments_[arguments_.indexOf('--proxy') + 1], /^socks5h:\/\/127\.0\.0\.1:\d+$/);
         for (const key of keys) assert.equal(options.env[key], undefined);
         assert.equal(options.env.EGOIST_RELAY_MEDIA_PROXY, undefined);
         const child = new EventEmitter();
@@ -147,8 +147,8 @@ test('Successful public media resolution clears temporary files and synthetic co
   const bytes = Buffer.from([0, 0, 0, 20, 102, 116, 121, 112, 105, 115, 111, 109, 0, 0, 0, 0]);
   const result = await resolveMedia({ url: 'https://www.instagram.com/reel/AbCdE12345/', enginePath: path.join(tempDir, 'synthetic-engine.exe'), nodePath: process.execPath, ffmpegPath: path.join(tempDir, 'synthetic-ffmpeg.exe'), tempDir, index: 0, maxBytes: 32, cookies: [{ domain: '.instagram.com', path: '/', secure: true, expires: 0, name: 'sessionid', value: 'synthetic-only' }] }, {
     runEngine: async (engineInput, phase) => {
-      assert.equal(engineInput.proxy, '');
-      const arguments_ = createEngineArgs(engineInput, phase); assert.equal(arguments_[arguments_.indexOf('--proxy') + 1], '');
+      assert.match(engineInput.proxy, /^socks5h:\/\/127\.0\.0\.1:\d+$/);
+      const arguments_ = createEngineArgs(engineInput, phase); assert.match(arguments_[arguments_.indexOf('--proxy') + 1], /^socks5h:\/\/127\.0\.0\.1:\d+$/);
       assert.match(await fs.readFile(path.join(tempDir, 'session-cookies.txt'), 'utf8'), /synthetic-only/);
       await fs.writeFile(path.join(tempDir, 'media.mp4'), bytes);
       return Buffer.from(JSON.stringify({ extractor_key: 'Instagram', duration: 5 }));
@@ -189,8 +189,8 @@ test('An empty download reports unavailable format without repeating metadata ex
     tempDir, index: 0,
   }, {
     runEngine: async (input_, phase) => {
-      assert.equal(input_.proxy, '');
-      const arguments_ = createEngineArgs(input_, phase); assert.equal(arguments_[arguments_.indexOf('--proxy') + 1], '');
+      assert.match(input_.proxy, /^socks5h:\/\/127\.0\.0\.1:\d+$/);
+      const arguments_ = createEngineArgs(input_, phase); assert.match(arguments_[arguments_.indexOf('--proxy') + 1], /^socks5h:\/\/127\.0\.0\.1:\d+$/);
       phases.push(phase);
       return phase === 'download' ? Buffer.alloc(0)
         : Buffer.from(JSON.stringify({ extractor_key: 'Youtube', duration: 1344 }));

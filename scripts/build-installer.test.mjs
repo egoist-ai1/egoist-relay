@@ -100,7 +100,7 @@ test('provisioning: проверка формата, сводка без зна�
   const ok = validateProvisioning(sampleProvisioning());
   assert.equal(ok.schema, 1);
   assert.match(describeProvisioning(ok), /^provisioning: да, vpn: ссылок 1, doh: да, mtproxy: нет$/);
-  const many = validateProvisioning({ ...sampleProvisioning(), vpn: 'vless://a@h1.example.invalid:1\r\ntrojan://b@h2.example.invalid:2\n', mtproxy: 'tg://proxy?server=x.example.invalid&port=1&secret=ee00' });
+  const many = validateProvisioning({ ...sampleProvisioning(), vpn: 'vless://a@h1.example.invalid:1\r\ntrojan://b@h2.example.invalid:2\n', mtproxy: 'tg://proxy?server=x.example.invalid&port=1&secret=dd00112233445566778899aabbccddeeff' });
   assert.match(describeProvisioning(many), /vpn: ссылок 2, doh: да, mtproxy: да/);
   const sub = validateProvisioning({ ...sampleProvisioning(), vpn: 'https://sub.example.invalid/token-fixture' });
   assert.match(describeProvisioning(sub), /vpn: подписка/);
@@ -116,6 +116,8 @@ test('provisioning: проверка формата, сводка без зна�
     { ...sampleProvisioning(), doh: 'http://doh.example.invalid/dns-query' }, { ...sampleProvisioning(), doh: 'https://user:pw@doh.example.invalid/x' },
     { ...sampleProvisioning(), doh: 'https://doh.example.invalid/a b' },
     { ...sampleProvisioning(), doh: '' }, { ...sampleProvisioning(), mtproxy: 'socks5://x.example.invalid:1' }, { ...sampleProvisioning(), mtproxy: 5 },
+    { ...sampleProvisioning(), mtproxy: 'tg://proxy?server=x.example.invalid&port=1&secret=ee00112233445566778899aabbccddeeff6578616d706c65' },
+    { ...sampleProvisioning(), mtproxy: 'https://t.me/proxy?server=x.example.invalid&port=1&secret=7gARIjNEVWZ3iJmqu8zd7_9leGFtcGxl' },
   ];
   for (const value of bad) {
     assert.throws(() => validateProvisioning(value), (e) => /^provisioning:/.test(e.message) && !/example\.invalid|vless:/.test(e.message), JSON.stringify(value));

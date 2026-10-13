@@ -2,8 +2,9 @@
 //! обёртка `xray api` (балансер и outbounds), журнал с редактированием секретов.
 //!
 //! Процесс один на сессию. Порты фиксируются при первом выборе и не меняются при перезапуске: на них уже
-//! настроены окна WebView. Конфиг (в нём ключ VPN) пишется на диск только на время запуска и удаляется,
-//! как только Xray готов; для перезапуска он хранится в памяти.
+//! настроены окна WebView. Конфиг (в нём ключ VPN) на диск не пишется: он уходит процессу через stdin
+//! (`-c stdin:`), для перезапуска хранится в памяти. Остатки старых версий (`xray*.json`, `ado-*.json`)
+//! удаляются при старте.
 
 use super::config::{LAGOM_EXCLUDED, PORT_RANGE, Ports, TAG_BALANCER};
 use serde_json::Value;
@@ -54,7 +55,7 @@ pub struct Spec {
   pub xray_exe: PathBuf,
   /// Каталог с ресурсами Xray (`geoip.dat` и т. п.) и рабочий каталог процесса.
   pub asset_dir: PathBuf,
-  /// Куда писать конфиг на время запуска.
+  /// Файл конфига в рабочем каталоге сети: сам не пишется, нужен для определения каталога очистки остатков.
   pub config_path: PathBuf,
   pub ports: Ports,
   /// Подстроки, которые нельзя выводить в журнал (адрес VPN, адрес DoH).
@@ -86,6 +87,7 @@ impl Supervisor {
   /// поднялся, надзиратель всё равно возвращается и продолжает попытки в фоне (см. [`Supervisor::is_ready`]).
   pub fn start(spec: Spec, config: Value, sink: EventSink) -> Result<Self, String> {
     spec.ports.validate()?;
+    purge_leftovers(spec.config_path.parent());
     let shared = Arc::new(Shared { spec, config: Mutex::new(config), ready: AtomicBool::new(false) });
     let (commands, receiver) = mpsc::channel();
     let thread_shared = shared.clone();
@@ -115,7 +117,7 @@ impl Supervisor {
 
   /// Обёртка над `xray api` для этой сессии.
   pub fn api(&self) -> Api {
-    Api { xray_exe: self.shared.spec.xray_exe.clone(), port: self.shared.spec.ports.api, work_dir: self.shared.spec.config_path.parent().map(Path::to_path_buf).unwrap_or_default() }
+    Api { xray_exe: self.shared.spec.xray_exe.clone(), port: self.shared.spec.ports.api }
   }
 
   /// Останавливает процесс и поток; все дочерние процессы завершаются вместе с job-объектом.
@@ -152,7 +154,6 @@ fn run(shared: Arc<Shared>, commands: Receiver<Command_>, sink: EventSink) {
     match launched {
       Ok(mut process) => {
         if wait_ready(&mut process, spec.ports.socks, LAUNCH_READY_TIMEOUT) {
-          let _ = std::fs::remove_file(&spec.config_path);
           shared.ready.store(true, Ordering::SeqCst);
           failing_since = None;
           required_reported = false;
@@ -277,15 +278,22 @@ fn launch(spec: &Spec, config: &Value) -> Result<Process, String> {
   use std::process::Stdio;
   const CREATE_NO_WINDOW: u32 = 0x0800_0000;
   if !spec.xray_exe.is_file() { return Err("TUNNEL_XRAY_MISSING".into()); }
-  write_config(&spec.config_path, config)?;
+  let bytes = serde_json::to_vec(config).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?;
   let mut command = Command::new(&spec.xray_exe);
-  command.arg("run").arg("-c").arg(&spec.config_path)
+  command.args(["run", "-format", "json", "-c", "stdin:"])
     .current_dir(&spec.asset_dir)
     .env("XRAY_LOCATION_ASSET", &spec.asset_dir)
-    .stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped())
+    .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped())
     // Приоритет обычный: туннель не должен отставать от интерфейса
     .creation_flags(CREATE_NO_WINDOW);
   let mut child = command.spawn().map_err(|_| "TUNNEL_XRAY_SPAWN_FAILED".to_string())?;
+  // Конфиг (с ключом) уходит только в stdin; после записи канал закрывается, и Xray читает его до конца
+  let sent = child.stdin.take().map(|mut stdin| write_all_close(&mut stdin, &bytes)).unwrap_or(false);
+  if !sent {
+    let _ = child.kill();
+    let _ = child.wait();
+    return Err("TUNNEL_CONFIG_WRITE_FAILED".into());
+  }
   let job = match crate::worker_job::WorkerJob::attach(&child) {
     Ok(job) => job,
     Err(_) => {
@@ -304,23 +312,27 @@ fn launch(_spec: &Spec, _config: &Value) -> Result<Process, String> {
   Err("TUNNEL_WINDOWS_REQUIRED".into())
 }
 
-fn write_config(path: &Path, config: &Value) -> Result<(), String> {
+/// Пишет байты в stdin дочернего процесса и закрывает канал.
+fn write_all_close(stdin: &mut std::process::ChildStdin, bytes: &[u8]) -> bool {
   use std::io::Write;
-  if let Some(parent) = path.parent() { std::fs::create_dir_all(parent).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?; }
-  let bytes = serde_json::to_vec(config).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?;
-  let temporary = path.with_extension("json.tmp");
-  let result = (|| -> std::io::Result<()> {
-    let mut file = std::fs::File::create(&temporary)?;
-    file.write_all(&bytes)?;
-    file.sync_all()?;
-    drop(file);
-    std::fs::rename(&temporary, path)
-  })();
-  if result.is_err() {
-    let _ = std::fs::remove_file(&temporary);
-    return Err("TUNNEL_CONFIG_WRITE_FAILED".into());
+  stdin.write_all(bytes).and_then(|()| stdin.flush()).is_ok()
+}
+
+/// Файлы, в которых раньше мог остаться ключ: конфиги Xray и временные документы `xray api ado`.
+fn is_leftover_name(name: &str) -> bool {
+  matches!(name, "xray.json" | "xray.json.tmp" | "xray-probe.json" | "xray-probe.json.tmp")
+    || (name.starts_with("ado-") && (name.ends_with(".json") || name.ends_with(".json.tmp")))
+}
+
+/// Удаляет остатки конфигов с ключом в каталоге сети (`profile.dpapi` и `seed.dpapi` не трогает).
+pub fn purge_leftovers(dir: Option<&Path>) {
+  let Some(dir) = dir else { return };
+  let Ok(entries) = std::fs::read_dir(dir) else { return };
+  for entry in entries.flatten() {
+    if is_leftover_name(&entry.file_name().to_string_lossy()) && entry.path().is_file() {
+      let _ = std::fs::remove_file(entry.path());
+    }
   }
-  Ok(())
 }
 
 fn spawn_log_reader<R: Read + Send + 'static>(stream: R, is_stderr: bool, secrets: Vec<String>) {
@@ -372,7 +384,6 @@ pub fn redact(line: &str, secrets: &[String]) -> String {
 pub struct Api {
   xray_exe: PathBuf,
   port: u16,
-  work_dir: PathBuf,
 }
 
 impl Api {
@@ -382,10 +393,26 @@ impl Api {
   }
 
   fn run(&self, args: &[&std::ffi::OsStr]) -> Result<(), String> {
+    self.run_with_stdin(args, None)
+  }
+
+  /// Запускает `xray api …`; `stdin_data` (документ с ключом) передаётся через stdin, а не файлом на диске.
+  fn run_with_stdin(&self, args: &[&std::ffi::OsStr], stdin_data: Option<&[u8]>) -> Result<(), String> {
+    use std::process::Stdio;
     let mut command = Command::new(&self.xray_exe);
-    command.arg("api").args(args);
+    command.arg("api").args(args)
+      .stdin(if stdin_data.is_some() { Stdio::piped() } else { Stdio::null() })
+      .stdout(Stdio::piped()).stderr(Stdio::piped());
     hide_window(&mut command);
-    let output = command.output().map_err(|_| "TUNNEL_API_SPAWN_FAILED".to_string())?;
+    let mut child = command.spawn().map_err(|_| "TUNNEL_API_SPAWN_FAILED".to_string())?;
+    if let (Some(data), Some(mut stdin)) = (stdin_data, child.stdin.take()) {
+      if !write_all_close(&mut stdin, data) {
+        let _ = child.kill();
+        let _ = child.wait();
+        return Err("TUNNEL_API_FAILED".into());
+      }
+    }
+    let output = child.wait_with_output().map_err(|_| "TUNNEL_API_SPAWN_FAILED".to_string())?;
     // Текст вывода не разбираем (в нём бывают предупреждения про устаревшие протоколы): итог — код выхода
     if !output.status.success() { return Err("TUNNEL_API_FAILED".into()); }
     Ok(())
@@ -404,14 +431,10 @@ impl Api {
     self.run(&["bo".as_ref(), self.server_arg().as_os_str(), "-t=3".as_ref(), "-b".as_ref(), TAG_BALANCER.as_ref(), "-r".as_ref()])
   }
 
-  /// `xray api ado`: добавляет outbound (JSON одного outbound). Файл с ключом живёт только на время вызова.
+  /// `xray api ado`: добавляет outbound (JSON одного outbound). Документ с ключом идёт через stdin, файла нет.
   pub fn add_outbound(&self, outbound: &Value) -> Result<(), String> {
-    let file = self.work_dir.join(format!("ado-{}.json", uuid::Uuid::new_v4().simple()));
-    let document = serde_json::json!({ "outbounds": [outbound] });
-    write_config(&file, &document)?;
-    let result = self.run(&["ado".as_ref(), self.server_arg().as_os_str(), "-t=3".as_ref(), file.as_os_str()]);
-    let _ = std::fs::remove_file(&file);
-    result
+    let document = serde_json::to_vec(&serde_json::json!({ "outbounds": [outbound] })).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?;
+    self.run_with_stdin(&["ado".as_ref(), self.server_arg().as_os_str(), "-t=3".as_ref(), "stdin:".as_ref()], Some(&document))
   }
 
   /// `xray api rmo`: удаляет outbound по тегу.
@@ -447,10 +470,8 @@ impl TempXray {
     let mut process = launch(&spec, config)?;
     if !wait_ready(&mut process, spec.ports.socks, timeout) {
       process.kill();
-      let _ = std::fs::remove_file(&spec.config_path);
       return Err("TUNNEL_XRAY_NOT_READY".into());
     }
-    let _ = std::fs::remove_file(&spec.config_path);
     Ok(Self { process, spec })
   }
 
@@ -460,7 +481,7 @@ impl TempXray {
 
   /// `xray api` временного процесса (смена узла при проверке нескольких).
   pub fn api(&self) -> Api {
-    Api { xray_exe: self.spec.xray_exe.clone(), port: self.spec.ports.api, work_dir: self.spec.config_path.parent().map(Path::to_path_buf).unwrap_or_default() }
+    Api { xray_exe: self.spec.xray_exe.clone(), port: self.spec.ports.api }
   }
 }
 
@@ -502,7 +523,7 @@ mod tests {
 
   fn sample_config(ports: Ports) -> Value {
     let node = parse_link("vless://00000000-0000-0000-0000-000000000000@vpn.example.com:443?security=reality&flow=xtls-rprx-vision&sni=www.example.org&pbk=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&sid=ab12&fp=chrome").unwrap();
-    build(&ConfigInput { ports, node: Some(&node), doh: "https://dns.example.net/dns-query", host_ips: &BTreeMap::new() }).unwrap()
+    build(&ConfigInput { ports, node: Some(&node), doh: "https://dns.example.net/dns-query", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap()
   }
 
   fn collecting_sink() -> (EventSink, Arc<StdMutex<Vec<SupervisorEvent>>>) {
@@ -541,8 +562,21 @@ mod tests {
   }
 
   #[test]
+  fn purge_leftovers_removes_only_key_configs() {
+    let dir = work_dir();
+    for name in ["xray.json", "xray.json.tmp", "xray-probe.json", "ado-0123abcd.json", "ado-0123abcd.json.tmp", "profile.dpapi", "seed.dpapi", "notes.json"] {
+      std::fs::write(dir.join(name), b"x").unwrap();
+    }
+    purge_leftovers(Some(&dir));
+    let mut left: Vec<String> = std::fs::read_dir(&dir).unwrap().map(|e| e.unwrap().file_name().to_string_lossy().into_owned()).collect();
+    left.sort();
+    assert_eq!(left, vec!["notes.json", "profile.dpapi", "seed.dpapi"]);
+    let _ = std::fs::remove_dir_all(&dir);
+  }
+
+  #[test]
   fn api_rejects_unsafe_tags() {
-    let api = Api { xray_exe: PathBuf::from("xray.exe"), port: 1, work_dir: PathBuf::new() };
+    let api = Api { xray_exe: PathBuf::from("xray.exe"), port: 1 };
     assert!(api.override_balancer("direct; calc").is_err());
     assert!(api.remove_outbound("").is_err());
     assert!(api.remove_outbound(&"a".repeat(65)).is_err());
@@ -564,7 +598,7 @@ mod tests {
     let outbound = crate::tunnel::config::outbound(&parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap());
     api.remove_outbound("proxy").expect("rmo proxy");
     api.add_outbound(&outbound).expect("ado proxy");
-    assert!(std::fs::read_dir(&dir).unwrap().all(|e| !e.unwrap().file_name().to_string_lossy().starts_with("ado-")));
+    assert!(std::fs::read_dir(&dir).unwrap().next().is_none(), "ключ не должен попадать на диск");
 
     // перезапуск на тех же портах
     supervisor.restart_with(sample_config(ports)).unwrap();

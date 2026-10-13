@@ -37,7 +37,17 @@ export function validatePayloadName(name) {
 /** Файл с секретами сети (gitignored). Формат общий с ядром приложения: schema 1, vpn, doh, mtproxy. */
 export const PROVISIONING_FILE = 'provisioning.local.json';
 
-/** Проверка и нормализация provisioning. Значения в тексты ошибок не попадают. */
+/** FakeTLS-секрет MTProxy (первый байт ee): правило parseMtproxyLink из scripts/telegram-transport.mjs. Секрет не выводится. */
+export function isFakeTlsMtproxy(link) {
+  let secret;
+  try { secret = new URL(link).searchParams.get('secret') || ''; } catch { return false; }
+  let raw;
+  if (/^(?:[0-9a-f]{2})+$/i.test(secret)) raw = Buffer.from(secret, 'hex');
+  else if (/^[A-Za-z0-9_-]+={0,2}$/.test(secret)) raw = Buffer.from(secret, 'base64url');
+  return Boolean(raw && raw.length > 0 && raw[0] === 0xee);
+}
+
+/** Проверка и нормализация provisioning.Значения в тексты ошибок не попадают. */
 export function validateProvisioning(raw) {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('provisioning: ожидается объект JSON');
   if (raw.schema !== 1) throw new Error('provisioning: schema должна быть 1');
@@ -49,6 +59,7 @@ export function validateProvisioning(raw) {
   const mtproxy = raw.mtproxy ?? '';
   if (typeof mtproxy !== 'string') throw new Error('provisioning: mtproxy должен быть строкой');
   if (mtproxy.trim() && !/^(tg:\/\/proxy\?|https:\/\/t\.me\/proxy\?)\S+$/i.test(mtproxy.trim())) throw new Error('provisioning: mtproxy должен быть tg://proxy?… или https://t.me/proxy?…');
+  if (mtproxy.trim() && isFakeTlsMtproxy(mtproxy.trim())) throw new Error('provisioning: mtproxy с FakeTLS-секретом (начинается с ee) не поддерживается; нужен обычный или dd-секрет');
   return { schema: 1, vpn: lines.join('\n'), doh: raw.doh.trim(), mtproxy: mtproxy.trim() };
 }
 

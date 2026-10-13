@@ -9,10 +9,15 @@ import test from 'node:test';
 import { connectMediaProxy, createSocketReader, parseMediaProxy } from './media-proxy.mjs';
 import { createEngineArgs, createSocksGate, resolveMedia } from './inline-media-resolver.mjs';
 import { fetchMedia } from './social-media-fetch.mjs';
+import { startFixtureProxy } from './media-test-proxy.mjs';
 
 const previousProxy = process.env.EGOIST_RELAY_MEDIA_PROXY;
-test.before(() => { process.env.EGOIST_RELAY_MEDIA_PROXY = 'direct'; });
-test.after(() => { if (previousProxy === undefined) delete process.env.EGOIST_RELAY_MEDIA_PROXY; else process.env.EGOIST_RELAY_MEDIA_PROXY = previousProxy; });
+let fixtureProxy;
+test.before(async () => { fixtureProxy = await startFixtureProxy(); process.env.EGOIST_RELAY_MEDIA_PROXY = fixtureProxy.url; });
+test.after(async () => {
+  if (previousProxy === undefined) delete process.env.EGOIST_RELAY_MEDIA_PROXY; else process.env.EGOIST_RELAY_MEDIA_PROXY = previousProxy;
+  await fixtureProxy?.close();
+});
 
 function useProxy(context, selected) {
   const previous = process.env.EGOIST_RELAY_MEDIA_PROXY;
@@ -131,28 +136,15 @@ test('Resolver gate forwards allowed hosts through HTTP CONNECT', { timeout: 500
 });
 
 test('Proxy configuration rejects credentials, paths and malformed values', () => {
-  for (const value of [undefined, 'http://user:secret@127.0.0.1:8080', 'http://127.0.0.1:8080/path', 'socks5://127.0.0.1:0', 'direct://example.com', 'http://127.0.0.1:\n8080', '', 'DIRECT', ' direct']) {
+  for (const value of [undefined, 'http://user:secret@127.0.0.1:8080', 'http://127.0.0.1:8080/path', 'socks5://127.0.0.1:0', 'direct://example.com', 'http://127.0.0.1:\n8080', '', 'DIRECT', ' direct', 'direct']) {
     assert.throws(() => parseMediaProxy(value), /MEDIA_PROXY_DENIED/);
   }
-  assert.equal(parseMediaProxy('direct'), undefined);
 });
 
+// Весь трафик идёт через тестовый CONNECT-прокси (см. test.before), который пересылает на TLS-стенд `port`
 function createFixtureTransport(port, alpn = 'http/1.1') {
+  fixtureProxy.setTarget(port);
   return {
-    lookup: (hostname, options, callback) => {
-      assert.equal(hostname, 'pbs.twimg.com'); assert.equal(options.all, true);
-      globalThis.queueMicrotask(() => callback(undefined, [{ address: '1.1.1.1', family: 4 }]));
-    },
-    connect: options => {
-      assert.equal(options.host, 'pbs.twimg.com'); assert.equal(options.port, 443);
-      const socket = new net.Socket();
-      options.lookup(options.host, { all: true }, (error, addresses) => {
-        if (error) { socket.destroy(error); return; }
-        assert.deepEqual(addresses, [{ address: '1.1.1.1', family: 4 }]);
-        socket.connect({ host: '127.0.0.1', port, signal: options.signal });
-      });
-      return socket;
-    },
     connectTls: options => {
       assert.equal(options.rejectUnauthorized, true); assert.equal(options.servername, 'pbs.twimg.com');
       return tls.connect({ ...options, ca: TLS_TEST_CERT, ALPNProtocols: [alpn] });
@@ -172,8 +164,7 @@ async function createTlsFixture(context, handleRequest) {
 }
 
 for (const alpn of ['http/1.1', 'h2']) {
-  test(`Explicit direct completes a validated native HTTPS ${alpn} media GET`, { timeout: 5000 }, async context => {
-    useProxy(context, 'direct');
+  test(`Selected proxy completes a validated native HTTPS ${alpn} media GET`, { timeout: 5000 }, async context => {
     const photo = Buffer.from([0xff, 0xd8, 0xff, 1, 2, 3]);
     const requests = [];
     const port = await createTlsFixture(context, (request, response) => {
@@ -212,7 +203,7 @@ for (const protocol of ['http', 'socks5h']) {
   });
 }
 
-test('Direct native HTTPS preserves certificate verification', { timeout: 5000 }, async context => {
+test('Proxied native HTTPS preserves certificate verification', { timeout: 5000 }, async context => {
   const port = await createTlsFixture(context, (request, response) => response.end());
   const transport = createFixtureTransport(port); delete transport.connectTls;
   await assert.rejects(fetchMedia({ url: 'https://pbs.twimg.com/media/test.jpg', service: 'x', type: 'photo', index: 0 }, transport), /MEDIA_TLS_FAILED/);
@@ -245,24 +236,24 @@ test('Missing and malformed routes fail before any media transport', async conte
   assert.equal(calls, 0);
 });
 
-test('Direct lookup rejects private, transition, documentation and mixed DNS answers', { timeout: 5000 }, async () => {
-  for (const address of ['127.0.0.1', '10.0.0.1', '169.254.169.254', '100.64.1.1', '192.168.1.1', '198.18.0.1', '203.0.113.1', '::1', 'fc00::1', 'fe80::1', '::ffff:127.0.0.1', '2001:db8::1', '2002:7f00:1::1', '3fff::1']) {
-    await assert.rejects(connectMediaProxy('pbs.twimg.com', undefined, new globalThis.AbortController().signal, {
-      lookup: (hostname, options, callback) => globalThis.queueMicrotask(() => callback(undefined, [{ address, family: net.isIP(address) }])),
-    }), /MEDIA_ADDRESS_DENIED/);
-  }
-  await assert.rejects(connectMediaProxy('pbs.twimg.com', undefined, new globalThis.AbortController().signal, {
-    lookup: (hostname, options, callback) => globalThis.queueMicrotask(() => callback(undefined, [{ address: '1.1.1.1', family: 4 }, { address: '127.0.0.1', family: 4 }])),
-  }), /MEDIA_ADDRESS_DENIED/);
+test('There is no direct media path: a missing proxy is denied before any connection', { timeout: 5000 }, async () => {
+  let calls = 0;
+  const overrides = { connect: () => { calls++; throw new Error('UNEXPECTED_DIRECT'); }, lookup: () => { calls++; throw new Error('UNEXPECTED_DNS'); } };
+  await assert.rejects(connectMediaProxy('pbs.twimg.com', undefined, new globalThis.AbortController().signal, overrides), /MEDIA_PROXY_DENIED/);
+  assert.equal(calls, 0);
 });
 
-test('Canceling a pending direct DNS lookup closes the connection', { timeout: 5000 }, async () => {
-  const controller = new globalThis.AbortController();
-  let started;
-  const lookupStarted = new Promise(resolve => { started = resolve; });
-  const connecting = connectMediaProxy('pbs.twimg.com', undefined, controller.signal, { lookup: () => started() });
-  await lookupStarted; controller.abort();
-  await assert.rejects(connecting, /MEDIA_CANCELLED/);
+test('Engine arguments and the resolver refuse an empty, missing or direct route', async context => {
+  const selected = process.env.EGOIST_RELAY_MEDIA_PROXY;
+  context.after(() => { process.env.EGOIST_RELAY_MEDIA_PROXY = selected; });
+  const base = { nodePath: process.execPath, tempDir: path.dirname(process.execPath) };
+  for (const route of [undefined, '', 'direct']) {
+    process.env.EGOIST_RELAY_MEDIA_PROXY = route === undefined ? '' : route;
+    assert.throws(() => createEngineArgs({ ...base, proxy: route }, 'metadata'), /MEDIA_PROXY_DENIED/);
+    await assert.rejects(resolveMedia({ url: 'https://x.com/i/status/1234567890123456789', enginePath: path.resolve('engine.exe'), ...base, index: 0 }, {
+      runEngine: async () => { throw new Error('UNEXPECTED_ENGINE'); },
+    }), /MEDIA_PROXY_DENIED/);
+  }
 });
 
 test('Direct redirects and response sizes retain the media boundary', { timeout: 5000 }, async context => {

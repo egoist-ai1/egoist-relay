@@ -86,6 +86,8 @@ pub struct ConfigInput<'a> {
   pub doh: &'a str,
   /// Кэш IP по именам хостов (хост VPN, хост DoH): попадает в `dns.hosts`, минуя bootstrap.
   pub host_ips: &'a BTreeMap<String, Vec<String>>,
+  /// Хосты всех узлов подписки: чтобы после смены узла его имя тоже разрешалось в обход туннеля.
+  pub node_hosts: &'a [String],
 }
 
 /// Собирает полный конфиг Xray. Ошибка — только при недопустимых портах или адресе DoH.
@@ -177,10 +179,13 @@ fn dns_section(input: &ConfigInput, doh_host: &str) -> Value {
   };
   push_host(doh_host);
   if let Some(node) = input.node { push_host(&node.server); }
+  for host in input.node_hosts { push_host(host); }
 
   let mut servers = Vec::new();
   if !bootstrap_domains.is_empty() {
+    // Два независимых публичных резолвера: падение одного не оставляет хост VPN без адреса
     servers.push(json!({ "address": PUBLIC_DOH_PRIMARY, "domains": bootstrap_domains, "skipFallback": true }));
+    servers.push(json!({ "address": PUBLIC_DOH_SECONDARY, "domains": bootstrap_domains, "skipFallback": true }));
   }
   servers.push(json!({ "address": input.doh }));
   if DOH_PUBLIC_FALLBACK {
@@ -196,6 +201,7 @@ fn dns_section(input: &ConfigInput, doh_host: &str) -> Value {
   };
   cached(doh_host);
   if let Some(node) = input.node { cached(&node.server); }
+  for host in input.node_hosts { cached(host); }
 
   json!({ "tag": TAG_DNS, "servers": servers, "hosts": hosts, "queryStrategy": "UseIPv4" })
 }
@@ -318,7 +324,7 @@ mod tests {
 
   fn config_for(link: &str) -> Value {
     let node = parse_link(link).unwrap();
-    build(&ConfigInput { ports: PORTS, node: Some(&node), doh: DOH, host_ips: &BTreeMap::new() }).unwrap()
+    build(&ConfigInput { ports: PORTS, node: Some(&node), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap()
   }
 
   fn sample_links() -> Vec<String> {
@@ -352,7 +358,7 @@ mod tests {
 
   #[test]
   fn snapshot_without_node() {
-    let config = build(&ConfigInput { ports: PORTS, node: None, doh: DOH, host_ips: &BTreeMap::new() }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, node: None, doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     assert_snapshot("no-node", &config);
   }
 
@@ -402,11 +408,30 @@ mod tests {
     assert_eq!(servers[0]["address"], PUBLIC_DOH_PRIMARY);
     assert_eq!(servers[0]["skipFallback"], true);
     assert_eq!(servers[0]["domains"], json!(["full:dns.example.net", "full:vpn.example.com"]));
-    assert_eq!(servers[1]["address"], DOH);
-    assert_eq!(servers[2], json!(PUBLIC_DOH_PRIMARY));
-    assert_eq!(servers[3], json!(PUBLIC_DOH_SECONDARY));
+    assert_eq!(servers[1]["address"], PUBLIC_DOH_SECONDARY);
+    assert_eq!(servers[1]["skipFallback"], true);
+    assert_eq!(servers[1]["domains"], servers[0]["domains"]);
+    assert_eq!(servers[2]["address"], DOH);
+    assert_eq!(servers[3], json!(PUBLIC_DOH_PRIMARY));
+    assert_eq!(servers[4], json!(PUBLIC_DOH_SECONDARY));
     assert_eq!(config["dns"]["queryStrategy"], "UseIPv4");
     assert_eq!(config["outbounds"][0]["streamSettings"]["sockopt"]["domainStrategy"], PROXY_DOMAIN_STRATEGY);
+  }
+
+  #[test]
+  fn bootstrap_covers_hosts_of_all_nodes() {
+    let nodes = [
+      parse_link("trojan://pw@a.example.com:443#a").unwrap(),
+      parse_link("trojan://pw@b.example.com:443#b").unwrap(),
+      parse_link("trojan://pw@c.example.com:443#c").unwrap(),
+      parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap(),
+    ];
+    let mut hosts: Vec<String> = nodes.iter().map(|n| n.server.clone()).collect();
+    hosts.push("a.example.com".into());
+    let config = build(&ConfigInput { ports: PORTS, node: nodes.first(), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &hosts }).unwrap();
+    let domains = config["dns"]["servers"][0]["domains"].clone();
+    assert_eq!(domains, json!(["full:dns.example.net", "full:a.example.com", "full:b.example.com", "full:c.example.com"]));
+    assert_eq!(config["dns"]["servers"][1]["domains"], domains);
   }
 
   #[test]
@@ -414,17 +439,17 @@ mod tests {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
     let mut ips = BTreeMap::new();
     ips.insert("dns.example.net".to_string(), vec!["198.51.100.7".to_string()]);
-    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: DOH, host_ips: &ips }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: DOH, host_ips: &ips, node_hosts: &[] }).unwrap();
     assert_eq!(config["dns"]["servers"][0]["domains"], json!(["full:dns.example.net"]));
     assert_eq!(config["dns"]["hosts"]["dns.example.net"], json!(["198.51.100.7"]));
-    let doh_ip = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://203.0.113.5/dns-query", host_ips: &BTreeMap::new() }).unwrap();
+    let doh_ip = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://203.0.113.5/dns-query", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     assert_eq!(doh_ip["dns"]["servers"][0]["address"], "https://203.0.113.5/dns-query");
   }
 
   #[test]
   fn rejects_bad_ports_and_doh() {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
-    let with = |ports: Ports, doh: &str| build(&ConfigInput { ports, node: Some(&node), doh, host_ips: &BTreeMap::new() });
+    let with = |ports: Ports, doh: &str| build(&ConfigInput { ports, node: Some(&node), doh, host_ips: &BTreeMap::new(), node_hosts: &[] });
     assert!(with(Ports { socks: 10808, ..PORTS }, DOH).is_err());
     assert!(with(Ports { api: 10100, ..PORTS }, DOH).is_err());
     assert!(with(Ports { api: PORTS.socks, ..PORTS }, DOH).is_err());
@@ -436,7 +461,7 @@ mod tests {
 
   #[test]
   fn no_node_routes_probe_proxy_to_block() {
-    let config = build(&ConfigInput { ports: PORTS, node: None, doh: DOH, host_ips: &BTreeMap::new() }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, node: None, doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     let rule = config["routing"]["rules"].as_array().unwrap().iter()
       .find(|r| r["inboundTag"] == json!(["probe-proxy"])).unwrap();
     assert_eq!(rule["outboundTag"], "block");
@@ -452,11 +477,11 @@ mod tests {
   fn doh_with_arbitrary_path_is_accepted_as_is() {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
     for doh in ["https://dns.nextdns.io/id-fixture", "https://dns.example.net:8443/some/path?x=1"] {
-      let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh, host_ips: &BTreeMap::new() }).unwrap();
+      let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
       assert!(config["dns"]["servers"].as_array().unwrap().iter().any(|s| s["address"] == doh));
     }
-    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://dns.nextdns.io/id-fixture", host_ips: &BTreeMap::new() }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://dns.nextdns.io/id-fixture", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     assert_eq!(config["dns"]["servers"][0]["domains"], json!(["full:dns.nextdns.io"]));
-    assert!(build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://user:pw@dns.example.net/x", host_ips: &BTreeMap::new() }).is_err());
+    assert!(build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://user:pw@dns.example.net/x", host_ips: &BTreeMap::new(), node_hosts: &[] }).is_err());
   }
 }

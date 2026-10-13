@@ -81,9 +81,10 @@ export function canonicalizeMediaUrl(value) {
 }
 
 export function createEngineArgs(input, phase) {
-  const selected = input.proxy === '' ? 'direct' : input.proxy ?? process.env.EGOIST_RELAY_MEDIA_PROXY;
-  const configured = parseMediaProxy(selected);
-  const proxy = configured ? selected : '';
+  // Пустой, отсутствующий и `direct` маршрут — MEDIA_PROXY_DENIED: yt-dlp без `--proxy` пошёл бы напрямую
+  const selected = input.proxy ?? process.env.EGOIST_RELAY_MEDIA_PROXY;
+  parseMediaProxy(selected);
+  const proxy = selected;
   const common = ['--ignore-config', '--no-config-locations', '--no-plugin-dirs', '--no-cache-dir', '--no-update', '--hls-prefer-native', '--no-playlist', '--playlist-items', '1', '--use-extractors', 'Youtube,Instagram,Twitter,end', '--no-remote-components', '--no-js-runtimes', '--js-runtimes', `node:${input.nodePath}`, '--proxy', proxy, '--socket-timeout', '15', '--retries', '1', '--fragment-retries', '1', '--concurrent-fragments', '4', '--extractor-retries', '1', '--no-warnings', '--no-progress', '--quiet', '--xff', 'never', '--no-check-formats', '--batch-file', '-'];
   if (input.cookies) common.push('--cookies', path.join(input.tempDir, 'session-cookies.txt'));
   const sourceMetadata = '%(.{extractor_key,duration,is_live,live_status})j';
@@ -229,8 +230,8 @@ export async function resolveMedia(input, overrides = {}) {
   }, 100);
   try {
     if (cookieContent !== undefined) await fs.writeFile(path.join(realTemp, 'session-cookies.txt'), cookieContent, { flag: 'wx', mode: 0o600 });
-    if (proxy) gate = await createSocksGate(proxy, canonical.provider, controller.signal);
-    const engineInput = { ...input, proxy: gate ? `socks5h://127.0.0.1:${gate.port}` : '' };
+    gate = await createSocksGate(proxy, canonical.provider, controller.signal);
+    const engineInput = { ...input, proxy: `socks5h://127.0.0.1:${gate.port}` };
     const sourceInfo = await execute(engineInput, 'download', canonical.url, controller.signal);
     if (!sourceInfo.toString('utf8').trim()) throw new Error('MEDIA_FORMAT_UNAVAILABLE');
     let metadata; try { metadata = JSON.parse(sourceInfo.toString('utf8')); } catch { throw new Error('MEDIA_FORMAT_UNAVAILABLE'); }

@@ -5,7 +5,6 @@ import { once } from 'node:events';
 import { createReadStream } from 'node:fs';
 import fs from 'node:fs/promises';
 import http2 from 'node:http2';
-import net from 'node:net';
 import path from 'node:path';
 import test from 'node:test';
 import tls from 'node:tls';
@@ -13,11 +12,13 @@ import { fileURLToPath } from 'node:url';
 
 import { resolveMedia } from './inline-media-resolver.mjs';
 import { fetchMedia } from './social-media-fetch.mjs';
+import { startFixtureProxy } from './media-test-proxy.mjs';
 
 const MIB = 1024 * 1024;
 const metrics = [];
 const previousProxy = process.env.EGOIST_RELAY_MEDIA_PROXY;
 const root = process.env.EGOIST_RELAY_AUDIT_WORK;
+let fixtureProxy;
 const fixtureSource = await fs.readFile(new URL('./media-proxy.test.mjs', import.meta.url), 'utf8');
 const key = fixtureSource.match(/const TLS_TEST_KEY = `([^`]+)`;/)?.[1];
 const cert = fixtureSource.match(/const TLS_TEST_CERT = `([^`]+)`;/)?.[1];
@@ -27,9 +28,11 @@ test.before(async () => {
   assert.ok(root && path.isAbsolute(root), 'Set EGOIST_RELAY_AUDIT_WORK to this task own work directory');
   assert.equal((await fs.lstat(root)).isSymbolicLink(), false);
   assert.equal((await fs.realpath(root)).replace(/^\\\?\\/, '').toLowerCase(), path.resolve(root).toLowerCase());
-  process.env.EGOIST_RELAY_MEDIA_PROXY = 'direct';
+  fixtureProxy = await startFixtureProxy();
+  process.env.EGOIST_RELAY_MEDIA_PROXY = fixtureProxy.url;
 });
 test.after(async () => {
+  await fixtureProxy?.close();
   if (previousProxy === undefined) delete process.env.EGOIST_RELAY_MEDIA_PROXY;
   else process.env.EGOIST_RELAY_MEDIA_PROXY = previousProxy;
   if (root) await fs.writeFile(path.join(root, 'file-channel-metrics.json'), JSON.stringify({ synthetic: true, metrics }, undefined, 2));
@@ -67,22 +70,8 @@ async function createServer(context, handle) {
 }
 
 function createTransport(port, alpn) {
+  fixtureProxy.setTarget(port);
   return {
-    lookup: (hostname, options, callback) => {
-      assert.equal(hostname, 'pbs.twimg.com');
-      assert.equal(options.all, true);
-      globalThis.queueMicrotask(() => callback(undefined, [{ address: '1.1.1.1', family: 4 }]));
-    },
-    connect: options => {
-      assert.equal(options.host, 'pbs.twimg.com');
-      assert.equal(options.port, 443);
-      const socket = new net.Socket();
-      options.lookup(options.host, { all: true }, error => {
-        if (error) socket.destroy(error);
-        else socket.connect({ host: '127.0.0.1', port, signal: options.signal });
-      });
-      return socket;
-    },
     connectTls: options => {
       assert.equal(options.rejectUnauthorized, true);
       assert.equal(options.servername, 'pbs.twimg.com');

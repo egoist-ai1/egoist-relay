@@ -42,7 +42,7 @@ test('buildProvisioning: формат ядра и сообщения об оши
   const p = buildProvisioning({ state: profileV2(), desired: desired() });
   assert.deepEqual(Object.keys(p), ['schema', 'vpn', 'doh', 'mtproxy']);
   assert.equal(p.schema, 1);
-  assert.equal(buildProvisioning({ state: profileV2(), desired: desired() }, { mtproxy: 'tg://proxy?server=m.example.invalid&port=1&secret=ee' }).mtproxy.startsWith('tg://proxy?'), true);
+  assert.equal(buildProvisioning({ state: profileV2(), desired: desired() }, { mtproxy: 'tg://proxy?server=m.example.invalid&port=1&secret=dd00112233445566778899aabbccddeeff' }).mtproxy.startsWith('tg://proxy?'), true);
   assert.throws(() => buildProvisioning({ state: profileV2(), desired: null }), (e) => /DoH не найден/.test(e.message) && !SECRETS.test(e.message));
   for (const url of ['https://dns.nextdns.io/abc123', 'https://dns.controld.com/xyz', 'https://doh.example.invalid']) {
     assert.equal(buildProvisioning({ state: profileV2(), desired: { dns: { dohUrl: url } } }).doh, url);
