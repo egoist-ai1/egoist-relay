@@ -1,0 +1,144 @@
+{
+  "api": {
+    "services": [
+      "HandlerService",
+      "RoutingService"
+    ],
+    "tag": "api"
+  },
+  "dns": {
+    "hosts": {},
+    "queryStrategy": "UseIPv4",
+    "servers": [
+      {
+        "address": "https+local://1.1.1.1/dns-query",
+        "domains": [
+          "full:dns.example.net"
+        ],
+        "skipFallback": true
+      },
+      {
+        "address": "https://dns.example.net/dns-query"
+      },
+      "https+local://1.1.1.1/dns-query",
+      "https+local://8.8.8.8/dns-query"
+    ],
+    "tag": "dns-internal"
+  },
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": 31001,
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      },
+      "tag": "socks-in"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 31002,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "address": "127.0.0.1"
+      },
+      "tag": "api"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 31003,
+      "protocol": "http",
+      "settings": {},
+      "tag": "probe-proxy"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 31004,
+      "protocol": "http",
+      "settings": {},
+      "tag": "probe-direct"
+    }
+  ],
+  "log": {
+    "access": "none",
+    "dnsLog": false,
+    "loglevel": "warning"
+  },
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "streamSettings": {
+        "sockopt": {
+          "domainStrategy": "UseIPv4"
+        }
+      },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "block"
+    }
+  ],
+  "routing": {
+    "balancers": [],
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "probe-proxy"
+        ],
+        "outboundTag": "block",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "probe-direct"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "ip": [
+          "0.0.0.0/8",
+          "10.0.0.0/8",
+          "100.64.0.0/10",
+          "127.0.0.0/8",
+          "169.254.0.0/16",
+          "172.16.0.0/12",
+          "192.0.0.0/24",
+          "192.168.0.0/16",
+          "198.18.0.0/15",
+          "::1/128",
+          "fc00::/7",
+          "fe80::/10"
+        ],
+        "outboundTag": "block",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "dns-internal"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "inboundTag": [
+          "socks-in"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      }
+    ]
+  }
+}

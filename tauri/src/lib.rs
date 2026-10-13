@@ -26,6 +26,8 @@ mod bot_web_apps;
 mod native_theme;
 mod transcription;
 mod worker_job;
+mod dpapi;
+mod tunnel;
 mod telegram_transport;
 mod research_bridge;
 mod research_spool;
