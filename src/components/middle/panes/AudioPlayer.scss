@@ -335,6 +335,13 @@
   .playback-rate-menu .bubble {
     min-width: auto;
 
+    // Меню сжимается по содержимому, а MenuItem разрешает перенос в любом месте: без запрета
+    // «0.5X» разваливается по одной букве в строке
+    .MenuItem {
+      overflow-wrap: normal;
+      white-space: nowrap;
+    }
+
     .icon-check, .icon-placeholder {
       margin-right: 0.25rem;
       margin-left: 0.25rem;
