@@ -1,7 +1,7 @@
 import type { TeactNode } from '../../lib/teact/teact';
 import { memo, useRef } from '../../lib/teact/teact';
 
-import type { LangKey } from '../../types/language';
+import type { RegularLangKey } from '../../types/language';
 
 import buildClassName from '../../util/buildClassName';
 
@@ -28,11 +28,11 @@ type OwnProps = {
 type ServiceDef = {
   id: AppId;
   service: string;
-  titleKey: LangKey;
-  switchKey: LangKey;
-  loadingKey?: LangKey;
-  errorKey?: LangKey;
-  authKey?: LangKey;
+  titleKey: RegularLangKey;
+  switchKey: RegularLangKey;
+  loadingKey?: RegularLangKey;
+  errorKey?: RegularLangKey;
+  authKey?: RegularLangKey;
   icon: TeactNode;
 };
 
