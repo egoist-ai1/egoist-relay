@@ -59,6 +59,7 @@ import {
   requestChannelDifference as requestChannelDifferenceFromUpdates,
   reset as resetUpdatesManager,
   setOpenedChannelIds as setOpenedChannelIdsInUpdates,
+  stop as stopUpdatesManager,
   updateChannelState,
 } from '../updates/updateManager';
 import {
@@ -224,6 +225,7 @@ export async function destroy(noLogOut = false, noClearLocalDb = false) {
     resetUpdatesManager();
   }
 
+  stopUpdatesManager();
   client.destroy();
 }
 

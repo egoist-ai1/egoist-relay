@@ -46,6 +46,9 @@ const SHORTPOLL_DEFAULT_TIMEOUT_MS = 1000;
 const INITIAL_SHORTPOLL_TIMEOUT_MS = 10000;
 const CHANNEL_DIFFERENCE_RETRY_TIMEOUT_MS = 5000;
 const UPDATE_WAIT_TIMEOUT = 500;
+const DIFFERENCE_REQUEST_TIMEOUT_MS = 30000;
+const STATE_RETRY_INITIAL_MS = 5000;
+const STATE_RETRY_MAX_MS = 30000;
 
 const TERMINAL_CHANNEL_DIFFERENCE_ERRORS = new Set([
   'CHANNEL_INVALID',
@@ -53,9 +56,19 @@ const TERMINAL_CHANNEL_DIFFERENCE_ERRORS = new Set([
 ]);
 
 let invoke: typeof invokeRequest;
+let hasInvoke = false;
 let isInited = false;
+// Пока связи нет, повторы не планируем: запросы копятся в gramjs и уходят залпом при переподключении.
+// Ветка connected сама перезапускает оба цикла
+let isConnected = true;
 
 let seqTimeout: ReturnType<typeof setTimeout> | undefined;
+// Поколение растёт при reset() и таймауте запроса: ответ прошлого поколения игнорируем
+let differenceGeneration = 0;
+let isLoadingRemoteState = false;
+let stateLoadToken = 0;
+let stateRetryTimeout: ReturnType<typeof setTimeout> | undefined;
+let stateRetryDelayMs = STATE_RETRY_INITIAL_MS;
 const CHANNEL_SCHEDULERS = new Map<string, ChannelScheduler>();
 const OPENED_CHANNEL_IDS = new Set<string>();
 
@@ -64,11 +77,12 @@ const PTS_QUEUE = new Map<string, SortedQueue<PtsUpdate>>();
 
 export async function init(invokeReq: typeof invokeRequest) {
   invoke = invokeReq;
+  hasInvoke = true;
+  // Загрузка, начатая до входа (экран логина), не должна блокировать свою
+  cancelStateLoad();
 
+  // При неудаче loadRemoteState сам повторяет попытки, пока не получит состояние
   await loadRemoteState();
-  isInited = true;
-
-  scheduleGetDifference();
 }
 
 export function applyState(state: State) {
@@ -80,8 +94,18 @@ export function applyState(state: State) {
 
 export function processUpdate(update: Update, isFromDifference?: boolean, shouldOnlySave?: boolean) {
   if (update instanceof UpdateConnectionState) {
-    if (update.state === UpdateConnectionState.connected && isInited) {
-      scheduleGetDifference();
+    if (update.state === UpdateConnectionState.connected) {
+      isConnected = true;
+      if (isInited) {
+        scheduleGetDifference();
+      } else if (hasInvoke) {
+        // Состояние потеряно (reset после обрыва) — не ждём таймер повтора, пробуем сразу
+        void loadRemoteState();
+      }
+    } else {
+      isConnected = false;
+      clearTimeout(stateRetryTimeout);
+      stateRetryTimeout = undefined;
     }
 
     updater(update);
@@ -372,21 +396,29 @@ function restartShortpollFromNow(channelId: string) {
   scheduleChannelDifference(channelId, 'shortpoll', scheduler.shortpollTimeoutMs);
 }
 
-function scheduleGetDifference() {
+function scheduleGetDifference(delayMs = UPDATE_WAIT_TIMEOUT) {
   if (seqTimeout) return;
 
-  seqTimeout = setTimeout(async () => {
+  const timer: ReturnType<typeof setTimeout> = setTimeout(async () => {
+    let hasFailed = false;
     try {
       await getDifference();
     } catch (err) {
+      hasFailed = true;
       if (DEBUG) {
         // eslint-disable-next-line no-console
         console.error('[UpdateManager] Failed to get difference', err);
       }
     } finally {
-      seqTimeout = undefined;
+      // После reset() seqTimeout принадлежит новому циклу — не трогаем его
+      if (seqTimeout === timer) seqTimeout = undefined;
     }
-  }, UPDATE_WAIT_TIMEOUT);
+
+    if (hasFailed && isInited && isConnected && !seqTimeout) {
+      scheduleGetDifference(CHANNEL_DIFFERENCE_RETRY_TIMEOUT_MS);
+    }
+  }, delayMs);
+  seqTimeout = timer;
 }
 
 function getUpdateChannelId(update: Update) {
@@ -418,7 +450,7 @@ export async function getDifference() {
   });
 
   try {
-    await requestDifference();
+    await requestDifference(differenceGeneration);
   } catch (err) {
     sendApiUpdate({
       '@type': 'updateFetchingDifference',
@@ -428,14 +460,24 @@ export async function getDifference() {
   }
 }
 
-async function requestDifference() {
-  const response = await invoke(new GramJs.updates.GetDifference({
+async function requestDifference(generation: number) {
+  const response = await withTimeout(invoke(new GramJs.updates.GetDifference({
     pts: localDb.commonBoxState.pts,
     date: localDb.commonBoxState.date,
     qts: localDb.commonBoxState.qts,
-  }));
+  }), { shouldThrow: true }), DIFFERENCE_REQUEST_TIMEOUT_MS);
 
-  if (!response || response instanceof GramJs.updates.DifferenceTooLong) {
+  // Пока ждали ответ, состояние сбросили или запрос признали зависшим — ответ устарел.
+  // Ошибка, а не тихий выход: иначе зависший соседний запрос оставит пробел без повтора
+  if (generation !== differenceGeneration) {
+    throw new Error('Stale difference response');
+  }
+
+  if (!response) {
+    throw new Error('Empty difference response');
+  }
+
+  if (response instanceof GramJs.updates.DifferenceTooLong) {
     forceSync();
     return;
   }
@@ -587,7 +629,25 @@ function forceSync() {
     '@type': 'requestSync',
   });
 
-  loadRemoteState();
+  void loadRemoteState();
+}
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      // Зависший запрос: отсекаем его возможный поздний ответ
+      differenceGeneration++;
+      reject(new Error('Request timeout'));
+    }, timeoutMs);
+
+    promise.then((result) => {
+      clearTimeout(timer);
+      resolve(result);
+    }, (err) => {
+      clearTimeout(timer);
+      reject(err);
+    });
+  });
 }
 
 export function reset() {
@@ -613,7 +673,27 @@ export function reset() {
     localDb.channelPtsById[channelId] = 0;
   });
 
+  differenceGeneration++;
+  cancelStateLoad();
+
   isInited = false;
+}
+
+// Клиент закрыт (выход, блокировка): новый клиент до init() не должен запускать загрузку состояния
+export function stop() {
+  hasInvoke = false;
+  clearTimeout(seqTimeout);
+  seqTimeout = undefined;
+  differenceGeneration++;
+  cancelStateLoad();
+}
+
+function cancelStateLoad() {
+  clearTimeout(stateRetryTimeout);
+  stateRetryTimeout = undefined;
+  isLoadingRemoteState = false;
+  stateLoadToken++;
+  stateRetryDelayMs = STATE_RETRY_INITIAL_MS;
 }
 
 export function processAffectedHistory(
@@ -627,12 +707,42 @@ export function processAffectedHistory(
 }
 
 async function loadRemoteState() {
-  const remoteState = await invoke(new GramJs.updates.GetState());
-  if (!remoteState) return;
+  if (isLoadingRemoteState) return;
 
-  applyState(remoteState);
+  clearTimeout(stateRetryTimeout);
+  stateRetryTimeout = undefined;
+  isLoadingRemoteState = true;
+  const token = ++stateLoadToken;
 
-  isInited = true;
+  try {
+    const remoteState = await withTimeout(invoke(new GramJs.updates.GetState(), { shouldThrow: true }),
+      DIFFERENCE_REQUEST_TIMEOUT_MS);
+    if (token !== stateLoadToken) return;
+    if (!remoteState) throw new Error('Empty state response');
+
+    isLoadingRemoteState = false;
+    stateRetryDelayMs = STATE_RETRY_INITIAL_MS;
+    applyState(remoteState);
+    isInited = true;
+    scheduleGetDifference();
+  } catch (err) {
+    if (DEBUG) {
+      // eslint-disable-next-line no-console
+      console.warn('[UpdateManager] Failed to load state', err);
+    }
+    // reset() сбросил загрузку — повтор запланирует новый вызов
+    if (token !== stateLoadToken) return;
+    isLoadingRemoteState = false;
+    // Без связи повтор бессмысленен: переподключение вызовет loadRemoteState само
+    if (!isConnected) return;
+
+    const delay = stateRetryDelayMs;
+    stateRetryDelayMs = Math.min(stateRetryDelayMs * 2, STATE_RETRY_MAX_MS);
+    stateRetryTimeout = setTimeout(() => {
+      stateRetryTimeout = undefined;
+      void loadRemoteState();
+    }, delay);
+  }
 }
 
 function processDifference(

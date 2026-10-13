@@ -45,6 +45,9 @@ import {
 } from '../../selectors/threads';
 
 const RELEASE_STATUS_TIMEOUT = 15000; // 15 sec;
+const SYNC_RETRY_MIN_INTERVAL = 15000; // 15 sec;
+
+let lastSyncStartedAt = 0;
 
 let releaseStatusTimeout: number | undefined;
 
@@ -58,6 +61,8 @@ addActionHandler('sync', (global, actions): ActionReturnType => {
     clearTimeout(releaseStatusTimeout);
   }
 
+  lastSyncStartedAt = Date.now();
+
   global = getGlobal();
   global = { ...global, isSyncing: true };
   setGlobal(global);
@@ -65,9 +70,16 @@ addActionHandler('sync', (global, actions): ActionReturnType => {
   // Workaround for `isSyncing = true` sometimes getting stuck for some reason
   releaseStatusTimeout = window.setTimeout(() => {
     global = getGlobal();
-    global = { ...global, isSyncing: false };
+    global = { ...global, isSyncing: false, isFetchingDifference: false };
     setGlobal(global);
     releaseStatusTimeout = undefined;
+
+    // loadAllChats мог молча выйти (нет сети) — повторяем sync, пока соединение живо
+    if (!global.isSynced && global.connectionState === 'connectionStateReady'
+      && global.auth.state === 'authorizationStateReady'
+      && Date.now() - lastSyncStartedAt >= SYNC_RETRY_MIN_INTERVAL) {
+      getActions().sync();
+    }
   }, RELEASE_STATUS_TIMEOUT);
 
   const {

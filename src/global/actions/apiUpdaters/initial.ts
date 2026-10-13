@@ -96,6 +96,9 @@ addActionHandler('apiUpdate', (global, actions, update): ActionReturnType => {
     case 'requestSync':
       resetOpenedChannelShortpollState();
       syncOpenedShortpollChannelIds(global);
+      // Без сброса isSynced колбэк подключения не повторит sync, если он не дойдёт до конца
+      global = { ...global, isSynced: false };
+      setGlobal(global);
       actions.sync();
       break;
 
