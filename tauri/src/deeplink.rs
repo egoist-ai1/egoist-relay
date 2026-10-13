@@ -42,6 +42,9 @@ impl Deeplink {
         if let Err(err) = window.set_focus() {
           info!("Error setting focus: {:?}", err);
         }
+
+        // Разбудить усыплённые сервисы, не полагаясь только на событие Focused
+        crate::multi_app::refresh_main_window_visibility(&app_handle);
       }
     });
 

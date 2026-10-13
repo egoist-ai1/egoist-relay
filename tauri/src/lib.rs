@@ -88,7 +88,7 @@ pub static LAST_URL: LazyLock<std::sync::Mutex<String>> =
 
 pub const DEFAULT_WINDOW_TITLE: &str = match std::option_env!("APP_TITLE") {
   Some(title) => title,
-  None => "Sennit",
+  None => "Egoist Social",
 };
 
 pub const BASE_URL: &str = match std::option_env!("BASE_URL") {
@@ -178,7 +178,12 @@ pub fn run() {
       window.data_directory = Some(profile.join("main"));
     }
   }
-  let mut log_builder = tauri_plugin_log::Builder::default();
+  // Info для всего, Debug для своего кода; 2 МБ на файл, три файла в истории
+  let mut log_builder = tauri_plugin_log::Builder::default()
+    .level(log::LevelFilter::Info)
+    .level_for("app_lib", log::LevelFilter::Debug)
+    .max_file_size(2 * 1024 * 1024)
+    .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(3));
   if is_smoke_test {
     let profile = std::path::PathBuf::from(std::env::var_os("EGOIST_RELAY_TEST_PROFILE").unwrap());
     log_builder = log_builder.clear_targets().target(tauri_plugin_log::Target::new(
@@ -206,6 +211,8 @@ pub fn run() {
         window.show().unwrap_or_default();
         window.unminimize().unwrap_or_default();
         window.set_focus().unwrap_or_default();
+        // Будит усыплённый сервис, не полагаясь на событие Focused
+        multi_app::refresh_main_window_visibility(app);
       } else if let Err(error) = create_main_window(app) {
         log::error!("Failed to restore the main Relay window: {error}");
       }
@@ -219,8 +226,11 @@ pub fn run() {
     .plugin(tauri_plugin_process::init());
 
   let app = app.on_window_event(|window, event| match event {
-    tauri::WindowEvent::Resized(_) => {
+    tauri::WindowEvent::Resized(_) if window.label() == "main" => {
       multi_app::on_main_window_resize(&window.app_handle());
+    }
+    tauri::WindowEvent::Focused(true) if window.label() == "main" => {
+      multi_app::refresh_main_window_visibility(window.app_handle());
     }
     tauri::WindowEvent::CloseRequested { api, .. } => {
       if window.label() == "main" {
@@ -232,6 +242,7 @@ pub fn run() {
         #[cfg(not(target_os = "macos"))]
         window.hide().unwrap_or_default();
         api.prevent_close();
+        multi_app::on_main_window_hidden(window.app_handle());
       }
     }
     tauri::WindowEvent::ThemeChanged(_) => {
@@ -267,6 +278,7 @@ pub fn run() {
   });
 
   let app = app.setup(|app| {
+    multi_app::note_main_thread();
     if std::env::args_os().any(|argument| argument == "--research-recover-existing") {
       // This transient controller must hand off to the existing owner or exit before account initialization.
       std::process::exit(0);
@@ -360,6 +372,7 @@ pub fn run() {
     .expect("error while building Egoist Relay")
     .run(|_app, event| match event {
       tauri::RunEvent::Exit => {
+        media_operations::flush_journal();
         telegram_transport::shutdown();
         research_bridge::shutdown();
         inline_media::shutdown();

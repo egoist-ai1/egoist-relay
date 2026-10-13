@@ -262,6 +262,8 @@ struct Registry {
   cancel_requested: HashSet<String>,
   progress_emitted_at: HashMap<String, Instant>,
   epoch: u64,
+  /// Запись журнала уходит в фоновый поток с дебаунсом (включается в `initialize`).
+  deferred: bool,
 }
 
 impl Registry {
@@ -289,6 +291,7 @@ impl Registry {
       cancel_requested: HashSet::new(),
       progress_emitted_at: HashMap::new(),
       epoch: 0,
+      deferred: false,
     };
     if registry.load_error.is_none() && (recovered || retained) {
       if let Err(error) = persist_journal(&registry.directory, &registry.operations) {
@@ -347,7 +350,15 @@ impl Registry {
       .epoch
       .checked_add(1)
       .ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
-    persist_journal(&self.directory, &operations)?;
+    if self.deferred && !persisted_state_changed(&self.operations, &operations) {
+      // Изменился только прогресс/служебные поля: дебаунс, потеря последней записи безвредна
+      queue_journal_write(&self.directory, &operations)?;
+    } else if self.deferred {
+      // Смена стадии, новая или удалённая операция: пишем сразу, чтобы краш не потерял состояние
+      persist_journal_through(&self.directory, &operations)?;
+    } else {
+      persist_journal(&self.directory, &operations)?;
+    }
     self.operations = operations;
     self.epoch = epoch;
     let retained: HashSet<_> = self
@@ -768,7 +779,9 @@ pub(crate) fn initialize(app: &AppHandle) -> Result<(), String> {
     .lock()
     .map_err(|_| "MEDIA_JOURNAL_BUSY")?;
   if registry.is_none() {
-    *registry = Some(Registry::load(directory, now_ms()));
+    let mut loaded = Registry::load(directory, now_ms());
+    loaded.deferred = true;
+    *registry = Some(loaded);
   }
   registry
     .as_ref()
@@ -776,7 +789,7 @@ pub(crate) fn initialize(app: &AppHandle) -> Result<(), String> {
     .ensure_available()
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_operations_list(
   webview: Webview,
   app: AppHandle,
@@ -805,7 +818,7 @@ pub(crate) struct MediaOperationRevision {
   stage: MediaOperationStage,
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_operation_revision(
   webview: Webview,
   app: AppHandle,
@@ -832,7 +845,7 @@ pub(crate) fn relay_media_operation_revision(
   })
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_operation_action(
   webview: Webview,
   app: AppHandle,
@@ -1854,6 +1867,121 @@ fn cleanup_journal_parts(directory: &Path) {
   }
 }
 
+/// Пауза перед записью журнала: серия коммитов сливается в одну запись.
+const JOURNAL_DEBOUNCE: Duration = Duration::from_millis(200);
+
+struct PendingJournal {
+  directory: PathBuf,
+  operations: Vec<MediaOperation>,
+}
+
+#[derive(Default)]
+struct JournalQueue {
+  pending: Option<PendingJournal>,
+  worker_running: bool,
+}
+
+static JOURNAL_QUEUE: Mutex<JournalQueue> = Mutex::new(JournalQueue {
+  pending: None,
+  worker_running: false,
+});
+/// Сериализует записи на диск: одновременно пишет либо фоновый поток, либо `flush_journal`.
+static JOURNAL_WRITE: Mutex<()> = Mutex::new(());
+
+/// Запоминает последний снимок журнала в памяти; на диск его пишет фоновый поток.
+fn queue_journal_write(directory: &Path, operations: &[MediaOperation]) -> Result<(), String> {
+  let start_worker = {
+    let mut queue = JOURNAL_QUEUE.lock().map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+    queue.pending = Some(PendingJournal {
+      directory: directory.to_path_buf(),
+      operations: operations.to_vec(),
+    });
+    !std::mem::replace(&mut queue.worker_running, true)
+  };
+  if start_worker {
+    let spawned = std::thread::Builder::new()
+      .name("relay-media-journal".into())
+      .spawn(|| {
+        loop {
+          std::thread::sleep(JOURNAL_DEBOUNCE);
+          match write_pending_journal(true) {
+            Some(Err(error)) => report_journal_failure(&error),
+            Some(Ok(())) => {}
+            None => return,
+          }
+        }
+      });
+    if spawned.is_err() {
+      if let Ok(mut queue) = JOURNAL_QUEUE.lock() {
+        queue.worker_running = false;
+      }
+      // Фонового потока нет: пишем сразу, как раньше.
+      if let Some(result) = write_pending_journal(false) {
+        result?;
+      }
+    }
+  }
+  Ok(())
+}
+
+/// Меняется ли то, что журнал обязан пережить сбой: набор операций или их стадия/попытка.
+fn persisted_state_changed(old: &[MediaOperation], new: &[MediaOperation]) -> bool {
+  old.len() != new.len()
+    || new.iter().any(|operation| {
+      !old.iter().any(|previous| {
+        previous.id == operation.id
+          && previous.stage == operation.stage
+          && previous.attempt == operation.attempt
+      })
+    })
+}
+
+/// Запись без дебаунса: отменяет отложенный снимок (он старее) и пишет на диск синхронно.
+fn persist_journal_through(directory: &Path, operations: &[MediaOperation]) -> Result<(), String> {
+  let _write = JOURNAL_WRITE.lock().unwrap_or_else(|poison| poison.into_inner());
+  if let Ok(mut queue) = JOURNAL_QUEUE.lock() {
+    queue.pending = None;
+  }
+  persist_journal(directory, operations)
+}
+
+/// Берёт последний снимок и пишет его. `None` — писать нечего (для потока это выход).
+fn write_pending_journal(finish_worker: bool) -> Option<Result<(), String>> {
+  let _write = JOURNAL_WRITE.lock().unwrap_or_else(|poison| poison.into_inner());
+  let pending = {
+    let mut queue = JOURNAL_QUEUE.lock().unwrap_or_else(|poison| poison.into_inner());
+    let pending = queue.pending.take();
+    if pending.is_none() && finish_worker {
+      queue.worker_running = false;
+    }
+    pending
+  }?;
+  Some(persist_journal(&pending.directory, &pending.operations))
+}
+
+/// Сбой фоновой записи: предупреждение попадает в операции и виден во фронте.
+fn report_journal_failure(error: &str) {
+  let Some(lock) = REGISTRY.get() else {
+    return;
+  };
+  let Ok(mut guard) = lock.lock() else {
+    return;
+  };
+  if let Some(registry) = guard.as_mut() {
+    for operation in &mut registry.operations {
+      operation.journal_warning = Some(error.to_string());
+    }
+    registry.epoch = registry.epoch.saturating_add(1);
+  }
+}
+
+/// Дописывает журнал немедленно. Вызывать при завершении приложения.
+pub(crate) fn flush_journal() {
+  if let Some(Err(error)) = write_pending_journal(false) {
+    log::warn!("[EgoistRelay] Media journal final write failed: {error}");
+  }
+}
+
 fn persist_journal(directory: &Path, operations: &[MediaOperation]) -> Result<(), String> {
   ensure_private_directory(directory)?;
   let mut persisted = operations.to_vec();
@@ -2719,6 +2847,54 @@ mod tests {
     let last = encrypted.len() - 1;
     encrypted[last] ^= 0x20;
     assert!(unprotect_data(&encrypted).is_err());
+  }
+
+  #[test]
+  #[cfg(windows)]
+  fn deferred_journal_debounces_and_flushes_final_state() {
+    let directory = native_directory();
+    queue_journal_write(&directory, &[fixture_operation(MediaOperationStage::Queued)]).unwrap();
+    let last = fixture_operation(MediaOperationStage::Completed);
+    queue_journal_write(&directory, &[last.clone()]).unwrap();
+    // До дебаунса на диске ещё ничего нет.
+    assert!(!directory.join(JOURNAL_NAME).exists());
+    flush_journal();
+    let loaded = load_journal(&directory).unwrap();
+    assert_eq!(loaded.len(), 1);
+    assert_eq!(loaded[0].stage, MediaOperationStage::Completed);
+    // Фоновый поток после flush ничего не перезаписывает старым снимком.
+    std::thread::sleep(JOURNAL_DEBOUNCE * 3);
+    assert_eq!(
+      load_journal(&directory).unwrap()[0].stage,
+      MediaOperationStage::Completed
+    );
+  }
+
+  #[test]
+  #[cfg(windows)]
+  fn terminal_stage_is_written_through_without_flush() {
+    let mut registry = Registry::load(native_directory(), NOW);
+    registry.ensure_available().unwrap();
+    registry.deferred = true;
+    let directory = registry.directory.clone();
+    let completed = fixture_operation(MediaOperationStage::Completed);
+    registry.commit(vec![completed.clone()], NOW).unwrap();
+    // Файл уже содержит терминальное состояние, flush_journal не вызывался
+    let loaded = load_journal(&directory).unwrap();
+    assert_eq!(loaded.len(), 1);
+    assert_eq!(loaded[0].stage, MediaOperationStage::Completed);
+  }
+
+  #[test]
+  fn progress_only_change_is_not_a_persisted_state_change() {
+    let running = fixture_operation(MediaOperationStage::Downloading);
+    let mut progressed = running.clone();
+    progressed.updated_at += 1;
+    assert!(!persisted_state_changed(&[running.clone()], &[progressed]));
+    let mut finished = running.clone();
+    finished.stage = MediaOperationStage::Completed;
+    assert!(persisted_state_changed(&[running.clone()], &[finished]));
+    assert!(persisted_state_changed(&[running], &[]));
   }
 
   #[test]

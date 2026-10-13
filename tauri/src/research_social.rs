@@ -163,6 +163,8 @@ struct Provider {
   active: Option<Job>,
   queue: VecDeque<Job>,
   last_probe: Option<Instant>,
+  last_busy: Instant,
+  view_closing: bool,
 }
 
 impl Provider {
@@ -184,6 +186,8 @@ impl Provider {
       active: None,
       queue: VecDeque::new(),
       last_probe: None,
+      last_busy: Instant::now(),
+      view_closing: false,
     }
   }
   fn epoch_value(&self) -> String {
@@ -1120,6 +1124,7 @@ fn ensure_view(app: &AppHandle, provider: &'static str, target: &Url) -> Result<
       .map_err(|_| "RESEARCH_DISPATCH_UNAVAILABLE")?;
     let state = states.get_mut(provider).ok_or("UNSUPPORTED_PROVIDER")?;
     state.view_generation = state.view_generation.wrapping_add(1);
+    state.last_busy = Instant::now();
     state.navigation_id = 0;
     state.document_navigation_id = 0;
     state.navigation_owner = None;
@@ -1400,13 +1405,14 @@ fn pump(app: &AppHandle, provider: &'static str) {
     let Some(state) = states.get_mut(provider) else {
       return;
     };
-    if state.active.is_some() {
+    if state.active.is_some() || state.view_closing {
       return;
     }
     let Some(job) = state.queue.pop_front() else {
       return;
     };
     let owner = (job.id.clone(), job.nonce.clone());
+    state.last_busy = Instant::now();
     state.active = Some(job);
     owner
   };
@@ -1527,6 +1533,7 @@ fn finish_error(app: &AppHandle, provider: &'static str, id: &str, nonce: &str, 
       state.state = "initializing";
       state.reason = "DOM_ACCOUNT_PROOF_PENDING";
     }
+    state.last_busy = Instant::now();
     state.active.take()
   });
   if let Some(job) = job {
@@ -1671,6 +1678,7 @@ pub(crate) fn dispatch(
   if let Ok(mut slot) = SOCIAL_APP.lock() {
     *slot = Some(app.clone());
   }
+  start_idle_watchdog();
   let job = build_job(
     provider,
     request_id,
@@ -1739,10 +1747,108 @@ pub(crate) fn cancel(request_id: &str, nonce: &str) {
 
 static SOCIAL_APP: LazyLock<Mutex<Option<AppHandle>>> = LazyLock::new(|| Mutex::new(None));
 
+/// Простой скрытого research-окна, после которого оно закрывается.
+const IDLE_CLOSE: Duration = Duration::from_secs(30 * 60);
+/// Не чаще раза в это время `status` делает пробную навигацию.
+const PROBE_INTERVAL: Duration = Duration::from_secs(5 * 60);
+const IDLE_TICK: Duration = Duration::from_secs(30);
+
+/// Нужна ли пробная навигация: окно уже открыто (`status` само окно не поднимает), очередь пуста,
+/// задачи нет, прошлая проба старше интервала. Без окна `status` отдаёт кэш.
+fn probe_due(view_exists: bool, active: bool, queued: usize, since_probe: Option<Duration>) -> bool {
+  view_exists && !active && queued == 0 && since_probe.is_none_or(|elapsed| elapsed > PROBE_INTERVAL)
+}
+
+/// Пора ли закрыть research-окно: ни задачи, ни очереди, ни закрытия, простой достаточен.
+fn idle_close_due(active: bool, queued: usize, closing: bool, idle: Duration) -> bool {
+  !active && queued == 0 && !closing && idle >= IDLE_CLOSE
+}
+
+fn start_idle_watchdog() {
+  static STARTED: std::sync::Once = std::sync::Once::new();
+  STARTED.call_once(|| {
+    let _ = std::thread::Builder::new()
+      .name("relay-research-idle".into())
+      .spawn(|| {
+        loop {
+          std::thread::sleep(IDLE_TICK);
+          let Some(app) = SOCIAL_APP.lock().ok().and_then(|app| app.clone()) else {
+            continue;
+          };
+          for provider in ["x", "instagram"] {
+            close_if_idle(&app, provider);
+          }
+        }
+      });
+  });
+}
+
+fn close_if_idle(app: &AppHandle, provider: &'static str) {
+  let due = PROVIDERS.lock().ok().is_some_and(|mut states| {
+    let Some(state) = states.get_mut(provider) else {
+      return false;
+    };
+    if state.active.is_some() || !state.queue.is_empty() {
+      state.last_busy = Instant::now();
+      return false;
+    }
+    if !idle_close_due(
+      state.active.is_some(),
+      state.queue.len(),
+      state.view_closing,
+      state.last_busy.elapsed(),
+    ) {
+      return false;
+    }
+    if app.get_webview(label(provider)).is_none() && app.get_window(window_label(provider)).is_none()
+    {
+      return false;
+    }
+    // pump не берёт задачи, пока окно закрывается: новая задача ждёт в очереди.
+    state.view_closing = true;
+    true
+  });
+  if !due {
+    return;
+  }
+  let handle = app.clone();
+  let scheduled = app.run_on_main_thread(move || {
+    if let Some(view) = handle.get_webview(label(provider)) {
+      let _ = view.close();
+    }
+    if let Some(window) = handle.get_window(window_label(provider)) {
+      let _ = window.close();
+    }
+    if let Ok(mut states) = PROVIDERS.lock() {
+      if let Some(state) = states.get_mut(provider) {
+        // Колбэки закрытого окна больше не должны попадать в новое.
+        state.view_generation = state.view_generation.wrapping_add(1);
+        state.navigation_id = 0;
+        state.document_navigation_id = 0;
+        state.navigation_owner = None;
+        state.navigation_observers_ready = false;
+        state.dispatched = None;
+        state.view_closing = false;
+        state.last_busy = Instant::now();
+      }
+    }
+    // Задача, пришедшая во время закрытия, создаст окно заново через ensure_view.
+    pump(&handle, provider);
+  });
+  if scheduled.is_err() {
+    if let Ok(mut states) = PROVIDERS.lock() {
+      if let Some(state) = states.get_mut(provider) {
+        state.view_closing = false;
+      }
+    }
+  }
+}
+
 pub(crate) fn status(app: &AppHandle) -> Vec<Value> {
   if let Ok(mut slot) = SOCIAL_APP.lock() {
     *slot = Some(app.clone());
   }
+  start_idle_watchdog();
   let mut warmups = Vec::new();
   let mut result = Vec::new();
   if let Ok(mut states) = PROVIDERS.lock() {
@@ -1750,11 +1856,14 @@ pub(crate) fn status(app: &AppHandle) -> Vec<Value> {
       let Some(state) = states.get_mut(provider) else {
         continue;
       };
-      if state.active.is_none()
-        && state
-          .last_probe
-          .is_none_or(|time| time.elapsed() > Duration::from_secs(15))
-      {
+      let view_exists = !state.view_closing
+        && (app.get_webview(label(provider)).is_some() || app.get_window(window_label(provider)).is_some());
+      if probe_due(
+        view_exists,
+        state.active.is_some(),
+        state.queue.len(),
+        state.last_probe.map(|time| time.elapsed()),
+      ) {
         let mut job = build_job(
           provider,
           &format!("probe-{}", uuid::Uuid::new_v4()),
@@ -2490,6 +2599,7 @@ fn handle_social_reply(
           .is_some_and(|job| job.id == request_id && job.nonce == nonce)
       }) {
         state.active = None;
+        state.last_busy = Instant::now();
       }
     }
     pump(&app, provider);
@@ -2502,6 +2612,32 @@ fn handle_social_reply(
 #[cfg(test)]
 mod relay_audit_tests {
   use super::*;
+
+  #[test]
+  fn idle_close_rule() {
+    let long = IDLE_CLOSE + Duration::from_secs(1);
+    assert!(idle_close_due(false, 0, false, long));
+    assert!(!idle_close_due(false, 0, false, IDLE_CLOSE - Duration::from_secs(1)));
+    assert!(!idle_close_due(true, 0, false, long));
+    assert!(!idle_close_due(false, 1, false, long));
+    assert!(!idle_close_due(false, 0, true, long));
+  }
+
+  #[test]
+  fn probe_is_cached_for_five_minutes() {
+    assert!(probe_due(true, false, 0, None));
+    assert!(!probe_due(true, false, 0, Some(Duration::from_secs(20))));
+    assert!(!probe_due(true, false, 0, Some(PROBE_INTERVAL)));
+    assert!(probe_due(true, false, 0, Some(PROBE_INTERVAL + Duration::from_secs(1))));
+    assert!(!probe_due(true, true, 0, None));
+    assert!(!probe_due(true, false, 2, None));
+  }
+
+  #[test]
+  fn probe_never_opens_a_missing_window() {
+    assert!(!probe_due(false, false, 0, None));
+    assert!(!probe_due(false, false, 0, Some(PROBE_INTERVAL * 2)));
+  }
 
   fn dispatch_fixture() -> Provider {
     let mut state = Provider::new();

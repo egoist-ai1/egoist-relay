@@ -25,9 +25,9 @@ pub(crate) static TRAY_BASE_ICON: LazyLock<Image<'static>> =
 
 // Menu constants
 pub const MENU_ITEM_QUIT_ID: &str = "quit";
-pub const MENU_ITEM_QUIT_LABEL: &str = "Выйти из Sennit";
+pub const MENU_ITEM_QUIT_LABEL: &str = "Выйти из Egoist Social";
 pub const MENU_ITEM_OPEN_ID: &str = "open";
-pub const MENU_ITEM_OPEN_LABEL: &str = "Открыть Sennit";
+pub const MENU_ITEM_OPEN_LABEL: &str = "Открыть Egoist Social";
 
 static MENU_TRANSLATIONS: LazyLock<std::sync::Mutex<HashMap<String, String>>> =
   LazyLock::new(|| std::sync::Mutex::new(HashMap::new()));
@@ -140,6 +140,8 @@ fn handle_icon_click(app: &AppHandle, only_open: bool) {
     if let Err(err) = window.set_focus() {
       log::error!("Failed to focus window: {:?}", err);
     }
+    // Разбудить усыплённые сервисы, не полагаясь только на событие Focused
+    crate::multi_app::refresh_main_window_visibility(app);
 
     if let Some(state) = app.try_state::<AppState>()
       && let Ok(app_state) = state.lock()

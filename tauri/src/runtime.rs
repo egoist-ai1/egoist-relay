@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
+use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
 use tauri::Manager;
@@ -7,7 +8,34 @@ use tauri::Manager;
 const NODE_PROBE_TIMEOUT: Duration = Duration::from_secs(2);
 const NODE_PROBE_POLL_INTERVAL: Duration = Duration::from_millis(25);
 
+static NODE_BINARY: Mutex<Option<PathBuf>> = Mutex::new(None);
+
+/// Путь к Node запоминается: `node --version` на каждую операцию стоил до 2 с.
 pub(crate) fn find_node_binary(app: &tauri::AppHandle) -> Result<PathBuf, String> {
+  if let Some(cached) = cached_node_binary() {
+    return Ok(cached);
+  }
+  let found = probe_node_candidates(app)?;
+  *NODE_BINARY.lock().unwrap_or_else(|poisoned| poisoned.into_inner()) = Some(found.clone());
+  Ok(found)
+}
+
+fn cached_node_binary() -> Option<PathBuf> {
+  let cached = NODE_BINARY.lock().unwrap_or_else(|poisoned| poisoned.into_inner()).clone()?;
+  if cached.is_file() {
+    return Some(cached);
+  }
+  forget_node_binary();
+  None
+}
+
+/// Сбросить кэш: вызывать, когда запуск найденного Node завершился ошибкой.
+#[allow(dead_code)]
+pub(crate) fn forget_node_binary() {
+  *NODE_BINARY.lock().unwrap_or_else(|poisoned| poisoned.into_inner()) = None;
+}
+
+fn probe_node_candidates(app: &tauri::AppHandle) -> Result<PathBuf, String> {
   let mut candidates = Vec::new();
   if let Ok(directory) = app.path().resource_dir() {
     candidates.push(directory.join("runtime/node.exe"));

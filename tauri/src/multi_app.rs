@@ -1,5 +1,5 @@
 use std::sync::{
-  Condvar, LazyLock, Mutex, Once,
+  Condvar, LazyLock, Mutex, Once, OnceLock,
   atomic::{AtomicBool, AtomicU64, Ordering},
 };
 use std::path::PathBuf;
@@ -16,6 +16,11 @@ use url::{Host, Url};
 
 #[path = "multi_app_downloads.rs"]
 mod downloads;
+#[path = "multi_app_recovery.rs"]
+mod recovery;
+use recovery::WebviewOpError;
+#[path = "multi_app_sleep.rs"]
+mod sleep;
 
 const TELEGRAM_APP: &str = "telegram";
 const X_APP: &str = "x";
@@ -122,6 +127,170 @@ static WEBVIEW_CREATION_LOCK: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(
 const SMOKE_CANCEL_DOWNLOAD_URL: &str = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=";
 static SOCIAL_OVERLAY: AtomicBool = AtomicBool::new(false);
 static CONTENT_VISIBLE: AtomicBool = AtomicBool::new(true);
+static MAIN_THREAD: OnceLock<std::thread::ThreadId> = OnceLock::new();
+static X_RECREATE_LIMITER: Mutex<recovery::RecreateLimiter> = Mutex::new(recovery::RecreateLimiter::new());
+static INSTAGRAM_RECREATE_LIMITER: Mutex<recovery::RecreateLimiter> = Mutex::new(recovery::RecreateLimiter::new());
+static X_RECOVERING: AtomicBool = AtomicBool::new(false);
+static INSTAGRAM_RECOVERING: AtomicBool = AtomicBool::new(false);
+static X_AUTO_RETRY: recovery::AutoRetry = recovery::AutoRetry::new();
+static INSTAGRAM_AUTO_RETRY: recovery::AutoRetry = recovery::AutoRetry::new();
+static X_LOAD_TIMER: recovery::LoadTimer = recovery::LoadTimer::new();
+static INSTAGRAM_LOAD_TIMER: recovery::LoadTimer = recovery::LoadTimer::new();
+const MAIN_THREAD_TIMEOUT: Duration = Duration::from_secs(3);
+
+/// Запоминает главный поток; вызывается из `setup`, который идёт на нём.
+pub fn note_main_thread() {
+  let _ = MAIN_THREAD.set(std::thread::current().id());
+}
+
+fn is_main_thread() -> bool {
+  MAIN_THREAD.get() == Some(&std::thread::current().id())
+}
+
+/// Выполняет `f` на главном потоке и возвращает результат. На самом главном потоке `f` вызывается
+/// напрямую: ждать собственную очередь нельзя (колбэки WebView2, `on_window_event`). С другого
+/// потока ожидание ограничено `MAIN_THREAD_TIMEOUT`; не держите там блокировки, которые нужны главному потоку.
+pub(crate) fn run_on_main<T: Send + 'static>(
+  app: &AppHandle,
+  f: impl FnOnce() -> T + Send + 'static,
+) -> Result<T, WebviewOpError> {
+  if is_main_thread() {
+    return Ok(f());
+  }
+  let (sender, receiver) = std::sync::mpsc::channel();
+  app
+    .run_on_main_thread(move || {
+      let _ = sender.send(f());
+    })
+    .map_err(|error| WebviewOpError::Timeout(format!("Main thread is unavailable: {error}")))?;
+  receiver
+    .recv_timeout(MAIN_THREAD_TIMEOUT)
+    .map_err(|_| WebviewOpError::Timeout("Main thread did not respond in time".to_string()))
+}
+
+/// Проверка живости контроллера: мёртвый контроллер (0x8007139F) отвечает ошибкой на IsVisible.
+#[cfg(windows)]
+fn probe_webview(webview: &tauri::Webview) -> Result<(), WebviewOpError> {
+  let (sender, receiver) = std::sync::mpsc::channel();
+  webview
+    .with_webview(move |platform| {
+      let controller = platform.controller();
+      let result = unsafe {
+        let mut visible = windows_core::BOOL(0);
+        controller.IsVisible(&mut visible).and_then(|_| controller.CoreWebView2()).map(|_| ())
+      };
+      let _ = sender.send(result.map_err(|error| WebviewOpError::Dead(error.to_string())));
+    })
+    .map_err(|error| WebviewOpError::Timeout(error.to_string()))?;
+  receiver
+    .recv_timeout(Duration::from_secs(2))
+    .map_err(|_| WebviewOpError::Timeout("WebView probe timed out".to_string()))?
+}
+
+#[cfg(not(windows))]
+fn probe_webview(_: &tauri::Webview) -> Result<(), WebviewOpError> {
+  Ok(())
+}
+
+/// show/hide/navigate идут fire-and-forget и всегда дают Ok; здесь операция выполняется на главном
+/// потоке и сразу проверяется состоянием контроллера, поэтому ошибка мёртвого WebView видна вызывающему.
+/// Таймаут повторяется один раз; пересоздавать WebView нужно только при `Dead`.
+fn webview_op_checked(
+  app: &AppHandle,
+  label: &'static str,
+  op: impl Fn(&tauri::Webview) -> tauri::Result<()> + Clone + Send + 'static,
+) -> Result<(), WebviewOpError> {
+  recovery::retry_on_timeout(|| {
+    let app_for_main = app.clone();
+    let op = op.clone();
+    run_on_main(app, move || {
+      let webview = app_for_main
+        .get_webview(label)
+        .ok_or_else(|| WebviewOpError::Dead(format!("{label} webview is not available")))?;
+      op(&webview).map_err(|error| WebviewOpError::Dead(error.to_string()))?;
+      probe_webview(&webview)
+    })?
+  })
+}
+
+fn show_checked(app: &AppHandle, label: &'static str) -> Result<(), WebviewOpError> {
+  webview_op_checked(app, label, |webview| webview.show())
+}
+
+fn hide_checked(app: &AppHandle, label: &'static str) -> Result<(), WebviewOpError> {
+  webview_op_checked(app, label, |webview| webview.hide())
+}
+
+fn service_recreate_limiter(service: &str) -> &'static Mutex<recovery::RecreateLimiter> {
+  if service == X_APP { &X_RECREATE_LIMITER } else { &INSTAGRAM_RECREATE_LIMITER }
+}
+
+fn service_auto_retry(service: &str) -> &'static recovery::AutoRetry {
+  if service == X_APP { &X_AUTO_RETRY } else { &INSTAGRAM_AUTO_RETRY }
+}
+
+fn service_load_timer(service: &str) -> &'static recovery::LoadTimer {
+  if service == X_APP { &X_LOAD_TIMER } else { &INSTAGRAM_LOAD_TIMER }
+}
+
+/// Закрывает WebView сервиса и создаёт заново. Вызывающий держит `WEBVIEW_CREATION_LOCK`
+/// (либо вызывает не из главного потока через `spawn_recovery`).
+fn recreate_service_webview(app: &AppHandle, service: &'static str, reason: &str) -> Result<(), String> {
+  let allowed = service_recreate_limiter(service)
+    .lock()
+    .unwrap_or_else(|poisoned| poisoned.into_inner())
+    .allow(Instant::now());
+  if !allowed {
+    log::warn!("[MultiApp] {service} recreation limit reached ({reason})");
+    return Err("The service browser keeps failing".to_string());
+  }
+  log::warn!("[MultiApp] {service} recreating webview: {reason}");
+  let main_window = app
+    .get_window("main")
+    .ok_or_else(|| "Main window not found".to_string())?;
+  let label = get_service_label(service);
+  let app_for_main = app.clone();
+  run_on_main(app, move || {
+    if let Some(webview) = app_for_main.get_webview(label)
+      && let Err(error) = webview.close()
+    {
+      log::warn!("[MultiApp] Failed to close {label}: {error}");
+    }
+  })?;
+  sleep::wake(app, service);
+  let bounds = resolve_x_bounds(&main_window, get_x_bounds().unwrap_or(default_x_bounds()))?;
+  let start_hidden = get_active_app() != service;
+  if service == X_APP {
+    create_x_webview(app, &main_window, bounds, start_hidden)?;
+  } else {
+    create_instagram_webview(app, &main_window, bounds, start_hidden)?;
+  }
+  store_x_bounds(bounds);
+  if start_hidden {
+    sleep::schedule(app, service);
+  }
+  Ok(())
+}
+
+/// Восстановление из колбэка WebView2 (главный поток): блокировку создания берём в отдельном потоке,
+/// иначе главный поток встал бы в очередь за потоком, который ждёт главный.
+fn spawn_recovery(app: &AppHandle, service: &'static str, reason: String) {
+  let recovering = if service == X_APP { &X_RECOVERING } else { &INSTAGRAM_RECOVERING };
+  if recovering.swap(true, Ordering::AcqRel) {
+    return;
+  }
+  let app = app.clone();
+  std::thread::spawn(move || {
+    let result = {
+      let _guard = WEBVIEW_CREATION_LOCK.lock().unwrap_or_else(|p| p.into_inner());
+      recreate_service_webview(&app, service, &reason)
+    };
+    recovering.store(false, Ordering::Release);
+    if let Err(error) = result {
+      emit_service_error(&app, service, format!("Failed to recover the service: {error}"));
+    }
+  });
+}
 
 pub(crate) fn has_social_overlay() -> bool {
   SOCIAL_OVERLAY.load(Ordering::Acquire)
@@ -133,10 +302,18 @@ pub(crate) fn set_social_overlay(app: &AppHandle, visible: bool) -> Result<(), S
     for label in [X_WEBVIEW_LABEL, INSTAGRAM_WEBVIEW_LABEL] {
       if let Some(webview) = app.get_webview(label) {
         set_media_active(&webview, false);
-        if webview.hide().is_err() {
-          SOCIAL_OVERLAY.store(false, Ordering::Release);
-          let _ = set_social_overlay(app, false);
-          return Err("SHARE_OVERLAY_FAILED".to_string());
+        match hide_checked(app, label) {
+          Ok(()) => {}
+          // Таймаут: команда скрытия уже стоит в очереди главного потока, шаринг не срываем
+          Err(error @ WebviewOpError::Timeout(_)) => {
+            log::warn!("[MultiApp] Share overlay: hiding {label} timed out, continuing: {error}");
+          }
+          Err(error) => {
+            log::warn!("[MultiApp] Share overlay could not hide {label}: {error}");
+            SOCIAL_OVERLAY.store(false, Ordering::Release);
+            let _ = set_social_overlay(app, false);
+            return Err("SHARE_OVERLAY_FAILED".to_string());
+          }
         }
       }
     }
@@ -148,7 +325,17 @@ pub(crate) fn set_social_overlay(app: &AppHandle, visible: bool) -> Result<(), S
   let can_show = if active == X_APP { !X_WAITING_TO_SHOW.load(Ordering::Acquire) && get_x_load_state() != "auth-required" } else { !INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire) };
   if can_show && CONTENT_VISIBLE.load(Ordering::Acquire) {
     if let Some(webview) = app.get_webview(label) {
-      webview.show().map_err(|_| "SHARE_OVERLAY_FAILED")?;
+      sleep::wake(app, get_service_for_label(label));
+      match show_checked(app, label) {
+        Ok(()) => {}
+        Err(error @ WebviewOpError::Timeout(_)) => {
+          log::warn!("[MultiApp] Share overlay: restoring {label} timed out, continuing: {error}");
+        }
+        Err(error) => {
+          log::warn!("[MultiApp] Share overlay could not restore {label}: {error}");
+          return Err("SHARE_OVERLAY_FAILED".to_string());
+        }
+      }
       set_media_active(&webview, true);
     }
   }
@@ -179,7 +366,7 @@ pub(crate) fn relay_media_download_file_name(webview: tauri::Webview, file_name:
   downloads::safe_file_name(&file_name)
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_download_prepare(webview: tauri::Webview, app_handle: AppHandle, url: String, file_name: String) -> Result<String, String> {
   crate::social_share::require_main(&webview)?;
   downloads::prepare_download(&app_handle, url, file_name)
@@ -229,6 +416,8 @@ pub(crate) fn relay_media_operation_source(webview: tauri::Webview, app_handle: 
   };
   let target = app_handle.get_webview(get_service_label(service)).ok_or("MEDIA_SOURCE_UNAVAILABLE")?;
   let source = Url::parse(&source).map_err(|_| "MEDIA_SOURCE_DENIED")?;
+  sleep::wake(&app_handle, service);
+  service_auto_retry(service).reset();
   begin_service_load(&app_handle, service);
   if target.navigate(source).is_err() {
     emit_service_error(&app_handle, service, "The media source could not be opened".into());
@@ -262,7 +451,42 @@ pub fn get_active_app() -> String {
     .clone()
 }
 
+/// Главное окно свёрнуто, убрано в трей или показано снова: запускает или отменяет сон скрытых WebView.
+pub fn refresh_main_window_visibility(app_handle: &AppHandle) {
+  let Some(main_window) = app_handle.get_window("main") else { return; };
+  let hidden = recovery::is_window_hidden(
+    main_window.is_minimized().unwrap_or(false),
+    main_window.is_visible().unwrap_or(true),
+  );
+  if hidden { on_main_window_hidden(app_handle) } else { on_main_window_shown(app_handle) }
+}
+
+pub fn on_main_window_hidden(app_handle: &AppHandle) {
+  sleep::schedule(app_handle, TELEGRAM_APP);
+  match get_active_app().as_str() {
+    X_APP => sleep::schedule(app_handle, X_APP),
+    INSTAGRAM_APP => sleep::schedule(app_handle, INSTAGRAM_APP),
+    _ => {}
+  }
+}
+
+pub fn on_main_window_shown(app_handle: &AppHandle) {
+  sleep::wake(app_handle, TELEGRAM_APP);
+  match get_active_app().as_str() {
+    X_APP => sleep::wake(app_handle, X_APP),
+    INSTAGRAM_APP => sleep::wake(app_handle, INSTAGRAM_APP),
+    _ => {}
+  }
+}
+
+/// Размер главного окна сейчас нулевой или окно свёрнуто: bounds пересчитывать нельзя.
+fn main_window_resize_is_ignorable(main_window: &tauri::Window) -> bool {
+  let size = main_window.inner_size().unwrap_or_default();
+  recovery::should_ignore_resize(main_window.is_minimized().unwrap_or(false), size.width, size.height)
+}
+
 pub fn on_main_window_resize(app_handle: &AppHandle) {
+  refresh_main_window_visibility(app_handle);
   let active = get_active_app();
   if active != X_APP && active != INSTAGRAM_APP {
     return;
@@ -272,6 +496,10 @@ pub fn on_main_window_resize(app_handle: &AppHandle) {
     let main_window = app_handle
       .get_window("main")
       .ok_or_else(|| "Main window not found".to_string())?;
+    if main_window_resize_is_ignorable(&main_window) {
+      // Свёрнутое окно даёт 0x0; после восстановления придёт новый Resized
+      return Ok(());
+    }
     let current = get_x_bounds().unwrap_or(default_x_bounds());
     let bounds = resolve_x_bounds(
       &main_window,
@@ -292,12 +520,9 @@ pub fn on_main_window_resize(app_handle: &AppHandle) {
     Ok(())
   })();
 
+  // Ошибка пересчёта при resize не повод показывать экран ошибки: следующий Resized исправит размер
   if let Err(message) = result {
-    if active == X_APP {
-      emit_x_error(app_handle, message);
-    } else if active == INSTAGRAM_APP {
-      emit_instagram_error(app_handle, message);
-    }
+    log::warn!("[MultiApp] {active} bounds were not updated on resize: {message}");
   }
 }
 
@@ -393,6 +618,9 @@ pub fn multi_update_x_bounds(app_handle: AppHandle, bounds: AppBounds) -> Result
     let main_window = app_handle
       .get_window("main")
       .ok_or_else(|| "Main window not found".to_string())?;
+    if main_window_resize_is_ignorable(&main_window) {
+      return Ok(());
+    }
     let bounds = resolve_x_bounds(&main_window, bounds)?;
 
     if get_active_app() == X_APP {
@@ -429,15 +657,16 @@ pub async fn multi_x_navigate(app_handle: AppHandle, action: String) -> Result<(
       .get_webview(X_WEBVIEW_LABEL)
       .ok_or_else(|| "X webview is not available".to_string())?;
 
+    sleep::wake(&app_handle, X_APP);
     if action == "reload" || action == "home" || action == "login" {
+      X_AUTO_RETRY.reset();
       begin_service_load(&app_handle, X_APP);
     }
 
     if X_WAITING_TO_SHOW.load(Ordering::Acquire) {
       emit_x_status(&app_handle, "loading", None);
     } else {
-      webview
-        .show()
+      show_checked(&app_handle, X_WEBVIEW_LABEL)
         .map_err(|error| format!("Failed to show X: {error}"))?;
       if !crate::should_avoid_foreground() {
         webview
@@ -454,7 +683,14 @@ pub async fn multi_x_navigate(app_handle: AppHandle, action: String) -> Result<(
       "login" => webview.navigate(Url::parse(X_LOGIN_URL).expect("The X sign-in URL is valid")),
       _ => return Err(format!("Unknown X navigation action: {action}")),
     }
-    .map_err(|error| format!("Failed to navigate X: {error}"))
+    .map_err(|error| format!("Failed to navigate X: {error}"))?;
+    // navigate/reload идут без результата: мёртвый контроллер видно только по пробе
+    recovery::retry_on_timeout(|| probe_webview(&webview)).map_err(|error| {
+      if error.is_dead() {
+        spawn_recovery(&app_handle, X_APP, format!("navigate failed: {error}"));
+      }
+      format!("Failed to navigate X: {error}")
+    })
   })();
 
   if let Err(message) = &result {
@@ -476,15 +712,16 @@ pub async fn multi_instagram_navigate(app_handle: AppHandle, action: String) -> 
       .get_webview(INSTAGRAM_WEBVIEW_LABEL)
       .ok_or_else(|| "Instagram webview is not available".to_string())?;
 
+    sleep::wake(&app_handle, INSTAGRAM_APP);
     if action == "reload" || action == "home" || action == "login" {
+      INSTAGRAM_AUTO_RETRY.reset();
       begin_service_load(&app_handle, INSTAGRAM_APP);
     }
 
     if INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire) {
       emit_instagram_status(&app_handle, "loading", None);
     } else {
-      webview
-        .show()
+      show_checked(&app_handle, INSTAGRAM_WEBVIEW_LABEL)
         .map_err(|error| format!("Failed to show Instagram: {error}"))?;
       if !crate::should_avoid_foreground() {
         webview
@@ -500,7 +737,13 @@ pub async fn multi_instagram_navigate(app_handle: AppHandle, action: String) -> 
       "home" | "login" => webview.navigate(parse_instagram_home_url()?),
       _ => return Err(format!("Unknown Instagram navigation action: {action}")),
     }
-    .map_err(|error| format!("Failed to navigate Instagram: {error}"))
+    .map_err(|error| format!("Failed to navigate Instagram: {error}"))?;
+    recovery::retry_on_timeout(|| probe_webview(&webview)).map_err(|error| {
+      if error.is_dead() {
+        spawn_recovery(&app_handle, INSTAGRAM_APP, format!("navigate failed: {error}"));
+      }
+      format!("Failed to navigate Instagram: {error}")
+    })
   })();
 
   if let Err(message) = &result {
@@ -527,7 +770,7 @@ fn activate_x(app_handle: &AppHandle, requested_bounds: Option<AppBounds>) -> Re
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
   if let Err(error) = main_window.set_theme(Some(crate::native_theme::window_theme())) {
-    eprintln!("[MultiApp] Failed to set the native window theme: {error}");
+    log::warn!("[MultiApp] Failed to set the native window theme: {error}");
   }
   let requested_bounds = requested_bounds
     .or_else(get_x_bounds)
@@ -535,16 +778,24 @@ fn activate_x(app_handle: &AppHandle, requested_bounds: Option<AppBounds>) -> Re
   let bounds = resolve_x_bounds(&main_window, requested_bounds)?;
   let was_active = get_active_app() == X_APP;
 
+  // Разбудить до show: после suspend контроллер не отвечает
+  sleep::wake(app_handle, X_APP);
   if let Some(ig_webview) = app_handle.get_webview(INSTAGRAM_WEBVIEW_LABEL) {
     set_media_active(&ig_webview, false);
-    let _ = ig_webview.hide();
+    let _ = hide_checked(app_handle, INSTAGRAM_WEBVIEW_LABEL);
+    sleep::schedule(app_handle, INSTAGRAM_APP);
   }
 
   if let Some(webview) = app_handle.get_webview(X_WEBVIEW_LABEL) {
-    apply_webview_bounds(app_handle, X_WEBVIEW_LABEL, bounds)?;
-    if get_x_load_state() == "auth-required" {
+    let mut broken = apply_webview_bounds(app_handle, X_WEBVIEW_LABEL, bounds)
+      .err()
+      .map(|error| format!("bounds: {error}"));
+    if broken.is_some() {
+      // Мёртвый контроллер проявляется ошибкой уже на bounds; пересоздаём ниже
+    } else if get_x_load_state() == "auth-required" {
       emit_x_status(app_handle, "auth-required", None);
     } else if get_x_load_state() == "error" || is_browser_error_document(&webview) {
+      X_AUTO_RETRY.reset();
       begin_service_load(app_handle, X_APP);
       webview
         .reload()
@@ -552,19 +803,28 @@ fn activate_x(app_handle: &AppHandle, requested_bounds: Option<AppBounds>) -> Re
     } else if X_WAITING_TO_SHOW.load(Ordering::Acquire) {
       emit_x_status(app_handle, "loading", None);
     } else {
-      webview
-        .show()
-        .map_err(|error| format!("Failed to show X: {error}"))?;
-      if !crate::should_avoid_foreground() {
-        if let Err(error) = webview.set_focus() {
-          if !was_active {
-            let _ = webview.hide();
+      match show_checked(app_handle, X_WEBVIEW_LABEL) {
+        // Таймаут не означает смерть WebView: пересоздание только при Dead
+        Err(error) if !error.is_dead() => {
+          return Err(format!("Failed to show X: {error}"));
+        }
+        Err(error) => broken = Some(format!("show: {error}")),
+        Ok(()) => {
+          if !crate::should_avoid_foreground()
+            && let Err(error) = webview.set_focus()
+          {
+            if !was_active {
+              let _ = hide_checked(app_handle, X_WEBVIEW_LABEL);
+            }
+            return Err(format!("Failed to focus X: {error}"));
           }
-          return Err(format!("Failed to focus X: {error}"));
+
+          emit_x_status(app_handle, get_x_load_state(), None);
         }
       }
-
-      emit_x_status(app_handle, get_x_load_state(), None);
+    }
+    if let Some(reason) = broken {
+      recreate_service_webview(app_handle, X_APP, &reason)?;
     }
   } else {
     create_x_webview(app_handle, &main_window, bounds, false)?;
@@ -589,7 +849,7 @@ fn activate_instagram(
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
   if let Err(error) = main_window.set_theme(Some(crate::native_theme::window_theme())) {
-    eprintln!("[MultiApp] Failed to set the native window theme: {error}");
+    log::warn!("[MultiApp] Failed to set the native window theme: {error}");
   }
   let requested_bounds = requested_bounds
     .or_else(get_x_bounds)
@@ -597,14 +857,22 @@ fn activate_instagram(
   let bounds = resolve_x_bounds(&main_window, requested_bounds)?;
   let was_active = get_active_app() == INSTAGRAM_APP;
 
+  // Разбудить до show: после suspend контроллер не отвечает
+  sleep::wake(app_handle, INSTAGRAM_APP);
   if let Some(x_webview) = app_handle.get_webview(X_WEBVIEW_LABEL) {
     set_media_active(&x_webview, false);
-    let _ = x_webview.hide();
+    let _ = hide_checked(app_handle, X_WEBVIEW_LABEL);
+    sleep::schedule(app_handle, X_APP);
   }
 
   if let Some(webview) = app_handle.get_webview(INSTAGRAM_WEBVIEW_LABEL) {
-    apply_webview_bounds(app_handle, INSTAGRAM_WEBVIEW_LABEL, bounds)?;
-    if get_instagram_load_state() == "error" || is_browser_error_document(&webview) {
+    let mut broken = apply_webview_bounds(app_handle, INSTAGRAM_WEBVIEW_LABEL, bounds)
+      .err()
+      .map(|error| format!("bounds: {error}"));
+    if broken.is_some() {
+      // Мёртвый контроллер проявляется ошибкой уже на bounds; пересоздаём ниже
+    } else if get_instagram_load_state() == "error" || is_browser_error_document(&webview) {
+      INSTAGRAM_AUTO_RETRY.reset();
       begin_service_load(app_handle, INSTAGRAM_APP);
       webview
         .reload()
@@ -612,19 +880,28 @@ fn activate_instagram(
     } else if INSTAGRAM_WAITING_TO_SHOW.load(Ordering::Acquire) {
       emit_instagram_status(app_handle, "loading", None);
     } else {
-      webview
-        .show()
-        .map_err(|error| format!("Failed to show Instagram: {error}"))?;
-      if !crate::should_avoid_foreground() {
-        if let Err(error) = webview.set_focus() {
-          if !was_active {
-            let _ = webview.hide();
+      match show_checked(app_handle, INSTAGRAM_WEBVIEW_LABEL) {
+        // Таймаут не означает смерть WebView: пересоздание только при Dead
+        Err(error) if !error.is_dead() => {
+          return Err(format!("Failed to show Instagram: {error}"));
+        }
+        Err(error) => broken = Some(format!("show: {error}")),
+        Ok(()) => {
+          if !crate::should_avoid_foreground()
+            && let Err(error) = webview.set_focus()
+          {
+            if !was_active {
+              let _ = hide_checked(app_handle, INSTAGRAM_WEBVIEW_LABEL);
+            }
+            return Err(format!("Failed to focus Instagram: {error}"));
           }
-          return Err(format!("Failed to focus Instagram: {error}"));
+
+          emit_instagram_status(app_handle, get_instagram_load_state(), None);
         }
       }
-
-      emit_instagram_status(app_handle, get_instagram_load_state(), None);
+    }
+    if let Some(reason) = broken {
+      recreate_service_webview(app_handle, INSTAGRAM_APP, &reason)?;
     }
   } else {
     create_instagram_webview(app_handle, &main_window, bounds, false)?;
@@ -646,13 +923,16 @@ fn activate_telegram(app_handle: &AppHandle) -> Result<(), String> {
     .get_window("main")
     .ok_or_else(|| "Main window not found".to_string())?;
 
+  sleep::wake(app_handle, TELEGRAM_APP);
   if let Some(webview) = app_handle.get_webview(X_WEBVIEW_LABEL) {
     set_media_active(&webview, false);
-    let _ = webview.hide();
+    let _ = hide_checked(app_handle, X_WEBVIEW_LABEL);
+    sleep::schedule(app_handle, X_APP);
   }
   if let Some(ig_webview) = app_handle.get_webview(INSTAGRAM_WEBVIEW_LABEL) {
     set_media_active(&ig_webview, false);
-    let _ = ig_webview.hide();
+    let _ = hide_checked(app_handle, INSTAGRAM_WEBVIEW_LABEL);
+    sleep::schedule(app_handle, INSTAGRAM_APP);
   }
 
   if !crate::should_avoid_foreground() {
@@ -667,6 +947,10 @@ fn activate_telegram(app_handle: &AppHandle) -> Result<(), String> {
 
 fn get_service_label(service: &str) -> &'static str {
   if service == X_APP { X_WEBVIEW_LABEL } else { INSTAGRAM_WEBVIEW_LABEL }
+}
+
+fn get_service_for_label(label: &str) -> &'static str {
+  if label == X_WEBVIEW_LABEL { X_APP } else { INSTAGRAM_APP }
 }
 
 fn get_service_waiting_flag(service: &str) -> &'static AtomicBool {
@@ -687,6 +971,7 @@ fn get_service_watchdog(service: &str) -> &'static ServiceLoadWatchdog {
 }
 
 fn begin_service_load(app_handle: &AppHandle, service: &'static str) {
+  service_load_timer(service).begin(Instant::now());
   let watchdog = get_service_watchdog(service);
   watchdog.worker.call_once(|| {
     let app = app_handle.clone();
@@ -706,14 +991,58 @@ fn begin_service_load(app_handle: &AppHandle, service: &'static str) {
   emit_service_status(app_handle, service, "loading");
 }
 
-fn cancel_service_load_deadline(service: &str) {
+fn cancel_service_load_deadline(service: &str) -> u64 {
   let watchdog = get_service_watchdog(service);
-  {
+  let generation = {
     let mut state = watchdog.state.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
     state.generation = state.generation.wrapping_add(1);
     state.expires_at = None;
-  }
+    state.generation
+  };
   watchdog.changed.notify_one();
+  generation
+}
+
+fn current_load_generation(service: &str) -> u64 {
+  get_service_watchdog(service)
+    .state
+    .lock()
+    .unwrap_or_else(|poisoned| poisoned.into_inner())
+    .generation
+}
+
+/// Сбой загрузки: один раз за серию перезагружаем через 3 с, повторный сбой уходит в экран ошибки.
+fn handle_load_failure(app_handle: &AppHandle, service: &'static str, message: String) {
+  if get_service_load_state(service) == "loading"
+    && app_handle.get_webview(get_service_label(service)).is_some()
+    && service_auto_retry(service).take()
+  {
+    let generation = cancel_service_load_deadline(service);
+    log::warn!("[MultiApp] {service} load failed ({message}); reloading in {} s", recovery::AUTO_RETRY_DELAY.as_secs());
+    let app = app_handle.clone();
+    std::thread::spawn(move || {
+      std::thread::sleep(recovery::AUTO_RETRY_DELAY);
+      // Любая новая загрузка или ошибка за это время отменяет повтор
+      if current_load_generation(service) != generation || get_service_load_state(service) != "loading" {
+        return;
+      }
+      let app_for_main = app.clone();
+      let result = run_on_main(&app, move || {
+        sleep::wake(&app_for_main, service);
+        begin_service_load(&app_for_main, service);
+        app_for_main
+          .get_webview(get_service_label(service))
+          .ok_or_else(|| "webview is not available".to_string())
+          .and_then(|webview| webview.reload().map_err(|error| error.to_string()))
+      });
+      if let Err(error) = result.map_err(String::from).and_then(|inner| inner) {
+        log::warn!("[MultiApp] {service} automatic reload failed: {error}");
+        emit_service_error(&app, service, message);
+      }
+    });
+    return;
+  }
+  emit_service_error(app_handle, service, message);
 }
 
 fn watch_service_load(app_handle: &AppHandle, service: &'static str) {
@@ -745,25 +1074,41 @@ fn watch_service_load(app_handle: &AppHandle, service: &'static str) {
       if let Some(webview) = app.get_webview(get_service_label(service)) {
         let _ = webview.eval("window.__egoistRelayStopReadyProbe?.(); window.stop();");
       }
-      emit_service_error(&app, service, "The service did not become ready within 45 seconds".to_string());
+      handle_load_failure(&app, service, "The service did not become ready within 45 seconds".to_string());
     });
   }
 }
 
-fn complete_service_load(app_handle: &AppHandle, service: &str) {
+fn complete_service_load(app_handle: &AppHandle, service: &'static str) {
   if get_service_load_state(service) != "loading" {
     return;
   }
   cancel_service_load_deadline(service);
+  service_auto_retry(service).reset();
+  if let Some(elapsed) = service_load_timer(service).finish(Instant::now()) {
+    log::info!("[MultiApp] {service} ready in {} ms", elapsed.as_millis());
+  }
   get_service_waiting_flag(service).store(false, Ordering::Release);
   if let Some(webview) = app_handle.get_webview(get_service_label(service)) {
     let is_active = get_active_app() == service && !has_social_overlay() && CONTENT_VISIBLE.load(Ordering::Acquire);
     if is_active {
-      let result = webview.show().and_then(|_| {
-        if crate::should_avoid_foreground() { Ok(()) } else { webview.set_focus() }
+      sleep::wake(app_handle, service);
+      let result = show_checked(app_handle, get_service_label(service)).and_then(|_| {
+        if crate::should_avoid_foreground() {
+          Ok(())
+        } else {
+          webview.set_focus().map_err(|error| WebviewOpError::Dead(error.to_string()))
+        }
       });
       if let Err(error) = result {
-        emit_service_error(app_handle, service, format!("Failed to restore the service: {error}"));
+        if error.is_dead() {
+          // Мёртвый контроллер: пересоздаём WebView, а не оставляем пустую область
+          spawn_recovery(app_handle, service, format!("show failed after load: {error}"));
+        } else {
+          // Таймаут: WebView, скорее всего, жив; пересоздание не нужно, сообщаем об ошибке
+          log::warn!("[MultiApp] {service} show after load timed out: {error}");
+          emit_service_error(app_handle, service, format!("Failed to show the service: {error}"));
+        }
         return;
       }
     }
@@ -899,7 +1244,7 @@ fn install_service_load_observers(
         let completed_id = navigation_id.clone();
         let completed_loaded = has_loaded_document.clone();
         let completed_app = app.clone();
-        core.add_NavigationCompleted(&NavigationCompletedEventHandler::create(Box::new(move |_, args| {
+        core.add_NavigationCompleted(&NavigationCompletedEventHandler::create(Box::new(move |sender, args| {
           let Some(args) = args else { return Ok(()); };
           let mut finished_id = 0;
           args.NavigationId(&mut finished_id)?;
@@ -911,7 +1256,17 @@ fn install_service_load_observers(
             let mut error_status = Default::default();
             args.WebErrorStatus(&mut error_status)?;
             if error_status != COREWEBVIEW2_WEB_ERROR_STATUS_OPERATION_CANCELED {
-              emit_service_error(&completed_app, service, format!("The service navigation failed: {error_status:?}"));
+              // В журнал идёт только хост адреса: в строке запроса могут быть токены
+              let mut host = String::new();
+              if let Some(sender) = sender.as_ref() {
+                let mut source = windows_core::PWSTR::null();
+                if sender.Source(&mut source).is_ok() {
+                  host = Url::parse(&webview2_com::take_pwstr(source)).ok()
+                    .and_then(|url| url.host_str().map(str::to_string)).unwrap_or_default();
+                }
+              }
+              log::warn!("[MultiApp] {service} navigation failed: WebErrorStatus={} host={host}", error_status.0);
+              handle_load_failure(&completed_app, service, format!("The service navigation failed: WebErrorStatus {}", error_status.0));
             }
             return Ok(());
           }
@@ -963,17 +1318,23 @@ fn install_service_load_observers(
           })), &mut registration)?;
         }
         let failed_app = app.clone();
-        core.add_ProcessFailed(&ProcessFailedEventHandler::create(Box::new(move |_, args| {
+        core.add_ProcessFailed(&ProcessFailedEventHandler::create(Box::new(move |sender, args| {
           let Some(args) = args else { return Ok(()); };
           let mut kind = Default::default();
           args.ProcessFailedKind(&mut kind)?;
-          if matches!(kind, COREWEBVIEW2_PROCESS_FAILED_KIND_BROWSER_PROCESS_EXITED
-            | COREWEBVIEW2_PROCESS_FAILED_KIND_RENDER_PROCESS_EXITED
-            | COREWEBVIEW2_PROCESS_FAILED_KIND_RENDER_PROCESS_UNRESPONSIVE) {
-            emit_service_error(&failed_app, service, "The service browser process stopped responding".to_string());
-            if kind == COREWEBVIEW2_PROCESS_FAILED_KIND_BROWSER_PROCESS_EXITED {
-              if let Some(webview) = failed_app.get_webview(get_service_label(service)) { let _ = webview.close(); }
+          log::warn!("[MultiApp] {service} WebView2 process failed: ProcessFailedKind={}", kind.0);
+          if kind == COREWEBVIEW2_PROCESS_FAILED_KIND_BROWSER_PROCESS_EXITED {
+            // Браузерный процесс умер вместе с контроллером. Мы на главном потоке:
+            // пересоздание уходит в отдельный поток
+            spawn_recovery(&failed_app, service, format!("process failed, kind {}", kind.0));
+          } else if kind == COREWEBVIEW2_PROCESS_FAILED_KIND_RENDER_PROCESS_EXITED {
+            // Рендерер упал, контроллер жив: достаточно перезагрузить страницу
+            match sender.as_ref().map(|core| core.Reload()) {
+              Some(Ok(())) => {}
+              _ => spawn_recovery(&failed_app, service, "render process exited, reload failed".to_string()),
             }
+          } else if kind == COREWEBVIEW2_PROCESS_FAILED_KIND_RENDER_PROCESS_UNRESPONSIVE {
+            watch_unresponsive_renderer(&failed_app, service);
           }
           Ok(())
         })), &mut registration)?;
@@ -984,6 +1345,63 @@ fn install_service_load_observers(
       emit_service_error(&app, service, format!("Failed to monitor the service browser: {error}"));
     }
   }).map_err(|error| format!("Failed to attach the service load monitor: {error}"))
+}
+
+/// Рендерер завис: ждём, не оживёт ли сам; если страница не отвечает на скрипт, перезагружаем её.
+/// Лимит пересозданий не тратится, WebView не закрывается.
+#[cfg(windows)]
+fn watch_unresponsive_renderer(app: &AppHandle, service: &'static str) {
+  static X_WATCHING: AtomicBool = AtomicBool::new(false);
+  static INSTAGRAM_WATCHING: AtomicBool = AtomicBool::new(false);
+  let watching = if service == X_APP { &X_WATCHING } else { &INSTAGRAM_WATCHING };
+  if watching.swap(true, Ordering::AcqRel) {
+    return;
+  }
+  let app = app.clone();
+  std::thread::spawn(move || {
+    std::thread::sleep(UNRESPONSIVE_GRACE);
+    if let Some(webview) = app.get_webview(get_service_label(service)) {
+      if renderer_answers(&webview) {
+        log::info!("[MultiApp] {service} renderer recovered by itself");
+      } else {
+        log::warn!("[MultiApp] {service} renderer is still unresponsive, reloading");
+        let app_for_main = app.clone();
+        let _ = run_on_main(&app, move || {
+          if let Some(webview) = app_for_main.get_webview(get_service_label(service))
+            && let Err(error) = webview.reload()
+          {
+            log::warn!("[MultiApp] {service} reload after hang failed: {error}");
+          }
+        });
+      }
+    }
+    watching.store(false, Ordering::Release);
+  });
+}
+
+#[cfg(not(windows))]
+fn watch_unresponsive_renderer(_: &AppHandle, _: &'static str) {}
+
+const UNRESPONSIVE_GRACE: Duration = Duration::from_secs(5);
+
+/// Выполняет тривиальный скрипт в странице и ждёт ответа: зависший рендерер его не вернёт.
+#[cfg(windows)]
+fn renderer_answers(webview: &tauri::Webview) -> bool {
+  let (sender, receiver) = std::sync::mpsc::channel();
+  let started = webview.with_webview(move |platform| {
+    let run = || -> windows_core::Result<()> {
+      unsafe {
+        let core = platform.controller().CoreWebView2()?;
+        let handler = webview2_com::ExecuteScriptCompletedHandler::create(Box::new(move |_, _| {
+          let _ = sender.send(());
+          Ok(())
+        }));
+        core.ExecuteScript(&windows_core::HSTRING::from("1"), &handler)
+      }
+    };
+    let _ = run();
+  });
+  started.is_ok() && receiver.recv_timeout(Duration::from_secs(2)).is_ok()
 }
 
 fn is_browser_error_document(webview: &tauri::Webview) -> bool {
@@ -1041,6 +1459,7 @@ fn create_x_webview(
   let share_token = uuid::Uuid::new_v4().to_string();
   #[cfg(windows)]
   let ready_token = uuid::Uuid::new_v4().to_string();
+  X_AUTO_RETRY.reset();
   begin_service_load(app_handle, X_APP);
 
   let webview_builder =
@@ -1096,14 +1515,14 @@ fn create_x_webview(
 
   let position = LogicalPosition::new(bounds.x as f64, bounds.y as f64);
   let size = LogicalSize::new(bounds.width as f64, bounds.height as f64);
-  eprintln!("[MultiApp] Creating X webview with bounds: {:?}", bounds);
+  log::info!("[MultiApp] Creating X webview with bounds: {:?}", bounds);
   let webview = match main_window.add_child(webview_builder, position, size) {
     Ok(wv) => {
-      eprintln!("[MultiApp] Successfully created X webview!");
+      log::info!("[MultiApp] Created X webview");
       wv
     }
     Err(err) => {
-      eprintln!("[MultiApp] ERROR: Failed to add_child X webview: {err}");
+      log::error!("[MultiApp] Failed to add_child X webview: {err}");
       return Err(format!("Failed to create X webview: {err}"));
     }
   };
@@ -1570,17 +1989,25 @@ fn emit_x_status(app_handle: &AppHandle, state: &'static str, message: Option<St
   };
 
   if let Err(error) = app_handle.emit_to("main", X_STATUS_EVENT, payload) {
-    eprintln!("[MultiApp] Failed to emit X status: {error}");
+    log::warn!("[MultiApp] Failed to emit X status: {error}");
+  }
+}
+
+fn log_service_error(service: &str, message: &str) {
+  match service_load_timer(service).finish(Instant::now()) {
+    Some(elapsed) => log::warn!("[MultiApp] {service} error after {} ms: {message}", elapsed.as_millis()),
+    None => log::warn!("[MultiApp] {service} error: {message}"),
   }
 }
 
 fn emit_x_error(app_handle: &AppHandle, message: String) {
+  log_service_error(X_APP, &message);
   cancel_service_load_deadline(X_APP);
   X_WAITING_TO_SHOW.store(true, Ordering::Release);
   if let Some(webview) = app_handle.get_webview(X_WEBVIEW_LABEL) {
     set_media_active(&webview, false);
     if let Err(error) = webview.hide() {
-      eprintln!("[MultiApp] Failed to hide X after an error: {error}");
+      log::warn!("[MultiApp] Failed to hide X after an error: {error}");
     }
   }
   emit_x_status(app_handle, "error", Some(message));
@@ -1660,6 +2087,7 @@ fn create_instagram_webview(
     .map_err(|error| format!("Failed to create the Instagram profile: {error}"))?;
   #[cfg(windows)]
   let ready_token = uuid::Uuid::new_v4().to_string();
+  INSTAGRAM_AUTO_RETRY.reset();
   begin_service_load(app_handle, INSTAGRAM_APP);
 
   let webview_builder = WebviewBuilder::new(
@@ -1710,17 +2138,14 @@ fn create_instagram_webview(
 
   let position = LogicalPosition::new(bounds.x as f64, bounds.y as f64);
   let size = LogicalSize::new(bounds.width as f64, bounds.height as f64);
-  eprintln!(
-    "[MultiApp] Creating Instagram webview with bounds: {:?}",
-    bounds
-  );
+  log::info!("[MultiApp] Creating Instagram webview with bounds: {:?}", bounds);
   let webview = match main_window.add_child(webview_builder, position, size) {
     Ok(wv) => {
-      eprintln!("[MultiApp] Successfully created Instagram webview!");
+      log::info!("[MultiApp] Created Instagram webview");
       wv
     }
     Err(err) => {
-      eprintln!("[MultiApp] ERROR: Failed to add_child Instagram webview: {err}");
+      log::error!("[MultiApp] Failed to add_child Instagram webview: {err}");
       return Err(format!("Failed to create Instagram webview: {err}"));
     }
   };
@@ -1774,17 +2199,18 @@ fn emit_instagram_status(app_handle: &AppHandle, state: &'static str, message: O
   };
 
   if let Err(error) = app_handle.emit_to("main", INSTAGRAM_STATUS_EVENT, payload) {
-    eprintln!("[MultiApp] Failed to emit Instagram status: {error}");
+    log::warn!("[MultiApp] Failed to emit Instagram status: {error}");
   }
 }
 
 fn emit_instagram_error(app_handle: &AppHandle, message: String) {
+  log_service_error(INSTAGRAM_APP, &message);
   cancel_service_load_deadline(INSTAGRAM_APP);
   INSTAGRAM_WAITING_TO_SHOW.store(true, Ordering::Release);
   if let Some(webview) = app_handle.get_webview(INSTAGRAM_WEBVIEW_LABEL) {
     set_media_active(&webview, false);
     if let Err(error) = webview.hide() {
-      eprintln!("[MultiApp] Failed to hide Instagram after an error: {error}");
+      log::warn!("[MultiApp] Failed to hide Instagram after an error: {error}");
     }
   }
   emit_instagram_status(app_handle, "error", Some(message));
