@@ -15,9 +15,6 @@ import SennitMark from './SennitMark';
 
 import styles from './Titlebar.module.scss';
 
-// Порядок сервисов в rail: индекс разделов фирменной сетки (Egoist Grid) показывает реальное положение
-const SERVICE_ORDER: AppId[] = ['telegram', 'x', 'instagram'];
-
 export type SocialNavigationAction = 'back' | 'forward' | 'home' | 'reload';
 type OwnProps = {
   activeApp: AppId;
@@ -124,8 +121,6 @@ const Titlebar = ({
 
   if (IS_MAC_OS || !IS_TAURI) return undefined;
 
-  const sectionIndex = `${String(SERVICE_ORDER.indexOf(activeApp) + 1).padStart(2, '0')}/0${SERVICE_ORDER.length}`;
-
   return (
     <div
       className={styles.titlebar}
@@ -142,9 +137,6 @@ const Titlebar = ({
             : activeApp === 'instagram'
               ? lang('RelayInstagramTitle')
               : lang('RelayTelegramTitle')}
-        </span>
-        <span className={styles.gridIndex} aria-hidden="true" data-tauri-drag-region>
-          {sectionIndex}
         </span>
       </div>
 

@@ -77,6 +77,7 @@ const INITIAL_KEYS: LangKey[] = [
   'RelayInstagramLoadingTitle',
   'RelayInstagramLoadingText',
   'RelayInstagramErrorTitle',
+  'RelayServiceSleeping',
   'RelayInstagramErrorText',
   'RelayNavBack',
   'RelayNavForward',

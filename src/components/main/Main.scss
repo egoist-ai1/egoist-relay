@@ -124,8 +124,8 @@
     left: 1rem;
     transform: translate3d(calc(-100% - 1rem), 0, 0);
 
-    width: min(26.5rem, calc(100vw - var(--relay-shell-rail-width, 4.5rem) - 2rem)) !important;
-    max-width: min(var(--left-column-max-width), calc(100vw - var(--relay-shell-rail-width, 4.5rem) - 2rem));
+    width: min(26.5rem, calc(100vw - var(--relay-shell-rail-width, 3.5rem) - 2rem)) !important;
+    max-width: min(var(--left-column-max-width), calc(100vw - var(--relay-shell-rail-width, 3.5rem) - 2rem));
     height: calc(var(--vh, 1vh) * 100 - var(--relay-shell-caption-height, 2.5rem) - 2rem);
     margin: 0;
 

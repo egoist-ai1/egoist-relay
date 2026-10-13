@@ -80,6 +80,7 @@ export default {
   "RelayInstagramLoadingTitle": "Открываем Instagram",
   "RelayInstagramLoadingText": "Ваша сессия Instagram открывается внутри Sennit.",
   "RelayInstagramErrorTitle": "Не удалось открыть Instagram",
+  "RelayServiceSleeping": "Спит — откроется за секунду",
   "RelayInstagramErrorText": "Проверьте подключение к интернету, системный DNS и работу Zapret в Lagom, затем обновите страницу.",
   "RelayNavBack": "Назад",
   "RelayNavForward": "Вперёд",

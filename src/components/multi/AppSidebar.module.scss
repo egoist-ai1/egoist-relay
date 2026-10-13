@@ -1,10 +1,11 @@
+// Rail оболочки Sennit (вариант «Тихая рамка»): только иконки, одна заливка активного пункта,
+// состояние сервиса — точка на иконке (загрузка, ошибка, сон)
 .sidebar {
   user-select: none;
 
   position: relative;
   z-index: 10;
 
-  container: relayRail / size;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -31,37 +32,12 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.375rem;
   align-items: center;
 
   width: 100%;
   min-height: 0;
-  padding: 0.75rem 0.375rem;
-}
-
-/* Знак Sennit закрепляет низ rail; не интерактивен, на низких окнах скрывается */
-.brand {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  padding-block: 0.875rem 1rem;
-
-  color: var(--relay-shell-muted);
-}
-
-.appItem {
-  position: relative;
-
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  min-height: 4rem;
+  padding-block: 0.625rem;
 }
 
 .appButton {
@@ -70,19 +46,16 @@
   position: relative;
 
   display: flex;
-  flex-direction: column;
   flex-shrink: 0;
-  gap: 0.4375rem;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
-  min-height: 4rem;
-  padding: 0.5rem 0.125rem;
-  border: 0.0625rem solid transparent;
-  border-radius: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.625rem;
 
-  font-family: inherit;
   color: var(--relay-shell-muted);
 
   background: transparent;
@@ -90,7 +63,6 @@
   transition:
     color var(--dur-fast) var(--ease-standard),
     background-color var(--dur-fast) var(--ease-standard),
-    border-color var(--dur-fast) var(--ease-standard),
     transform var(--dur-fast) var(--ease-spring);
 
   &:hover {
@@ -99,98 +71,79 @@
   }
 
   &:active {
-    transform: scale(0.96);
-    background: var(--relay-shell-active);
+    transform: scale(0.94);
   }
 
   &:focus-visible {
     outline: 0.125rem solid var(--relay-shell-focus);
-    outline-offset: -0.0625rem;
+    outline-offset: 0.125rem;
   }
 }
 
-.active {
-  border-color: var(--relay-shell-border-strong);
+.active,
+.active:hover {
   color: var(--relay-shell-text);
   background: var(--relay-shell-active);
 }
 
-.hasError,
-.activeLabel {
+.hasError {
   color: var(--relay-shell-text);
 }
 
-.activeIndicator {
-  position: absolute;
-  inset-inline-start: -0.375rem;
-  top: 50%;
-  transform: translateY(-50%);
-
-  width: 0.1875rem;
-  height: 1.5rem;
-  border-radius: 0.125rem;
-
-  opacity: 0;
-  background: var(--relay-shell-text);
-
-  transition: opacity var(--dur-fast) var(--ease-standard);
-}
-
-.active .activeIndicator {
-  opacity: 1;
+// Спящий сервис приглушён сильнее обычного, но остаётся кнопкой
+.sleeping:not(.active) .serviceSvg {
+  opacity: 0.55;
 }
 
 .serviceIcon {
   position: relative;
 
   display: flex;
-  flex-shrink: 0;
   align-items: center;
   justify-content: center;
 
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
-.telegramIcon,
-.xIcon,
-.instagramIcon {
+.serviceSvg {
   display: block;
   width: 100%;
   height: 100%;
+  transition: opacity var(--dur-fast) var(--ease-standard);
 }
 
-.appLabel {
-  min-width: 0;
-  max-width: 100%;
-
-  font-size: 0.6875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.3;
-  color: inherit;
-  text-align: center;
-  overflow-wrap: anywhere;
-}
-
+// Точка состояния: вращающееся кольцо — загрузка; сплошной квадрат — ошибка; полое кольцо — сон
 .stateDot {
   position: absolute;
-  inset-inline-end: -0.1875rem;
-  bottom: -0.125rem;
+  inset-inline-end: -0.3125rem;
+  top: -0.3125rem;
 
-  width: 0.5625rem;
-  height: 0.5625rem;
+  width: 0.625rem;
+  height: 0.625rem;
   border: 0.125rem solid var(--relay-shell-border-strong);
   border-top-color: var(--relay-shell-text);
   border-radius: 50%;
 
   background: var(--relay-shell-background);
+  box-shadow: 0 0 0 0.125rem var(--relay-shell-background);
 
   animation: stateSpin 900ms linear infinite;
+}
+
+.active .stateDot {
+  box-shadow: 0 0 0 0.125rem var(--relay-shell-active);
 }
 
 .stateDotError {
   border-color: var(--relay-shell-text);
   border-radius: 0.125rem;
+  background: var(--relay-shell-text);
+  animation: none;
+}
+
+.stateDotSleep {
+  border-color: var(--relay-shell-muted);
   animation: none;
 }
 
@@ -200,32 +153,9 @@
   }
 }
 
-@container relayRail (max-height: 16rem) {
-  .brand {
-    display: none;
-  }
-}
-
-@container relayRail (max-height: 20rem) {
-  .appList {
-    gap: 0.25rem;
-    padding-block: 0.5rem;
-  }
-
-  .appItem,
-  .appButton {
-    min-height: 3.5rem;
-  }
-
-  .appButton {
-    gap: 0.25rem;
-    padding-block: 0.375rem;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .appButton,
-  .activeIndicator {
+  .serviceSvg {
     transition: none;
   }
 
@@ -233,6 +163,7 @@
     transform: none;
   }
 
+  // Без вращения загрузка всё равно отличима: кольцо с одной светлой дугой
   .stateDot {
     animation: none;
   }

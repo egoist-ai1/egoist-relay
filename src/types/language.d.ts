@@ -2383,6 +2383,7 @@ export interface LangPair {
   'RelayInstagramLoadingTitle': undefined;
   'RelayInstagramLoadingText': undefined;
   'RelayInstagramErrorTitle': undefined;
+  'RelayServiceSleeping': undefined;
   'RelayInstagramErrorText': undefined;
   'RelayNavBack': undefined;
   'RelayNavForward': undefined;

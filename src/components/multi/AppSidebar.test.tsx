@@ -51,15 +51,39 @@ afterEach(() => new Promise<void>((resolve) => {
 }));
 
 describe('AppSidebar complete navigation tile', () => {
-  test('The visible label activates the same control as its icon', async () => {
+  test('Icon-only rail keeps an accessible name and tooltip for every service', async () => {
     await renderSidebar();
-    const instagram = getAppButton('instagram');
-    const label = instagram.querySelector<HTMLElement>('[class*="appLabel"]')!;
-    expect(label.textContent).toBe('RelayInstagramTitle');
-    label.click();
+    for (const [app, title] of [['telegram', 'RelayTelegramTitle'], ['x', 'RelayXTitle'],
+      ['instagram', 'RelayInstagramTitle']]) {
+      const button = getAppButton(app);
+      expect(button.getAttribute('aria-label')).toBeTruthy();
+      expect(button.title).toBe(title);
+      expect(button.querySelector('[class*="stateDot"]')).toBeNull();
+    }
+    getAppButton('instagram').click();
     expect(onSelectApp).toHaveBeenCalledExactlyOnceWith('instagram');
     expect(getAppButton('telegram').getAttribute('aria-current')).toBe('page');
-    expect(instagram.getAttribute('aria-current')).toBeNull();
+  });
+
+  test('A sleeping service shows the sleep mark, but loading and errors win over sleep', async () => {
+    await new Promise<void>((resolve) => {
+      requestMutation(() => {
+        TeactDOM.render(createElement(AppSidebar, {
+          activeApp: 'telegram',
+          xAppState: 'ready',
+          instagramAppState: 'error',
+          sleepingApps: ['x', 'instagram'],
+          onSelectApp,
+        }), container);
+        resolve();
+      });
+    });
+    const x = getAppButton('x');
+    expect(x.dataset.relayIndicator).toBe('sleep');
+    expect(x.getAttribute('aria-label')).toContain('RelayServiceSleeping');
+    expect(getAppButton('instagram').dataset.relayIndicator).toBe('error');
+    x.click();
+    expect(onSelectApp).toHaveBeenCalledExactlyOnceWith('x');
   });
 
   test('Arrow keys wrap and Home/End retain the current app until activation', async () => {

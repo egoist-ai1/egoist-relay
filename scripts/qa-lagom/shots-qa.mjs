@@ -18,7 +18,7 @@ for (const theme of themes) {
     const shot = async (name) => { await t.settle(600); await page.screenshot({ path: path.join(out, `${theme}-${name}.png`) });
       // геометрия: горизонтальная прокрутка страницы и элементы, вылезающие за окно
       const g = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: window.innerWidth, sh: document.documentElement.scrollHeight, ih: window.innerHeight,
-        clippedText: [...document.querySelectorAll('.chat-item-clickable .fullName, .MiddleHeader .fullName, [class*="appLabel"]')].filter((e) => e.scrollWidth > e.clientWidth + 1).length }));
+        clippedText: [...document.querySelectorAll('.chat-item-clickable .fullName, .MiddleHeader .fullName')].filter((e) => e.scrollWidth > e.clientWidth + 1).length }));
       report.push({ theme, name, ...g }); console.log('shot', theme, name, JSON.stringify(g)); };
     for (const [w, h] of sizes) { await t.reset(w, h, theme); await shot(`${w}x${h}`); }
         await t.reset(1280, 800, theme); await page.evaluate((o) => window.__relayNativeMock.media.seed(o, false), ops);
