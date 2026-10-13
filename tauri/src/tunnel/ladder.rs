@@ -174,9 +174,15 @@ impl Ladder {
         if self.proxy_fail >= FAIL_THRESHOLD {
           if can_rotate {
             self.proxy_fail = 0;
+            // Новый узел проверяется быстрым пакетом: мёртвый заменяется за секунды, а не за 15 с
+            self.burst = BURST_COUNT;
             return Event::RotateNode;
           }
           return self.transition(now, Route::DnsOnly);
+        }
+        // Первый отказ: остальные пробы серии идут через секунду, обрыв подтверждается быстрее
+        if self.proxy_fail > 0 {
+          self.burst = self.burst.max(FAIL_THRESHOLD - self.proxy_fail);
         }
       }
       Route::DnsOnly => {
@@ -568,6 +574,35 @@ mod tests {
     assert_eq!(ladder.next_delay(), BURST_INTERVAL);
     now += BURST_INTERVAL;
     assert_eq!(ladder.observe(now, &bad(&[]), false), Event::Transition { from: Route::Tunnel, to: Route::DnsOnly });
+    assert_eq!(ladder.next_delay(), PROBE_INTERVAL);
+  }
+
+  #[test]
+  fn failure_in_tunnel_speeds_up_the_series_and_rotation_checks_the_new_node_fast() {
+    let mut now = Duration::ZERO;
+    let mut ladder = Ladder::new(now);
+    assert_eq!(ladder.next_delay(), PROBE_INTERVAL);
+    now += TICK;
+    ladder.observe(now, &bad(&[]), true);
+    assert_eq!(ladder.next_delay(), BURST_INTERVAL, "после первого отказа серия идёт быстро");
+    now += BURST_INTERVAL;
+    assert_eq!(ladder.observe(now, &bad(&[]), true), Event::None);
+    assert_eq!(ladder.next_delay(), BURST_INTERVAL);
+    now += BURST_INTERVAL;
+    assert_eq!(ladder.observe(now, &bad(&[]), true), Event::RotateNode);
+    assert_eq!(now, Duration::from_secs(7), "узел меняется через 7 с вместо 15 с");
+    assert_eq!(ladder.next_delay(), BURST_INTERVAL, "новый узел проверяется быстрым пакетом");
+    // Новый узел исправен: пакет кончается, период возвращается к обычному
+    for _ in 0..BURST_COUNT {
+      now += BURST_INTERVAL;
+      assert_eq!(ladder.observe(now, &ok(&[]), true), Event::None);
+    }
+    assert_eq!(ladder.next_delay(), PROBE_INTERVAL);
+    // В DnsOnly отказ туннеля ожидаем и пробы не ускоряет
+    run(&mut ladder, &mut now, 3, &bad(&[]));
+    assert_eq!(ladder.route(), Route::DnsOnly);
+    now += TICK;
+    ladder.observe(now, &bad(&[]), false);
     assert_eq!(ladder.next_delay(), PROBE_INTERVAL);
   }
 

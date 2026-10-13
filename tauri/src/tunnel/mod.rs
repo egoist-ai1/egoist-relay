@@ -340,6 +340,10 @@ struct MonitorCtx {
   subscription: bool,
   /// Время последнего удачного скачивания подписки, unix мс (0 — не скачивалась).
   subscription_updated_ms: u64,
+  /// Всё для пересборки конфига под другой узел; `None`, пока Xray не настроен.
+  base: Option<ConfigBase>,
+  /// Конфиг надзирателя для перезапуска после падения; `None` на время `configure`.
+  slot: Option<supervisor::ConfigSlot>,
 }
 
 impl MonitorCtx {
@@ -347,11 +351,58 @@ impl MonitorCtx {
     self.nodes.get(self.current).map(|node| node.name.clone()).filter(|name| !name.is_empty())
   }
 
+  /// Рабочий узел сейчас.
+  fn active_node(&self) -> Option<&Node> { self.nodes.get(self.current) }
+
   /// После перезапуска Xray в нём снова узел из конфига.
   fn reset_current(&mut self) {
     self.current = self.config_index;
     self.current_tag = config::TAG_PROXY.to_string();
   }
+
+  /// Делает рабочий узел узлом конфига: Xray, упавший и поднятый надзирателем, останется на нём.
+  fn pin_current(&mut self) {
+    self.config_index = self.current;
+    let (Some(base), Some(slot)) = (&self.base, &self.slot) else { return; };
+    match base.build(self.nodes.get(self.current)) {
+      Ok(config) => slot.set(config),
+      Err(error) => log::warn!("[Tunnel] конфиг под новый узел не собран: {error}"),
+    }
+  }
+}
+
+/// Части конфига Xray, кроме узла: монитор пересобирает конфиг под другой узел без доступа к `Core`.
+#[derive(Clone)]
+struct ConfigBase {
+  doh: String,
+  host_ips: BTreeMap<String, Vec<String>>,
+  node_hosts: Vec<String>,
+}
+
+impl ConfigBase {
+  fn build(&self, node: Option<&Node>) -> Result<serde_json::Value, String> {
+    let ports = *PORTS.get().ok_or("TUNNEL_PORTS_MISSING")?;
+    config::build(&config::ConfigInput { ports, node, doh: &self.doh, host_ips: &self.host_ips, node_hosts: &self.node_hosts })
+  }
+}
+
+/// Индекс узла `node` в списке `nodes`; узлы сравниваются целиком (адрес, ключ, транспорт).
+/// Узел ищется по параметрам подключения: переименование в подписке не требует перезапуска Xray.
+fn index_of(nodes: &[Node], node: Option<&Node>) -> Option<usize> {
+  let node = node?;
+  nodes.iter().position(|candidate| {
+    candidate.server == node.server
+      && candidate.port == node.port
+      && candidate.proto == node.proto
+      && candidate.stream == node.stream
+  })
+}
+
+/// Хосты узлов без учёта порядка: подписка, переставившая узлы, не требует перезапуска Xray.
+fn host_set(nodes: &[Node]) -> Vec<String> {
+  let mut hosts = node_hosts(nodes);
+  hosts.sort();
+  hosts
 }
 
 struct Monitor {
@@ -418,6 +469,7 @@ pub fn start(app_data_dir: &Path, runtime_dir: &Path) -> Result<Ports, String> {
     ctx: Arc::new(Mutex::new(MonitorCtx {
       api: None, nodes: Vec::new(), config_index: 0, current: 0, current_tag: config::TAG_PROXY.into(),
       tag_seq: 0, targets: Vec::new(), doh_host: None, doh_port: 443, subscription: false, subscription_updated_ms: 0,
+      base: None, slot: None,
     })),
   };
   if let Err(error) = configure(&mut core, profile) {
@@ -563,6 +615,12 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
   let ports = *PORTS.get().ok_or("TUNNEL_PORTS_MISSING")?;
   let resolved = resolve(&profile);
   if let Some(monitor) = core.monitor.take() { monitor.cancel(); }
+  // Старый монитор может ещё дорабатывать смену узла: без слота он не перепишет новый конфиг надзирателя
+  let preferred = {
+    let mut ctx = lock(&core.ctx);
+    ctx.slot = None;
+    ctx.active_node().cloned()
+  };
   let Some(prov) = resolved.prov.clone() else {
     // Ключа нет: Xray не нужен, окна остаются с закрытым прокси
     if let Some(mut supervisor) = core.supervisor.take() { supervisor.stop(); }
@@ -575,16 +633,17 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
     });
     return Ok(());
   };
-  let hosts = node_hosts(&resolved.nodes);
-  let config = config::build(&config::ConfigInput {
-    ports,
-    node: resolved.nodes.first(),
-    doh: prov.doh_url(),
-    host_ips: &profile.bootstrap_ips,
-    node_hosts: &hosts,
-  })?;
+  let base = ConfigBase {
+    doh: prov.doh_url().to_string(),
+    host_ips: profile.bootstrap_ips.clone(),
+    node_hosts: node_hosts(&resolved.nodes),
+  };
+  // Рабочий узел остаётся рабочим и после пересборки: первый узел подписки мог только что отказать
+  let config_index = index_of(&resolved.nodes, preferred.as_ref()).unwrap_or(0);
+  let config = base.build(resolved.nodes.get(config_index))?;
   match core.supervisor.as_ref() {
     Some(supervisor) => {
+      log::info!("[Tunnel] перезапуск xray с новым конфигом (узел {} из {})", config_index + 1, resolved.nodes.len());
       let before = GENERATION.load(Ordering::SeqCst);
       supervisor.restart_with(config)?;
       let deadline = Instant::now() + RESTART_WAIT;
@@ -607,9 +666,11 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
   {
     let mut ctx = lock(&core.ctx);
     ctx.api = core.supervisor.as_ref().map(Supervisor::api);
+    ctx.slot = core.supervisor.as_ref().map(Supervisor::config_slot);
+    ctx.base = Some(base);
     ctx.nodes = resolved.nodes.clone();
-    ctx.config_index = 0;
-    ctx.current = 0;
+    ctx.config_index = config_index;
+    ctx.current = config_index;
     ctx.current_tag = config::TAG_PROXY.to_string();
     ctx.tag_seq = 0;
     ctx.targets = ladder::targets_for(|service| core.profile.service_enabled(service));
@@ -693,6 +754,8 @@ fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<
       Event::RotateNode => {
         rotations += 1;
         let mut ctx = lock(&ctx);
+        // Пока шли пробы, `configure` мог заменить Xray и узлы: отменённый монитор новый конфиг не трогает
+        if cancelled.load(Ordering::SeqCst) { return; }
         match rotate(&mut ctx, &api) {
           Ok(()) => {
             log::info!("[Tunnel] узел сменён ({} из {})", ctx.current + 1, ctx.nodes.len());
@@ -766,6 +829,7 @@ fn rotate(ctx: &mut MonitorCtx, api: &Api) -> Result<(), String> {
   let previous = std::mem::replace(&mut ctx.current_tag, tag);
   if let Err(error) = api.remove_outbound(&previous) { log::warn!("[Tunnel] старый узел не удалён: {error}"); }
   ctx.current = next;
+  ctx.pin_current();
   Ok(())
 }
 
@@ -918,17 +982,24 @@ fn refresh_locked(core: &mut Core) -> Result<(), NetworkError> {
   profile.subscription_cache = body;
   profile.subscription_updated_at_ms = now_ms();
   core.store.save(&profile).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
-  // Пересборка нужна и при новых хостах запасных узлов: их bootstrap-домены живут только в конфиге Xray
-  let config_node_changed = core.nodes.first() != parsed.nodes.first() || node_hosts(&core.nodes) != node_hosts(&parsed.nodes);
-  if config_node_changed {
-    // Узел в конфиге устарел (или конфиг был без узла): пересборка и перезапуск Xray
+  // Перезапуск Xray рвёт все соединения окон, поэтому он только по делу: рабочего узла нет в новом списке
+  // (или конфиг был без узла) либо появились новые хосты — их bootstrap-домены живут только в конфиге Xray.
+  // Перестановка узлов в подписке перезапуска не требует.
+  let active_index = index_of(&parsed.nodes, lock(&core.ctx).active_node());
+  let hosts_changed = host_set(&core.nodes) != host_set(&parsed.nodes);
+  if active_index.is_none() || hosts_changed {
+    log::info!("[Tunnel] подписка обновлена: {} узлов, рабочий узел {}, хосты {}", parsed.nodes.len(),
+      if active_index.is_some() { "остался" } else { "исчез" }, if hosts_changed { "изменились" } else { "те же" });
     configure(core, profile).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
   } else {
-    // Узел тот же: обновляем только список запасных и время
+    // Рабочий узел на месте: обновляем список запасных, его индекс в новом списке и время
+    log::info!("[Tunnel] подписка обновлена без перезапуска: {} узлов", parsed.nodes.len());
     core.profile = profile;
     core.nodes = parsed.nodes.clone();
     let mut ctx = lock(&core.ctx);
     ctx.nodes = parsed.nodes.clone();
+    ctx.current = active_index.unwrap_or(0);
+    ctx.pin_current();
     ctx.subscription_updated_ms = core.profile.subscription_updated_at_ms;
     drop(ctx);
     let updated = Some(core.profile.subscription_updated_at_ms);

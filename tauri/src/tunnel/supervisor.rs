@@ -115,6 +115,9 @@ impl Supervisor {
     self.commands.send(Command_::Restart).map_err(|_| "TUNNEL_SUPERVISOR_STOPPED".to_string())
   }
 
+  /// Конфиг, с которым Xray поднимется при следующем запуске (после падения).
+  pub fn config_slot(&self) -> ConfigSlot { ConfigSlot(self.shared.clone()) }
+
   /// Обёртка над `xray api` для этой сессии.
   pub fn api(&self) -> Api {
     Api { xray_exe: self.shared.spec.xray_exe.clone(), port: self.shared.spec.ports.api }
@@ -125,6 +128,18 @@ impl Supervisor {
     let _ = self.commands.send(Command_::Stop);
     if let Some(thread) = self.thread.take() { let _ = thread.join(); }
     self.shared.ready.store(false, Ordering::SeqCst);
+  }
+}
+
+/// Хранилище конфига надзирателя: монитор подменяет в нём узел после смены на ходу, чтобы перезапуск
+/// упавшего Xray не вернул окна на узел, который только что отказал.
+#[derive(Clone)]
+pub struct ConfigSlot(Arc<Shared>);
+
+impl ConfigSlot {
+  /// Следующий запуск Xray возьмёт этот конфиг; работающий процесс не трогается.
+  pub fn set(&self, config: Value) {
+    *self.0.config.lock().unwrap_or_else(|poisoned| poisoned.into_inner()) = config;
   }
 }
 
