@@ -27,7 +27,6 @@ import Checkbox from '../../ui/Checkbox';
 import ListItem from '../../ui/ListItem';
 import RadioGroup from '../../ui/RadioGroup';
 import RangeSlider from '../../ui/RangeSlider';
-import SettingsRelayNetwork from './SettingsRelayNetwork';
 
 import styles from './SettingsGeneral.module.scss';
 
@@ -43,10 +42,7 @@ type StateProps =
     'shouldReplaceTextShortcuts' |
     'timeFormat' |
     'theme' |
-    'shouldUseSystemTheme' |
-    'shouldWarmupSocialViews' |
-    'shouldHideX' |
-    'shouldHideInstagram'
+    'shouldUseSystemTheme'
   )>;
 
 const SettingsGeneral = ({
@@ -57,9 +53,6 @@ const SettingsGeneral = ({
   timeFormat,
   theme,
   shouldUseSystemTheme,
-  shouldWarmupSocialViews,
-  shouldHideX,
-  shouldHideInstagram,
   onReset,
 }: OwnProps & StateProps) => {
   const {
@@ -131,18 +124,6 @@ const SettingsGeneral = ({
 
   const handleTextShortcutReplacementChange = useLastCallback((shouldReplace: boolean) => {
     setSharedSettingOption({ shouldReplaceTextShortcuts: shouldReplace });
-  });
-
-  const handleWarmupSocialChange = useLastCallback((shouldWarmup: boolean) => {
-    setSharedSettingOption({ shouldWarmupSocialViews: shouldWarmup });
-  });
-
-  const handleShowXChange = useLastCallback((shouldShow: boolean) => {
-    setSharedSettingOption({ shouldHideX: !shouldShow });
-  });
-
-  const handleShowInstagramChange = useLastCallback((shouldShow: boolean) => {
-    setSharedSettingOption({ shouldHideInstagram: !shouldShow });
   });
 
   useHistoryBack({
@@ -219,33 +200,6 @@ const SettingsGeneral = ({
           onCheck={handleTextShortcutReplacementChange}
         />
       </Island>
-
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayServicesTitle')}</IslandTitle>
-      <Island>
-        <Checkbox
-          label={lang('RelayShowX')}
-          checked={!shouldHideX}
-          onCheck={handleShowXChange}
-        />
-        <Checkbox
-          label={lang('RelayShowInstagram')}
-          checked={!shouldHideInstagram}
-          onCheck={handleShowInstagramChange}
-        />
-        <ListItem inactive>
-          <span>{lang('RelayServicesHint')}</span>
-        </ListItem>
-      </Island>
-
-      <SettingsRelayNetwork />
-      <Island>
-        <Checkbox
-          label={lang('RelayWarmupSocial')}
-          subLabel={lang('RelayWarmupSocialHint')}
-          checked={shouldWarmupSocialViews !== false}
-          onCheck={handleWarmupSocialChange}
-        />
-      </Island>
     </div>
   );
 };
@@ -259,15 +213,9 @@ export default memo(withGlobal<OwnProps>(
       shouldReplaceTextShortcuts,
       messageTextSize,
       timeFormat,
-      shouldWarmupSocialViews,
-      shouldHideX,
-      shouldHideInstagram,
     } = selectSharedSettings(global);
 
     return {
-      shouldWarmupSocialViews,
-      shouldHideX,
-      shouldHideInstagram,
       messageSendKeyCombo,
       shouldReplaceTextShortcuts,
       messageTextSize,

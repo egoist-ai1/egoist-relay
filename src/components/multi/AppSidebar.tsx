@@ -28,6 +28,8 @@ type OwnProps = {
   // Маршрут сервиса из статуса сети: недоступный помечается ошибкой, прямой отмечен только в подписи
   networkRoutes?: Record<AppId, NetworkServiceRoute>;
   onSelectApp: (app: AppId) => void;
+  // Настройки приложения (сервисы, сеть): кнопка внизу rail
+  onOpenSettings?: NoneToVoidFunction;
 };
 
 type ServiceDef = {
@@ -113,6 +115,7 @@ const AppSidebar = ({
   hiddenApps,
   networkRoutes,
   onSelectApp,
+  onOpenSettings,
 }: OwnProps) => {
   const lang = useLang();
   const appListRef = useRef<HTMLDivElement>();
@@ -206,6 +209,23 @@ const AppSidebar = ({
           );
         })}
       </div>
+
+      {onOpenSettings && (
+        <div className={styles.footer}>
+          <button
+            type="button"
+            className={styles.appButton}
+            onClick={onOpenSettings}
+            title={lang('RelayAppSettingsOpen')}
+            aria-label={lang('RelayAppSettingsOpen')}
+            aria-haspopup="dialog"
+            data-relay-settings
+          >
+            {/* Шрифтовая иконка напрямую, без компонента Icon: rail не зависит от глобального состояния */}
+            <i className={buildClassName('icon icon-settings', styles.footerIcon)} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </nav>
   );
 };

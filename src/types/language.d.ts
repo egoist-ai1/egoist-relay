@@ -2562,6 +2562,9 @@ export interface LangPair {
   'RelayClearDeletedMessagesText': undefined;
   'RelayClearDeletedMessagesConfirm': undefined;
   'RelayNetworkTitle': undefined;
+  'RelayAppSettings': undefined;
+  'RelayAppSettingsDesc': undefined;
+  'RelayAppSettingsOpen': undefined;
   'RelayNetStatus': undefined;
   'RelayNetStateTunnel': undefined;
   'RelayNetStateDnsOnly': undefined;

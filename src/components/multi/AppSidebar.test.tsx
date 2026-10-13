@@ -12,6 +12,7 @@ vi.mock('../../hooks/useLang', () => ({ default: () => (key: string) => key }));
 
 let container: HTMLElement;
 const onSelectApp = vi.fn();
+const onOpenSettings = vi.fn();
 
 function renderSidebar(
   xAppState: XAppState = 'ready',
@@ -22,7 +23,7 @@ function renderSidebar(
   return new Promise<void>((resolve) => {
     requestMutation(() => {
       TeactDOM.render(createElement(AppSidebar, {
-        activeApp, xAppState, instagramAppState, hiddenApps, onSelectApp,
+        activeApp, xAppState, instagramAppState, hiddenApps, onSelectApp, onOpenSettings,
       }), container);
       resolve();
     });
@@ -39,6 +40,7 @@ function pressNavigationKey(button: HTMLButtonElement, key: string) {
 
 beforeEach(() => {
   onSelectApp.mockClear();
+  onOpenSettings.mockClear();
   container = document.createElement('div');
   document.body.append(container);
 });
@@ -131,6 +133,19 @@ describe('AppSidebar complete navigation tile', () => {
     expect(container.querySelector('[data-relay-app="x"]')).toBeNull();
     expect(getAppButton('telegram')).not.toBeNull();
     expect(getAppButton('instagram')).not.toBeNull();
+  });
+
+  test('Settings button opens app settings and stays out of service navigation', async () => {
+    await renderSidebar('ready', 'telegram', 'ready', ['x', 'instagram']);
+    const settings = container.querySelector<HTMLButtonElement>('[data-relay-settings]')!;
+    expect(settings.getAttribute('aria-label')).toBe('RelayAppSettingsOpen');
+    settings.click();
+    expect(onOpenSettings).toHaveBeenCalledOnce();
+    expect(onSelectApp).not.toHaveBeenCalled();
+    const telegram = getAppButton('telegram');
+    telegram.focus();
+    pressNavigationKey(telegram, 'ArrowDown');
+    expect(document.activeElement).toBe(telegram);
   });
 
   test('Keyboard navigation wraps over the visible services only', async () => {

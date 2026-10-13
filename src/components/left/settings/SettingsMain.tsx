@@ -103,6 +103,18 @@ const SettingsMain: FC<OwnProps & StateProps> = ({
       <div className={styles.menuSection}>
         <Island>
           <ListItem
+            icon="settings-filled"
+            iconBg="gray"
+            multiline
+            narrow
+            onClick={() => openSettingsScreen({ screen: SettingsScreens.RelayApp })}
+          >
+            <span className="title">{lang('RelayAppSettings')}</span>
+            <span className="subtitle">{lang('RelayAppSettingsDesc')}</span>
+          </ListItem>
+        </Island>
+        <Island>
+          <ListItem
             icon="account-filled"
             iconBg="blue"
             multiline

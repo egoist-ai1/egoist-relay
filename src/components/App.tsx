@@ -62,6 +62,7 @@ import LockScreen from './main/LockScreen.async';
 import Main from './main/Main.async';
 import AppSidebar from './multi/AppSidebar';
 import MediaOperationsPanel from './multi/MediaOperationsPanel';
+import RelayAppSettingsModal from './multi/RelayAppSettingsModal';
 import SocialShareModal from './multi/SocialShareModal';
 // import Test from './test/demo/MessageTextStreamingTest';
 import Transition from './ui/Transition';
@@ -173,6 +174,7 @@ const App = ({
   const [notice, setNotice] = useState<string>();
   const [isOperationsOpen, setIsOperationsOpen] = useState(false);
   const [isOperationsFull, setIsOperationsFull] = useState(false);
+  const [isAppSettingsOpen, setIsAppSettingsOpen] = useState(false);
   const [operationsSnapshot, setOperationsSnapshot] = useState<MediaOperationsSnapshot>(getMediaOperationsSnapshot);
   const workspaceRef = useRef<HTMLDivElement>();
   const previousFocusRef = useRef<HTMLElement>();
@@ -778,6 +780,23 @@ const App = ({
     void handleNavigation('reload');
   });
 
+  // Окно настроек приложения живёт в DOM основного окна: нативные окна X и Instagram его бы закрыли,
+  // поэтому сначала показываем Telegram
+  const handleOpenAppSettings = useLastCallback(() => {
+    if (socialShareRef.current || isScreenLocked) return;
+    handleSelectApp('telegram');
+    setIsAppSettingsOpen(true);
+  });
+
+  const handleCloseAppSettings = useLastCallback(() => {
+    setIsAppSettingsOpen(false);
+  });
+
+  // Ключ VPN и сервисы не меняются за экраном блокировки
+  useEffect(() => {
+    if (isScreenLocked) setIsAppSettingsOpen(false);
+  }, [isScreenLocked]);
+
   const handleSelectApp = useLastCallback((app: AppId) => {
     if (socialShareRef.current || hiddenApps.includes(app)) return;
     if (isOperationsFull && isOperationsOpen) handleCloseOperations();
@@ -789,6 +808,8 @@ const App = ({
     }
 
     desiredAppRef.current = app;
+    // Под нативным окном X или Instagram модалка не видна, но держала бы фокус и Esc
+    if (app !== 'telegram') setIsAppSettingsOpen(false);
     const requestId = ++appSwitchRequestRef.current;
     nativeBoundsRequestRef.current += 1;
     navigationRequestRef.current += 1;
@@ -817,8 +838,12 @@ const App = ({
         setActiveApp(app);
       } catch (err) {
         if (isMountedRef.current && requestId === appSwitchRequestRef.current && desiredAppRef.current === app) {
-          if (app !== 'telegram') setActiveApp(app);
-          else desiredAppRef.current = activeApp;
+          if (app !== 'telegram') {
+            setActiveApp(app);
+          } else {
+            desiredAppRef.current = activeApp;
+            setIsAppSettingsOpen(false);
+          }
           if (app === 'x') setXAppState('error');
           if (app === 'instagram') setInstagramAppState('error');
           setNotice(lang('RelayAppSwitchError'));
@@ -910,6 +935,7 @@ const App = ({
         hiddenApps={hiddenApps}
         networkRoutes={networkStatus?.services}
         onSelectApp={handleSelectApp}
+        onOpenSettings={isScreenLocked ? undefined : handleOpenAppSettings}
       />
 
       <div
@@ -1121,6 +1147,7 @@ const App = ({
           onClose={handleCloseSocialShare}
         />
       )}
+      <RelayAppSettingsModal isOpen={isAppSettingsOpen} onClose={handleCloseAppSettings} />
     </div>
   );
 };

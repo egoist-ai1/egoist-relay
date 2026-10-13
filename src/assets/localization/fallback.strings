@@ -3442,6 +3442,9 @@
 "RelayClearDeletedMessagesText" = "Все сохранённые копии удалённых сообщений будут стёрты с этого компьютера. Это нельзя отменить.";
 "RelayClearDeletedMessagesConfirm" = "Очистить";
 "RelayNetworkTitle" = "Сеть";
+"RelayAppSettings" = "Egoist Social";
+"RelayAppSettingsDesc" = "Сервисы, сеть, ключ VPN и DNS";
+"RelayAppSettingsOpen" = "Настройки Egoist Social";
 "RelayNetStatus" = "Состояние";
 "RelayNetStateTunnel" = "Туннель";
 "RelayNetStateDnsOnly" = "Только DNS — VPN недоступен";

@@ -1,0 +1,22 @@
+.modal {
+  :global(.modal-dialog) {
+    width: min(30rem, calc(100vw - 2rem));
+    max-height: calc(100% - var(--relay-shell-caption-height, 2.5rem) - 1rem);
+  }
+}
+
+.content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  min-height: 0;
+  padding: 0;
+}
+
+// Содержимое прокручивается внутри окна, заголовок с кнопкой закрытия остаётся на месте
+.body {
+  overflow-y: auto;
+  min-height: 0;
+  padding: 0.5rem 0.75rem 1rem;
+}

@@ -39,6 +39,7 @@ import SettingsPrivacyBlockedUsers from './SettingsPrivacyBlockedUsers';
 import SettingsPrivacyVisibility from './SettingsPrivacyVisibility';
 import SettingsPrivacyVisibilityExceptionList from './SettingsPrivacyVisibilityExceptionList';
 import SettingsQuickReaction from './SettingsQuickReaction';
+import SettingsRelayApp from './SettingsRelayApp';
 import SettingsStickers from './SettingsStickers';
 import SettingsTwoFa from './twoFa/SettingsTwoFa';
 
@@ -319,6 +320,10 @@ const Settings: FC<OwnProps> = ({
       case SettingsScreens.Experimental:
         return (
           <SettingsExperimental isActive={isScreenActive} onReset={handleReset} />
+        );
+      case SettingsScreens.RelayApp:
+        return (
+          <SettingsRelayApp isActive={isScreenActive} onReset={handleReset} />
         );
       case SettingsScreens.GeneralChatBackground:
         return (

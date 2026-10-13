@@ -40,6 +40,20 @@
   padding-block: 0.625rem;
 }
 
+.footer {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+
+  width: 100%;
+  padding-block: 0.625rem;
+}
+
+.footerIcon {
+  font-size: 1.375rem;
+  line-height: 1;
+}
+
 .appButton {
   cursor: pointer;
 
