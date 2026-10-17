@@ -423,6 +423,8 @@ impl Monitor {
 
 struct Core {
   network_dir: PathBuf,
+  /// Каталог сокетов API: `network/ipc` или запасной короткий (см. `pick_ipc_dir`).
+  ipc_dir: PathBuf,
   runtime_dir: PathBuf,
   store: Store,
   profile: Profile,
@@ -446,7 +448,14 @@ pub fn start(app_data_dir: &Path, runtime_dir: &Path) -> Result<Ports, String> {
   }
   let network_dir = app_data_dir.join("network");
   std::fs::create_dir_all(&network_dir).map_err(|_| "TUNNEL_STORE_WRITE_FAILED".to_string())?;
-  secure_ipc_dir(&network_dir.join(supervisor::IPC_DIR))?;
+  let ipc_dir = match prepare_ipc_dir(&network_dir) {
+    Ok(dir) => dir,
+    Err(error) => {
+      // Без внятного кода в статусе пользователь увидел бы просто «не работает»
+      update_inputs(|inputs| inputs.last_error = Some(error.clone()));
+      return Err(error);
+    }
+  };
   let store = Store::new(&network_dir);
   match store.import_seed() {
     Ok(true) => log::info!("[Tunnel] данные установщика импортированы"),
@@ -464,6 +473,7 @@ pub fn start(app_data_dir: &Path, runtime_dir: &Path) -> Result<Ports, String> {
   };
   let mut core = Core {
     network_dir,
+    ipc_dir,
     runtime_dir: runtime_dir.to_path_buf(),
     store,
     profile: Profile::default(),
@@ -478,6 +488,8 @@ pub fn start(app_data_dir: &Path, runtime_dir: &Path) -> Result<Ports, String> {
   };
   if let Err(error) = configure(&mut core, profile) {
     log::warn!("[Tunnel] запуск не удался: {error}");
+    // Код без путей: виден в статусе, пока `configure` не завершился успешно
+    update_inputs(|inputs| inputs.last_error = Some(error));
   }
   *guard = Some(core);
   Ok(ports)
@@ -582,8 +594,62 @@ const API_SOCKET_MAIN: &str = "api-main.sock";
 const API_SOCKET_PROBE: &str = "api-probe.sock";
 
 fn api_socket_path(core: &Core, name: &str) -> PathBuf {
-  core.network_dir.join(supervisor::IPC_DIR).join(name)
+  core.ipc_dir.join(name)
 }
+
+/// Выбирает каталог сокетов: основной, если оба сокета влезают в предел AF_UNIX, иначе запасной короткий.
+/// Ни один не подошёл — `TUNNEL_IPC_PATH_TOO_LONG`. Чистая функция: проверка длины без файловой системы.
+fn pick_ipc_dir(primary: PathBuf, fallback: Option<PathBuf>) -> Result<(PathBuf, bool), String> {
+  let fits = |dir: &Path| [API_SOCKET_MAIN, API_SOCKET_PROBE].iter().all(|name| config::api_socket_fits(&dir.join(name).to_string_lossy()));
+  if fits(&primary) { return Ok((primary, false)); }
+  match fallback {
+    Some(dir) if fits(&dir) => Ok((dir, true)),
+    _ => Err("TUNNEL_IPC_PATH_TOO_LONG".into()),
+  }
+}
+
+/// Запасной каталог сокета: `%ProgramData%\EgoistRelay\<hash8 от SID>\ipc`.
+#[cfg(windows)]
+fn fallback_ipc_dir() -> Option<PathBuf> {
+  let base = std::env::var_os("ProgramData").map(PathBuf::from).filter(|path| path.is_absolute())?;
+  let hash = crate::win_acl::current_user_hash8().ok()?;
+  Some(base.join("EgoistRelay").join(hash).join(supervisor::IPC_DIR))
+}
+#[cfg(not(windows))]
+fn fallback_ipc_dir() -> Option<PathBuf> { None }
+
+/// Готовит защищённый каталог IPC: основной, а при длинном пути профиля — запасной в `%ProgramData%`.
+fn prepare_ipc_dir(network_dir: &Path) -> Result<PathBuf, String> {
+  let primary = network_dir.join(supervisor::IPC_DIR);
+  let (dir, fallback) = pick_ipc_dir(primary, fallback_ipc_dir())?;
+  if !fallback {
+    secure_ipc_dir(&dir)?;
+    return Ok(dir);
+  }
+  log::warn!("[Tunnel] путь профиля длинный: сокет API в запасном каталоге");
+  secure_fallback_ipc_dir(&dir)?;
+  // Остатки сокетов после аварийного выхода (основной каталог чистит надзиратель)
+  supervisor::purge_leftovers(dir.parent());
+  Ok(dir)
+}
+
+/// Создаёт цепочку `EgoistRelay\<hash>\ipc`: верхний каталог общий (обычный), нижние два — с явным DACL и
+/// проверкой владельца; чужой владелец или ссылка — отказ.
+#[cfg(windows)]
+fn secure_fallback_ipc_dir(ipc: &Path) -> Result<(), String> {
+  let user_dir = ipc.parent().ok_or("TUNNEL_IPC_ACL_FAILED")?;
+  let root = user_dir.parent().ok_or("TUNNEL_IPC_ACL_FAILED")?;
+  std::fs::create_dir_all(root).map_err(|_| "TUNNEL_IPC_ACL_FAILED".to_string())?;
+  let meta = std::fs::symlink_metadata(root).map_err(|_| "TUNNEL_IPC_ACL_FAILED".to_string())?;
+  use std::os::windows::fs::MetadataExt;
+  if !meta.is_dir() || meta.file_attributes() & 0x400 != 0 { return Err("TUNNEL_IPC_ACL_FAILED".into()); }
+  for dir in [user_dir, ipc] {
+    crate::win_acl::secure_directory_owned(dir).map_err(|_| "TUNNEL_IPC_ACL_FAILED".to_string())?;
+  }
+  Ok(())
+}
+#[cfg(not(windows))]
+fn secure_fallback_ipc_dir(_ipc: &Path) -> Result<(), String> { Err("TUNNEL_IPC_ACL_FAILED".into()) }
 
 /// Создаёт каталог IPC и выставляет DACL: только текущий пользователь и SYSTEM. Обратного пути на TCP нет:
 /// без защищённого каталога API Xray остался бы доступен любому локальному процессу.
@@ -1427,6 +1493,25 @@ https://sub.example.com/token/abcdef";
     assert!(parse_mtproxy("tg://proxy?server=a.example.com&port=443").is_none());
     assert!(parse_mtproxy("https://evil.example.com/proxy?server=a&port=443&secret=ab").is_none());
     assert!(parse_mtproxy("не ссылка").is_none());
+  }
+
+  #[test]
+  fn long_profile_path_uses_short_fallback_ipc_dir() {
+    let short = |len: usize| PathBuf::from(format!("C:/{}", "a".repeat(len)));
+    let fallback = PathBuf::from("C:/ProgramData/EgoistRelay/0123abcd/ipc");
+    // Короткий основной путь остаётся основным
+    let (dir, used) = pick_ipc_dir(short(20), Some(fallback.clone())).unwrap();
+    assert!(!used && dir == short(20));
+    // Длинное имя пользователя: запасной путь, обе сокета ≤ предела
+    let (dir, used) = pick_ipc_dir(short(120), Some(fallback.clone())).unwrap();
+    assert!(used && dir == fallback);
+    for name in [API_SOCKET_MAIN, API_SOCKET_PROBE] {
+      assert!(dir.join(name).to_string_lossy().len() <= config::API_SOCKET_MAX_BYTES);
+    }
+    // Оба длинные или запасного нет: внятная ошибка без путей
+    let long_fallback = PathBuf::from(format!("C:/ProgramData/{}/ipc", "b".repeat(120)));
+    assert_eq!(pick_ipc_dir(short(120), Some(long_fallback)).unwrap_err(), "TUNNEL_IPC_PATH_TOO_LONG");
+    assert_eq!(pick_ipc_dir(short(120), None).unwrap_err(), "TUNNEL_IPC_PATH_TOO_LONG");
   }
 
   #[test]

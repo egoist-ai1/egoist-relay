@@ -59,6 +59,16 @@ unsafe extern "system" {
     dacl: *mut *mut c_void,
     defaulted: *mut i32,
   ) -> i32;
+  fn GetNamedSecurityInfoW(
+    name: *const u16,
+    object_type: u32,
+    information: u32,
+    owner: *mut *mut c_void,
+    group: *mut *mut c_void,
+    dacl: *mut *mut c_void,
+    sacl: *mut *mut c_void,
+    descriptor: *mut *mut c_void,
+  ) -> u32;
   fn SetNamedSecurityInfoW(
     name: *const u16,
     object_type: u32,
@@ -203,4 +213,83 @@ pub fn secure_directory(path: &Path) -> Result<(), AclError> {
     LocalFree(descriptor);
   }
   result
+}
+
+/// Стабильный короткий идентификатор текущего пользователя: 8 hex-символов от SHA-256 его SID.
+/// Нужен запасному каталогу сокета в `%ProgramData%`, где у каждого пользователя свой подкаталог.
+pub fn current_user_hash8() -> Result<String, AclError> {
+  use sha2::{Digest, Sha256};
+  let sid = current_user_sid()?;
+  let digest = Sha256::digest(sid.as_bytes());
+  Ok(digest.iter().take(4).map(|byte| format!("{byte:02x}")).collect())
+}
+
+/// Строковый SID владельца каталога.
+fn directory_owner_sid(path: &Path) -> Result<String, AclError> {
+  let name = wide(path)?;
+  let mut owner = ptr::null_mut();
+  let mut descriptor = ptr::null_mut();
+  if unsafe {
+    GetNamedSecurityInfoW(
+      name.as_ptr(),
+      1,
+      1,
+      &mut owner,
+      ptr::null_mut(),
+      ptr::null_mut(),
+      ptr::null_mut(),
+      &mut descriptor,
+    )
+  } != 0
+    || owner.is_null()
+  {
+    return Err(AclError::AclFailed);
+  }
+  let mut text = ptr::null_mut();
+  let result = if unsafe { ConvertSidToStringSidW(owner, &mut text) } == 0 {
+    Err(AclError::AclFailed)
+  } else {
+    let mut size = 0;
+    while size < 256 && unsafe { *text.add(size) } != 0 {
+      size += 1;
+    }
+    let value = String::from_utf16(unsafe { std::slice::from_raw_parts(text, size) })
+      .map_err(|_| AclError::AclFailed);
+    unsafe {
+      LocalFree(text.cast());
+    }
+    value
+  };
+  unsafe {
+    LocalFree(descriptor);
+  }
+  result
+}
+
+/// Как [`secure_directory`], но каталог обязан принадлежать текущему пользователю.
+/// Для общих мест (`%ProgramData%`), где чужой процесс мог заранее создать каталог с тем же именем:
+/// чужой владелец сам вернул бы себе права, поэтому такой каталог отвергается.
+pub fn secure_directory_owned(path: &Path) -> Result<(), AclError> {
+  secure_directory(path)?;
+  if directory_owner_sid(path)? != current_user_sid()? {
+    return Err(AclError::Unavailable);
+  }
+  Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn owned_directory_is_accepted_and_hash_is_stable() {
+    let dir = std::env::temp_dir().join(format!("egoist-acl-owned-{}", std::process::id()));
+    let _ = fs::remove_dir_all(&dir);
+    secure_directory_owned(&dir).expect("свой каталог принимается");
+    secure_directory_owned(&dir).expect("повторный вызов идемпотентен");
+    let _ = fs::remove_dir_all(&dir);
+    let first = current_user_hash8().unwrap();
+    assert_eq!(first.len(), 8);
+    assert_eq!(first, current_user_hash8().unwrap());
+  }
 }

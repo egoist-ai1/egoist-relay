@@ -179,6 +179,9 @@ fn api_listen(path: &str) -> Result<String, String> {
   Ok(normalized)
 }
 
+/// Помещается ли путь сокета в предел (и допустим ли вообще).
+pub fn api_socket_fits(path: &str) -> bool { api_listen(path).is_ok() }
+
 /// Хост из адреса приватного DoH; допускается только `https` с путём.
 fn doh_host(doh: &str) -> Result<String, String> {
   let url = url::Url::parse(doh).map_err(|_| "TUNNEL_DOH_INVALID")?;
