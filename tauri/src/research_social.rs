@@ -167,6 +167,15 @@ struct Provider {
   view_closing: bool,
 }
 
+/// Устойчивый непрозрачный accountRef из подтверждённой личности (SHA-256 с доменным разделителем): после перезапуска Relay
+/// регулятор демона узнаёт тот же аккаунт и не обнуляет паузы и бюджеты. Сама личность в идентификатор не попадает.
+fn stable_account_ref(provider: &str, identity: &str) -> String {
+  use sha2::{Digest, Sha256};
+  let digest = Sha256::digest(format!("egoist-social:account:v1:{provider}:{identity}").as_bytes());
+  let hex: String = digest.iter().map(|byte| format!("{byte:02x}")).collect();
+  format!("{provider}-{}", &hex[..32])
+}
+
 impl Provider {
   fn new() -> Self {
     Self {
@@ -2406,7 +2415,7 @@ fn handle_social_reply(
         }
         state.identity = Some(identity);
         if state.account_ref.is_none() {
-          state.account_ref = Some(uuid::Uuid::new_v4().to_string());
+          state.account_ref = state.identity.as_deref().map(|value| stable_account_ref(provider, value));
         }
         state.state = "ready";
         state.reason = "DOM_ACCOUNT_CONFIRMED";
@@ -2642,6 +2651,15 @@ mod relay_audit_tests {
     assert!(!idle_close_due(true, 0, false, long));
     assert!(!idle_close_due(false, 1, false, long));
     assert!(!idle_close_due(false, 0, true, long));
+  }
+
+  #[test]
+  fn account_ref_is_stable_opaque_and_per_identity() {
+    let first = stable_account_ref("x", "x:owner");
+    assert_eq!(first, stable_account_ref("x", "x:owner"));
+    assert_ne!(first, stable_account_ref("x", "x:other"));
+    assert_ne!(first, stable_account_ref("instagram", "x:owner"));
+    assert!(first.len() <= 128 && !first.contains("owner"));
   }
 
   #[test]

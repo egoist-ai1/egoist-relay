@@ -1,7 +1,8 @@
 import { describe, expect, test } from 'vitest';
 
 import {
-  buildBudgetError, createRequestBudget, createResolveBudget, describeFlood, isValidResumeOffset, MEDIA_ALIGN_BYTES,
+  buildBudgetError, createRequestBudget, createResolveBudget, deriveResearchAccountRef, describeFlood,
+  isValidResumeOffset, MEDIA_ALIGN_BYTES,
   normalizePeerCacheKey, PeerCache, planMediaRanges, RequestBudget,
 } from './researchSupport';
 
@@ -166,5 +167,20 @@ describe('resume offsets', () => {
     expect(() => planMediaRanges(2 * MIB, 3 * MIB)).toThrow('RESUME_MISMATCH');
     expect(() => planMediaRanges(2 * MIB, 5)).toThrow('RESUME_MISMATCH');
     expect(() => planMediaRanges(0, 0)).toThrow('RESUME_MISMATCH');
+  });
+});
+
+describe('deriveResearchAccountRef', () => {
+  test('is stable for one user and differs between users', async () => {
+    const first = await deriveResearchAccountRef('777000123');
+    expect(await deriveResearchAccountRef('777000123')).toBe(first);
+    expect(await deriveResearchAccountRef('777000124')).not.toBe(first);
+  });
+
+  test('is opaque and fits the daemon account reference format', async () => {
+    const userId = '777000123';
+    const ref = await deriveResearchAccountRef(userId);
+    expect(ref).toMatch(/^[a-z0-9_.:-]{1,128}$/i);
+    expect(ref).not.toContain(userId);
   });
 });

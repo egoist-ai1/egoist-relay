@@ -75,6 +75,7 @@ import {
   onWebAuthTokenFailed,
 } from './auth';
 import downloadMediaWithClient, { parseMediaUrl } from './media';
+import { deriveResearchAccountRef } from './researchSupport';
 
 import { ChatAbortController } from '../ChatAbortController';
 
@@ -91,11 +92,14 @@ const RESEARCH_ABORT_CONTROLLERS = new Map<string, AbortController>();
 
 let client: TelegramClient;
 let currentUserId: string | undefined;
+// accountRef устойчив для одного аккаунта (производный от userId, см. fetchCurrentUser), пока пользователь неизвестен — случайный
+// и в статусе «ready» не участвует. accountEpoch — сессия клиента: меняется при каждом подключении и не обнуляет регулятор демона.
 let researchAccountRef = crypto.randomUUID();
 let researchAccountEpoch = crypto.randomUUID();
 
 export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoidFunction) {
   invalidateResearchAccount();
+  researchAccountRef = crypto.randomUUID();
   currentUserId = undefined;
   if (DEBUG) {
     // eslint-disable-next-line no-console
@@ -213,6 +217,7 @@ export function setIsPremium({ isPremium }: { isPremium: boolean }) {
 const LOG_OUT_TIMEOUT = 2500;
 export async function destroy(noLogOut = false, noClearLocalDb = false) {
   invalidateResearchAccount();
+  researchAccountRef = crypto.randomUUID();
   if (!noLogOut && client.isConnected()) {
     await Promise.race([
       invokeRequest(new GramJs.auth.LogOut()),
@@ -243,7 +248,7 @@ export function disconnect() {
 function invalidateResearchAccount() {
   RESEARCH_ABORT_CONTROLLERS.forEach((controller) => controller.abort(new Error('STALE_ACCOUNT')));
   RESEARCH_ABORT_CONTROLLERS.clear();
-  researchAccountRef = crypto.randomUUID();
+  // accountRef здесь не трогаем: смена сессии клиента меняет только epoch
   researchAccountEpoch = crypto.randomUUID();
 }
 
@@ -506,11 +511,14 @@ export async function fetchCurrentUser() {
   addUserToLocalDb(user);
   const currentUserFullInfo = buildApiUserFullInfo(userFull);
   const currentUser = buildApiUser(user)!;
+  const accountRef = await deriveResearchAccountRef(currentUser.id);
+  if (client !== activeClient || researchAccountEpoch !== activeEpoch) return;
 
   setMessageBuilderCurrentUserId(currentUser.id);
   onCurrentUserUpdate(currentUser, currentUserFullInfo);
 
   if (currentUserId && currentUserId !== currentUser.id) invalidateResearchAccount();
+  researchAccountRef = accountRef;
   currentUserId = currentUser.id;
   setIsPremium({ isPremium: Boolean(currentUser.isPremium) });
 }

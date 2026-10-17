@@ -174,3 +174,16 @@ export async function buildMediaFingerprint(parts: Array<string | number | bigin
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(parts.map(String).join('|')));
   return Array.from(new Uint8Array(digest)).slice(0, 8).map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
+
+const ACCOUNT_REF_DOMAIN = 'egoist-social:account:v1:';
+
+/**
+ * Непрозрачный устойчивый идентификатор аккаунта Telegram для демона: SHA-256 от доменной строки и userId, 32 hex-символа
+ * с префиксом (подходит под /^[a-z0-9_.:-]{1,128}$/i демона и лимит 128 моста). Одинаков после перезапуска Relay, поэтому
+ * паузы FLOOD_WAIT, размыкатель и суточные бюджеты регулятора демона не обнуляются; userId из него не извлечь.
+ */
+export async function deriveResearchAccountRef(userId: string) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${ACCOUNT_REF_DOMAIN}${userId}`));
+  const hex = Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, '0')).join('');
+  return `tg-${hex.slice(0, 32)}`;
+}
