@@ -2000,6 +2000,9 @@ fn emit_x_status(app_handle: &AppHandle, state: &'static str, message: Option<St
   };
   if previous_state != state && matches!(state, "loading" | "ready" | "error" | "auth-required") {
     log::info!("[MultiApp] UI state: x {state}");
+    if state == "ready" {
+      crate::research_social::service_ready("x");
+    }
   }
 
   let payload = ServiceStatusPayload {
@@ -2211,6 +2214,9 @@ fn emit_instagram_status(app_handle: &AppHandle, state: &'static str, message: O
   };
   if previous_state != state && matches!(state, "loading" | "ready" | "error" | "auth-required") {
     log::info!("[MultiApp] UI state: instagram {state}");
+    if state == "ready" {
+      crate::research_social::service_ready("instagram");
+    }
   }
 
   let payload = ServiceStatusPayload {

@@ -1825,6 +1825,29 @@ fn probe_due(
   !ready && since_probe.is_none_or(|elapsed| elapsed > probe_backoff(failures))
 }
 
+/// Нужно ли перевести провайдера в `initializing` при `ready` основного окна: только если
+/// блок прогрева стоял из-за входа/проверки безопасности и сейчас нет активной задачи.
+fn service_ready_reinit(state: &str, reason: &str, active: bool) -> bool {
+  !active && owner_action_required(state, reason)
+}
+
+/// Основное окно сервиса сообщило `ready` (владелец вошёл): снять блок прогрева, чтобы
+/// ближайший `status()` сделал одну пробу. Короткая блокировка PROVIDERS, без работы с окнами.
+pub(crate) fn service_ready(provider: &str) {
+  let Ok(mut states) = PROVIDERS.lock() else {
+    return;
+  };
+  let Some(state) = states.get_mut(provider) else {
+    return;
+  };
+  state.probe_failures = 0;
+  state.last_probe = None;
+  if service_ready_reinit(state.state, state.reason, state.active.is_some()) {
+    state.state = "initializing";
+    state.reason = "DOM_ACCOUNT_PROOF_PENDING";
+  }
+}
+
 /// Пора ли закрыть research-окно: ни задачи, ни очереди, ни закрытия, простой достаточен.
 fn idle_close_due(active: bool, queued: usize, closing: bool, idle: Duration) -> bool {
   !active && queued == 0 && !closing && idle >= IDLE_CLOSE
@@ -2755,6 +2778,15 @@ mod relay_audit_tests {
     // С открытым окном backoff не короче обычного интервала проб и растёт дальше него.
     assert!(!probe_due(true, false, 0, Some(Duration::from_secs(15 * 60)), true, false, 4));
     assert!(probe_due(true, false, 0, Some(Duration::from_secs(30 * 60 + 1)), true, false, 5));
+  }
+
+  #[test]
+  fn service_ready_reinit_only_for_owner_blocks_without_active_job() {
+    assert!(service_ready_reinit("auth_required", "SESSION_NOT_AVAILABLE_IN_RESEARCH_VIEW", false));
+    assert!(service_ready_reinit("challenge_required", "CHALLENGE_REQUIRED", false));
+    assert!(!service_ready_reinit("auth_required", "SESSION_NOT_AVAILABLE_IN_RESEARCH_VIEW", true));
+    assert!(!service_ready_reinit("unavailable", "DOM_ACCOUNT_PROBE_TIMEOUT", false));
+    assert!(!service_ready_reinit("ready", "DOM_ACCOUNT_CONFIRMED", false));
   }
 
   #[test]
