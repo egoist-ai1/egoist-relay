@@ -36,8 +36,12 @@ use uri::Node;
 const SUBSCRIPTION_REFRESH: Duration = Duration::from_secs(12 * 3600);
 /// Повтор скачивания, пока в подписке нет ни одного узла.
 const SUBSCRIPTION_RETRY: Duration = Duration::from_secs(60);
-/// Повтор после неудачного обновления, когда рабочий кэш узлов есть.
+/// Штатный повтор после серии неудач, когда рабочий кэш узлов есть.
 const SUBSCRIPTION_FAIL_RETRY: Duration = Duration::from_secs(15 * 60);
+/// Повторы после первых неудач подряд: единичный сбой не должен ждать 15 минут.
+const SUBSCRIPTION_BACKOFF: [Duration; 2] = [Duration::from_secs(30), Duration::from_secs(120)];
+/// Автоматические запуски не чаще этого интервала (защита от дублей); явный запрос пользователя не ограничен.
+const SUBSCRIPTION_MIN_GAP: Duration = Duration::from_secs(20);
 /// Бюджет проверки нового ключа перед заменой.
 const PROBE_BUDGET: Duration = Duration::from_secs(10);
 /// Сколько ждать готовности основного Xray после перезапуска с новым конфигом.
@@ -302,6 +306,9 @@ static INPUTS: LazyLock<Mutex<Inputs>> = LazyLock::new(|| Mutex::new(Inputs::new
 static STATUS: LazyLock<RwLock<NetworkStatus>> = LazyLock::new(|| RwLock::new(Inputs::new().compute()));
 static LISTENERS: LazyLock<Mutex<Vec<Listener>>> = LazyLock::new(|| Mutex::new(Vec::new()));
 static CORE: LazyLock<Mutex<Option<Core>>> = LazyLock::new(|| Mutex::new(None));
+/// Расписание и защита от дублей скачивания подписки. Глобальное, а не в мониторе: `configure` создаёт новый
+/// монитор, и локальное состояние обнулялось бы, порождая повторные запуски подряд.
+static REFRESH: LazyLock<Mutex<RefreshState>> = LazyLock::new(|| Mutex::new(RefreshState::default()));
 /// Активный MTProxy: только для Rust-кода (мост Telegram), во фронтенд не отдаётся. Отдельно от `CORE`, чтобы
 /// чтение не ждало долгих операций (скачивание подписки).
 static MTPROXY: LazyLock<Mutex<Option<String>>> = LazyLock::new(|| Mutex::new(None));
@@ -399,13 +406,6 @@ fn index_of(nodes: &[Node], node: Option<&Node>) -> Option<usize> {
       && candidate.proto == node.proto
       && candidate.stream == node.stream
   })
-}
-
-/// Хосты узлов без учёта порядка: подписка, переставившая узлы, не требует перезапуска Xray.
-fn host_set(nodes: &[Node]) -> Vec<String> {
-  let mut hosts = node_hosts(nodes);
-  hosts.sort();
-  hosts
 }
 
 struct Monitor {
@@ -746,7 +746,6 @@ fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<
   let mut applied_direct = false;
   let mut rotations: usize = 0;
   let mut tick_no: u32 = 0;
-  let mut refresh = RefreshState::default();
   let mut probed = false;
   loop {
     match stop.recv_timeout(runner.ladder.next_delay()) {
@@ -833,10 +832,9 @@ fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<
     tick_no = tick_no.wrapping_add(1);
     // Подписка: сразу после готовности Xray, если кэш пуст или старше 12 часов; дальше раз в 12 часов
     let (subscription, empty, updated_ms) = { let ctx = lock(&ctx); (ctx.subscription, ctx.nodes.is_empty(), ctx.subscription_updated_ms) };
-    if subscription && !cancelled.load(Ordering::SeqCst) && refresh.due(now_ms(), updated_ms, empty) {
-      refresh.attempted(now_ms());
-      // Неудача не стирает кэш; следующая попытка по расписанию RefreshState
-      let _ = refresh_from_monitor();
+    if subscription && !cancelled.load(Ordering::SeqCst) && lock(&REFRESH).try_begin_auto(now_ms(), updated_ms, empty) {
+      // Сеть (до 25 с) не должна задерживать пробы: загрузка в отдельном потоке, неудача кэш не стирает
+      refresh_in_background();
     }
   }
 }
@@ -855,18 +853,24 @@ fn rotate(ctx: &mut MonitorCtx, api: &Api) -> Result<(), String> {
   Ok(())
 }
 
-/// Возвращает `None`, если ядро занято или остановлено (попытка не считается), иначе успех обновления.
-fn refresh_from_monitor() -> Option<bool> {
-  // try_lock: если идёт apply/reset, не ждём (иначе взаимная блокировка с остановкой монитора)
-  let mut guard = CORE.try_lock().ok()?;
-  let core = guard.as_mut()?;
-  match refresh_locked(core) {
-    Ok(()) => Some(true),
-    Err(error) => {
+/// Запускает скачивание подписки в отдельном потоке: монитор не ждёт сеть, а `CORE` берётся только
+/// на снимок адреса и на короткое применение результата. Расписание уже отмечено `try_begin_auto`.
+fn refresh_in_background() {
+  let spawned = std::thread::Builder::new().name("relay-tunnel-subscription".into()).spawn(|| {
+    let job = match with_core(|core| refresh_job(core)) {
+      Ok(job) => job,
+      Err(_) => { lock(&REFRESH).abort(); return; }
+    };
+    let result = run_refresh(&job);
+    if let Err(error) = &result {
       // Рабочий кэш узлов остаётся как был; код ошибки без адреса подписки
       log::warn!("[Tunnel] обновление подписки: {error}");
-      Some(false)
     }
+    lock(&REFRESH).finish(result.is_ok());
+  });
+  if spawned.is_err() {
+    log::warn!("[Tunnel] поток обновления подписки не запущен");
+    lock(&REFRESH).abort();
   }
 }
 
@@ -874,19 +878,57 @@ fn refresh_from_monitor() -> Option<bool> {
 #[derive(Debug, Default)]
 struct RefreshState {
   last_attempt_ms: Option<u64>,
+  /// Неудач подряд; сбрасывается после успеха.
+  failures: u32,
+  /// Загрузка уже идёт: второй запуск не нужен.
+  in_flight: bool,
 }
 
 impl RefreshState {
-  /// Пора ли качать: кэш пуст или старше 12 часов; между попытками минута без узлов и 15 минут после отказа.
+  /// Пауза до следующей попытки: сразу после успеха и до первой неудачи — минимальная; после неудач
+  /// 30 с, затем 2 мин, дальше штатные 15 минут (минута, пока в подписке нет ни одного узла).
+  fn retry_gap(&self, no_nodes: bool) -> Duration {
+    match self.failures {
+      0 => SUBSCRIPTION_MIN_GAP,
+      n if (n as usize) <= SUBSCRIPTION_BACKOFF.len() => SUBSCRIPTION_BACKOFF[n as usize - 1],
+      _ if no_nodes => SUBSCRIPTION_RETRY,
+      _ => SUBSCRIPTION_FAIL_RETRY,
+    }
+  }
+
+  /// Пора ли качать: кэш пуст или старше 12 часов, ничего не качается, прошла пауза после прошлой попытки.
   fn due(&self, now_ms: u64, updated_ms: u64, no_nodes: bool) -> bool {
+    if self.in_flight { return false; }
     let stale = updated_ms == 0 || now_ms.saturating_sub(updated_ms) >= SUBSCRIPTION_REFRESH.as_millis() as u64;
     if !(no_nodes || stale) { return false; }
     let Some(last) = self.last_attempt_ms else { return true; };
-    let gap = if no_nodes { SUBSCRIPTION_RETRY } else { SUBSCRIPTION_FAIL_RETRY };
-    now_ms.saturating_sub(last) >= gap.as_millis() as u64
+    now_ms.saturating_sub(last) >= self.retry_gap(no_nodes).as_millis() as u64
   }
 
-  fn attempted(&mut self, now_ms: u64) { self.last_attempt_ms = Some(now_ms); }
+  /// Автоматический запуск: отмечает начало, если по расписанию пора.
+  fn try_begin_auto(&mut self, now_ms: u64, updated_ms: u64, no_nodes: bool) -> bool {
+    if !self.due(now_ms, updated_ms, no_nodes) { return false; }
+    self.in_flight = true;
+    self.last_attempt_ms = Some(now_ms);
+    true
+  }
+
+  /// Явный запрос пользователя: расписание не мешает, но параллельной загрузки не будет.
+  fn try_begin_manual(&mut self, now_ms: u64) -> bool {
+    if self.in_flight { return false; }
+    self.in_flight = true;
+    self.last_attempt_ms = Some(now_ms);
+    true
+  }
+
+  /// Загрузка закончилась: успех сбрасывает счётчик неудач.
+  fn finish(&mut self, ok: bool) {
+    self.in_flight = false;
+    self.failures = if ok { 0 } else { self.failures.saturating_add(1) };
+  }
+
+  /// Попытка не состоялась (ядро остановлено, подписки нет): не неудача сети, счётчик не меняется.
+  fn abort(&mut self) { self.in_flight = false; }
 }
 
 // ---------- команды ----------
@@ -980,56 +1022,112 @@ pub fn reset() -> Result<NetworkStatus, NetworkError> {
 /// Скачивает подписку заново (по кнопке; автоматически — раз в 12 часов). Загрузка идёт через `P_socks`
 /// программой `curl.exe` из Windows: в проекте нет TLS-клиента для Rust, а ключ подписки при этом не попадает
 /// в командную строку (адрес передаётся через stdin). Если подписки нет или загрузка не удалась —
-/// `SUBSCRIPTION_FAILED`, прежний кэш остаётся.
+/// `SUBSCRIPTION_FAILED`, прежний кэш остаётся. Сеть работает без `CORE`; если загрузка уже идёт (монитор или
+/// прошлое нажатие), второй запуск не создаётся и возвращается текущий статус.
 pub fn refresh_subscription() -> Result<NetworkStatus, NetworkError> {
-  with_core(|core| {
-    refresh_locked(core)?;
-    Ok(status())
-  })
+  let job = with_core(|core| refresh_job(core))?;
+  if !lock(&REFRESH).try_begin_manual(now_ms()) { return Ok(status()); }
+  let result = run_refresh(&job);
+  lock(&REFRESH).finish(result.is_ok());
+  result?;
+  Ok(status())
 }
 
-fn refresh_locked(core: &mut Core) -> Result<(), NetworkError> {
-  let fail = |error: NetworkError| {
-    update_inputs(|inputs| inputs.last_error = Some(error.code().into()));
-    error
-  };
+fn refresh_fail(error: NetworkError) -> NetworkError {
+  update_inputs(|inputs| inputs.last_error = Some(error.code().into()));
+  error
+}
+
+/// Что нужно для загрузки: адрес подписки и порт SOCKS. Снимается под коротким замком.
+struct RefreshJob {
+  url: String,
+  socks: u16,
+}
+
+fn refresh_job(core: &Core) -> Result<RefreshJob, NetworkError> {
   let Some(VpnSource::SubscriptionUrl(url)) = core.profile.active().map(Provisioning::source) else {
     return Err(NetworkError::SubscriptionFailed);
   };
-  let socks = PORTS.get().map(|p| p.socks).ok_or_else(|| fail(NetworkError::SubscriptionFailed))?;
-  let body = fetch_subscription(&url, socks).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
+  let socks = PORTS.get().map(|p| p.socks).ok_or_else(|| refresh_fail(NetworkError::SubscriptionFailed))?;
+  Ok(RefreshJob { url, socks })
+}
+
+/// Скачивает (без `CORE`) и коротко применяет результат под замком.
+fn run_refresh(job: &RefreshJob) -> Result<(), NetworkError> {
+  let body = fetch_subscription(&job.url, job.socks).map_err(|_| refresh_fail(NetworkError::SubscriptionFailed))?;
+  with_core(|core| apply_downloaded(core, job, body))
+}
+
+/// Что делать с Xray после новой подписки.
+#[derive(Debug, PartialEq)]
+enum RefreshPlan {
+  /// Нужен перезапуск: рабочего узла нет в подписке или конфиг Xray не собран.
+  Restart,
+  /// Без перезапуска: `nodes` — узлы, которые работающий Xray может использовать, `deferred` — узлы с новыми
+  /// хостами, отложенные до ближайшего перезапуска.
+  InPlace { nodes: Vec<Node>, active_index: usize, deferred: usize },
+}
+
+/// Перезапуск рвёт все соединения окон, поэтому он только по делу. Bootstrap-домены узлов живут только в
+/// конфиге работающего Xray (`running_hosts`), поэтому узел с новым доменом без перезапуска недоступен для
+/// ротации. Поэтому: рабочий узел на месте — Xray не трогаем, новые хосты не вносим, а узлы с известными
+/// хостами обновляем; кэш подписки уже сохранён целиком, и отложенные узлы подхватит любой следующий
+/// `configure` (перезапуск, `apply`, `reset`). Перезапуск нужен, лишь когда пропал рабочий узел (его хост и
+/// bootstrap нужны именно ему) либо конфиг ещё не собран. DoH подпиской не меняется, поэтому его хост не в счёт.
+fn plan_refresh(running_hosts: Option<&[String]>, active: Option<&Node>, parsed: &[Node]) -> RefreshPlan {
+  let Some(running) = running_hosts else { return RefreshPlan::Restart; };
+  if index_of(parsed, active).is_none() { return RefreshPlan::Restart; }
+  let known = |node: &Node| {
+    let host = node.server.trim_matches(['[', ']']);
+    host.parse::<std::net::IpAddr>().is_ok() || running.iter().any(|known| known == host)
+  };
+  let nodes: Vec<Node> = parsed.iter().filter(|node| known(node)).cloned().collect();
+  // Рабочий узел сам работает на известном хосте; если нет, считаем конфиг нестабильным и перезапускаем
+  let Some(active_index) = index_of(&nodes, active) else { return RefreshPlan::Restart; };
+  RefreshPlan::InPlace { deferred: parsed.len() - nodes.len(), nodes, active_index }
+}
+
+fn apply_downloaded(core: &mut Core, job: &RefreshJob, body: String) -> Result<(), NetworkError> {
+  // Пока шла загрузка, пользователь мог сменить ключ: чужой результат не применяем
+  match core.profile.active().map(Provisioning::source) {
+    Some(VpnSource::SubscriptionUrl(url)) if url == job.url => {}
+    _ => {
+      log::info!("[Tunnel] подписка сменилась во время загрузки, результат отброшен");
+      return Ok(());
+    }
+  }
   let parsed = uri::parse_text(&body);
-  if parsed.nodes.is_empty() { return Err(fail(NetworkError::SubscriptionFailed)); }
+  if parsed.nodes.is_empty() { return Err(refresh_fail(NetworkError::SubscriptionFailed)); }
   let mut profile = core.profile.clone();
   profile.subscription_cache = body;
   profile.subscription_updated_at_ms = now_ms();
-  core.store.save(&profile).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
-  // Перезапуск Xray рвёт все соединения окон, поэтому он только по делу: рабочего узла нет в новом списке
-  // (или конфиг был без узла) либо появились новые хосты — их bootstrap-домены живут только в конфиге Xray.
-  // Перестановка узлов в подписке перезапуска не требует.
-  let active_index = index_of(&parsed.nodes, lock(&core.ctx).active_node());
-  let hosts_changed = host_set(&core.nodes) != host_set(&parsed.nodes);
-  if active_index.is_none() || hosts_changed {
-    log::info!("[Tunnel] подписка обновлена: {} узлов, рабочий узел {}, хосты {}", parsed.nodes.len(),
-      if active_index.is_some() { "остался" } else { "исчез" }, if hosts_changed { "изменились" } else { "те же" });
-    configure(core, profile).map_err(|_| fail(NetworkError::SubscriptionFailed))?;
-  } else {
-    // Рабочий узел на месте: обновляем список запасных, его индекс в новом списке и время
-    log::info!("[Tunnel] подписка обновлена без перезапуска: {} узлов", parsed.nodes.len());
-    core.profile = profile;
-    core.nodes = parsed.nodes.clone();
-    let mut ctx = lock(&core.ctx);
-    ctx.nodes = parsed.nodes.clone();
-    ctx.current = active_index.unwrap_or(0);
-    ctx.pin_current();
-    ctx.subscription_updated_ms = core.profile.subscription_updated_at_ms;
-    drop(ctx);
-    let updated = Some(core.profile.subscription_updated_at_ms);
-    update_inputs(|inputs| {
-      inputs.node_count = parsed.nodes.len();
-      inputs.subscription_updated_at = updated;
-      inputs.last_error = None;
-    });
+  core.store.save(&profile).map_err(|_| refresh_fail(NetworkError::SubscriptionFailed))?;
+  let (running_hosts, active) = {
+    let ctx = lock(&core.ctx);
+    (ctx.base.as_ref().map(|base| base.node_hosts.clone()), ctx.active_node().cloned())
+  };
+  match plan_refresh(running_hosts.as_deref(), active.as_ref(), &parsed.nodes) {
+    RefreshPlan::Restart => {
+      log::info!("[Tunnel] подписка обновлена: {} узлов, рабочий узел исчез, перезапуск", parsed.nodes.len());
+      configure(core, profile).map_err(|_| refresh_fail(NetworkError::SubscriptionFailed))?;
+    }
+    RefreshPlan::InPlace { nodes, active_index, deferred } => {
+      // Рабочий узел на месте: обновляем список запасных, его индекс в новом списке и время
+      log::info!("[Tunnel] подписка обновлена без перезапуска: {} узлов, отложено с новыми хостами {deferred}", nodes.len());
+      core.profile = profile;
+      core.nodes = nodes.clone();
+      let mut ctx = lock(&core.ctx);
+      ctx.nodes = nodes.clone();
+      ctx.current = active_index;
+      ctx.pin_current();
+      ctx.subscription_updated_ms = core.profile.subscription_updated_at_ms;
+      drop(ctx);
+      let updated = Some(core.profile.subscription_updated_at_ms);
+      update_inputs(|inputs| {
+        inputs.node_count = nodes.len();
+        inputs.subscription_updated_at = updated;
+      });
+    }
   }
   update_inputs(|inputs| inputs.last_error = None);
   Ok(())
@@ -1347,27 +1445,107 @@ https://sub.example.com/token/abcdef";
   fn refresh_schedule_on_virtual_time() {
     const HOUR: u64 = 3_600_000;
     const MINUTE: u64 = 60_000;
+    const SECOND: u64 = 1_000;
     let now = 100 * HOUR;
+    // пустой кэш: качаем сразу
     let mut state = RefreshState::default();
-    // пустой кэш: качаем сразу, дальше раз в минуту
-    assert!(state.due(now, 0, true));
-    state.attempted(now);
-    assert!(!state.due(now + 30_000, 0, true));
-    assert!(state.due(now + MINUTE, 0, true));
+    assert!(state.try_begin_auto(now, 0, true));
+    // после первого отказа: 30 с, затем 2 минуты, затем минута (узлов нет)
+    state.finish(false);
+    assert!(!state.due(now + 29 * SECOND, 0, true));
+    assert!(state.due(now + 30 * SECOND, 0, true));
+    assert!(state.try_begin_auto(now + 30 * SECOND, 0, true));
+    state.finish(false);
+    assert!(!state.due(now + 30 * SECOND + 119 * SECOND, 0, true));
+    assert!(state.due(now + 30 * SECOND + 2 * MINUTE, 0, true));
+    assert!(state.try_begin_auto(now + 150 * SECOND, 0, true));
+    state.finish(false);
+    assert!(!state.due(now + 150 * SECOND + 59 * SECOND, 0, true));
+    assert!(state.due(now + 150 * SECOND + MINUTE, 0, true));
     // свежий кэш с узлами: не качаем
     let mut state = RefreshState::default();
     assert!(!state.due(now, now - HOUR, false));
     // старше 12 часов на старте: качаем сразу
-    assert!(state.due(now, now - 12 * HOUR, false));
-    state.attempted(now);
-    // отказ при рабочем кэше: повтор не раньше чем через 15 минут, кэш остаётся рабочим
-    assert!(!state.due(now + 14 * MINUTE, now - 12 * HOUR, false));
-    assert!(state.due(now + 15 * MINUTE, now - 12 * HOUR, false));
-    // после удачи отсчёт идёт от нового времени обновления
-    assert!(!state.due(now + 15 * MINUTE, now + 14 * MINUTE, false));
-    assert!(state.due(now + 12 * HOUR + 14 * MINUTE, now + 14 * MINUTE, false));
+    assert!(state.try_begin_auto(now, now - 12 * HOUR, false));
+    // единичный сбой при рабочем кэше: повтор через 30 с, а не 15 минут
+    state.finish(false);
+    assert!(!state.due(now + 29 * SECOND, now - 12 * HOUR, false));
+    assert!(state.due(now + 30 * SECOND, now - 12 * HOUR, false));
+    // вторая неудача: 2 минуты; третья и дальше: штатные 15 минут
+    assert!(state.try_begin_auto(now + 30 * SECOND, now - 12 * HOUR, false));
+    state.finish(false);
+    assert!(!state.due(now + 30 * SECOND + MINUTE, now - 12 * HOUR, false));
+    assert!(state.due(now + 30 * SECOND + 2 * MINUTE, now - 12 * HOUR, false));
+    let t = now + 30 * SECOND + 2 * MINUTE;
+    assert!(state.try_begin_auto(t, now - 12 * HOUR, false));
+    state.finish(false);
+    assert!(!state.due(t + 14 * MINUTE, now - 12 * HOUR, false));
+    assert!(state.due(t + 15 * MINUTE, now - 12 * HOUR, false));
+    // успех сбрасывает счётчик, отсчёт 12 часов идёт от нового времени обновления
+    assert!(state.try_begin_auto(t + 15 * MINUTE, now - 12 * HOUR, false));
+    state.finish(true);
+    assert_eq!(state.failures, 0);
+    assert!(!state.due(t + 16 * MINUTE, t + 15 * MINUTE, false));
+    assert!(state.due(t + 12 * HOUR + 15 * MINUTE, t + 15 * MINUTE, false));
     // кэш никогда не скачивался (0), но узлы есть из ссылки-файла: тоже качаем
     assert!(RefreshState::default().due(now, 0, false));
+  }
+
+  #[test]
+  fn refresh_never_runs_twice_at_once() {
+    const SECOND: u64 = 1_000;
+    let now = 1_000_000;
+    let mut state = RefreshState::default();
+    assert!(state.try_begin_auto(now, 0, true));
+    // идёт загрузка: ни монитор, ни кнопка второй запуск не создают
+    assert!(!state.try_begin_auto(now + 60 * SECOND, 0, true));
+    assert!(!state.try_begin_manual(now + 1));
+    state.finish(true);
+    // автоматический запуск не чаще минимального интервала, даже при пустом кэше
+    assert!(!state.try_begin_auto(now + 5 * SECOND, 0, true));
+    // явный запрос пользователя интервалом не ограничен
+    assert!(state.try_begin_manual(now + 5 * SECOND));
+    state.finish(true);
+    // отказ без попытки (ядро остановлено) освобождает защиту и не копит неудачи
+    assert!(state.try_begin_manual(now + 100 * SECOND));
+    state.abort();
+    assert_eq!(state.failures, 0);
+    assert!(state.try_begin_manual(now + 101 * SECOND));
+  }
+
+  fn nodes_of(links: &[&str]) -> Vec<Node> {
+    links.iter().map(|link| uri::parse_link(link).unwrap()).collect()
+  }
+
+  #[test]
+  fn new_hosts_do_not_restart_while_active_node_stays() {
+    let running = vec!["a.example.com".to_string(), "b.example.com".to_string()];
+    let current = nodes_of(&["trojan://p@a.example.com:443", "trojan://p@b.example.com:443"]);
+    // подписка принесла новый домен c.example.com и переставила узлы: рабочий узел a на месте
+    let parsed = nodes_of(&["trojan://p@c.example.com:443", "trojan://p@b.example.com:443", "trojan://p@a.example.com:443", "ss://aes-256-gcm:pw@192.0.2.10:8388"]);
+    match plan_refresh(Some(&running), current.first(), &parsed) {
+      RefreshPlan::InPlace { nodes, active_index, deferred } => {
+        assert_eq!(deferred, 1, "узел с новым доменом откладывается");
+        assert_eq!(nodes.len(), 3);
+        assert_eq!(nodes[active_index].server, "a.example.com");
+        assert!(nodes.iter().all(|node| node.server != "c.example.com"));
+      }
+      other => panic!("перезапуск не нужен: {other:?}"),
+    }
+    // исчезнувший хост тоже не повод для перезапуска
+    let shrunk = nodes_of(&["trojan://p@a.example.com:443"]);
+    assert!(matches!(plan_refresh(Some(&running), current.first(), &shrunk), RefreshPlan::InPlace { deferred: 0, .. }));
+  }
+
+  #[test]
+  fn restart_only_when_active_node_is_gone_or_config_missing() {
+    let running = vec!["a.example.com".to_string()];
+    let current = nodes_of(&["trojan://p@a.example.com:443"]);
+    let other = nodes_of(&["trojan://p@z.example.com:443"]);
+    assert_eq!(plan_refresh(Some(&running), current.first(), &other), RefreshPlan::Restart);
+    assert_eq!(plan_refresh(None, current.first(), &current), RefreshPlan::Restart);
+    // конфиг был без узла
+    assert_eq!(plan_refresh(Some(&[]), None, &current), RefreshPlan::Restart);
   }
 
   #[test]
