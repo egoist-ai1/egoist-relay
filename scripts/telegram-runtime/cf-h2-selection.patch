@@ -1,0 +1,237 @@
+diff --git a/proxy/bridge.py b/proxy/bridge.py
+index de64dc7..c7d72b3 100644
+--- a/proxy/bridge.py
++++ b/proxy/bridge.py
+@@ -21,6 +21,8 @@
+ 
+ TCP_BACKOFF_INITIAL = 30.0
+ TCP_BACKOFF_MAX = 3600.0
++CF_SELECTION_CONCURRENCY = 5
++CF_PREFLIGHT_TIMEOUT = 2.0
+ _tcp_failures: Dict[Tuple[str, int], int] = {}
+ _tcp_retry_after: Dict[Tuple[str, int], float] = {}
+ _tcp_connecting: Set[Tuple[str, int]] = set()
+@@ -233,6 +235,54 @@ async def _cfproxy_worker_fallback(reader, writer, relay_init, label,
+     return True
+ 
+ 
++async def _select_cf_proxy(dc: int):
++    slots = asyncio.Semaphore(CF_SELECTION_CONCURRENCY)
++
++    async def probe(base_domain):
++        async with slots:
++            domain = f'kws{dc}.{base_domain}'
++            try:
++                ws = await asyncio.wait_for(RawWebSocket.connect(
++                    domain, domain, timeout=CF_PREFLIGHT_TIMEOUT,
++                    secure=not proxy_config.disable_secure,
++                ), CF_PREFLIGHT_TIMEOUT)
++                return base_domain, ws
++            except Exception:
++                return None
++
++    tasks = [asyncio.create_task(probe(domain)) for domain in balancer.get_domains_for_dc(dc)]
++    selected = None
++    completed = False
++
++    async def cleanup():
++        for task in tasks:
++            if not task.done():
++                task.cancel()
++        results = await asyncio.gather(*tasks, return_exceptions=True)
++        await asyncio.gather(*(
++            result[1].close() for result in results
++            if isinstance(result, tuple) and (not completed or result is not selected)
++        ), return_exceptions=True)
++
++    try:
++        for candidate in asyncio.as_completed(tasks):
++            result = await candidate
++            if result is not None:
++                selected = result
++                break
++        completed = True
++        return selected
++    finally:
++        cleanup_task = asyncio.create_task(cleanup())
++        try:
++            await asyncio.shield(cleanup_task)
++        except BaseException:
++            await cleanup_task
++            if selected is not None:
++                await selected[1].close()
++            raise
++
++
+ async def _cfproxy_fallback(reader, writer, relay_init, label,
+                             ctx: CryptoCtx,
+                             dc: int, is_media: bool,
+@@ -245,7 +295,11 @@ async def _cfproxy_fallback(reader, writer, relay_init, label,
+             label, dc, media_tag)
+     connect_started = time.monotonic()
+ 
+-    for base_domain in balancer.get_domains_for_dc(dc):
++    selected = await _select_cf_proxy(dc)
++    if selected is not None:
++        chosen_domain, ws = selected
++
++    for base_domain in (() if ws is not None else balancer.get_domains_for_dc(dc)):
+         domain = f'kws{dc}.{base_domain}'
+         try:
+             ws = await RawWebSocket.connect(domain, domain, timeout=10.0, 
+@@ -265,7 +319,11 @@ async def _cfproxy_fallback(reader, writer, relay_init, label,
+         log.info("[%s] Switched active CF domain", label)
+ 
+     stats.connections_cfproxy += 1
+-    await ws.send(relay_init)
++    try:
++        await ws.send(relay_init)
++    except BaseException:
++        await ws.close()
++        raise
+     await bridge_ws_reencrypt(reader, writer, ws, label, ctx,
+                                dc=dc, is_media=is_media,
+                                splitter=splitter)
+diff --git a/proxy/cf_h2.py b/proxy/cf_h2.py
+index 06c03a8..0443cf7 100644
+--- a/proxy/cf_h2.py
++++ b/proxy/cf_h2.py
+@@ -30,6 +30,8 @@
+ DOMAIN_COOLDOWN = 30.0
+ REQUEST_TIMEOUT = 65.0
+ SETUP_TIMEOUT = 8.0
++SELECTION_CONCURRENCY = 5
++PREFLIGHT_TIMEOUT = 2.0
+ REPLAY_IDLE_SECONDS = 1.0
+ REPLAY_REQUEST_SECONDS = 3.0
+ REPLAY_CHECK_SECONDS = 0.25
+@@ -860,7 +862,7 @@ def __init__(self):
+         for name in ('httpx', 'httpcore', 'hpack', 'h2'):
+             logging.getLogger(name).setLevel(logging.WARNING)
+         self.lanes: Dict[str, _HttpLane] = {}
+-        self.locks: Dict[str, asyncio.Lock] = {}
++        self.locks: Dict[int, asyncio.Lock] = {}
+         self.failed_until: Dict[str, float] = {}
+         self.setup_retry_after: Dict[int, float] = {}
+         self.next_lane = self.next_channel = 0
+@@ -886,34 +888,30 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+         if dc not in DC_DEFAULT_IPS:
+             log.warning('[%s] H2 unsupported DC%d -> existing WS route', label, dc)
+             return None
+-        for base_domain in balancer.get_domains_for_dc(dc):
+-            host = 'kws%d.%s' % (dc, base_domain)
+-            async with self.locks.setdefault(host, asyncio.Lock()):
+-                if self.closed:
+-                    raise ConnectionError('H2 pool closed')
++        async with self.locks.setdefault(dc, asyncio.Lock()):
++            if self.closed:
++                raise ConnectionError('H2 pool closed')
++            domains = list(balancer.get_domains_for_dc(dc))
++            selected = None
++            candidates = []
++            for base_domain in domains:
++                host = 'kws%d.%s' % (dc, base_domain)
+                 lane = self.lanes.get(host)
+                 if time.monotonic() < max(self.failed_until.get(host, 0),
+                                          lane.failed_until if lane else 0):
+                     continue
+-                if lane is None:
+-                    self.next_lane += 1
+-                    lane = _HttpLane(host, self.next_lane)
+-                    try:
+-                        await lane._preflight()
+-                    except (httpx.HTTPError, OSError, ValueError) as exc:
+-                        stats.h2_errors += 1
+-                        self.failed_until[host] = time.monotonic() + DOMAIN_COOLDOWN
+-                        log.warning('[%s] H2 lane=%d preflight failed host=%s: %s: %s',
+-                                    label, lane.lane_id, host, type(exc).__name__, exc)
+-                        await lane.close()
+-                        continue
+-                    except asyncio.CancelledError:
+-                        await lane.close()
+-                        raise
+-                    if self.closed:
+-                        await lane.close()
+-                        raise ConnectionError('H2 pool closed during preflight')
+-                    self.lanes[host] = lane
++                if lane is not None and not lane.closed:
++                    selected = (base_domain, lane)
++                    break
++                candidates.append(base_domain)
++            if selected is None:
++                selected = await self._select_lane(dc, label, candidates)
++            if selected is not None:
++                base_domain, lane = selected
++                if self.closed:
++                    await lane.close()
++                    raise ConnectionError('H2 pool closed during selection')
++                self.lanes[lane.host] = lane
+                 self.next_channel += 1
+                 channel = _HttpChannel(lane, self.next_channel, label)
+                 balancer.update_domain_for_dc(dc, base_domain)
+@@ -924,6 +922,65 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+         log.debug('[%s] H2 DC%d unavailable; using WS', label, dc)
+         return None
+ 
++    async def _select_lane(self, dc: int, label: str, domains: List[str]):
++        slots = asyncio.Semaphore(SELECTION_CONCURRENCY)
++
++        async def probe(base_domain):
++            async with slots:
++                if self.closed:
++                    return None
++                host = 'kws%d.%s' % (dc, base_domain)
++                self.next_lane += 1
++                lane = _HttpLane(host, self.next_lane)
++                try:
++                    await asyncio.wait_for(lane._preflight(), PREFLIGHT_TIMEOUT)
++                    if self.closed:
++                        await lane.close()
++                        return None
++                    return base_domain, lane
++                except (httpx.HTTPError, OSError, ValueError, asyncio.TimeoutError) as exc:
++                    stats.h2_errors += 1
++                    self.failed_until[host] = time.monotonic() + DOMAIN_COOLDOWN
++                    log.warning('[%s] H2 lane=%d preflight failed host=%s: %s',
++                                label, lane.lane_id, host, type(exc).__name__)
++                    await lane.close()
++                    return None
++                except BaseException:
++                    await lane.close()
++                    raise
++
++        tasks = [asyncio.create_task(probe(domain)) for domain in domains]
++        selected = None
++        completed = False
++
++        async def cleanup():
++            for task in tasks:
++                if not task.done():
++                    task.cancel()
++            results = await asyncio.gather(*tasks, return_exceptions=True)
++            await asyncio.gather(*(
++                result[1].close() for result in results
++                if isinstance(result, tuple) and (not completed or result is not selected)
++            ), return_exceptions=True)
++
++        try:
++            for candidate in asyncio.as_completed(tasks):
++                result = await candidate
++                if result is not None:
++                    selected = result
++                    break
++            completed = True
++            return selected
++        finally:
++            cleanup_task = asyncio.create_task(cleanup())
++            try:
++                await asyncio.shield(cleanup_task)
++            except BaseException:
++                await cleanup_task
++                if selected is not None:
++                    await selected[1].close()
++                raise
++
+     def log_stats(self) -> None:
+         for lane in self.lanes.values():
+             if lane.channels:

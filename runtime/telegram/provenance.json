@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "name": "tg-ws-proxy",
+  "version": "1.11.2-social.1",
+  "upstream": "https://github.com/Flowseal/tg-ws-proxy/tree/307a384ab7f522e34bb1a045884d0bd90f40bee5",
+  "license": "MIT",
+  "licenseFile": "LICENSE.txt",
+  "binary": "tg-ws-proxy.exe",
+  "bytes": 14866887,
+  "sha256": "03fbd7f8a8d8c2d82e4ce6e97dc57040d6b95b49c4422a2b98eec846610ceae2",
+  "origin": "Headless CLI build of pinned upstream source; bounded parallel CF WS/H2 route selection patch; no tray or updater entrypoint",
+  "sourcePatch": "scripts/telegram-runtime/cf-h2-selection.patch",
+  "sourcePatchSha256": "0d811bb7bb431caaa4d6117d232ea97163ba66fb23a61a07575896bba69d0ee3",
+  "buildInstructions": "scripts/telegram-runtime/BUILD.md",
+  "buildRequirements": "scripts/telegram-runtime/requirements-build.txt",
+  "thirdPartyNotices": "THIRD-PARTY-NOTICES.txt",
+  "operation": "Application-owned loopback MTProxy with a per-worker random secret and port; independent of Lagom and Xray; no Windows service or system settings"
+}
