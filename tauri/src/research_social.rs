@@ -163,6 +163,8 @@ struct Provider {
   active: Option<Job>,
   queue: VecDeque<Job>,
   last_probe: Option<Instant>,
+  /// Подряд проваленные пробы прогрева (для backoff); сбрасывается подтверждённым аккаунтом.
+  probe_failures: u32,
   last_busy: Instant,
   view_closing: bool,
 }
@@ -195,6 +197,7 @@ impl Provider {
       active: None,
       queue: VecDeque::new(),
       last_probe: None,
+      probe_failures: 0,
       last_busy: Instant::now(),
       view_closing: false,
     }
@@ -1421,7 +1424,10 @@ fn pump(app: &AppHandle, provider: &'static str) {
       return;
     };
     let owner = (job.id.clone(), job.nonce.clone());
-    state.last_busy = Instant::now();
+    // Фоновая проба не считается работой: иначе прогретое окно не закроется по IDLE_CLOSE.
+    if !job.probe_only {
+      state.last_busy = Instant::now();
+    }
     state.active = Some(job);
     owner
   };
@@ -1542,7 +1548,9 @@ fn finish_error(app: &AppHandle, provider: &'static str, id: &str, nonce: &str, 
       state.state = "initializing";
       state.reason = "DOM_ACCOUNT_PROOF_PENDING";
     }
-    state.last_busy = Instant::now();
+    if !state.active.as_ref().is_some_and(|job| job.probe_only) {
+      state.last_busy = Instant::now();
+    }
     state.active.take()
   });
   if let Some(job) = job {
@@ -1558,6 +1566,7 @@ fn finish_error(app: &AppHandle, provider: &'static str, id: &str, nonce: &str, 
             );
           }
           state.last_probe = Some(Instant::now());
+          state.probe_failures = state.probe_failures.saturating_add(1);
         }
       }
     }
@@ -1764,6 +1773,24 @@ const IDLE_TICK: Duration = Duration::from_secs(30);
 
 /// Повтор пробы после неудачи, когда окна нет: не чаще, чтобы не долбить сайт.
 const PROBE_RETRY: Duration = Duration::from_secs(2 * 60);
+/// Потолок экспоненциального backoff повторов прогрева.
+const PROBE_RETRY_MAX: Duration = Duration::from_secs(30 * 60);
+
+/// Пауза перед повтором прогрева после `failures` неудач подряд: 2 → 4 → 8 … мин, не более 30.
+fn probe_backoff(failures: u32) -> Duration {
+  let shift = failures.saturating_sub(1).min(8);
+  (PROBE_RETRY * (1u32 << shift)).min(PROBE_RETRY_MAX)
+}
+
+/// Причина недоступности требует действия владельца (вход или проверка безопасности):
+/// автоматически греть бессмысленно и похоже на бот-паттерн.
+fn owner_action_required(state: &str, reason: &str) -> bool {
+  matches!(state, "auth_required" | "challenge_required")
+    || matches!(
+      reason,
+      "SESSION_NOT_AVAILABLE_IN_RESEARCH_VIEW" | "CHALLENGE_REQUIRED"
+    )
+}
 
 /// Нужна ли пробная навигация: очередь пуста, задачи нет.
 /// Окно открыто: прошлая проба старше `PROBE_INTERVAL`.
@@ -1772,20 +1799,30 @@ const PROBE_RETRY: Duration = Duration::from_secs(2 * 60);
 /// задача). Первая проба сразу, повтор после неудачи через `PROBE_RETRY`. Проба открывает скрытое
 /// окно сама (`ensure_view`), закрывает его idle-watchdog. Подтверждённый `ready` без окна
 /// остаётся кэшем: задача перепроверит аккаунт в своей фазе Probe.
+/// `owner_blocked` (нужен вход или проверка безопасности): не греем вовсе, состояние остаётся
+/// честным до явного задания (оно перепроверяет аккаунт само в фазе Probe).
+/// Повторы после неудач идут с экспоненциальным backoff (`probe_backoff(failures)`).
 fn probe_due(
   view_exists: bool,
   active: bool,
   queued: usize,
   since_probe: Option<Duration>,
   ready: bool,
+  owner_blocked: bool,
+  failures: u32,
 ) -> bool {
-  if active || queued != 0 {
+  if active || queued != 0 || owner_blocked {
     return false;
   }
   if view_exists {
-    return since_probe.is_none_or(|elapsed| elapsed > PROBE_INTERVAL);
+    let wait = if failures > 0 {
+      PROBE_INTERVAL.max(probe_backoff(failures))
+    } else {
+      PROBE_INTERVAL
+    };
+    return since_probe.is_none_or(|elapsed| elapsed > wait);
   }
-  !ready && since_probe.is_none_or(|elapsed| elapsed > PROBE_RETRY)
+  !ready && since_probe.is_none_or(|elapsed| elapsed > probe_backoff(failures))
 }
 
 /// Пора ли закрыть research-окно: ни задачи, ни очереди, ни закрытия, простой достаточен.
@@ -1817,8 +1854,14 @@ fn close_if_idle(app: &AppHandle, provider: &'static str) {
     let Some(state) = states.get_mut(provider) else {
       return false;
     };
-    if state.active.is_some() || !state.queue.is_empty() {
+    // Работа владельца продлевает окно, фоновая проба прогрева — нет.
+    let user_work = state.active.as_ref().is_some_and(|job| !job.probe_only)
+      || state.queue.iter().any(|job| !job.probe_only);
+    if user_work {
       state.last_busy = Instant::now();
+      return false;
+    }
+    if state.active.is_some() || !state.queue.is_empty() {
       return false;
     }
     if !idle_close_due(
@@ -1893,6 +1936,8 @@ pub(crate) fn status(app: &AppHandle) -> Vec<Value> {
         state.queue.len(),
         state.last_probe.map(|time| time.elapsed()),
         state.state == "ready",
+        owner_action_required(state.state, state.reason),
+        state.probe_failures,
       ) {
         let mut job = build_job(
           provider,
@@ -2420,6 +2465,7 @@ fn handle_social_reply(
         state.state = "ready";
         state.reason = "DOM_ACCOUNT_CONFIRMED";
         state.last_probe = Some(Instant::now());
+        state.probe_failures = 0;
         let binding = json!({"accountRef":state.account_ref,"accountEpoch":format!("{}:{}", state.salt, state.epoch)});
         if job.expected_account.as_ref().is_some_and(|expected| {
           expected.get("accountRef") != binding.get("accountRef")
@@ -2628,8 +2674,11 @@ fn handle_social_reply(
           .as_ref()
           .is_some_and(|job| job.id == request_id && job.nonce == nonce)
       }) {
+        // Завершение фоновой пробы не продлевает жизнь окна.
+        if !state.active.as_ref().is_some_and(|job| job.probe_only) {
+          state.last_busy = Instant::now();
+        }
         state.active = None;
-        state.last_busy = Instant::now();
       }
     }
     pump(&app, provider);
@@ -2664,32 +2713,62 @@ mod relay_audit_tests {
 
   #[test]
   fn probe_is_cached_for_five_minutes() {
-    assert!(probe_due(true, false, 0, None, false));
-    assert!(!probe_due(true, false, 0, Some(Duration::from_secs(20)), false));
-    assert!(!probe_due(true, false, 0, Some(PROBE_INTERVAL), false));
-    assert!(probe_due(true, false, 0, Some(PROBE_INTERVAL + Duration::from_secs(1)), false));
-    assert!(!probe_due(true, true, 0, None, false));
-    assert!(!probe_due(true, false, 2, None, false));
+    assert!(probe_due(true, false, 0, None, false, false, 0));
+    assert!(!probe_due(true, false, 0, Some(Duration::from_secs(20)), false, false, 0));
+    assert!(!probe_due(true, false, 0, Some(PROBE_INTERVAL), false, false, 0));
+    assert!(probe_due(true, false, 0, Some(PROBE_INTERVAL + Duration::from_secs(1)), false, false, 0));
+    assert!(!probe_due(true, true, 0, None, false, false, 0));
+    assert!(!probe_due(true, false, 2, None, false, false, 0));
   }
 
   #[test]
   fn probe_warms_missing_window_until_account_is_proven() {
     // Пока аккаунт не подтверждён, без окна греем сразу.
-    assert!(probe_due(false, false, 0, None, false));
+    assert!(probe_due(false, false, 0, None, false, false, 0));
     // После неудачи повтор не чаще PROBE_RETRY (не короче минуты).
     assert!(PROBE_RETRY >= Duration::from_secs(60));
-    assert!(!probe_due(false, false, 0, Some(Duration::from_secs(20)), false));
-    assert!(!probe_due(false, false, 0, Some(PROBE_RETRY), false));
-    assert!(probe_due(false, false, 0, Some(PROBE_RETRY + Duration::from_secs(1)), false));
+    assert!(!probe_due(false, false, 0, Some(Duration::from_secs(20)), false, false, 1));
+    assert!(!probe_due(false, false, 0, Some(PROBE_RETRY), false, false, 1));
+    assert!(probe_due(false, false, 0, Some(PROBE_RETRY + Duration::from_secs(1)), false, false, 1));
     // Занято или есть очередь: окно не поднимаем.
-    assert!(!probe_due(false, true, 0, None, false));
-    assert!(!probe_due(false, false, 1, None, false));
+    assert!(!probe_due(false, true, 0, None, false, false, 0));
+    assert!(!probe_due(false, false, 1, None, false, false, 0));
   }
 
   #[test]
   fn probe_leaves_proven_account_without_window_cached() {
-    assert!(!probe_due(false, false, 0, None, true));
-    assert!(!probe_due(false, false, 0, Some(PROBE_INTERVAL * 2), true));
+    assert!(!probe_due(false, false, 0, None, true, false, 0));
+    assert!(!probe_due(false, false, 0, Some(PROBE_INTERVAL * 2), true, false, 0));
+  }
+
+  #[test]
+  fn probe_backoff_doubles_up_to_cap() {
+    assert_eq!(probe_backoff(0), PROBE_RETRY);
+    assert_eq!(probe_backoff(1), Duration::from_secs(2 * 60));
+    assert_eq!(probe_backoff(2), Duration::from_secs(4 * 60));
+    assert_eq!(probe_backoff(3), Duration::from_secs(8 * 60));
+    assert_eq!(probe_backoff(5), Duration::from_secs(30 * 60));
+    assert_eq!(probe_backoff(u32::MAX), PROBE_RETRY_MAX);
+    // Без окна: после трёх неудач повтор не раньше 8 минут.
+    assert!(!probe_due(false, false, 0, Some(Duration::from_secs(7 * 60)), false, false, 3));
+    assert!(probe_due(false, false, 0, Some(Duration::from_secs(8 * 60 + 1)), false, false, 3));
+    // С открытым окном backoff не короче обычного интервала проб и растёт дальше него.
+    assert!(!probe_due(true, false, 0, Some(Duration::from_secs(15 * 60)), true, false, 4));
+    assert!(probe_due(true, false, 0, Some(Duration::from_secs(30 * 60 + 1)), true, false, 5));
+  }
+
+  #[test]
+  fn probe_does_not_warm_when_owner_action_required() {
+    assert!(owner_action_required("auth_required", "SESSION_NOT_AVAILABLE_IN_RESEARCH_VIEW"));
+    assert!(owner_action_required("challenge_required", "CHALLENGE_REQUIRED"));
+    assert!(owner_action_required("unavailable", "CHALLENGE_REQUIRED"));
+    assert!(!owner_action_required("unavailable", "DOM_ACCOUNT_PROBE_TIMEOUT"));
+    assert!(!owner_action_required("initializing", "DOM_ACCOUNT_PROOF_PENDING"));
+    // Ни с окном, ни без него, сколько бы времени ни прошло.
+    for view in [false, true] {
+      assert!(!probe_due(view, false, 0, None, false, true, 0));
+      assert!(!probe_due(view, false, 0, Some(PROBE_RETRY_MAX * 10), false, true, 0));
+    }
   }
 
   fn dispatch_fixture() -> Provider {
