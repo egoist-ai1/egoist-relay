@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "runtime/telegram/tg-ws-proxy.exe",
-      "bytes": 14866887,
-      "sha256": "03fbd7f8a8d8c2d82e4ce6e97dc57040d6b95b49c4422a2b98eec846610ceae2"
+      "bytes": 13837258,
+      "sha256": "2cf3deee03be1761a626f5190874cadea379c9f4c51ec91a86012b3637c18902"
     },
     {
       "path": "runtime/telegram/LICENSE.txt",
@@ -14,8 +14,8 @@
     },
     {
       "path": "runtime/telegram/provenance.json",
-      "bytes": 1015,
-      "sha256": "0af17d9c509dfd45523b574683a124fe89158c906f13cffb2f49bd5b32aa5dbb"
+      "bytes": 1432,
+      "sha256": "a1ecb802c0a8a5b546b7d059adefbd31dca43685b309bbfd85a76f1edaee86d7"
     },
     {
       "path": "runtime/telegram/THIRD-PARTY-NOTICES.txt",

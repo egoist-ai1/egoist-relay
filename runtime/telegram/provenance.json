@@ -1,16 +1,26 @@
 {
   "schemaVersion": 1,
   "name": "tg-ws-proxy",
-  "version": "1.11.2-social.1",
+  "version": "1.11.2-social.2",
   "upstream": "https://github.com/Flowseal/tg-ws-proxy/tree/307a384ab7f522e34bb1a045884d0bd90f40bee5",
   "license": "MIT",
   "licenseFile": "LICENSE.txt",
   "binary": "tg-ws-proxy.exe",
-  "bytes": 14866887,
-  "sha256": "03fbd7f8a8d8c2d82e4ce6e97dc57040d6b95b49c4422a2b98eec846610ceae2",
-  "origin": "Headless CLI build of pinned upstream source; bounded parallel CF WS/H2 route selection patch; no tray or updater entrypoint",
+  "bytes": 13837258,
+  "sha256": "2cf3deee03be1761a626f5190874cadea379c9f4c51ec91a86012b3637c18902",
+  "origin": "Headless CLI build of pinned upstream source; bounded parallel CF WS/H2 route selection patch; H2 liveness patch (first-byte timeout, H2 PING, lane failed_until backoff); no tray or updater entrypoint",
   "sourcePatch": "scripts/telegram-runtime/cf-h2-selection.patch",
   "sourcePatchSha256": "0d811bb7bb431caaa4d6117d232ea97163ba66fb23a61a07575896bba69d0ee3",
+  "sourcePatches": [
+    {
+      "path": "scripts/telegram-runtime/cf-h2-selection.patch",
+      "sha256": "0d811bb7bb431caaa4d6117d232ea97163ba66fb23a61a07575896bba69d0ee3"
+    },
+    {
+      "path": "scripts/telegram-runtime/h2-liveness.patch",
+      "sha256": "de882b20fdb599afe3371f19946cf35fba4a5282c39bf08cc7db5c6fd65e9ec5"
+    }
+  ],
   "buildInstructions": "scripts/telegram-runtime/BUILD.md",
   "buildRequirements": "scripts/telegram-runtime/requirements-build.txt",
   "thirdPartyNotices": "THIRD-PARTY-NOTICES.txt",

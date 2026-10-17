@@ -1,0 +1,349 @@
+diff --git a/proxy/cf_h2.py b/proxy/cf_h2.py
+index 0443cf7..e88d9a8 100644
+--- a/proxy/cf_h2.py
++++ b/proxy/cf_h2.py
+@@ -12,7 +12,7 @@
+ import httpx
+ 
+ from .balancer import balancer
+-from .h2_transport import H2Transport
++from .h2_transport import FirstByteTimeout, H2Transport
+ from .stats import stats
+ from .utils import (
+     DC_DEFAULT_IPS, PROTO_TAG_ABRIDGED,
+@@ -44,6 +44,19 @@
+ REPLAY_MAX_ATTEMPTS = 3
+ SLOW_RESPONSE_SECONDS = 3.0
+ DIAGNOSTIC_INTERVAL = 5.0
++# Сколько ждать первый байт ответа после отправки запроса (секунды). Нет байтов -
++# маршрут считается мёртвым, клиент переподключается через другой lane.
++FIRST_BYTE_TIMEOUT = 15.0
++# Бан lane после таймаута или обрыва: BASE, затем удвоение до MAX (секунды).
++# Успешный ответ сбрасывает счётчик. Если в бане все lane, берётся тот,
++# у которого failed_until меньше.
++LANE_BAN_BASE = 5.0
++LANE_BAN_MAX = 60.0
++
++
++def ban_delay(strikes: int) -> float:
++    """Длительность бана после strikes предыдущих подряд неудач: 5, 10, 20, 40, 60, 60..."""
++    return min(LANE_BAN_BASE * 2 ** min(strikes, 16), LANE_BAN_MAX)
+ 
+ 
+ @dataclass
+@@ -497,6 +510,12 @@ async def _run_request(self, body: bytes, replay: bool, packet: Optional[_Replay
+             if trace is not None:
+                 trace.phase = 'error-' + type(exc).__name__
+             stats.h2_errors += 1
++            if replay and isinstance(exc, FirstByteTimeout):
++                # Проба-повтор без ответа не рвёт канал: lane уже помечен, а
++                # оригинальный запрос и бюджет повторов остаются как были.
++                log.debug('[%s] H2 lane=%d channel=%d replay got no first byte in %.0fs',
++                          self.label, self.lane.lane_id, self.channel_id, FIRST_BYTE_TIMEOUT)
++                return
+             if isinstance(exc, (httpx.HTTPError, OSError, ValueError, BufferError)):
+                 log.warning('[%s] H2 lane=%d channel=%d request failed: %s: %s; '
+                             'detail=[%s]; '
+@@ -619,6 +638,7 @@ def __init__(self, host: str, lane_id: int):
+         self.host, self.lane_id = host, lane_id
+         self.channels: Set[_HttpChannel] = set()
+         self.failed_until = 0.0
++        self.failure_strikes = 0
+         self.closed = False
+         self.tcp_connections = self.requests = self.responses = self.errors = 0
+         self.slow_headers = self.slow_bodies = self.replays = 0
+@@ -636,6 +656,17 @@ def __init__(self, host: str, lane_id: int):
+             timeout=httpx.Timeout(REQUEST_TIMEOUT, connect=8, pool=REQUEST_TIMEOUT),
+         )
+ 
++    def mark_failed(self, now: Optional[float] = None) -> None:
++        now = time.monotonic() if now is None else now
++        if now < self.failed_until:
++            return  # одна и та же авария у многих запросов не должна удлинять бан
++        self.failed_until = now + ban_delay(self.failure_strikes)
++        self.failure_strikes += 1
++
++    def mark_ok(self) -> None:
++        self.failed_until = 0.0
++        self.failure_strikes = 0
++
+     async def _trace(self, event: str, info: Dict) -> None:
+         if event == 'connection.connect_tcp.started':
+             self.tcp_connections += 1
+@@ -725,7 +756,8 @@ def response_started():
+                 'POST', 'https://' + self.host + '/api', content=body,
+                 headers={'content-type': 'application/octet-stream', 'accept-encoding': 'identity'},
+                 extensions={'trace': request_trace,
+-                            'h2_response_started': response_started}) as response:
++                            'h2_response_started': response_started,
++                            'h2_first_byte_timeout': FIRST_BYTE_TIMEOUT}) as response:
+                 headers_at = time.monotonic()
+                 if trace is not None:
+                     trace.cf_ray = ''.join(c for c in response.headers.get('cf-ray', '-')[:64]
+@@ -772,6 +804,7 @@ def response_started():
+                     if code < 0:
+                         raise _MTProtoTransportError(code, 'HTTP 200 payload')
+                 self.responses += 1
++                self.mark_ok()
+                 if channel is not None:
+                     channel.http_bytes += received
+                     channel.small_responses += int(received <= 4096)
+@@ -799,7 +832,7 @@ def response_started():
+             raise
+         except (httpx.HTTPError, OSError, ValueError, BufferError):
+             self.errors += 1
+-            self.failed_until = time.monotonic() + DOMAIN_COOLDOWN
++            self.mark_failed()
+             raise
+         finally:
+             self.reply_buffer_bytes -= buffered
+@@ -864,6 +897,7 @@ def __init__(self):
+         self.lanes: Dict[str, _HttpLane] = {}
+         self.locks: Dict[int, asyncio.Lock] = {}
+         self.failed_until: Dict[str, float] = {}
++        self.failure_strikes: Dict[str, int] = {}
+         self.setup_retry_after: Dict[int, float] = {}
+         self.next_lane = self.next_channel = 0
+         self.closed = False
+@@ -894,11 +928,13 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+             domains = list(balancer.get_domains_for_dc(dc))
+             selected = None
+             candidates = []
++            banned = []
+             for base_domain in domains:
+                 host = 'kws%d.%s' % (dc, base_domain)
+                 lane = self.lanes.get(host)
+-                if time.monotonic() < max(self.failed_until.get(host, 0),
+-                                         lane.failed_until if lane else 0):
++                until = max(self.failed_until.get(host, 0), lane.failed_until if lane else 0)
++                if time.monotonic() < until:
++                    banned.append((until, base_domain, lane))
+                     continue
+                 if lane is not None and not lane.closed:
+                     selected = (base_domain, lane)
+@@ -906,6 +942,14 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+                 candidates.append(base_domain)
+             if selected is None:
+                 selected = await self._select_lane(dc, label, candidates)
++            if selected is None and banned:
++                # Все lane в бане или не прошли проверку: не отказываем, а берём
++                # тот, у которого бан закончится раньше всех.
++                _, base_domain, lane = min(banned, key=lambda item: item[0])
++                if lane is not None and not lane.closed:
++                    selected = (base_domain, lane)
++                else:
++                    selected = await self._select_lane(dc, label, [base_domain])
+             if selected is not None:
+                 base_domain, lane = selected
+                 if self.closed:
+@@ -922,6 +966,14 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+         log.debug('[%s] H2 DC%d unavailable; using WS', label, dc)
+         return None
+ 
++    def _mark_host_failed(self, host: str, now: Optional[float] = None) -> None:
++        now = time.monotonic() if now is None else now
++        if now < self.failed_until.get(host, 0):
++            return
++        strikes = self.failure_strikes.get(host, 0)
++        self.failed_until[host] = now + ban_delay(strikes)
++        self.failure_strikes[host] = strikes + 1
++
+     async def _select_lane(self, dc: int, label: str, domains: List[str]):
+         slots = asyncio.Semaphore(SELECTION_CONCURRENCY)
+ 
+@@ -937,10 +989,12 @@ async def probe(base_domain):
+                     if self.closed:
+                         await lane.close()
+                         return None
++                    self.failed_until.pop(host, None)
++                    self.failure_strikes.pop(host, None)
+                     return base_domain, lane
+                 except (httpx.HTTPError, OSError, ValueError, asyncio.TimeoutError) as exc:
+                     stats.h2_errors += 1
+-                    self.failed_until[host] = time.monotonic() + DOMAIN_COOLDOWN
++                    self._mark_host_failed(host)
+                     log.warning('[%s] H2 lane=%d preflight failed host=%s: %s',
+                                 label, lane.lane_id, host, type(exc).__name__)
+                     await lane.close()
+diff --git a/proxy/h2_transport.py b/proxy/h2_transport.py
+index 59eaf9e..7b638bc 100644
+--- a/proxy/h2_transport.py
++++ b/proxy/h2_transport.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ import asyncio
++import os
+ import time
+ from collections import deque
+ from functools import lru_cache
+@@ -10,7 +11,7 @@
+ from h2.connection import H2Connection
+ from h2.errors import ErrorCodes
+ from h2.events import (
+-    ConnectionTerminated, DataReceived, RemoteSettingsChanged,
++    ConnectionTerminated, DataReceived, PingAckReceived, RemoteSettingsChanged,
+     ResponseReceived, StreamEnded, StreamReset, WindowUpdated,
+ )
+ from h2.exceptions import H2Error, StreamClosedError
+@@ -21,6 +22,21 @@
+ STREAM_RECEIVE_WINDOW = 256 * 1024
+ CONNECTION_RECEIVE_WINDOW = 4 * 1024 * 1024
+ IO_BATCH_SIZE = 64 * 1024
++# Как часто посылать H2 PING по соединению (секунды).
++H2_PING_INTERVAL = 12.0
++# Сколько ждать ответ (ack) на PING. Нет ack и нет входящих байтов - соединение
++# считается мёртвым, закрывается и при следующем запросе заменяется новым.
++H2_PING_ACK_TIMEOUT = 5.0
++
++
++class FirstByteTimeout(httpx.ReadTimeout):
++    """За отведённое время после отправки запроса не пришло ни одного байта ответа.
++
++    silent=True: по соединению вообще ничего не приходило (мёртвый маршрут),
++    соединение при этом уже закрыто.
++    """
++
++    silent = False
+ 
+ 
+ @lru_cache(maxsize=1)
+@@ -40,15 +56,31 @@ def __init__(self, connection, stream_id, read_timeout):
+         self.consumed_credit = 0
+         self.headers = None
+         self.response_started = None
++        self.sent_at = None
+         self.error = None
+         self.ended = False
+         self.closed = False
+         self.extensions = {'http_version': b'HTTP/2', 'stream_id': stream_id}
+ 
+-    async def wait(self):
++    async def wait(self, first_byte_deadline=None):
++        timeout, first_byte = self.read_timeout, False
++        if first_byte_deadline is not None:
++            remaining = max(0.0, first_byte_deadline - time.monotonic())
++            if timeout is None or remaining < timeout:
++                timeout, first_byte = remaining, True
+         try:
+-            await asyncio.wait_for(self.changed.wait(), self.read_timeout)
++            await asyncio.wait_for(self.changed.wait(), timeout)
+         except asyncio.TimeoutError as exc:
++            if first_byte:
++                error = FirstByteTimeout('No response byte for H2 stream %d' % self.stream_id)
++                # Если после отправки запроса по соединению не пришло вообще ничего
++                # (ни данных, ни ack на PING), маршрут мёртв: закрываем соединение,
++                # чтобы остальные запросы не ждали 65 секунд.
++                error.silent = (self.sent_at is not None
++                                and self.connection.last_rx <= self.sent_at)
++                if error.silent:
++                    self.connection.fail(error)
++                raise error from exc
+             error = httpx.ReadTimeout('Timed out waiting for H2 stream %d' % self.stream_id)
+             # An idle socket can remain established after the path stops
+             # delivering data. Reconnect once its last active request times
+@@ -97,10 +129,13 @@ def __init__(self, reader, writer, max_streams, write_timeout):
+         self.write_lock = asyncio.Lock()
+         self.settings_received = False
+         self.error = None
++        self.last_rx = time.monotonic()
++        self.ping_waiter = None
+         self.h2.initiate_connection()
+         self.h2.increment_flow_control_window(CONNECTION_RECEIVE_WINDOW - 65535)
+         self.flush()
+         self.reader_task = asyncio.create_task(self.read_loop())
++        self.ping_task = asyncio.create_task(self.ping_loop())
+ 
+     def get_extra_info(self, name):
+         return self.writer.get_extra_info(name)
+@@ -141,6 +176,7 @@ async def read_loop(self):
+                 data = await self.reader.read(IO_BATCH_SIZE)
+                 if not data:
+                     raise httpx.ReadError('H2 peer closed the connection')
++                self.last_rx = time.monotonic()
+                 events = self.h2.receive_data(data)
+                 terminated = any(isinstance(e, ConnectionTerminated) for e in events)
+                 connection_credit = 0
+@@ -150,6 +186,10 @@ async def read_loop(self):
+                         self.changed.set()
+                     elif isinstance(event, WindowUpdated):
+                         self.changed.set()
++                    elif isinstance(event, PingAckReceived):
++                        waiter = self.ping_waiter
++                        if waiter is not None and waiter[0] == event.ping_data:
++                            waiter[1].set()
+                     elif isinstance(event, ConnectionTerminated):
+                         raise httpx.RemoteProtocolError('H2 GOAWAY error=%s last_stream=%s' % (
+                             event.error_code, event.last_stream_id))
+@@ -187,6 +227,44 @@ async def read_loop(self):
+             error = exc if isinstance(exc, httpx.HTTPError) else httpx.RemoteProtocolError(str(exc))
+             self.fail(error)
+ 
++    async def ping_loop(self):
++        # Периодический PING на любом соединении: мёртвый маршрут обнаруживается
++        # за интервал + ack-таймаут, а не по 65-секундному таймауту чтения.
++        try:
++            while self.error is None:
++                await asyncio.sleep(H2_PING_INTERVAL)
++                if self.error is not None:
++                    return
++                if self.settings_received and not await self.ping_once():
++                    self.fail(httpx.ReadTimeout('H2 PING ack timed out'))
++        except asyncio.CancelledError:
++            raise
++        except (OSError, H2Error) as exc:
++            self.fail(httpx.RemoteProtocolError(str(exc)))
++
++    async def ping_once(self):
++        payload = os.urandom(8)
++        acked = asyncio.Event()
++        self.ping_waiter = (payload, acked)
++        sent = time.monotonic()
++        try:
++            self.h2.ping(payload)
++            self.flush()
++            await asyncio.wait_for(self.ping_roundtrip(acked), H2_PING_ACK_TIMEOUT)
++            return True
++        except asyncio.TimeoutError:
++            # Под большой загрузкой ack может задержаться за данными, но любые
++            # байты, пришедшие после PING, доказывают, что соединение живо.
++            return self.last_rx > sent
++        except httpx.HTTPError:
++            return False
++        finally:
++            self.ping_waiter = None
++
++    async def ping_roundtrip(self, acked):
++        await self.drain()
++        await acked.wait()
++
+     def check_error(self):
+         if self.error is not None:
+             raise self.error
+@@ -256,12 +334,15 @@ async def request(self, request):
+             if trace:
+                 await trace('http2.send_request_headers.started', {'stream_id': stream_id})
+             await self.send_body(request, stream)
++            stream.sent_at = time.monotonic()
++            first_byte = request.extensions.get('h2_first_byte_timeout')
++            first_byte_deadline = None if first_byte is None else stream.sent_at + first_byte
+             if trace:
+                 await trace('http2.send_request_body.complete', {'stream_id': stream_id})
+             while stream.headers is None:
+                 stream.changed.clear()
+                 stream.check_error()
+-                await stream.wait()
++                await stream.wait(first_byte_deadline)
+             stream.check_error()
+             status = next(int(v) for k, v in stream.headers if k == b':status')
+             return httpx.Response(status, headers=[(k, v) for k, v in stream.headers
+@@ -301,7 +382,8 @@ def release(self, stream):
+     async def aclose(self):
+         self.fail(httpx.ReadError('H2 connection closed'))
+         self.reader_task.cancel()
+-        await asyncio.gather(self.reader_task, return_exceptions=True)
++        self.ping_task.cancel()
++        await asyncio.gather(self.reader_task, self.ping_task, return_exceptions=True)
+         try:
+             await asyncio.wait_for(self.writer.wait_closed(), 2)
+         except (OSError, asyncio.TimeoutError):
