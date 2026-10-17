@@ -123,6 +123,8 @@ pub enum NetworkError {
   ApplyFailed,
   SubscriptionFailed,
   InvalidService,
+  /// Загрузка подписки уже идёт (монитор или прошлое нажатие): второй запуск не создан.
+  RefreshBusy,
 }
 
 impl NetworkError {
@@ -136,6 +138,7 @@ impl NetworkError {
       Self::ApplyFailed => "APPLY_FAILED",
       Self::SubscriptionFailed => "SUBSCRIPTION_FAILED",
       Self::InvalidService => "INVALID_SERVICE",
+      Self::RefreshBusy => "REFRESH_BUSY",
     }
   }
 }
@@ -923,21 +926,37 @@ fn rotate(ctx: &mut MonitorCtx, api: &Api) -> Result<(), String> {
 /// на снимок адреса и на короткое применение результата. Расписание уже отмечено `try_begin_auto`.
 fn refresh_in_background() {
   let spawned = std::thread::Builder::new().name("relay-tunnel-subscription".into()).spawn(|| {
+    // Флаг `in_flight` уже поднят `try_begin_auto`; guard снимет его и при панике
+    let guard = RefreshGuard::new();
     let job = match with_core(|core| refresh_job(core)) {
       Ok(job) => job,
-      Err(_) => { lock(&REFRESH).abort(); return; }
+      Err(_) => { guard.abort(); return; }
     };
     let result = run_refresh(&job);
     if let Err(error) = &result {
       // Рабочий кэш узлов остаётся как был; код ошибки без адреса подписки
       log::warn!("[Tunnel] обновление подписки: {error}");
     }
-    lock(&REFRESH).finish(result.is_ok());
+    guard.finish(result.is_ok());
   });
   if spawned.is_err() {
     log::warn!("[Tunnel] поток обновления подписки не запущен");
     lock(&REFRESH).abort();
   }
+}
+
+/// Владелец поднятого `REFRESH.in_flight`: `Drop` снимает флаг, даже если загрузка запаниковала, иначе
+/// автообновление подписки встало бы навсегда. Паника считается неудачей (счётчик растёт, пауза не нулевая).
+struct RefreshGuard { settled: bool }
+
+impl RefreshGuard {
+  fn new() -> Self { Self { settled: false } }
+  fn finish(mut self, ok: bool) { self.settled = true; lock(&REFRESH).finish(ok); }
+  fn abort(mut self) { self.settled = true; lock(&REFRESH).abort(); }
+}
+
+impl Drop for RefreshGuard {
+  fn drop(&mut self) { if !self.settled { lock(&REFRESH).finish(false); } }
 }
 
 /// Расписание скачивания подписки по виртуальному времени (миллисекунды unix), без часов и сети.
@@ -1089,12 +1108,14 @@ pub fn reset() -> Result<NetworkStatus, NetworkError> {
 /// программой `curl.exe` из Windows: в проекте нет TLS-клиента для Rust, а ключ подписки при этом не попадает
 /// в командную строку (адрес передаётся через stdin). Если подписки нет или загрузка не удалась —
 /// `SUBSCRIPTION_FAILED`, прежний кэш остаётся. Сеть работает без `CORE`; если загрузка уже идёт (монитор или
-/// прошлое нажатие), второй запуск не создаётся и возвращается текущий статус.
+/// прошлое нажатие), второй запуск не создаётся и возвращается `REFRESH_BUSY` (интерфейс показывает общую
+/// ошибку; на статус и `last_error` код не влияет).
 pub fn refresh_subscription() -> Result<NetworkStatus, NetworkError> {
   let job = with_core(|core| refresh_job(core))?;
-  if !lock(&REFRESH).try_begin_manual(now_ms()) { return Ok(status()); }
+  if !lock(&REFRESH).try_begin_manual(now_ms()) { return Err(NetworkError::RefreshBusy); }
+  let guard = RefreshGuard::new();
   let result = run_refresh(&job);
-  lock(&REFRESH).finish(result.is_ok());
+  guard.finish(result.is_ok());
   result?;
   Ok(status())
 }
@@ -1512,6 +1533,22 @@ https://sub.example.com/token/abcdef";
     let long_fallback = PathBuf::from(format!("C:/ProgramData/{}/ipc", "b".repeat(120)));
     assert_eq!(pick_ipc_dir(short(120), Some(long_fallback)).unwrap_err(), "TUNNEL_IPC_PATH_TOO_LONG");
     assert_eq!(pick_ipc_dir(short(120), None).unwrap_err(), "TUNNEL_IPC_PATH_TOO_LONG");
+  }
+
+  #[test]
+  fn refresh_flag_is_released_after_panic() {
+    assert!(lock(&REFRESH).try_begin_manual(now_ms()), "флаг свободен до теста");
+    let failures_before = lock(&REFRESH).failures;
+    let handle = std::thread::spawn(|| {
+      let _guard = RefreshGuard::new();
+      panic!("проверка: паника во время загрузки");
+    });
+    assert!(handle.join().is_err());
+    let state = lock(&REFRESH);
+    assert!(!state.in_flight, "после паники флаг снят");
+    assert_eq!(state.failures, failures_before + 1, "паника считается неудачей");
+    drop(state);
+    lock(&REFRESH).finish(true);
   }
 
   #[test]
