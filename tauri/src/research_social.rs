@@ -1753,10 +1753,30 @@ const IDLE_CLOSE: Duration = Duration::from_secs(30 * 60);
 const PROBE_INTERVAL: Duration = Duration::from_secs(5 * 60);
 const IDLE_TICK: Duration = Duration::from_secs(30);
 
-/// Нужна ли пробная навигация: окно уже открыто (`status` само окно не поднимает), очередь пуста,
-/// задачи нет, прошлая проба старше интервала. Без окна `status` отдаёт кэш.
-fn probe_due(view_exists: bool, active: bool, queued: usize, since_probe: Option<Duration>) -> bool {
-  view_exists && !active && queued == 0 && since_probe.is_none_or(|elapsed| elapsed > PROBE_INTERVAL)
+/// Повтор пробы после неудачи, когда окна нет: не чаще, чтобы не долбить сайт.
+const PROBE_RETRY: Duration = Duration::from_secs(2 * 60);
+
+/// Нужна ли пробная навигация: очередь пуста, задачи нет.
+/// Окно открыто: прошлая проба старше `PROBE_INTERVAL`.
+/// Окна нет: греем только пока аккаунт не подтверждён (`ready == false`), иначе взаимная
+/// блокировка (демон не шлёт шаги без `ready`, `ready` даёт только проба, окно создаёт только
+/// задача). Первая проба сразу, повтор после неудачи через `PROBE_RETRY`. Проба открывает скрытое
+/// окно сама (`ensure_view`), закрывает его idle-watchdog. Подтверждённый `ready` без окна
+/// остаётся кэшем: задача перепроверит аккаунт в своей фазе Probe.
+fn probe_due(
+  view_exists: bool,
+  active: bool,
+  queued: usize,
+  since_probe: Option<Duration>,
+  ready: bool,
+) -> bool {
+  if active || queued != 0 {
+    return false;
+  }
+  if view_exists {
+    return since_probe.is_none_or(|elapsed| elapsed > PROBE_INTERVAL);
+  }
+  !ready && since_probe.is_none_or(|elapsed| elapsed > PROBE_RETRY)
 }
 
 /// Пора ли закрыть research-окно: ни задачи, ни очереди, ни закрытия, простой достаточен.
@@ -1863,6 +1883,7 @@ pub(crate) fn status(app: &AppHandle) -> Vec<Value> {
         state.active.is_some(),
         state.queue.len(),
         state.last_probe.map(|time| time.elapsed()),
+        state.state == "ready",
       ) {
         let mut job = build_job(
           provider,
@@ -2625,18 +2646,32 @@ mod relay_audit_tests {
 
   #[test]
   fn probe_is_cached_for_five_minutes() {
-    assert!(probe_due(true, false, 0, None));
-    assert!(!probe_due(true, false, 0, Some(Duration::from_secs(20))));
-    assert!(!probe_due(true, false, 0, Some(PROBE_INTERVAL)));
-    assert!(probe_due(true, false, 0, Some(PROBE_INTERVAL + Duration::from_secs(1))));
-    assert!(!probe_due(true, true, 0, None));
-    assert!(!probe_due(true, false, 2, None));
+    assert!(probe_due(true, false, 0, None, false));
+    assert!(!probe_due(true, false, 0, Some(Duration::from_secs(20)), false));
+    assert!(!probe_due(true, false, 0, Some(PROBE_INTERVAL), false));
+    assert!(probe_due(true, false, 0, Some(PROBE_INTERVAL + Duration::from_secs(1)), false));
+    assert!(!probe_due(true, true, 0, None, false));
+    assert!(!probe_due(true, false, 2, None, false));
   }
 
   #[test]
-  fn probe_never_opens_a_missing_window() {
-    assert!(!probe_due(false, false, 0, None));
-    assert!(!probe_due(false, false, 0, Some(PROBE_INTERVAL * 2)));
+  fn probe_warms_missing_window_until_account_is_proven() {
+    // Пока аккаунт не подтверждён, без окна греем сразу.
+    assert!(probe_due(false, false, 0, None, false));
+    // После неудачи повтор не чаще PROBE_RETRY (не короче минуты).
+    assert!(PROBE_RETRY >= Duration::from_secs(60));
+    assert!(!probe_due(false, false, 0, Some(Duration::from_secs(20)), false));
+    assert!(!probe_due(false, false, 0, Some(PROBE_RETRY), false));
+    assert!(probe_due(false, false, 0, Some(PROBE_RETRY + Duration::from_secs(1)), false));
+    // Занято или есть очередь: окно не поднимаем.
+    assert!(!probe_due(false, true, 0, None, false));
+    assert!(!probe_due(false, false, 1, None, false));
+  }
+
+  #[test]
+  fn probe_leaves_proven_account_without_window_cached() {
+    assert!(!probe_due(false, false, 0, None, true));
+    assert!(!probe_due(false, false, 0, Some(PROBE_INTERVAL * 2), true));
   }
 
   fn dispatch_fixture() -> Provider {
