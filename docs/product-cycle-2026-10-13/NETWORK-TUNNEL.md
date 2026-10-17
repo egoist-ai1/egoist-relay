@@ -41,6 +41,7 @@
   - Inbound `api` — `dokodemo-door` с `listen` = абсолютный путь с `/` и **без поля `port`** (с `port` Xray падает с panic `strconv.Atoi` при первом подключении); в `settings` формальные `address: 127.0.0.1`, `port: 1`.
   - Клиентский адрес: `-s=unix:C:/…/api.sock`.
   - Файл сокета после kill остаётся на диске, и новый Xray не стартует («failed to listen Unix Domain Socket»). Поэтому перед каждым запуском файл удаляется, после kill тоже, а `purge_leftovers` чистит `ipc` при старте.
+  - Имя сокета уникально на каждый запуск Xray (`api-main-<8 hex>.sock`): остаток, который не удаляется (ошибка 1920), запуск не блокирует. Готовность — настоящий `connect` к сокету, не наличие файла. Каталог `ipc` выбирается пробой AF_UNIX (bind+connect): на машине владельца в `%LOCALAPPDATA%…` сокет создаётся, но не принимает соединений и не удаляется (в `%TEMP%` и `%ProgramData%` работает), поэтому берётся `%ProgramData%EgoistRelay<hash>ipc`; нигде не работает — `TUNNEL_IPC_UNSUPPORTED`.
   - Путь сокета: абсолютный, не длиннее 100 байт (предел AF_UNIX — 108), без `"`. Иначе старт с ошибкой `TUNNEL_API_SOCKET_INVALID`. Кириллица и пробелы в пути Xray принимает (проверено тестом).
 - **Балансер `active`.** `selector: ["proxy"]`, `fallbackTag: "direct"`, без observatory. Переключает Rust: `xray api bo -s unix:<ipc>/api-main.sock -b active direct` и `... -b active -r` (команды есть в нашей сборке 47cfe999, проверено 13.10.2026).
 - **DNS.**

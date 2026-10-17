@@ -6,7 +6,8 @@
 //! (`-c stdin:`), для перезапуска хранится в памяти. Остатки старых версий (`xray*.json`, `ado-*.json`)
 //! удаляются при старте.
 
-use super::config::{LAGOM_EXCLUDED, PORT_RANGE, Ports, TAG_BALANCER};
+use super::config::{LAGOM_EXCLUDED, PORT_RANGE, Ports, TAG_API_IN, TAG_BALANCER};
+use super::uds;
 use serde_json::Value;
 use std::io::{BufRead, BufReader, Read};
 use std::net::{SocketAddr, TcpListener, TcpStream};
@@ -59,7 +60,9 @@ pub struct Spec {
   /// Файл конфига в рабочем каталоге сети: сам не пишется, нужен для определения каталога очистки остатков.
   pub config_path: PathBuf,
   pub ports: Ports,
-  /// Unix-сокет API Xray: файл лежит в каталоге с защищённым DACL (см. `win_acl`), каталог создаёт вызывающий.
+  /// Шаблон пути unix-сокета API Xray: каталог с защищённым DACL создаёт вызывающий (см. `win_acl`), имя файла
+  /// служит префиксом. Каждый запуск Xray получает своё имя `<имя>-<hex>.sock` (`unique_socket`), чтобы
+  /// застрявший недоступный файл прежнего запуска не мешал новому.
   pub api_socket: PathBuf,
   /// Подстроки, которые нельзя выводить в журнал (адрес VPN, адрес DoH).
   pub secrets: Vec<String>,
@@ -76,7 +79,12 @@ struct Shared {
   spec: Spec,
   config: Mutex<Value>,
   ready: AtomicBool,
+  /// Сокет API текущего (или последнего) запуска Xray; `Api` читает его при каждом вызове.
+  socket: SocketCell,
 }
+
+/// Общая ячейка с путём сокета: меняется на каждом запуске Xray.
+pub type SocketCell = Arc<Mutex<PathBuf>>;
 
 /// Надзиратель Xray.
 pub struct Supervisor {
@@ -91,7 +99,8 @@ impl Supervisor {
   pub fn start(spec: Spec, config: Value, sink: EventSink) -> Result<Self, String> {
     spec.ports.validate()?;
     purge_leftovers(spec.config_path.parent());
-    let shared = Arc::new(Shared { spec, config: Mutex::new(config), ready: AtomicBool::new(false) });
+    let socket = Arc::new(Mutex::new(spec.api_socket.clone()));
+    let shared = Arc::new(Shared { spec, config: Mutex::new(config), ready: AtomicBool::new(false), socket });
     let (commands, receiver) = mpsc::channel();
     let thread_shared = shared.clone();
     let thread = std::thread::Builder::new().name("relay-tunnel-supervisor".into())
@@ -123,7 +132,7 @@ impl Supervisor {
 
   /// Обёртка над `xray api` для этой сессии.
   pub fn api(&self) -> Api {
-    Api { xray_exe: self.shared.spec.xray_exe.clone(), socket: self.shared.spec.api_socket.clone() }
+    Api { xray_exe: self.shared.spec.xray_exe.clone(), socket: self.shared.socket.clone() }
   }
 
   /// Останавливает процесс и поток; все дочерние процессы завершаются вместе с job-объектом.
@@ -171,7 +180,8 @@ fn run(shared: Arc<Shared>, commands: Receiver<Command_>, sink: EventSink) {
     let mut skip_backoff = false;
     match launched {
       Ok(mut process) => {
-        if wait_ready(&mut process, spec.ports.socks, &spec.api_socket, LAUNCH_READY_TIMEOUT) {
+        *shared.socket.lock().unwrap_or_else(|poisoned| poisoned.into_inner()) = process.socket.clone();
+        if wait_ready(&mut process, spec.ports.socks, LAUNCH_READY_TIMEOUT) {
           shared.ready.store(true, Ordering::SeqCst);
           failing_since = None;
           required_reported = false;
@@ -264,7 +274,7 @@ fn ports_free(ports: &Ports) -> bool {
 
 struct Process {
   child: std::process::Child,
-  /// Файл сокета API: после kill он остаётся на диске, и следующий запуск Xray падает на «failed to listen».
+  /// Файл сокета API этого запуска (имя уникально): после kill он остаётся на диске.
   socket: PathBuf,
   #[cfg(windows)]
   job: crate::worker_job::WorkerJob,
@@ -282,20 +292,59 @@ impl Process {
   }
 }
 
-/// Удаляет файл сокета; «нет файла» не ошибка.
+/// Удаляет файл сокета; «нет файла» не ошибка, остальные отказы (например, 1920) не фатальны: имя уникально,
+/// следующий запуск возьмёт другое.
 fn remove_socket(path: &Path) {
   if let Err(error) = std::fs::remove_file(path) {
     if error.kind() != std::io::ErrorKind::NotFound { log::warn!("[Tunnel] сокет API не удалён: {error}"); }
   }
 }
 
-/// Готовность: SOCKS принимает соединения и файл сокета API создан (lstat: у AF_UNIX это точка повторной обработки).
-fn wait_ready(process: &mut Process, port: u16, socket: &Path, timeout: Duration) -> bool {
+/// Новое имя сокета рядом с шаблоном: `api-main.sock` → `api-main-1a2b3c4d.sock`. Длина всегда одна и та же.
+pub fn unique_socket(template: &Path) -> PathBuf {
+  let stem = template.file_stem().map(|s| s.to_string_lossy().into_owned()).unwrap_or_else(|| "api".into());
+  let hex = &uuid::Uuid::new_v4().simple().to_string()[..8];
+  template.with_file_name(format!("{stem}-{hex}.sock"))
+}
+
+/// Подставляет путь сокета в api-inbound готового конфига (путь с `/`, как у Xray).
+fn with_api_socket(config: &Value, socket: &Path) -> Value {
+  let mut config = config.clone();
+  let listen = socket.to_string_lossy().replace('\\', "/");
+  if let Some(inbounds) = config.get_mut("inbounds").and_then(Value::as_array_mut) {
+    for inbound in inbounds.iter_mut().filter(|inbound| inbound["tag"] == TAG_API_IN) {
+      inbound["listen"] = Value::String(listen.clone());
+    }
+  }
+  config
+}
+
+/// Имя файла — сокет этого шаблона: сам шаблон (прежние версии) или `<имя>-<8 hex>.sock`.
+fn is_socket_of(template: &Path, name: &str) -> bool {
+  let Some(stem) = template.file_stem().map(|s| s.to_string_lossy().into_owned()) else { return false };
+  if template.file_name().is_some_and(|own| own.to_string_lossy() == name) { return true; }
+  name.strip_prefix(&format!("{stem}-")).and_then(|rest| rest.strip_suffix(".sock"))
+    .is_some_and(|hex| hex.len() == 8 && hex.bytes().all(|b| b.is_ascii_hexdigit()))
+}
+
+/// Убирает остатки сокетов этого шаблона. Каждый файл — best-effort: недоступный остаток (1920) пропускается
+/// и не мешает запуску, потому что новый сокет получает другое имя.
+fn purge_sockets(template: &Path) {
+  let Some(dir) = template.parent() else { return };
+  let Ok(entries) = std::fs::read_dir(dir) else { return };
+  for entry in entries.flatten() {
+    if is_socket_of(template, &entry.file_name().to_string_lossy()) { let _ = std::fs::remove_file(entry.path()); }
+  }
+}
+
+/// Готовность: SOCKS принимает соединения и сокет API принимает `connect` (файл сам по себе ничего не доказывает:
+/// в некоторых каталогах он создаётся, а подключиться нельзя).
+fn wait_ready(process: &mut Process, port: u16, timeout: Duration) -> bool {
   let deadline = Instant::now() + timeout;
   let address = SocketAddr::from(([127, 0, 0, 1], port));
   while Instant::now() < deadline {
     if process.exited() { return false; }
-    if TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() && std::fs::symlink_metadata(socket).is_ok() { return true; }
+    if TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() && uds::can_connect(&process.socket) { return true; }
     std::thread::sleep(Duration::from_millis(25));
   }
   false
@@ -307,13 +356,11 @@ fn launch(spec: &Spec, config: &Value) -> Result<Process, String> {
   use std::process::Stdio;
   const CREATE_NO_WINDOW: u32 = 0x0800_0000;
   if !spec.xray_exe.is_file() { return Err("TUNNEL_XRAY_MISSING".into()); }
-  let bytes = serde_json::to_vec(config).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?;
-  // После kill/сбоя старый файл сокета остаётся, и Xray не стартует («failed to listen Unix Domain Socket»)
-  match std::fs::remove_file(&spec.api_socket) {
-    Ok(()) => {}
-    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
-    Err(_) => return Err("TUNNEL_API_SOCKET_BUSY".into()),
-  }
+  // Остатки прежних запусков убираются по возможности; недоступный файл (1920) не помеха: имя сокета новое
+  purge_sockets(&spec.api_socket);
+  let socket = unique_socket(&spec.api_socket);
+  if !super::config::api_socket_fits(&socket.to_string_lossy()) { return Err("TUNNEL_API_SOCKET_INVALID".into()); }
+  let bytes = serde_json::to_vec(&with_api_socket(config, &socket)).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?;
   let mut command = Command::new(&spec.xray_exe);
   command.args(["run", "-format", "json", "-c", "stdin:"])
     .current_dir(&spec.asset_dir)
@@ -339,7 +386,7 @@ fn launch(spec: &Spec, config: &Value) -> Result<Process, String> {
   };
   if let Some(stdout) = child.stdout.take() { spawn_log_reader(stdout, false, spec.secrets.clone()); }
   if let Some(stderr) = child.stderr.take() { spawn_log_reader(stderr, true, spec.secrets.clone()); }
-  Ok(Process { child, socket: spec.api_socket.clone(), job })
+  Ok(Process { child, socket, job })
 }
 
 #[cfg(not(windows))]
@@ -356,7 +403,7 @@ fn write_all_close(stdin: &mut std::process::ChildStdin, bytes: &[u8]) -> bool {
 /// Файлы-остатки: конфиги Xray с ключом, временные документы `xray api ado` и сокеты API после аварийного выхода.
 fn is_leftover_name(name: &str) -> bool {
   matches!(name, "xray.json" | "xray.json.tmp" | "xray-probe.json" | "xray-probe.json.tmp")
-    || matches!(name, "api-main.sock" | "api-probe.sock")
+    || is_socket_of(Path::new("api-main.sock"), name) || is_socket_of(Path::new("api-probe.sock"), name)
     || (name.starts_with("ado-") && (name.ends_with(".json") || name.ends_with(".json.tmp")))
 }
 
@@ -472,7 +519,8 @@ pub fn redact(line: &str, secrets: &[String]) -> String {
 #[derive(Clone)]
 pub struct Api {
   xray_exe: PathBuf,
-  socket: PathBuf,
+  /// Сокет текущего запуска Xray (меняется при перезапуске).
+  socket: SocketCell,
 }
 
 impl Api {
@@ -509,7 +557,8 @@ impl Api {
 
   /// Адрес API: `unix:<путь с '/'>` (формат проверен на живом Xray: `xray api lso -s unix:C:/…/api.sock`).
   fn server_arg(&self) -> std::ffi::OsString {
-    format!("-s=unix:{}", self.socket.to_string_lossy().replace('\\', "/")).into()
+    let socket = self.socket.lock().unwrap_or_else(|poisoned| poisoned.into_inner()).clone();
+    format!("-s=unix:{}", socket.to_string_lossy().replace('\\', "/")).into()
   }
 
   /// `xray api bo -b active <tag>`: принудительно направляет балансер в outbound `tag` (например `direct`).
@@ -560,7 +609,7 @@ impl TempXray {
     spec.ports.validate()?;
     if !ports_free(&spec.ports) { return Err("TUNNEL_PORT_BUSY".into()); }
     let mut process = launch(&spec, config)?;
-    if !wait_ready(&mut process, spec.ports.socks, &spec.api_socket, timeout) {
+    if !wait_ready(&mut process, spec.ports.socks, timeout) {
       process.kill();
       return Err("TUNNEL_XRAY_NOT_READY".into());
     }
@@ -573,7 +622,7 @@ impl TempXray {
 
   /// `xray api` временного процесса (смена узла при проверке нескольких).
   pub fn api(&self) -> Api {
-    Api { xray_exe: self.spec.xray_exe.clone(), socket: self.spec.api_socket.clone() }
+    Api { xray_exe: self.spec.xray_exe.clone(), socket: Arc::new(Mutex::new(self.process.socket.clone())) }
   }
 }
 
@@ -707,10 +756,51 @@ mod tests {
 
   #[test]
   fn api_rejects_unsafe_tags() {
-    let api = Api { xray_exe: PathBuf::from("xray.exe"), socket: PathBuf::from("C:/x/api.sock") };
+    let api = Api { xray_exe: PathBuf::from("xray.exe"), socket: Arc::new(Mutex::new(PathBuf::from("C:/x/api.sock"))) };
     assert!(api.override_balancer("direct; calc").is_err());
     assert!(api.remove_outbound("").is_err());
     assert!(api.remove_outbound(&"a".repeat(65)).is_err());
+  }
+
+  #[test]
+  fn unique_socket_names_differ_keep_dir_and_length() {
+    let template = Path::new("C:/data/network/ipc/api-main.sock");
+    let (first, second) = (unique_socket(template), unique_socket(template));
+    assert_ne!(first, second);
+    assert_eq!(first.parent(), template.parent());
+    assert_eq!(first.to_string_lossy().len(), second.to_string_lossy().len());
+    let name = first.file_name().unwrap().to_string_lossy().into_owned();
+    assert!(is_socket_of(template, &name), "{name}");
+    assert!(!is_socket_of(template, "api-probe-0123abcd.sock"));
+    assert!(!is_socket_of(template, "api-main-zzzzzzzz.sock") && !is_socket_of(template, "api-main-0123abcd.txt"));
+    assert!(is_socket_of(template, "api-main.sock"), "старое имя тоже остаток");
+  }
+
+  #[test]
+  fn config_gets_the_launch_socket_only_in_api_inbound() {
+    let config = serde_json::json!({ "inbounds": [
+      { "tag": "socks-in", "listen": "127.0.0.1", "port": 1 },
+      { "tag": "api", "listen": "C:/old/api-main.sock", "protocol": "dokodemo-door" },
+    ]});
+    let patched = with_api_socket(&config, Path::new("C:\\new dir\\api-main-0123abcd.sock"));
+    assert_eq!(patched["inbounds"][1]["listen"], "C:/new dir/api-main-0123abcd.sock");
+    assert_eq!(patched["inbounds"][0], config["inbounds"][0]);
+    assert_eq!(config["inbounds"][1]["listen"], "C:/old/api-main.sock", "исходный конфиг не меняется");
+  }
+
+  #[test]
+  fn leftover_sockets_of_any_generation_are_purged_by_name() {
+    let dir = work_dir();
+    for name in ["api-main.sock", "api-main-0123abcd.sock", "api-probe-89abcdef.sock", "api-other.sock", "notes.json"] {
+      std::fs::write(dir.join(name), b"x").unwrap();
+    }
+    purge_sockets(&dir.join("api-main.sock"));
+    let mut left: Vec<String> = std::fs::read_dir(&dir).unwrap().map(|e| e.unwrap().file_name().to_string_lossy().into_owned()).collect();
+    left.sort();
+    assert_eq!(left, vec!["api-other.sock", "api-probe-89abcdef.sock", "notes.json"], "чужие сокеты не трогаются");
+    purge_leftovers(Some(&dir));
+    assert!(!dir.join("api-probe-89abcdef.sock").exists());
+    let _ = std::fs::remove_dir_all(&dir);
   }
 
   #[test]
@@ -747,7 +837,13 @@ mod tests {
     let _ = std::fs::remove_dir_all(&dir);
   }
 
-  /// Ловушка 2: после kill файл сокета остаётся; новый запуск обязан его убрать, иначе «failed to listen».
+  /// Имена файлов `*.sock` в каталоге сокетов.
+  fn sockets_in(dir: &Path) -> Vec<String> {
+    std::fs::read_dir(dir).unwrap().map(|e| e.unwrap().file_name().to_string_lossy().into_owned()).filter(|n| n.ends_with(".sock")).collect()
+  }
+
+  /// Каждый запуск Xray получает своё имя сокета; после остановки файлов не остаётся; остатки прошлых запусков,
+  /// в том числе неудаляемые, запуск не блокируют; готовность подтверждена настоящим connect.
   #[test]
   fn api_survives_stale_socket() {
     if !have_xray() { eprintln!("runtime/xray.exe нет: тест пропущен"); return; }
@@ -755,11 +851,14 @@ mod tests {
     let ports = pick_ports().unwrap();
     let (sink, events) = collecting_sink();
     let spec = spec_for(ports, &dir);
-    let socket = spec.api_socket.clone();
+    let ipc = spec.api_socket.parent().unwrap().to_path_buf();
     let config = sample_config(&spec);
     let mut supervisor = Supervisor::start(spec, config.clone(), sink).unwrap();
     assert!(supervisor.is_ready());
     let api = supervisor.api();
+    let first_socket = api.socket.lock().unwrap().clone();
+    assert!(uds::can_connect(&first_socket), "сокет первого запуска принимает connect");
+    assert_ne!(first_socket.file_name(), Some(std::ffi::OsStr::new("api-main.sock")), "имя уникально");
     api.override_balancer("direct").expect("bo до перезапуска");
     supervisor.restart_with(config.clone()).unwrap();
     let deadline = Instant::now() + Duration::from_secs(10);
@@ -767,16 +866,23 @@ mod tests {
       std::thread::sleep(Duration::from_millis(50));
     }
     assert_eq!(events.lock().unwrap().iter().filter(|e| **e == SupervisorEvent::Ready).count(), 2, "второй запуск не состоялся");
+    let second_socket = api.socket.lock().unwrap().clone();
+    assert_ne!(first_socket, second_socket, "перезапуск берёт новое имя, тот же Api его видит");
     api.clear_override().expect("bo после перезапуска");
     supervisor.stop();
-    assert!(std::fs::symlink_metadata(&socket).is_err(), "сокет должен удаляться при остановке");
-    // Остаток сокета подложен вручную (как после аварийного выхода): запуск обязан его убрать
-    std::fs::write(&socket, b"stale").unwrap();
+    assert!(sockets_in(&ipc).is_empty(), "сокеты должны удаляться при остановке: {:?}", sockets_in(&ipc));
+    // Остатки подложены вручную: обычный файл старого имени и «неудаляемый» (каталог с содержимым вместо файла,
+    // remove_file на нём отказывает, как при ошибке 1920). Запуск обязан состояться.
+    std::fs::write(ipc.join("api-main.sock"), b"stale").unwrap();
+    let stuck = ipc.join("api-main-0123abcd.sock");
+    std::fs::create_dir_all(stuck.join("x")).unwrap();
     let (sink2, _events2) = collecting_sink();
     let mut again = Supervisor::start(spec_for(ports, &dir), config, sink2).unwrap();
-    assert!(again.is_ready(), "запуск поверх остатка сокета не удался");
-    again.api().override_balancer("direct").expect("bo поверх остатка");
+    assert!(again.is_ready(), "запуск при остатках сокета не удался");
+    again.api().override_balancer("direct").expect("bo поверх остатков");
     again.stop();
+    assert!(stuck.exists(), "неудаляемый остаток пропущен, а не принят за ошибку");
+    assert!(!ipc.join("api-main.sock").exists(), "обычный остаток убран");
     let _ = std::fs::remove_dir_all(&dir);
   }
 

@@ -16,6 +16,7 @@ pub mod config;
 pub mod ladder;
 pub mod store;
 pub mod supervisor;
+pub mod uds;
 pub mod uri;
 
 pub use config::Ports;
@@ -600,15 +601,45 @@ fn api_socket_path(core: &Core, name: &str) -> PathBuf {
   core.ipc_dir.join(name)
 }
 
-/// Выбирает каталог сокетов: основной, если оба сокета влезают в предел AF_UNIX, иначе запасной короткий.
-/// Ни один не подошёл — `TUNNEL_IPC_PATH_TOO_LONG`. Чистая функция: проверка длины без файловой системы.
+/// Каталоги-кандидаты для сокетов в порядке предпочтения: основной, затем запасной короткий. Берутся только те,
+/// где оба сокета (с уникальным суффиксом) влезают в предел AF_UNIX. Ни один не подошёл — `TUNNEL_IPC_PATH_TOO_LONG`.
+/// Чистая функция: проверка длины без файловой системы. Флаг — «это запасной каталог».
+fn ipc_candidates(primary: PathBuf, fallback: Option<PathBuf>) -> Result<Vec<(PathBuf, bool)>, String> {
+  let fits = |dir: &Path| [API_SOCKET_MAIN, API_SOCKET_PROBE].iter()
+    .all(|name| config::api_socket_fits(&supervisor::unique_socket(&dir.join(name)).to_string_lossy()));
+  let list: Vec<(PathBuf, bool)> = [(Some(primary), false), (fallback, true)].into_iter()
+    .filter_map(|(dir, is_fallback)| dir.filter(|dir| fits(dir)).map(|dir| (dir, is_fallback)))
+    .collect();
+  if list.is_empty() { Err("TUNNEL_IPC_PATH_TOO_LONG".into()) } else { Ok(list) }
+}
+
+/// Первый кандидат (используется тестами длины пути).
+#[cfg(test)]
 fn pick_ipc_dir(primary: PathBuf, fallback: Option<PathBuf>) -> Result<(PathBuf, bool), String> {
-  let fits = |dir: &Path| [API_SOCKET_MAIN, API_SOCKET_PROBE].iter().all(|name| config::api_socket_fits(&dir.join(name).to_string_lossy()));
-  if fits(&primary) { return Ok((primary, false)); }
-  match fallback {
-    Some(dir) if fits(&dir) => Ok((dir, true)),
-    _ => Err("TUNNEL_IPC_PATH_TOO_LONG".into()),
+  ipc_candidates(primary, fallback)?.into_iter().next().ok_or_else(|| "TUNNEL_IPC_PATH_TOO_LONG".to_string())
+}
+
+/// Первый кандидат, где каталог готовится (DACL) и AF_UNIX реально работает. На части машин сокет в профиле
+/// пользователя создаётся, но не принимает соединений и не удаляется (ошибка 1920): тогда берём следующий каталог.
+fn select_ipc_dir(
+  candidates: Vec<(PathBuf, bool)>,
+  prepare: impl Fn(&Path, bool) -> Result<(), String>,
+  probe: impl Fn(&Path) -> bool,
+) -> Result<PathBuf, String> {
+  let mut last = "TUNNEL_IPC_UNSUPPORTED".to_string();
+  for (dir, is_fallback) in candidates {
+    if let Err(error) = prepare(&dir, is_fallback) {
+      last = error;
+      continue;
+    }
+    if probe(&dir) {
+      if is_fallback { log::warn!("[Tunnel] сокет API в запасном каталоге"); }
+      return Ok(dir);
+    }
+    log::warn!("[Tunnel] AF_UNIX в каталоге сокетов не работает, пробую следующий");
+    last = "TUNNEL_IPC_UNSUPPORTED".to_string();
   }
+  Err(last)
 }
 
 /// Запасной каталог сокета: `%ProgramData%\EgoistRelay\<hash8 от SID>\ipc`.
@@ -621,19 +652,22 @@ fn fallback_ipc_dir() -> Option<PathBuf> {
 #[cfg(not(windows))]
 fn fallback_ipc_dir() -> Option<PathBuf> { None }
 
-/// Готовит защищённый каталог IPC: основной, а при длинном пути профиля — запасной в `%ProgramData%`.
+/// Готовит защищённый каталог IPC: основной, а при длинном пути профиля или неработающем AF_UNIX в нём — запасной
+/// в `%ProgramData%`.
 fn prepare_ipc_dir(network_dir: &Path) -> Result<PathBuf, String> {
   let primary = network_dir.join(supervisor::IPC_DIR);
-  let (dir, fallback) = pick_ipc_dir(primary, fallback_ipc_dir())?;
-  if !fallback {
-    secure_ipc_dir(&dir)?;
-    return Ok(dir);
-  }
-  log::warn!("[Tunnel] путь профиля длинный: сокет API в запасном каталоге");
-  secure_fallback_ipc_dir(&dir)?;
-  // Остатки сокетов после аварийного выхода (основной каталог чистит надзиратель)
-  supervisor::purge_leftovers(dir.parent());
-  Ok(dir)
+  let candidates = ipc_candidates(primary, fallback_ipc_dir())?;
+  select_ipc_dir(
+    candidates,
+    |dir, is_fallback| {
+      if !is_fallback { return secure_ipc_dir(dir); }
+      secure_fallback_ipc_dir(dir)?;
+      // Остатки сокетов после аварийного выхода (основной каталог чистит надзиратель)
+      supervisor::purge_leftovers(dir.parent());
+      Ok(())
+    },
+    uds::probe_dir,
+  )
 }
 
 /// Создаёт цепочку `EgoistRelay\<hash>\ipc`: верхний каталог общий (обычный), нижние два — с явным DACL и
@@ -1533,6 +1567,40 @@ https://sub.example.com/token/abcdef";
     let long_fallback = PathBuf::from(format!("C:/ProgramData/{}/ipc", "b".repeat(120)));
     assert_eq!(pick_ipc_dir(short(120), Some(long_fallback)).unwrap_err(), "TUNNEL_IPC_PATH_TOO_LONG");
     assert_eq!(pick_ipc_dir(short(120), None).unwrap_err(), "TUNNEL_IPC_PATH_TOO_LONG");
+  }
+
+  #[test]
+  fn ipc_dir_falls_through_candidates_until_unix_sockets_work() {
+    let primary = PathBuf::from("C:/Users/u/AppData/Local/app/network/ipc");
+    let fallback = PathBuf::from("C:/ProgramData/EgoistRelay/0123abcd/ipc");
+    let candidates = || ipc_candidates(primary.clone(), Some(fallback.clone())).unwrap();
+    assert_eq!(candidates(), vec![(primary.clone(), false), (fallback.clone(), true)]);
+    let ok = |_: &Path, _: bool| Ok(());
+    // AF_UNIX работает в основном каталоге: запасной не нужен
+    assert_eq!(select_ipc_dir(candidates(), ok, |_| true).unwrap(), primary);
+    // В профиле сокет не принимает соединений (1920): берётся запасной
+    assert_eq!(select_ipc_dir(candidates(), ok, |dir| dir != primary).unwrap(), fallback);
+    // Основной не удалось защитить: тоже запасной
+    let acl = |dir: &Path, _: bool| if dir == primary { Err("TUNNEL_IPC_ACL_FAILED".to_string()) } else { Ok(()) };
+    assert_eq!(select_ipc_dir(candidates(), acl, |_| true).unwrap(), fallback);
+    // Нигде не работает: внятный код, а не бесконечные повторы запуска
+    assert_eq!(select_ipc_dir(candidates(), ok, |_| false).unwrap_err(), "TUNNEL_IPC_UNSUPPORTED");
+    let acl_all = |_: &Path, _: bool| Err("TUNNEL_IPC_ACL_FAILED".to_string());
+    assert_eq!(select_ipc_dir(candidates(), acl_all, |_| true).unwrap_err(), "TUNNEL_IPC_ACL_FAILED");
+    // Длинный основной путь: остаётся только запасной
+    let long = PathBuf::from(format!("C:/{}", "a".repeat(120)));
+    assert_eq!(ipc_candidates(long, Some(fallback.clone())).unwrap(), vec![(fallback, true)]);
+  }
+
+  #[cfg(windows)]
+  #[test]
+  fn real_ipc_dir_is_prepared_and_unix_sockets_work_in_it() {
+    let base = std::env::var_os("EGOIST_RELAY_TEST_WORK").map(PathBuf::from).unwrap_or_else(std::env::temp_dir);
+    let network = base.join(format!("tn-{}", &uuid::Uuid::new_v4().simple().to_string()[..8]));
+    std::fs::create_dir_all(&network).unwrap();
+    let dir = prepare_ipc_dir(&network).expect("каталог сокетов");
+    assert!(uds::probe_dir(&dir));
+    let _ = std::fs::remove_dir_all(&network);
   }
 
   #[test]
