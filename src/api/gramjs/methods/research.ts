@@ -1422,6 +1422,8 @@ function getErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : '';
 }
 const PERMANENT_MESSAGES = new Set(['UNSUPPORTED', 'RECORD_TOO_COMPLEX', 'RECORD_TOO_LARGE']);
+// Ответы Telegram о несуществующем или неверном адресе: повтор ничего не изменит, источник недоступен насовсем
+const PERMANENT_PLATFORM = /^(USERNAME_NOT_OCCUPIED|USERNAME_INVALID|CHANNEL_INVALID|PEER_ID_INVALID|INVITE_HASH_\w+|MSG_ID_INVALID)$/;
 function buildError(error: unknown, job?: Job): RelayResearchEvent {
   const message = getErrorMessage(error);
   let code = ['CANCELLED', 'DEADLINE_EXCEEDED', 'STALE_ACCOUNT', 'AUTH_REQUIRED', 'INITIALIZING', 'BUSY', 'NOT_FOUND',
@@ -1431,7 +1433,7 @@ function buildError(error: unknown, job?: Job): RelayResearchEvent {
     ? message
     // Наши собственные постоянные отказы остаются UNSUPPORTED; любая неопознанная ошибка платформы (сеть, TIMEOUT,
     // RPC_CALL_FAIL) временная: демон повторит её с паузой, а не спишет источник как недоступный навсегда
-    : PERMANENT_MESSAGES.has(message) ? 'UNSUPPORTED' : 'PLATFORM_ERROR';
+    : PERMANENT_MESSAGES.has(message) || PERMANENT_PLATFORM.test(message) ? 'UNSUPPORTED' : 'PLATFORM_ERROR';
   if (/FLOOD|RATE_LIMIT/.test(message)) {
     code = 'RATE_LIMITED';
   }

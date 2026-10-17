@@ -315,6 +315,7 @@ describe('FLOOD_WAIT', () => {
     ['TIMEOUT', 'PLATFORM_ERROR'],
     ['RPC_CALL_FAIL', 'PLATFORM_ERROR'],
     ['Connection closed', 'PLATFORM_ERROR'],
+    ['USERNAME_NOT_OCCUPIED', 'UNSUPPORTED'],
     ['UNSUPPORTED', 'UNSUPPORTED'],
     ['FLOOD_WAIT_9', 'RATE_LIMITED'],
   ])('platform error %s is reported as %s', async (message, code) => {
