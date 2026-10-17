@@ -4,6 +4,9 @@ use std::time::{Duration, Instant};
 
 const START_TIMEOUT: Duration = Duration::from_secs(15);
 const STABLE_WORKER_TIME: Duration = Duration::from_secs(30);
+/// Сколько раз пробуем поднять прокси на новом порту, если выбранный занят чужим процессом.
+#[cfg(any(windows, test))]
+const PORT_ATTEMPTS: u32 = 3;
 #[cfg(any(windows, test))]
 const RECOVERY_BASE_MS: u64 = 250;
 #[cfg(any(windows, test))]
@@ -129,7 +132,7 @@ fn supervise_transport(
   ready: mpsc::SyncSender<Result<Option<String>, String>>,
   alive: Arc<AtomicBool>,
 ) {
-  let mut worker = match launch_transport(&app, &token, &config, 0) {
+  let mut worker = match launch_transport(&app, &token, &config, 0, provider) {
     Ok(worker) => worker,
     Err(error) => { let _ = ready.send(Err(error)); return; }
   };
@@ -181,7 +184,7 @@ fn supervise_transport(
         recovery_attempt = recovery_attempt.saturating_add(1);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
         let failure = match provider().ok_or("no bridge config")
-          .and_then(|config| launch_transport(&app, &token, &config, port).map_err(|_| "launch failed")) {
+          .and_then(|config| launch_transport(&app, &token, &config, port, provider).map_err(|_| "launch failed")) {
           Err(reason) => reason,
           Ok(mut next) => {
             let message = read_status(&mut next);
@@ -333,14 +336,48 @@ fn launch_local_proxy(
   let deadline = Instant::now() + Duration::from_secs(8);
   while Instant::now() < deadline {
     if !matches!(proxy.child.try_wait(), Ok(None)) { return Err("TELEGRAM_LOCAL_PROXY_EXITED".into()); }
-    if std::net::TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() { return Ok(proxy); }
+    if std::net::TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() {
+      // Слушатель мог оказаться чужим (порт освобождали после bind(0)): проверяем владельца
+      return match verify_listener_owner(config.local_port, proxy.child.id()) {
+        ListenerOwner::Foreign => {
+          log::warn!("[TelegramTransport] Local proxy port is held by a foreign process; discarding this start");
+          Err("TELEGRAM_LOCAL_PROXY_PORT_FOREIGN".into())
+        }
+        ListenerOwner::Unknown => {
+          log::warn!("[TelegramTransport] Could not verify the owner of the local proxy port; continuing");
+          Ok(proxy)
+        }
+        ListenerOwner::Ours => Ok(proxy),
+      };
+    }
     std::thread::sleep(Duration::from_millis(50));
   }
   Err("TELEGRAM_LOCAL_PROXY_START_TIMEOUT".into())
 }
 
 #[cfg(windows)]
-fn launch_transport(app: &tauri::AppHandle, token: &str, config: &BridgeConfig, port: u16) -> Result<OwnedWorker, String> {
+fn launch_transport(
+  app: &tauri::AppHandle, token: &str, config: &BridgeConfig, port: u16, provider: BridgeConfigProvider,
+) -> Result<OwnedWorker, String> {
+  // Чужой слушатель на выбранном порту (или прокси не поднялся) — берём новый порт, не больше PORT_ATTEMPTS попыток.
+  // Новый порт получает и воркер: localPort/localSecret уходят ему из того же конфига.
+  let mut config = config.clone();
+  for attempt in 1..=PORT_ATTEMPTS {
+    match launch_transport_once(app, token, &config, port) {
+      Err(error) if attempt < PORT_ATTEMPTS
+        && (error == "TELEGRAM_LOCAL_PROXY_PORT_FOREIGN" || error == "TELEGRAM_LOCAL_PROXY_EXITED") => {
+        log::warn!("[TelegramTransport] Local proxy start {attempt}/{PORT_ATTEMPTS} failed ({error}); retrying on another port");
+        let Some(next) = provider() else { return Err(error); };
+        config = next;
+      }
+      other => return other,
+    }
+  }
+  Err("TELEGRAM_LOCAL_PROXY_START_FAILED".into())
+}
+
+#[cfg(windows)]
+fn launch_transport_once(app: &tauri::AppHandle, token: &str, config: &BridgeConfig, port: u16) -> Result<OwnedWorker, String> {
   use std::io::Write;
   use std::process::{Command, Stdio};
   let node = crate::runtime::find_node_binary(app).map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
@@ -379,6 +416,145 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, config: &BridgeConfig, 
   stdin.write_all(&settings).and_then(|_| stdin.write_all(b"\n"))
     .and_then(|_| stdin.flush()).map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   Ok(worker)
+}
+
+/// Строка таблицы слушающих TCP-сокетов IPv4: локальный адрес, порт и PID владельца.
+#[cfg(any(windows, test))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct ListenerRow {
+  addr: [u8; 4],
+  port: u16,
+  pid: u32,
+}
+
+/// Итог проверки владельца слушателя на порту моста.
+#[cfg(any(windows, test))]
+#[derive(Debug, PartialEq, Eq)]
+enum ListenerOwner {
+  /// Все слушатели loopback-порта принадлежат нашему процессу прокси или его потомку.
+  Ours,
+  /// Порт слушает посторонний процесс.
+  Foreign,
+  /// Проверить не удалось (ошибка API или слушателя нет в таблице) — не блокируем работу.
+  Unknown,
+}
+
+/// PID слушателей на `127.0.0.1:port`. Слушатель на 0.0.0.0 не считаем: loopback-подключение
+/// достаётся более конкретному bind, то есть нашему.
+#[cfg(any(windows, test))]
+fn loopback_listener_pids(rows: &[ListenerRow], port: u16) -> Vec<u32> {
+  rows.iter().filter(|row| row.port == port && row.addr == [127, 0, 0, 1]).map(|row| row.pid).collect()
+}
+
+/// `pid` — это `root` либо его потомок по таблице «процесс -> родитель». Обход ограничен по глубине
+/// (защита от циклов при повторном использовании PID). PyInstaller onefile: загрузчик -> реальный процесс.
+#[cfg(any(windows, test))]
+fn is_self_or_descendant(pid: u32, root: u32, parents: &std::collections::HashMap<u32, u32>) -> bool {
+  let mut current = pid;
+  for _ in 0..32 {
+    if current == root { return true; }
+    match parents.get(&current) {
+      Some(&parent) if parent != 0 && parent != current => current = parent,
+      _ => return false,
+    }
+  }
+  false
+}
+
+#[cfg(any(windows, test))]
+fn classify_listener(
+  rows: &[ListenerRow], port: u16, root: u32, parents: &std::collections::HashMap<u32, u32>,
+) -> ListenerOwner {
+  let pids = loopback_listener_pids(rows, port);
+  if pids.is_empty() { return ListenerOwner::Unknown; }
+  if pids.iter().all(|&pid| is_self_or_descendant(pid, root, parents)) { ListenerOwner::Ours } else { ListenerOwner::Foreign }
+}
+
+#[cfg(windows)]
+fn verify_listener_owner(port: u16, root_pid: u32) -> ListenerOwner {
+  match (tcp_listener_rows(), process_parents()) {
+    (Some(rows), Some(parents)) => classify_listener(&rows, port, root_pid, &parents),
+    _ => ListenerOwner::Unknown,
+  }
+}
+
+/// Слушающие TCP-сокеты IPv4 с PID владельца (GetExtendedTcpTable, TCP_TABLE_OWNER_PID_LISTENER).
+#[cfg(windows)]
+fn tcp_listener_rows() -> Option<Vec<ListenerRow>> {
+  const AF_INET: u32 = 2;
+  const TCP_TABLE_OWNER_PID_LISTENER: u32 = 3;
+  const ERROR_INSUFFICIENT_BUFFER: u32 = 122;
+  let mut size: u32 = 0;
+  // Таблица может вырасти между вызовами, поэтому размер запрашиваем заново несколько раз
+  for _ in 0..5 {
+    let mut buffer = vec![0u32; (size as usize).div_ceil(4)];
+    let code = unsafe {
+      GetExtendedTcpTable(
+        if size == 0 { std::ptr::null_mut() } else { buffer.as_mut_ptr().cast() },
+        &mut size, 0, AF_INET, TCP_TABLE_OWNER_PID_LISTENER, 0)
+    };
+    if code == ERROR_INSUFFICIENT_BUFFER { continue; }
+    if code != 0 { return None; }
+    // Формат: u32 число строк, затем строки MIB_TCPROW_OWNER_PID по 6 u32
+    // (state, local_addr, local_port, remote_addr, remote_port, pid)
+    let count = *buffer.first()? as usize;
+    let words = buffer.get(1..1 + count.checked_mul(6)?)?;
+    return Some(words.chunks_exact(6).map(|row| ListenerRow {
+      addr: row[1].to_ne_bytes(),
+      port: u16::from_be(row[2] as u16),
+      pid: row[5],
+    }).collect());
+  }
+  None
+}
+
+/// Таблица «PID -> PID родителя» по снимку процессов (CreateToolhelp32Snapshot).
+#[cfg(windows)]
+fn process_parents() -> Option<std::collections::HashMap<u32, u32>> {
+  const TH32CS_SNAPPROCESS: u32 = 2;
+  #[repr(C)]
+  struct ProcessEntry {
+    size: u32,
+    usage: u32,
+    pid: u32,
+    heap: usize,
+    module: u32,
+    threads: u32,
+    parent: u32,
+    priority: i32,
+    flags: u32,
+    exe: [u16; 260],
+  }
+  unsafe {
+    let snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if snapshot.is_null() || snapshot as isize == -1 { return None; }
+    let mut entry: ProcessEntry = std::mem::zeroed();
+    entry.size = std::mem::size_of::<ProcessEntry>() as u32;
+    let mut parents = std::collections::HashMap::new();
+    let mut more = Process32FirstW(snapshot, (&mut entry as *mut ProcessEntry).cast()) != 0;
+    while more {
+      parents.insert(entry.pid, entry.parent);
+      more = Process32NextW(snapshot, (&mut entry as *mut ProcessEntry).cast()) != 0;
+    }
+    CloseHandle(snapshot);
+    Some(parents)
+  }
+}
+
+#[cfg(windows)]
+#[link(name = "iphlpapi")]
+unsafe extern "system" {
+  fn GetExtendedTcpTable(
+    table: *mut std::ffi::c_void, size: *mut u32, order: i32, family: u32, class: u32, reserved: u32,
+  ) -> u32;
+}
+
+#[cfg(windows)]
+unsafe extern "system" {
+  fn CreateToolhelp32Snapshot(flags: u32, pid: u32) -> *mut std::ffi::c_void;
+  fn Process32FirstW(snapshot: *mut std::ffi::c_void, entry: *mut std::ffi::c_void) -> i32;
+  fn Process32NextW(snapshot: *mut std::ffi::c_void, entry: *mut std::ffi::c_void) -> i32;
+  fn CloseHandle(object: *mut std::ffi::c_void) -> i32;
 }
 
 /// Заменяет в строке hex-последовательности длиной от 32 символов (токен моста, ключи) на `<скрыто>`.
@@ -567,5 +743,48 @@ mod tests {
   fn recovery_delay_survives_extreme_inputs() {
     assert_eq!(recovery_delay(u32::MAX, 5.0).as_millis(), 8000);
     assert_eq!(recovery_delay(0, -1.0).as_millis(), 125);
+  }
+
+  fn rows(items: &[([u8; 4], u16, u32)]) -> Vec<ListenerRow> {
+    items.iter().map(|&(addr, port, pid)| ListenerRow { addr, port, pid }).collect()
+  }
+
+  #[test]
+  fn descendant_check_follows_parents_and_rejects_strangers() {
+    let parents: std::collections::HashMap<u32, u32> = [(20, 10), (30, 20), (99, 1), (1, 99)].into();
+    assert!(is_self_or_descendant(10, 10, &parents));
+    assert!(is_self_or_descendant(30, 10, &parents)); // внук (загрузчик -> реальный процесс)
+    assert!(!is_self_or_descendant(10, 30, &parents)); // предок не считается потомком
+    assert!(!is_self_or_descendant(99, 10, &parents)); // чужой, цикл не зацикливает
+    assert!(!is_self_or_descendant(7, 10, &parents)); // неизвестный PID
+  }
+
+  #[test]
+  fn classify_listener_accepts_ours_and_rejects_foreign() {
+    let parents: std::collections::HashMap<u32, u32> = [(20, 10)].into();
+    let lo = [127, 0, 0, 1];
+    assert_eq!(classify_listener(&rows(&[(lo, 5000, 20)]), 5000, 10, &parents), ListenerOwner::Ours);
+    assert_eq!(classify_listener(&rows(&[(lo, 5000, 555)]), 5000, 10, &parents), ListenerOwner::Foreign);
+    // один чужой среди своих — всё равно чужой
+    assert_eq!(classify_listener(&rows(&[(lo, 5000, 20), (lo, 5000, 555)]), 5000, 10, &parents), ListenerOwner::Foreign);
+    // другой порт и 0.0.0.0 не учитываются; слушателя нет — «не определено», а не «чужой»
+    let other = rows(&[(lo, 5001, 555), ([0, 0, 0, 0], 5000, 555)]);
+    assert_eq!(classify_listener(&other, 5000, 10, &parents), ListenerOwner::Unknown);
+  }
+
+  #[cfg(windows)]
+  #[test]
+  fn listener_opened_by_this_process_is_attributed_to_it() {
+    let listener = std::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST, 0)).unwrap();
+    let port = listener.local_addr().unwrap().port();
+    let me = std::process::id();
+    let table = tcp_listener_rows().expect("GetExtendedTcpTable");
+    assert_eq!(loopback_listener_pids(&table, port), vec![me]);
+    let parents = process_parents().expect("снимок процессов");
+    assert!(parents.contains_key(&me));
+    assert_eq!(classify_listener(&table, port, me, &parents), ListenerOwner::Ours);
+    // для «чужого» корня тот же слушатель отвергается
+    assert_eq!(classify_listener(&table, port, u32::MAX - 1, &parents), ListenerOwner::Foreign);
+    assert_eq!(verify_listener_owner(port, me), ListenerOwner::Ours);
   }
 }
