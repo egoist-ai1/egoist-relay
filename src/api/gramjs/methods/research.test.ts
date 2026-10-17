@@ -305,6 +305,30 @@ describe('FLOOD_WAIT', () => {
     });
   });
 
+  test.each([
+    ['PEER_FLOOD', 'ACCOUNT_RESTRICTED'],
+    ['USER_DEACTIVATED', 'ACCOUNT_RESTRICTED'],
+    ['USER_DEACTIVATED_BAN', 'ACCOUNT_RESTRICTED'],
+    ['AUTH_KEY_UNREGISTERED', 'AUTH_REQUIRED'],
+    ['SESSION_REVOKED', 'AUTH_REQUIRED'],
+    ['CHANNEL_PRIVATE', 'ACCESS_DENIED'],
+    ['TIMEOUT', 'PLATFORM_ERROR'],
+    ['RPC_CALL_FAIL', 'PLATFORM_ERROR'],
+    ['Connection closed', 'PLATFORM_ERROR'],
+    ['UNSUPPORTED', 'UNSUPPORTED'],
+    ['FLOOD_WAIT_9', 'RATE_LIMITED'],
+  ])('platform error %s is reported as %s', async (message, code) => {
+    respond(resolveRoute(), [GramJs.messages.GetHistory, () => {
+      throw Object.assign(new Error(message), { errorMessage: message });
+    }]);
+    const event = last(await runJob('channel_history', { channel: '@testchan', limit: 20 }));
+    expect(event).toMatchObject({ kind: 'error', code });
+    if (code !== 'RATE_LIMITED') {
+      expect(event.seconds).toBeUndefined();
+      expect(event.retryAfterMs).toBeUndefined();
+    }
+  });
+
   test('premium and slow-mode waits keep their kind', async () => {
     respond(resolveRoute(), [GramJs.messages.GetHistory, () => {
       throw floodError(8, 'FLOOD_PREMIUM_WAIT_8');

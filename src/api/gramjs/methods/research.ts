@@ -1011,7 +1011,7 @@ async function fetchChannelMembership(job: Job, channel: GramJs.InputChannel) {
   }
 }
 function shouldReadJoinBack(error: unknown) {
-  return buildError(error).code === 'UNSUPPORTED' && getErrorMessage(error) !== 'UNSUPPORTED';
+  return buildError(error).code === 'PLATFORM_ERROR';
 }
 async function resolvePeer(value: string, job: Job): Promise<Peer> {
   checkJob(job);
@@ -1421,15 +1421,23 @@ function getErrorMessage(error: unknown) {
   }
   return error instanceof Error ? error.message : '';
 }
+const PERMANENT_MESSAGES = new Set(['UNSUPPORTED', 'RECORD_TOO_COMPLEX', 'RECORD_TOO_LARGE']);
 function buildError(error: unknown, job?: Job): RelayResearchEvent {
   const message = getErrorMessage(error);
   let code = ['CANCELLED', 'DEADLINE_EXCEEDED', 'STALE_ACCOUNT', 'AUTH_REQUIRED', 'INITIALIZING', 'BUSY', 'NOT_FOUND',
     'UNAVAILABLE',
     'INVALID_INPUT', 'INVALID_CURSOR', 'STALE_CURSOR', 'SOURCE_MISMATCH', 'CURSOR_STALLED',
     'JOIN_CONFIRMATION_REQUIRED', 'RESUME_MISMATCH', 'MEDIA_INCOMPLETE'].includes(message)
-    ? message : 'UNSUPPORTED';
+    ? message
+    // Наши собственные постоянные отказы остаются UNSUPPORTED; любая неопознанная ошибка платформы (сеть, TIMEOUT,
+    // RPC_CALL_FAIL) временная: демон повторит её с паузой, а не спишет источник как недоступный навсегда
+    : PERMANENT_MESSAGES.has(message) ? 'UNSUPPORTED' : 'PLATFORM_ERROR';
   if (/FLOOD|RATE_LIMIT/.test(message)) {
     code = 'RATE_LIMITED';
+  }
+  // PEER_FLOOD и деактивация аккаунта — ограничение аккаунта, а не пауза: повторять нельзя, ждёт владельца
+  if (/^PEER_FLOOD$|^USER_DEACTIVATED/.test(message)) {
+    code = 'ACCOUNT_RESTRICTED';
   }
   if (/CHANNEL_PRIVATE|CHAT_ADMIN_REQUIRED|USER_BANNED|INACCESSIBLE/.test(message)) {
     code = 'ACCESS_DENIED';
