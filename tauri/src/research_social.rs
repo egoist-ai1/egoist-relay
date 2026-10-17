@@ -1840,9 +1840,15 @@ pub(crate) fn service_ready(provider: &str) {
   let Some(state) = states.get_mut(provider) else {
     return;
   };
-  state.probe_failures = 0;
-  state.last_probe = None;
+  apply_service_ready(state);
+}
+
+/// Снимает блок прогрева только при реальном выходе из блока владельца. Повторные `loading → ready`
+/// основного окна в других состояниях не обнуляют backoff проб (иначе проба шла бы на каждый переход).
+fn apply_service_ready(state: &mut Provider) {
   if service_ready_reinit(state.state, state.reason, state.active.is_some()) {
+    state.probe_failures = 0;
+    state.last_probe = None;
     state.state = "initializing";
     state.reason = "DOM_ACCOUNT_PROOF_PENDING";
   }
@@ -2787,6 +2793,27 @@ mod relay_audit_tests {
     assert!(!service_ready_reinit("auth_required", "SESSION_NOT_AVAILABLE_IN_RESEARCH_VIEW", true));
     assert!(!service_ready_reinit("unavailable", "DOM_ACCOUNT_PROBE_TIMEOUT", false));
     assert!(!service_ready_reinit("ready", "DOM_ACCOUNT_CONFIRMED", false));
+  }
+
+  #[test]
+  fn service_ready_keeps_probe_backoff_unless_owner_block_is_lifted() {
+    // Повторный ready при неблокированном состоянии backoff не трогает
+    let mut provider = Provider::new();
+    provider.state = "unavailable";
+    provider.reason = "DOM_ACCOUNT_PROBE_TIMEOUT";
+    provider.probe_failures = 3;
+    provider.last_probe = Some(Instant::now());
+    apply_service_ready(&mut provider);
+    assert_eq!(provider.probe_failures, 3);
+    assert!(provider.last_probe.is_some());
+    assert_eq!(provider.state, "unavailable");
+    // Блок владельца снят: сброс и повторная проба
+    provider.state = "auth_required";
+    provider.reason = "SESSION_NOT_AVAILABLE_IN_RESEARCH_VIEW";
+    apply_service_ready(&mut provider);
+    assert_eq!(provider.probe_failures, 0);
+    assert!(provider.last_probe.is_none());
+    assert_eq!(provider.state, "initializing");
   }
 
   #[test]
