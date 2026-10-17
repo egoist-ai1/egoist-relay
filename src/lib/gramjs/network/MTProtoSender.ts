@@ -647,6 +647,7 @@ export default class MTProtoSender {
     }
 
     if (!this.authKey.getKey()) {
+      this._authenticated = false;
       const plain = new MtProtoPlainSender(connection, this._log);
       this._log.debug('New auth_key attempt ...');
       const res = await doAuthentication(plain, this._log, connection._dcId, connection._isTestServer);
@@ -671,7 +672,7 @@ export default class MTProtoSender {
         await this._authKeyCallback(this.authKey, this._dcId);
       }
     } else {
-      this._authenticated = true;
+      if (!this._isExported) this._authenticated = true;
       this._log.debug('Already have an auth key ...');
     }
 

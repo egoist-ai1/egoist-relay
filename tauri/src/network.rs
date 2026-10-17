@@ -7,8 +7,6 @@ use std::path::PathBuf;
 use tauri::{AppHandle, Emitter, Manager};
 
 const STATUS_EVENT: &str = "relay-network-status";
-/// Событие для фронтенда: MTProxy сменился, мост Telegram остановлен, GramJS нужно переподключить.
-const TRANSPORT_CHANGED_EVENT: &str = "relay-telegram-transport-changed";
 
 /// Каталог с `xray.exe`: ресурсы приложения, затем соседние каталоги, в отладочной сборке — `runtime/` проекта.
 fn runtime_dir(app: &AppHandle) -> PathBuf {
@@ -43,8 +41,19 @@ pub(crate) fn start(app: &AppHandle) {
   }
   let emitter = app.clone();
   tunnel::subscribe(move |status| {
-    let _ = emitter.emit_to("main", STATUS_EVENT, status);
+    let _ = emitter.emit_to("main", STATUS_EVENT, with_telegram_route(status.clone()));
   });
+}
+
+fn with_telegram_route(mut status: NetworkStatus) -> NetworkStatus {
+  let route = if crate::telegram_transport::is_ready() { tunnel::ServiceRoute::LocalProxy }
+    else { tunnel::ServiceRoute::Unavailable };
+  status.services.insert("telegram".to_string(), route);
+  status
+}
+
+pub(crate) fn emit_status(app: &AppHandle) {
+  let _ = app.emit_to("main", STATUS_EVENT, with_telegram_route(tunnel::status()));
 }
 
 /// Команды сети принимает только главное окно (локальный интерфейс): запасная проверка к `capabilities/network.json`.
@@ -58,23 +67,15 @@ async fn blocking<T: Send + 'static>(
   tauri::async_runtime::spawn_blocking(operation).await.map_err(|_| NetworkError::ApplyFailed)?
 }
 
-/// Если MTProxy поменялся: останавливает мост Telegram (воркер поднимется с новым значением при следующем
-/// обращении фронтенда) и сообщает интерфейсу, чтобы тот переподключил GramJS.
-fn on_mtproxy_changed(app: &AppHandle, before: &Option<String>) {
-  if &tunnel::mtproxy_link() == before { return; }
-  crate::telegram_transport::shutdown();
-  let _ = app.emit_to("main", TRANSPORT_CHANGED_EVENT, ());
-}
-
 #[tauri::command]
 pub(crate) async fn relay_network_status(webview: tauri::Webview) -> Result<NetworkStatus, NetworkError> {
   ensure_main(&webview)?;
-  Ok(tunnel::status())
+  Ok(with_telegram_route(tunnel::status()))
 }
 
 #[tauri::command]
 pub(crate) async fn relay_network_apply(
-  app: AppHandle,
+  _app: AppHandle,
   webview: tauri::Webview,
   vpn: Option<String>,
   doh: Option<String>,
@@ -82,28 +83,24 @@ pub(crate) async fn relay_network_apply(
 ) -> Result<NetworkStatus, NetworkError> {
   ensure_main(&webview)?;
   blocking(move || {
-    let before = tunnel::mtproxy_link();
     let status = tunnel::apply(ApplyRequest { vpn, doh, mtproxy })?;
-    on_mtproxy_changed(&app, &before);
-    Ok(status)
+    Ok(with_telegram_route(status))
   }).await
 }
 
 #[tauri::command]
-pub(crate) async fn relay_network_reset(app: AppHandle, webview: tauri::Webview) -> Result<NetworkStatus, NetworkError> {
+pub(crate) async fn relay_network_reset(_app: AppHandle, webview: tauri::Webview) -> Result<NetworkStatus, NetworkError> {
   ensure_main(&webview)?;
   blocking(move || {
-    let before = tunnel::mtproxy_link();
     let status = tunnel::reset()?;
-    on_mtproxy_changed(&app, &before);
-    Ok(status)
+    Ok(with_telegram_route(status))
   }).await
 }
 
 #[tauri::command]
 pub(crate) async fn relay_network_refresh_subscription(webview: tauri::Webview) -> Result<NetworkStatus, NetworkError> {
   ensure_main(&webview)?;
-  blocking(tunnel::refresh_subscription).await
+  blocking(|| tunnel::refresh_subscription().map(with_telegram_route)).await
 }
 
 #[tauri::command]
@@ -120,7 +117,7 @@ pub(crate) async fn relay_network_set_service_enabled(
       // Выключенный сервис не держит WebView и соединения
       crate::multi_app::close_service_webview(&app, &service);
     }
-    Ok(status)
+    Ok(with_telegram_route(status))
   }).await
 }
 

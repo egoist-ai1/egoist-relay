@@ -18,6 +18,11 @@ const MAX_INCOMING_BYTES = 64 * 1024 * 1024;
 const WRITE_POLL_INTERVAL = 25;
 let desktopTransportUrl: string | undefined;
 
+export function isLocalTelegramTransportRequired() {
+  const { location } = globalThis;
+  return location?.protocol === 'tauri:' || location?.hostname === 'tauri.localhost';
+}
+
 export function setDesktopTelegramTransport(value?: string) {
   desktopTransportUrl = undefined;
   if (!value) return;
@@ -223,13 +228,11 @@ export default class PromisedWebSockets {
   }
 
   getWebSocketLink(ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number) {
-    return this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId)[0].url;
+    const candidate = this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId)[0];
+    if (!candidate) throw new Error('Local Telegram proxy is unavailable');
+    return candidate.url;
   }
 
-  /**
-   * Маршруты по приоритету: стандартный wss Telegram Web A (WebView2 ведёт его через SOCKS-прокси туннеля),
-   * затем локальный мост к MTProxy, если оболочка сообщила, что ссылка MTProxy задана.
-   */
   getRouteCandidates(
     ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number,
   ): RouteCandidate[] {
@@ -240,8 +243,9 @@ export default class PromisedWebSockets {
       url.searchParams.set('dc', String(dcId || Number(match?.[1]) || 2));
       if (match?.[2]) url.searchParams.set('media', '1');
       if (isPremium) url.searchParams.set('premium', '1');
-      return [{ kind: 'wss', url: wss }, { kind: 'mtproxy', url: url.toString() }];
+      return [{ kind: 'mtproxy', url: url.toString() }];
     }
+    if (!isTestServer && isLocalTelegramTransportRequired()) return [];
     return [{ kind: 'wss', url: wss }];
   }
 
@@ -307,7 +311,7 @@ export default class PromisedWebSockets {
     });
     this.closed = false;
     const candidates = routeHealth.order(this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId));
-    this.website = candidates[0].url;
+    this.website = candidates[0]?.url;
     const raceAbort = new AbortController();
     this.raceAbort = raceAbort;
 

@@ -74,6 +74,10 @@
       "signingIdentity": null
     },
     "resources": {
+      "../runtime/telegram/tg-ws-proxy.exe": "runtime/telegram/tg-ws-proxy.exe",
+      "../runtime/telegram/LICENSE.txt": "runtime/telegram/LICENSE.txt",
+      "../runtime/telegram/provenance.json": "runtime/telegram/provenance.json",
+      "../runtime/telegram/THIRD-PARTY-NOTICES.txt": "runtime/telegram/THIRD-PARTY-NOTICES.txt",
       "../runtime/licenses/NODE-LICENSE.txt": "runtime/licenses/NODE-LICENSE.txt",
       "../runtime/licenses/RELAY-GPL-LICENSE.txt": "runtime/licenses/RELAY-GPL-LICENSE.txt",
       "../runtime/licenses/xray-dependencies/github.com/andybalholm/brotli@v1.0.6/LICENSE": "runtime/licenses/xray-dependencies/github.com/andybalholm/brotli@v1.0.6/LICENSE",

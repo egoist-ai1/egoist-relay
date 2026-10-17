@@ -3461,6 +3461,7 @@
 "RelayNetDnsNone" = "DNS не задан";
 "RelayNetRouteTunnel" = "через туннель";
 "RelayNetRouteDirect" = "напрямую";
+"RelayNetRouteLocalProxy" = "свой локальный TG-прокси";
 "RelayNetRouteUnavailable" = "недоступен";
 "RelayNetRouteDisabled" = "скрыт";
 "RelayNetRouteUnknown" = "проверяется";
@@ -3477,7 +3478,7 @@
 "RelayNetResetDone" = "Встроенные настройки возвращены";
 "RelayNetReplaceTitle" = "Замена";
 "RelayNetVpnLabel" = "Ключ VPN или ссылка подписки";
-"RelayNetVpnHint" = "Можно вставить несколько ссылок, по одной в строке. После применения значения не показываются.";
+"RelayNetVpnHint" = "Можно вставить несколько ссылок, по одной в строке. После применения значения не показываются. VPN и DNS относятся к X и Instagram, Telegram использует встроенный локальный прокси.";
 "RelayNetDohLabel" = "Ссылка DNS (DoH)";
 "RelayNetMtproxyLabel" = "MTProxy для Telegram (необязательно)";
 "RelayNetApply" = "Проверить и применить";

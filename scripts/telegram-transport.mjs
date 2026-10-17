@@ -10,6 +10,7 @@ const CONNECT_TIMEOUT_MS = 4000;
 const MAX_MTPROXY_LINK_LENGTH = 2048;
 const HANDSHAKE_TIMEOUT_MS = 8000;
 const FIRST_RESPONSE_TIMEOUT_MS = 12000;
+const LOCAL_FIRST_RESPONSE_TIMEOUT_MS = 45000;
 const HEARTBEAT_INTERVAL_MS = 20000;
 const BACKPRESSURE_TIMEOUT_MS = 20000;
 const MAX_SETTINGS_BYTES = 8192;
@@ -33,17 +34,23 @@ function codedError(code) {
 }
 
 export async function createTelegramTransport({
-  token, origins, port = 0, socksPort, mtproxy,
+  token, origins, port = 0, socksPort, mtproxy, localPort, localSecret,
 }) {
   if (typeof token !== 'string' || !/^[a-f0-9]{64}$/i.test(token)
     || !Array.isArray(origins) || !origins.length || origins.some((origin) => !ORIGINS.has(origin))
     || !Number.isInteger(port) || port < 0 || port > 65535) {
     throw codedError('INVALID_BOOTSTRAP');
   }
-  // Конфиг приходит только от оболочки: порт SOCKS туннеля и ссылка MTProxy. Без них мост не нужен
-  if (!Number.isInteger(socksPort) || socksPort < 1 || socksPort > 65535) throw codedError('TUNNEL_SOCKS_MISSING');
-  if (typeof mtproxy !== 'string' || !mtproxy) throw codedError('MTPROXY_NOT_CONFIGURED');
-  const upstream = parseMtproxyLink(mtproxy);
+  const isLocal = localPort !== undefined || localSecret !== undefined;
+  if (isLocal && (!Number.isInteger(localPort) || localPort < 1024 || localPort > 65535
+    || typeof localSecret !== 'string' || !/^[a-f0-9]{32}$/i.test(localSecret)
+    || socksPort !== undefined || mtproxy !== undefined)) throw codedError('INVALID_BOOTSTRAP');
+  if (!isLocal && (!Number.isInteger(socksPort) || socksPort < 1 || socksPort > 65535)) {
+    throw codedError('TUNNEL_SOCKS_MISSING');
+  }
+  if (!isLocal && (typeof mtproxy !== 'string' || !mtproxy)) throw codedError('MTPROXY_NOT_CONFIGURED');
+  const upstream = isLocal ? { host: '127.0.0.1', port: localPort, secret: Buffer.from(localSecret, 'hex'), mode: 'plain' }
+    : parseMtproxyLink(mtproxy);
   if (upstream.mode === 'faketls') {
     upstream.secret.fill(0);
     throw codedError('MTPROXY_FAKETLS_UNSUPPORTED');
@@ -52,6 +59,7 @@ export async function createTelegramTransport({
   const tokenBytes = Buffer.from(token, 'ascii');
   const target = {
     socksPort, host: upstream.host, port: upstream.port, secret: upstream.secret,
+    firstResponseTimeoutMs: isLocal ? LOCAL_FIRST_RESPONSE_TIMEOUT_MS : FIRST_RESPONSE_TIMEOUT_MS,
   };
 
   const server = http.createServer((_request, response) => {
@@ -88,8 +96,6 @@ export async function createTelegramTransport({
       socket.once('close', () => socket.removeListener('error', onRawError));
       return;
     }
-    // WebSocket открывается только после того, как через SOCKS достигнут MTProxy: открытый сокет означает
-    // рабочий маршрут, а недоступный MTProxy даёт отказ, после которого клиент остаётся на стандартном wss
     pendingUpgrades++;
     openProxy(target).then((proxy) => {
       if (isClosing || socket.destroyed) {
@@ -168,7 +174,7 @@ function parseRoute(request, tokenBytes, allowedOrigins) {
 }
 
 function createConnection(webSocket, route, proxy, onClosed) {
-  const { tcp, secret } = proxy;
+  const { tcp, secret, firstResponseTimeoutMs } = proxy;
   let browserDecrypt;
   let browserEncrypt;
   let proxyDecrypt;
@@ -226,7 +232,7 @@ function createConnection(webSocket, route, proxy, onClosed) {
     tcp.write(proxyHeader.bytes);
     isConnected = true;
     clearTimeout(handshakeDeadline);
-    firstResponseDeadline = setTimeout(close, FIRST_RESPONSE_TIMEOUT_MS);
+    firstResponseDeadline = setTimeout(close, firstResponseTimeoutMs);
   }
 
   function attachProxySocket() {
@@ -288,16 +294,41 @@ function createConnection(webSocket, route, proxy, onClosed) {
   }
 }
 
-/** Открывает TCP к MTProxy через SOCKS туннеля. Secret копируется на каждое соединение: его обнуляет соединение. */
 async function openProxy({
-  socksPort, host, port, secret,
+  socksPort, host, port, secret, firstResponseTimeoutMs,
 }) {
-  const tcp = await socksConnect({
-    socksPort, host, port, timeoutMs: CONNECT_TIMEOUT_MS,
-  });
+  const tcp = socksPort ? await socksConnect({ socksPort, host, port, timeoutMs: CONNECT_TIMEOUT_MS })
+    : await connectLocalProxy(port);
   tcp.setNoDelay(true);
   tcp.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
-  return { tcp, secret: Buffer.from(secret) };
+  return { tcp, secret: Buffer.from(secret), firstResponseTimeoutMs };
+}
+
+function connectLocalProxy(port) {
+  return new Promise((resolve, reject) => {
+    const socket = net.createConnection({ host: '127.0.0.1', port });
+    let hasSettled = false;
+    const deadline = setTimeout(() => finish(codedError('TELEGRAM_LOCAL_PROXY_TIMEOUT')), CONNECT_TIMEOUT_MS);
+    socket.once('connect', () => finish());
+    socket.once('error', () => finish(codedError('TELEGRAM_LOCAL_PROXY_UNAVAILABLE')));
+    socket.once('close', () => finish(codedError('TELEGRAM_LOCAL_PROXY_UNAVAILABLE')));
+    function finish(error) {
+      if (hasSettled) return;
+      hasSettled = true;
+      clearTimeout(deadline);
+      socket.removeAllListeners('connect');
+      socket.removeAllListeners('close');
+      socket.removeAllListeners('error');
+      socket.on('error', () => {});
+      if (error) {
+        socket.destroy();
+        reject(error);
+      } else {
+        socket.pause();
+        resolve(socket);
+      }
+    }
+  });
 }
 
 /**

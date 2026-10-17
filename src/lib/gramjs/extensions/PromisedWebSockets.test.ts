@@ -1,10 +1,14 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { routeHealth } from '../network/connectionPolicy';
+import { routeHealth, RouteRaceError } from '../network/connectionPolicy';
 
 import PromisedWebSockets, { setDesktopTelegramTransport } from './PromisedWebSockets';
 
 const BRIDGE = `ws://127.0.0.1:41000/apiws?token=${'a'.repeat(64)}`;
+const HOST = 'zws2.web.telegram.org';
+const WSS = `wss://${HOST}:443/apiws`;
+const CONNECT_TIMEOUT_MS = 5000;
+const PROBE_WINDOW_MS = 60000;
 
 class FakeWebSocket {
   static instances: FakeWebSocket[] = [];
@@ -46,6 +50,11 @@ class FakeWebSocket {
     this.onclose?.({ code: 1006, reason: '', wasClean: false });
   }
 
+  disconnect() {
+    this.readyState = 3;
+    this.onclose?.({ code: 1006, reason: '', wasClean: false });
+  }
+
   close() {
     this.closed = true;
     this.readyState = 3;
@@ -59,6 +68,8 @@ beforeEach(() => {
   FakeWebSocket.instances = [];
   vi.stubGlobal('WebSocket', FakeWebSocket);
   vi.stubGlobal('location', { protocol: 'tauri:', hostname: 'tauri.localhost' });
+  vi.stubEnv('VITE_PROXY_URL', '');
+  vi.stubEnv('TG_PROXY_URL', '');
   routeHealth.reset();
   setDesktopTelegramTransport(BRIDGE);
 });
@@ -66,6 +77,7 @@ beforeEach(() => {
 afterEach(() => {
   setDesktopTelegramTransport(undefined);
   vi.unstubAllGlobals();
+  vi.unstubAllEnvs();
   vi.useRealTimers();
 });
 
@@ -73,111 +85,165 @@ function create() {
   return new PromisedWebSockets(() => undefined);
 }
 
-const WSS = 'wss://zws2.web.telegram.org:443/apiws';
-
 describe('PromisedWebSockets routes', () => {
-  test('uses standard wss first and never touches the MTProxy bridge when it opens', async () => {
+  test('connects only to the local proxy without scheduling a wss probe', async () => {
+    routeHealth.recordFailure('wss');
     const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
+    const connected = socket.connect(443, HOST, false, false, 2);
     expect(FakeWebSocket.instances).toHaveLength(1);
+    expect(FakeWebSocket.instances[0].url).toBe(`${BRIDGE}&dc=2`);
+    FakeWebSocket.instances[0].open();
+    await connected;
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(1);
+    expect(FakeWebSocket.instances[0].closed).toBe(false);
+    expect(routeHealth.getStatus()?.kind).toBe('mtproxy');
+    socket.close();
+  });
+
+  test.each([
+    { ip: HOST, dcId: 2, isPremium: false, dc: '2', isMedia: false },
+    { ip: 'zws4-1.web.telegram.org', dcId: undefined, isPremium: true, dc: '4', isMedia: true },
+    { ip: 'zws4-1.web.telegram.org', dcId: 5, isPremium: false, dc: '5', isMedia: true },
+    { ip: '149.154.167.51', dcId: undefined, isPremium: false, dc: '2', isMedia: false },
+  ])('preserves local routing arguments for $ip with dcId $dcId', ({ ip, dcId, isPremium, dc, isMedia }) => {
+    const candidates = create().getRouteCandidates(ip, 443, false, isPremium, dcId);
+    expect(candidates).toHaveLength(1);
+    expect(candidates[0].kind).toBe('mtproxy');
+    const url = new URL(candidates[0].url);
+    expect(url.origin).toBe('ws://127.0.0.1:41000');
+    expect(url.pathname).toBe('/apiws');
+    expect(url.searchParams.get('token')).toBe('a'.repeat(64));
+    expect(url.searchParams.get('dc')).toBe(dc);
+    expect(url.searchParams.has('media')).toBe(isMedia);
+    expect(url.searchParams.get('media') ?? undefined).toBe(isMedia ? '1' : undefined);
+    expect(url.searchParams.has('premium')).toBe(isPremium);
+    expect(url.searchParams.get('premium') ?? undefined).toBe(isPremium ? '1' : undefined);
+  });
+
+  test.each(['error', 'close'])('rejects a local proxy %s without opening wss', async (failure) => {
+    const socket = create();
+    const connected = socket.connect(443, HOST, false, false, 2);
+    const assertion = expect(connected).rejects.toBeInstanceOf(RouteRaceError);
+    if (failure === 'error') FakeWebSocket.instances[0].fail();
+    else FakeWebSocket.instances[0].disconnect();
+    await assertion;
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(1);
+    expect(routeHealth.probeDue('mtproxy', 0)).toBe(true);
+    expect(routeHealth.probeDue('wss', 0)).toBe(false);
+    const next = create();
+    const reconnected = next.connect(443, HOST, false, false, 2);
+    expect(FakeWebSocket.instances).toHaveLength(2);
+    expect(FakeWebSocket.instances[1].url).toBe(`${BRIDGE}&dc=2`);
+    FakeWebSocket.instances[1].open();
+    await reconnected;
+    next.close();
+  });
+
+  test('times out the local proxy after five seconds without opening wss', async () => {
+    const socket = create();
+    const connected = socket.connect(443, HOST, false, false, 2);
+    const assertion = expect(connected).rejects.toThrow('WebSocket connection timeout');
+    await vi.advanceTimersByTimeAsync(CONNECT_TIMEOUT_MS - 1);
+    expect(FakeWebSocket.instances).toHaveLength(1);
+    expect(FakeWebSocket.instances[0].closed).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    await assertion;
+    expect(FakeWebSocket.instances[0].closed).toBe(true);
+    expect(routeHealth.probeDue('mtproxy', 0)).toBe(true);
+    expect(routeHealth.probeDue('wss', 0)).toBe(false);
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(1);
+  });
+
+  test.each([
+    { bytes: [], hasReceived: false },
+    { bytes: [1], hasReceived: true },
+  ])('tracks first-byte health when the local proxy closes after $bytes', async ({ bytes, hasReceived }) => {
+    const disconnected = vi.fn();
+    const socket = new PromisedWebSockets(disconnected);
+    const connected = socket.connect(443, HOST, false, false, 2);
+    FakeWebSocket.instances[0].open();
+    await connected;
+    FakeWebSocket.instances[0].onmessage?.({ data: new Uint8Array(bytes).buffer });
+    FakeWebSocket.instances[0].disconnect();
+    expect(disconnected).toHaveBeenCalledOnce();
+    expect(routeHealth.probeDue('mtproxy', 0)).toBe(!hasReceived);
+    expect(routeHealth.getStatus()?.kind).toBe(hasReceived ? 'mtproxy' : undefined);
+    const next = create();
+    const reconnected = next.connect(443, HOST, false, false, 2);
+    expect(FakeWebSocket.instances[1].url).toBe(`${BRIDGE}&dc=2`);
+    FakeWebSocket.instances[1].open();
+    await reconnected;
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(2);
+    next.close();
+  });
+
+  test('demotes the local proxy when it closes before receiving any message', async () => {
+    const socket = create();
+    const connected = socket.connect(443, HOST, false, false, 2);
+    FakeWebSocket.instances[0].open();
+    await connected;
+    FakeWebSocket.instances[0].disconnect();
+    expect(routeHealth.getStatus()).toBeUndefined();
+    expect(routeHealth.probeDue('mtproxy', 0)).toBe(true);
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(1);
+  });
+
+  test('keeps only the local candidate even when wss was previously healthy', () => {
+    routeHealth.recordSuccess('wss');
+    const socket = create();
+    expect(routeHealth.order(socket.getRouteCandidates(HOST, 443, false, false, 2)))
+      .toEqual([{ kind: 'mtproxy', url: `${BRIDGE}&dc=2` }]);
+  });
+
+  test('test servers still use wss when the local proxy is available', async () => {
+    const socket = create();
+    expect(socket.getRouteCandidates(HOST, 443, true, true, 2))
+      .toEqual([{ kind: 'wss', url: `${WSS}_test_premium` }]);
+    const connected = socket.connect(443, HOST, true, true, 2);
+    expect(FakeWebSocket.instances[0].url).toBe(`${WSS}_test_premium`);
+    FakeWebSocket.instances[0].open();
+    await connected;
+    expect(routeHealth.getStatus()?.kind).toBe('wss');
+    socket.close();
+  });
+
+  test('rejects an unavailable desktop proxy without constructing a WebSocket', async () => {
+    setDesktopTelegramTransport(undefined);
+    const socket = create();
+    expect(socket.getRouteCandidates(HOST, 443)).toEqual([]);
+    await expect(socket.connect(443, HOST)).rejects.toBeInstanceOf(RouteRaceError);
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(0);
+  });
+
+  test('browser connections use wss when no desktop proxy is set', async () => {
+    setDesktopTelegramTransport(undefined);
+    vi.stubGlobal('location', { protocol: 'https:', hostname: 'web.telegram.org' });
+    const socket = create();
+    expect(socket.getRouteCandidates(HOST, 443)).toEqual([{ kind: 'wss', url: WSS }]);
+    const connected = socket.connect(443, HOST);
     expect(FakeWebSocket.instances[0].url).toBe(WSS);
     FakeWebSocket.instances[0].open();
     await connected;
-    await vi.advanceTimersByTimeAsync(2000);
-    expect(FakeWebSocket.instances).toHaveLength(1);
-    expect(routeHealth.getStatus()?.kind).toBe('wss');
+    socket.close();
   });
 
-  test('fails over to the MTProxy bridge immediately when wss refuses', async () => {
+  test('closing while connecting aborts the local attempt without wss or route failure', async () => {
     const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
-    FakeWebSocket.instances[0].fail();
-    await vi.advanceTimersByTimeAsync(0);
-    expect(FakeWebSocket.instances).toHaveLength(2);
-    expect(FakeWebSocket.instances[1].url).toContain('127.0.0.1:41000');
-    expect(FakeWebSocket.instances[1].url).toContain('dc=2');
-    FakeWebSocket.instances[1].open();
-    await connected;
-    expect(routeHealth.getStatus()?.kind).toBe('mtproxy');
-    // Следующее подключение сразу начинает с моста, а wss проверяется в фоне
-    const next = create();
-    void next.connect(443, 'zws2.web.telegram.org', false, false, 2).catch(() => undefined);
-    expect(FakeWebSocket.instances[2].url).toContain('127.0.0.1:41000');
-  });
-
-  test('races the MTProxy bridge when wss is silent and closes the loser', async () => {
-    const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
-    await vi.advanceTimersByTimeAsync(300);
-    expect(FakeWebSocket.instances).toHaveLength(2);
-    FakeWebSocket.instances[1].open();
-    await connected;
-    expect(FakeWebSocket.instances[0].closed).toBe(true);
-    expect(FakeWebSocket.instances[1].closed).toBe(false);
-  });
-
-  test('rejects when both routes fail and demotes both', async () => {
-    const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
-    const assertion = expect(connected).rejects.toBeInstanceOf(Error);
-    FakeWebSocket.instances[0].fail();
-    await vi.advanceTimersByTimeAsync(0);
-    FakeWebSocket.instances[1].fail();
-    await assertion;
-  });
-
-  test('a wss socket closed before any byte demotes the wss route for the next connection', async () => {
-    const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
-    FakeWebSocket.instances[0].open();
-    await connected;
-    FakeWebSocket.instances[0].onclose?.({ code: 1006, reason: '', wasClean: false });
-    const next = create();
-    void next.connect(443, 'zws2.web.telegram.org', false, false, 2).catch(() => undefined);
-    expect(FakeWebSocket.instances[1].url).toContain('127.0.0.1:41000');
-  });
-
-  test('wss refused and MTProxy won: wss is marked failed and a probe is due', async () => {
-    const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
-    FakeWebSocket.instances[0].fail();
-    await vi.advanceTimersByTimeAsync(0);
-    FakeWebSocket.instances[1].open();
-    await connected;
-    expect(routeHealth.probeDue('wss', 0)).toBe(true);
-    expect(routeHealth.order(socket.getRouteCandidates('zws2.web.telegram.org', 443, false, false, 2))[0].kind)
-      .toBe('mtproxy');
-  });
-
-  test('wss lost the race by abort: it is not marked failed', async () => {
-    const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
-    await vi.advanceTimersByTimeAsync(300);
-    FakeWebSocket.instances[1].open();
-    await connected;
-    expect(FakeWebSocket.instances[0].closed).toBe(true);
-    expect(routeHealth.probeDue('wss', 0)).toBe(false);
-  });
-
-  test('test servers and a missing MTProxy bridge use only wss', () => {
-    const socket = create();
-    expect(socket.getRouteCandidates('zws2.web.telegram.org', 443, true).map(({ kind }) => kind)).toEqual(['wss']);
-    setDesktopTelegramTransport(undefined);
-    expect(socket.getRouteCandidates('zws2.web.telegram.org', 443).map(({ kind }) => kind)).toEqual(['wss']);
-  });
-
-  test('wss is always the first candidate when the bridge is set', () => {
-    expect(create().getRouteCandidates('zws2.web.telegram.org', 443, false, false, 2).map(({ kind }) => kind))
-      .toEqual(['wss', 'mtproxy']);
-  });
-
-  test('closing during the race aborts both attempts without errors', async () => {
-    const socket = create();
-    const connected = socket.connect(443, 'zws2.web.telegram.org', false, false, 2);
+    const connected = socket.connect(443, HOST, false, false, 2);
     const assertion = expect(connected).rejects.toBeInstanceOf(Error);
     await vi.advanceTimersByTimeAsync(300);
     socket.close();
     await assertion;
-    expect(FakeWebSocket.instances.every((instance) => instance.closed)).toBe(true);
+    await vi.advanceTimersByTimeAsync(PROBE_WINDOW_MS);
+    expect(FakeWebSocket.instances).toHaveLength(1);
+    expect(FakeWebSocket.instances[0].closed).toBe(true);
+    expect(routeHealth.probeDue('mtproxy', 0)).toBe(false);
+    expect(routeHealth.probeDue('wss', 0)).toBe(false);
   });
 });

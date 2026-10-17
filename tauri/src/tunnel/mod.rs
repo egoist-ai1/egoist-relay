@@ -72,7 +72,7 @@ pub enum DohState { Private, Fallback, Down, None }
 /// Маршрут сервиса.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub enum ServiceRoute { Tunnel, Direct, Unavailable, Disabled, Unknown }
+pub enum ServiceRoute { Tunnel, Direct, LocalProxy, Unavailable, Disabled, Unknown }
 
 /// Статус сети для интерфейса. Ключи, полные URL подписки и DoH сюда не попадают.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -491,9 +491,6 @@ pub fn stop() {
   update_inputs(|inputs| { inputs.sup = SupState::Starting; inputs.probed = false; });
 }
 
-/// Активный MTProxy из профиля (ступень 2б). Только для Rust-кода: во фронтенд уходит лишь `hasMtproxy`.
-pub(crate) fn mtproxy_link() -> Option<String> { lock(&MTPROXY).clone() }
-
 fn set_mtproxy(link: &str) {
   *lock(&MTPROXY) = parse_mtproxy(link).map(|_| link.trim().to_string());
 }
@@ -502,9 +499,6 @@ fn set_mtproxy(link: &str) {
 pub(crate) fn service_enabled(service: &str) -> bool {
   lock(&INPUTS).services_enabled.get(service).copied().unwrap_or(true)
 }
-
-/// Порты сессии, если туннель уже запускался.
-pub fn ports() -> Option<Ports> { PORTS.get().copied() }
 
 /// Аргументы командной строки WebView2 для окружения `service`: весь трафик в SOCKS5 туннеля, без QUIC и
 /// без утечек UDP через WebRTC. Пока туннель не запущен, прокси указывает на закрытый порт: соединения

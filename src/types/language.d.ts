@@ -2579,6 +2579,7 @@ export interface LangPair {
   'RelayNetDnsNone': undefined;
   'RelayNetRouteTunnel': undefined;
   'RelayNetRouteDirect': undefined;
+  'RelayNetRouteLocalProxy': undefined;
   'RelayNetRouteUnavailable': undefined;
   'RelayNetRouteDisabled': undefined;
   'RelayNetRouteUnknown': undefined;

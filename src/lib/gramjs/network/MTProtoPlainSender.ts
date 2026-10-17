@@ -10,6 +10,7 @@ import { concat, writeInt32LE } from '../../../util/encoding/buffer';
 import { BinaryReader } from '../extensions';
 
 import { InvalidBufferError } from '../errors/Common';
+import { isLocalTelegramTransportRequired } from '../extensions/PromisedWebSockets';
 import { toSignedLittleBuffer } from '../Helpers';
 import MTProtoState from './MTProtoState';
 
@@ -17,6 +18,7 @@ const MAX_PLAIN_MESSAGE_BODY_LENGTH = 64 * 1024;
 const PLAIN_MESSAGE_HEADER_LENGTH = 20;
 const TL_ALIGNMENT = 4;
 const AUTH_RESPONSE_TIMEOUT = 15000;
+const LOCAL_AUTH_RESPONSE_TIMEOUT = 45000;
 
 /**
  * MTProto Mobile Protocol plain sender (https://core.telegram.org/mtproto/description#unencrypted-messages)
@@ -58,7 +60,8 @@ export default class MTProtoPlainSender {
           timeout = setTimeout(() => {
             reject(new Error('MTProto authentication response timeout'));
             this._connection.disconnect();
-          }, AUTH_RESPONSE_TIMEOUT);
+          }, isLocalTelegramTransportRequired() && !this._connection._isTestServer
+            ? LOCAL_AUTH_RESPONSE_TIMEOUT : AUTH_RESPONSE_TIMEOUT);
         }),
       ]);
       body = new Uint8Array(response);

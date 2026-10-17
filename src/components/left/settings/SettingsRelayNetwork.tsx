@@ -39,7 +39,6 @@ const SettingsRelayNetwork = () => {
   // Введённые значения живут только в локальном состоянии и очищаются после применения
   const [vpn, setVpn] = useState('');
   const [doh, setDoh] = useState('');
-  const [mtproxy, setMtproxy] = useState('');
   const [isApplying, startApplying, stopApplying] = useFlag();
   const [isRefreshing, startRefreshing, stopRefreshing] = useFlag();
   const [isResetDialogOpen, openResetDialog, closeResetDialog] = useFlag();
@@ -48,7 +47,7 @@ const SettingsRelayNetwork = () => {
   const stateRef = useRef<HTMLDivElement>();
   const errorRef = useRef<HTMLParagraphElement>();
 
-  const hasInput = Boolean(vpn.trim() || doh.trim() || mtproxy.trim());
+  const hasInput = Boolean(vpn.trim() || doh.trim());
   const isBusy = isApplying || isRefreshing;
 
   useEffect(() => {
@@ -63,19 +62,14 @@ const SettingsRelayNetwork = () => {
     setDoh(e.currentTarget.value);
   });
 
-  const handleMtproxyChange = useLastCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setMtproxy(e.currentTarget.value);
-  });
-
   const handleApply = useLastCallback(async () => {
     if (!hasInput || isBusy) return;
     setErrorCode(undefined);
     startApplying();
     try {
-      await applyNetwork({ vpn: vpn.trim(), doh: doh.trim(), mtproxy: mtproxy.trim() });
+      await applyNetwork({ vpn: vpn.trim(), doh: doh.trim() });
       setVpn('');
       setDoh('');
-      setMtproxy('');
       showNotification({ message: { key: 'RelayNetApplied' } });
       stateRef.current?.focus();
     } catch (err) {
@@ -170,15 +164,6 @@ const SettingsRelayNetwork = () => {
             inputMode="url"
             disabled={isBusy}
             onChange={handleDohChange}
-          />
-          <InputText
-            id="relay-network-mtproxy"
-            label={lang('RelayNetMtproxyLabel')}
-            value={mtproxy}
-            autoComplete="off"
-            inputMode="url"
-            disabled={isBusy}
-            onChange={handleMtproxyChange}
           />
         </div>
         <IslandDescription>{lang('RelayNetVpnHint')}</IslandDescription>

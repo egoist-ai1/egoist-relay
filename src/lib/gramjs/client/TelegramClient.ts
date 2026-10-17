@@ -47,6 +47,7 @@ import { downloadFile } from './downloadFile';
 import { uploadFile } from './uploadFile';
 
 import { HttpStreamError } from '../extensions/HttpStream';
+import { isLocalTelegramTransportRequired } from '../extensions/PromisedWebSockets';
 import { generateRandomBigInt, sleep } from '../Helpers';
 import RequestState from '../network/RequestState';
 import Session from '../sessions/Abstract';
@@ -228,8 +229,8 @@ class TelegramClient {
     this.apiHash = apiHash;
     this.defaultDcId = args.dcId || DEFAULT_DC_ID;
     this._useIPV6 = args.useIPV6;
-    this._shouldForceHttpTransport = args.shouldForceHttpTransport;
-    this._shouldAllowHttpTransport = args.shouldAllowHttpTransport;
+    this._shouldForceHttpTransport = !isLocalTelegramTransportRequired() && args.shouldForceHttpTransport;
+    this._shouldAllowHttpTransport = !isLocalTelegramTransportRequired() && args.shouldAllowHttpTransport;
     this._shouldDebugExportedSenders = args.shouldDebugExportedSenders;
     // this._entityCache = new Set()
     if (typeof args.baseLogger === 'string') {
@@ -377,14 +378,14 @@ class TelegramClient {
   }
 
   async setForceHttpTransport(forceHttpTransport: boolean) {
-    this._shouldForceHttpTransport = forceHttpTransport;
+    this._shouldForceHttpTransport = !isLocalTelegramTransportRequired() && forceHttpTransport;
     this.disconnect();
     this._sender = undefined;
     await this.connect();
   }
 
   async setAllowHttpTransport(allowHttpTransport: boolean) {
-    this._shouldAllowHttpTransport = allowHttpTransport;
+    this._shouldAllowHttpTransport = !isLocalTelegramTransportRequired() && allowHttpTransport;
     this.disconnect();
     this._sender = undefined;
     await this.connect();

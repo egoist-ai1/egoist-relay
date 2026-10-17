@@ -4,7 +4,7 @@ import { IS_TAURI } from '../browser/globalEnvironment';
 
 export type NetworkState = 'starting' | 'tunnel' | 'dnsOnly' | 'down' | 'restartRequired' | 'notConfigured';
 export type NetworkServiceId = 'telegram' | 'x' | 'instagram';
-export type NetworkServiceRoute = 'tunnel' | 'direct' | 'unavailable' | 'disabled' | 'unknown';
+export type NetworkServiceRoute = 'tunnel' | 'direct' | 'localProxy' | 'unavailable' | 'disabled' | 'unknown';
 
 // Значения ключей, URL подписок и DoH во фронтенд не приходят: только метки и хосты
 export type NetworkStatus = {
@@ -52,6 +52,7 @@ const STATE_KEYS: Record<NetworkState, RegularLangKey> = {
 const ROUTE_KEYS: Record<NetworkServiceRoute, RegularLangKey> = {
   tunnel: 'RelayNetRouteTunnel',
   direct: 'RelayNetRouteDirect',
+  localProxy: 'RelayNetRouteLocalProxy',
   unavailable: 'RelayNetRouteUnavailable',
   disabled: 'RelayNetRouteDisabled',
   unknown: 'RelayNetRouteUnknown',
@@ -132,7 +133,6 @@ export async function applyNetwork(input: NetworkApplyInput) {
   return invokeNetwork('relay_network_apply', {
     vpn: input.vpn || undefined,
     doh: input.doh || undefined,
-    mtproxy: input.mtproxy || undefined,
   });
 }
 

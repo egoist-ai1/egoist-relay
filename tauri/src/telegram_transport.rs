@@ -2,7 +2,7 @@ use serde::Serialize;
 use std::sync::{Arc, LazyLock, Mutex, atomic::{AtomicBool, Ordering}, mpsc};
 use std::time::{Duration, Instant};
 
-const START_TIMEOUT: Duration = Duration::from_secs(6);
+const START_TIMEOUT: Duration = Duration::from_secs(15);
 const STABLE_WORKER_TIME: Duration = Duration::from_secs(30);
 #[cfg(any(windows, test))]
 const RECOVERY_BASE_MS: u64 = 250;
@@ -14,29 +14,24 @@ const STDERR_LINE_LIMIT: usize = 2048;
 #[cfg(any(windows, test))]
 const STDERR_LINES_PER_WORKER: usize = 50;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
+static LOCAL_PROXY_READY: AtomicBool = AtomicBool::new(false);
 
-/// Настройки моста к MTProxy: порт SOCKS туннеля и ссылка MTProxy (`tg://proxy?...` или `https://t.me/proxy?...`).
-/// Ссылка содержит secret: не логируется и не возвращается во фронтенд.
 #[derive(Clone)]
 pub(crate) struct BridgeConfig {
-  pub(crate) socks_port: u16,
-  pub(crate) mtproxy: String,
+  pub(crate) local_port: u16,
+  pub(crate) local_secret: String,
 }
 
-/// Источник настроек моста. Вызывается при каждом запуске и перезапуске воркера, чтобы подхватить смену значений.
-/// `None` — MTProxy не задан или туннель не готов: мост не запускается, Telegram идёт по стандартному wss.
 pub(crate) type BridgeConfigProvider = fn() -> Option<BridgeConfig>;
 
-/// Провайдер по умолчанию: порт SOCKS туннеля и MTProxy из сохранённого профиля сети. `None`, пока MTProxy не задан
-/// или Xray не готов. После смены ссылки команды `relay_network_apply` / `relay_network_reset` вызывают
-/// [`shutdown`], и воркер перезапускается с новым значением при следующем обращении фронтенда.
-fn tunnel_bridge_config() -> Option<BridgeConfig> {
-  bridge_config_from(crate::tunnel::ports().map(|ports| ports.socks), crate::tunnel::media_proxy_url().is_some(), crate::tunnel::mtproxy_link())
+fn local_bridge_config() -> Option<BridgeConfig> {
+  let listener = std::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST, 0)).ok()?;
+  let local_port = listener.local_addr().ok()?.port();
+  Some(BridgeConfig { local_port, local_secret: uuid::Uuid::new_v4().simple().to_string() })
 }
 
-fn bridge_config_from(socks_port: Option<u16>, tunnel_ready: bool, mtproxy: Option<String>) -> Option<BridgeConfig> {
-  if !tunnel_ready { return None; }
-  Some(BridgeConfig { socks_port: socks_port?, mtproxy: mtproxy? })
+pub(crate) fn is_ready() -> bool {
+  LOCAL_PROXY_READY.load(Ordering::Acquire)
 }
 
 struct ActiveTransport {
@@ -49,7 +44,6 @@ struct ActiveTransport {
 pub(crate) struct TransportStatus {
   #[serde(skip_serializing_if = "Option::is_none")]
   url: Option<String>,
-  /// Маршрут MTProxy доступен: мост запущен и `url` задан. Без него Telegram использует только wss.
   mtproxy: bool,
 }
 
@@ -60,7 +54,7 @@ fn worker_settings(token: &str, port: u16, config: &BridgeConfig, include_dev_or
   if include_dev_origin { origins.push("http://localhost:1234"); }
   serde_json::json!({
     "token": token, "origins": origins, "port": port,
-    "socksPort": config.socks_port, "mtproxy": config.mtproxy,
+    "localPort": config.local_port, "localSecret": config.local_secret,
   })
 }
 
@@ -76,7 +70,7 @@ pub(crate) async fn relay_get_telegram_transport(
   if !is_local || (label != "main" && uuid::Uuid::parse_str(label).is_err()) {
     return Err("TELEGRAM_TRANSPORT_DENIED".into());
   }
-  tauri::async_runtime::spawn_blocking(move || start_transport(app, tunnel_bridge_config))
+  tauri::async_runtime::spawn_blocking(move || start_transport(app, local_bridge_config))
     .await.map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE".to_string())?
 }
 
@@ -94,7 +88,6 @@ fn start_transport(app: tauri::AppHandle, provider: BridgeConfigProvider) -> Res
   if let Some(worker) = active.take() {
     let _ = worker.stop.send(());
   }
-  // Мост нужен только для ступени MTProxy: без ссылки (или без туннеля) процесс не создаётся
   let Some(config) = provider() else { return Ok(TransportStatus::default()); };
 
   let token = format!("{}{}", uuid::Uuid::new_v4().simple(), uuid::Uuid::new_v4().simple());
@@ -105,6 +98,7 @@ fn start_transport(app: tauri::AppHandle, provider: BridgeConfigProvider) -> Res
   std::thread::Builder::new().name("relay-telegram-transport".into()).spawn(move || {
     supervise_transport(app, token, config, provider, stop_receiver, ready, worker_alive.clone());
     worker_alive.store(false, Ordering::Release);
+    LOCAL_PROXY_READY.store(false, Ordering::Release);
   }).map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
 
   match ready_receiver.recv_timeout(START_TIMEOUT) {
@@ -146,6 +140,8 @@ fn supervise_transport(
     return;
   };
   alive.store(true, Ordering::Release);
+  LOCAL_PROXY_READY.store(true, Ordering::Release);
+  crate::network::emit_status(&app);
   let port = url::Url::parse(&url).ok().and_then(|url| url.port()).unwrap();
   if ready.send(Ok(Some(url.clone()))).is_err() { return; }
 
@@ -153,7 +149,10 @@ fn supervise_transport(
   let mut started = Instant::now();
   loop {
     let exit = worker.child.try_wait();
-    if !matches!(exit, Ok(None)) {
+    let proxy_alive = matches!(worker.proxy.child.try_wait(), Ok(None));
+    if !matches!(exit, Ok(None)) || !proxy_alive {
+      LOCAL_PROXY_READY.store(false, Ordering::Release);
+      crate::network::emit_status(&app);
       // Штатная остановка (выход приложения, замена воркера) — не падение, журнал не засоряем
       if !matches!(stop.try_recv(), Err(mpsc::TryRecvError::Empty)) { return; }
       if started.elapsed() >= STABLE_WORKER_TIME { recovery_attempt = 0; }
@@ -169,7 +168,6 @@ fn supervise_transport(
         let delay = recovery_delay(recovery_attempt, jitter_unit());
         recovery_attempt = recovery_attempt.saturating_add(1);
         if !matches!(stop.recv_timeout(delay), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
-        // Настройки читаются заново: SOCKS-порт и ссылка MTProxy могли смениться; без них мост не поднимается
         let failure = match provider().ok_or("no bridge config")
           .and_then(|config| launch_transport(&app, &token, &config, port).map_err(|_| "launch failed")) {
           Err(reason) => reason,
@@ -182,6 +180,8 @@ fn supervise_transport(
               Some(_) => {
                 worker = next;
                 started = Instant::now();
+                LOCAL_PROXY_READY.store(true, Ordering::Release);
+                crate::network::emit_status(&app);
                 log::info!("[TelegramTransport] Owned local bridge endpoint restored");
                 break;
               }
@@ -203,7 +203,6 @@ fn supervise_transport(
 }
 
 /// Пауза перед перезапуском упавшего воркера моста: экспонента от 250 мс до 8 с с джиттером 50-100%.
-/// Первая попытка быстрая: браузерная сторона к этому моменту уже идёт прямым маршрутом.
 #[cfg(any(windows, test))]
 fn recovery_delay(attempt: u32, unit: f64) -> Duration {
   let raw = (RECOVERY_BASE_MS << attempt.min(6)).min(RECOVERY_MAX_MS);
@@ -245,7 +244,77 @@ fn validate_url(value: &str, token: &str) -> bool {
 struct OwnedWorker {
   child: std::process::Child,
   ownership: crate::worker_job::WorkerJob,
+  proxy: OwnedLocalProxy,
   _directory: crate::inline_media::OwnedDirectory,
+}
+
+#[cfg(windows)]
+struct OwnedLocalProxy {
+  child: std::process::Child,
+  ownership: crate::worker_job::WorkerJob,
+}
+
+#[cfg(windows)]
+impl Drop for OwnedLocalProxy {
+  fn drop(&mut self) {
+    self.ownership.terminate();
+    let _ = self.child.kill();
+    let _ = self.child.wait();
+  }
+}
+
+#[cfg(windows)]
+fn local_proxy_binary(app: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
+  use tauri::Manager;
+  let mut candidates = Vec::new();
+  if let Ok(directory) = app.path().resource_dir() {
+    candidates.push(directory.join("runtime/telegram/tg-ws-proxy.exe"));
+  }
+  if let Ok(executable) = std::env::current_exe() && let Some(directory) = executable.parent() {
+    candidates.push(directory.join("runtime/telegram/tg-ws-proxy.exe"));
+    candidates.push(directory.join("resources/runtime/telegram/tg-ws-proxy.exe"));
+  }
+  #[cfg(debug_assertions)]
+  candidates.push(std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../runtime/telegram/tg-ws-proxy.exe"));
+  candidates.into_iter().find(|candidate| candidate.is_file()).ok_or_else(|| "TELEGRAM_LOCAL_PROXY_MISSING".into())
+}
+
+#[cfg(windows)]
+fn launch_local_proxy(
+  app: &tauri::AppHandle, config: &BridgeConfig, directory: &std::path::Path,
+) -> Result<OwnedLocalProxy, String> {
+  use std::process::{Command, Stdio};
+  let mut command = Command::new(local_proxy_binary(app)?);
+  crate::social_share::sanitize_media_worker_environment(&mut command);
+  command.args(["--host", "127.0.0.1", "--port", &config.local_port.to_string(),
+    "--secret", &config.local_secret, "--buf-kb", "256", "--pool-size", "8",
+    "--dc-ip", "4:149.154.167.220",
+    "--log-file", "NUL", "--log-backups", "0"])
+    .current_dir(directory).env("TEMP", directory).env("TMP", directory)
+    .stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null());
+  crate::runtime::hide_command_window(&mut command);
+  {
+    use std::os::windows::process::CommandExt;
+    command.creation_flags(0x0800_0000);
+  }
+  let mut child = command.spawn().map_err(|_| "TELEGRAM_LOCAL_PROXY_START_FAILED")?;
+  let ownership = match crate::worker_job::WorkerJob::attach(&child) {
+    Ok(ownership) => ownership,
+    Err(_) => {
+      let _ = child.kill();
+      let _ = child.wait();
+      return Err("TELEGRAM_LOCAL_PROXY_OWNERSHIP_FAILED".into());
+    }
+  };
+  let mut proxy = OwnedLocalProxy { child, ownership };
+  let address = std::net::SocketAddr::from(([127, 0, 0, 1], config.local_port));
+  let deadline = Instant::now() + Duration::from_secs(8);
+  while Instant::now() < deadline {
+    if !matches!(proxy.child.try_wait(), Ok(None)) { return Err("TELEGRAM_LOCAL_PROXY_EXITED".into()); }
+    if std::net::TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() { return Ok(proxy); }
+    std::thread::sleep(Duration::from_millis(50));
+  }
+  Err("TELEGRAM_LOCAL_PROXY_START_TIMEOUT".into())
 }
 
 #[cfg(windows)]
@@ -256,12 +325,17 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, config: &BridgeConfig, 
   let directory = crate::inline_media::OwnedDirectory::create(app)?;
   let script = directory.prepare_worker("telegram-transport.cjs",
     include_str!(concat!(env!("OUT_DIR"), "/telegram-transport.cjs")))?;
+  let proxy = launch_local_proxy(app, config, script.parent().ok_or("TELEGRAM_TRANSPORT_UNAVAILABLE")?)?;
   let mut command = Command::new(node);
   crate::social_share::sanitize_media_worker_environment(&mut command);
   command.env_remove("NODE_PATH").env("WS_NO_BUFFER_UTIL", "1").env("WS_NO_UTF_8_VALIDATE", "1");
   command.arg(&script).current_dir(script.parent().ok_or("TELEGRAM_TRANSPORT_UNAVAILABLE")?)
     .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped());
   crate::runtime::hide_command_window(&mut command);
+  {
+    use std::os::windows::process::CommandExt;
+    command.creation_flags(0x0800_0000);
+  }
   let mut child = command.spawn().map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   let ownership = match crate::worker_job::WorkerJob::attach(&child) {
     Ok(ownership) => ownership,
@@ -276,7 +350,7 @@ fn launch_transport(app: &tauri::AppHandle, token: &str, config: &BridgeConfig, 
       drain_stderr(stderr, |line| log::warn!("[TelegramTransport] worker stderr: {line}"));
     });
   }
-  let mut worker = OwnedWorker { child, ownership, _directory: directory };
+  let mut worker = OwnedWorker { child, ownership, proxy, _directory: directory };
   let settings = serde_json::to_vec(&worker_settings(token, port, config, cfg!(debug_assertions)))
     .map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   let stdin = worker.child.stdin.as_mut().ok_or("TELEGRAM_TRANSPORT_UNAVAILABLE")?;
@@ -349,6 +423,7 @@ impl Drop for OwnedWorker {
 }
 
 pub(crate) fn shutdown() {
+  LOCAL_PROXY_READY.store(false, Ordering::Release);
   if let Ok(mut active) = ACTIVE.lock() && let Some(worker) = active.take() {
     let _ = worker.stop.send(());
     for _ in 0..20 {
@@ -399,26 +474,25 @@ mod tests {
   }
 
   #[test]
-  fn worker_settings_carry_socks_port_and_link_in_one_json_line() {
-    let config = BridgeConfig { socks_port: 31337, mtproxy: "tg://proxy?server=a.test&port=443&secret=dd00".into() };
+  fn worker_settings_carry_local_proxy_in_one_json_line() {
+    let config = BridgeConfig { local_port: 31337, local_secret: "ab".repeat(16) };
     let value = worker_settings("t".repeat(64).as_str(), 0, &config, false);
-    assert_eq!(value["socksPort"], 31337);
-    assert_eq!(value["mtproxy"], "tg://proxy?server=a.test&port=443&secret=dd00");
+    assert_eq!(value["localPort"], 31337);
+    assert_eq!(value["localSecret"], "ab".repeat(16));
+    assert!(value.get("socksPort").is_none());
+    assert!(value.get("mtproxy").is_none());
     assert_eq!(value["origins"].as_array().unwrap().len(), 3);
     assert!(!serde_json::to_string(&value).unwrap().contains('\n'));
     assert_eq!(worker_settings("t", 0, &config, true)["origins"].as_array().unwrap().len(), 4);
   }
 
   #[test]
-  fn bridge_does_not_start_without_tunnel_config() {
-    // Пока туннель не подключён, провайдер возвращает None, и воркер не создаётся
-    assert!(tunnel_bridge_config().is_none());
-    let link = "tg://proxy?server=a.test&port=443&secret=dd00".to_string();
-    assert!(bridge_config_from(Some(31337), false, Some(link.clone())).is_none(), "Xray не готов");
-    assert!(bridge_config_from(Some(31337), true, None).is_none(), "MTProxy не задан");
-    assert!(bridge_config_from(None, true, Some(link.clone())).is_none());
-    let config = bridge_config_from(Some(31337), true, Some(link.clone())).unwrap();
-    assert_eq!((config.socks_port, config.mtproxy), (31337, link));
+  fn local_proxy_config_is_independent_of_the_tunnel() {
+    let first = local_bridge_config().unwrap();
+    let second = local_bridge_config().unwrap();
+    assert!(first.local_port >= 1024);
+    assert!(uuid::Uuid::parse_str(&first.local_secret).is_ok());
+    assert_ne!(first.local_secret, second.local_secret);
     let status = serde_json::to_value(TransportStatus::default()).unwrap();
     assert_eq!(status["mtproxy"], false);
     assert!(status.get("url").is_none());

@@ -1,7 +1,27 @@
 {
   "schemaVersion": 1,
-  "scope": "Relay runtime: generic helpers plus the frozen Xray engine for the built-in tunnel (no private provisioning, no profiles); intentional updates require reviewed hashes",
+  "scope": "Relay runtime: generic helpers, frozen Xray for X/Instagram and independent tg-ws-proxy for Telegram (no private provisioning or profiles); intentional updates require reviewed hashes",
   "files": [
+    {
+      "path": "runtime/telegram/tg-ws-proxy.exe",
+      "bytes": 14866887,
+      "sha256": "03fbd7f8a8d8c2d82e4ce6e97dc57040d6b95b49c4422a2b98eec846610ceae2"
+    },
+    {
+      "path": "runtime/telegram/LICENSE.txt",
+      "bytes": 1065,
+      "sha256": "2a98256df06052c3b132cf522e356da90ade2f749b6f7435f7cdafd1d9123fa2"
+    },
+    {
+      "path": "runtime/telegram/provenance.json",
+      "bytes": 1015,
+      "sha256": "0af17d9c509dfd45523b574683a124fe89158c906f13cffb2f49bd5b32aa5dbb"
+    },
+    {
+      "path": "runtime/telegram/THIRD-PARTY-NOTICES.txt",
+      "bytes": 98548,
+      "sha256": "acc0751d5bbabc5af259739db72a20c0312ec8ed7969f84f0f8d5a171433ee0f"
+    },
     {
       "path": "runtime/licenses/NODE-LICENSE.txt",
       "bytes": 160555,
@@ -309,8 +329,8 @@
     },
     {
       "path": "runtime/README.md",
-      "bytes": 3776,
-      "sha256": "d24c8e157c3ce56a60ec0600169edb4059389f5c4a03ee146c9290717d9607ea"
+      "bytes": 4235,
+      "sha256": "4ed041a2462b8fe6d962489b23de5a792694eae920dd12e63d41ffc4b3a7f264"
     },
     {
       "path": "runtime/research/bridge-server.mjs",

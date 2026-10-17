@@ -115,7 +115,7 @@ export async function initApi(onUpdate: OnApiUpdate, initialArgs: ApiInitialArgs
     if (!initialArgs.isTestServerRequested) {
       void watchDesktopTelegramTransportChange(async () => {
         const url = await getDesktopTelegramTransport();
-        void callApi('setTelegramTransport', { url });
+        void makeRequest({ type: 'callMethod', name: 'setTelegramTransport', args: [{ url }] }).catch(() => undefined);
       });
     }
 
