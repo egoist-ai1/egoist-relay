@@ -30,8 +30,9 @@ pub const START_WAIT: Duration = Duration::from_millis(1500);
 const LAUNCH_READY_TIMEOUT: Duration = Duration::from_secs(5);
 /// Через сколько неудач подряд объявляется `restart-required` (порт занят или Xray не стартует).
 pub const RESTART_REQUIRED_AFTER: Duration = Duration::from_secs(30);
-/// Лимит строк журнала Xray на один запуск.
-const MAX_LOG_LINES: u32 = 100;
+/// Лимит строк журнала Xray: не больше стольких за окно `LOG_WINDOW`, остальные считаются и сводятся в одну строку.
+const MAX_LOG_LINES_PER_WINDOW: u32 = 200;
+const LOG_WINDOW: Duration = Duration::from_secs(60);
 const MAX_LOG_LINE_CHARS: usize = 400;
 
 /// События надзирателя.
@@ -350,17 +351,66 @@ pub fn purge_leftovers(dir: Option<&Path>) {
   }
 }
 
+/// Ответ ограничителя журнала на очередную строку.
+#[derive(Debug, PartialEq, Eq)]
+enum LogVerdict {
+  /// Писать; `Some((пропущено, шум))` — сводка за прошлое окно.
+  Pass(Option<(u32, u32)>),
+  /// Не писать; `true` — первая пропущенная строка окна (стоит предупредить один раз).
+  Skip(bool),
+}
+
+/// Лимит по скорости вместо жёсткого «100 строк на запуск»: реальные ошибки в конце долгого запуска не теряются.
+#[derive(Default)]
+struct LogLimiter {
+  window_start: Option<Instant>,
+  count: u32,
+  skipped: u32,
+  noise: u32,
+}
+
+impl LogLimiter {
+  fn check(&mut self, now: Instant, noise: bool) -> LogVerdict {
+    let mut summary = None;
+    if self.window_start.is_none_or(|start| now.duration_since(start) >= LOG_WINDOW) {
+      if self.skipped > 0 || self.noise > 0 { summary = Some((self.skipped, self.noise)); }
+      *self = Self { window_start: Some(now), ..Self::default() };
+    }
+    if noise {
+      self.noise += 1;
+      return if summary.is_some() { LogVerdict::Pass(summary) } else { LogVerdict::Skip(false) };
+    }
+    self.count += 1;
+    if self.count > MAX_LOG_LINES_PER_WINDOW {
+      self.skipped += 1;
+      return LogVerdict::Skip(self.skipped == 1);
+    }
+    LogVerdict::Pass(summary)
+  }
+}
+
+/// Известный шум собственных проб: Xray жалуется, что клиент закрыл сокет до конца ответа.
+fn is_probe_noise(line: &str) -> bool {
+  line.contains("failed to write response") && (line.contains("aborted") || line.contains("wsasend"))
+}
+
 fn spawn_log_reader<R: Read + Send + 'static>(stream: R, is_stderr: bool, secrets: Vec<String>) {
   let _ = std::thread::Builder::new().name("relay-tunnel-log".into()).spawn(move || {
-    let mut count: u32 = 0;
+    let mut limiter = LogLimiter::default();
     for line in BufReader::new(stream).split(b'\n') {
       let Ok(bytes) = line else { break };
-      count += 1;
-      if count > MAX_LOG_LINES {
-        if count == MAX_LOG_LINES + 1 { log::warn!("[Tunnel] xray: дальнейшие строки журнала этого запуска пропущены"); }
-        continue;
-      }
       let text = String::from_utf8_lossy(&bytes);
+      match limiter.check(Instant::now(), is_probe_noise(&text)) {
+        LogVerdict::Skip(first) => {
+          if first { log::warn!("[Tunnel] xray: лимит {MAX_LOG_LINES_PER_WINDOW} строк в минуту, остальные пропускаются"); }
+          continue;
+        }
+        LogVerdict::Pass(Some((skipped, noise))) => {
+          log::warn!("[Tunnel] xray: за прошлую минуту пропущено строк: {skipped}, шума проб отфильтровано: {noise}");
+        }
+        LogVerdict::Pass(None) => {}
+      }
+      if is_probe_noise(&text) { continue; }
       let redacted = redact(text.trim_end(), &secrets);
       if is_stderr { log::warn!("[Tunnel] xray: {redacted}"); } else { log::info!("[Tunnel] xray: {redacted}"); }
     }
@@ -514,6 +564,35 @@ mod tests {
 
   fn runtime_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join("runtime")
+  }
+
+  #[test]
+  fn log_limiter_caps_rate_and_reports_skipped() {
+    let start = Instant::now();
+    let mut limiter = LogLimiter::default();
+    for _ in 0..MAX_LOG_LINES_PER_WINDOW {
+      assert_eq!(limiter.check(start, false), LogVerdict::Pass(None));
+    }
+    assert_eq!(limiter.check(start, false), LogVerdict::Skip(true));
+    assert_eq!(limiter.check(start, false), LogVerdict::Skip(false));
+    // новое окно: строки снова идут, со сводкой «пропущено 2»
+    let later = start + LOG_WINDOW;
+    assert_eq!(limiter.check(later, false), LogVerdict::Pass(Some((2, 0))));
+    assert_eq!(limiter.check(later, false), LogVerdict::Pass(None));
+  }
+
+  #[test]
+  fn log_limiter_does_not_count_probe_noise_against_the_limit() {
+    let start = Instant::now();
+    let mut limiter = LogLimiter::default();
+    for _ in 0..1000 {
+      assert_eq!(limiter.check(start, true), LogVerdict::Skip(false));
+    }
+    for _ in 0..MAX_LOG_LINES_PER_WINDOW {
+      assert_eq!(limiter.check(start, false), LogVerdict::Pass(None));
+    }
+    assert!(is_probe_noise("accepted ... failed to write response > write tcp: wsasend: An established connection was aborted"));
+    assert!(!is_probe_noise("proxy/vless: connection ends > EOF"));
   }
 
   fn have_xray() -> bool { runtime_dir().join("xray.exe").is_file() }

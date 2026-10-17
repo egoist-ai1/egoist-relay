@@ -295,6 +295,7 @@ type Listener = Arc<dyn Fn(&NetworkStatus) + Send + Sync>;
 static PORTS: OnceLock<Ports> = OnceLock::new();
 static READY: AtomicBool = AtomicBool::new(false);
 static WAKE: AtomicBool = AtomicBool::new(false);
+static NUDGE: AtomicBool = AtomicBool::new(false);
 /// Растёт при каждой готовности Xray (в том числе после перезапуска): монитор заново применяет ступень.
 static GENERATION: AtomicU64 = AtomicU64::new(0);
 static INPUTS: LazyLock<Mutex<Inputs>> = LazyLock::new(|| Mutex::new(Inputs::new()));
@@ -530,7 +531,11 @@ pub fn subscribe(listener: impl Fn(&NetworkStatus) + Send + Sync + 'static) {
 }
 
 /// Сообщает о пробуждении системы или смене сети: старые серии проб сбрасываются, идёт быстрый пакет проб.
+#[allow(dead_code)] // сигнала выхода из сна пока нет; фокус окна идёт через `nudge`
 pub fn wake() { WAKE.store(true, Ordering::SeqCst); }
+
+/// Окно показано или получило фокус: внеочередная проба без сброса серий отказов (не чаще раза в 60 с).
+pub fn nudge() { NUDGE.store(true, Ordering::SeqCst); }
 
 // ---------- конфигурация ----------
 
@@ -728,6 +733,7 @@ fn monitor_loop(ctx: Arc<Mutex<MonitorCtx>>, stop: Receiver<()>, cancelled: Arc<
     }
     if cancelled.load(Ordering::SeqCst) { return; }
     if WAKE.swap(false, Ordering::SeqCst) { runner.ladder.wake(); }
+    if NUDGE.swap(false, Ordering::SeqCst) { runner.nudge(); }
     if !READY.load(Ordering::SeqCst) { applied_direct = false; continue; }
     let generation = GENERATION.load(Ordering::SeqCst);
     if generation != seen_generation {

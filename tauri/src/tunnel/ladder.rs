@@ -10,10 +10,12 @@
 //! - подъём (→Tunnel, Down→DnsOnly) — после 4 успехов подряд и не раньше чем через 60 с в состоянии;
 //! - перед спуском из Tunnel при нескольких узлах подписки автомат просит сменить узел ([`Event::RotateNode`]);
 //! - чередование успехов и отказов серий не набирает и состояние не меняет;
-//! - `wake()` (сон, смена сети) сбрасывает серии и включает быстрый пакет проб.
+//! - плавающий узел: если ≥4 отказов из последних 10 проб — тоже `RotateNode` (не чаще раза в 60 с);
+//! - `wake()` (явный выход из сна, смена сети) сбрасывает серии и окно и включает быстрый пакет проб;
+//!   `nudge()` (фокус окна) серии не трогает, только просит внеочередную пробу не чаще раза в 60 с.
 
 use serde::Serialize;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, VecDeque};
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpStream};
 use std::time::{Duration, Instant};
@@ -30,6 +32,14 @@ pub const FAIL_THRESHOLD: u32 = 3;
 pub const OK_THRESHOLD: u32 = 4;
 /// Минимальное время в состоянии перед подъёмом.
 pub const DWELL: Duration = Duration::from_secs(60);
+/// Размер скользящего окна проб для детектора плавающего узла.
+pub const WINDOW_LEN: usize = 10;
+/// Отказов в окне, после которых узел считается плавающим и меняется.
+pub const WINDOW_FAILS: usize = 4;
+/// Минимальный интервал между сменами узла по окну (после любой смены узла).
+pub const ROTATE_COOLDOWN: Duration = Duration::from_secs(60);
+/// Не чаще этого `nudge()` (фокус окна) запускает внеочередную пробу.
+pub const NUDGE_INTERVAL: Duration = Duration::from_secs(60);
 /// Таймаут одной пробы.
 const PROBE_TIMEOUT: Duration = Duration::from_secs(4);
 
@@ -85,6 +95,10 @@ pub struct Ladder {
   direct_ok: u32,
   burst: u32,
   services: BTreeMap<String, bool>,
+  /// Последние результаты проб туннеля: `true` — отказ.
+  window: VecDeque<bool>,
+  last_rotate: Option<Duration>,
+  last_nudge: Option<Duration>,
 }
 
 impl Ladder {
@@ -103,6 +117,9 @@ impl Ladder {
       direct_ok: 0,
       burst: 0,
       services: BTreeMap::new(),
+      window: VecDeque::with_capacity(WINDOW_LEN),
+      last_rotate: None,
+      last_nudge: None,
     }
   }
 
@@ -123,13 +140,24 @@ impl Ladder {
     if self.burst > 0 { BURST_INTERVAL } else { PROBE_INTERVAL }
   }
 
-  /// Сон или смена сети: старые серии недействительны, идёт быстрый пакет проб.
+  /// Явный выход из сна или смена сети: старые серии и окно недействительны, идёт быстрый пакет проб.
+  /// В проекте нет сигнала выхода из сна (WM_POWERBROADCAST) и смены адреса (NotifyAddrChange), поэтому
+  /// пока `wake()` никто не вызывает; фокус окна идёт через [`Ladder::nudge`].
   pub fn wake(&mut self) {
     self.proxy_fail = 0;
     self.proxy_ok = 0;
     self.direct_fail = 0;
     self.direct_ok = 0;
+    self.window.clear();
     self.burst = BURST_COUNT;
+  }
+
+  /// Показ или фокус окна: серии отказов и окно НЕ сбрасываются (иначе фокус каждые 10 с стирал бы
+  /// накопленные отказы плавающего узла). Только внеочередная проба, не чаще раза в `NUDGE_INTERVAL`.
+  pub fn nudge(&mut self, now: Duration) {
+    if self.last_nudge.is_some_and(|last| now.saturating_sub(last) < NUDGE_INTERVAL) { return; }
+    self.last_nudge = Some(now);
+    self.burst = self.burst.max(1);
   }
 
   fn transition(&mut self, now: Duration, to: Route) -> Event {
@@ -140,6 +168,7 @@ impl Ladder {
     self.proxy_ok = 0;
     self.direct_fail = 0;
     self.direct_ok = 0;
+    self.window.clear();
     Event::Transition { from, to }
   }
 
@@ -147,9 +176,20 @@ impl Ladder {
     now.saturating_sub(self.entered) >= DWELL
   }
 
+  fn rotate(&mut self, now: Duration) -> Event {
+    self.proxy_fail = 0;
+    self.window.clear();
+    self.last_rotate = Some(now);
+    // Новый узел проверяется быстрым пакетом: мёртвый заменяется за секунды, а не за 15 с
+    self.burst = BURST_COUNT;
+    Event::RotateNode
+  }
+
   /// Учитывает результат тика. `can_rotate` — есть ещё непроверенные узлы подписки.
   pub fn observe(&mut self, now: Duration, observation: &Observation, can_rotate: bool) -> Event {
     self.burst = self.burst.saturating_sub(1);
+    if self.window.len() == WINDOW_LEN { self.window.pop_front(); }
+    self.window.push_back(!observation.proxy_ok);
     if observation.proxy_ok {
       self.proxy_ok += 1;
       self.proxy_fail = 0;
@@ -172,13 +212,14 @@ impl Ladder {
     match self.route {
       Route::Tunnel => {
         if self.proxy_fail >= FAIL_THRESHOLD {
-          if can_rotate {
-            self.proxy_fail = 0;
-            // Новый узел проверяется быстрым пакетом: мёртвый заменяется за секунды, а не за 15 с
-            self.burst = BURST_COUNT;
-            return Event::RotateNode;
-          }
+          if can_rotate { return self.rotate(now); }
           return self.transition(now, Route::DnsOnly);
+        }
+        // Узел отвечает через раз: серия из 3 подряд не наберётся, но окно покажет ≥4 отказов из 10.
+        // Охлаждение не даёт менять узлы чаще раза в минуту; спуск в DnsOnly остаётся только за 3 подряд.
+        let cooled = self.last_rotate.is_none_or(|last| now.saturating_sub(last) >= ROTATE_COOLDOWN);
+        if can_rotate && cooled && self.window.iter().filter(|failed| **failed).count() >= WINDOW_FAILS {
+          return self.rotate(now);
         }
         // Первый отказ: остальные пробы серии идут через секунду, обрыв подтверждается быстрее
         if self.proxy_fail > 0 {
@@ -278,6 +319,9 @@ impl<C: Clock, P: Prober> Runner<C, P> {
   /// Заменяет список целей (сервис включён или выключен в настройках).
   pub fn set_targets(&mut self, targets: Vec<Target>) { self.targets = targets; }
 
+  /// Показ или фокус окна: внеочередная проба без сброса серий (см. [`Ladder::nudge`]).
+  pub fn nudge(&mut self) { self.ladder.nudge(self.clock.now()); }
+
   /// Выполняет серию проб и возвращает решение автомата.
   pub fn tick(&mut self, can_rotate: bool) -> Event {
     let proxy_ok = self.prober.proxy_ok();
@@ -348,7 +392,26 @@ fn http_204(proxy_port: u16) -> bool {
   let request = format!(
     "GET http://{PROBE_URL_HOST}/generate_204 HTTP/1.1\r\nHost: {PROBE_URL_HOST}\r\nConnection: close\r\nUser-Agent: Mozilla/5.0\r\n\r\n");
   if stream.write_all(request.as_bytes()).is_err() { return false; }
-  read_status_line(&mut stream).and_then(|line| status_code(&line)) == Some(204)
+  let ok = read_status_line(&mut stream).and_then(|line| status_code(&line)) == Some(204);
+  close_gracefully(stream);
+  ok
+}
+
+/// Корректное закрытие пробы: `shutdown(Write)` и чтение до EOF (≤4 КБ, ≤1 с). Резкий разрыв сокета
+/// давал в журнале Xray «failed to write response… aborted» на каждую пробу.
+fn close_gracefully(mut stream: TcpStream) {
+  let _ = stream.shutdown(std::net::Shutdown::Write);
+  let deadline = Instant::now() + Duration::from_secs(1);
+  let mut buffer = [0u8; 1024];
+  let mut total = 0usize;
+  while total < 4096 {
+    let left = deadline.saturating_duration_since(Instant::now());
+    if left.is_zero() || stream.set_read_timeout(Some(left)).is_err() { break; }
+    match stream.read(&mut buffer) {
+      Ok(0) | Err(_) => break,
+      Ok(n) => total += n,
+    }
+  }
 }
 
 /// CONNECT через прямой inbound и начало TLS-рукопожатия: любой ответ уровня TLS (ServerHello или alert)
@@ -360,7 +423,9 @@ fn connect_tls_reachable(direct_port: u16, host: &str, port: u16) -> bool {
   if read_status_line(&mut stream).and_then(|line| status_code(&line)) != Some(200) { return false; }
   if stream.write_all(&client_hello(host)).is_err() { return false; }
   let mut first = [0u8; 1];
-  matches!(stream.read(&mut first), Ok(1)) && matches!(first[0], 0x15 | 0x16)
+  let ok = matches!(stream.read(&mut first), Ok(1)) && matches!(first[0], 0x15 | 0x16);
+  close_gracefully(stream);
+  ok
 }
 
 /// Достижим ли `host:port` через прямой inbound `probe_direct` (CONNECT и ответ уровня TLS).
@@ -557,6 +622,77 @@ mod tests {
     }
     now += TICK;
     assert_eq!(ladder.observe(now, &bad(&[]), false), Event::Transition { from: Route::Tunnel, to: Route::DnsOnly });
+  }
+
+  #[test]
+  fn flapping_node_rotates_within_ten_probes() {
+    let mut now = Duration::ZERO;
+    let mut ladder = Ladder::new(now);
+    let mut rotated_at = None;
+    for round in 0..WINDOW_LEN {
+      now += TICK;
+      let obs = if round % 2 == 0 { bad(&[]) } else { ok(&[]) };
+      if ladder.observe(now, &obs, true) == Event::RotateNode { rotated_at = Some(round + 1); break; }
+    }
+    assert_eq!(rotated_at, Some(7), "4-й отказ при чередовании — на 7-й пробе");
+    assert_eq!(ladder.route(), Route::Tunnel);
+  }
+
+  #[test]
+  fn flapping_without_spare_nodes_does_not_drop() {
+    let mut now = Duration::ZERO;
+    let mut ladder = Ladder::new(now);
+    for round in 0..40 {
+      now += TICK;
+      let obs = if round % 2 == 0 { bad(&[]) } else { ok(&[]) };
+      assert_eq!(ladder.observe(now, &obs, false), Event::None);
+    }
+  }
+
+  #[test]
+  fn window_rotation_respects_cooldown() {
+    let mut now = Duration::ZERO;
+    let mut ladder = Ladder::new(now);
+    let mut rotations = Vec::new();
+    for round in 0..60 {
+      now += TICK;
+      let obs = if round % 2 == 0 { bad(&[]) } else { ok(&[]) };
+      if ladder.observe(now, &obs, true) == Event::RotateNode { rotations.push(now); }
+    }
+    assert!(rotations.len() >= 2);
+    for pair in rotations.windows(2) {
+      assert!(pair[1] - pair[0] >= ROTATE_COOLDOWN, "смены чаще охлаждения: {pair:?}");
+    }
+  }
+
+  #[test]
+  fn three_in_a_row_still_rotates_regardless_of_window() {
+    let mut now = Duration::ZERO;
+    let mut ladder = Ladder::new(now);
+    run(&mut ladder, &mut now, 2, &bad(&[]));
+    now += TICK;
+    assert_eq!(ladder.observe(now, &bad(&[]), true), Event::RotateNode);
+  }
+
+  #[test]
+  fn nudge_keeps_streaks_and_is_throttled() {
+    let mut now = Duration::ZERO;
+    let mut ladder = Ladder::new(now);
+    run(&mut ladder, &mut now, 2, &bad(&[]));
+    ladder.nudge(now);
+    assert_eq!(ladder.next_delay(), BURST_INTERVAL, "внеочередная проба");
+    // серия не сброшена: третий отказ сразу даёт смену узла
+    now += BURST_INTERVAL;
+    assert_eq!(ladder.observe(now, &bad(&[]), true), Event::RotateNode);
+    // повторный nudge раньше 60 с ничего не форсирует
+    let mut other = Ladder::new(Duration::ZERO);
+    other.nudge(Duration::from_secs(1));
+    other.observe(Duration::from_secs(2), &ok(&[]), true);
+    assert_eq!(other.next_delay(), PROBE_INTERVAL);
+    other.nudge(Duration::from_secs(30));
+    assert_eq!(other.next_delay(), PROBE_INTERVAL, "не чаще раза в 60 с");
+    other.nudge(Duration::from_secs(62));
+    assert_eq!(other.next_delay(), BURST_INTERVAL);
   }
 
   #[test]
