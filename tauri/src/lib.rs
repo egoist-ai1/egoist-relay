@@ -26,6 +26,8 @@ mod native_theme;
 mod transcription;
 mod worker_job;
 mod dpapi;
+#[cfg(windows)]
+mod win_acl;
 mod tunnel;
 mod network;
 mod telegram_transport;

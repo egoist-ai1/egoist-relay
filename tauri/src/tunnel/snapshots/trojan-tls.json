@@ -49,11 +49,11 @@
       "tag": "socks-in"
     },
     {
-      "listen": "127.0.0.1",
-      "port": 31002,
+      "listen": "C:/Users/test/network/ipc/api-main.sock",
       "protocol": "dokodemo-door",
       "settings": {
-        "address": "127.0.0.1"
+        "address": "127.0.0.1",
+        "port": 1
       },
       "tag": "api"
     },

@@ -59,6 +59,8 @@ pub struct Spec {
   /// Файл конфига в рабочем каталоге сети: сам не пишется, нужен для определения каталога очистки остатков.
   pub config_path: PathBuf,
   pub ports: Ports,
+  /// Unix-сокет API Xray: файл лежит в каталоге с защищённым DACL (см. `win_acl`), каталог создаёт вызывающий.
+  pub api_socket: PathBuf,
   /// Подстроки, которые нельзя выводить в журнал (адрес VPN, адрес DoH).
   pub secrets: Vec<String>,
   /// Через сколько неудачных попыток подряд объявлять `restart-required`.
@@ -121,7 +123,7 @@ impl Supervisor {
 
   /// Обёртка над `xray api` для этой сессии.
   pub fn api(&self) -> Api {
-    Api { xray_exe: self.shared.spec.xray_exe.clone(), port: self.shared.spec.ports.api }
+    Api { xray_exe: self.shared.spec.xray_exe.clone(), socket: self.shared.spec.api_socket.clone() }
   }
 
   /// Останавливает процесс и поток; все дочерние процессы завершаются вместе с job-объектом.
@@ -169,7 +171,7 @@ fn run(shared: Arc<Shared>, commands: Receiver<Command_>, sink: EventSink) {
     let mut skip_backoff = false;
     match launched {
       Ok(mut process) => {
-        if wait_ready(&mut process, spec.ports.socks, LAUNCH_READY_TIMEOUT) {
+        if wait_ready(&mut process, spec.ports.socks, &spec.api_socket, LAUNCH_READY_TIMEOUT) {
           shared.ready.store(true, Ordering::SeqCst);
           failing_since = None;
           required_reported = false;
@@ -232,12 +234,12 @@ fn note_failure(failing_since: &mut Option<Instant>, reported: &mut bool, spec: 
 
 // ---------- порты ----------
 
-/// Выбирает четыре различных loopback-порта из 20000–60000 вне диапазонов Lagom; каждый проверен bind+drop.
+/// Выбирает три различных loopback-порта из 20000–60000 вне диапазонов Lagom; каждый проверен bind+drop.
 pub fn pick_ports() -> Result<Ports, String> {
-  let mut chosen: Vec<u16> = Vec::with_capacity(4);
+  let mut chosen: Vec<u16> = Vec::with_capacity(3);
   let span = u128::from(PORT_RANGE.1 - PORT_RANGE.0) + 1;
   let mut attempts = 0;
-  while chosen.len() < 4 {
+  while chosen.len() < 3 {
     attempts += 1;
     if attempts > 400 { return Err("TUNNEL_NO_FREE_PORT".into()); }
     let port = PORT_RANGE.0 + (uuid::Uuid::new_v4().as_u128() % span) as u16;
@@ -245,7 +247,7 @@ pub fn pick_ports() -> Result<Ports, String> {
     if excluded || chosen.contains(&port) || !Ports::is_allowed(port) || !port_free(port) { continue; }
     chosen.push(port);
   }
-  Ok(Ports { socks: chosen[0], api: chosen[1], probe_proxy: chosen[2], probe_direct: chosen[3] })
+  Ok(Ports { socks: chosen[0], probe_proxy: chosen[1], probe_direct: chosen[2] })
 }
 
 fn port_free(port: u16) -> bool {
@@ -262,6 +264,8 @@ fn ports_free(ports: &Ports) -> bool {
 
 struct Process {
   child: std::process::Child,
+  /// Файл сокета API: после kill он остаётся на диске, и следующий запуск Xray падает на «failed to listen».
+  socket: PathBuf,
   #[cfg(windows)]
   job: crate::worker_job::WorkerJob,
 }
@@ -274,15 +278,24 @@ impl Process {
     self.job.terminate();
     let _ = self.child.kill();
     let _ = self.child.wait();
+    remove_socket(&self.socket);
   }
 }
 
-fn wait_ready(process: &mut Process, port: u16, timeout: Duration) -> bool {
+/// Удаляет файл сокета; «нет файла» не ошибка.
+fn remove_socket(path: &Path) {
+  if let Err(error) = std::fs::remove_file(path) {
+    if error.kind() != std::io::ErrorKind::NotFound { log::warn!("[Tunnel] сокет API не удалён: {error}"); }
+  }
+}
+
+/// Готовность: SOCKS принимает соединения и файл сокета API создан (lstat: у AF_UNIX это точка повторной обработки).
+fn wait_ready(process: &mut Process, port: u16, socket: &Path, timeout: Duration) -> bool {
   let deadline = Instant::now() + timeout;
   let address = SocketAddr::from(([127, 0, 0, 1], port));
   while Instant::now() < deadline {
     if process.exited() { return false; }
-    if TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() { return true; }
+    if TcpStream::connect_timeout(&address, Duration::from_millis(100)).is_ok() && std::fs::symlink_metadata(socket).is_ok() { return true; }
     std::thread::sleep(Duration::from_millis(25));
   }
   false
@@ -295,6 +308,12 @@ fn launch(spec: &Spec, config: &Value) -> Result<Process, String> {
   const CREATE_NO_WINDOW: u32 = 0x0800_0000;
   if !spec.xray_exe.is_file() { return Err("TUNNEL_XRAY_MISSING".into()); }
   let bytes = serde_json::to_vec(config).map_err(|_| "TUNNEL_CONFIG_WRITE_FAILED".to_string())?;
+  // После kill/сбоя старый файл сокета остаётся, и Xray не стартует («failed to listen Unix Domain Socket»)
+  match std::fs::remove_file(&spec.api_socket) {
+    Ok(()) => {}
+    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+    Err(_) => return Err("TUNNEL_API_SOCKET_BUSY".into()),
+  }
   let mut command = Command::new(&spec.xray_exe);
   command.args(["run", "-format", "json", "-c", "stdin:"])
     .current_dir(&spec.asset_dir)
@@ -320,7 +339,7 @@ fn launch(spec: &Spec, config: &Value) -> Result<Process, String> {
   };
   if let Some(stdout) = child.stdout.take() { spawn_log_reader(stdout, false, spec.secrets.clone()); }
   if let Some(stderr) = child.stderr.take() { spawn_log_reader(stderr, true, spec.secrets.clone()); }
-  Ok(Process { child, job })
+  Ok(Process { child, socket: spec.api_socket.clone(), job })
 }
 
 #[cfg(not(windows))]
@@ -334,22 +353,27 @@ fn write_all_close(stdin: &mut std::process::ChildStdin, bytes: &[u8]) -> bool {
   stdin.write_all(bytes).and_then(|()| stdin.flush()).is_ok()
 }
 
-/// Файлы, в которых раньше мог остаться ключ: конфиги Xray и временные документы `xray api ado`.
+/// Файлы-остатки: конфиги Xray с ключом, временные документы `xray api ado` и сокеты API после аварийного выхода.
 fn is_leftover_name(name: &str) -> bool {
   matches!(name, "xray.json" | "xray.json.tmp" | "xray-probe.json" | "xray-probe.json.tmp")
+    || matches!(name, "api-main.sock" | "api-probe.sock")
     || (name.starts_with("ado-") && (name.ends_with(".json") || name.ends_with(".json.tmp")))
 }
 
-/// Удаляет остатки конфигов с ключом в каталоге сети (`profile.dpapi` и `seed.dpapi` не трогает).
+/// Удаляет остатки в каталоге сети и в его подкаталоге `ipc` (`profile.dpapi` и `seed.dpapi` не трогает).
 pub fn purge_leftovers(dir: Option<&Path>) {
   let Some(dir) = dir else { return };
-  let Ok(entries) = std::fs::read_dir(dir) else { return };
-  for entry in entries.flatten() {
-    if is_leftover_name(&entry.file_name().to_string_lossy()) && entry.path().is_file() {
-      let _ = std::fs::remove_file(entry.path());
+  for folder in [dir.to_path_buf(), dir.join(IPC_DIR)] {
+    let Ok(entries) = std::fs::read_dir(&folder) else { continue };
+    for entry in entries.flatten() {
+      // Каталог с таким именем remove_file не удалит; сокет AF_UNIX не «обычный файл», поэтому is_file() не проверяем
+      if is_leftover_name(&entry.file_name().to_string_lossy()) { let _ = std::fs::remove_file(entry.path()); }
     }
   }
 }
+
+/// Подкаталог сети с сокетами API (DACL: только текущий пользователь и SYSTEM).
+pub const IPC_DIR: &str = "ipc";
 
 /// Ответ ограничителя журнала на очередную строку.
 #[derive(Debug, PartialEq, Eq)]
@@ -448,7 +472,7 @@ pub fn redact(line: &str, secrets: &[String]) -> String {
 #[derive(Clone)]
 pub struct Api {
   xray_exe: PathBuf,
-  port: u16,
+  socket: PathBuf,
 }
 
 impl Api {
@@ -483,7 +507,10 @@ impl Api {
     Ok(())
   }
 
-  fn server_arg(&self) -> std::ffi::OsString { format!("-s=127.0.0.1:{}", self.port).into() }
+  /// Адрес API: `unix:<путь с '/'>` (формат проверен на живом Xray: `xray api lso -s unix:C:/…/api.sock`).
+  fn server_arg(&self) -> std::ffi::OsString {
+    format!("-s=unix:{}", self.socket.to_string_lossy().replace('\\', "/")).into()
+  }
 
   /// `xray api bo -b active <tag>`: принудительно направляет балансер в outbound `tag` (например `direct`).
   pub fn override_balancer(&self, tag: &str) -> Result<(), String> {
@@ -533,7 +560,7 @@ impl TempXray {
     spec.ports.validate()?;
     if !ports_free(&spec.ports) { return Err("TUNNEL_PORT_BUSY".into()); }
     let mut process = launch(&spec, config)?;
-    if !wait_ready(&mut process, spec.ports.socks, timeout) {
+    if !wait_ready(&mut process, spec.ports.socks, &spec.api_socket, timeout) {
       process.kill();
       return Err("TUNNEL_XRAY_NOT_READY".into());
     }
@@ -546,7 +573,7 @@ impl TempXray {
 
   /// `xray api` временного процесса (смена узла при проверке нескольких).
   pub fn api(&self) -> Api {
-    Api { xray_exe: self.spec.xray_exe.clone(), port: self.spec.ports.api }
+    Api { xray_exe: self.spec.xray_exe.clone(), socket: self.spec.api_socket.clone() }
   }
 }
 
@@ -599,25 +626,35 @@ mod tests {
 
   fn work_dir() -> PathBuf {
     let base = std::env::var_os("EGOIST_RELAY_TEST_WORK").map(PathBuf::from).unwrap_or_else(std::env::temp_dir);
-    let dir = base.join(format!("tunnel-sup-{}", uuid::Uuid::new_v4()));
+    // Имя короткое: путь сокета AF_UNIX не длиннее 108 байт
+    let dir = base.join(format!("ts-{}", &uuid::Uuid::new_v4().simple().to_string()[..8]));
     std::fs::create_dir_all(&dir).unwrap();
     dir
   }
 
+  /// Каталог сокетов с защищённым DACL внутри рабочего каталога теста.
+  fn ipc_dir(dir: &Path, name: &str) -> PathBuf {
+    let ipc = dir.join(name);
+    crate::win_acl::secure_directory(&ipc).expect("защищённый каталог");
+    ipc
+  }
+
   fn spec_for(ports: Ports, dir: &Path) -> Spec {
+    let ipc = ipc_dir(dir, IPC_DIR);
     Spec {
       xray_exe: runtime_dir().join("xray.exe"),
       asset_dir: runtime_dir(),
       config_path: dir.join("xray.json"),
+      api_socket: ipc.join("api-main.sock"),
       ports,
       secrets: vec!["vpn.example.com".into()],
       restart_required_after: Duration::from_secs(2),
     }
   }
 
-  fn sample_config(ports: Ports) -> Value {
+  fn sample_config(spec: &Spec) -> Value {
     let node = parse_link("vless://00000000-0000-0000-0000-000000000000@vpn.example.com:443?security=reality&flow=xtls-rprx-vision&sni=www.example.org&pbk=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&sid=ab12&fp=chrome").unwrap();
-    build(&ConfigInput { ports, node: Some(&node), doh: "https://dns.example.net/dns-query", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap()
+    build(&ConfigInput { ports: spec.ports, api_socket: &spec.api_socket.to_string_lossy(), node: Some(&node), doh: "https://dns.example.net/dns-query", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap()
   }
 
   fn collecting_sink() -> (EventSink, Arc<StdMutex<Vec<SupervisorEvent>>>) {
@@ -670,7 +707,7 @@ mod tests {
 
   #[test]
   fn api_rejects_unsafe_tags() {
-    let api = Api { xray_exe: PathBuf::from("xray.exe"), port: 1 };
+    let api = Api { xray_exe: PathBuf::from("xray.exe"), socket: PathBuf::from("C:/x/api.sock") };
     assert!(api.override_balancer("direct; calc").is_err());
     assert!(api.remove_outbound("").is_err());
     assert!(api.remove_outbound(&"a".repeat(65)).is_err());
@@ -682,7 +719,9 @@ mod tests {
     let dir = work_dir();
     let ports = pick_ports().unwrap();
     let (sink, events) = collecting_sink();
-    let mut supervisor = Supervisor::start(spec_for(ports, &dir), sample_config(ports), sink).unwrap();
+    let spec = spec_for(ports, &dir);
+    let config = sample_config(&spec);
+    let mut supervisor = Supervisor::start(spec, config.clone(), sink).unwrap();
     assert!(supervisor.is_ready(), "xray не поднялся за START_WAIT");
     assert!(!dir.join("xray.json").exists(), "конфиг с ключом должен быть удалён после готовности");
 
@@ -692,10 +731,10 @@ mod tests {
     let outbound = crate::tunnel::config::outbound(&parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap());
     api.remove_outbound("proxy").expect("rmo proxy");
     api.add_outbound(&outbound).expect("ado proxy");
-    assert!(std::fs::read_dir(&dir).unwrap().next().is_none(), "ключ не должен попадать на диск");
+    assert!(std::fs::read_dir(&dir).unwrap().all(|e| e.unwrap().file_name() == IPC_DIR), "ключ не должен попадать на диск");
 
     // перезапуск на тех же портах
-    supervisor.restart_with(sample_config(ports)).unwrap();
+    supervisor.restart_with(config).unwrap();
     let deadline = Instant::now() + Duration::from_secs(8);
     while Instant::now() < deadline && events.lock().unwrap().iter().filter(|e| **e == SupervisorEvent::Ready).count() < 2 {
       std::thread::sleep(Duration::from_millis(50));
@@ -708,6 +747,94 @@ mod tests {
     let _ = std::fs::remove_dir_all(&dir);
   }
 
+  /// Ловушка 2: после kill файл сокета остаётся; новый запуск обязан его убрать, иначе «failed to listen».
+  #[test]
+  fn api_survives_stale_socket() {
+    if !have_xray() { eprintln!("runtime/xray.exe нет: тест пропущен"); return; }
+    let dir = work_dir();
+    let ports = pick_ports().unwrap();
+    let (sink, events) = collecting_sink();
+    let spec = spec_for(ports, &dir);
+    let socket = spec.api_socket.clone();
+    let config = sample_config(&spec);
+    let mut supervisor = Supervisor::start(spec, config.clone(), sink).unwrap();
+    assert!(supervisor.is_ready());
+    let api = supervisor.api();
+    api.override_balancer("direct").expect("bo до перезапуска");
+    supervisor.restart_with(config.clone()).unwrap();
+    let deadline = Instant::now() + Duration::from_secs(10);
+    while Instant::now() < deadline && events.lock().unwrap().iter().filter(|e| **e == SupervisorEvent::Ready).count() < 2 {
+      std::thread::sleep(Duration::from_millis(50));
+    }
+    assert_eq!(events.lock().unwrap().iter().filter(|e| **e == SupervisorEvent::Ready).count(), 2, "второй запуск не состоялся");
+    api.clear_override().expect("bo после перезапуска");
+    supervisor.stop();
+    assert!(std::fs::symlink_metadata(&socket).is_err(), "сокет должен удаляться при остановке");
+    // Остаток сокета подложен вручную (как после аварийного выхода): запуск обязан его убрать
+    std::fs::write(&socket, b"stale").unwrap();
+    let (sink2, _events2) = collecting_sink();
+    let mut again = Supervisor::start(spec_for(ports, &dir), config, sink2).unwrap();
+    assert!(again.is_ready(), "запуск поверх остатка сокета не удался");
+    again.api().override_balancer("direct").expect("bo поверх остатка");
+    again.stop();
+    let _ = std::fs::remove_dir_all(&dir);
+  }
+
+  /// Каталог сокета: защищённый DACL (`D:P`), только SYSTEM и текущий пользователь, без BU/AU/WD.
+  #[test]
+  fn api_socket_dir_is_private() {
+    let dir = work_dir();
+    let ipc = ipc_dir(&dir, IPC_DIR);
+    let output = Command::new("powershell.exe")
+      .args(["-NoProfile", "-NonInteractive", "-Command", &format!("(Get-Acl -LiteralPath '{}').Sddl", ipc.display())])
+      .output().expect("powershell");
+    let sddl = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    assert!(sddl.contains("D:P"), "DACL не защищён от наследования: {sddl}");
+    for group in [";;;BU)", ";;;AU)", ";;;WD)", ";;;BA)"] {
+      assert!(!sddl.contains(group), "лишний доступ {group}: {sddl}");
+    }
+    assert_eq!(sddl.matches("(A;").count(), 2, "ожидались ровно две записи (SYSTEM и пользователь): {sddl}");
+    assert!(sddl.contains(";;;SY)"));
+    let _ = std::fs::remove_dir_all(&dir);
+  }
+
+  /// API больше не занимает TCP-порт: в конфиге у api-inbound нет `port`, TCP-inbound ровно три.
+  #[test]
+  fn tcp_api_absent() {
+    let dir = work_dir();
+    let ports = pick_ports().unwrap();
+    assert_eq!(ports.all().len(), 3);
+    let spec = spec_for(ports, &dir);
+    let config = sample_config(&spec);
+    let inbounds = config["inbounds"].as_array().unwrap();
+    let api = inbounds.iter().find(|i| i["tag"] == "api").unwrap();
+    assert!(api.get("port").is_none());
+    let mut tcp: Vec<u16> = inbounds.iter().filter_map(|i| i.get("port").and_then(Value::as_u64)).map(|p| p as u16).collect();
+    tcp.sort_unstable();
+    let mut expected = ports.all().to_vec();
+    expected.sort_unstable();
+    assert_eq!(tcp, expected);
+    assert!(ports_free(&ports));
+    let _ = std::fs::remove_dir_all(&dir);
+  }
+
+  /// Путь с кириллицей и пробелом: проверка, принимает ли Xray такой путь сокета.
+  #[test]
+  fn api_socket_path_with_cyrillic_and_space() {
+    if !have_xray() { eprintln!("runtime/xray.exe нет: тест пропущен"); return; }
+    let dir = work_dir();
+    let ports = pick_ports().unwrap();
+    let (sink, _events) = collecting_sink();
+    let mut spec = spec_for(ports, &dir);
+    spec.api_socket = ipc_dir(&dir, "ипц x").join("api.sock");
+    let config = sample_config(&spec);
+    let mut supervisor = Supervisor::start(spec, config, sink).unwrap();
+    assert!(supervisor.is_ready());
+    supervisor.api().override_balancer("direct").expect("bo по пути с кириллицей и пробелом");
+    supervisor.stop();
+    let _ = std::fs::remove_dir_all(&dir);
+  }
+
   #[test]
   fn busy_port_retries_then_reports_restart_required_and_recovers() {
     if !have_xray() { eprintln!("runtime/xray.exe нет: тест пропущен"); return; }
@@ -715,7 +842,9 @@ mod tests {
     let ports = pick_ports().unwrap();
     let blocker = TcpListener::bind(SocketAddr::from(([127, 0, 0, 1], ports.probe_direct))).unwrap();
     let (sink, events) = collecting_sink();
-    let mut supervisor = Supervisor::start(spec_for(ports, &dir), sample_config(ports), sink).unwrap();
+    let spec = spec_for(ports, &dir);
+    let config = sample_config(&spec);
+    let mut supervisor = Supervisor::start(spec, config, sink).unwrap();
     assert!(!supervisor.is_ready());
     let deadline = Instant::now() + Duration::from_secs(10);
     while Instant::now() < deadline && !events.lock().unwrap().contains(&SupervisorEvent::RestartRequired) {

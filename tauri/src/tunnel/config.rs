@@ -1,6 +1,6 @@
 //! Генератор конфига Xray по схеме контракта `docs/product-cycle-2026-10-13/NETWORK-TUNNEL.md`.
 //!
-//! Схема: 4 loopback-inbound (socks, api, два http для проб), outbounds `proxy` / `direct` / `block`,
+//! Схема: 3 loopback-TCP-inbound (socks, два http для проб) и api-inbound на защищённом unix-сокете, outbounds `proxy` / `direct` / `block`,
 //! балансер `active` (selector `proxy`, fallback `direct`), приватный DoH с bootstrap через `https+local`.
 //! Вся сеть приложения идёт в балансер; переключение ступеней делает Rust через `xray api bo`.
 
@@ -45,13 +45,11 @@ pub const TAG_DIRECT: &str = "direct";
 pub const TAG_BLOCK: &str = "block";
 pub const TAG_PROBE_BALANCER: &str = "probe";
 
-/// Четыре loopback-порта сессии.
+/// Три loopback-порта сессии. API Xray портов не занимает: он слушает unix-сокет в защищённом каталоге.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 pub struct Ports {
   /// SOCKS5 для всего трафика приложения (`udp:false`).
   pub socks: u16,
-  /// API Xray (HandlerService, RoutingService).
-  pub api: u16,
   /// HTTP-прокси проб, всегда в `proxy`.
   pub probe_proxy: u16,
   /// HTTP-прокси проб, всегда в `direct`.
@@ -60,8 +58,8 @@ pub struct Ports {
 
 impl Ports {
   /// Список портов в порядке inbound'ов.
-  pub fn all(&self) -> [u16; 4] {
-    [self.socks, self.api, self.probe_proxy, self.probe_direct]
+  pub fn all(&self) -> [u16; 3] {
+    [self.socks, self.probe_proxy, self.probe_direct]
   }
 
   /// Порт допустим: в рабочем диапазоне и вне диапазонов Lagom.
@@ -70,7 +68,7 @@ impl Ports {
       && !LAGOM_EXCLUDED.iter().any(|(from, to)| (*from..=*to).contains(&port))
   }
 
-  /// Все четыре порта допустимы и различны.
+  /// Все три порта допустимы и различны.
   pub fn validate(&self) -> Result<(), String> {
     let all = self.all();
     if !all.iter().all(|port| Self::is_allowed(*port)) { return Err("TUNNEL_PORT_NOT_ALLOWED".into()); }
@@ -84,6 +82,8 @@ impl Ports {
 /// Вход генератора.
 pub struct ConfigInput<'a> {
   pub ports: Ports,
+  /// Абсолютный путь unix-сокета API Xray (каталог с защищённым DACL создаёт `tunnel::start`).
+  pub api_socket: &'a str,
   /// Узел VPN. `None` — outbound `proxy` не создаётся, балансер сразу падает в `direct` (ступень 2).
   pub node: Option<&'a Node>,
   /// Приватный DoH: `https://host[:port]/dns-query`.
@@ -97,6 +97,7 @@ pub struct ConfigInput<'a> {
 /// Собирает полный конфиг Xray. Ошибка — только при недопустимых портах или адресе DoH.
 pub fn build(input: &ConfigInput) -> Result<Value, String> {
   input.ports.validate()?;
+  let api_listen = api_listen(input.api_socket)?;
   let doh_host = doh_host(input.doh)?;
   let ports = input.ports;
   let has_proxy = input.node.is_some();
@@ -145,8 +146,10 @@ pub fn build(input: &ConfigInput) -> Result<Value, String> {
     "inbounds": [
       { "tag": TAG_SOCKS_IN, "listen": "127.0.0.1", "port": ports.socks, "protocol": "socks",
         "settings": { "auth": "noauth", "udp": false } },
-      { "tag": TAG_API_IN, "listen": "127.0.0.1", "port": ports.api, "protocol": "dokodemo-door",
-        "settings": { "address": "127.0.0.1" } },
+      // Поле `port` у unix-сокета ставить нельзя: Xray падает с panic strconv.Atoi при первом подключении.
+      // Порт в `settings` формальный: dokodemo-door требует адрес назначения, а API его не использует.
+      { "tag": TAG_API_IN, "listen": api_listen, "protocol": "dokodemo-door",
+        "settings": { "address": "127.0.0.1", "port": 1 } },
       { "tag": TAG_PROBE_PROXY_IN, "listen": "127.0.0.1", "port": ports.probe_proxy, "protocol": "http",
         "settings": {} },
       { "tag": TAG_PROBE_DIRECT_IN, "listen": "127.0.0.1", "port": ports.probe_direct, "protocol": "http",
@@ -159,6 +162,21 @@ pub fn build(input: &ConfigInput) -> Result<Value, String> {
       "balancers": balancers,
     },
   }))
+}
+
+/// Предел длины пути сокета: у `sockaddr_un` 108 байт, берём запас на служебные символы.
+pub const API_SOCKET_MAX_BYTES: usize = 100;
+
+/// Путь сокета в формате Xray: абсолютный, с `/` вместо `\\`. Недопустимый путь — ошибка старта, не тихая поломка.
+fn api_listen(path: &str) -> Result<String, String> {
+  let normalized = path.replace('\\', "/");
+  let drive = normalized.as_bytes();
+  let absolute = (drive.len() > 2 && drive[0].is_ascii_alphabetic() && drive[1] == b':' && drive[2] == b'/')
+    || normalized.starts_with('/');
+  if !absolute || normalized.len() > API_SOCKET_MAX_BYTES || normalized.contains('"') || normalized.contains('\0') {
+    return Err("TUNNEL_API_SOCKET_INVALID".into());
+  }
+  Ok(normalized)
 }
 
 /// Хост из адреса приватного DoH; допускается только `https` с путём.
@@ -312,7 +330,8 @@ mod tests {
   use crate::tunnel::uri::parse_link;
 
   const UUID: &str = "00000000-0000-0000-0000-000000000000";
-  const PORTS: Ports = Ports { socks: 31001, api: 31002, probe_proxy: 31003, probe_direct: 31004 };
+  const PORTS: Ports = Ports { socks: 31001, probe_proxy: 31003, probe_direct: 31004 };
+  const SOCK: &str = "C:/Users/test/network/ipc/api-main.sock";
   const DOH: &str = "https://dns.example.net/dns-query";
 
   /// Сравнение со снимком `src/tunnel/snapshots/<имя>.json`; `UPDATE_SNAPSHOTS=1` перезаписывает снимок.
@@ -330,7 +349,7 @@ mod tests {
 
   fn config_for(link: &str) -> Value {
     let node = parse_link(link).unwrap();
-    build(&ConfigInput { ports: PORTS, node: Some(&node), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap()
+    build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: Some(&node), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap()
   }
 
   fn sample_links() -> Vec<String> {
@@ -364,7 +383,7 @@ mod tests {
 
   #[test]
   fn snapshot_without_node() {
-    let config = build(&ConfigInput { ports: PORTS, node: None, doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: None, doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     assert_snapshot("no-node", &config);
   }
 
@@ -384,11 +403,18 @@ mod tests {
       // Все inbounds только на loopback, порты вне Lagom
       let inbounds = config["inbounds"].as_array().unwrap();
       assert_eq!(inbounds.len(), 4);
-      for inbound in inbounds {
+      let tcp: Vec<&Value> = inbounds.iter().filter(|i| i["tag"] != "api").collect();
+      assert_eq!(tcp.len(), 3);
+      for inbound in tcp {
         assert_eq!(inbound["listen"], "127.0.0.1");
         let port = inbound["port"].as_u64().unwrap() as u16;
         assert!(!(10808..=10909).contains(&port) && !(10085..=10185).contains(&port));
       }
+      // API только на unix-сокете: без поля `port` (иначе panic Xray), с формальным портом назначения 1
+      let api = inbounds.iter().find(|i| i["tag"] == "api").unwrap();
+      assert!(api["listen"].as_str().unwrap().ends_with(".sock"));
+      assert!(api.get("port").is_none());
+      assert_eq!(api["settings"]["port"], 1);
       assert_eq!(config["inbounds"][0]["settings"]["udp"], false);
       // Балансер и логи
       assert_eq!(config["routing"]["balancers"][0]["selector"], json!(["proxy"]));
@@ -437,7 +463,7 @@ mod tests {
     ];
     let mut hosts: Vec<String> = nodes.iter().map(|n| n.server.clone()).collect();
     hosts.push("a.example.com".into());
-    let config = build(&ConfigInput { ports: PORTS, node: nodes.first(), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &hosts }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: nodes.first(), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &hosts }).unwrap();
     let domains = config["dns"]["servers"][0]["domains"].clone();
     assert_eq!(domains, json!(["full:dns.example.net", "full:a.example.com", "full:b.example.com", "full:c.example.com"]));
     assert_eq!(config["dns"]["servers"][1]["domains"], domains);
@@ -448,20 +474,20 @@ mod tests {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
     let mut ips = BTreeMap::new();
     ips.insert("dns.example.net".to_string(), vec!["198.51.100.7".to_string()]);
-    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: DOH, host_ips: &ips, node_hosts: &[] }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: Some(&node), doh: DOH, host_ips: &ips, node_hosts: &[] }).unwrap();
     assert_eq!(config["dns"]["servers"][0]["domains"], json!(["full:dns.example.net"]));
     assert_eq!(config["dns"]["hosts"]["dns.example.net"], json!(["198.51.100.7"]));
-    let doh_ip = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://203.0.113.5/dns-query", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
+    let doh_ip = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: Some(&node), doh: "https://203.0.113.5/dns-query", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     assert_eq!(doh_ip["dns"]["servers"][0]["address"], "https://203.0.113.5/dns-query");
   }
 
   #[test]
   fn rejects_bad_ports_and_doh() {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
-    let with = |ports: Ports, doh: &str| build(&ConfigInput { ports, node: Some(&node), doh, host_ips: &BTreeMap::new(), node_hosts: &[] });
+    let with = |ports: Ports, doh: &str| build(&ConfigInput { ports, api_socket: SOCK, node: Some(&node), doh, host_ips: &BTreeMap::new(), node_hosts: &[] });
     assert!(with(Ports { socks: 10808, ..PORTS }, DOH).is_err());
-    assert!(with(Ports { api: 10100, ..PORTS }, DOH).is_err());
-    assert!(with(Ports { api: PORTS.socks, ..PORTS }, DOH).is_err());
+    assert!(with(Ports { probe_proxy: 10100, ..PORTS }, DOH).is_err());
+    assert!(with(Ports { probe_proxy: PORTS.socks, ..PORTS }, DOH).is_err());
     assert!(with(Ports { probe_direct: 70, ..PORTS }, DOH).is_err());
     assert!(with(PORTS, "http://dns.example.net/dns-query").is_err());
     assert!(with(PORTS, "не адрес").is_err());
@@ -469,8 +495,22 @@ mod tests {
   }
 
   #[test]
+  fn api_socket_path_is_validated_and_normalized() {
+    let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
+    let with = |socket: &str| build(&ConfigInput { ports: PORTS, api_socket: socket, node: Some(&node), doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] });
+    let config = with("C:\\Users\\Имя Фамилия\\ipc\\api-main.sock").unwrap();
+    let api = config["inbounds"].as_array().unwrap().iter().find(|i| i["tag"] == "api").unwrap().clone();
+    assert_eq!(api["listen"], "C:/Users/Имя Фамилия/ipc/api-main.sock");
+    assert!(with("ipc/api.sock").is_err());
+    assert!(with("").is_err());
+    assert!(with("C:/a\"b/api.sock").is_err());
+    assert!(with(&format!("C:/{}/api.sock", "a".repeat(API_SOCKET_MAX_BYTES))).is_err());
+    assert!(with(&format!("C:/{}/s.sock", "a".repeat(API_SOCKET_MAX_BYTES - 12))).is_ok());
+  }
+
+  #[test]
   fn no_node_routes_probe_proxy_to_block() {
-    let config = build(&ConfigInput { ports: PORTS, node: None, doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: None, doh: DOH, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     let rule = config["routing"]["rules"].as_array().unwrap().iter()
       .find(|r| r["inboundTag"] == json!(["probe-proxy"])).unwrap();
     assert_eq!(rule["outboundTag"], "block");
@@ -486,11 +526,11 @@ mod tests {
   fn doh_with_arbitrary_path_is_accepted_as_is() {
     let node = parse_link("ss://aes-256-gcm:pw@192.0.2.10:8388").unwrap();
     for doh in ["https://dns.nextdns.io/id-fixture", "https://dns.example.net:8443/some/path?x=1"] {
-      let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
+      let config = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: Some(&node), doh, host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
       assert!(config["dns"]["servers"].as_array().unwrap().iter().any(|s| s["address"] == doh));
     }
-    let config = build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://dns.nextdns.io/id-fixture", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
+    let config = build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: Some(&node), doh: "https://dns.nextdns.io/id-fixture", host_ips: &BTreeMap::new(), node_hosts: &[] }).unwrap();
     assert_eq!(config["dns"]["servers"][0]["domains"], json!(["full:dns.nextdns.io"]));
-    assert!(build(&ConfigInput { ports: PORTS, node: Some(&node), doh: "https://user:pw@dns.example.net/x", host_ips: &BTreeMap::new(), node_hosts: &[] }).is_err());
+    assert!(build(&ConfigInput { ports: PORTS, api_socket: SOCK, node: Some(&node), doh: "https://user:pw@dns.example.net/x", host_ips: &BTreeMap::new(), node_hosts: &[] }).is_err());
   }
 }

@@ -2108,67 +2108,13 @@ mod windows_storage {
   use super::*;
   use std::{
     ffi::c_void,
-    os::windows::{ffi::OsStrExt, fs::MetadataExt},
+    os::windows::ffi::OsStrExt,
     ptr,
   };
 
-  #[repr(C)]
-  struct SecurityAttributes {
-    length: u32,
-    descriptor: *mut c_void,
-    inherit: i32,
-  }
-  #[repr(C)]
-  struct SidAndAttributes {
-    sid: *mut c_void,
-    attributes: u32,
-  }
-  #[repr(C)]
-  struct TokenUser {
-    user: SidAndAttributes,
-  }
-
-  #[link(name = "Advapi32")]
-  unsafe extern "system" {
-    fn OpenProcessToken(process: *mut c_void, access: u32, token: *mut *mut c_void) -> i32;
-    fn GetTokenInformation(
-      token: *mut c_void,
-      class: u32,
-      information: *mut c_void,
-      length: u32,
-      returned: *mut u32,
-    ) -> i32;
-    fn ConvertSidToStringSidW(sid: *const c_void, output: *mut *mut u16) -> i32;
-    fn ConvertStringSecurityDescriptorToSecurityDescriptorW(
-      value: *const u16,
-      revision: u32,
-      output: *mut *mut c_void,
-      length: *mut u32,
-    ) -> i32;
-    fn GetSecurityDescriptorDacl(
-      descriptor: *const c_void,
-      present: *mut i32,
-      dacl: *mut *mut c_void,
-      defaulted: *mut i32,
-    ) -> i32;
-    fn SetNamedSecurityInfoW(
-      name: *const u16,
-      object_type: u32,
-      information: u32,
-      owner: *const c_void,
-      group: *const c_void,
-      dacl: *const c_void,
-      sacl: *const c_void,
-    ) -> u32;
-  }
   #[link(name = "Kernel32")]
   unsafe extern "system" {
-    fn GetCurrentProcess() -> *mut c_void;
-    fn CloseHandle(handle: *mut c_void) -> i32;
-    fn LocalFree(value: *mut c_void) -> *mut c_void;
-    fn CreateDirectoryW(path: *const u16, security: *const SecurityAttributes) -> i32;
     fn MoveFileExW(source: *const u16, destination: *const u16, flags: u32) -> i32;
-    fn GetLastError() -> u32;
   }
   #[link(name = "Shell32")]
   unsafe extern "system" {
@@ -2199,122 +2145,16 @@ mod windows_storage {
     fn CoTaskMemFree(memory: *mut c_void);
   }
 
-  fn current_user_sid() -> Result<String, String> {
-    let mut token = ptr::null_mut();
-    if unsafe { OpenProcessToken(GetCurrentProcess(), 8, &mut token) } == 0 {
-      return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-    }
-    let result = (|| {
-      let mut length = 0;
-      unsafe {
-        GetTokenInformation(token, 1, ptr::null_mut(), 0, &mut length);
-      }
-      if length == 0 || length > 64 * 1024 {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      let mut information = vec![0usize; (length as usize).div_ceil(std::mem::size_of::<usize>())];
-      if unsafe {
-        GetTokenInformation(
-          token,
-          1,
-          information.as_mut_ptr().cast(),
-          length,
-          &mut length,
-        )
-      } == 0
-      {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      let user = unsafe { &*information.as_ptr().cast::<TokenUser>() };
-      let mut text = ptr::null_mut();
-      if unsafe { ConvertSidToStringSidW(user.user.sid, &mut text) } == 0 {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      let mut size = 0;
-      while size < 256 && unsafe { *text.add(size) } != 0 {
-        size += 1;
-      }
-      let result = if size < 256 {
-        String::from_utf16(unsafe { std::slice::from_raw_parts(text, size) })
-          .map_err(|_| "MEDIA_JOURNAL_ACL_FAILED".into())
-      } else {
-        Err("MEDIA_JOURNAL_ACL_FAILED".into())
-      };
-      unsafe {
-        LocalFree(text.cast());
-      }
-      result
-    })();
-    unsafe {
-      CloseHandle(token);
-    }
-    result
-  }
-
+  /// Защищённый каталог (DACL только у текущего пользователя и SYSTEM): общая реализация в `win_acl`.
   pub(super) fn secure_directory(path: &Path) -> Result<(), String> {
-    let name = wide(path)?;
-    let sid = current_user_sid()?;
-    let sddl: Vec<u16> = format!("O:{sid}D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;{sid})")
-      .encode_utf16()
-      .chain(Some(0))
-      .collect();
-    let mut descriptor = ptr::null_mut();
-    if unsafe {
-      ConvertStringSecurityDescriptorToSecurityDescriptorW(
-        sddl.as_ptr(),
-        1,
-        &mut descriptor,
-        ptr::null_mut(),
-      )
-    } == 0
-    {
-      return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-    }
-    let result = (|| {
-      let security = SecurityAttributes {
-        length: std::mem::size_of::<SecurityAttributes>() as u32,
-        descriptor,
-        inherit: 0,
-      };
-      if unsafe { CreateDirectoryW(name.as_ptr(), &security) } == 0
-        && unsafe { GetLastError() } != 183
-      {
-        return Err("MEDIA_JOURNAL_UNAVAILABLE".into());
+    crate::win_acl::secure_directory(path).map_err(|error| {
+      match error {
+        crate::win_acl::AclError::InputDenied => "MEDIA_INPUT_DENIED",
+        crate::win_acl::AclError::Unavailable => "MEDIA_JOURNAL_UNAVAILABLE",
+        crate::win_acl::AclError::AclFailed => "MEDIA_JOURNAL_ACL_FAILED",
       }
-      let metadata = fs::symlink_metadata(path).map_err(|_| "MEDIA_JOURNAL_UNAVAILABLE")?;
-      if !metadata.is_dir() || metadata.file_attributes() & 0x400 != 0 {
-        return Err("MEDIA_JOURNAL_UNAVAILABLE".into());
-      }
-      let mut present = 0;
-      let mut defaulted = 0;
-      let mut dacl = ptr::null_mut();
-      if unsafe { GetSecurityDescriptorDacl(descriptor, &mut present, &mut dacl, &mut defaulted) }
-        == 0
-        || present == 0
-        || dacl.is_null()
-      {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      if unsafe {
-        SetNamedSecurityInfoW(
-          name.as_ptr(),
-          1,
-          0x80000004,
-          ptr::null(),
-          ptr::null(),
-          dacl,
-          ptr::null(),
-        )
-      } != 0
-      {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      Ok(())
-    })();
-    unsafe {
-      LocalFree(descriptor);
-    }
-    result
+      .into()
+    })
   }
 
   pub(super) fn replace(source: &Path, destination: &Path) -> Result<(), String> {

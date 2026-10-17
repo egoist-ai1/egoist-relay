@@ -1,4 +1,4 @@
-//! Собственный туннель Egoist Social: один `xray.exe` на сессию, четыре loopback-порта, лестница маршрутов.
+//! Собственный туннель Egoist Social: один `xray.exe` на сессию, три loopback-порта и API на защищённом unix-сокете, лестница маршрутов.
 //!
 //! Контракт — `docs/product-cycle-2026-10-13/NETWORK-TUNNEL.md`. Модуль не трогает систему (DNS, маршруты,
 //! системный прокси, TUN, драйверы) и права администратора не требует.
@@ -375,6 +375,8 @@ impl MonitorCtx {
 /// Части конфига Xray, кроме узла: монитор пересобирает конфиг под другой узел без доступа к `Core`.
 #[derive(Clone)]
 struct ConfigBase {
+  /// Сокет API основного процесса (`ipc/api-main.sock`).
+  api_socket: PathBuf,
   doh: String,
   host_ips: BTreeMap<String, Vec<String>>,
   node_hosts: Vec<String>,
@@ -383,7 +385,7 @@ struct ConfigBase {
 impl ConfigBase {
   fn build(&self, node: Option<&Node>) -> Result<serde_json::Value, String> {
     let ports = *PORTS.get().ok_or("TUNNEL_PORTS_MISSING")?;
-    config::build(&config::ConfigInput { ports, node, doh: &self.doh, host_ips: &self.host_ips, node_hosts: &self.node_hosts })
+    config::build(&config::ConfigInput { ports, api_socket: &self.api_socket.to_string_lossy(), node, doh: &self.doh, host_ips: &self.host_ips, node_hosts: &self.node_hosts })
   }
 }
 
@@ -432,7 +434,7 @@ struct Core {
 
 // ---------- публичный API: жизненный цикл ----------
 
-/// Запускает туннель. Вызывать до создания окон WebView. Импортирует `seed.dpapi`, выбирает четыре порта,
+/// Запускает туннель. Вызывать до создания окон WebView. Импортирует `seed.dpapi`, выбирает три порта и создаёт защищённый каталог IPC для сокета API,
 /// поднимает Xray (ждёт не дольше 1,5 с) и запускает монитор проб. `app_data_dir` — каталог данных приложения
 /// (`%LOCALAPPDATA%\com.egoist.relay`), настройки лежат в его подкаталоге `network`; `runtime_dir` — каталог
 /// с `xray.exe`. Повторный вызов возвращает уже выбранные порты. Если ключа нет, Xray не запускается,
@@ -444,6 +446,7 @@ pub fn start(app_data_dir: &Path, runtime_dir: &Path) -> Result<Ports, String> {
   }
   let network_dir = app_data_dir.join("network");
   std::fs::create_dir_all(&network_dir).map_err(|_| "TUNNEL_STORE_WRITE_FAILED".to_string())?;
+  secure_ipc_dir(&network_dir.join(supervisor::IPC_DIR))?;
   let store = Store::new(&network_dir);
   match store.import_seed() {
     Ok(true) => log::info!("[Tunnel] данные установщика импортированы"),
@@ -574,7 +577,24 @@ fn node_hosts(nodes: &[Node]) -> Vec<String> {
   hosts
 }
 
-fn make_spec(core: &Core, ports: Ports, nodes: &[Node], doh: &str, config_name: &str) -> Spec {
+/// Сокет API основного процесса и пробного: разные файлы, чтобы проба не задела рабочий Xray.
+const API_SOCKET_MAIN: &str = "api-main.sock";
+const API_SOCKET_PROBE: &str = "api-probe.sock";
+
+fn api_socket_path(core: &Core, name: &str) -> PathBuf {
+  core.network_dir.join(supervisor::IPC_DIR).join(name)
+}
+
+/// Создаёт каталог IPC и выставляет DACL: только текущий пользователь и SYSTEM. Обратного пути на TCP нет:
+/// без защищённого каталога API Xray остался бы доступен любому локальному процессу.
+#[cfg(windows)]
+fn secure_ipc_dir(dir: &Path) -> Result<(), String> {
+  crate::win_acl::secure_directory(dir).map_err(|_| "TUNNEL_IPC_ACL_FAILED".to_string())
+}
+#[cfg(not(windows))]
+fn secure_ipc_dir(_dir: &Path) -> Result<(), String> { Err("TUNNEL_IPC_ACL_FAILED".into()) }
+
+fn make_spec(core: &Core, ports: Ports, nodes: &[Node], doh: &str, config_name: &str, socket_name: &str) -> Spec {
   let mut secrets: Vec<String> = nodes.iter().map(|node| node.server.clone()).collect();
   if let Some((host, _)) = doh_host_port(doh) { secrets.push(host); }
   secrets.sort();
@@ -583,6 +603,7 @@ fn make_spec(core: &Core, ports: Ports, nodes: &[Node], doh: &str, config_name: 
     xray_exe: core.runtime_dir.join("xray.exe"),
     asset_dir: core.runtime_dir.clone(),
     config_path: core.network_dir.join(config_name),
+    api_socket: api_socket_path(core, socket_name),
     ports,
     secrets,
     restart_required_after: supervisor::RESTART_REQUIRED_AFTER,
@@ -633,6 +654,7 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
     return Ok(());
   };
   let base = ConfigBase {
+    api_socket: api_socket_path(core, API_SOCKET_MAIN),
     doh: prov.doh_url().to_string(),
     host_ips: profile.bootstrap_ips.clone(),
     node_hosts: node_hosts(&resolved.nodes),
@@ -654,7 +676,7 @@ fn configure(core: &mut Core, profile: Profile) -> Result<(), String> {
       }
     }
     None => {
-      let spec = make_spec(core, ports, &resolved.nodes, prov.doh_url(), "xray.json");
+      let spec = make_spec(core, ports, &resolved.nodes, prov.doh_url(), "xray.json", API_SOCKET_MAIN);
       core.supervisor = Some(Supervisor::start(spec, config, supervisor_sink())?);
     }
   }
@@ -1039,14 +1061,16 @@ fn probe_candidate(core: &Core, candidate: &Provisioning, nodes: &[Node]) -> Res
     if picked.all().iter().all(|port| !main.all().contains(port)) { break picked; }
   };
   let hosts = node_hosts(nodes);
+  let api_socket = api_socket_path(core, API_SOCKET_PROBE);
   let config = config::build(&config::ConfigInput {
     ports,
+    api_socket: &api_socket.to_string_lossy(),
     node: nodes.first(),
     doh: candidate.doh_url(),
     host_ips: &BTreeMap::new(),
     node_hosts: &hosts,
   }).map_err(|_| NetworkError::InvalidDoh)?;
-  let spec = make_spec(core, ports, nodes, candidate.doh_url(), "xray-probe.json");
+  let spec = make_spec(core, ports, nodes, candidate.doh_url(), "xray-probe.json", API_SOCKET_PROBE);
   let remaining = deadline.saturating_duration_since(Instant::now());
   let temp = TempXray::start(spec, &config, remaining.min(Duration::from_secs(5))).map_err(|_| NetworkError::ProbeFailed)?;
   let prober = NetProber { probe_proxy: ports.probe_proxy, probe_direct: ports.probe_direct };
