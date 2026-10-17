@@ -405,6 +405,22 @@ describe('peer cache', () => {
     await runJob('channel_history', { channel: '@testchan', limit: 1 });
     expect(resolves).toBe(2);
   });
+
+  test('sequential steps of one source reuse the name across the six-hour mark while it stays active', async () => {
+    let resolves = 0;
+    const [Class, resolver] = resolveRoute();
+    respond([Class, (request: never) => {
+      resolves++;
+      return resolver(request);
+    }], historyRoute(10));
+    vi.setSystemTime(Date.now());
+    for (let step = 0; step < 4; step++) {
+      await runJob('channel_history', { channel: '@testchan', limit: 1 });
+      vi.setSystemTime(Date.now() + 4 * 3600000);
+    }
+    // Шаги идут через 4 часа друг от друга (всего 12 часов): без продления кэш истёк бы на третьем
+    expect(resolves).toBe(1);
+  });
 });
 
 describe('probe', () => {

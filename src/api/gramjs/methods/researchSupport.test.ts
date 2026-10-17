@@ -85,8 +85,28 @@ describe('PeerCache', () => {
     cache.set('e2', 'a', 2);
     now = 6 * 3600000 - 1;
     expect(cache.get('e2', 'a')).toBe(2);
+    // Обращение продлило запись, поэтому ровно через 6 часов от записи она ещё жива
     now = 6 * 3600000;
+    expect(cache.get('e2', 'a')).toBe(2);
+    // Без обращений запись истекает через 6 часов после последнего
+    now += 6 * 3600000;
     expect(cache.get('e2', 'a')).toBeUndefined();
+  });
+
+  test('a successful read slides the expiry but total life stops at seven days', () => {
+    let now = 0;
+    const cache = new PeerCache<number>(() => now);
+    cache.set('e', 'active', 1);
+    cache.set('e', 'idle', 2);
+    for (let hour = 5; hour < 7 * 24; hour += 5) {
+      now = hour * 3600000;
+      expect(cache.get('e', 'active')).toBe(1);
+    }
+    expect(cache.get('e', 'idle')).toBeUndefined();
+    now = 7 * 86400000 - 1;
+    expect(cache.get('e', 'active')).toBe(1);
+    now = 7 * 86400000;
+    expect(cache.get('e', 'active')).toBeUndefined();
   });
 
   test('stays within 5000 entries and a read renews the position', () => {

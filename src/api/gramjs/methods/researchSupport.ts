@@ -12,6 +12,8 @@ const MINUTE_MS = 60000;
 const DAY_MS = 86400000;
 const MAX_WAIT_SECONDS = 86400;
 const PEER_CACHE_TTL_MS = 6 * 3600000;
+// Скользящий срок: каждое успешное обращение продлевает запись на PEER_CACHE_TTL_MS, но общая жизнь записи не дольше недели
+const PEER_CACHE_MAX_LIFETIME_MS = 7 * DAY_MS;
 const PEER_CACHE_MAX_ENTRIES = 5000;
 
 export type WaitKind = 'FLOOD_WAIT' | 'PREMIUM_FLOOD_WAIT' | 'SLOWMODE_WAIT'
@@ -74,6 +76,8 @@ export function buildBudgetError(waitKind: 'RESOLVE_BUDGET' | 'REQUEST_BUDGET', 
 type CacheEntry<T> = {
   value: T;
   expiresAt: number;
+  // Потолок общей жизни записи: после него имя разрешается заново, даже если к нему обращались постоянно
+  maxExpiresAt: number;
 };
 
 // Кэш разрешённых имён и числовых идентификаторов; привязан к эпохе аккаунта и пропадает вместе с ней
@@ -95,7 +99,8 @@ export class PeerCache<T> {
       this.entries.delete(key);
       return undefined;
     }
-    // Свежее обращение переносит запись в конец порядка вставки
+    // Свежее обращение переносит запись в конец порядка вставки и продлевает срок (не дальше потолка)
+    entry.expiresAt = Math.min(this.getNow() + PEER_CACHE_TTL_MS, entry.maxExpiresAt);
     this.entries.delete(key);
     this.entries.set(key, entry);
     return entry.value;
@@ -104,7 +109,8 @@ export class PeerCache<T> {
   set(epoch: string, key: string, value: T) {
     this.bind(epoch);
     this.entries.delete(key);
-    this.entries.set(key, { value, expiresAt: this.getNow() + PEER_CACHE_TTL_MS });
+    const now = this.getNow();
+    this.entries.set(key, { value, expiresAt: now + PEER_CACHE_TTL_MS, maxExpiresAt: now + PEER_CACHE_MAX_LIFETIME_MS });
     while (this.entries.size > PEER_CACHE_MAX_ENTRIES) {
       this.entries.delete(this.entries.keys().next().value!);
     }
