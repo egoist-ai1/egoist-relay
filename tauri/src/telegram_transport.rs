@@ -13,6 +13,11 @@ const RECOVERY_MAX_MS: u64 = 8000;
 const STDERR_LINE_LIMIT: usize = 2048;
 #[cfg(any(windows, test))]
 const STDERR_LINES_PER_WORKER: usize = 50;
+/// Предел журнала tg-ws-proxy за один запуск: число строк и длина строки.
+#[cfg(any(windows, test))]
+const PROXY_LOG_LINES: usize = 20;
+#[cfg(any(windows, test))]
+const PROXY_LOG_LINE_CHARS: usize = 200;
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 static LOCAL_PROXY_READY: AtomicBool = AtomicBool::new(false);
 
@@ -156,6 +161,13 @@ fn supervise_transport(
       // Штатная остановка (выход приложения, замена воркера) — не падение, журнал не засоряем
       if !matches!(stop.try_recv(), Err(mpsc::TryRecvError::Empty)) { return; }
       if started.elapsed() >= STABLE_WORKER_TIME { recovery_attempt = 0; }
+      // Код выхода прокси пишем отдельной строкой: раньше при его смерти была только «status unavailable»
+      if !proxy_alive {
+        match worker.proxy.child.try_wait() {
+          Ok(Some(status)) => log::warn!("[TelegramTransport] tg-ws-proxy exited ({status}); restarting with the bridge"),
+          _ => log::warn!("[TelegramTransport] tg-ws-proxy exited (exit status unavailable); restarting with the bridge"),
+        }
+      }
       match exit {
         Ok(Some(status)) => log::warn!(
           "[TelegramTransport] Owned bridge worker exited ({status}); recovering its local endpoint"),
@@ -291,7 +303,7 @@ fn launch_local_proxy(
     "--dc-ip", "4:149.154.167.220",
     "--log-file", "NUL", "--log-backups", "0"])
     .current_dir(directory).env("TEMP", directory).env("TMP", directory)
-    .stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null());
+    .stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::piped());
   crate::runtime::hide_command_window(&mut command);
   {
     use std::os::windows::process::CommandExt;
@@ -306,6 +318,16 @@ fn launch_local_proxy(
       return Err("TELEGRAM_LOCAL_PROXY_OWNERSHIP_FAILED".into());
     }
   };
+  // stderr прокси читаем отдельным потоком: в журнал идут только warning/error без секретов, с лимитами
+  if let Some(stderr) = child.stderr.take() {
+    let secret = config.local_secret.clone();
+    let _ = std::thread::Builder::new().name("relay-telegram-proxy-stderr".into()).spawn(move || {
+      let mut filter = ProxyLogFilter::default();
+      drain_stderr_with(stderr, usize::MAX, |line| {
+        if let Some(text) = filter.accept(line, &secret) { log::warn!("[TelegramTransport] tg-ws-proxy: {text}"); }
+      });
+    });
+  }
   let mut proxy = OwnedLocalProxy { child, ownership };
   let address = std::net::SocketAddr::from(([127, 0, 0, 1], config.local_port));
   let deadline = Instant::now() + Duration::from_secs(8);
@@ -383,7 +405,36 @@ fn redact(line: &str) -> String {
 /// Читает stderr воркера до конца (иначе он встанет на заполненном пайпе), строки режет по лимиту
 /// и отдаёт в `sink` не более `STDERR_LINES_PER_WORKER` штук уже без секретов.
 #[cfg(any(windows, test))]
-fn drain_stderr<R: std::io::Read>(reader: R, mut sink: impl FnMut(&str)) {
+fn drain_stderr<R: std::io::Read>(reader: R, sink: impl FnMut(&str)) {
+  drain_stderr_with(reader, STDERR_LINES_PER_WORKER, sink)
+}
+
+/// Отбирает строки stderr прокси для журнала: только warning/error, не больше `PROXY_LOG_LINES`
+/// за запуск, каждая не длиннее `PROXY_LOG_LINE_CHARS`; секрет прокси и длинный hex вырезаются.
+#[cfg(any(windows, test))]
+#[derive(Default)]
+struct ProxyLogFilter {
+  logged: usize,
+}
+
+#[cfg(any(windows, test))]
+impl ProxyLogFilter {
+  fn accept(&mut self, line: &str, secret: &str) -> Option<String> {
+    if self.logged >= PROXY_LOG_LINES { return None; }
+    let lower = line.to_ascii_lowercase();
+    if !["warn", "error", "critical", "fatal", "traceback", "exception"].iter().any(|level| lower.contains(level)) {
+      return None;
+    }
+    self.logged += 1;
+    // Секрет вырезаем до redact (он может быть короче 32 символов), затем скрываем длинный hex
+    let cleaned = if secret.is_empty() { line.to_string() } else { line.replace(secret, "<скрыто>") };
+    Some(redact(&cleaned).chars().take(PROXY_LOG_LINE_CHARS).collect())
+  }
+}
+
+/// Как `drain_stderr`, но с явным пределом числа строк, передаваемых в `sink`.
+#[cfg(any(windows, test))]
+fn drain_stderr_with<R: std::io::Read>(reader: R, max_lines: usize, mut sink: impl FnMut(&str)) {
   use std::io::{BufRead, BufReader, Read};
   let mut reader = BufReader::new(reader);
   let mut logged = 0usize;
@@ -401,7 +452,7 @@ fn drain_stderr<R: std::io::Read>(reader: R, mut sink: impl FnMut(&str)) {
         skipped.clear();
       }
     }
-    if logged < STDERR_LINES_PER_WORKER {
+    if logged < max_lines {
       let text = String::from_utf8_lossy(&line);
       let text = text.trim_end();
       if !text.is_empty() {
@@ -471,6 +522,20 @@ mod tests {
     assert_eq!(lines[1].len(), STDERR_LINE_LIMIT);
     assert_eq!(lines[2], "line 0");
     assert!(lines.iter().all(|line| !line.contains(&token)));
+  }
+
+  #[test]
+  fn proxy_log_filter_keeps_warnings_redacts_and_limits() {
+    let secret = "s3cretvalue";
+    let mut filter = ProxyLogFilter::default();
+    assert_eq!(filter.accept("INFO connected", secret), None);
+    let long = format!("ERROR {secret} {} {}", "ab".repeat(20), "z".repeat(500));
+    let text = filter.accept(&long, secret).unwrap();
+    assert!(!text.contains(secret) && !text.contains(&"ab".repeat(20)));
+    assert!(text.starts_with("ERROR <скрыто> <скрыто>"));
+    assert_eq!(text.chars().count(), PROXY_LOG_LINE_CHARS);
+    let accepted = (0..100).filter(|_| filter.accept("warning: dc failed", secret).is_some()).count();
+    assert_eq!(accepted, PROXY_LOG_LINES - 1);
   }
 
   #[test]

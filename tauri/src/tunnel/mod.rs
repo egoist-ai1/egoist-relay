@@ -1083,7 +1083,7 @@ fn fetch_subscription(url: &str, socks_port: u16) -> Result<String, String> {
   command.args(["-q", "-sS", "--fail", "--location", "--max-redirs", "5", "--connect-timeout", "10", "--max-time", "25", "--max-filesize", "5242880", "-K", "-"])
     .arg("--proxy").arg(format!("socks5h://127.0.0.1:{socks_port}"))
     .args(["-A", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"])
-    .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::null());
+    .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped());
   // Свои настройки прокси из окружения curl не нужны: путь задан явно, `-K` читает только stdin
   for name in ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "all_proxy", "no_proxy", "CURL_HOME"] {
     command.env_remove(name);
@@ -1097,18 +1097,78 @@ fn fetch_subscription(url: &str, socks_port: u16) -> Result<String, String> {
   if let Some(mut stdin) = child.stdin.take() {
     stdin.write_all(format!("url = \"{url}\"\n").as_bytes()).map_err(|_| "TUNNEL_CURL_FAILED".to_string())?;
   }
+  // stderr читаем отдельным потоком (пайп не должен заполниться); в журнал идёт только код и фиксированная причина
+  let stderr_reader = child.stderr.take().map(|stderr| std::thread::spawn(move || read_curl_stderr(stderr)));
   let mut body = Vec::new();
   if let Some(stdout) = child.stdout.take() {
     stdout.take(5 * 1024 * 1024 + 1).read_to_end(&mut body).map_err(|_| "TUNNEL_CURL_FAILED".to_string())?;
   }
   let status = child.wait().map_err(|_| "TUNNEL_CURL_FAILED".to_string())?;
+  let stderr_text = stderr_reader.and_then(|reader| reader.join().ok()).unwrap_or_default();
+  if !status.success() {
+    log::warn!("[Tunnel] загрузка подписки: {}", curl_failure_reason(status.code(), &stderr_text));
+  }
   if !status.success() || body.is_empty() || body.len() > 5 * 1024 * 1024 { return Err("TUNNEL_SUBSCRIPTION_FAILED".into()); }
   Ok(String::from_utf8_lossy(&body).into_owned())
+}
+
+/// Предел stderr curl, который держим в памяти; остальное читается и выбрасывается.
+const CURL_STDERR_LIMIT: u64 = 4096;
+
+fn read_curl_stderr<R: std::io::Read>(reader: R) -> String {
+  use std::io::Read;
+  let mut reader = reader;
+  let mut head = Vec::new();
+  let _ = reader.by_ref().take(CURL_STDERR_LIMIT).read_to_end(&mut head);
+  let _ = std::io::copy(&mut reader, &mut std::io::sink());
+  String::from_utf8_lossy(&head).into_owned()
+}
+
+/// Короткая причина отказа curl: код выхода + фиксированный текст. Текст stderr в журнал не идёт
+/// (в нём бывают адрес подписки и хосты); из него берётся только HTTP-код вида «returned error: 403».
+fn curl_failure_reason(code: Option<i32>, stderr: &str) -> String {
+  let Some(code) = code else { return "curl завершён без кода выхода".into() };
+  let reason = match code {
+    5 | 6 => "не разрешилось имя узла",
+    7 => "не удалось подключиться",
+    22 => "сервер вернул ошибку HTTP",
+    28 => "timeout",
+    35 | 51 | 58 | 60 => "ошибка TLS",
+    47 => "слишком много редиректов",
+    56 => "обрыв при получении",
+    63 => "превышен размер ответа",
+    97 => "ошибка SOCKS-прокси",
+    _ => "прочая ошибка",
+  };
+  let http = stderr.split("returned error:").nth(1)
+    .map(|rest| rest.trim_start().chars().take_while(char::is_ascii_digit).take(3).collect::<String>())
+    .filter(|digits| digits.len() == 3);
+  match http {
+    Some(http) => format!("curl exit {code}: {reason} (HTTP {http})"),
+    None => format!("curl exit {code}: {reason}"),
+  }
 }
 
 #[cfg(test)]
 mod tests {
   use super::*;
+
+  #[test]
+  fn curl_reason_has_code_and_no_stderr_text() {
+    let stderr = "curl: (22) The requested URL returned error: 403
+https://sub.example.com/token/abcdef";
+    let text = curl_failure_reason(Some(22), stderr);
+    assert_eq!(text, "curl exit 22: сервер вернул ошибку HTTP (HTTP 403)");
+    assert!(!text.contains("example") && !text.contains("abcdef"));
+    assert_eq!(curl_failure_reason(Some(28), "curl: (28) timed out https://x.test/s"), "curl exit 28: timeout");
+    assert_eq!(curl_failure_reason(None, ""), "curl завершён без кода выхода");
+  }
+
+  #[test]
+  fn curl_stderr_is_bounded() {
+    let big = "x".repeat(100_000);
+    assert_eq!(read_curl_stderr(big.as_bytes()).len(), CURL_STDERR_LIMIT as usize);
+  }
 
   #[test]
   fn status_serializes_to_the_frontend_contract() {
