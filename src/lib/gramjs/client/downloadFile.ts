@@ -42,10 +42,41 @@ const DEFAULT_CHUNK_SIZE = 1024; // KB
 const ONE_MB = 1024 * 1024;
 const DISCONNECT_SLEEP = 1000;
 
-// when the sender requests hangs for 60 second we will reimport
+// Ожидание подключения отправителя и таймаут крупной части: 60 с
 const SENDER_TIMEOUT = 60 * 1000;
+// Небольшие части (<= 128 КБ) обычно приходят за доли секунды, поэтому зависший запрос
+// детектируем быстрее: 15 с вместо 60 с
+const SMALL_PART_MAX_BYTES = 128 * 1024;
+const SMALL_PART_TIMEOUT = 15 * 1000;
+// Предохранитель пересоздания exported-отправителя: не более 2 раз на dcId за 30 с,
+// дальше повтор идёт на прежнем отправителе (чтобы не устроить шторм переподключений)
+const SENDER_RECREATE_MAX = 2;
+const SENDER_RECREATE_WINDOW = 30 * 1000;
 // Telegram may have server issues so we try several times
 const SENDER_RETRIES = 5;
+
+export function getPartTimeout(limit: number) {
+  return limit <= SMALL_PART_MAX_BYTES ? SMALL_PART_TIMEOUT : SENDER_TIMEOUT;
+}
+
+const recreateHistory = new WeakMap<object, Map<number, number[]>>();
+
+// Возвращает true и записывает попытку, если пересоздание отправителя dcId разрешено предохранителем
+export function tryAcquireSenderRecreate(owner: object, dcId: number, now = Date.now()) {
+  let byDc = recreateHistory.get(owner);
+  if (!byDc) {
+    byDc = new Map();
+    recreateHistory.set(owner, byDc);
+  }
+  const recent = (byDc.get(dcId) ?? []).filter((time) => now - time < SENDER_RECREATE_WINDOW);
+  if (recent.length >= SENDER_RECREATE_MAX) {
+    byDc.set(dcId, recent);
+    return false;
+  }
+  recent.push(now);
+  byDc.set(dcId, recent);
+  return true;
+}
 
 class FileView {
   private type: 'memory' | 'opfs';
@@ -253,6 +284,8 @@ async function downloadFile2(
           while (true) {
             if (isCanceled()) throw new Error('USER_CANCELED');
             let sender;
+            const attemptStart = Date.now();
+            const partTimeout = getPartTimeout(limit);
             const abortController = new AbortController();
             try {
               sender = await waitForMediaTransfer(
@@ -266,7 +299,9 @@ async function downloadFile2(
                 limit,
                 precise: isPrecise || undefined,
               }), abortController.signal, false, isResearchRequest)!, isCanceled,
-              SENDER_TIMEOUT, () => abortController.abort());
+              partTimeout, () => abortController.abort());
+              logWithId(`GetFile dc=${dcId} sender=${senderIndex} limit=${limit} attempt=${retryCount + 1}`
+                + ` ms=${Date.now() - attemptStart} ok`);
 
               if (!result) throw new Error('DOWNLOAD_EMPTY_RESPONSE');
               if (result instanceof Api.upload.FileCdnRedirect) throw new Error('CDN download not supported');
@@ -285,6 +320,8 @@ async function downloadFile2(
               return;
             } catch (err) {
               if (isCanceled() || (err instanceof Error && err.message === 'USER_CANCELED')) throw err;
+              logWithId(`GetFile dc=${dcId} sender=${senderIndex} limit=${limit} attempt=${retryCount + 1}`
+                + ` ms=${Date.now() - attemptStart} error=${err instanceof Error ? err.message : String(err)}`);
               if (isResearchRequest) throw err;
               if (err instanceof FloodWaitError) {
                 if (err instanceof FloodPremiumWaitError && !isPremiumFloodWaitSent) {
@@ -296,6 +333,11 @@ async function downloadFile2(
               }
               if ((sender && !sender.isConnected()) || (err instanceof Error && err.message === 'DOWNLOAD_TIMEOUT')) {
                 if (++retryCount < SENDER_RETRIES) {
+                  // Отправитель мог зависнуть: пересоздаём его перед повтором (с предохранителем)
+                  if (tryAcquireSenderRecreate(client, dcId)) {
+                    logWithId(`Recreating sender dc=${dcId} idx=${senderIndex}`);
+                    await client._cleanupExportedSender(dcId, senderIndex).catch(() => undefined);
+                  }
                   await waitForMediaTransfer(sleep(DISCONNECT_SLEEP), isCanceled);
                   continue;
                 }
