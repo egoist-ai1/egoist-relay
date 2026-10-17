@@ -1,5 +1,5 @@
 diff --git a/proxy/cf_h2.py b/proxy/cf_h2.py
-index 0443cf7..e88d9a8 100644
+index 0443cf7..866b4c5 100644
 --- a/proxy/cf_h2.py
 +++ b/proxy/cf_h2.py
 @@ -12,7 +12,7 @@
@@ -11,7 +11,7 @@ index 0443cf7..e88d9a8 100644
  from .stats import stats
  from .utils import (
      DC_DEFAULT_IPS, PROTO_TAG_ABRIDGED,
-@@ -44,6 +44,19 @@
+@@ -44,6 +44,20 @@
  REPLAY_MAX_ATTEMPTS = 3
  SLOW_RESPONSE_SECONDS = 3.0
  DIAGNOSTIC_INTERVAL = 5.0
@@ -19,8 +19,9 @@ index 0443cf7..e88d9a8 100644
 +# маршрут считается мёртвым, клиент переподключается через другой lane.
 +FIRST_BYTE_TIMEOUT = 15.0
 +# Бан lane после таймаута или обрыва: BASE, затем удвоение до MAX (секунды).
-+# Успешный ответ сбрасывает счётчик. Если в бане все lane, берётся тот,
-+# у которого failed_until меньше.
++# Успешный ответ сбрасывает счётчик. Если в бане все lane, открытый lane с самым
++# ранним failed_until берётся, только когда до конца бана осталось <= BASE;
++# иначе открытие отдаёт None и работает запасной WS-маршрут.
 +LANE_BAN_BASE = 5.0
 +LANE_BAN_MAX = 60.0
 +
@@ -31,7 +32,7 @@ index 0443cf7..e88d9a8 100644
  
  
  @dataclass
-@@ -497,6 +510,12 @@ async def _run_request(self, body: bytes, replay: bool, packet: Optional[_Replay
+@@ -497,6 +511,12 @@ async def _run_request(self, body: bytes, replay: bool, packet: Optional[_Replay
              if trace is not None:
                  trace.phase = 'error-' + type(exc).__name__
              stats.h2_errors += 1
@@ -44,7 +45,7 @@ index 0443cf7..e88d9a8 100644
              if isinstance(exc, (httpx.HTTPError, OSError, ValueError, BufferError)):
                  log.warning('[%s] H2 lane=%d channel=%d request failed: %s: %s; '
                              'detail=[%s]; '
-@@ -619,6 +638,7 @@ def __init__(self, host: str, lane_id: int):
+@@ -619,6 +639,7 @@ def __init__(self, host: str, lane_id: int):
          self.host, self.lane_id = host, lane_id
          self.channels: Set[_HttpChannel] = set()
          self.failed_until = 0.0
@@ -52,7 +53,7 @@ index 0443cf7..e88d9a8 100644
          self.closed = False
          self.tcp_connections = self.requests = self.responses = self.errors = 0
          self.slow_headers = self.slow_bodies = self.replays = 0
-@@ -636,6 +656,17 @@ def __init__(self, host: str, lane_id: int):
+@@ -636,6 +657,17 @@ def __init__(self, host: str, lane_id: int):
              timeout=httpx.Timeout(REQUEST_TIMEOUT, connect=8, pool=REQUEST_TIMEOUT),
          )
  
@@ -70,7 +71,7 @@ index 0443cf7..e88d9a8 100644
      async def _trace(self, event: str, info: Dict) -> None:
          if event == 'connection.connect_tcp.started':
              self.tcp_connections += 1
-@@ -725,7 +756,8 @@ def response_started():
+@@ -725,7 +757,8 @@ def response_started():
                  'POST', 'https://' + self.host + '/api', content=body,
                  headers={'content-type': 'application/octet-stream', 'accept-encoding': 'identity'},
                  extensions={'trace': request_trace,
@@ -80,7 +81,7 @@ index 0443cf7..e88d9a8 100644
                  headers_at = time.monotonic()
                  if trace is not None:
                      trace.cf_ray = ''.join(c for c in response.headers.get('cf-ray', '-')[:64]
-@@ -772,6 +804,7 @@ def response_started():
+@@ -772,6 +805,7 @@ def response_started():
                      if code < 0:
                          raise _MTProtoTransportError(code, 'HTTP 200 payload')
                  self.responses += 1
@@ -88,16 +89,22 @@ index 0443cf7..e88d9a8 100644
                  if channel is not None:
                      channel.http_bytes += received
                      channel.small_responses += int(received <= 4096)
-@@ -799,7 +832,7 @@ def response_started():
+@@ -797,9 +831,12 @@ def response_started():
              raise
-         except (httpx.HTTPError, OSError, ValueError, BufferError):
+         except _ReplyBufferFull:
+             raise
+-        except (httpx.HTTPError, OSError, ValueError, BufferError):
++        except (httpx.HTTPError, OSError, ValueError, BufferError) as exc:
              self.errors += 1
 -            self.failed_until = time.monotonic() + DOMAIN_COOLDOWN
-+            self.mark_failed()
++            # Повтор/опрос, который сервер вправе держать дольше 15 с, на живом
++            # соединении не должен банить lane.
++            if not (replay and isinstance(exc, FirstByteTimeout) and not exc.silent):
++                self.mark_failed()
              raise
          finally:
              self.reply_buffer_bytes -= buffered
-@@ -864,6 +897,7 @@ def __init__(self):
+@@ -864,6 +901,7 @@ def __init__(self):
          self.lanes: Dict[str, _HttpLane] = {}
          self.locks: Dict[int, asyncio.Lock] = {}
          self.failed_until: Dict[str, float] = {}
@@ -105,7 +112,7 @@ index 0443cf7..e88d9a8 100644
          self.setup_retry_after: Dict[int, float] = {}
          self.next_lane = self.next_channel = 0
          self.closed = False
-@@ -894,11 +928,13 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+@@ -894,11 +932,13 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
              domains = list(balancer.get_domains_for_dc(dc))
              selected = None
              candidates = []
@@ -121,22 +128,22 @@ index 0443cf7..e88d9a8 100644
                      continue
                  if lane is not None and not lane.closed:
                      selected = (base_domain, lane)
-@@ -906,6 +942,14 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+@@ -906,6 +946,14 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
                  candidates.append(base_domain)
              if selected is None:
                  selected = await self._select_lane(dc, label, candidates)
 +            if selected is None and banned:
-+                # Все lane в бане или не прошли проверку: не отказываем, а берём
-+                # тот, у которого бан закончится раньше всех.
-+                _, base_domain, lane = min(banned, key=lambda item: item[0])
-+                if lane is not None and not lane.closed:
++                # Все lane в бане: берём уже открытый lane с самым ранним концом бана,
++                # но только если ждать осталось недолго. Иначе отдаём None, чтобы
++                # сработал запасной WS-маршрут, и не пробуем хосты в обход бана.
++                until, base_domain, lane = min(banned, key=lambda item: item[0])
++                if (lane is not None and not lane.closed
++                        and until - time.monotonic() <= LANE_BAN_BASE):
 +                    selected = (base_domain, lane)
-+                else:
-+                    selected = await self._select_lane(dc, label, [base_domain])
              if selected is not None:
                  base_domain, lane = selected
                  if self.closed:
-@@ -922,6 +966,14 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
+@@ -922,6 +970,14 @@ async def _open(self, dc: int, label: str) -> Optional[_HttpChannel]:
          log.debug('[%s] H2 DC%d unavailable; using WS', label, dc)
          return None
  
@@ -151,7 +158,7 @@ index 0443cf7..e88d9a8 100644
      async def _select_lane(self, dc: int, label: str, domains: List[str]):
          slots = asyncio.Semaphore(SELECTION_CONCURRENCY)
  
-@@ -937,10 +989,12 @@ async def probe(base_domain):
+@@ -937,10 +993,12 @@ async def probe(base_domain):
                      if self.closed:
                          await lane.close()
                          return None
@@ -166,7 +173,7 @@ index 0443cf7..e88d9a8 100644
                                  label, lane.lane_id, host, type(exc).__name__)
                      await lane.close()
 diff --git a/proxy/h2_transport.py b/proxy/h2_transport.py
-index 59eaf9e..7b638bc 100644
+index 59eaf9e..1d83d7a 100644
 --- a/proxy/h2_transport.py
 +++ b/proxy/h2_transport.py
 @@ -1,6 +1,7 @@
@@ -231,22 +238,23 @@ index 59eaf9e..7b638bc 100644
          except asyncio.TimeoutError as exc:
 +            if first_byte:
 +                error = FirstByteTimeout('No response byte for H2 stream %d' % self.stream_id)
-+                # Если после отправки запроса по соединению не пришло вообще ничего
-+                # (ни данных, ни ack на PING), маршрут мёртв: закрываем соединение,
++                # Если после отправки запроса ни по одному стриму не пришло ни
++                # заголовков, ни данных (ack на PING от edge не в счёт), маршрут мёртв: закрываем соединение,
 +                # чтобы остальные запросы не ждали 65 секунд.
 +                error.silent = (self.sent_at is not None
-+                                and self.connection.last_rx <= self.sent_at)
++                                and self.connection.last_stream_rx <= self.sent_at)
 +                if error.silent:
 +                    self.connection.fail(error)
 +                raise error from exc
              error = httpx.ReadTimeout('Timed out waiting for H2 stream %d' % self.stream_id)
              # An idle socket can remain established after the path stops
              # delivering data. Reconnect once its last active request times
-@@ -97,10 +129,13 @@ def __init__(self, reader, writer, max_streams, write_timeout):
+@@ -97,10 +129,14 @@ def __init__(self, reader, writer, max_streams, write_timeout):
          self.write_lock = asyncio.Lock()
          self.settings_received = False
          self.error = None
-+        self.last_rx = time.monotonic()
++        self.last_rx = time.monotonic()  # любые входящие байты (для логики PING)
++        self.last_stream_rx = self.last_rx  # только HEADERS/DATA по стримам
 +        self.ping_waiter = None
          self.h2.initiate_connection()
          self.h2.increment_flow_control_window(CONNECTION_RECEIVE_WINDOW - 65535)
@@ -256,7 +264,7 @@ index 59eaf9e..7b638bc 100644
  
      def get_extra_info(self, name):
          return self.writer.get_extra_info(name)
-@@ -141,6 +176,7 @@ async def read_loop(self):
+@@ -141,6 +177,7 @@ async def read_loop(self):
                  data = await self.reader.read(IO_BATCH_SIZE)
                  if not data:
                      raise httpx.ReadError('H2 peer closed the connection')
@@ -264,7 +272,7 @@ index 59eaf9e..7b638bc 100644
                  events = self.h2.receive_data(data)
                  terminated = any(isinstance(e, ConnectionTerminated) for e in events)
                  connection_credit = 0
-@@ -150,6 +186,10 @@ async def read_loop(self):
+@@ -150,10 +187,16 @@ async def read_loop(self):
                          self.changed.set()
                      elif isinstance(event, WindowUpdated):
                          self.changed.set()
@@ -275,7 +283,13 @@ index 59eaf9e..7b638bc 100644
                      elif isinstance(event, ConnectionTerminated):
                          raise httpx.RemoteProtocolError('H2 GOAWAY error=%s last_stream=%s' % (
                              event.error_code, event.last_stream_id))
-@@ -187,6 +227,44 @@ async def read_loop(self):
+                     else:
++                        if isinstance(event, (ResponseReceived, DataReceived)):
++                            self.last_stream_rx = self.last_rx
+                         stream = self.streams.get(getattr(event, 'stream_id', None))
+                         if isinstance(event, DataReceived):
+                             if event.flow_controlled_length and not terminated:
+@@ -187,6 +230,44 @@ async def read_loop(self):
              error = exc if isinstance(exc, httpx.HTTPError) else httpx.RemoteProtocolError(str(exc))
              self.fail(error)
  
@@ -320,7 +334,7 @@ index 59eaf9e..7b638bc 100644
      def check_error(self):
          if self.error is not None:
              raise self.error
-@@ -256,12 +334,15 @@ async def request(self, request):
+@@ -256,12 +337,15 @@ async def request(self, request):
              if trace:
                  await trace('http2.send_request_headers.started', {'stream_id': stream_id})
              await self.send_body(request, stream)
@@ -337,7 +351,7 @@ index 59eaf9e..7b638bc 100644
              stream.check_error()
              status = next(int(v) for k, v in stream.headers if k == b':status')
              return httpx.Response(status, headers=[(k, v) for k, v in stream.headers
-@@ -301,7 +382,8 @@ def release(self, stream):
+@@ -301,7 +385,8 @@ def release(self, stream):
      async def aclose(self):
          self.fail(httpx.ReadError('H2 connection closed'))
          self.reader_task.cancel()

@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "runtime/telegram/tg-ws-proxy.exe",
-      "bytes": 13837258,
-      "sha256": "2cf3deee03be1761a626f5190874cadea379c9f4c51ec91a86012b3637c18902"
+      "bytes": 13837403,
+      "sha256": "9d255211e315bfff8b6cf3283af1121668c3a9df9887f196d6b94bf81c79c7c8"
     },
     {
       "path": "runtime/telegram/LICENSE.txt",
@@ -15,7 +15,7 @@
     {
       "path": "runtime/telegram/provenance.json",
       "bytes": 1432,
-      "sha256": "a1ecb802c0a8a5b546b7d059adefbd31dca43685b309bbfd85a76f1edaee86d7"
+      "sha256": "eef2c77772d7d6cf09e134e22f62e4f66b81135539aa80bab2e184d8bfafc867"
     },
     {
       "path": "runtime/telegram/THIRD-PARTY-NOTICES.txt",
@@ -329,8 +329,8 @@
     },
     {
       "path": "runtime/README.md",
-      "bytes": 4235,
-      "sha256": "4ed041a2462b8fe6d962489b23de5a792694eae920dd12e63d41ffc4b3a7f264"
+      "bytes": 4299,
+      "sha256": "04f8cb9572ca21a64a259a0a647764d20fd1b9be5a8aee4a86c36650ab34e111"
     },
     {
       "path": "runtime/research/bridge-server.mjs",

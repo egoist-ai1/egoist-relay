@@ -69,16 +69,26 @@ class PoolSelectionTest(unittest.TestCase):
                 await pool.close()
         asyncio.run(main())
 
-    def test_all_banned_picks_smallest_failed_until(self):
+    def test_all_banned_soon_picks_smallest_failed_until(self):
         async def scenario(pool):
             now = time.monotonic()
-            for index, (domain, offset) in enumerate((('a.test', 50), ('b.test', 20)), 1):
+            for index, (domain, offset) in enumerate((('a.test', 4), ('b.test', 2)), 1):
                 lane = cf_h2._HttpLane('kws2.%s' % domain, index)
                 lane.failed_until = now + offset
                 pool.lanes[lane.host] = lane
             channel = await pool._open(2, 'test')
             self.assertIsNotNone(channel)
             self.assertEqual(channel.lane.host, 'kws2.b.test')
+        self.run_pool(scenario)
+
+    def test_all_banned_for_long_returns_none_so_ws_fallback_runs(self):
+        async def scenario(pool):
+            now = time.monotonic()
+            for index, (domain, offset) in enumerate((('a.test', 50), ('b.test', 20)), 1):
+                lane = cf_h2._HttpLane('kws2.%s' % domain, index)
+                lane.failed_until = now + offset
+                pool.lanes[lane.host] = lane
+            self.assertIsNone(await pool._open(2, 'test'))
         self.run_pool(scenario)
 
     def test_banned_lane_is_skipped_while_another_is_free(self):
@@ -92,7 +102,7 @@ class PoolSelectionTest(unittest.TestCase):
             self.assertEqual(channel.lane.host, 'kws2.b.test')
         self.run_pool(scenario)
 
-    def test_all_banned_without_lanes_probes_least_banned(self):
+    def test_all_banned_without_lanes_does_not_probe_around_the_ban(self):
         async def scenario(pool):
             now = time.monotonic()
             pool.failed_until.update({'kws2.a.test': now + 40, 'kws2.b.test': now + 10})
@@ -103,13 +113,14 @@ class PoolSelectionTest(unittest.TestCase):
                 return None
             pool._select_lane = fake_select
             self.assertIsNone(await pool._open(2, 'test'))
-            self.assertEqual(probed, [[], ['b.test']])
+            self.assertEqual(probed, [[]])  # только обычный вызов без кандидатов
         self.run_pool(scenario)
 
 
 class FakeStreamConnection:
-    def __init__(self, last_rx):
-        self.last_rx = last_rx
+    def __init__(self, last_stream_rx, last_rx=None):
+        self.last_stream_rx = last_stream_rx
+        self.last_rx = last_stream_rx if last_rx is None else last_rx
         self.streams = {}
         self.failed = None
 
@@ -118,9 +129,12 @@ class FakeStreamConnection:
 
 
 class FirstByteTimeoutTest(unittest.TestCase):
-    def wait(self, last_rx_offset):
+    def wait(self, last_rx_offset, ping_ack_offset=None):
         async def scenario():
-            connection = FakeStreamConnection(time.monotonic() + last_rx_offset)
+            now = time.monotonic()
+            connection = FakeStreamConnection(
+                now + last_rx_offset,
+                None if ping_ack_offset is None else now + ping_ack_offset)
             stream = h2_transport._ResponseStream(connection, 1, 65.0)
             stream.sent_at = time.monotonic()
             started = time.monotonic()
@@ -140,8 +154,59 @@ class FirstByteTimeoutTest(unittest.TestCase):
         self.assertFalse(error.silent)
         self.assertIsNone(connection.failed)
 
+    def test_ping_ack_alone_does_not_make_connection_alive(self):
+        # ack на PING пришёл после отправки, но ни заголовков, ни данных по стримам нет
+        connection, error = self.wait(-1.0, ping_ack_offset=+1.0)
+        self.assertTrue(error.silent)
+        self.assertIs(connection.failed, error)
+
     def test_timeout_is_an_http_error_for_lane_ban(self):
         self.assertTrue(issubclass(h2_transport.FirstByteTimeout, httpx.HTTPError))
+
+
+class FakeStreamContext:
+    def __init__(self, error):
+        self.error = error
+
+    async def __aenter__(self):
+        raise self.error
+
+    async def __aexit__(self, *exc):
+        return False
+
+
+class FakeClient:
+    def __init__(self, error):
+        self.error = error
+
+    def stream(self, *args, **kwargs):
+        return FakeStreamContext(self.error)
+
+
+class LaneBanOnTimeoutTest(unittest.TestCase):
+    def post(self, replay, silent):
+        async def scenario():
+            lane = cf_h2._HttpLane('kws2.a.test', 1)
+            error = h2_transport.FirstByteTimeout('no byte')
+            error.silent = silent
+            real_client, lane.client = lane.client, FakeClient(error)
+            try:
+                with self.assertRaises(h2_transport.FirstByteTimeout):
+                    await lane._post(b'\x00' * 24, 1, replay=replay)
+                return lane.failed_until
+            finally:
+                lane.client = real_client
+                await lane.close()
+        return asyncio.run(scenario())
+
+    def test_quiet_replay_does_not_ban_lane(self):
+        self.assertEqual(self.post(replay=True, silent=False), 0.0)
+
+    def test_silent_replay_bans_lane(self):
+        self.assertGreater(self.post(replay=True, silent=True), 0.0)
+
+    def test_original_request_timeout_bans_lane(self):
+        self.assertGreater(self.post(replay=False, silent=False), 0.0)
 
 
 class FakeWriter:
