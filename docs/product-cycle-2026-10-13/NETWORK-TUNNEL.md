@@ -12,6 +12,7 @@
    - возврат на ступень 1 автоматический.
 
    Системный DNS и системный прокси не используются никогда.
+   Исключение с версии 1.9.6: Telegram идёт мимо Xray через собственный локальный TG-прокси (`telegram_transport`) с системным DNS и системным маршрутом. В лестницу ступеней он не входит, в статусе у него свой маршрут `LocalProxy` / `Unavailable`.
 4. Скрытый в настройках сервис не создаёт сетевой нагрузки.
 
 ## Решения руководителя (обратимые, константы)
@@ -23,12 +24,11 @@
 ## Схема
 
 - **Процесс.** Один `runtime/xray.exe` на сессию под `worker_job::WorkerJob` (KILL_ON_JOB_CLOSE). Конфиг лежит в `%LOCALAPPDATA%\com.egoist.relay\network\xray.json`. Модуль — `tauri/src/tunnel/`.
-- **Порты.** Четыре loopback-порта из 20000–60000. Исключены 10808–10909 и 10085–10185 (Lagom). Каждый проверяется через bind+drop и фиксируется на сессию:
+- **Порты.** Три loopback-TCP-порта из 20000–60000. Исключены 10808–10909 и 10085–10185 (Lagom). Каждый проверяется через bind+drop и фиксируется на сессию:
 
   | Порт | Inbound | Назначение |
   |---|---|---|
   | `P_socks` | `socks`, `udp:false` | весь трафик → `balancerTag: active` |
-  | `P_api` | `dokodemo-door` | API: HandlerService, RoutingService |
   | `P_probe_proxy` | `http` | всегда в `proxy` |
   | `P_probe_direct` | `http` | всегда в `direct` |
 
@@ -37,7 +37,12 @@
   - `direct` — `freedom`, `domainStrategy: UseIPv4`;
   - `block`.
 - **Routing.** `geoip:private` уходит в `block`; исключения — inbounds api и probe. DNS идёт `dns-internal` → балансер `active`. Всё остальное — в `active`.
-- **Балансер `active`.** `selector: ["proxy"]`, `fallbackTag: "direct"`, без observatory. Переключает Rust: `xray api bo -s 127.0.0.1:P_api -b active direct` и `... -b active -r` (команды есть в нашей сборке 47cfe999, проверено 13.10.2026).
+- **API Xray на защищённом unix-сокете.** HandlerService и RoutingService (`lso`, `adi`, `ado`/`rmo`, `adrules`, `bo`) слушают не TCP, а unix-сокет `network/ipc/api-main.sock` (у проб — `api-probe.sock`). Каталог `ipc` создаётся при старте с DACL `O:{sid}D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;{sid})`: полный доступ только у текущего пользователя и SYSTEM, наследование отключено (`win_acl::secure_directory`). Если DACL выставить не удалось, туннель не стартует (`TUNNEL_IPC_ACL_FAILED`), возврата на TCP нет. Причина: открытый API давал любому локальному процессу, в том числе другого пользователя Windows, прочитать outbound с ключом (`lso`), открыть inbound на 0.0.0.0 (`adi`) или перенаправить трафик (`adrules`, `bo`, `rmo`).
+  - Inbound `api` — `dokodemo-door` с `listen` = абсолютный путь с `/` и **без поля `port`** (с `port` Xray падает с panic `strconv.Atoi` при первом подключении); в `settings` формальные `address: 127.0.0.1`, `port: 1`.
+  - Клиентский адрес: `-s=unix:C:/…/api.sock`.
+  - Файл сокета после kill остаётся на диске, и новый Xray не стартует («failed to listen Unix Domain Socket»). Поэтому перед каждым запуском файл удаляется, после kill тоже, а `purge_leftovers` чистит `ipc` при старте.
+  - Путь сокета: абсолютный, не длиннее 100 байт (предел AF_UNIX — 108), без `"`. Иначе старт с ошибкой `TUNNEL_API_SOCKET_INVALID`. Кириллица и пробелы в пути Xray принимает (проверено тестом).
+- **Балансер `active`.** `selector: ["proxy"]`, `fallbackTag: "direct"`, без observatory. Переключает Rust: `xray api bo -s unix:<ipc>/api-main.sock -b active direct` и `... -b active -r` (команды есть в нашей сборке 47cfe999, проверено 13.10.2026).
 - **DNS.**
   - `servers`: сначала приватный DoH (основной). Для хоста DoH и хоста VPN — `https+local://1.1.1.1/dns-query` с `skipFallback: true`. Резерв — `https+local://8.8.8.8/dns-query`.
   - `queryStrategy: UseIPv4`.
@@ -50,7 +55,7 @@
 
   Правило `--host-resolver-rules` для twimg убирается. С одним SOCKS-прокси у Chromium нет прямого фолбэка, имена уходят в SOCKS, поэтому kill switch для WebView получается сам собой.
 - **Медиа из Rust и Node.** `socks5h://127.0.0.1:P_socks`. `system_proxy.rs` удаляется. Пока Xray не готов, возвращается `MEDIA_TUNNEL_UNAVAILABLE`. yt-dlp запускается с `--hls-prefer-native`, потому что ffmpeg не умеет SOCKS.
-- **Telegram.** Стандартный `wss` Telegram Web A через прокси WebView. Ступень 2б: MTProxy-ссылка из настроек (по умолчанию пусто). Её TCP идёт через `socks5h://127.0.0.1:P_socks`. Файлы Lagom больше не читаются.
+- **Telegram.** С 1.9.6 Telegram идёт мимо Xray: через собственный локальный TG-прокси (`telegram_transport`) с системным DNS и системным маршрутом. Описание ниже (wss через прокси WebView, MTProxy через `P_socks`) относится к исходной схеме 13.10.2026. Стандартный `wss` Telegram Web A через прокси WebView. Ступень 2б: MTProxy-ссылка из настроек (по умолчанию пусто). Её TCP идёт через `socks5h://127.0.0.1:P_socks`. Файлы Lagom больше не читаются.
 
 ## Лестница (`tunnel/ladder.rs`)
 
@@ -91,7 +96,7 @@
   - Загрузка через `P_socks` каждые 12 ч и по кнопке.
   - Форматы: base64 или по строке.
   - Протоколы: vless, trojan, ss, vmess. hy2, tuic и wg пропускаются (это не Xray).
-- **Защита локального прокси.** SOCKS без авторизации на loopback, порт случайный. Другой процесс того же пользователя может им воспользоваться, и закрыть это нельзя: такой процесс может прочитать и DPAPI. Риск принят.
+- **Защита локального прокси.** SOCKS и HTTP-порты проб без авторизации на loopback, порт случайный. Ими может воспользоваться любой локальный пользователь ОС, не только процесс того же пользователя. Закрыть это нельзя: Chromium/WebView2 не умеет SOCKS5 с паролем и прокси на unix-сокете. Для процессов того же пользователя защиты нет в любом случае: они могут прочитать и DPAPI. Риск принят. API Xray, которым можно прочитать ключ и перенаправить трафик, от этого риска отделён: он на защищённом unix-сокете (см. выше).
 
 ## Задания исполнителям
 
