@@ -7,6 +7,8 @@ use std::time::{Duration, Instant};
 use tauri::{AppHandle, Emitter, Listener, Manager, Webview};
 use url::Url;
 
+use super::{has_social_overlay, INSTAGRAM_WEBVIEW_LABEL, X_WEBVIEW_LABEL};
+
 const PREPARE_TIMEOUT: Duration = Duration::from_secs(120);
 const MAX_PREPARED_DOWNLOADS: usize = 128;
 const MAX_FILE_NAME_UTF16_UNITS: usize = 160;
@@ -540,6 +542,7 @@ fn install_windows(webview: &Webview, service: &'static str) -> Result<(), Strin
         })), &mut download_token)?;
         let accelerator_app = app.clone();
         let is_mini_app = label.starts_with("mini-app-");
+        let accelerator_label = label.clone();
         let mut accelerator_token = 0;
         if let Err(error) = controller.add_AcceleratorKeyPressed(&AcceleratorKeyPressedEventHandler::create(Box::new(move |_, args| {
           let Some(args) = args else { return Ok(()); };
@@ -549,7 +552,9 @@ fn install_windows(webview: &Webview, service: &'static str) -> Result<(), Strin
           args.KeyEventKind(&mut kind)?;
           use webview2_com::Microsoft::Web::WebView2::Win32::{COREWEBVIEW2_KEY_EVENT_KIND_KEY_DOWN, COREWEBVIEW2_KEY_EVENT_KIND_SYSTEM_KEY_DOWN};
           let is_down = kind == COREWEBVIEW2_KEY_EVENT_KIND_KEY_DOWN || kind == COREWEBVIEW2_KEY_EVENT_KIND_SYSTEM_KEY_DOWN;
-          if !is_ctrl_j(key, is_down, key_down(0x11), key_down(0x12), key_down(0x10)) { return Ok(()); }
+          let Some(shortcut) = match_shortcut(key, is_down, key_down(0x11), key_down(0x12), key_down(0x10)) else { return Ok(()); };
+          // Палитру команд открывают только окна X и Instagram: остальным Ctrl+K нужен самим (ссылка в редакторе, поиск)
+          if shortcut == Shortcut::Palette && !(is_social_label(&accelerator_label) && !has_social_overlay()) { return Ok(()); }
           args.SetHandled(true)?;
           let mut physical = webview2_com::Microsoft::Web::WebView2::Win32::COREWEBVIEW2_PHYSICAL_KEY_STATUS::default();
           args.PhysicalKeyStatus(&mut physical)?;
@@ -559,7 +564,10 @@ fn install_windows(webview: &Webview, service: &'static str) -> Result<(), Strin
             if is_mini_app {
               if let Some(main) = app.get_webview("main") { let _ = main.set_focus(); }
             }
-            let _ = app.emit_to("main", "relay-media-toggle", ());
+            let _ = app.emit_to("main", match shortcut {
+              Shortcut::Media => "relay-media-toggle",
+              Shortcut::Palette => "relay-palette-toggle",
+            }, ());
           });
           Ok(())
         })), &mut accelerator_token) {
@@ -576,8 +584,23 @@ fn install_windows(webview: &Webview, service: &'static str) -> Result<(), Strin
   }).map_err(|_| "MEDIA_NATIVE_HOOK_FAILED".into())
 }
 
-fn is_ctrl_j(key: u32, is_down: bool, control: bool, alt: bool, shift: bool) -> bool {
-  key == 0x4a && is_down && control && !alt && !shift
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum Shortcut {
+  Media,
+  Palette,
+}
+
+fn match_shortcut(key: u32, is_down: bool, control: bool, alt: bool, shift: bool) -> Option<Shortcut> {
+  if !is_down || !control || alt || shift { return None; }
+  match key {
+    0x4a => Some(Shortcut::Media),
+    0x4b => Some(Shortcut::Palette),
+    _ => None,
+  }
+}
+
+fn is_social_label(label: &str) -> bool {
+  label == X_WEBVIEW_LABEL || label == INSTAGRAM_WEBVIEW_LABEL
 }
 
 #[cfg(windows)]
@@ -786,11 +809,23 @@ mod tests {
 
   #[test]
   fn ctrl_j_does_not_capture_devtools_variants_or_key_up() {
-    assert!(is_ctrl_j(0x4a, true, true, false, false));
-    assert!(!is_ctrl_j(0x4a, true, true, false, true));
-    assert!(!is_ctrl_j(0x4a, true, true, true, false));
-    assert!(!is_ctrl_j(0x4a, false, true, false, false));
-    assert!(!is_ctrl_j(0x4a, true, false, false, false));
+    assert_eq!(match_shortcut(0x4a, true, true, false, false), Some(Shortcut::Media));
+    assert_eq!(match_shortcut(0x4a, true, true, false, true), None);
+    assert_eq!(match_shortcut(0x4a, true, true, true, false), None);
+    assert_eq!(match_shortcut(0x4a, false, true, false, false), None);
+    assert_eq!(match_shortcut(0x4a, true, false, false, false), None);
+  }
+
+  #[test]
+  fn ctrl_k_opens_palette_only_without_other_modifiers_and_only_from_social_windows() {
+    assert_eq!(match_shortcut(0x4b, true, true, false, false), Some(Shortcut::Palette));
+    assert_eq!(match_shortcut(0x4b, true, true, false, true), None);
+    assert_eq!(match_shortcut(0x4b, true, true, true, false), None);
+    assert_eq!(match_shortcut(0x4b, false, true, false, false), None);
+    assert_eq!(match_shortcut(0x4b, true, false, false, false), None);
+    assert_eq!(match_shortcut(0x4c, true, true, false, false), None);
+    assert!(is_social_label("x_webview") && is_social_label("instagram_webview"));
+    assert!(!is_social_label("main") && !is_social_label("mini-app-1"));
   }
 
   #[test]

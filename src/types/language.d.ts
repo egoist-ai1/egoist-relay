@@ -2624,6 +2624,15 @@ export interface LangPair {
   'RelayNetErrUnknown': undefined;
   'RelayWarmupSocial': undefined;
   'RelayWarmupSocialHint': undefined;
+  'RelayPaletteTitle': undefined;
+  'RelayPalettePlaceholder': undefined;
+  'RelayPaletteGroupActions': undefined;
+  'RelayPaletteGroupTelegram': undefined;
+  'RelayPaletteGroupSaved': undefined;
+  'RelayPaletteOpenOperations': undefined;
+  'RelayPaletteTelegramSettings': undefined;
+  'RelayPaletteNoResults': undefined;
+  'RelayPaletteHint': undefined;
 }
 
 export interface LangPairWithVariables<V = LangVariable> {
@@ -4421,6 +4430,12 @@ export interface LangPairWithVariables<V = LangVariable> {
   };
   'RelayServiceSleepingSince': {
     'time': V;
+  };
+  'RelayPaletteSearchTelegram': {
+    'query': V;
+  };
+  'RelayPaletteResultsCount': {
+    'count': V;
   };
   'RelayPlateNetworkTitle': {
     'state': V;

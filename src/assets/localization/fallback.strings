@@ -3513,3 +3513,14 @@
 "RelayNetErrUnknown" = "Не удалось выполнить действие";
 "RelayWarmupSocial" = "Готовить X и Instagram в фоне";
 "RelayWarmupSocialHint" = "Окна сервисов создаются после готовности Telegram, когда вы не вводите текст. Выключите, чтобы экономить память и сеть.";
+"RelayPaletteTitle" = "Палитра команд";
+"RelayPalettePlaceholder" = "Найти чат, файл или действие";
+"RelayPaletteGroupActions" = "Действия";
+"RelayPaletteGroupTelegram" = "Чаты Telegram";
+"RelayPaletteGroupSaved" = "Сохранённое";
+"RelayPaletteOpenOperations" = "Открыть загрузки и пересылки";
+"RelayPaletteTelegramSettings" = "Настройки Telegram";
+"RelayPaletteNoResults" = "Ничего не найдено в чатах и сохранённом";
+"RelayPaletteHint" = "Enter — открыть · Shift+Enter — показать в папке · Esc — закрыть";
+"RelayPaletteSearchTelegram" = "Искать «{query}» в сообщениях Telegram";
+"RelayPaletteResultsCount" = "Найдено: {count}";

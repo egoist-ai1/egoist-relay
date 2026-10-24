@@ -8,8 +8,10 @@ import type { ThemeKey } from '../types';
 import type { SocialNavigationAction } from './common/Titlebar';
 import type { UiLoaderPage } from './common/UiLoader';
 import type { AppId, InstagramAppState, XAppState } from './multi/AppSidebar';
+import type { PalettePayload } from './multi/commandPalette.index';
 import type { MediaOperation, MediaOperationsSnapshot } from './multi/mediaOperations.types';
 import type { SocialShareRequest, SocialShareSuccess } from './multi/socialShare';
+import { LeftColumnContent } from '../types';
 
 import {
   DARK_THEME_BG_COLOR, INACTIVE_MARKER, LIGHT_THEME_BG_COLOR, PAGE_TITLE, PAGE_TITLE_TAURI,
@@ -35,7 +37,8 @@ import { getNetworkStateKey, setServiceEnabled } from '../util/tauri/relayNetwor
 import { getLastUserInputAt, startSocialWarmup } from '../util/tauri/socialWarmup';
 import { getActionMessageBg, getWallpaperBaseColor } from '../util/wallpaper';
 import { updateSizes } from '../util/windowSize';
-import { getMediaOperationsSnapshot, setMediaOperationsLocked,
+import { isComposerHasSelection } from './middle/composer/helpers/selection';
+import { getMediaOperationsSnapshot, mediaOperationFileAction, setMediaOperationsLocked,
   subscribeMediaOperations } from './multi/mediaOperations';
 import { isMediaOperationActive } from './multi/mediaOperations.types';
 import { isSocialShareRequest } from './multi/socialShare';
@@ -62,6 +65,7 @@ import AppInactive from './main/AppInactive';
 import LockScreen from './main/LockScreen.async';
 import Main from './main/Main.async';
 import AppSidebar from './multi/AppSidebar';
+import CommandPalette from './multi/CommandPalette';
 import MediaOperationsPanel from './multi/MediaOperationsPanel';
 import RelayAppSettingsModal from './multi/RelayAppSettingsModal';
 import SocialShareModal from './multi/SocialShareModal';
@@ -177,6 +181,7 @@ const App = ({
   const [isOperationsOpen, setIsOperationsOpen] = useState(false);
   const [isOperationsFull, setIsOperationsFull] = useState(false);
   const [isAppSettingsOpen, setIsAppSettingsOpen] = useState(false);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [operationsSnapshot, setOperationsSnapshot] = useState<MediaOperationsSnapshot>(getMediaOperationsSnapshot);
   const workspaceRef = useRef<HTMLDivElement>();
   const previousFocusRef = useRef<HTMLElement>();
@@ -598,10 +603,11 @@ const App = ({
   useLayoutEffect(() => {
     if (!IS_TAURI) return;
     void import('@tauri-apps/api/core').then(async ({ invoke }) => {
-      await invoke('multi_set_content_visible', { visible: !(isOperationsOpen && isOperationsFull) });
+      // Палитра живёт в DOM основного окна: нативные окна X и Instagram её бы перекрыли
+      await invoke('multi_set_content_visible', { visible: !(isOperationsOpen && isOperationsFull) && !isPaletteOpen });
       await updateNativeBounds();
     }).catch(handleError);
-  }, [isOperationsOpen, isOperationsFull]);
+  }, [isOperationsOpen, isOperationsFull, isPaletteOpen]);
 
   const prevActiveKey = usePrevious(activeKey);
 
@@ -910,6 +916,99 @@ const App = ({
     getActions().openChat({ id: operation.send.peerId });
   });
 
+  const handleClosePalette = useLastCallback(() => {
+    setIsPaletteOpen(false);
+  });
+
+  const handleTogglePalette = useLastCallback(() => {
+    if (isPaletteOpen) {
+      handleClosePalette();
+      return;
+    }
+    // Под экраном блокировки, входом, окном «Поделиться» и другими окнами палитра не нужна
+    if (isScreenLocked || activeKey !== AppScreens.main || socialShareRef.current || isAppSettingsOpen
+      || document.body.classList.contains('has-open-dialog')) return;
+    if (isOperationsOpen) handleCloseOperations();
+    setIsPaletteOpen(true);
+  });
+
+  useEffect(() => {
+    if (isScreenLocked || activeKey !== AppScreens.main) setIsPaletteOpen(false);
+  }, [isScreenLocked, activeKey]);
+
+  // В основном окне Ctrl+K уступает выделению в поле ввода (там это ссылка); из X и Instagram
+  // сочетание приходит событием оболочки
+  useEffect(() => {
+    const handleKey = (event: KeyboardEvent) => {
+      const isModifier = IS_MAC_OS ? event.metaKey && !event.ctrlKey : event.ctrlKey && !event.metaKey;
+      if (!isModifier || event.altKey || event.shiftKey || event.repeat || event.code !== 'KeyK') return;
+      if (isComposerHasSelection()) return;
+      event.preventDefault();
+      event.stopPropagation();
+      handleTogglePalette();
+    };
+    document.addEventListener('keydown', handleKey, true);
+    let mounted = true;
+    let release: NoneToVoidFunction | undefined;
+    if (IS_TAURI) {
+      void import('@tauri-apps/api/event').then(({ listen }) => listen('relay-palette-toggle', () => {
+        if (mounted) handleTogglePalette();
+      })).then((unlisten) => {
+        if (mounted) release = unlisten;
+        else unlisten();
+      }).catch(handleError);
+    }
+    return () => {
+      mounted = false;
+      release?.();
+      document.removeEventListener('keydown', handleKey, true);
+    };
+  }, []);
+
+  const handlePaletteRun = useLastCallback(async (payload: PalettePayload, isSecondary: boolean) => {
+    setIsPaletteOpen(false);
+    try {
+      if (IS_TAURI && (payload.type === 'app' || payload.type === 'operations')) {
+        // Нативные окна скрыты, пока открыта палитра: возвращаем их до переключения
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('multi_set_content_visible', { visible: true });
+      }
+      switch (payload.type) {
+        case 'app':
+          handleSelectApp(payload.app);
+          break;
+        case 'operations':
+          handleToggleOperations();
+          break;
+        case 'relaySettings':
+          handleOpenAppSettings();
+          break;
+        case 'telegramSettings':
+          handleSelectApp('telegram');
+          await appSwitchQueueRef.current;
+          getActions().openLeftColumnContent({ contentKey: LeftColumnContent.Settings });
+          break;
+        case 'chat':
+          handleSelectApp('telegram');
+          await appSwitchQueueRef.current;
+          getActions().openChat({ id: payload.id });
+          break;
+        case 'telegramSearch':
+          handleSelectApp('telegram');
+          await appSwitchQueueRef.current;
+          getActions().openLeftColumnContent({ contentKey: LeftColumnContent.GlobalSearch });
+          getActions().setGlobalSearchQuery({ query: payload.query });
+          break;
+        case 'file':
+          await mediaOperationFileAction(payload.operationId, isSecondary ? 'reveal' : 'open', payload.index);
+          break;
+      }
+    } catch (error) {
+      setNotice(lang('RelayOperationUnavailable'));
+      handleError(new Error('Failed to run a palette action', { cause: error }));
+    }
+  });
+
   // Оболочка усыпляет скрытые сервисы и будит при показе; rail показывает это меткой сна
   useEffect(() => {
     if (!IS_TAURI) return undefined;
@@ -1183,6 +1282,13 @@ const App = ({
         />
       )}
       <RelayAppSettingsModal isOpen={isAppSettingsOpen} onClose={handleCloseAppSettings} />
+      <CommandPalette
+        isOpen={isPaletteOpen}
+        hiddenApps={hiddenApps}
+        sleepingApps={sleepingApps}
+        onClose={handleClosePalette}
+        onRun={handlePaletteRun}
+      />
     </div>
   );
 };
