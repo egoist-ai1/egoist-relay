@@ -27,7 +27,7 @@ Social MCP: `Проекты\Инфраструктура\Egoist Social MCP`, `ma
 2. Фронтенд: у результата `REFRESH_BUSY` нет текста для пользователя.
 3. tg-ws-proxy: патч-сборка из upstream + запись provenance (`scripts/telegram-runtime/`); сейчас собранный `runtime/telegram/tg-ws-proxy.exe` (SHA-256 `9d255211…`) берётся готовым.
 4. Срок хранения raw-архива исследования не решён; в MCP не сделаны `goal.query`, сжатие raw, ленивая очередь.
-5. До публичного релиза для других пользователей убрать фичу `devtools` из `tauri/Cargo.toml`.
+5. Фича `devtools` убрана из `tauri/Cargo.toml` (цикл 1.10, этап 5); в debug-сборках инструменты разработчика остаются. Размер установщика — решение владельца в `docs/CYCLE-1.10/PLAN.md` (этап 5).
 6. Вопрос владельцу: запрет `taskkill /IM node.exe` в `hooks/guard.py` (мешает диагностике).
 7. Предупреждения Stylelint (507) — давние, не блокируют.
 8. Публикация: решить, выпускать ли 1.9.10 на GitHub (обновить README репозитория, release notes, проверить `main`).
