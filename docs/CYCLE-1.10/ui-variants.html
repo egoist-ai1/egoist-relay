@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Egoist Social 1.10 — четыре направления интерфейса</title>
+<style>
+@font-face{font-family:Onest;font-weight:100 900;font-display:swap;src:url(../../public/fonts/onest-cyrillic-wght-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Onest;font-weight:100 900;font-display:swap;src:url(../../public/fonts/onest-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../../public/fonts/jetbrains-mono-cyrillic-wght-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url(../../public/fonts/jetbrains-mono-latin-wght-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Unbounded;font-weight:200 900;font-display:swap;src:url(../../public/fonts/Unbounded-Variable.woff2) format("woff2")}
+
+:root{
+  --g950:#0A0A0B;--g900:#0E0E0F;--g850:#141416;--g800:#1C1C1E;--g700:#26262A;--g600:#3A3A3D;--g500:#646460;--g400:#8C8A85;--g300:#B5B3AD;--g200:#D6D5D0;--g100:#EDEBE6;--g50:#F5F5F2;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;
+  --r-sm:6px;--r-md:12px;--r-lg:20px;--r-pill:999px;
+  --dur-fast:160ms;--dur-base:280ms;--ease:cubic-bezier(.2,.7,.2,1);--spring:cubic-bezier(.34,1.56,.64,1);
+  --font:Onest,system-ui,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace;--display:Unbounded,Onest,sans-serif;
+  /* светлая — базовая, тёмная переопределяет */
+  --bg:var(--g50);--s1:#fff;--s2:var(--g100);--s3:var(--g200);--line:var(--g200);--line2:var(--g300);
+  --text:var(--g950);--muted:#6B6A65;--faint:var(--g400);--inv-bg:var(--g950);--inv-text:var(--g50);
+  --danger:#B3382C;--shadow:0 1px 0 rgba(255,255,255,.6) inset,0 16px 40px rgba(14,14,15,.14);--page:#E9E8E3;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:var(--g900);--s1:var(--g850);--s2:var(--g800);--s3:var(--g700);--line:var(--g700);--line2:var(--g600);
+  --text:var(--g100);--muted:var(--g400);--faint:var(--g500);--inv-bg:var(--g100);--inv-text:var(--g900);
+  --danger:#E6786C;--shadow:0 1px 0 rgba(255,255,255,.05) inset,0 16px 40px rgba(0,0,0,.55);--page:#070708;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]):not([data-theme="dark"]){
+    --bg:var(--g900);--s1:var(--g850);--s2:var(--g800);--s3:var(--g700);--line:var(--g700);--line2:var(--g600);
+    --text:var(--g100);--muted:var(--g400);--faint:var(--g500);--inv-bg:var(--g100);--inv-text:var(--g900);
+    --danger:#E6786C;--shadow:0 1px 0 rgba(255,255,255,.05) inset,0 16px 40px rgba(0,0,0,.55);--page:#070708;color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{background:var(--page)}
+body{margin:0;background:var(--page);color:var(--text);font:15px/1.5 var(--font);padding-inline:clamp(16px,4vw,48px);padding-block:32px 96px}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.win svg{width:20px;height:20px;flex:none}
+.search svg,.comp svg,.pal .si svg{width:16px;height:16px}
+.big-ico svg{width:28px;height:28px}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+
+/* ===== страница стенда ===== */
+.page{max-width:1160px;margin:0 auto}
+.top{display:flex;gap:var(--space-4);justify-content:space-between;align-items:flex-start;flex-wrap:wrap;margin-bottom:var(--space-5)}
+.top h1{font:400 clamp(22px,3vw,32px)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance;max-width:20ch}
+.top .meta{display:flex;gap:var(--space-2);align-items:center;flex-wrap:wrap}
+.pill{height:36px;padding-inline:14px;border-radius:var(--r-pill);background:var(--s2);color:var(--text);transition:background var(--dur-fast) var(--ease),transform var(--dur-fast) var(--spring)}
+.pill:hover{background:var(--s3)}.pill:active{transform:scale(.96)}
+.scenario{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-3);margin-bottom:var(--space-6)}
+.scenario>div{background:var(--s1);border-radius:var(--r-md);padding:var(--space-4);display:grid;gap:6px;align-content:start}
+.scenario b{font-weight:500}
+.scenario span{color:var(--muted);font-size:13px}
+.note{color:var(--muted);font-size:13px;max-width:78ch;margin-bottom:var(--space-6)}
+nav.jump{display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-6);position:sticky;top:0;z-index:50;background:var(--page);padding-block:8px}
+nav.jump a{height:36px;display:inline-flex;align-items:center;padding-inline:14px;border-radius:var(--r-pill);background:var(--s2);color:var(--text);text-decoration:none;font-weight:500}
+nav.jump a:hover{background:var(--s3)}
+.variant{margin-bottom:72px;scroll-margin-top:60px}
+.vhead{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:var(--space-5);margin-bottom:var(--space-4)}
+@media(max-width:820px){.vhead{grid-template-columns:1fr}}
+.vhead h2{font:400 22px/1.15 var(--display);letter-spacing:-.02em;margin-bottom:var(--space-2);text-wrap:balance}
+.vhead .tag{display:block;margin-bottom:var(--space-2)}
+.vhead p{color:var(--muted);max-width:62ch}
+.pc{display:grid;gap:6px;font-size:13px;align-content:start}
+.pc div{display:grid;grid-template-columns:64px 1fr;gap:var(--space-2)}
+.pc dt,.pc dd{margin:0}.pc dt{color:var(--faint)}
+.pc{margin:0}
+
+/* кадр окна: фиксированный размер, масштаб JS */
+.stage{width:100%;position:relative;border-radius:var(--r-md);overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line)}
+.stage .badge{position:absolute;z-index:30;left:50%;top:10px;translate:-50% 0;pointer-events:none;opacity:.6;font-size:10px}
+.win{width:1040px;height:650px;transform-origin:0 0;display:grid;grid-template-rows:40px 1fr;background:var(--bg);position:relative;overflow:hidden;font-size:15px}
+.cap{display:flex;align-items:center;gap:var(--space-3);padding-left:14px;border-bottom:1px solid var(--line);background:var(--bg);user-select:none}
+.brand{font:400 13px var(--display);letter-spacing:-.01em}
+.cap .sep{width:1px;height:14px;background:var(--line2)}
+.cap .where{font-size:13px;color:var(--muted)}
+.cap .sp{flex:1}
+.winbtns{display:flex;height:100%}
+.winbtns i{width:44px;display:grid;place-items:center;color:var(--muted)}
+.body{display:grid;grid-template-columns:56px 1fr;min-height:0}
+.rail{border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;background:var(--bg)}
+.rail .gap{flex:1}
+.rb{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative;color:var(--muted);transition:background var(--dur-fast) var(--ease),color var(--dur-fast) var(--ease),transform var(--dur-fast) var(--spring)}
+.rb:hover{background:var(--s2);color:var(--text)}
+.rb:active{transform:scale(.94)}
+.rb[aria-current="page"]{background:var(--s3);color:var(--text)}
+.rb svg{width:22px;height:22px}
+.rb.sleep svg{opacity:.55}
+.dot{position:absolute;top:5px;right:5px;width:9px;height:9px}
+.dot.sleep{border:1.5px solid var(--muted);border-radius:50%}
+.dot.err{background:var(--danger);border-radius:2px}
+.dot.load{border:1.5px solid var(--line2);border-top-color:var(--text);border-radius:50%;animation:spin 900ms linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.dot.load{animation:none}*{transition-duration:1ms!important}}
+.tip{position:absolute;left:52px;top:50%;translate:0 -50%;z-index:20;min-width:190px;padding:10px 12px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--shadow);font-size:13px;display:none;text-align:left;color:var(--text)}
+.tip b{font-weight:500;display:block}.tip span{color:var(--muted);display:block}
+.rb:hover .tip,.rb:focus-visible .tip{display:block}
+.main{min-width:0;min-height:0;position:relative;display:grid}
+
+/* Telegram */
+.tg{display:grid;grid-template-columns:300px 1fr;min-height:0;height:100%}
+.list{border-right:1px solid var(--line);padding:10px 8px;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.search{height:36px;border-radius:var(--r-pill);background:var(--s1);display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--muted);margin:0 4px 8px;box-shadow:0 0 0 1px var(--line2) inset;font-size:14px}
+.chat{display:grid;grid-template-columns:44px 1fr auto;gap:10px;padding:8px;border-radius:12px;align-items:center}
+.chat:hover{background:var(--s1)}
+.chat.sel{background:var(--s2)}
+.av{width:44px;height:44px;border-radius:50%;background:var(--s3);display:grid;place-items:center;font-weight:600;font-size:14px}
+.chat b{font-weight:500;display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat span{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat time{font-size:12px;color:var(--muted);align-self:start;padding-top:2px}
+.conv{display:grid;grid-template-rows:52px 1fr 64px;min-width:0;min-height:0}
+.ch{display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line)}
+.ch b{font-weight:500}.ch span{display:block;font-size:12px;color:var(--muted);line-height:1.2}
+.msgs{padding:16px 20px;display:flex;flex-direction:column;gap:8px;justify-content:flex-end;overflow:hidden}
+.m{max-width:70%;padding:8px 12px;border-radius:12px 12px 12px 6px;background:var(--s2);font-size:15px;position:relative}
+.m.me{align-self:flex-end;background:var(--s3);border-radius:12px 12px 6px 12px}
+.m small{display:block;color:var(--muted);font-size:11px;text-align:right;margin-top:2px}
+.file,.vid{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:center}
+.file i,.vid i{width:40px;height:40px;border-radius:10px;background:var(--bg);display:grid;place-items:center;color:var(--muted)}
+.file b,.vid b{font-weight:500;font-size:14px;display:block}.file span,.vid span{font-size:12px;color:var(--muted)}
+.rule{height:4px;border-radius:2px;background:var(--line2);overflow:hidden;margin-top:6px}
+.rule i{display:block;height:100%;background:var(--text);border-radius:2px}
+.comp{margin:8px 16px;border-radius:var(--r-pill);background:var(--s1);box-shadow:0 0 0 1px var(--line2) inset;display:flex;align-items:center;padding:0 14px;color:var(--faint);gap:10px;font-size:14px}
+
+/* общие элементы */
+.btn{height:36px;padding-inline:16px;border-radius:var(--r-pill);background:var(--inv-bg);color:var(--inv-text);font-weight:500;transition:transform var(--dur-fast) var(--spring)}
+.btn:active{transform:scale(.96)}
+.btn.sec{background:var(--s3);color:var(--text)}
+.state{display:grid;place-items:center;align-content:center;gap:12px;text-align:center;padding:32px}
+.state h3{font:500 20px/1.2 var(--font)}
+.state p{color:var(--muted);max-width:44ch;font-size:14px}
+.state .row{display:flex;gap:8px;margin-top:4px}
+.big-ico{width:56px;height:56px;border-radius:16px;background:var(--s2);display:grid;place-items:center;color:var(--muted)}
+.big-ico svg{width:28px;height:28px}
+.chip{height:28px;padding-inline:12px;border-radius:var(--r-pill);background:var(--s2);font-size:13px;display:inline-flex;align-items:center;gap:6px;color:var(--text);transition:background var(--dur-fast) var(--ease)}
+.chip:hover{background:var(--s3)}
+.chip[aria-pressed="true"]{background:var(--inv-bg);color:var(--inv-text)}
+.status{display:flex;gap:6px;align-items:center;margin-right:8px}
+.st{height:26px;padding-inline:10px;border-radius:var(--r-pill);background:var(--s1);box-shadow:0 0 0 1px var(--line) inset;font-size:12px;display:inline-flex;align-items:center;gap:6px;color:var(--text)}
+.st:hover{background:var(--s2)}
+.st .d{width:7px;height:7px;border-radius:50%;background:var(--text)}
+.pop{position:absolute;right:12px;top:44px;z-index:25;width:300px;border-radius:var(--r-md);background:var(--s2);box-shadow:var(--shadow);padding:6px;display:none}
+.pop.open{display:block}
+.pop .r{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:10px;border-radius:8px}
+.pop .r+.r{border-top:1px solid var(--line)}
+.pop .r b{font-weight:500;font-size:14px}.pop .r span{color:var(--muted);font-size:12px;grid-column:1}.pop .r em{font-style:normal;font-size:13px;grid-row:1/3;grid-column:2;align-self:center;color:var(--muted)}
+.toast{position:absolute;left:50%;bottom:20px;translate:-50% 0;z-index:40;background:var(--inv-bg);color:var(--inv-text);padding:8px 14px;border-radius:var(--r-pill);font-size:13px;opacity:0;pointer-events:none;transition:opacity var(--dur-base) var(--ease)}
+.toast.on{opacity:1}
+
+/* B: палитра */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:15;display:none}
+.scrim.open{display:block}
+.pal{position:absolute;left:50%;top:70px;translate:-50% 0;width:620px;z-index:16;background:var(--s1);border-radius:var(--r-lg);box-shadow:var(--shadow),0 0 0 1px var(--line2);display:none;overflow:hidden}
+.pal.open{display:block}
+.pal input{width:100%;height:56px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--text);font:500 17px var(--font);padding:0 20px 0 52px}
+.pal .si{position:absolute;left:20px;top:17px;color:var(--muted)}
+.pal .res{max-height:420px;overflow:hidden;padding:6px}
+.pal .grp{padding:10px 12px 4px}
+.pal .it{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:8px 12px;border-radius:10px;font-size:14px;width:100%;text-align:left}
+.pal .it[aria-selected="true"]{background:var(--s3)}
+.pal .it .g{width:28px;height:28px;border-radius:8px;background:var(--bg);display:grid;place-items:center;color:var(--muted)}
+.pal .it .g svg{width:16px;height:16px}
+.pal .it span{color:var(--muted);font-size:12px;display:block}
+.pal .it mark{background:none;color:var(--text);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.pal .it kbd,.kbd{font:11px var(--mono);color:var(--muted);padding:2px 6px;border-radius:6px;background:var(--bg)}
+.pal .foot{display:flex;gap:16px;padding:10px 16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+
+/* C: пульт */
+.home{padding:16px;display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto auto auto;gap:10px;height:100%;overflow:hidden;align-content:start}
+.home .card{padding:14px 16px}
+.home h3{font:500 12px var(--font);color:var(--muted);margin-bottom:10px}
+.card{background:var(--s1);border-radius:var(--r-md);padding:16px;min-height:0}
+.card.span2{grid-column:1/-1}
+.svc{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:10px 0}
+.svc+.svc{border-top:1px solid var(--line)}
+.svc .g{width:36px;height:36px;border-radius:10px;background:var(--s2);display:grid;place-items:center;color:var(--muted);position:relative}
+.svc .g svg{width:20px;height:20px}
+.svc b{font-weight:500;display:block}.svc span{font-size:13px;color:var(--muted)}
+.kv{display:grid;grid-template-columns:1fr auto;gap:8px 12px;font-size:14px}
+.kv span{color:var(--muted)}
+.bigv{font:400 28px/1 var(--display);letter-spacing:-.03em;margin-bottom:8px}
+.svc{padding-block:8px}
+.ev{display:grid;grid-template-columns:64px 1fr;gap:4px 12px;font-size:13px}
+.ev time{color:var(--muted);font-family:var(--mono);font-size:12px}
+.ruler{height:10px;background:repeating-linear-gradient(90deg,var(--line2) 0 1px,transparent 1px 8px);border-radius:1px;margin-top:8px;position:relative}
+.ruler i{position:absolute;left:0;top:0;bottom:0;border-right:2px solid var(--text);background:linear-gradient(90deg,var(--s3),transparent)}
+
+/* D: библиотека */
+.lib{display:grid;grid-template-columns:196px 1fr;height:100%;min-height:0}
+.fl{border-right:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.fl .h{padding:10px 10px 4px}
+.fi{display:grid;grid-template-columns:1fr auto;padding:7px 10px;border-radius:8px;font-size:14px;text-align:left;width:100%;color:var(--text)}
+.fi:hover{background:var(--s1)}.fi[aria-pressed="true"]{background:var(--s2)}
+.fi span{color:var(--muted);font-size:12px}
+.lcol{display:grid;grid-template-rows:56px 1fr auto;min-height:0}
+.lh{display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line)}
+.lh .search{margin:0;flex:1;max-width:360px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px;overflow:hidden;align-content:start}
+.tile{display:grid;gap:6px;text-align:left;border-radius:12px;padding:0}
+.tile .th{aspect-ratio:16/10;border-radius:12px;background:var(--s2);position:relative;display:grid;place-items:center;color:var(--faint);overflow:hidden;transition:background var(--dur-fast) var(--ease)}
+.tile:hover .th{background:var(--s3)}
+.tile .th::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,rgba(127,127,127,.06) 10px 11px)}
+.tile .th svg{width:26px;height:26px;position:relative}
+.tile .src{position:absolute;left:8px;top:8px;width:22px;height:22px;border-radius:7px;background:var(--bg);display:grid;place-items:center;color:var(--muted)}
+.tile .src svg{width:13px;height:13px}
+.tile .dur{position:absolute;right:8px;bottom:8px;font:11px var(--mono);background:var(--bg);padding:2px 6px;border-radius:6px;color:var(--text)}
+.tile b{font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile span{font-size:12px;color:var(--muted)}
+.queue{border-top:1px solid var(--line);padding:10px 16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;background:var(--bg)}
+.q{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px}
+.q span{color:var(--muted)}
+.q .rule{grid-column:1/-1}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <h1>Четыре направления интерфейса Egoist Social 1.10</h1>
+    <div class="meta">
+      <button class="pill" id="theme" type="button" aria-pressed="true">Тема: тёмная</button>
+      <span class="mono">макет · 24.10.2026</span>
+    </div>
+  </header>
+
+  <section class="scenario" aria-label="Общий сценарий">
+    <div><b>Один сценарий для всех</b><span>Утро. Telegram открыт на чате с Мариной, X уснул два часа назад, Instagram потерял вход. Нужно найти «бриф» во всех сервисах и следить за сохранением видео.</span></div>
+    <div><b>Реальные данные</b><span class="num">Память 1,8 ГБ и 22 процесса WebView2 — замер 24.10. Туннель, узел 3 из 47 — журнал 23–24.10.</span></div>
+    <div><b>Иллюстрация</b><span>Имена чатов, файлы, проценты загрузки и список событий придуманы для макета. Всё остальное в пределах Lagom: монохром, без акцента.</span></div>
+  </section>
+  <p class="note">Кадры кликабельны: в A — иконки rail и плашки состояния, в B — Ctrl+K или кнопка поиска, ↑↓ и Esc, в C — кнопки на карточках, в D — фильтры. Действия не выполняются: это макет, а не работающее приложение. Все четыре кадра показаны в одном масштабе и с одинаковыми данными.</p>
+
+  <nav class="jump" aria-label="Варианты">
+    <a href="#a">A · Тихая рамка+</a><a href="#b">B · Палитра</a><a href="#c">C · Пульт</a><a href="#d">D · Библиотека</a>
+  </nav>
+
+  <article class="variant" id="a">
+    <div class="vhead">
+      <div><span class="mono tag">A · эволюция</span><h2>Тихая рамка+</h2>
+        <p>Оболочка почти не меняется. В строку заголовка добавляется живое состояние: сеть, память, операции. Rail честно показывает сон и потерю входа, а вместо пустой страницы сервис объясняет причину и даёт следующий шаг.</p></div>
+      <dl class="pc"><div><dt>Плюсы</dt><dd>Привычный вид, минимум риска, закрывает «вход слетел» и видимость сна.</dd></div><div><dt>Минусы</dt><dd>Новых сценариев не даёт: поиск и сохранённое остаются как есть.</dd></div><div><dt>Цена</dt><dd>Низкая: 1–2 недели, только фронтенд и несколько событий из Rust.</dd></div></dl>
+    </div>
+    <div class="stage" data-variant="a"></div>
+  </article>
+
+  <article class="variant" id="b">
+    <div class="vhead">
+      <div><span class="mono tag">B · поиск</span><h2>Палитра команд</h2>
+        <p>Ctrl+K открывает единую строку: поиск по Telegram, сохранённому из X и Instagram, плюс действия — разбудить сервис, сохранить медиа, открыть операции. Для Instagram с потерянным входом палитра ищет только по сохранённому и говорит об этом.</p></div>
+      <dl class="pc"><div><dt>Плюсы</dt><dd>Закрывает потребность «единый поиск», быстро для клавиатуры, оболочка не растёт.</dd></div><div><dt>Минусы</dt><dd>Нужен локальный индекс (SQLite FTS5); поиск в живом X и Instagram запрещён их условиями и риском для аккаунта.</dd></div><div><dt>Цена</dt><dd>Средняя: индексатор, хранилище, приватность индекса.</dd></div></dl>
+    </div>
+    <div class="stage" data-variant="b"></div>
+  </article>
+
+  <article class="variant" id="c">
+    <div class="vhead">
+      <div><span class="mono tag">C · статус</span><h2>Пульт сервисов</h2>
+        <p>Первая вкладка rail — домашний экран: три сервиса со состоянием и действием, сеть, память, очередь операций, короткий журнал. Приложение объясняет, что с ним происходит, вместо того чтобы молчать и тормозить.</p></div>
+      <dl class="pc"><div><dt>Плюсы</dt><dd>Прозрачность ресурсов и сети, место для диагностики моста Telegram, удобно для проверки цикла.</dd></div><div><dt>Минусы</dt><dd>Лишний экран: ежедневно владельцу нужен Telegram, а не пульт.</dd></div><div><dt>Цена</dt><dd>Средняя: сбор метрик по сервисам, события, новый экран.</dd></div></dl>
+    </div>
+    <div class="stage" data-variant="c"></div>
+  </article>
+
+  <article class="variant" id="d">
+    <div class="vhead">
+      <div><span class="mono tag">D · функции</span><h2>Библиотека как четвёртый раздел</h2>
+        <p>Сохранённое из трёх сервисов собирается в одном месте: сетка, фильтры по сервису и типу, поиск по подписям и именам, очередь загрузок снизу. Ctrl+J остаётся быстрой панелью, а библиотека превращается в постоянный раздел.</p></div>
+      <dl class="pc"><div><dt>Плюсы</dt><dd>Даёт новую ценность: «сохранил и нашёл», пакетная очередь, дедупликация.</dd></div><div><dt>Минусы</dt><dd>Самый объёмный: хранилище, миниатюры, перенос уже сохранённых файлов.</dd></div><div><dt>Цена</dt><dd>Высокая: 4–6 недель, нужны решения по формату хранения.</dd></div></dl>
+    </div>
+    <div class="stage" data-variant="d"></div>
+  </article>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-tg" viewBox="0 0 24 24"><path d="M21 4 3 11l5.5 2L19 6l-8.5 8.5V19l3-3 4 3L21 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 4l14 16M19 4 5 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.8" cy="7.3" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="4" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="13" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="7" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol id="i-lib" viewBox="0 0 24 24"><path d="M5 5h14v14H5zM5 15l4-4 4 4 3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z M14 3v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V8a4 4 0 0 1 8 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  </defs>
+</svg>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const ic=(n)=>`<svg aria-hidden="true"><use href="#i-${n}"/></svg>`;
+
+/* ---------- общие данные сценария ---------- */
+const DATA={
+  chats:[["МВ","Марина Волкова","Видео с презентации — сохрани, пожалуйста","09:41",1],["РК","Релиз-канал","1.9.10: туннель и мост","08:12"],["БК","Бриф Q4","Марина: бриф готов, смотрите файл","вчера"],["СМ","Саша — монтаж","Склейка готова","вчера"]],
+  state:{tg:{label:"Telegram",sub:"Работает"},x:{label:"X",sub:"Спит 2 ч 14 мин"},ig:{label:"Instagram",sub:"Вход слетел"}}
+};
+const bell=n=>`<span class="dot ${n}"></span>`;
+
+function chatView(){
+  return `<div class="tg"><div class="list"><div class="search">${ic('search')}<span>Поиск</span></div>${DATA.chats.map(c=>`<div class="chat ${c[4]?'sel':''}"><div class="av">${c[0]}</div><div style="min-width:0"><b>${c[1]}</b><span>${c[2]}</span></div><time>${c[3]}</time></div>`).join('')}</div>
+  <div class="conv"><div class="ch"><div class="av" style="width:36px;height:36px;font-size:12px">МВ</div><div><b>Марина Волкова</b><span>в сети</span></div></div>
+  <div class="msgs"><div class="m"><div class="file"><i>${ic('file')}</i><div><b>brief_q4.pdf</b><span class="num">2,4 МБ</span></div></div><small>09:30</small></div>
+  <div class="m">Бриф готов, смотри файл<small>09:31</small></div>
+  <div class="m me">Принял. Видео сохраню в библиотеку<small>09:38</small></div>
+  <div class="m"><div class="vid"><i>${ic('play')}</i><div><b>presentation.mp4</b><span class="num">00:42 · 64 МБ · сохраняется 64 %</span></div></div><div class="rule"><i style="width:64%"></i></div><small>09:41</small></div></div>
+  <div class="comp">${ic('file')}<span>Сообщение</span></div></div></div>`;
+}
+function stateView(kind){
+  if(kind==='x') return `<div class="state"><div class="big-ico">${ic('x')}</div><h3>X спит 2 ч 14 мин</h3><p>Память окна освобождена. Сессия и профиль сохранены, просыпается за секунду. Новые записи подгрузятся при открытии.</p><div class="row"><button class="btn" data-toast="Макет: X просыпается">Разбудить</button><button class="btn sec" data-toast="Макет: сон X отключён">Не усыплять X</button></div></div>`;
+  return `<div class="state"><div class="big-ico">${ic('lock')}</div><h3>Instagram: вход слетел</h3><p>Сервис завершил сессию — обычно после смены сети или проверки безопасности. Профиль и сохранённое на месте, вход нужен только для чтения ленты.</p><div class="row"><button class="btn" data-toast="Макет: открывается вход Instagram">Войти заново</button><button class="btn sec" data-toast="Макет: открывается журнал">Открыть журнал</button></div></div>`;
+}
+function capbar(where,extra=''){
+  return `<div class="cap"><span class="brand">Egoist Social</span><span class="sep"></span><span class="where">${where}</span><span class="sp"></span>${extra}<div class="winbtns"><i>–</i><i>▢</i><i>✕</i></div></div>`;
+}
+function rail(items,cur){
+  return `<nav class="rail" aria-label="Сервисы">${items.map(i=>{
+    if(i==='gap') return '<div class="gap"></div>';
+    const {id,icon,title,sub,state}=i;
+    return `<button class="rb ${state==='sleep'?'sleep':''}" data-go="${id}" aria-label="${title}. ${sub}" ${cur===id?'aria-current="page"':''}>${ic(icon)}${state?bell(state):''}<span class="tip" role="tooltip"><b>${title}</b><span>${sub}</span></span></button>`;
+  }).join('')}</nav>`;
+}
+const S_TG={id:'tg',icon:'tg',title:'Telegram',sub:'Работает'};
+const S_X={id:'x',icon:'x',title:'X',sub:'Спит 2 ч 14 мин',state:'sleep'};
+const S_IG={id:'ig',icon:'ig',title:'Instagram',sub:'Вход слетел',state:'err'};
+const S_SET={id:'set',icon:'gear',title:'Настройки Egoist Social',sub:'Сеть, сервисы, фон'};
+const WHERE={tg:'Telegram',x:'X',ig:'Instagram',home:'Пульт',lib:'Сохранённое',set:'Настройки'};
+
+function toast(root,msg){const t=$('.toast',root);t.textContent=msg;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1800)}
+function wire(root,render){
+  root.addEventListener('click',e=>{
+    const t=e.target.closest('[data-toast]'); if(t){toast(root,t.dataset.toast);return}
+    const g=e.target.closest('[data-go]'); if(g){render(g.dataset.go)}
+  });
+}
+
+/* ---------- A ---------- */
+function mountA(host){
+  let cur='tg', pop=false;
+  const win=document.createElement('div');win.className='win';host.appendChild(win);
+  function render(go){
+    if(go) cur=go; if(go==='set'){toast(win,'Макет: настройки открываются как в 1.9.1');cur='tg'}
+    const status=`<div class="status"><button class="st" data-pop aria-expanded="${pop}"><span class="d"></span>Туннель · узел <span class="num">3</span>/<span class="num">47</span></button><button class="st num" data-pop>1,8 ГБ</button><button class="st" data-pop>${ic('dl').replace('<svg','<svg width="13" height="13"')}<span class="num">2</span></button></div>`;
+    win.innerHTML=capbar(WHERE[cur],status)+`<div class="body">${rail([S_TG,S_X,S_IG,'gap',S_SET],cur)}<div class="main">${cur==='tg'?chatView():stateView(cur)}</div></div>
+    <div class="pop ${pop?'open':''}"><div class="r"><b>Сеть</b><em>Туннель</em><span>Узел 3 из 47 · свой DNS · прямой запасной маршрут</span></div><div class="r"><b>Память</b><em class="num">1,8 ГБ</em><span class="num">22 процесса WebView2 · X спит, окно освобождено</span></div><div class="r"><b>Операции</b><em class="num">2</em><span>Одна идёт (64 %), одна в очереди · Ctrl+J</span></div></div><div class="toast"></div>`;
+  }
+  win.addEventListener('click',e=>{if(e.target.closest('[data-pop]')){pop=!pop;render();return} if(pop&&!e.target.closest('.pop')){pop=false;render()}},true);
+  wire(win,render);render();
+}
+
+/* ---------- B ---------- */
+function mountB(host){
+  let cur='tg',open=true,q='бриф',idx=0;
+  const win=document.createElement('div');win.className='win';host.appendChild(win);
+  const all=[
+    {g:'Telegram',items:[
+      {i:'tg',t:'Бриф Q4',s:'группа · Марина: бриф готов, смотрите файл',k:'Telegram'},
+      {i:'file',t:'brief_q4.pdf',s:'Марина Волкова · 2,4 МБ · 09:30',k:'Файл'},
+      {i:'tg',t:'Бриф по рекламе, версия 2',s:'Саша — монтаж · вчера',k:'Telegram'}]},
+    {g:'Сохранённое из X и Instagram',items:[
+      {i:'x',t:'Тред «как писать бриф» · 12 постов',s:'X · сохранено 18 окт',k:'X'},
+      {i:'lock',t:'Instagram: вход слетел — поиск только по сохранённому',s:'Войти заново, чтобы искать в ленте',k:'Войти'}]},
+    {g:'Действия',items:[
+      {i:'x',t:'Разбудить X',s:'сон 2 ч 14 мин',k:'Enter'},
+      {i:'dl',t:'Открыть операции',s:'идёт 1, в очереди 1',k:'Ctrl J'}]}
+  ];
+  function filtered(){
+    const n=q.trim().toLowerCase();
+    if(!n) return all.map(g=>g);
+    const r=all.map(g=>({g:g.g,items:g.items.filter(it=>it.i==='lock'||(it.t+' '+it.s).toLowerCase().includes(n)||g.g==='Действия'&&n.length<2)})).filter(g=>g.items.length);
+    return r.some(g=>g.items.some(it=>it.i!=='lock'))?r:[];
+  }
+  function mark(t){const n=q.trim().toLowerCase(); if(!n) return t; const i=t.toLowerCase().indexOf(n); return i<0?t:t.slice(0,i)+'<mark>'+t.slice(i,i+n.length)+'</mark>'+t.slice(i+n.length)}
+  function render(go){
+    if(go) cur=go;
+    const groups=filtered(); let c=0;
+    const res=groups.length?groups.map(g=>`<div class="grp mono">${g.g}</div>`+g.items.map(it=>{const sel=c===idx;c++;return `<button class="it" role="option" aria-selected="${sel}" data-pick>${'<span class="g">'+ic(it.i)+'</span>'}<div style="min-width:0"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${mark(it.t)}</div><span>${it.s}</span></div><kbd>${it.k}</kbd></button>`}).join('')).join(''):`<div class="state" style="padding:36px"><h3 style="font-size:16px">Ничего не найдено</h3><p>По «${q.replace(/</g,'&lt;')}» нет совпадений в Telegram и сохранённом. Живой поиск в X и Instagram не выполняется: это нагрузка на аккаунт.</p></div>`;
+    win.innerHTML=capbar(WHERE[cur],`<button class="st" data-open style="margin-right:8px;height:28px">${ic('search').replace('<svg','<svg width="14" height="14"')}Поиск <span class="kbd">Ctrl K</span></button>`)+`<div class="body">${rail([S_TG,S_X,S_IG,'gap',S_SET],cur)}<div class="main">${cur==='tg'?chatView():stateView(cur)}</div></div>
+    <div class="scrim ${open?'open':''}" data-close></div><div class="pal ${open?'open':''}" role="dialog" aria-label="Поиск и действия"><span class="si">${ic('search')}</span><input value="${q.replace(/"/g,'&quot;')}" aria-label="Поиск по всем сервисам" autocomplete="off" spellcheck="false"><div class="res" role="listbox">${res}</div><div class="foot"><span>↑↓ выбор</span><span>Enter открыть</span><span>Esc закрыть</span><span style="margin-left:auto">индекс: 18 240 записей · локально</span></div></div><div class="toast"></div>`;
+    const inp=$('input',win); if(open&&inp&&document.activeElement===document.body&&win._focus){inp.focus();inp.setSelectionRange(q.length,q.length)}
+  }
+  win.addEventListener('input',e=>{if(e.target.matches('input')){q=e.target.value;idx=0;win._focus=true;render();const i=$('input',win);i.focus();i.setSelectionRange(q.length,q.length)}});
+  win.addEventListener('click',e=>{
+    if(e.target.closest('[data-open]')){open=true;win._focus=true;render();$('input',win).focus();return}
+    if(e.target.closest('[data-close]')){open=false;render();return}
+    if(e.target.closest('[data-pick]')){open=false;render();toast(win,'Макет: переход к найденному');return}
+  },true);
+  win.addEventListener('keydown',e=>{
+    const total=filtered().reduce((a,g)=>a+g.items.length,0);
+    if(e.key==='ArrowDown'&&open){e.preventDefault();idx=Math.min(idx+1,total-1);render();$('input',win).focus()}
+    else if(e.key==='ArrowUp'&&open){e.preventDefault();idx=Math.max(idx-1,0);render();$('input',win).focus()}
+    else if(e.key==='Escape'&&open){open=false;render()}
+    else if(e.key==='Enter'&&open&&total){open=false;render();toast(win,'Макет: переход к найденному')}
+  });
+  wire(win,render);render();
+  win.tabIndex=-1; host._k=(e)=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'&&host.matches(':hover,:focus-within')){e.preventDefault();open=true;win._focus=true;render();$('input',win).focus()}};
+  document.addEventListener('keydown',host._k);
+}
+
+/* ---------- C ---------- */
+function mountC(host){
+  let cur='home';
+  const win=document.createElement('div');win.className='win';host.appendChild(win);
+  const svc=(s,icon,name,sub,btn,toastMsg,st)=>`<div class="svc"><div class="g">${ic(icon)}${st?bell(st):''}</div><div><b>${name}</b><span>${sub}</span></div>${btn?`<button class="btn sec" ${toastMsg?`data-toast="${toastMsg}"`:''} ${s?`data-go="${s}"`:''}>${btn}</button>`:''}</div>`;
+  function home(){return `<div class="home">
+    <div class="card"><h3>Сервисы</h3>${svc('tg','tg','Telegram','Работает · мост в порядке · последняя перезагрузка моста 22.10','Открыть','','')}${svc('','x','X','Спит 2 ч 14 мин · память окна освобождена','Разбудить','Макет: X просыпается','sleep')}${svc('','ig','Instagram','Вход слетел · профиль сохранён','Войти заново','Макет: открывается вход Instagram','err')}</div>
+    <div class="card"><h3>Сеть</h3><div class="bigv">Туннель</div><div class="kv"><span>Узел</span><b class="num">3 из 47</b><span>DNS</span><b>свой, с резервным</b><span>Маршрут Telegram</span><b>локальный прокси</b><span>X · Instagram</span><b>через туннель</b></div><div style="margin-top:12px"><button class="btn sec" data-toast="Макет: открывается раздел «Сеть»">Настройки сети</button></div></div>
+    <div class="card"><h3>Память и процессы</h3><div class="bigv num">1,8 ГБ</div><div class="kv" style="margin-bottom:10px"><span>Процессов WebView2</span><b class="num">22</b><span>Сон освободил</span><b>окно X</b></div><div class="ruler" aria-hidden="true"><i style="width:36%"></i></div><span class="mono" style="display:block;margin-top:6px">36 % от порога 5 ГБ · порог настраивается</span></div>
+    <div class="card"><h3>Операции</h3><div class="q" style="margin-bottom:10px"><b>presentation.mp4</b><span class="num">64 %</span><div class="rule"><i style="width:64%"></i></div></div><div class="q"><b>reel_x91.mp4</b><span>в очереди</span><div class="rule"><i style="width:0"></i></div></div></div>
+    <div class="card span2" style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px"><h3 style="grid-column:1/-1">Журнал</h3><div class="ev"><time>09:41</time><span>Узел сменён: 3 из 47</span><time>08:12</time><span>Подписка обновлена без перезапуска</span><time>вчера</time><span>Мост Telegram перезапущен, код 1 · разобрано в журнале</span></div></div>
+  </div>`}
+  function render(go){
+    if(go) cur=go;
+    win.innerHTML=capbar(WHERE[cur])+`<div class="body">${rail([{id:'home',icon:'home',title:'Пульт',sub:'Сервисы, сеть, память'},S_TG,S_X,S_IG,'gap',S_SET],cur)}<div class="main">${cur==='home'?home():cur==='tg'?chatView():stateView(cur)}</div></div><div class="toast"></div>`;
+  }
+  wire(win,render);render();
+}
+
+/* ---------- D ---------- */
+function mountD(host){
+  let cur='lib', svcF='all', typeF='all';
+  const win=document.createElement('div');win.className='win';host.appendChild(win);
+  const items=[
+    ['presentation.mp4','tg','vid','64 МБ','00:42'],['brief_q4.pdf','tg','doc','2,4 МБ',''],['thread_brief.png','x','img','880 КБ',''],['reel_x91.mp4','x','vid','31 МБ','00:18'],
+    ['story_oct21.mp4','ig','vid','12 МБ','00:09'],['makeup_tips.jpg','ig','img','1,1 МБ',''],['montage_v3.mp4','tg','vid','212 МБ','03:05'],['logo_final.zip','tg','doc','8,7 МБ',''],
+    ['chart_q3.png','x','img','340 КБ',''],['voice_note.ogg','tg','doc','410 КБ','00:31'],['reel_oct12.mp4','ig','vid','24 МБ','00:22'],['meeting.mp4','tg','vid','98 МБ','12:40']
+  ];
+  const srcName={tg:'Telegram',x:'X',ig:'Instagram'}, typeName={vid:'Видео',img:'Фото',doc:'Файлы'};
+  function render(go){
+    if(go) cur=go;
+    const shown=items.filter(i=>(svcF==='all'||i[1]===svcF)&&(typeF==='all'||i[2]===typeF));
+    const cnt=(f)=>items.filter(f).length;
+    const side=(label,key,val,cur,n)=>`<button class="fi" data-f="${key}:${val}" aria-pressed="${cur===val}">${label}<span class="num">${n}</span></button>`;
+    const lib=`<div class="lib"><div class="fl"><div class="h mono">Сервис</div>${side('Все','svc','all',svcF,items.length)}${['tg','x','ig'].map(s=>side(srcName[s],'svc',s,svcF,cnt(i=>i[1]===s))).join('')}<div class="h mono" style="margin-top:8px">Тип</div>${side('Все','type','all',typeF,items.length)}${['vid','img','doc'].map(t=>side(typeName[t],'type',t,typeF,cnt(i=>i[2]===t))).join('')}</div>
+      <div class="lcol"><div class="lh"><div class="search">${ic('search')}<span>Поиск по именам и подписям</span></div><span class="mono num">${shown.length} из ${items.length}</span></div>
+      ${shown.length?`<div class="grid">${shown.slice(0,8).map(i=>`<button class="tile" data-toast="Макет: открывается просмотр"><div class="th"><span class="src">${ic(i[1]==='tg'?'tg':i[1])}</span>${ic(i[2]==='vid'?'play':i[2]==='img'?'lib':'file')}${i[4]?`<span class="dur num">${i[4]}</span>`:''}</div><b>${i[0]}</b><span class="num">${srcName[i[1]]} · ${i[3]}</span></button>`).join('')}</div>`:`<div class="state"><h3>Ничего не сохранено по этим условиям</h3><p>Смените фильтр или сохраните видео из чата.</p><button class="btn sec" data-f="reset">Сбросить фильтры</button></div>`}
+      <div class="queue"><div class="q"><b>presentation.mp4 · Telegram</b><span class="num">64 %</span><div class="rule"><i style="width:64%"></i></div></div><div class="q"><b>reel_x91.mp4 · X</b><span>в очереди</span><div class="rule"><i style="width:0"></i></div></div></div></div></div>`;
+    win.innerHTML=capbar(WHERE[cur])+`<div class="body">${rail([S_TG,S_X,S_IG,{id:'lib',icon:'lib',title:'Сохранённое',sub:'12 файлов · 2 в очереди'},'gap',S_SET],cur)}<div class="main">${cur==='lib'?lib:cur==='tg'?chatView():stateView(cur)}</div></div><div class="toast"></div>`;
+  }
+  win.addEventListener('click',e=>{const f=e.target.closest('[data-f]'); if(!f)return; if(f.dataset.f==='reset'){svcF='all';typeF='all'} else {const[k,v]=f.dataset.f.split(':'); if(k==='svc')svcF=v; else typeF=v} render()},true);
+  wire(win,render);render();
+}
+
+/* ---------- запуск и масштаб ---------- */
+const mounts={a:mountA,b:mountB,c:mountC,d:mountD};
+$$('.stage').forEach(st=>{
+  mounts[st.dataset.variant](st);
+  const b=document.createElement('span');b.className='mono badge';b.textContent='макет · не работает';st.appendChild(b);
+});
+function fit(){$$('.stage').forEach(st=>{const w=st.clientWidth,k=w/1040;const win=$('.win',st);win.style.transform=`scale(${k})`;st.style.height=(650*k)+'px'})}
+addEventListener('resize',fit);fit();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+
+const th=$('#theme');
+th.addEventListener('click',()=>{const r=document.documentElement;const d=r.dataset.theme==='dark';r.dataset.theme=d?'light':'dark';th.textContent='Тема: '+(d?'светлая':'тёмная');th.setAttribute('aria-pressed',String(!d))});
+})();
+</script>
+</body>
+</html>
