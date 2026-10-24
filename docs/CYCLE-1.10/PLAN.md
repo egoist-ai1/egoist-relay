@@ -74,7 +74,7 @@
 
 **Решение архитектора по размеру (593 МБ):** докачку модели речи и ffmpeg не делать — это новый код загрузки, риск supply chain, блокировки HuggingFace/GitHub в РФ и отказ от офлайн-декларации `runtime/README.md`. Дешёвых сокращений почти нет: NSIS уже `/SOLID lzma`; CPU-бэкенды whisper ≈8 МБ; UPX для node.exe даёт ложные срабатывания антивирусов; без ffprobe (−35 МБ) ломается `inspectLocalVideo` и часть fixup-ов yt-dlp. Единственный крупный кусок — вшитый WebView2 offline-установщик 214 МБ (≈36 %): `webviewInstallMode` → `embedBootstrapper` даёт ≈385–395 МБ, runtime остаётся офлайн.
 
-**Проверка доступа к бутстрапперу 25.10:** ссылка `go.microsoft.com/fwlink/p/?LinkId=2124703` с российского VPS 59171 → 200 (1,8 МБ), с ПК владельца → таймаут на CDN `msedge.sf.dl.delivery.mp.microsoft.com`. Результат смешанный, поэтому `tauri.conf.json` НЕ менялся: переключение ждёт решения владельца (установка без WebView2 ≥143 потребует сети до Microsoft; Windows 11 содержит WebView2 сам).
+**Проверка доступа к бутстрапперу 25.10:** ссылка `go.microsoft.com/fwlink/p/?LinkId=2124703` с российского VPS 59171 → 200 (1,8 МБ), с ПК владельца → таймаут на CDN `msedge.sf.dl.delivery.mp.microsoft.com`. Результат смешанный, поэтому `tauri.conf.json` НЕ менялся: **Решение владельца 25.10:** оставить офлайн-установщик с вшитым WebView2 (593 МБ), `webviewInstallMode` не меняется. Этап 5 закрыт.
 
 **Сделано:**
 - `devtools` убран из `tauri/Cargo.toml` (в коде, скриптах и capabilities нет `open_devtools`; в debug-сборках остаётся). `cargo test --lib`: 282/282 (при длинном `EGOIST_RELAY_TEST_WORK` 9 тестов с Unix-сокетами падают из-за длины пути — нужна короткая папка, например `C:\e	w`).
