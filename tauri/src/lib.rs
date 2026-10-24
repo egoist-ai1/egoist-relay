@@ -383,6 +383,8 @@ pub fn run() {
     .expect("error while building Egoist Relay")
     .run(|_app, event| match event {
       tauri::RunEvent::Exit => {
+        // Отметка штатного выхода: сбои дочерних процессов без неё в журнале отличаются от закрытия
+        log::info!("[EgoistRelay] Exit requested");
         media_operations::flush_journal();
         telegram_transport::shutdown();
         research_bridge::shutdown();

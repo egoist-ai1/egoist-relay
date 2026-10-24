@@ -770,6 +770,7 @@ fn start_owned(
         _ => break,
       }
     }
+    log_helper_exit(&reader_runtime);
     shutdown_runtime(&reader_runtime);
     schedule_recovery(&reader_app);
   });
@@ -975,6 +976,46 @@ fn schedule_recovery(app: &tauri::AppHandle) {
       std::thread::sleep(delay);
       let _ = start(&recovery_app);
     });
+}
+
+/// Нештатный обрыв потока помощника пишем в журнал с кодом выхода: раньше он исчезал молча,
+/// и совпадение с падением моста Telegram (22.10 15:26 UTC) нельзя было ни доказать, ни отвергнуть.
+fn log_helper_exit(runtime_id: &str) {
+  if STOPPING.load(Ordering::Acquire) {
+    return;
+  }
+  let child = ACTIVE.lock().ok().and_then(|active| {
+    active
+      .as_ref()
+      .filter(|bridge| bridge.runtime_id == runtime_id)
+      .map(|bridge| bridge.child.clone())
+  });
+  let Some(child) = child else {
+    return;
+  };
+  // Поток закрывается чуть раньше, чем процесс получает код выхода
+  let mut status = None;
+  for _ in 0..10 {
+    if let Ok(mut child) = child.lock() {
+      status = child.try_wait().ok().flatten();
+    }
+    if status.is_some() {
+      break;
+    }
+    std::thread::sleep(Duration::from_millis(20));
+  }
+  // Выход приложения мог начаться, пока ждали код
+  if STOPPING.load(Ordering::Acquire) {
+    return;
+  }
+  match status {
+    Some(status) => log::warn!(
+      "[EgoistRelay] Research helper exited ({}); recovering",
+      crate::worker_job::exit_code_text(status.code())
+    ),
+    // Поток закрыт, а процесс жив: ошибка протокола (непарсящийся кадр), а не завершение извне
+    None => log::warn!("[EgoistRelay] Research helper stream closed while the process is still running; recovering"),
+  }
 }
 
 fn shutdown_runtime(runtime_id: &str) {

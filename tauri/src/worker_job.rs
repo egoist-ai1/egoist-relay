@@ -1,4 +1,19 @@
 use std::process::Child;
+
+/// Код выхода для журнала: десятичный и в виде NTSTATUS (0x40010004 — завершение сеанса Windows,
+/// 1 — `TerminateProcess` извне или обычный `exit(1)`), чтобы отличать убийство извне от своего падения.
+pub(crate) fn exit_code_text(code: Option<i32>) -> String {
+  match code {
+    Some(code) if code as u32 == OWNED_EXIT_CODE => format!("code={code} (0x{:08X}, завершён приложением)", code as u32),
+    Some(code) => format!("code={code} (0x{:08X})", code as u32),
+    None => "code=unknown".to_string(),
+  }
+}
+
+/// Код, которым приложение завершает свои процессы (`TerminateJobObject`). Отличается от 1, который
+/// дают `taskkill /F`, `TerminateProcess` извне и `exit(1)`: код 1 в журнале значит «не мы».
+pub(crate) const OWNED_EXIT_CODE: u32 = 0xE601_0001;
+
 #[cfg(windows)]
 pub(crate) struct WorkerJob(*mut std::ffi::c_void);
 #[cfg(windows)]
@@ -58,7 +73,7 @@ impl WorkerJob {
   }
   pub(crate) fn terminate(&self) {
     unsafe {
-      let _ = TerminateJobObject(self.0, 1);
+      let _ = TerminateJobObject(self.0, OWNED_EXIT_CODE);
     }
   }
 }
@@ -92,4 +107,18 @@ impl WorkerJob {
     Err("MEDIA_RUNTIME_UNAVAILABLE".into())
   }
   pub(crate) fn terminate(&self) {}
+}
+
+#[cfg(test)]
+mod tests {
+  use super::{OWNED_EXIT_CODE, exit_code_text};
+
+  #[test]
+  fn exit_code_text_shows_decimal_and_ntstatus() {
+    assert_eq!(exit_code_text(Some(1)), "code=1 (0x00000001)");
+    assert_eq!(exit_code_text(Some(0x4001_0004)), "code=1073807364 (0x40010004)");
+    assert_eq!(exit_code_text(Some(-1)), "code=-1 (0xFFFFFFFF)");
+    assert_eq!(exit_code_text(None), "code=unknown");
+    assert!(exit_code_text(Some(OWNED_EXIT_CODE as i32)).contains("завершён приложением"));
+  }
 }

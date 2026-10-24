@@ -16,11 +16,20 @@ const RECOVERY_MAX_MS: u64 = 8000;
 const STDERR_LINE_LIMIT: usize = 2048;
 #[cfg(any(windows, test))]
 const STDERR_LINES_PER_WORKER: usize = 50;
-/// Предел журнала tg-ws-proxy за один запуск: число строк и длина строки.
+/// Предел журнала tg-ws-proxy: строк за скользящее окно и длина строки. Бюджет обновляется каждое окно,
+/// иначе всплеск одинаковых предупреждений делает прокси «слепым» до перезапуска.
 #[cfg(any(windows, test))]
 const PROXY_LOG_LINES: usize = 20;
 #[cfg(any(windows, test))]
+const PROXY_LOG_WINDOW: Duration = Duration::from_secs(600);
+#[cfg(any(windows, test))]
 const PROXY_LOG_LINE_CHARS: usize = 200;
+/// Сколько последних строк stderr прокси (любого уровня) хранить для записи о его выходе.
+#[cfg(any(windows, test))]
+const PROXY_TAIL_LINES: usize = 5;
+/// Пауза перед записью о выходе воркера: если приложение закрывается, сигнал остановки успевает прийти.
+#[cfg(windows)]
+const SHUTDOWN_GRACE: Duration = Duration::from_millis(500);
 static ACTIVE: LazyLock<Mutex<Option<ActiveTransport>>> = LazyLock::new(|| Mutex::new(None));
 static LOCAL_PROXY_READY: AtomicBool = AtomicBool::new(false);
 
@@ -156,26 +165,31 @@ fn supervise_transport(
   let mut recovery_attempt: u32 = 0;
   let mut started = Instant::now();
   loop {
-    let exit = worker.child.try_wait();
-    let proxy_alive = matches!(worker.proxy.child.try_wait(), Ok(None));
-    if !matches!(exit, Ok(None)) || !proxy_alive {
+    let worker_exit = worker.child.try_wait();
+    let proxy_exit = worker.proxy.child.try_wait();
+    let worker_alive = matches!(worker_exit, Ok(None));
+    let proxy_alive = matches!(proxy_exit, Ok(None));
+    if !worker_alive || !proxy_alive {
       LOCAL_PROXY_READY.store(false, Ordering::Release);
       crate::network::emit_status(&app);
-      // Штатная остановка (выход приложения, замена воркера) — не падение, журнал не засоряем
-      if !matches!(stop.try_recv(), Err(mpsc::TryRecvError::Empty)) { return; }
-      if started.elapsed() >= STABLE_WORKER_TIME { recovery_attempt = 0; }
-      // Код выхода прокси пишем отдельной строкой: раньше при его смерти была только «status unavailable»
+      // Штатная остановка (выход приложения, замена воркера) — не падение, журнал не засоряем.
+      // При выходе приложения дочерние процессы гибнут раньше, чем приходит сигнал остановки: ждём его
+      if !matches!(stop.recv_timeout(SHUTDOWN_GRACE), Err(mpsc::RecvTimeoutError::Timeout)) { return; }
+      let uptime = started.elapsed();
+      if uptime >= STABLE_WORKER_TIME { recovery_attempt = 0; }
+      // По одной строке на мёртвый процесс: код выхода, время жизни, состояние соседа и что он успел сказать.
+      // Код 1 спустя часы при пустом stderr — завершение извне; 0x40010004 — завершение сеанса Windows
       if !proxy_alive {
-        match worker.proxy.child.try_wait() {
-          Ok(Some(status)) => log::warn!("[TelegramTransport] tg-ws-proxy exited ({status}); restarting with the bridge"),
-          _ => log::warn!("[TelegramTransport] tg-ws-proxy exited (exit status unavailable); restarting with the bridge"),
-        }
+        let code = proxy_exit.ok().flatten().and_then(|status| status.code());
+        log::warn!(
+          "[TelegramTransport] tg-ws-proxy exited ({}); worker alive={worker_alive}; last stderr: {}; restarting with the bridge",
+          describe_exit(code, uptime), worker.proxy.tail.snapshot());
       }
-      match exit {
-        Ok(Some(status)) => log::warn!(
-          "[TelegramTransport] Owned bridge worker exited ({status}); recovering its local endpoint"),
-        _ => log::warn!(
-          "[TelegramTransport] Owned bridge worker exited (status unavailable); recovering its local endpoint"),
+      if !worker_alive {
+        let code = worker_exit.ok().flatten().and_then(|status| status.code());
+        log::warn!(
+          "[TelegramTransport] Owned bridge worker exited ({}); proxy alive={proxy_alive}; stderr lines={}, last: {}; recovering its local endpoint",
+          describe_exit(code, uptime), worker.stderr_lines.load(Ordering::Relaxed), worker.stderr_tail.snapshot());
       }
       drop(worker);
       let mut failed_attempts: u32 = 0;
@@ -260,6 +274,10 @@ struct OwnedWorker {
   child: std::process::Child,
   ownership: crate::worker_job::WorkerJob,
   proxy: OwnedLocalProxy,
+  /// Сколько строк stderr воркер успел отдать (все, а не только попавшие в журнал): «0» при выходе —
+  /// он умер молча, без собственной ошибки. Последние строки — в `stderr_tail` (там и его `fatal()`).
+  stderr_lines: Arc<std::sync::atomic::AtomicUsize>,
+  stderr_tail: StderrTail,
   _directory: crate::inline_media::OwnedDirectory,
 }
 
@@ -267,6 +285,7 @@ struct OwnedWorker {
 struct OwnedLocalProxy {
   child: std::process::Child,
   ownership: crate::worker_job::WorkerJob,
+  tail: StderrTail,
 }
 
 #[cfg(windows)]
@@ -321,17 +340,23 @@ fn launch_local_proxy(
       return Err("TELEGRAM_LOCAL_PROXY_OWNERSHIP_FAILED".into());
     }
   };
-  // stderr прокси читаем отдельным потоком: в журнал идут только warning/error без секретов, с лимитами
+  // stderr прокси читаем отдельным потоком: в журнал идут только warning и выше без секретов, с лимитами;
+  // последние строки любого уровня копим в хвосте для записи о выходе
+  let tail = StderrTail::default();
   if let Some(stderr) = child.stderr.take() {
     let secret = config.local_secret.clone();
+    let tail = tail.clone();
     let _ = std::thread::Builder::new().name("relay-telegram-proxy-stderr".into()).spawn(move || {
       let mut filter = ProxyLogFilter::default();
       drain_stderr_with(stderr, usize::MAX, |line| {
-        if let Some(text) = filter.accept(line, &secret) { log::warn!("[TelegramTransport] tg-ws-proxy: {text}"); }
+        tail.push(line, &secret);
+        if let Some(text) = filter.accept(line, &secret, Instant::now()) {
+          log::warn!("[TelegramTransport] tg-ws-proxy: {text}");
+        }
       });
     });
   }
-  let mut proxy = OwnedLocalProxy { child, ownership };
+  let mut proxy = OwnedLocalProxy { child, ownership, tail };
   let address = std::net::SocketAddr::from(([127, 0, 0, 1], config.local_port));
   let deadline = Instant::now() + Duration::from_secs(8);
   while Instant::now() < deadline {
@@ -404,12 +429,22 @@ fn launch_transport_once(app: &tauri::AppHandle, token: &str, config: &BridgeCon
     }
   };
   // Читатель stderr стартует до записи настроек: иначе воркер может встать на заполненном пайпе
+  let stderr_lines = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+  let stderr_tail = StderrTail::default();
   if let Some(stderr) = child.stderr.take() {
+    let counter = stderr_lines.clone();
+    let tail = stderr_tail.clone();
     let _ = std::thread::Builder::new().name("relay-telegram-transport-stderr".into()).spawn(move || {
-      drain_stderr(stderr, |line| log::warn!("[TelegramTransport] worker stderr: {line}"));
+      // В журнал идут первые STDERR_LINES_PER_WORKER строк, но считаем и храним хвост всех: последняя
+      // строка (JSON от `fatal()`) обычно приходит после лимита и объясняет выход
+      drain_stderr_with(stderr, usize::MAX, |line| {
+        let index = counter.fetch_add(1, Ordering::Relaxed);
+        tail.push(line, "");
+        if index < STDERR_LINES_PER_WORKER { log::warn!("[TelegramTransport] worker stderr: {line}"); }
+      });
     });
   }
-  let mut worker = OwnedWorker { child, ownership, proxy, _directory: directory };
+  let mut worker = OwnedWorker { child, ownership, proxy, stderr_lines, stderr_tail, _directory: directory };
   let settings = serde_json::to_vec(&worker_settings(token, port, config, cfg!(debug_assertions)))
     .map_err(|_| "TELEGRAM_TRANSPORT_UNAVAILABLE")?;
   let stdin = worker.child.stdin.as_mut().ok_or("TELEGRAM_TRANSPORT_UNAVAILABLE")?;
@@ -585,27 +620,101 @@ fn drain_stderr<R: std::io::Read>(reader: R, sink: impl FnMut(&str)) {
   drain_stderr_with(reader, STDERR_LINES_PER_WORKER, sink)
 }
 
-/// Отбирает строки stderr прокси для журнала: только warning/error, не больше `PROXY_LOG_LINES`
-/// за запуск, каждая не длиннее `PROXY_LOG_LINE_CHARS`; секрет прокси и длинный hex вырезаются.
+/// Строка без секретов и длиннее лимита не бывает: секрет прокси вырезается до `redact`
+/// (он может быть короче 32 символов), затем скрывается длинный hex.
+#[cfg(any(windows, test))]
+fn sanitize_proxy_line(line: &str, secret: &str) -> String {
+  let cleaned = if secret.is_empty() { line.to_string() } else { line.replace(secret, "<скрыто>") };
+  redact(&cleaned).chars().take(PROXY_LOG_LINE_CHARS).collect()
+}
+
+/// Строка журнала tg-ws-proxy заслуживает записи. Формат прокси: `HH:MM:SS  LEVEL  сообщение` — тогда
+/// решает уровень (WARNING и выше), и обычные INFO-закрытия сессий с именем исключения не считаются
+/// предупреждениями. Строки без такого префикса (traceback, вывод PyInstaller) — по ключевым словам.
+#[cfg(any(windows, test))]
+fn proxy_line_is_loggable(line: &str) -> bool {
+  fn is_clock(value: &str) -> bool {
+    let parts: Vec<&str> = value.split(':').collect();
+    parts.len() == 3 && parts.iter().all(|part| (1..=2).contains(&part.len()) && part.chars().all(|c| c.is_ascii_digit()))
+  }
+  let mut parts = line.split_whitespace();
+  if let (Some(time), Some(level)) = (parts.next(), parts.next()) && is_clock(time) {
+    return matches!(level.to_ascii_uppercase().as_str(), "WARNING" | "WARN" | "ERROR" | "CRITICAL" | "FATAL");
+  }
+  let lower = line.to_ascii_lowercase();
+  ["warn", "error", "critical", "fatal", "traceback", "exception"].iter().any(|level| lower.contains(level))
+}
+
+/// Отбирает строки stderr прокси для журнала: только warning и выше, не больше `PROXY_LOG_LINES`
+/// за окно `PROXY_LOG_WINDOW` (бюджет обновляется, число пропущенных строк сообщается в следующей
+/// принятой), каждая не длиннее `PROXY_LOG_LINE_CHARS`; секрет прокси и длинный hex вырезаются.
 #[cfg(any(windows, test))]
 #[derive(Default)]
 struct ProxyLogFilter {
+  window_start: Option<Instant>,
   logged: usize,
+  skipped: usize,
 }
 
 #[cfg(any(windows, test))]
 impl ProxyLogFilter {
-  fn accept(&mut self, line: &str, secret: &str) -> Option<String> {
-    if self.logged >= PROXY_LOG_LINES { return None; }
-    let lower = line.to_ascii_lowercase();
-    if !["warn", "error", "critical", "fatal", "traceback", "exception"].iter().any(|level| lower.contains(level)) {
+  fn accept(&mut self, line: &str, secret: &str, now: Instant) -> Option<String> {
+    if !proxy_line_is_loggable(line) { return None; }
+    if !matches!(self.window_start, Some(start) if now.saturating_duration_since(start) < PROXY_LOG_WINDOW) {
+      self.window_start = Some(now);
+      self.logged = 0;
+    }
+    if self.logged >= PROXY_LOG_LINES {
+      self.skipped += 1;
       return None;
     }
     self.logged += 1;
-    // Секрет вырезаем до redact (он может быть короче 32 символов), затем скрываем длинный hex
-    let cleaned = if secret.is_empty() { line.to_string() } else { line.replace(secret, "<скрыто>") };
-    Some(redact(&cleaned).chars().take(PROXY_LOG_LINE_CHARS).collect())
+    let text = sanitize_proxy_line(line, secret);
+    Some(match std::mem::take(&mut self.skipped) {
+      0 => text,
+      skipped => format!("(пропущено строк: {skipped}) {text}"),
+    })
   }
+}
+
+/// Последние строки stderr прокси любого уровня: при его выходе они показывают, чем он занимался
+/// (INFO-строки фильтр в журнал не пускает, а перед падением они единственное, что есть).
+#[cfg(any(windows, test))]
+#[derive(Clone, Default)]
+struct StderrTail(Arc<Mutex<std::collections::VecDeque<String>>>);
+
+#[cfg(any(windows, test))]
+impl StderrTail {
+  fn push(&self, line: &str, secret: &str) {
+    let text = sanitize_proxy_line(line.trim_end(), secret);
+    if text.is_empty() { return; }
+    if let Ok(mut lines) = self.0.lock() {
+      if lines.len() >= PROXY_TAIL_LINES { lines.pop_front(); }
+      lines.push_back(text);
+    }
+  }
+
+  fn snapshot(&self) -> String {
+    match self.0.lock() {
+      Ok(lines) if !lines.is_empty() => lines.iter().cloned().collect::<Vec<_>>().join(" | "),
+      _ => "none".to_string(),
+    }
+  }
+}
+
+/// Код выхода и время жизни процесса одной строкой: по ним различается убийство извне (код 1 или
+/// 0xFFFFFFFF спустя часы работы), падение при старте и завершение сеанса Windows (0x40010004).
+#[cfg(any(windows, test))]
+fn describe_exit(code: Option<i32>, uptime: Duration) -> String {
+  let seconds = uptime.as_secs();
+  let uptime = if seconds < 60 {
+    format!("{seconds}s")
+  } else if seconds < 3600 {
+    format!("{}m{:02}s", seconds / 60, seconds % 60)
+  } else {
+    format!("{}h{:02}m{:02}s", seconds / 3600, seconds % 3600 / 60, seconds % 60)
+  };
+  format!("{}, uptime={uptime}", crate::worker_job::exit_code_text(code))
 }
 
 /// Как `drain_stderr`, но с явным пределом числа строк, передаваемых в `sink`.
@@ -704,14 +813,70 @@ mod tests {
   fn proxy_log_filter_keeps_warnings_redacts_and_limits() {
     let secret = "s3cretvalue";
     let mut filter = ProxyLogFilter::default();
-    assert_eq!(filter.accept("INFO connected", secret), None);
+    let now = Instant::now();
+    assert_eq!(filter.accept("INFO connected", secret, now), None);
     let long = format!("ERROR {secret} {} {}", "ab".repeat(20), "z".repeat(500));
-    let text = filter.accept(&long, secret).unwrap();
+    let text = filter.accept(&long, secret, now).unwrap();
     assert!(!text.contains(secret) && !text.contains(&"ab".repeat(20)));
     assert!(text.starts_with("ERROR <скрыто> <скрыто>"));
     assert_eq!(text.chars().count(), PROXY_LOG_LINE_CHARS);
-    let accepted = (0..100).filter(|_| filter.accept("warning: dc failed", secret).is_some()).count();
+    let accepted = (0..100).filter(|_| filter.accept("warning: dc failed", secret, now).is_some()).count();
     assert_eq!(accepted, PROXY_LOG_LINES - 1);
+  }
+
+  #[test]
+  fn proxy_log_filter_refills_budget_after_window_and_counts_skipped() {
+    let mut filter = ProxyLogFilter::default();
+    let start = Instant::now();
+    let line = "14:48:42  WARNING  DC2 CF proxy failed: gaierror(11001)";
+    for _ in 0..PROXY_LOG_LINES { assert!(filter.accept(line, "s", start).is_some()); }
+    // Всплеск не помещается в бюджет: лишнее пропускается, но считается
+    assert_eq!(filter.accept(line, "s", start + Duration::from_secs(1)), None);
+    assert_eq!(filter.accept(line, "s", start + Duration::from_secs(2)), None);
+    // Окно прошло: бюджет обновился, и первая принятая строка сообщает о пропущенных
+    let text = filter.accept(line, "s", start + PROXY_LOG_WINDOW + Duration::from_secs(1)).unwrap();
+    assert!(text.starts_with("(пропущено строк: 2) 14:48:42  WARNING"), "{text}");
+    let next = filter.accept(line, "s", start + PROXY_LOG_WINDOW + Duration::from_secs(2)).unwrap();
+    assert!(next.starts_with("14:48:42"), "{next}");
+  }
+
+  #[test]
+  fn proxy_log_filter_uses_level_for_formatted_lines_and_keywords_for_the_rest() {
+    let mut filter = ProxyLogFilter::default();
+    let now = Instant::now();
+    // INFO с именем исключения в тексте — штатное закрытие сессии, не предупреждение
+    let info = "12:33:01  INFO     DC2 WS session closed (upstream: ConnectionResetError)";
+    assert_eq!(filter.accept(info, "s", now), None);
+    assert!(filter.accept("12:33:02  WARNING  pool exhausted", "s", now).is_some());
+    assert!(filter.accept("12:33:03  ERROR    handshake failed", "s", now).is_some());
+    // traceback и вывод загрузчика PyInstaller префикса не имеют
+    assert!(filter.accept("Traceback (most recent call last):", "s", now).is_some());
+    assert!(filter.accept("[PYI-1234:ERROR] Failed to load Python DLL", "s", now).is_some());
+    assert_eq!(filter.accept("starting proxy", "s", now), None);
+  }
+
+  #[test]
+  fn stderr_tail_keeps_last_lines_of_any_level_without_secrets() {
+    let tail = StderrTail::default();
+    assert_eq!(tail.snapshot(), "none");
+    for index in 0..8 { tail.push(&format!("12:00:0{index}  INFO  line {index}\r\n"), "s3cret"); }
+    tail.push("12:00:09  INFO  key=s3cret", "s3cret");
+    tail.push("   ", "s3cret");
+    let snapshot = tail.snapshot();
+    assert_eq!(snapshot.split(" | ").count(), PROXY_TAIL_LINES);
+    assert!(snapshot.starts_with("12:00:04  INFO  line 4"), "{snapshot}");
+    assert!(snapshot.ends_with("key=<скрыто>"), "{snapshot}");
+    assert!(!snapshot.contains("s3cret") && !snapshot.contains('\r'));
+  }
+
+  #[test]
+  fn describe_exit_formats_code_hex_and_uptime() {
+    assert_eq!(describe_exit(Some(1), Duration::from_secs(7)), "code=1 (0x00000001), uptime=7s");
+    assert_eq!(
+      describe_exit(Some(0x4001_0004), Duration::from_secs(3723)),
+      "code=1073807364 (0x40010004), uptime=1h02m03s");
+    assert_eq!(describe_exit(Some(-1), Duration::from_secs(125)), "code=-1 (0xFFFFFFFF), uptime=2m05s");
+    assert_eq!(describe_exit(None, Duration::ZERO), "code=unknown, uptime=0s");
   }
 
   #[test]

@@ -206,7 +206,12 @@ fn run(shared: Arc<Shared>, commands: Receiver<Command_>, sink: EventSink) {
           }
           shared.ready.store(false, Ordering::SeqCst);
           if skip_backoff || started.elapsed() >= STABLE_RUN { attempt = 0; }
-          if !skip_backoff { log::warn!("[Tunnel] xray остановился, перезапуск на тех же портах"); }
+          if !skip_backoff {
+            let code = process.child.try_wait().ok().flatten().and_then(|status| status.code());
+            log::warn!(
+              "[Tunnel] xray остановился ({}, uptime={}s), перезапуск на тех же портах",
+              crate::worker_job::exit_code_text(code), started.elapsed().as_secs());
+          }
           sink(SupervisorEvent::Exited);
         } else {
           process.kill();
