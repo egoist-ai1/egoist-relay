@@ -215,6 +215,36 @@
   }
 }
 
+.xSecondaryButton {
+  cursor: pointer;
+
+  min-width: 8rem;
+  min-height: 2.75rem;
+  margin-top: 0.75rem;
+  padding: 0.625rem 1.25rem;
+  border: 0.0625rem solid var(--relay-shell-border-strong);
+  border-radius: 0.75rem;
+
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  color: var(--relay-shell-text);
+
+  background: transparent;
+
+  transition: background-color 140ms ease, border-color 140ms ease;
+
+  &:hover {
+    border-color: var(--relay-shell-focus);
+    background: var(--relay-shell-hover);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--relay-shell-focus);
+    outline-offset: 0.1875rem;
+  }
+}
+
 @keyframes xSpinner {
   to {
     transform: rotate(360deg);
@@ -232,7 +262,8 @@
   .telegramPane,
   .xPane,
   .instagramPane,
-  .xRetryButton {
+  .xRetryButton,
+  .xSecondaryButton {
     transition: none;
   }
 

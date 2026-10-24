@@ -89,6 +89,25 @@ describe('AppSidebar complete navigation tile', () => {
     expect(onSelectApp).toHaveBeenCalledExactlyOnceWith('x');
   });
 
+  test('A sleeping service tooltip names the time it fell asleep', async () => {
+    await new Promise<void>((resolve) => {
+      requestMutation(() => {
+        TeactDOM.render(createElement(AppSidebar, {
+          activeApp: 'telegram',
+          xAppState: 'ready',
+          instagramAppState: 'ready',
+          sleepingApps: ['x', 'instagram'],
+          sleepingSince: { x: new Date(2026, 9, 25, 14, 32).getTime() },
+          onSelectApp,
+        }), container);
+        resolve();
+      });
+    });
+    // С известным временем подпись берётся из ключа с временем, без него остаётся общая
+    expect(getAppButton('x').title).toBe('RelayXTitle · RelayServiceSleepingSince');
+    expect(getAppButton('instagram').title).toBe('RelayInstagramTitle · RelayServiceSleeping');
+  });
+
   test('Unavailable network route shows the error dot, direct stays quiet', async () => {
     await new Promise<void>((resolve) => {
       requestMutation(() => {

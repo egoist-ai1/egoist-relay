@@ -3244,6 +3244,7 @@
 "RelayInstagramLoadingText" = "Ваша сессия Instagram открывается внутри Egoist Social.";
 "RelayInstagramErrorTitle" = "Не удалось открыть Instagram";
 "RelayServiceSleeping" = "Спит — откроется за секунду";
+"RelayServiceSleepingSince" = "Спит с {time} — откроется за секунду";
 "RelayServicesTitle" = "Сервисы";
 "RelayShowX" = "Показывать X";
 "RelayShowInstagram" = "Показывать Instagram";
@@ -3467,6 +3468,19 @@
 "RelayNetRouteUnknown" = "проверяется";
 "RelayNetRailUnavailable" = "Сеть недоступна";
 "RelayNetRailDirect" = "Соединение напрямую";
+"RelayNetOpenSettings" = "Настройки сети";
+"RelayNetServiceUnreachableText" = "Сеть сейчас не пропускает этот сервис: {state}. Проверьте ключ и DNS в настройках сети, затем повторите попытку.";
+"RelayPlateGroup" = "Состояние приложения";
+"RelayPlateNetTunnel" = "Туннель";
+"RelayPlateNetDnsOnly" = "Только DNS";
+"RelayPlateNetDown" = "Нет сети";
+"RelayPlateNetStarting" = "Запуск";
+"RelayPlateNetRestart" = "Нужен перезапуск";
+"RelayPlateNetNone" = "Без VPN";
+"RelayPlateNetworkTitle" = "Сеть: {state}. Открыть настройки сети";
+"RelayPlateMemoryMb" = "{value} МБ";
+"RelayPlateMemoryGb" = "{value} ГБ";
+"RelayPlateMemoryTitle" = "Память приложения: {size}, процессов: {count}";
 "RelayNetKey" = "Ключ";
 "RelayNetKeyEmbedded" = "Встроенный ключ";
 "RelayNetKeyOverride" = "Свой ключ";

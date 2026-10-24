@@ -1,5 +1,7 @@
 import { memo, useEffect, useState } from '../../lib/teact/teact';
 
+import type { MemoryUsage } from '../../util/tauri/relayMemory';
+import type { NetworkStatus } from '../../util/tauri/relayNetwork';
 import type { AppId } from '../multi/AppSidebar';
 
 import { IS_TAURI } from '../../util/browser/globalEnvironment';
@@ -12,6 +14,7 @@ import useLastCallback from '../../hooks/useLastCallback';
 
 import BrandMark from './BrandMark';
 import Icon from './icons/Icon';
+import StatusPlates from './StatusPlates';
 
 import styles from './Titlebar.module.scss';
 
@@ -24,6 +27,9 @@ type OwnProps = {
   notice?: string;
   isOperationsOpen?: boolean;
   operationCount?: number;
+  networkStatus?: NetworkStatus;
+  memoryUsage?: MemoryUsage;
+  onOpenNetworkSettings?: NoneToVoidFunction;
   onToggleOperations?: NoneToVoidFunction;
   onLoginX: NoneToVoidFunction;
   onNavigate: (action: SocialNavigationAction) => void;
@@ -37,6 +43,9 @@ const Titlebar = ({
   notice,
   isOperationsOpen,
   operationCount,
+  networkStatus,
+  memoryUsage,
+  onOpenNetworkSettings,
   onToggleOperations,
   onLoginX,
   onNavigate,
@@ -201,6 +210,12 @@ const Titlebar = ({
           <span className={styles.loginShortLabel} aria-hidden="true">{lang('RelayLoginShort')}</span>
         </button>
       )}
+
+      <StatusPlates
+        network={networkStatus}
+        memory={memoryUsage}
+        onOpenNetworkSettings={onOpenNetworkSettings}
+      />
 
       {onToggleOperations && (
         <button

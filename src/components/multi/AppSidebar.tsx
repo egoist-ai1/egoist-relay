@@ -23,6 +23,8 @@ type OwnProps = {
   instagramAppState?: InstagramAppState;
   // Сервисы, чей WebView усыплён оболочкой (скрыт и приостановлен)
   sleepingApps?: AppId[];
+  // Когда сервис уснул (мс с эпохи): время попадает в подсказку иконки
+  sleepingSince?: Partial<Record<AppId, number>>;
   // Скрытые сервисы не показываются в rail; Telegram скрыть нельзя
   hiddenApps?: AppId[];
   // Маршрут сервиса из статуса сети: недоступный помечается ошибкой, прямой отмечен только в подписи
@@ -99,6 +101,11 @@ const SERVICES: ServiceDef[] = [
   },
 ];
 
+// Часы:минуты по системной локали, без секунд
+function formatClock(timestamp: number) {
+  return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 type Indicator = 'loading' | 'error' | 'sleep' | undefined;
 
 function resolveIndicator(state: ServiceState, isSleeping: boolean): Indicator {
@@ -112,6 +119,7 @@ const AppSidebar = ({
   xAppState,
   instagramAppState = 'idle',
   sleepingApps,
+  sleepingSince,
   hiddenApps,
   networkRoutes,
   onSelectApp,
@@ -168,7 +176,10 @@ const AppSidebar = ({
                 : isNetworkDown ? 'RelayNetRailUnavailable'
                   : route === 'direct' ? 'RelayNetRailDirect'
                     : indicator === 'sleep' ? 'RelayServiceSleeping' : undefined;
-          const stateLabel = stateKey ? lang(stateKey) : undefined;
+          const sleepStart = indicator === 'sleep' ? sleepingSince?.[def.id] : undefined;
+          const stateLabel = sleepStart
+            ? lang('RelayServiceSleepingSince', { time: formatClock(sleepStart) })
+            : stateKey ? lang(stateKey) : undefined;
           const switchLabel = lang(def.switchKey);
 
           return (

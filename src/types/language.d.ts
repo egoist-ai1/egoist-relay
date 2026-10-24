@@ -2585,6 +2585,14 @@ export interface LangPair {
   'RelayNetRouteUnknown': undefined;
   'RelayNetRailUnavailable': undefined;
   'RelayNetRailDirect': undefined;
+  'RelayNetOpenSettings': undefined;
+  'RelayPlateGroup': undefined;
+  'RelayPlateNetTunnel': undefined;
+  'RelayPlateNetDnsOnly': undefined;
+  'RelayPlateNetDown': undefined;
+  'RelayPlateNetStarting': undefined;
+  'RelayPlateNetRestart': undefined;
+  'RelayPlateNetNone': undefined;
   'RelayNetKey': undefined;
   'RelayNetKeyEmbedded': undefined;
   'RelayNetKeyOverride': undefined;
@@ -4406,6 +4414,25 @@ export interface LangPairWithVariables<V = LangVariable> {
     'count': V;
   };
   'RelayNetNodeCount': {
+    'count': V;
+  };
+  'RelayNetServiceUnreachableText': {
+    'state': V;
+  };
+  'RelayServiceSleepingSince': {
+    'time': V;
+  };
+  'RelayPlateNetworkTitle': {
+    'state': V;
+  };
+  'RelayPlateMemoryMb': {
+    'value': V;
+  };
+  'RelayPlateMemoryGb': {
+    'value': V;
+  };
+  'RelayPlateMemoryTitle': {
+    'size': V;
     'count': V;
   };
   'RelayNetDnsPrivate': {

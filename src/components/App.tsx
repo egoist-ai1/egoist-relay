@@ -31,7 +31,7 @@ import { hasEncryptedSession } from '../util/passcode';
 import { getInitialLocationHash, parseInitialLocationHash } from '../util/routing';
 import { checkSessionLocked, hasStoredSession } from '../util/sessions';
 import { resolveAppBounds } from '../util/tauri/appBounds';
-import { setServiceEnabled } from '../util/tauri/relayNetwork';
+import { getNetworkStateKey, setServiceEnabled } from '../util/tauri/relayNetwork';
 import { getLastUserInputAt, startSocialWarmup } from '../util/tauri/socialWarmup';
 import { getActionMessageBg, getWallpaperBaseColor } from '../util/wallpaper';
 import { updateSizes } from '../util/windowSize';
@@ -47,6 +47,7 @@ import useFileHoverOpen, {
 } from '../hooks/useFileHoverOpen';
 import useLang from '../hooks/useLang';
 import useLastCallback from '../hooks/useLastCallback';
+import useMemoryUsage from '../hooks/useMemoryUsage';
 import useNetworkStatus from '../hooks/useNetworkStatus';
 import usePrevious from '../hooks/usePrevious';
 import useResizeObserver from '../hooks/useResizeObserver';
@@ -170,6 +171,7 @@ const App = ({
   const [xFailureDetails, setXFailureDetails] = useState<XFailureDetails>();
   const [instagramAppState, setInstagramAppState] = useState<InstagramAppState>('idle');
   const [sleepingApps, setSleepingApps] = useState<AppId[]>([]);
+  const [sleepingSince, setSleepingSince] = useState<Partial<Record<AppId, number>>>({});
   const [isNavigating, setIsNavigating] = useState(false);
   const [notice, setNotice] = useState<string>();
   const [isOperationsOpen, setIsOperationsOpen] = useState(false);
@@ -200,6 +202,7 @@ const App = ({
   );
   const lang = useLang();
   const networkStatus = useNetworkStatus();
+  const memoryUsage = useMemoryUsage();
   const isMobileOs = PLATFORM_ENV === 'iOS' || PLATFORM_ENV === 'Android';
 
   // Скрытый сервис не должен нагружать сеть: оболочка узнаёт о флагах при старте и при каждом изменении
@@ -788,6 +791,15 @@ const App = ({
     setIsAppSettingsOpen(true);
   });
 
+  // Причина и следующий шаг, когда сервис не открылся из-за маршрута сети, а не из-за самой страницы
+  const getNetworkUnreachableText = (service: 'x' | 'instagram') => (
+    networkStatus?.services[service] === 'unavailable'
+      ? lang('RelayNetServiceUnreachableText', { state: lang(getNetworkStateKey(networkStatus.state)) })
+      : undefined
+  );
+  const xNetworkText = getNetworkUnreachableText('x');
+  const instagramNetworkText = getNetworkUnreachableText('instagram');
+
   const handleCloseAppSettings = useLastCallback(() => {
     setIsAppSettingsOpen(false);
   });
@@ -912,6 +924,13 @@ const App = ({
           if (payload.sleeping) return has ? current : [...current, service];
           return has ? current.filter((id) => id !== service) : current;
         });
+        setSleepingSince((current) => {
+          if (payload.sleeping) return current[service] ? current : { ...current, [service]: Date.now() };
+          if (!current[service]) return current;
+          const rest = { ...current };
+          delete rest[service];
+          return rest;
+        });
       },
     )).then((unlisten) => {
       if (mounted) release = unlisten;
@@ -932,6 +951,7 @@ const App = ({
         xAppState={xAppState}
         instagramAppState={instagramAppState}
         sleepingApps={sleepingApps}
+        sleepingSince={sleepingSince}
         hiddenApps={hiddenApps}
         networkRoutes={networkStatus?.services}
         onSelectApp={handleSelectApp}
@@ -957,6 +977,9 @@ const App = ({
           notice={notice}
           isOperationsOpen={isOperationsOpen}
           operationCount={operationsSnapshot.operations.filter(isMediaOperationActive).length}
+          networkStatus={networkStatus}
+          memoryUsage={memoryUsage}
+          onOpenNetworkSettings={isScreenLocked ? undefined : handleOpenAppSettings}
           onToggleOperations={handleToggleOperations}
           onLoginX={handleLoginX}
           onNavigate={handleNavigation}
@@ -1045,15 +1068,20 @@ const App = ({
                 <h1 className={styles.xStatusTitle}>{lang('RelayXErrorTitle')}</h1>
                 <p className={styles.xStatusText}>
                   {!IS_TAURI ? lang('RelayXDesktopOnly')
-                    : xFailureDetails?.reason === 'timeout' ? lang('RelayXTimeoutErrorText')
+                    : xNetworkText ?? (xFailureDetails?.reason === 'timeout' ? lang('RelayXTimeoutErrorText')
                       : xFailureDetails?.reason === 'browser' ? lang('RelayXBrowserErrorText')
                         : xFailureDetails?.reason === 'navigation'
                           ? lang('RelayXNavigationErrorText', { code: xFailureDetails.code })
-                          : lang('RelayXErrorText')}
+                          : lang('RelayXErrorText'))}
                 </p>
                 {IS_TAURI && (
                   <button type="button" className={styles.xRetryButton} onClick={handleRetryX}>
                     {lang('RelayRetry')}
+                  </button>
+                )}
+                {IS_TAURI && Boolean(xNetworkText) && !isScreenLocked && (
+                  <button type="button" className={styles.xSecondaryButton} onClick={handleOpenAppSettings}>
+                    {lang('RelayNetOpenSettings')}
                   </button>
                 )}
               </div>
@@ -1117,11 +1145,18 @@ const App = ({
                 </div>
                 <h1 className={styles.xStatusTitle}>{lang('RelayInstagramErrorTitle')}</h1>
                 <p className={styles.xStatusText}>
-                  {lang(IS_TAURI ? 'RelayInstagramErrorText' : 'RelayInstagramDesktopOnly')}
+                  {IS_TAURI && instagramNetworkText
+                    ? instagramNetworkText
+                    : lang(IS_TAURI ? 'RelayInstagramErrorText' : 'RelayInstagramDesktopOnly')}
                 </p>
                 {IS_TAURI && (
                   <button type="button" className={styles.xRetryButton} onClick={handleRetryInstagram}>
                     {lang('RelayRetry')}
+                  </button>
+                )}
+                {IS_TAURI && Boolean(instagramNetworkText) && !isScreenLocked && (
+                  <button type="button" className={styles.xSecondaryButton} onClick={handleOpenAppSettings}>
+                    {lang('RelayNetOpenSettings')}
                   </button>
                 )}
               </div>
