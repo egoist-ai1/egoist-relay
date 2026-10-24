@@ -25,6 +25,7 @@ export type NetworkApplyInput = { vpn?: string; doh?: string; mtproxy?: string }
 
 const NETWORK_ERROR_CODES = [
   'INVALID_VPN', 'INVALID_DOH', 'INVALID_MTPROXY', 'PROBE_FAILED', 'APPLY_FAILED', 'SUBSCRIPTION_FAILED',
+  'REFRESH_BUSY',
 ] as const;
 export type NetworkErrorCode = typeof NETWORK_ERROR_CODES[number] | 'UNKNOWN';
 
@@ -37,6 +38,7 @@ const ERROR_KEYS: Record<NetworkErrorCode, RegularLangKey> = {
   PROBE_FAILED: 'RelayNetErrProbeFailed',
   APPLY_FAILED: 'RelayNetErrApplyFailed',
   SUBSCRIPTION_FAILED: 'RelayNetErrSubscription',
+  REFRESH_BUSY: 'RelayNetErrRefreshBusy',
   UNKNOWN: 'RelayNetErrUnknown',
 };
 

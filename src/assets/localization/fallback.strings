@@ -3495,6 +3495,7 @@
 "RelayNetErrProbeFailed" = "Проверка не прошла, прежние настройки оставлены";
 "RelayNetErrApplyFailed" = "Не удалось применить, прежние настройки оставлены";
 "RelayNetErrSubscription" = "Не удалось обновить подписку";
+"RelayNetErrRefreshBusy" = "Подписка уже обновляется — подождите несколько секунд";
 "RelayNetErrUnknown" = "Не удалось выполнить действие";
 "RelayWarmupSocial" = "Готовить X и Instagram в фоне";
 "RelayWarmupSocialHint" = "Окна сервисов создаются после готовности Telegram, когда вы не вводите текст. Выключите, чтобы экономить память и сеть.";

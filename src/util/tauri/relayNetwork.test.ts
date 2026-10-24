@@ -35,6 +35,12 @@ describe('Network error codes', () => {
     expect(parseNetworkErrorCode({ code: 'INVALID_DOH' })).toBe('INVALID_DOH');
   });
 
+  it('Shows a dedicated text when a subscription refresh is already running', () => {
+    const code = parseNetworkErrorCode('relay_network_refresh_subscription: REFRESH_BUSY');
+    expect(code).toBe('REFRESH_BUSY');
+    expect(getNetworkErrorKey(code)).toBe('RelayNetErrRefreshBusy');
+  });
+
   it('Treats unknown failures as a generic error with its own text', () => {
     const code = parseNetworkErrorCode(42);
     expect(code).toBe('UNKNOWN');

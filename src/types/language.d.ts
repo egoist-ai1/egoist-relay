@@ -2612,6 +2612,7 @@ export interface LangPair {
   'RelayNetErrProbeFailed': undefined;
   'RelayNetErrApplyFailed': undefined;
   'RelayNetErrSubscription': undefined;
+  'RelayNetErrRefreshBusy': undefined;
   'RelayNetErrUnknown': undefined;
   'RelayWarmupSocial': undefined;
   'RelayWarmupSocialHint': undefined;
