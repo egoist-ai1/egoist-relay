@@ -615,7 +615,7 @@ fn redact(line: &str) -> String {
 
 /// Читает stderr воркера до конца (иначе он встанет на заполненном пайпе), строки режет по лимиту
 /// и отдаёт в `sink` не более `STDERR_LINES_PER_WORKER` штук уже без секретов.
-#[cfg(any(windows, test))]
+#[cfg(test)]
 fn drain_stderr<R: std::io::Read>(reader: R, sink: impl FnMut(&str)) {
   drain_stderr_with(reader, STDERR_LINES_PER_WORKER, sink)
 }
