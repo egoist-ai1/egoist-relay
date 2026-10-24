@@ -2,6 +2,7 @@
 //!
 //! X и Instagram, скрытые на 30 с (другой сервис, окно свёрнуто или в трее): MemoryUsageTargetLevel=LOW,
 //! через 5 мин TrySuspend (только если нет живого research-окна этого провайдера и загрузка завершена).
+//! Пропущенный Suspend повторяется каждые 5 мин (до часа). Прогретые при старте сервисы засыпают так же.
 //! Главное окно Telegram при сворачивании или трее: только LOW, без suspend.
 //! При показе: Resume (если был suspend) и NORMAL до show. Таймеры отменяются счётчиком поколения.
 //! Вся работа с COM идёт на главном потоке.
@@ -16,6 +17,10 @@ use super::{INSTAGRAM_APP, INSTAGRAM_WEBVIEW_LABEL, TELEGRAM_APP, X_APP, X_WEBVI
 
 pub(super) const LOW_DELAY: Duration = Duration::from_secs(30);
 pub(super) const SUSPEND_DELAY: Duration = Duration::from_secs(300);
+/// Если Suspend пропущен (идёт звук, загрузка, открыто research-окно), повтор через эту паузу
+pub(super) const SUSPEND_RETRY: Duration = Duration::from_secs(300);
+/// Сколько раз повторять пропущенный Suspend (1 час при паузе 5 мин)
+pub(super) const SUSPEND_RETRIES: u32 = 12;
 
 const LEVEL_NORMAL: u8 = 0;
 const LEVEL_LOW: u8 = 1;
@@ -42,6 +47,18 @@ pub(super) fn plan(may_suspend: bool, low: Duration, suspend: Duration) -> Vec<(
     stages.push((suspend.saturating_sub(low), Stage::Suspend));
   }
   stages
+}
+
+/// Итог стадии сна: `Skipped` — условия не позволили, стадию стоит повторить позже.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(super) enum Outcome {
+  Done,
+  Skipped,
+}
+
+/// Повторять ли пропущенную стадию: только `Skipped` и не больше `SUSPEND_RETRIES` повторов.
+pub(super) fn should_retry(attempt: u32, outcome: Outcome) -> bool {
+  outcome == Outcome::Skipped && attempt < SUSPEND_RETRIES
 }
 
 /// Что нужно сделать при пробуждении из уровня `level`: (Resume, вернуть NORMAL).
@@ -93,6 +110,18 @@ impl Slot {
     state.armed = true;
     state.epoch = state.epoch.wrapping_add(1);
     Some(state.epoch)
+  }
+
+  /// Снимает «таймер стоит» после завершения расписания, не меняя поколение: поздний колбэк
+  /// TrySuspend всё ещё считается актуальным, а следующее скрытие сможет поставить таймер заново.
+  /// Чужое поколение (таймер уже отменён или поставлен заново) не трогаем.
+  pub(super) fn release(&self, epoch: u64) -> bool {
+    let mut state = self.state.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+    if state.epoch != epoch || !state.armed {
+      return false;
+    }
+    state.armed = false;
+    true
   }
 
   /// Отменяет таймер и будит ожидающие потоки. Возвращает true, если таймер стоял.
@@ -149,6 +178,10 @@ pub(super) fn schedule(app: &AppHandle, service: &'static str) {
   if app.get_webview(label).is_none() {
     return;
   }
+  // Уже усыплённый сервис повторно не планируем: Low затёр бы уровень Suspended и Resume не выполнился
+  if slot.level.load(Ordering::Acquire) == LEVEL_SUSPENDED {
+    return;
+  }
   let Some(epoch) = slot.arm() else { return; };
   let app = app.clone();
   let stages = plan(service != TELEGRAM_APP, LOW_DELAY, SUSPEND_DELAY);
@@ -157,8 +190,20 @@ pub(super) fn schedule(app: &AppHandle, service: &'static str) {
       if !slot.wait_current(epoch, delay) {
         return;
       }
-      apply_stage(&app, service, slot, epoch, stage);
+      let mut attempt = 0;
+      loop {
+        let outcome = apply_stage(&app, service, slot, epoch, stage);
+        if stage != Stage::Suspend || !should_retry(attempt, outcome) {
+          break;
+        }
+        attempt += 1;
+        if !slot.wait_current(epoch, SUSPEND_RETRY) {
+          return;
+        }
+      }
     }
+    // Расписание отработало: следующее скрытие должно уметь поставить таймер снова
+    slot.release(epoch);
   });
 }
 
@@ -176,38 +221,46 @@ pub(super) fn wake(app: &AppHandle, service: &'static str) {
   }
 }
 
-fn apply_stage(app: &AppHandle, service: &'static str, slot: &'static Slot, epoch: u64, stage: Stage) {
+fn apply_stage(app: &AppHandle, service: &'static str, slot: &'static Slot, epoch: u64, stage: Stage) -> Outcome {
   let app_for_main = app.clone();
   let result = super::run_on_main(app, move || {
     if !slot.is_current(epoch) {
-      return;
+      return Outcome::Done;
     }
-    stage_on_main(&app_for_main, service, slot, epoch, stage);
+    stage_on_main(&app_for_main, service, slot, epoch, stage)
   });
-  if let Err(error) = result {
-    log::warn!("[MultiApp] {service} sleep stage {stage:?} skipped: {error}");
+  match result {
+    Ok(outcome) => outcome,
+    Err(error) => {
+      log::warn!("[MultiApp] {service} sleep stage {stage:?} skipped: {error}");
+      Outcome::Skipped
+    }
   }
 }
 
-fn stage_on_main(app: &AppHandle, service: &'static str, slot: &'static Slot, epoch: u64, stage: Stage) {
+fn stage_on_main(app: &AppHandle, service: &'static str, slot: &'static Slot, epoch: u64, stage: Stage) -> Outcome {
   let Some(webview) = label_for(service).and_then(|label| app.get_webview(label)) else {
-    return;
+    return Outcome::Done;
   };
   match stage {
-    Stage::Low => match platform::set_low(&webview, true) {
-      Ok(()) => {
-        slot.level.store(LEVEL_LOW, Ordering::Release);
-        log::info!("[MultiApp] {service} sleep level low");
+    Stage::Low => {
+      match platform::set_low(&webview, true) {
+        Ok(()) => {
+          // Не опускаем уровень, если сервис уже усыплён
+          let _ = slot.level.compare_exchange(LEVEL_NORMAL, LEVEL_LOW, Ordering::AcqRel, Ordering::Acquire);
+          log::info!("[MultiApp] {service} sleep level low");
+        }
+        Err(error) => log::warn!("[MultiApp] {service} could not lower memory level: {error}"),
       }
-      Err(error) => log::warn!("[MultiApp] {service} could not lower memory level: {error}"),
-    },
+      Outcome::Done
+    }
     Stage::Suspend => {
       let research_alive = research_label(service).is_some_and(|label| app.get_webview(label).is_some());
       let load_state = super::get_service_load_state(service);
       let playing_audio = platform::is_playing_audio(&webview);
       if !suspend_allowed(research_alive, load_state, playing_audio) {
         log::info!("[MultiApp] {service} suspend skipped (research={research_alive}, state={load_state}, audio={playing_audio})");
-        return;
+        return Outcome::Skipped;
       }
       // Активный сервис при свёрнутом окне ещё "виден" контроллеру: без скрытия TrySuspend отказывает
       if super::get_active_app() == service && platform::hide_controller(&webview).is_ok() {
@@ -230,7 +283,10 @@ fn stage_on_main(app: &AppHandle, service: &'static str, slot: &'static Slot, ep
       });
       if let Err(error) = result {
         log::warn!("[MultiApp] {service} could not suspend: {error}");
+        return Outcome::Skipped;
       }
+      // Отказ WebView2 приходит в колбэке и не повторяется: он сам скажет, что страница не готова
+      Outcome::Done
     }
   }
 }
@@ -403,6 +459,38 @@ mod tests {
     std::thread::sleep(Duration::from_millis(50));
     slot.disarm();
     assert!(!waiter.join().unwrap());
+  }
+
+  #[test]
+  fn release_clears_only_the_current_armed_epoch() {
+    let slot = Slot::new();
+    let epoch = slot.arm().unwrap();
+    assert!(!slot.release(epoch.wrapping_add(1)), "чужое поколение не трогаем");
+    assert_eq!(slot.arm(), None, "таймер всё ещё стоит");
+    assert!(slot.release(epoch));
+    assert!(slot.is_current(epoch), "release не меняет поколение: поздний колбэк остаётся актуальным");
+    assert!(!slot.release(epoch), "повторный release ничего не делает");
+    let next = slot.arm().expect("после release таймер ставится заново");
+    assert_ne!(next, epoch);
+  }
+
+  #[test]
+  fn release_after_disarm_does_not_cancel_a_newer_timer() {
+    let slot = Slot::new();
+    let old = slot.arm().unwrap();
+    slot.disarm();
+    let newer = slot.arm().unwrap();
+    assert!(!slot.release(old));
+    assert!(slot.is_current(newer));
+    assert_eq!(slot.arm(), None);
+  }
+
+  #[test]
+  fn retry_only_skipped_suspend_and_not_forever() {
+    assert!(should_retry(0, Outcome::Skipped));
+    assert!(should_retry(SUSPEND_RETRIES - 1, Outcome::Skipped));
+    assert!(!should_retry(SUSPEND_RETRIES, Outcome::Skipped));
+    assert!(!should_retry(0, Outcome::Done));
   }
 
   #[test]

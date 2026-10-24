@@ -570,6 +570,10 @@ pub async fn multi_prewarm_x(
 
   create_x_webview(&app_handle, &main_window, bounds, true)?;
   store_x_bounds(bounds);
+  // Прогретый скрытый сервис тоже должен засыпать, иначе он держит память, пока его не откроют
+  if get_active_app() != X_APP {
+    sleep::schedule(&app_handle, X_APP);
+  }
   Ok(())
 }
 
@@ -594,6 +598,9 @@ pub async fn multi_prewarm_instagram(
 
   create_instagram_webview(&app_handle, &main_window, bounds, true)?;
   store_x_bounds(bounds);
+  if get_active_app() != INSTAGRAM_APP {
+    sleep::schedule(&app_handle, INSTAGRAM_APP);
+  }
   Ok(())
 }
 
@@ -1136,6 +1143,10 @@ fn complete_service_load(app_handle: &AppHandle, service: &'static str) {
       }
     }
     set_media_active(&webview, is_active);
+    // Загрузка скрытого сервиса закончилась уже после того, как таймер сна не сработал или не ставился
+    if service != TELEGRAM_APP && get_active_app() != service {
+      sleep::schedule(app_handle, service);
+    }
   }
   emit_service_status(app_handle, service, "ready");
 }
