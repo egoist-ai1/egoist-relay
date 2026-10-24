@@ -1,6 +1,6 @@
-# Egoist Relay
+# Egoist Social (папка Egoist Relay)
 
-Неофициальный Windows-хаб Telegram, X и Instagram: Tauri 2 (Rust) + Teact/GramJS (форк Telegram Web A, GPLv3). Отдельные профили WebView2 на сервис, локальные прокси, Node runtime и медиа-инструменты в `runtime/`. Версия — в `package.json` (`npm run version:sync` синхронизирует остальное). Общие правила владельца приходят из `C:\Users\Egoist\Desktop\EgoistCODEX AI\rules.md`; карта проектов — `..\..\PROJECTS.md`.
+Состояние, версии и открытые задачи — [docs/HANDOFF.md](docs/HANDOFF.md) (читать первым). Неофициальный Windows-хаб Telegram, X и Instagram: Tauri 2 (Rust) + Teact/GramJS (форк Telegram Web A, GPLv3). Отдельные профили WebView2 на сервис, локальные прокси, Node runtime и медиа-инструменты в `runtime/`. Версия — в `package.json` (`npm run version:sync` синхронизирует остальное). Общие правила владельца приходят из `C:\Users\Egoist\Desktop\EgoistCODEX AI\rules.md`; карта проектов — `..\..\PROJECTS.md`.
 
 ## Где что
 
@@ -10,7 +10,7 @@
 | `tauri/` | Rust-оболочка: `src/`, `tauri.conf.json`, `capabilities/`, установщик NSIS (`installer.nsh`) |
 | `runtime/` | Бандл-инструменты (node, ffmpeg, yt-dlp, proxy) и лицензии; состав проверяет `release-runtime-manifest.json` |
 | `scripts/` | Сборка, preflight, тесты оболочки (`release-*.mjs`, `relay-*.test.mjs`) |
-| `docs/` | Аудиты и планы по версиям, [DESIGN.md](docs/DESIGN.md) |
+| `docs/` | [HANDOFF.md](docs/HANDOFF.md), [DESIGN.md](docs/DESIGN.md), релизные заметки 1.7+; старые аудиты и планы — `docs/archive/` |
 | `release/<версия>/` | Готовые установщики (вне Git) |
 
 ## Команды
@@ -29,7 +29,7 @@ npm run tauri:build         # установщик (нужны Node 24, Rust/MSV
 
 - Секреты: `.env` (Telegram API ID/hash) не читать и не печатать; `.env.example` — образец. Preflight проверяет, что секреты не попали в сборку.
 - Менять только то, что относится к задаче; существующие типы и компоненты переиспользовать; новых библиотек не добавлять без причины.
-- Релиз: `npm run version:sync` → `check` → `test` → `release:preflight` → `tauri:build`; установщик в `release/<версия>/` с `SHA256SUMS.txt`. Хранить 3 последние версии, старые удалять.
+- Релиз: `npm run version:sync` → `check` → `test` → `release:preflight` → `tauri:build`; установщик в `release/<версия>/` с `SHA256SUMS.txt`. Хранить 3 последние версии, старые удалять; обновить docs/HANDOFF.md.
 - В Git не попадают `dist/`, `release/`, `scratch/`, бинарники `runtime/*.exe`, `whisper-env.zip` (см. `.gitignore`). Перед первым коммитом: `git rm -r --cached dist`.
 - Коммиты — по шаблону из [docs/CODE-STYLE.md](docs/CODE-STYLE.md#commit-messages); `push` — только по просьбе владельца.
 
