@@ -2433,6 +2433,12 @@
           "markdownDescription": "Enables the relay_media_operations_list command without any pre-configured scope."
         },
         {
+          "description": "Enables the relay_memory_usage command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-relay-memory-usage",
+          "markdownDescription": "Enables the relay_memory_usage command without any pre-configured scope."
+        },
+        {
           "description": "Enables the relay_mini_app_close command without any pre-configured scope.",
           "type": "string",
           "const": "allow-relay-mini-app-close",
@@ -2779,6 +2785,12 @@
           "type": "string",
           "const": "deny-relay-media-operations-list",
           "markdownDescription": "Denies the relay_media_operations_list command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the relay_memory_usage command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-relay-memory-usage",
+          "markdownDescription": "Denies the relay_memory_usage command without any pre-configured scope."
         },
         {
           "description": "Denies the relay_mini_app_close command without any pre-configured scope.",

@@ -55,6 +55,7 @@ fn main() {
           "set_menu_translations",
           "relay_control_status",
           "relay_get_telegram_transport",
+          "relay_memory_usage",
           "relay_network_status",
           "relay_network_apply",
           "relay_network_reset",

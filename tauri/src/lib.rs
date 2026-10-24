@@ -31,6 +31,7 @@ mod win_acl;
 mod tunnel;
 mod network;
 mod telegram_transport;
+mod memory_usage;
 mod research_bridge;
 mod research_spool;
 mod research_social;
@@ -328,6 +329,7 @@ pub fn run() {
     set_menu_translations,
     relay_control_status,
     telegram_transport::relay_get_telegram_transport,
+    memory_usage::relay_memory_usage,
     network::relay_network_status,
     network::relay_network_apply,
     network::relay_network_reset,

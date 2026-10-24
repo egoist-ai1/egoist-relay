@@ -545,7 +545,7 @@ fn tcp_listener_rows() -> Option<Vec<ListenerRow>> {
 
 /// Таблица «PID -> PID родителя» по снимку процессов (CreateToolhelp32Snapshot).
 #[cfg(windows)]
-fn process_parents() -> Option<std::collections::HashMap<u32, u32>> {
+pub(crate) fn process_parents() -> Option<std::collections::HashMap<u32, u32>> {
   const TH32CS_SNAPPROCESS: u32 = 2;
   #[repr(C)]
   struct ProcessEntry {
