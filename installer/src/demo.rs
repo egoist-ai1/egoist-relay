@@ -15,7 +15,7 @@ pub enum Mode {
     Full,
     /// Прогон, который падает на середине установки.
     Fail,
-    /// Прогон с просьбой закрыть Egoist Social.
+    /// Прогон с просьбой закрыть Бересту.
     Running,
     /// Сразу показать экран и остановиться (для снимков): progress | error | done | running.
     Static(String),
@@ -48,7 +48,7 @@ fn error(sink: &dyn Sink) {
         "t":"error","code":"SETUP-ACCESS","retry":true,
         "title":"Нет доступа к папке установки",
         "message":"Не удалось записать файлы в C:\\Users\\Demo\\AppData\\Local\\Egoist Relay (отказано в доступе).",
-        "hint":"Закройте программы, которые используют файлы Egoist Social, и нажмите «Повторить»."
+        "hint":"Закройте программы, которые используют файлы Бересты, и нажмите «Повторить»."
     }));
 }
 
@@ -152,6 +152,6 @@ fn run(sink: &dyn Sink, shared: &Shared, mode: &Mode, launch_after: bool) {
         nap(110);
     }
     progress(sink, 1.0, "");
-    stage(sink, 4, "Готово", "Egoist Social установлен");
+    stage(sink, 4, "Готово", "Береста установлена");
     done(sink, launch_after);
 }

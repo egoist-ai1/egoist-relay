@@ -5,7 +5,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Egoist Social",
+        "title": "Береста",
         "visible": true,
         "width": 1652,
         "height": 1160,
@@ -65,7 +65,7 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "longDescription": "Egoist Social: local-first desktop hub for messengers and social networks using the Windows network configuration",
+    "longDescription": "Береста: local-first desktop hub for messengers and social networks using the Windows network configuration",
     "macOS": {
       "entitlements": "entitlements.mac.plist",
       "exceptionDomain": "",
@@ -174,7 +174,7 @@
       "../runtime/YT-DLP-THIRD-PARTY-LICENSES.txt": "runtime/YT-DLP-THIRD-PARTY-LICENSES.txt",
       "../runtime/yt-dlp.exe": "runtime/yt-dlp.exe"
     },
-    "shortDescription": "Egoist Social",
+    "shortDescription": "Береста",
     "targets": [
       "nsis"
     ],

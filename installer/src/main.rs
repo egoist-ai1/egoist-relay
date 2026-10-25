@@ -1,4 +1,4 @@
-//! Egoist Social Setup: фирменный установщик Egoist Social.
+//! Установка Бересты: фирменный установщик Бересты.
 //!
 //! Self-extracting оболочка: exe + payload (готовый NSIS-установщик Tauri) + хвост (см. `tail.rs`).
 //! Окно — tao + wry (WebView2), без стандартных окон NSIS. Установку выполняет проверенный
@@ -96,7 +96,7 @@ impl Sink for ConsoleSink {
                     None
                 }
             }
-            "need_close" => Some("Закройте Egoist Social через значок в трее".to_string()),
+            "need_close" => Some("Закройте Бересту через значок в трее".to_string()),
             _ => None,
         };
         if let Some(l) = line {
@@ -129,7 +129,7 @@ fn real_main() -> i32 {
     if args.verify {
         return match engine::verify_only(&exe_path) {
             Ok((t, true)) => {
-                say(&format!("OK: Egoist Social {} payload {} байт, SHA-256 {}", t.meta.version, t.payload_len, tail::hex(&t.payload_sha256)));
+                say(&format!("OK: Береста {} payload {} байт, SHA-256 {}", t.meta.version, t.payload_len, tail::hex(&t.payload_sha256)));
                 0
             }
             Ok((_, false)) => {
@@ -145,7 +145,7 @@ fn real_main() -> i32 {
 
     if args.demo.is_none() && !win::acquire_single_instance("Local\\SennitSetup-2c9d6b1e-7f34-4d1a-9a52-1e0c1b7d51aa") {
         if !args.silent {
-            win::info_box("Egoist Social Setup", "Установщик Egoist Social уже запущен.");
+            win::info_box("Установка Бересты", "Установщик Бересты уже запущен.");
         }
         return 3;
     }
@@ -157,7 +157,7 @@ fn real_main() -> i32 {
         Err(_) => env!("CARGO_PKG_VERSION").to_string(),
     };
     let log = Arc::new(util::Log::create(&temp, &version));
-    log.line(&format!("запуск Egoist Social Setup {} ({}), аргументы: {:?}", env!("CARGO_PKG_VERSION"), exe_path.display(), std::env::args().skip(1).collect::<Vec<_>>()));
+    log.line(&format!("запуск установщика Бересты {} ({}), аргументы: {:?}", env!("CARGO_PKG_VERSION"), exe_path.display(), std::env::args().skip(1).collect::<Vec<_>>()));
     if !args.unknown.is_empty() {
         log.line(&format!("неизвестные аргументы проигнорированы: {:?}", args.unknown));
     }
@@ -195,7 +195,7 @@ fn real_main() -> i32 {
             match tail_result {
                 Ok(t) => run_fallback(exe_path, t, log),
                 Err(_) => {
-                    win::info_box("Egoist Social Setup", "Не удалось открыть окно установщика (WebView2). Установите Microsoft Edge WebView2 Runtime и запустите установщик снова.");
+                    win::info_box("Установка Бересты", "Не удалось открыть окно установщика (WebView2). Установите Microsoft Edge WebView2 Runtime и запустите установщик снова.");
                     engine::EXIT_INTERNAL
                 }
             }
@@ -218,7 +218,7 @@ fn run_silent(args: &Args, exe_path: PathBuf, tail_result: Result<tail::Tail, ta
     let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| engine::run(&ctx, &opts)));
     match result {
         Ok(Ok(Outcome::Done { install_dir, version, .. })) => {
-            say(&format!("Готово: Egoist Social {version} установлен в {}", install_dir.display()));
+            say(&format!("Готово: Береста {version} установлена в {}", install_dir.display()));
             0
         }
         Ok(Ok(Outcome::Canceled)) => 1,
@@ -246,7 +246,7 @@ fn run_fallback(exe_path: PathBuf, t: tail::Tail, log: Arc<util::Log>) -> i32 {
         Ok(_) => 0,
         Err(f) => {
             log.line(&format!("ОШИБКА {}: {} — {}", f.code, f.title, f.message));
-            win::info_box("Egoist Social Setup", &format!("{}\n\n{}\n\n{}", f.title, f.message, f.hint));
+            win::info_box("Установка Бересты", &format!("{}\n\n{}\n\n{}", f.title, f.message, f.hint));
             f.exit
         }
     }

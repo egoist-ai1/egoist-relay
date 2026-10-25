@@ -133,7 +133,7 @@ pub fn run(cfg: UiConfig) -> Result<i32, String> {
         _ => None,
     };
     let window = WindowBuilder::new()
-        .with_title("Egoist Social Setup")
+        .with_title("Установка Бересты")
         .with_inner_size(LogicalSize::new(WINDOW_W, WINDOW_H))
         .with_resizable(false)
         .with_maximizable(false)

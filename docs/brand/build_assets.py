@@ -1,4 +1,4 @@
-"""Растровые ассеты Egoist Social из геометрии знака (build_logo.py). Нужны Pillow, fontTools, brotli, resvg-py.
+"""Растровые ассеты «Бересты» из геометрии знака (build_logo.py). Нужны Pillow, fontTools, brotli, resvg-py.
 Запуск из корня проекта: python docs/brand/build_assets.py
 Пишет иконки Tauri (png/ico/icns), установщика, веб-клиента (favicon, PWA, apple-touch, mstile) и картинки NSIS.
 Подписи NSIS — контуры Unbounded 500 и Onest 400: результат не зависит от шрифтов системы."""
@@ -77,19 +77,16 @@ def text_path(fonts, text, size, x0=0.0, y0=0.0, tracking_em=0.0):
 
 
 def nsis_header(unbounded):
-    """150×57, светлая шапка мастера: имя в две строки слева, плитка справа."""
+    """150×57, светлая шапка мастера: имя слева, плитка справа."""
     w, h = 150, 57
-    size = 15
-    cap = unbounded['OS/2'].sCapHeight / unbounded['head'].unitsPerEm * size
-    gap = 6
-    top = (h - (2 * cap + gap)) / 2 + cap
-    d1, _ = text_path([unbounded], 'Egoist', size, 12, top, -0.02)
-    d2, _ = text_path([unbounded], 'Social', size, 12, top + cap + gap, -0.02)
+    size = 17
+    cap = unbounded[0]['OS/2'].sCapHeight / unbounded[0]['head'].unitsPerEm * size
+    d1, _ = text_path(unbounded, NAME, size, 12, (h + cap) / 2, -0.02)
     t = 34
     tile = (f'<g transform="translate({w - 12 - t} {(h - t) / 2}) scale({t / 64})">'
             f'<rect width="64" height="64" rx="14" fill="{TILE_DARK}"/>{logo.glyph(INK_DARK)}</g>')
     body = (f'<rect width="{w}" height="{h}" fill="{TILE_LIGHT}"/>'
-            f'<path d="{d1} {d2}" fill="{INK_LIGHT}"/>{tile}')
+            f'<path d="{d1}" fill="{INK_LIGHT}"/>{tile}')
     return logo.svg(w, h, body, NAME), w, h
 
 
@@ -100,7 +97,7 @@ def nsis_sidebar(unbounded, onest):
     tile = (f'<g transform="translate({(w - t) / 2} 56)">'
             f'<rect width="64" height="64" rx="14" fill="{logo.TILE_DARK}" stroke="#2A2A2E" stroke-width="1"/>'
             f'{logo.glyph(INK_DARK)}</g>')
-    name_d, name_w = text_path([unbounded], NAME, 13.5, 0, 0, -0.02)
+    name_d, name_w = text_path(unbounded, NAME, 15, 0, 0, -0.02)
     name = f'<path transform="translate({(w - name_w) / 2:.2f} 156)" d="{name_d}" fill="{INK_DARK}"/>'
     rule = f'<rect x="20" y="174" width="{w - 40}" height="1" fill="#2A2A2E"/>'
     lines = []
@@ -146,7 +143,7 @@ def main():
         shutil.copyfile(BRAND / f'{name}.svg', ROOT / 'installer' / 'ui' / f'{name}.svg')
 
     # NSIS: 24-битные BMP без альфы
-    unbounded = load(ROOT / 'public' / 'fonts' / 'unbounded-latin.woff2', 500)
+    unbounded = [load(ROOT / 'public' / 'fonts' / f'unbounded-{s}.woff2', 500) for s in ('cyrillic', 'latin')]
     onest = [load(ROOT / 'public' / 'fonts' / f'onest-{s}-wght-normal.woff2', 400) for s in ('latin', 'cyrillic')]
     for (svg, w, h), name in ((nsis_header(unbounded), 'nsis-header'), (nsis_sidebar(unbounded, onest), 'nsis-sidebar')):
         render(svg, w, h).convert('RGB').save(icons / f'{name}.bmp')

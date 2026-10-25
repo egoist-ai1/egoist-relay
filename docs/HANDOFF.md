@@ -1,4 +1,4 @@
-# HANDOFF — Egoist Social (папка `Egoist Relay`)
+# HANDOFF — Береста (прежнее имя Egoist Social, папка `Egoist Relay`)
 
 Состояние на 24.10.2026. Читать первым при возобновлении работы. Правила проекта — `AGENTS.md`, дизайн — `docs/DESIGN.md`, сеть — `docs/product-cycle-2026-10-13/NETWORK-TUNNEL.md`.
 

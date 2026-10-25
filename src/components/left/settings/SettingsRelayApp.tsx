@@ -84,7 +84,7 @@ type OwnProps = {
   onReset: () => void;
 };
 
-// Экран в настройках Telegram (Настройки → Egoist Social)
+// Экран в настройках Telegram (Настройки → Береста)
 const SettingsRelayApp = ({ isActive, onReset }: OwnProps) => {
   useHistoryBack({
     isActive,

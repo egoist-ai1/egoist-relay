@@ -1,7 +1,7 @@
 //! Ход установки: проверки, проверка целостности payload, распаковка, запуск NSIS `/S`, итог.
 //!
 //! Ничего не запускается, кроме извлечённого NSIS-установщика с проверенным SHA-256
-//! (и, по желанию пользователя, установленного Egoist Social). Сети нет.
+//! (и, по желанию пользователя, установленной Бересты). Сети нет.
 
 use std::fs::{File, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
@@ -59,7 +59,7 @@ pub struct Shared {
     pub stalled: AtomicBool,
     /// Код выхода процесса по последнему исходу (0 успех, 1 отмена/не начинали, иначе код ошибки).
     pub last_exit: AtomicI32,
-    /// Каталог, куда установлен Egoist Social (после успеха; для кнопки «Запустить»).
+    /// Каталог, куда установлена Береста (после успеха; для кнопки «Запустить»).
     pub final_dir: std::sync::Mutex<Option<PathBuf>>,
 }
 
@@ -134,7 +134,7 @@ impl Failure {
                 EXIT_NSIS,
                 "Антивирус заблокировал файл",
                 format!("{what}: Windows сообщила о заражённом или удалённом файле (код {os})."),
-                "Добавьте установщик Egoist Social в исключения антивируса или временно отключите проверку, затем нажмите «Повторить».",
+                "Добавьте установщик Бересты в исключения антивируса или временно отключите проверку, затем нажмите «Повторить».",
             ),
             Cause::AccessDenied => Failure::new(
                 "SETUP-ACCESS",
@@ -238,7 +238,7 @@ impl<'a> Runner<'a> {
     fn run_inner(&mut self) -> Result<Outcome, Failure> {
         let tail = &self.ctx.tail;
         let payload_len = tail.payload_len;
-        self.log(&format!("Egoist Social Setup {}: payload {} байт, ожидаемый размер установки {} байт", tail.meta.version, payload_len, tail.install_bytes));
+        self.log(&format!("Установка Бересты {}: payload {} байт, ожидаемый размер установки {} байт", tail.meta.version, payload_len, tail.install_bytes));
 
         // ---- Этап 1: система и целостность ----
         self.stage(1, "Проверка системы", "Windows, свободное место, запущенное приложение");
@@ -337,7 +337,7 @@ impl<'a> Runner<'a> {
         if self.canceled() {
             return Ok(Outcome::Canceled);
         }
-        // Последняя возможность закрыть Egoist Social до записи файлов.
+        // Последняя возможность закрыть Бересту до записи файлов.
         if !self.wait_app_closed(&app_exe)? {
             return Ok(Outcome::Canceled);
         }
@@ -436,15 +436,15 @@ impl<'a> Runner<'a> {
         let updated = existing.version.is_some();
 
         // ---- Этап 4 ----
-        self.stage(4, "Готово", "Egoist Social установлен");
+        self.stage(4, "Готово", "Береста установлена");
         let mut launched = false;
         if self.opts.launch_after {
             match launch_app(&exe, &final_dir) {
                 Ok(()) => {
                     launched = true;
-                    self.log("Egoist Social запущен");
+                    self.log("Береста запущена");
                 }
-                Err(e) => self.log(&format!("не удалось запустить Egoist Social: {e}")),
+                Err(e) => self.log(&format!("не удалось запустить Бересту: {e}")),
             }
         }
         Ok(Outcome::Done { install_dir: final_dir, version: tail.meta.version.clone(), updated, launched })
@@ -474,7 +474,7 @@ impl<'a> Runner<'a> {
                     "SETUP-OS",
                     EXIT_PREFLIGHT,
                     "Windows слишком старая",
-                    format!("Egoist Social требует Windows 10 версии 1903 (сборка {}) или новее. У вас сборка {build}.", preflight::MIN_WINDOWS_BUILD),
+                    format!("Береста требует Windows 10 версии 1903 (сборка {}) или новее. У вас сборка {build}.", preflight::MIN_WINDOWS_BUILD),
                     "Обновите Windows и запустите установщик снова.",
                 )
                 .no_retry());
@@ -521,7 +521,7 @@ impl<'a> Runner<'a> {
         Ok(())
     }
 
-    /// Ждёт, пока не закроется Egoist Social из каталога установки. false — отмена.
+    /// Ждёт, пока не закроется Береста из каталога установки. false — отмена.
     /// Принудительно не завершаем: активные аккаунты, как и в логике NSIS (installer-processes.ps1).
     fn wait_app_closed(&self, app_exe: &Path) -> Result<bool, Failure> {
         if !win::is_exe_running(app_exe) {
@@ -531,28 +531,28 @@ impl<'a> Runner<'a> {
             return Err(Failure::new(
                 "SETUP-APP-RUNNING",
                 EXIT_APP_RUNNING,
-                "Egoist Social запущен",
+                "Береста запущена",
                 format!("Запущен {}.", app_exe.display()),
-                "Закройте Egoist Social через меню значка в трее и запустите установщик снова.",
+                "Закройте Бересту через меню значка в трее и запустите установщик снова.",
             ));
         }
         if self.opts.nsis_gui {
             // Запасной режим без окна: окно сообщения «Повторить / Отмена», без вечного ожидания.
             while win::is_exe_running(app_exe) {
-                self.log("Egoist Social запущен (запасной режим): спрашиваем пользователя");
-                if !win::retry_cancel_box("Egoist Social Setup", "Egoist Social запущен. Закройте его через меню значка в трее и нажмите «Повторить». Активные аккаунты не закрываются принудительно.") {
+                self.log("Береста запущена (запасной режим): спрашиваем пользователя");
+                if !win::retry_cancel_box("Установка Бересты", "Береста запущена. Закройте её через меню значка в трее и нажмите «Повторить». Активные аккаунты не закрываются принудительно.") {
                     return Err(Failure::new(
                         "SETUP-APP-RUNNING",
                         EXIT_APP_RUNNING,
-                        "Egoist Social запущен",
+                        "Береста запущена",
                         format!("Запущен {}.", app_exe.display()),
-                        "Закройте Egoist Social через меню значка в трее и запустите установщик снова.",
+                        "Закройте Бересту через меню значка в трее и запустите установщик снова.",
                     ));
                 }
             }
             return Ok(true);
         }
-        self.log("Egoist Social запущен: ждём закрытия");
+        self.log("Береста запущена: ждём закрытия");
         self.emit(json!({"t":"need_close","running":true}));
         while win::is_exe_running(app_exe) {
             if self.canceled() {
@@ -561,7 +561,7 @@ impl<'a> Runner<'a> {
             }
             std::thread::sleep(Duration::from_millis(500));
         }
-        self.log("Egoist Social закрыт, продолжаем");
+        self.log("Береста закрыта, продолжаем");
         self.emit(json!({"t":"need_close","running":false}));
         Ok(true)
     }
@@ -569,7 +569,7 @@ impl<'a> Runner<'a> {
     fn nsis_failure(&self, code: i32, cause: Cause, install_dir: &Path) -> Failure {
         let tail_hint = "Нажмите «Показать журнал», чтобы сохранить подробности.";
         match cause {
-            Cause::AppRunning => Failure::new("SETUP-APP-RUNNING", EXIT_APP_RUNNING, "Egoist Social запущен", "Установщик не смог заменить файлы работающего приложения.".into(), "Закройте Egoist Social через меню значка в трее и нажмите «Повторить»."),
+            Cause::AppRunning => Failure::new("SETUP-APP-RUNNING", EXIT_APP_RUNNING, "Береста запущена", "Установщик не смог заменить файлы работающего приложения.".into(), "Закройте Бересту через меню значка в трее и нажмите «Повторить»."),
             Cause::ScriptAbort => Failure::new(
                 "SETUP-NSIS-1",
                 EXIT_NSIS,
@@ -577,8 +577,8 @@ impl<'a> Runner<'a> {
                 "Установщик остановился на проверках: версия Windows, длина пути или более новая версия уже установлена.".into(),
                 tail_hint,
             ),
-            Cause::Antivirus => Failure::new("SETUP-ANTIVIRUS", EXIT_NSIS, "Антивирус заблокировал файл", format!("Установщик завершился с кодом {code}: Windows сообщила о заражённом или удалённом файле."), "Добавьте установщик Egoist Social в исключения антивируса и нажмите «Повторить»."),
-            Cause::AccessDenied => Failure::new("SETUP-ACCESS", EXIT_NSIS, "Нет доступа к папке установки", format!("Не удалось записать файлы в {} (отказано в доступе).", install_dir.display()), "Закройте программы, которые используют файлы Egoist Social, и нажмите «Повторить»."),
+            Cause::Antivirus => Failure::new("SETUP-ANTIVIRUS", EXIT_NSIS, "Антивирус заблокировал файл", format!("Установщик завершился с кодом {code}: Windows сообщила о заражённом или удалённом файле."), "Добавьте установщик Бересты в исключения антивируса и нажмите «Повторить»."),
+            Cause::AccessDenied => Failure::new("SETUP-ACCESS", EXIT_NSIS, "Нет доступа к папке установки", format!("Не удалось записать файлы в {} (отказано в доступе).", install_dir.display()), "Закройте программы, которые используют файлы Бересты, и нажмите «Повторить»."),
             Cause::DiskFull => Failure::new("SETUP-DISK", EXIT_SPACE, "Закончилось место на диске", format!("Установщик завершился с кодом {code}, на диске почти нет места."), "Освободите место и нажмите «Повторить»."),
             Cause::Other => Failure::new("SETUP-NSIS", EXIT_NSIS, "Установщик завершился с ошибкой", format!("Код возврата NSIS: {code}."), &format!("{tail_hint}{}", webview_note())),
         }
@@ -700,7 +700,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 4242,
             payload_sha256: sha,
-            meta: Meta { product: "Egoist Social".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "2026-10-08T00:00:00Z".into(), provisioning: None },
+            meta: Meta { product: "Береста".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "2026-10-08T00:00:00Z".into(), provisioning: None },
         };
         let mut body = payload.to_vec();
         if corrupt {

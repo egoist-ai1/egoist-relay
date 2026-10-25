@@ -2,7 +2,7 @@
 name = "egoist-social-setup"
 version = "1.7.1"
 edition = "2021"
-description = "Egoist Social: фирменный установщик (оболочка вокруг NSIS-установщика Tauri)"
+description = "Береста: фирменный установщик (оболочка вокруг NSIS-установщика Tauri)"
 license = "GPL-3.0-only"
 publish = false
 

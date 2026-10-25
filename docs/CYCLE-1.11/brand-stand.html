@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Новое имя и знак: стенд вариантов</title>
+<style>
+@font-face{font-family:"Unbounded";src:url("../../public/fonts/unbounded-latin.woff2") format("woff2");font-weight:200 900;unicode-range:U+0000-00FF;font-display:swap}
+@font-face{font-family:"Unbounded";src:url("../../public/fonts/unbounded-cyrillic.woff2") format("woff2");font-weight:200 900;unicode-range:U+0400-04FF;font-display:swap}
+@font-face{font-family:"Onest";src:url("../../public/fonts/onest-cyrillic-wght-normal.woff2") format("woff2");font-weight:100 900;unicode-range:U+0400-04FF}
+@font-face{font-family:"Onest";src:url("../../public/fonts/onest-latin-wght-normal.woff2") format("woff2");font-weight:100 900;unicode-range:U+0000-00FF}
+:root{--bg:#0E0E0F;--s1:#141416;--s2:#1c1c1f;--line:#2e2e32;--text:#EDEBE6;--soft:#b9b7b2;--muted:#8E8C87;--ink:#EDEBE6;--tile:#141416;--inv:#EDEBE6;--on-inv:#0E0E0F;color-scheme:dark}
+:root[data-theme="light"]{--bg:#F5F5F2;--s1:#fff;--s2:#ecece8;--line:#d8d8d3;--text:#0E0E0F;--soft:#4a4a4c;--muted:#6b6a66;--ink:#0E0E0F;--tile:#F5F5F2;--inv:#0E0E0F;--on-inv:#F5F5F2;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Onest,system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 20px 64px}
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:28px}
+h1{font:500 28px/1.2 Unbounded,Onest,sans-serif;margin:0 0 8px;letter-spacing:-.02em}
+header p{margin:0;color:var(--soft);max-width:62ch}
+.toggle{display:flex;gap:4px;background:var(--s1);border:1px solid var(--line);border-radius:999px;padding:4px}
+.toggle button{font:inherit;border:0;background:transparent;color:var(--soft);padding:8px 16px;border-radius:999px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--inv);color:var(--on-inv)}
+button:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:20px}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:20px}
+.top{display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between}
+.letter{font:500 12px/1 Onest;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.name{font:500 34px/1.1 Unbounded,sans-serif;letter-spacing:-.02em;margin:6px 0 0}
+.ru{color:var(--muted);font-size:14px}
+.meaning{margin:0;color:var(--soft)}
+.stage{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px}
+.mark{display:block;color:var(--ink)}
+.sizes{display:flex;flex-wrap:wrap;gap:14px;align-items:end}
+.tile{display:grid;place-items:center;background:var(--tile);border:1px solid var(--line);border-radius:22%;color:var(--ink)}
+.lockup{display:flex;align-items:center;gap:14px;color:var(--ink)}
+.lockup .w{font:500 30px/1 Unbounded,sans-serif;letter-spacing:-.02em}
+.mock{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.bar{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;background:var(--s2);border-bottom:1px solid var(--line);font-size:13px;color:var(--soft)}
+.bar b{font:500 13px/1 Unbounded,sans-serif;color:var(--text);letter-spacing:-.01em}
+.mock .body{display:flex;height:96px}
+.rail{width:52px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px;align-items:center;padding-top:10px}
+.rail i{width:28px;height:28px;border-radius:8px;background:var(--s2)}
+.rail i:first-child{background:var(--inv)}
+.msg{flex:1;padding:14px 16px;color:var(--muted);font-size:13px}
+.tip{display:inline-block;margin-top:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--s1);color:var(--text);font-size:12px}
+.verdict{display:grid;gap:6px;font-size:13.5px;color:var(--soft);margin:0;padding:0;list-style:none}
+.verdict li{padding-left:18px;position:relative}
+.verdict li::before{content:"";position:absolute;left:2px;top:.6em;width:7px;height:7px;border-radius:2px;background:var(--muted)}
+.reco{border-color:var(--text)}
+.badge{font:500 11px/1 Onest;letter-spacing:.06em;text-transform:uppercase;background:var(--inv);color:var(--on-inv);padding:5px 9px;border-radius:999px}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+@media (max-width:480px){.stage{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Русское имя приложения</h1>
+    <p>Четыре русских имени для «Telegram + X + Instagram в одном окне». Знаки нарисованы под каждое имя и показаны в размерах 16–128 px на тёмном и светлом. Выберите имя; знак доработаю до чистового вида.</p>
+  </div>
+  <div class="toggle" role="group" aria-label="Тема стенда">
+    <button type="button" data-t="dark" aria-pressed="true">Тёмная</button>
+    <button type="button" data-t="light" aria-pressed="false">Светлая</button>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+<footer>Слова набраны Unbounded (есть кириллица), как в нынешнем бренде. Чистовые контуры строятся в <code>build_logo.py</code>. Занятость имён в реестрах товарных знаков и магазинах приложений не проверена: проверьте перед публичным релизом.</footer>
+</div>
+
+<script>
+// Знаки на сетке 64; цвет — currentColor, чтобы не дублировать пути под темы
+const marks = {
+  beresta: '<path d="M10 11H36A4 4 0 0 1 36 19H10A4 4 0 0 1 10 11Z M26 25H52A4 4 0 0 1 52 33H26A4 4 0 0 1 26 25Z M16 39H46A4 4 0 0 1 46 47H25L13 54V42A3 3 0 0 1 16 39Z"/>',
+  vest: '<path fill-rule="evenodd" d="M16 10H48A8 8 0 0 1 56 18V38A8 8 0 0 1 48 46H27L13 55V46H16A8 8 0 0 1 8 38V18A8 8 0 0 1 16 10Z M20 28A4 4 0 1 0 20 27.99Z M32 28A4 4 0 1 0 32 27.99Z M44 28A4 4 0 1 0 44 27.99Z"/>',
+  trilistnik: '<g><ellipse cx="32" cy="18" rx="9" ry="14"/><ellipse cx="32" cy="18" rx="9" ry="14" transform="rotate(120 32 32)"/><ellipse cx="32" cy="18" rx="9" ry="14" transform="rotate(240 32 32)"/></g>',
+  okoyom: '<defs><clipPath id="oc"><circle cx="32" cy="32" r="25"/></clipPath></defs><g clip-path="url(#oc)"><rect x="6" y="7" width="52" height="14"/><rect x="6" y="25.5" width="52" height="13"/><rect x="6" y="43" width="52" height="14"/></g>'
+};
+const names = [
+  {k:'beresta', n:'Береста', lat:'Beresta', why:'Берестяные грамоты — первая личная переписка на Руси: короткие письма-реплики на коре. Три штриха знака повторяют рисунок берёзовой коры, а нижний с хвостиком остаётся репликой диалога. Знак и имя из одной метафоры.', pro:['Русское слово, понятное с первого раза и про переписку','Знак — те же три полосы, что у нынешнего бренда: преемственность','Тихий, природный образ, подходит монохромному Lagom','Редкое имя для программы: путаницы с мессенджерами нет'], con:['Не говорит напрямую про «три сервиса»'], reco:true},
+  {k:'vest', n:'Весть', lat:'Vest', why:'Весть — сообщение, новость, которая до тебя дошла. Коротко (5 букв), складывается и в заголовок, и в подсказку трея. Знак — облачко с тремя точками, по одной на сервис.', pro:['Самое короткое и прямое по смыслу: приходят вести','Читается мгновенно на 16 px'], con:['Обычное слово, много компаний с похожим именем','Знак «облачко с точками» встречается у многих чатов'], reco:false},
+  {k:'trilistnik', n:'Трилистник', lat:'Trilistnik', why:'Три листа на одном стебле, как у клевера: три сервиса в одной программе. Знак — три лепестка из одной точки.', pro:['Образ «три в одном» понятен без объяснений','Живой, дружелюбный образ, хорошо смотрится как значок'], con:['Длинное для заголовка: 10 букв','Знак похож на пропеллер и растительные эмблемы'], reco:false},
+  {k:'okoyom', n:'Окоём', lat:'Okoyom', why:'Окоём — всё, что охватывает взгляд до горизонта. Приложение собирает три сервиса в один круг обзора; знак — круг из трёх полос.', pro:['Красивое старое русское слово, образ спокойного обзора','Знак-круг строгий и отличается от значков сервисов'], con:['Мало кто знает слово, придётся объяснять','Не связано с перепиской'], reco:false}
+];
+const grid = document.getElementById('grid');
+const svg = (k, s) => `<svg class="mark" viewBox="0 0 64 64" width="${s}" height="${s}" fill="currentColor" aria-hidden="true">${marks[k]}</svg>`;
+grid.innerHTML = names.map((x, i) => `
+<section class="card${x.reco ? ' reco' : ''}" aria-labelledby="n${i}">
+  <div class="top">
+    <div><div class="letter">Вариант ${'ABCD'[i]}</div><h2 class="name" id="n${i}">${x.n}</h2><div class="ru">латиницей: ${x.lat}</div></div>
+    ${x.reco ? '<span class="badge">Рекомендую</span>' : ''}
+  </div>
+  <p class="meaning">${x.why}</p>
+  <div class="stage">
+    ${svg(x.k, 112)}
+    <div class="sizes" aria-label="Размеры знака">
+      <div class="tile" style="width:64px;height:64px">${svg(x.k, 40)}</div>
+      <div class="tile" style="width:40px;height:40px">${svg(x.k, 26)}</div>
+      <div class="tile" style="width:24px;height:24px">${svg(x.k, 16)}</div>
+      <div class="tile" style="width:16px;height:16px;border-radius:4px">${svg(x.k, 12)}</div>
+    </div>
+  </div>
+  <div class="lockup">${svg(x.k, 44)}<span class="w">${x.n}</span></div>
+  <div class="mock" aria-hidden="true">
+    <div class="bar">${svg(x.k, 16)}<b>${x.n}</b><span>Telegram</span></div>
+    <div class="body"><div class="rail"><i></i><i></i><i></i></div><div class="msg">Подсказка в трее:<br><span class="tip">${x.n}: Telegram, X, Instagram</span></div></div>
+  </div>
+  <ul class="verdict">${x.pro.map(p => `<li>${p}</li>`).join('')}${x.con.map(p => `<li style="color:var(--muted)">Минус: ${p}</li>`).join('')}</ul>
+</section>`).join('');
+const root = document.documentElement;
+document.querySelectorAll('.toggle button').forEach((b) => b.addEventListener('click', () => {
+  root.dataset.theme = b.dataset.t === 'light' ? 'light' : '';
+  if (!root.dataset.theme) root.removeAttribute('data-theme');
+  document.querySelectorAll('.toggle button').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+}));
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-"""Сборка SVG знака Egoist Social. Нужен fontTools (+ brotli для woff2): pip install fonttools brotli.
-Запуск: python build_logo.py <путь к Unbounded-Variable.woff2|ttf>. Пишет SVG рядом со скриптом.
+"""Сборка SVG знака «Береста». Нужен fontTools (+ brotli для woff2): pip install fonttools brotli.
+Запуск: python build_logo.py public/fonts/unbounded-cyrillic.woff2 (нужна кириллица Unbounded). Пишет SVG рядом со скриптом.
 Знак — геометрия (не шрифт); wordmark — контуры Unbounded 500 (OFL), текст в SVG не зависит от шрифтов."""
 import sys, pathlib
 from fontTools.ttLib import TTFont
@@ -8,25 +8,39 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 
 OUT = pathlib.Path(__file__).parent
-NAME = 'Egoist Social'
+NAME = 'Береста'
 DARK_BG_INK = '#EDEBE6'   # graphite-100: знак на тёмном
 LIGHT_BG_INK = '#0E0E0F'  # graphite-900: знак на светлом
 TILE_DARK = '#141416'     # graphite-850
 TILE_LIGHT = '#F5F5F2'    # graphite-50
 
-# Знак «Реплика-E»: три полосы — три сервиса и буква E; нижняя переходит в хвостик реплики.
-# Сетка 64. Полоса 8, левые торцы прямые и выровнены, правые скруглены (r 4); просвет 5,5; средняя короче, как у E.
-# Габарит 12..52 × 11..53,5: центр знака совпадает с центром плитки.
-def bar(x1, x2, y):
-    # левый торец прямой (общий «корешок» E), правый скруглён радиусом 4
-    return f'M{x1} {y}H{x2 - 4}A4 4 0 0 1 {x2 - 4} {y + 8}H{x1}Z'
+# Знак «Береста»: три штриха берёзовой коры, расставленных лесенкой, как реплики диалога; нижний уходит хвостиком.
+# Сетка 64, штрих 8, просвет 6, радиусы 4. Исходные координаты центрированы на (32, 32) и сжаты к центру в S раз:
+# вокруг знака остаётся поле плитки. Сам штрих и просвет после сжатия остаются кратны сетке только приблизительно.
+S = 0.9
 
-GLYPH = ' '.join((
-    bar(12, 52, 11),
-    bar(12, 44, 24.5),
-    # нижняя полоса: левый край прямой и уходит вниз хвостиком
-    'M12 38H48A4 4 0 0 1 48 46H24L12 53.5Z',
-))
+def _n(v):
+    return f'{v:.2f}'.rstrip('0').rstrip('.')
+
+def _p(v):
+    return _n(32 + (v - 32) * S)
+
+def _r(v):
+    return _n(v * S)
+
+def _pill(x1, x2, y):
+    r = _r(4)
+    return (f'M{_p(x1 + 4)} {_p(y)}H{_p(x2 - 4)}A{r} {r} 0 0 1 {_p(x2 - 4)} {_p(y + 8)}'
+            f'H{_p(x1 + 4)}A{r} {r} 0 0 1 {_p(x1 + 4)} {_p(y)}Z')
+
+def _tail_bar(x1, x2, y):
+    r, rc = _r(4), _r(3)
+    return (f'M{_p(x1 + 3)} {_p(y)}H{_p(x2 - 4)}A{r} {r} 0 0 1 {_p(x2 - 4)} {_p(y + 8)}'
+            f'H{_p(x1 + 12)}L{_p(x1)} {_p(y + 15)}V{_p(y + 3)}A{rc} {rc} 0 0 1 {_p(x1 + 3)} {_p(y)}Z')
+
+GLYPH = ' '.join((_pill(9, 39, 10.5), _pill(25, 55, 24.5), _tail_bar(12, 49, 38.5)))
+GLYPH_X0, GLYPH_X1 = _p(9), _p(55)
+GLYPH_Y0, GLYPH_Y1 = _p(10.5), _p(53.5)
 
 def glyph(color):
     return f'<path d="{GLYPH}" fill="{color}"/>'
@@ -63,15 +77,16 @@ def main(font_path):
     for name, ink in (('wordmark', DARK_BG_INK), ('wordmark-light', LIGHT_BG_INK)):
         body = f'<path transform="translate(0 {cap})" d="{d}" fill="{ink}"/>'
         (OUT / f'{name}.svg').write_text(svg(wm_w, wm_h, body, NAME), 'utf-8')
-    # lockup: высота знака (42,5 в сетке) = 1,9 капители; зазор = 1,6 полосы знака
-    glyph_w, glyph_h, glyph_x0, glyph_y0 = 40.0, 42.5, 12.0, 11.0
+    # lockup: высота знака = 1,9 капители; зазор = 1,6 полосы знака
+    glyph_x0, glyph_y0 = float(GLYPH_X0), float(GLYPH_Y0)
+    glyph_w, glyph_h = float(GLYPH_X1) - glyph_x0, float(GLYPH_Y1) - glyph_y0
     k = cap * 1.9 / glyph_h
     gap = 8 * k * 1.6
     lock_w = round(glyph_w * k + gap + width)
     lock_h = round(glyph_h * k)
     wm_x = glyph_w * k + gap
-    # центр капители — по центру трёх полос (без хвостика): 11..46
-    bars_center = (11 + 46) / 2 - glyph_y0
+    # центр капители — по центру трёх штрихов (без хвостика): от верха до низа нижнего штриха
+    bars_center = (float(_p(10.5)) + float(_p(46.5))) / 2 - glyph_y0
     wm_y = bars_center * k + cap / 2
     for name, ink in (('lockup', DARK_BG_INK), ('lockup-light', LIGHT_BG_INK)):
         body = (f'<g transform="translate({-glyph_x0 * k:.1f} {-glyph_y0 * k:.1f}) scale({k:.4f})">{glyph(ink)}</g>'

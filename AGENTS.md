@@ -1,4 +1,4 @@
-# Egoist Social (папка Egoist Relay)
+# Береста (прежнее имя Egoist Social, папка Egoist Relay)
 
 Состояние, версии и открытые задачи — [docs/HANDOFF.md](docs/HANDOFF.md) (читать первым). Неофициальный Windows-хаб Telegram, X и Instagram: Tauri 2 (Rust) + Teact/GramJS (форк Telegram Web A, GPLv3). Отдельные профили WebView2 на сервис, локальные прокси, Node runtime и медиа-инструменты в `runtime/`. Версия — в `package.json` (`npm run version:sync` синхронизирует остальное). Общие правила владельца приходят из `C:\Users\Egoist\Desktop\EgoistCODEX AI\rules.md`; карта проектов — `..\..\PROJECTS.md`.
 

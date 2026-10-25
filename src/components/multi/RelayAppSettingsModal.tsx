@@ -12,7 +12,7 @@ type OwnProps = {
   onClose: NoneToVoidFunction;
 };
 
-// Окно «Настройки Egoist Social» из rail: сервисы и сеть доступны без входа в Telegram
+// Окно «Настройки Бересты» из rail: сервисы и сеть доступны без входа в Telegram
 const RelayAppSettingsModal = ({ isOpen, onClose }: OwnProps) => {
   const lang = useLang();
 

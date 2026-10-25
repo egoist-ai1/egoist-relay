@@ -6,7 +6,7 @@ import BrandMark from '../common/BrandMark';
 
 import styles from './MiddleEmptyState.module.scss';
 
-const MARK_SIZE = 40;
+const MARK_SIZE = 56;
 
 const MiddleEmptyState = () => {
   const lang = useLang();
@@ -20,6 +20,11 @@ const MiddleEmptyState = () => {
       <BrandMark size={MARK_SIZE} className={styles.mark} />
       <p className={styles.title}>{lang('RelayEmptyChatTitle')}</p>
       <p className={styles.note}>{lang('RelayEmptyChatNote')}</p>
+      <p className={styles.hint}>
+        <kbd className={styles.key}>Ctrl</kbd>
+        <kbd className={styles.key}>K</kbd>
+        <span>{lang('RelayEmptyChatHint')}</span>
+      </p>
     </div>
   );
 };

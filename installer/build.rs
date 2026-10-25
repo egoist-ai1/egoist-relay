@@ -1,4 +1,4 @@
-// Ресурсы exe: иконка, версия, название «Egoist Social Setup», манифест (asInvoker, UTF-8).
+// Ресурсы exe: иконка, версия, название «Установка Бересты», манифест (asInvoker, UTF-8).
 fn main() {
     println!("cargo:rerun-if-changed=assets");
     println!("cargo:rerun-if-changed=build.rs");
@@ -20,8 +20,8 @@ fn main() {
         let mut res = tauri_winres::WindowsResource::new();
         res.set_icon("assets/icon.ico");
         res.set_manifest(include_str!("assets/egoist-social-setup.manifest"));
-        res.set("ProductName", "Egoist Social");
-        res.set("FileDescription", "Egoist Social Setup");
+        res.set("ProductName", "Береста");
+        res.set("FileDescription", "Установка Бересты");
         res.set("CompanyName", "Egoist");
         res.set("LegalCopyright", "Egoist");
         res.set("OriginalFilename", "Egoist-Social-Setup.exe");

@@ -2375,6 +2375,7 @@ export interface LangPair {
   'RelayLoginShort': undefined;
   'RelayEmptyChatTitle': undefined;
   'RelayEmptyChatNote': undefined;
+  'RelayEmptyChatHint': undefined;
   'RelayXDirectLoginTitle': undefined;
   'RelayXDirectLoginHelp': undefined;
   'RelayXPasswordHelp': undefined;

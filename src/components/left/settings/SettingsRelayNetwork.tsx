@@ -209,7 +209,7 @@ const SettingsRelayNetwork = () => {
   }
 
   function renderDnsLabel(currentStatus: NetworkStatus) {
-    if (currentStatus.dohState === 'private') return lang('RelayNetDnsPrivate', { host: currentStatus.dohHost });
+    if (currentStatus.dohState === 'private') return lang('RelayNetDnsPrivate', { host: currentStatus.dohHost || '—' });
     if (currentStatus.dohState === 'fallback') return lang('RelayNetDnsFallback');
     if (currentStatus.dohState === 'down') return lang('RelayNetDnsDown');
     return lang('RelayNetDnsNone');
