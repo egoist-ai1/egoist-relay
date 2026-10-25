@@ -223,7 +223,8 @@
     const unit = item.firstElementChild;
     if (!unit || !unit.offsetWidth || !unit.offsetHeight) return;
 
-    const pageHeight = Math.max(200, scroller.clientHeight - getBottomBarHeight());
+    // Страница не выше окна: если Instagram не ограничил высоту ленты, clientHeight может быть в разы больше экрана
+    const pageHeight = Math.max(200, Math.min(scroller.clientHeight, window.innerHeight) - getBottomBarHeight());
     scroller.setAttribute('data-egoist-reel-scroller', '');
     const heightValue = pageHeight + 'px';
     if (scroller.style.getPropertyValue('--egoist-reel-h') !== heightValue) scroller.style.setProperty('--egoist-reel-h', heightValue);
@@ -240,10 +241,22 @@
     };
     const edges = getVisualEdges();
     const groupWidth = edges.right > edges.left ? (edges.right - edges.left) / currentScale : unit.offsetWidth;
-    const scale = Math.max(1, Math.min(REELS_MAX_SCALE,
-      (scroller.clientWidth - 2 * REELS_MARGIN) / groupWidth, pageHeight / unit.offsetHeight));
-    const scaleValue = String(Math.floor(scale * 100) / 100);
-    if (scroller.style.getPropertyValue('--egoist-reel-scale') !== scaleValue) scroller.style.setProperty('--egoist-reel-scale', scaleValue);
+    // Высота группы берётся и по самому видео: unit.offsetHeight у новой раскладки Instagram может быть меньше ролика
+    const groupHeight = Math.max(unit.offsetHeight, video.getBoundingClientRect().height / currentScale);
+    let scale = Math.max(1, Math.min(REELS_MAX_SCALE,
+      (scroller.clientWidth - 2 * REELS_MARGIN) / groupWidth, pageHeight / groupHeight));
+    const setScale = (value) => {
+      const scaleValue = String(Math.floor(value * 100) / 100);
+      if (scroller.style.getPropertyValue('--egoist-reel-scale') !== scaleValue) scroller.style.setProperty('--egoist-reel-scale', scaleValue);
+    };
+    setScale(scale);
+    // Контроль по факту: ролик после масштаба должен помещаться в страницу, иначе соседние ролики налезают друг на друга
+    const fittedHeight = video.getBoundingClientRect().height;
+    const heightLimit = pageHeight - 2 * REELS_MARGIN;
+    if (fittedHeight > heightLimit + 1) {
+      scale = Math.max(1, scale * heightLimit / fittedHeight);
+      setScale(scale);
+    }
     // Равные поля слева и справа: после смены масштаба измеряем группу заново и сдвигаем
     const fitted = getVisualEdges();
     const shift = Math.round(currentShift + (scroller.clientWidth - fitted.right - fitted.left) / 2);

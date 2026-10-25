@@ -70,6 +70,23 @@ try{
   assert.equal(await page.evaluate(()=>document.querySelectorAll('[data-egoist-reel-item]').length),0);
   await page.close();return state;
  });
+ // Широкое окно, лента выше экрана и unit ниже ролика (вёрстка, где unit.offsetHeight не равна высоте карточки): ролик не должен выходить за страницу
+ await record('instagram-reels-fit-landscape',['scripts/instagram-enhancer.js'],async()=>{
+  const items=Array.from({length:3},(_,i)=>'<div class="item"><div class="unit"><div class="row"><div class="card"><video id="v'+i+'" style="width:100%;height:100%"></video></div><div class="actions"><svg width="24" height="24"><rect width="24" height="24"/></svg><svg width="24" height="24"><rect width="24" height="24"/></svg></div></div></div></div>').join('');
+  const page=await fixture('https://www.instagram.com/reels/AbCdE12345/','<html><body style="margin:0;background:#101012;color:white"><style>.scroll{height:3600px;width:100vw;overflow-y:auto;scroll-snap-type:y mandatory}.item{display:flex;justify-content:center;scroll-snap-align:start}.unit{height:120px;overflow:visible}.row{display:flex}.card{width:392px;height:697px;background:#335}.actions{width:60px;margin-left:12px;display:flex;flex-direction:column;align-items:center}</style><div class="scroll">'+items+'</div></body></html>');
+  await page.setViewportSize({width:1650,height:1100});
+  await page.addScriptTag({content:await readFile(path.join(project,'scripts/instagram-enhancer.js'),'utf8')});
+  await page.evaluate(()=>window.__egoistRelaySetActive(true));await page.waitForTimeout(150);
+  const state=await page.evaluate(()=>{
+   const cards=[...document.querySelectorAll('.card')].map((card)=>{const bounds=card.getBoundingClientRect();return {top:bounds.top,bottom:bounds.bottom,left:bounds.left,right:bounds.right};});
+   return {cards,pageHeight:document.querySelector('.item').getBoundingClientRect().height,innerHeight:window.innerHeight,innerWidth:window.innerWidth};
+  });
+  assert.ok(state.pageHeight<=state.innerHeight,'one reel page is not taller than the window');
+  assert.ok(state.cards[0].bottom-state.cards[0].top<=state.innerHeight,'the reel is not taller than the window');
+  assert.ok(state.cards[0].bottom<=state.cards[1].top,'neighbouring reels do not overlap');
+  assert.ok(state.cards[0].left>=0&&state.cards[0].right<=state.innerWidth,'the reel fits the width');
+  await page.close();return state;
+ });
  const photoCases=[
   {id:'x-photo-original',service:'x',current:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=small',srcset:'',expected:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=orig'},
  ];
