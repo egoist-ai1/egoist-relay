@@ -1,7 +1,7 @@
  [package]
 name = "egoist_relay"
-version = "1.8.0"
-description = "Sennit by Egoist"
+version = "1.11.11"
+description = "Береста"
 authors = ["Alexander Zinchuk"]
 license = "GPLv3"
 repository = "https://github.com/Ajaxy/telegram-tt"
@@ -16,11 +16,10 @@ tauri-build = { version = "=2.7.0", features = [] }
 [dependencies]
 serde = { version = "1.0.229", features = ["derive"] }
 serde_json = "1.0.151"
-tauri = { version = "=2.12.0", features = [ "devtools", "config-json5", "tray-icon", "image-png", "unstable"] }
+tauri = { version = "=2.12.0", features = [ "config-json5", "tray-icon", "image-png", "unstable"] }
 tauri-plugin-shell = "=2.3.5"
 tauri-plugin-log = "=2.9.0"
 tauri-plugin-notification = "=2.3.3"
-tauri-plugin-updater = "=2.10.1"
 tauri-plugin-process = "=2.3.1"
 tauri-plugin-fs = "=2.5.1"
 tauri-plugin-deep-link = "=2.4.9"
@@ -28,16 +27,26 @@ log = "0.4.33"
 sha2 = "0.10.9"
 uuid = { version = "1.24.0", features = ["v4"] }
 url = "2.5.8"
+ed25519-dalek = "3.0.0"
+reqwest = { version = "=0.13.4", default-features = false, features = ["stream", "rustls-no-provider"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+semver = "1.0.28"
+base64 = "0.22.1"
+tokio = { version = "1.53", features = ["rt", "time", "macros", "sync"] }
 image      = "0.25.10"
 imageproc  = "0.27.0"
 ab_glyph   = "0.2.32"
 tauri-plugin-os = "=2.3.2"
 [target.'cfg(windows)'.dependencies]
 webview2-com = "=0.39.1"
+windows = { version = "=0.62.2", features = ["Data_Xml_Dom", "Foundation", "UI_Notifications"] }
 windows-core = "=0.62.2"
 
 [target."cfg(any(target_os = \"macos\", windows, target_os = \"linux\"))".dependencies]
 tauri-plugin-single-instance = { version = "=2.4.3", features = ["deep-link"] }
+
+[dev-dependencies]
+tempfile = "3.27"
 
 [lib]
 name = "app_lib"

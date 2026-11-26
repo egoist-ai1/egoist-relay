@@ -1,7 +1,42 @@
 {
   "schemaVersion": 1,
-  "scope": "Generic Relay runtime without internal network engines or private provisioning; intentional updates require reviewed hashes",
+  "scope": "Beresta runtime: offline media tools, local research MCP and Telegram link extension; intentional updates require reviewed hashes",
   "files": [
+    {
+      "path": "runtime/browser-extension/content.js",
+      "bytes": 4332,
+      "sha256": "508a52ce6a0f536169d7d503fc0c02a79bcd40f399a1684821ade1a1ad8f7b9b"
+    },
+    {
+      "path": "runtime/browser-extension/icons/beresta-128.png",
+      "bytes": 12950,
+      "sha256": "6a76fa339e8507091da9751f74494a95c415c172fd8e88bd960c4c2de52830b0"
+    },
+    {
+      "path": "runtime/browser-extension/icons/beresta-16.png",
+      "bytes": 701,
+      "sha256": "e7c0c6c70bcabc3d91f44f9f346b35c62067103d6e986ea96ac844c38c444e98"
+    },
+    {
+      "path": "runtime/browser-extension/icons/beresta-32.png",
+      "bytes": 1768,
+      "sha256": "ac3a341d810ebb14bac47170deeb5779558132224b3d765bcf8e53f7e65af978"
+    },
+    {
+      "path": "runtime/browser-extension/icons/beresta-48.png",
+      "bytes": 2992,
+      "sha256": "122fc34f9d67ac361901e9e94855cb8ee5e07bf583b9311e7d27353db2af47ab"
+    },
+    {
+      "path": "runtime/browser-extension/manifest.json",
+      "bytes": 926,
+      "sha256": "6092eabee57f3ec949be017da1222798559817be7550081b2ff4a169cf5f7f5a"
+    },
+    {
+      "path": "runtime/browser-extension/README.md",
+      "bytes": 1785,
+      "sha256": "f4c89a451a5a74ada79e278c1e88f9867bfecca97de227ceaab15069bc315a6e"
+    },
     {
       "path": "runtime/licenses/NODE-LICENSE.txt",
       "bytes": 160555,
@@ -44,8 +79,203 @@
     },
     {
       "path": "runtime/README.md",
-      "bytes": 3776,
-      "sha256": "d24c8e157c3ce56a60ec0600169edb4059389f5c4a03ee146c9290717d9607ea"
+      "bytes": 3388,
+      "sha256": "6a661f0e3d8cb42251d16141f4e9604d40cf49f925b82f192bb2a1bd98d9049a"
+    },
+    {
+      "path": "runtime/research-mcp/BRIDGE-CONTRACT.md",
+      "bytes": 26724,
+      "sha256": "cc042ce0560e41a7deef72441e323654b527d00acdc9d6228b37d35704c90d17"
+    },
+    {
+      "path": "runtime/research-mcp/README.md",
+      "bytes": 6079,
+      "sha256": "d5ba39d0dc142d34f733be44174c3105e0c63f389efb66abf066be4561ca47d0"
+    },
+    {
+      "path": "runtime/research-mcp/scripts/ensure-private-research-state.ps1",
+      "bytes": 7736,
+      "sha256": "bda59dbc764bca7019c876fc03eb0557ab2ee79eda5b359c3eaaf58432c7ce0e"
+    },
+    {
+      "path": "runtime/research-mcp/scripts/probe-relay-owner.ps1",
+      "bytes": 556,
+      "sha256": "8165e115108494f51cd62ca1c2f6538785d0cf31a3ef6d613babc550bf9231ca"
+    },
+    {
+      "path": "runtime/research-mcp/scripts/research-service.mjs",
+      "bytes": 3199,
+      "sha256": "893a680b30d911f429900dc4d0ded882b31bb6ec6a276f0f7a7d0b28196cae8b"
+    },
+    {
+      "path": "runtime/research-mcp/scripts/verify-relay-bridge.ps1",
+      "bytes": 1354,
+      "sha256": "ce801d0c2e1f7f7c6d5b2a2fbf67c869e6630ea5f085c9cad0e1375414960990"
+    },
+    {
+      "path": "runtime/research-mcp/SOURCE.md",
+      "bytes": 968,
+      "sha256": "647bcaf7906bf3748fdd1fe7b2a7e8706d4f4f52394137819d10035f2b229946"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/audit.mjs",
+      "bytes": 6737,
+      "sha256": "04438b61aebee9d7625c029f10dfdd47166cebe38c57223fe71448adadf89dc5"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/bridge-client.mjs",
+      "bytes": 12887,
+      "sha256": "c97c0f233b0dbdc081f587c1e70625a515ac5853a83771aaefd521fcf897b6b3"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/bridge-features.mjs",
+      "bytes": 1939,
+      "sha256": "77d2b2dbc0c59a32b489a597f59cc89f1494b5d85195bf5b5d9695e25f847638"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/bridge-provider.mjs",
+      "bytes": 27809,
+      "sha256": "36ac2ce2cc28495e3b3f11ee208d665810ad2d9fa59bee81efb350b411de050d"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/bridge-start.mjs",
+      "bytes": 7206,
+      "sha256": "c47285bb287d414496b93d4fdea46ee6a04d3da741eaf89849e14a1369ca089a"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/broker.mjs",
+      "bytes": 41433,
+      "sha256": "62f757520a7f3550173232f059b35a2840964044b75a544a96707bcd79ec0e8f"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/client.mjs",
+      "bytes": 5668,
+      "sha256": "d485e34d67ea2e7b99e7c41f52af28dfe2a48edef9d963ed9bfc3b1a969fc8c3"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/clock.mjs",
+      "bytes": 3561,
+      "sha256": "387ad8b7caf79268716029cd369f6fca88a7683acb477110d6b3e20feaaea1d1"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/config.mjs",
+      "bytes": 4854,
+      "sha256": "604bf51516125df39e1e8bfa508b99c2c7f99ae06c812196fa1eebef18874e8a"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/daemon.mjs",
+      "bytes": 6938,
+      "sha256": "0c0e0df3a3fb70cea4efab2731513aecb626490377de9e033982669f0af6bc86"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/export-format.mjs",
+      "bytes": 15489,
+      "sha256": "592e9342048570b3de8ca4fc815542f6e1c1a8b5c2d853e15e2a09ace9aae9ed"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/governor.mjs",
+      "bytes": 11409,
+      "sha256": "094c0f013f5caafe2c012fbb69ca204fbe90d88b0ed77905da72391e418c9d6f"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/ipc.mjs",
+      "bytes": 13424,
+      "sha256": "8695c91e405abf9cdbf5bda216ba1fcdb5bc59f18437c682ea1fe7df238c8c46"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/job-store.mjs",
+      "bytes": 10527,
+      "sha256": "d6087faa65d1f250a691d98bd64e574670e0728856374dd9f8aca7c8a115c063"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/local-index.mjs",
+      "bytes": 32439,
+      "sha256": "ba8619fa3cb65ca48ee6914511308c241f58956d1019f4c76b8e40f8f75d2539"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/lookup.mjs",
+      "bytes": 7899,
+      "sha256": "6a389d2f062a6e465739b215d24a11b93fb7ec518d5cacd09cabffd56a1fad54"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/mcp.mjs",
+      "bytes": 18710,
+      "sha256": "88000ac8c3edf7ab9d388e50ed7d3ac0b8646b761efa39b774a292fcae883901"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/media-resume.mjs",
+      "bytes": 9639,
+      "sha256": "b7d649683add249180c4aab584cf95ea86fd9d9706fba5de83030d97888930ed"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/normalize-item.mjs",
+      "bytes": 8432,
+      "sha256": "206c7d523bdba44efb8c7027eedd74f63ebf91ba1afd1af538f507b364817025"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/orch-core.mjs",
+      "bytes": 10111,
+      "sha256": "37d7d84f0c0b6a5852f3f85fec21c2847c7fdfc893e8381f237ade7e49a66cd2"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/orch-store.mjs",
+      "bytes": 27876,
+      "sha256": "8edaf0a80cf43a05219b2ca412bf906ffaf6b63c45dd858a3f4e2c12334d6852"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/orchestrator.mjs",
+      "bytes": 60963,
+      "sha256": "a18163ee499f226df46b49bb69e8c81aa5a9b3bfecc197b0cfc4e4b36c1caffe"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/policy.mjs",
+      "bytes": 10453,
+      "sha256": "852358edd6b476238e0db0d84642ac5e7023a3451221d5f245306cabaa80d420"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/private-peer.mjs",
+      "bytes": 1463,
+      "sha256": "02c596580442fcf7b80bb41930fcdb961055bd26a314e9e25156d266e653ab6b"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/raw-archive.mjs",
+      "bytes": 6998,
+      "sha256": "a8770ae7f7842dd4d63966626d925a3c075d4f53059efa01e08fd93bc554aa31"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/records-query.mjs",
+      "bytes": 33300,
+      "sha256": "157409537883925ed7148203f3e1645da55accee6a5bed56a8c73c2c3e6fdbf1"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/scheduler.mjs",
+      "bytes": 46095,
+      "sha256": "4d8b6ebdc2641075dfc3b4a2f932e22908d20ac670b4ed7bb27b3a96236c3e1b"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/schema.mjs",
+      "bytes": 4865,
+      "sha256": "bf80ee09bb135d9d47508be86b4075e0a22d7bf23bc919a1ff0ea0df38e64e46"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/source-input.mjs",
+      "bytes": 12469,
+      "sha256": "95ffe3b05690696ce25f9ef9ce42917fc595774f1c480ca2b650abf6a92299fd"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/step-provider.mjs",
+      "bytes": 17177,
+      "sha256": "3efa5acf37c024624c5cfea6ba4667dab99635b54d3ceff45293203f7816c71f"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/tools.mjs",
+      "bytes": 19147,
+      "sha256": "27401f7d9a2ebc5c55decbfaaceba5b4fc527b5418a036a31bda43b4f2ee4e8a"
+    },
+    {
+      "path": "runtime/research-mcp/src/research/transcribe-media.mjs",
+      "bytes": 25283,
+      "sha256": "d83ad4fac230a1b571e443e9887af95f870a76028a6f929b823b19da365665e4"
     },
     {
       "path": "runtime/research/bridge-server.mjs",

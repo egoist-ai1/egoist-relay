@@ -3,16 +3,16 @@
 !include WordFunc.nsh
 ; Checked against the frozen runtime manifest by release preflight. Reserve one
 ; separator/NUL and the classic CreateDirectory 8.3 filename margin (12 units).
-!define RELAY_MAX_RUNTIME_RELATIVE_FILE_CHARS 50
-!define RELAY_MAX_RUNTIME_RELATIVE_DIRECTORY_CHARS 21
-!define RELAY_MAX_INSTALL_DIRECTORY_CHARS 208
+!define RELAY_MAX_RUNTIME_RELATIVE_FILE_CHARS 62
+!define RELAY_MAX_RUNTIME_RELATIVE_DIRECTORY_CHARS 33
+!define RELAY_MAX_INSTALL_DIRECTORY_CHARS 196
 
 ; This hidden section is declared before Tauri's WebView2 installation section.
 ; Reject unsupported systems before any dependency or application is installed.
 Section "-Relay requirements"
   Push $0
   ${IfNot} ${RunningX64}
-    MessageBox MB_OK|MB_ICONSTOP "Sennit требует 64-разрядную Windows 10 версии 1903 или новее." /SD IDOK
+    MessageBox MB_OK|MB_ICONSTOP "Береста требует 64-разрядную Windows 10 версии 1903 или новее." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}
@@ -20,7 +20,7 @@ Section "-Relay requirements"
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\Windows NT\CurrentVersion" "CurrentBuildNumber"
   SetRegView lastused
   ${If} $0 < 18362
-    MessageBox MB_OK|MB_ICONSTOP "Sennit требует Windows 10 версии 1903 (сборка 18362) или новее." /SD IDOK
+    MessageBox MB_OK|MB_ICONSTOP "Береста требует Windows 10 версии 1903 (сборка 18362) или новее." /SD IDOK
     SetErrorLevel 1
     Abort
   ${EndIf}
@@ -110,7 +110,7 @@ FunctionEnd
   Pop $1
   ${If} $0 == 2
     IfSilent relay_abort_${RELAY_CHECK_ID} 0
-    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Закройте Sennit через меню значка в трее, затем нажмите «Повторить». Активные аккаунты не будут принудительно закрыты." IDRETRY relay_check_${RELAY_CHECK_ID} IDCANCEL relay_abort_${RELAY_CHECK_ID}
+    MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION "Закройте Бересту через меню значка в трее, затем нажмите «Повторить». Активные аккаунты не будут принудительно закрыты." IDRETRY relay_check_${RELAY_CHECK_ID} IDCANCEL relay_abort_${RELAY_CHECK_ID}
     relay_abort_${RELAY_CHECK_ID}:
     SetErrorLevel 2
     Abort
@@ -142,7 +142,7 @@ FunctionEnd
     nsis_tauri_utils::SemverCompare "${VERSION}" "$0"
     Pop $1
     ${If} $1 == -1
-      MessageBox MB_OK|MB_ICONSTOP "Установлена более новая версия Sennit ($0). Установка версии ${VERSION} остановлена." /SD IDOK
+      MessageBox MB_OK|MB_ICONSTOP "Установлена более новая версия Бересты ($0). Установка версии ${VERSION} остановлена." /SD IDOK
       SetErrorLevel 1
       Abort "RELAY_DOWNGRADE_BLOCKED: Installed product version is newer."
     ${EndIf}
@@ -158,7 +158,25 @@ FunctionEnd
 
 !macro NSIS_HOOK_POSTINSTALL
   ; Имя в «Приложения и возможности»: внутреннее имя продукта (папка, exe, ключ) остаётся прежним.
-  WriteRegStr SHCTX "${UNINSTKEY}" "DisplayName" "Sennit"
+  WriteRegStr SHCTX "${UNINSTKEY}" "DisplayName" "Береста"
+  File /oname=$INSTDIR\Beresta-notification.png "${RELAY_HOOK_DIRECTORY}\icons\128x128@2x.png"
+  WriteRegStr SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "DisplayName" "Береста"
+  WriteRegStr SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "IconUri" "$INSTDIR\Beresta-notification.png"
+  WriteRegStr SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "IconBackgroundColor" "0"
+  ; Переименование сохраняет AppUserModelID ярлыка, который Windows использует для уведомлений.
+  !insertmacro IsShortcutTarget "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
+  Pop $0
+  ${If} $0 = 1
+    ${IfNot} ${FileExists} "$SMPROGRAMS\$AppStartMenuFolder\Береста.lnk"
+      Rename "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk" "$SMPROGRAMS\$AppStartMenuFolder\Береста.lnk"
+    ${Else}
+      !insertmacro IsShortcutTarget "$SMPROGRAMS\$AppStartMenuFolder\Береста.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
+      Pop $0
+      ${If} $0 = 1
+        Delete "$SMPROGRAMS\$AppStartMenuFolder\${PRODUCTNAME}.lnk"
+      ${EndIf}
+    ${EndIf}
+  ${EndIf}
   InitPluginsDir
   File /oname=$PLUGINSDIR\relay-stop-processes.ps1 "${RELAY_HOOK_DIRECTORY}\installer-processes.ps1"
   File /oname=$PLUGINSDIR\relay-legacy-runtime.json "${RELAY_HOOK_DIRECTORY}\installer-legacy-runtime.json"
@@ -173,5 +191,46 @@ FunctionEnd
     DetailPrint "$1"
     SetErrorLevel 1
     Abort "RELAY_LEGACY_RUNTIME_CHECK_FAILED: Obsolete runtime validation failed."
+  ${EndIf}
+  ; Windows предлагает Бересту для TG в разделе приложений по умолчанию.
+  WriteRegStr SHCTX "Software\Classes\Egoist.Beresta.Tg" "" "URL:Telegram"
+  WriteRegStr SHCTX "Software\Classes\Egoist.Beresta.Tg" "URL Protocol" ""
+  WriteRegStr SHCTX "Software\Classes\Egoist.Beresta.Tg\DefaultIcon" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\",0"
+  WriteRegStr SHCTX "Software\Classes\Egoist.Beresta.Tg\shell\open\command" "" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" $\"%1$\""
+  WriteRegStr SHCTX "Software\Egoist\Beresta\Capabilities" "ApplicationName" "Береста"
+  WriteRegStr SHCTX "Software\Egoist\Beresta\Capabilities" "ApplicationDescription" "Telegram, X и Instagram в одном приложении"
+  WriteRegStr SHCTX "Software\Egoist\Beresta\Capabilities" "ApplicationIcon" "$\"$INSTDIR\${MAINBINARYNAME}.exe$\",0"
+  WriteRegStr SHCTX "Software\Egoist\Beresta\Capabilities\URLAssociations" "tg" "Egoist.Beresta.Tg"
+  WriteRegStr SHCTX "Software\RegisteredApplications" "Beresta" "Software\Egoist\Beresta\Capabilities"
+  ; Пока старый exe заменялся, Explorer мог закешировать пустой значок для ярлыков (рабочий стол, «Пуск»,
+  ; панель задач). SHCNE_ASSOCCHANGED заставляет оболочку перечитать значки уже из нового exe.
+  System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0, p 0, p 0)'
+!macroend
+
+!macro NSIS_HOOK_POSTUNINSTALL
+  ${If} $UpdateMode <> 1
+    ReadRegStr $0 SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "IconUri"
+    ${If} $0 == "$INSTDIR\Beresta-notification.png"
+      DeleteRegValue SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "DisplayName"
+      DeleteRegValue SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "IconUri"
+      DeleteRegValue SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}" "IconBackgroundColor"
+      DeleteRegKey /ifempty SHCTX "Software\Classes\AppUserModelId\${BUNDLEID}"
+      Delete "$INSTDIR\Beresta-notification.png"
+      RMDir "$INSTDIR"
+    ${EndIf}
+    !insertmacro IsShortcutTarget "$SMPROGRAMS\$AppStartMenuFolder\Береста.lnk" "$INSTDIR\${MAINBINARYNAME}.exe"
+    Pop $0
+    ${If} $0 = 1
+      !insertmacro UnpinShortcut "$SMPROGRAMS\$AppStartMenuFolder\Береста.lnk"
+      Delete "$SMPROGRAMS\$AppStartMenuFolder\Береста.lnk"
+      RMDir "$SMPROGRAMS\$AppStartMenuFolder"
+    ${EndIf}
+  ${EndIf}
+  ReadRegStr $0 SHCTX "Software\Classes\Egoist.Beresta.Tg\shell\open\command" ""
+  ${If} $0 == "$\"$INSTDIR\${MAINBINARYNAME}.exe$\" $\"%1$\""
+    DeleteRegKey SHCTX "Software\Classes\Egoist.Beresta.Tg"
+    DeleteRegKey SHCTX "Software\Egoist\Beresta\Capabilities"
+    DeleteRegValue SHCTX "Software\RegisteredApplications" "Beresta"
+    System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0, p 0, p 0)'
   ${EndIf}
 !macroend

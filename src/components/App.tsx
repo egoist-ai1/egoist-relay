@@ -1,6 +1,7 @@
 import {
-  useEffect, useLayoutEffect, useRef, useState,
+  useEffect, useLayoutEffect, useMemo, useRef, useState,
 } from '../lib/teact/teact';
+import { addCallback, removeCallback } from '../lib/teact/teactn';
 import { getActions, getGlobal, withGlobal } from '../global';
 
 import type { GlobalState } from '../global/types';
@@ -8,8 +9,10 @@ import type { ThemeKey } from '../types';
 import type { SocialNavigationAction } from './common/Titlebar';
 import type { UiLoaderPage } from './common/UiLoader';
 import type { AppId, InstagramAppState, XAppState } from './multi/AppSidebar';
+import type { PalettePayload } from './multi/commandPalette.index';
 import type { MediaOperation, MediaOperationsSnapshot } from './multi/mediaOperations.types';
 import type { SocialShareRequest, SocialShareSuccess } from './multi/socialShare';
+import { LeftColumnContent } from '../types';
 
 import {
   DARK_THEME_BG_COLOR, INACTIVE_MARKER, LIGHT_THEME_BG_COLOR, PAGE_TITLE, PAGE_TITLE_TAURI,
@@ -17,12 +20,15 @@ import {
 import { requestMeasure } from '../lib/fasterdom/fasterdom';
 import { forceMutation } from '../lib/fasterdom/stricterdom.ts';
 import {
-  selectActionMessageBg, selectTabState, selectTheme, selectThemeValues,
+  selectActionMessageBg, selectSettingsKeys, selectTabState, selectTheme, selectThemeValues,
 } from '../global/selectors';
 import { selectSharedSettings } from '../global/selectors/sharedState';
 import { IS_TAURI } from '../util/browser/globalEnvironment';
-import { IS_INSTALL_PROMPT_SUPPORTED, IS_MAC_OS, PLATFORM_ENV } from '../util/browser/windowEnvironment';
+import {
+  IS_INSTALL_PROMPT_SUPPORTED, IS_MAC_OS, IS_WINDOWS, PLATFORM_ENV,
+} from '../util/browser/windowEnvironment';
 import buildClassName from '../util/buildClassName';
+import { clearStoredMediaCache } from '../util/cacheApi';
 import { handleError } from '../util/handleError';
 import { parseInlineSocialMediaUrl } from '../util/inlineSocialMedia';
 import { setupBeforeInstallPrompt } from '../util/installPrompt';
@@ -31,9 +37,11 @@ import { hasEncryptedSession } from '../util/passcode';
 import { getInitialLocationHash, parseInitialLocationHash } from '../util/routing';
 import { checkSessionLocked, hasStoredSession } from '../util/sessions';
 import { resolveAppBounds } from '../util/tauri/appBounds';
-import { getLastUserInputAt, startSocialWarmup } from '../util/tauri/socialWarmup';
+import { MAX_NATIVE_LINKS, normalizeNativeDeepLinks } from '../util/tauri/deepLinks';
+import { startSocialWarmup, WARMUP_READY_DELAY_MS } from '../util/tauri/socialWarmup';
 import { getActionMessageBg, getWallpaperBaseColor } from '../util/wallpaper';
 import { updateSizes } from '../util/windowSize';
+import { isComposerHasSelection } from './middle/composer/helpers/selection';
 import { getMediaOperationsSnapshot, setMediaOperationsLocked,
   subscribeMediaOperations } from './multi/mediaOperations';
 import { isMediaOperationActive } from './multi/mediaOperations.types';
@@ -59,20 +67,29 @@ import AppInactive from './main/AppInactive';
 import LockScreen from './main/LockScreen.async';
 import Main from './main/Main.async';
 import AppSidebar from './multi/AppSidebar';
+import CommandPalette from './multi/CommandPalette';
 import MediaOperationsPanel from './multi/MediaOperationsPanel';
+import NoticeHistoryModal from './multi/NoticeHistoryModal';
+import RelayAppSettingsModal from './multi/RelayAppSettingsModal';
 import SocialShareModal from './multi/SocialShareModal';
 // import Test from './test/demo/MessageTextStreamingTest';
+import ConfirmDialog from './ui/ConfirmDialog';
 import Transition from './ui/Transition';
 
 import styles from './App.module.scss';
 
 type StateProps = {
   authState: GlobalState['auth']['state'];
+  isSynced?: boolean;
   isScreenLocked?: boolean;
   hasPasscode?: boolean;
   inactiveReason?: 'auth' | 'otherClient';
   hasWebAuthTokenFailed?: boolean;
   isTestServer?: boolean;
+  shouldHideX?: boolean;
+  shouldHideInstagram?: boolean;
+  hasWebNotifications: boolean;
+  notificationSoundVolume: number;
   theme: ThemeKey;
   customBackgroundColor?: string;
   actionMessageBg?: string;
@@ -89,7 +106,26 @@ const TRANSITION_RENDER_COUNT = Object.keys(AppScreens).length / 2;
 const ACTIVE_PAGE_TITLE = IS_TAURI ? PAGE_TITLE_TAURI : PAGE_TITLE;
 const INACTIVE_PAGE_TITLE = `${ACTIVE_PAGE_TITLE} ${INACTIVE_MARKER}`;
 const NOTICE_DURATION = 6000;
+const HAS_NOTICE_HISTORY = IS_TAURI && IS_WINDOWS;
 const PREWARM_COMMANDS = ['multi_prewarm_x', 'multi_prewarm_instagram'] as const;
+const PREWARM_COMMAND_APPS: Record<(typeof PREWARM_COMMANDS)[number], AppId> = {
+  multi_prewarm_x: 'x',
+  multi_prewarm_instagram: 'instagram',
+};
+
+function publishWorkspaceCoverage(covered: boolean) {
+  const value = String(covered);
+  if (document.documentElement.dataset.relayNativeCovered === value) return;
+  document.documentElement.dataset.relayNativeCovered = value;
+  window.dispatchEvent(new Event('egoist-relay-workspace-visibility'));
+}
+
+function buildHiddenApps(shouldHideX?: boolean, shouldHideInstagram?: boolean) {
+  const hiddenApps: AppId[] = [];
+  if (shouldHideX) hiddenApps.push('x');
+  if (shouldHideInstagram) hiddenApps.push('instagram');
+  return hiddenApps;
+}
 
 type XStatusPayload = {
   state: Exclude<XAppState, 'idle'>;
@@ -100,11 +136,12 @@ type XStatusPayload = {
 type XFailureDetails = { reason: 'timeout' | 'browser' } | { reason: 'navigation'; code: number };
 
 function parseXFailureDetails(message: unknown): XFailureDetails | undefined {
-  if (message === 'The service did not become ready within 45 seconds') return { reason: 'timeout' };
-  if (message === 'The service browser process stopped responding') return { reason: 'browser' };
   if (typeof message !== 'string') return undefined;
+  if (/^The service did not become ready within \d{1,3} seconds$/.test(message)) return { reason: 'timeout' };
+  if (message === 'The service browser process stopped responding') return { reason: 'browser' };
 
-  const match = /^The service navigation failed: COREWEBVIEW2_WEB_ERROR_STATUS\((\d{1,2})\)$/.exec(message);
+  const match = /^The service navigation failed: COREWEBVIEW2_WEB_ERROR_STATUS\((\d{1,2})\)$/.exec(message)
+    ?? /^The service navigation failed: WebErrorStatus (\d{1,2})$/.exec(message);
   if (!match || match[0] !== message) return undefined;
 
   const code = Number(match[1]);
@@ -119,12 +156,18 @@ type InstagramStatusPayload = {
   message?: string;
 };
 
+type SocialAppId = Exclude<AppId, 'telegram'>;
+type ServiceHistory = { canGoBack: boolean; canGoForward: boolean };
+type ServiceHistoryPayload = ServiceHistory & { service: SocialAppId };
+
 type DownloadStatusPayload = {
   success: boolean;
   service?: AppId;
   fileName?: string;
   error?: string;
 };
+
+type WebviewCacheReport = Record<AppId, 'cleared' | 'deferred' | 'failed'>;
 
 function getDownloadNoticeKey({ success, error }: DownloadStatusPayload) {
   if (success) return 'RelayDownloadSaved';
@@ -137,27 +180,49 @@ function getDownloadNoticeKey({ success, error }: DownloadStatusPayload) {
 
 const App = ({
   authState,
+  isSynced,
   isScreenLocked,
   hasPasscode,
   inactiveReason,
   hasWebAuthTokenFailed,
   isTestServer,
+  shouldHideX,
+  shouldHideInstagram,
+  hasWebNotifications,
+  notificationSoundVolume,
   theme,
   customBackgroundColor,
   actionMessageBg,
 }: StateProps) => {
   const { isMobile } = useAppLayout();
   const [activeApp, setActiveApp] = useState<AppId>('telegram');
+  const [pendingTelegramLinks, setPendingTelegramLinks] = useState<string[]>([]);
   const [xAppState, setXAppState] = useState<XAppState>('idle');
   const [xFailureDetails, setXFailureDetails] = useState<XFailureDetails>();
   const [instagramAppState, setInstagramAppState] = useState<InstagramAppState>('idle');
+  const [serviceHistory, setServiceHistory] = useState<Partial<Record<SocialAppId, ServiceHistory>>>({});
+  const [sleepingApps, setSleepingApps] = useState<AppId[]>([]);
   const [isNavigating, setIsNavigating] = useState(false);
   const [notice, setNotice] = useState<string>();
   const [isOperationsOpen, setIsOperationsOpen] = useState(false);
+  const [operationsInitialSection, setOperationsInitialSection] = useState<'saved'>();
   const [isOperationsFull, setIsOperationsFull] = useState(false);
+  const [isAppSettingsOpen, setIsAppSettingsOpen] = useState(false);
+  const [areAppSettingsVisible, setAreAppSettingsVisible] = useState(false);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+  const [isPaletteVisible, setIsPaletteVisible] = useState(false);
+  const [isNoticeHistoryOpen, setIsNoticeHistoryOpen] = useState(false);
+  const [isNoticeHistoryVisible, setIsNoticeHistoryVisible] = useState(false);
+  const [isCacheDialogOpen, setIsCacheDialogOpen] = useState(false);
+  const [isCacheDialogVisible, setIsCacheDialogVisible] = useState(false);
+  const [isClearingCache, setIsClearingCache] = useState(false);
+  const isClearingCacheRef = useRef(false);
+  const cacheDialogOriginRef = useRef<HTMLElement>();
   const [operationsSnapshot, setOperationsSnapshot] = useState<MediaOperationsSnapshot>(getMediaOperationsSnapshot);
   const workspaceRef = useRef<HTMLDivElement>();
   const previousFocusRef = useRef<HTMLElement>();
+  const paletteOriginRef = useRef<HTMLElement>();
+  const noticeHistoryOriginRef = useRef<HTMLElement>();
   const [socialShare, setSocialShare] = useState<SocialShareRequest>();
   const [shareRecovery, setShareRecovery] = useState<MediaOperation>();
   const recoveryRequestRef = useRef<MediaOperation>();
@@ -174,6 +239,30 @@ const App = ({
   const stopSocialWarmupRef = useRef<(() => void) | undefined>();
   const nativeViewportRef = useRef<HTMLDivElement>();
   const nativeBoundsRequestRef = useRef(0);
+  const lastNativeBoundsRef = useRef<ReturnType<typeof resolveAppBounds>>();
+  const workspaceGenerationRef = useRef(Math.floor(performance.timeOrigin * 1000));
+  const notificationSettings = useMemo(() => {
+    if (!HAS_NOTICE_HISTORY) return undefined;
+    const isEnabled = hasWebNotifications && !inactiveReason;
+    return {
+      xEnabled: isEnabled && !shouldHideX,
+      instagramEnabled: isEnabled && !shouldHideInstagram,
+      volume: Math.round(Math.min(Math.max(notificationSoundVolume, 0), 10)),
+    };
+  }, [hasWebNotifications, inactiveReason, shouldHideX, shouldHideInstagram, notificationSoundVolume]);
+  const workspaceVisibilityRef = useRef<{
+    covered: boolean;
+    locked: boolean;
+    notificationSettings: typeof notificationSettings;
+    result: Promise<boolean>;
+  }>();
+  const [isTitlebarMenuCovering, setIsTitlebarMenuCovering] = useState(false);
+  const [isCacheDialogPreparing, setIsCacheDialogPreparing] = useState(false);
+  const settingsOriginRef = useRef<HTMLElement>();
+  const hiddenApps = useMemo(
+    () => buildHiddenApps(shouldHideX, shouldHideInstagram),
+    [shouldHideX, shouldHideInstagram],
+  );
   const lang = useLang();
   const isMobileOs = PLATFORM_ENV === 'iOS' || PLATFORM_ENV === 'Android';
 
@@ -217,8 +306,25 @@ const App = ({
       const releaseInstagram = await listen<InstagramStatusPayload>('multi-instagram-status', ({ payload }) => {
         if (isMountedRef.current) setInstagramAppState(payload.state);
       });
-      if (!isMountedRef.current) releaseInstagram();
-      else nativeStatusListenersRef.current.push(releaseInstagram);
+      if (!isMountedRef.current) {
+        releaseInstagram();
+        return;
+      }
+      nativeStatusListenersRef.current.push(releaseInstagram);
+
+      const releaseHistory = await listen<ServiceHistoryPayload>('multi-service-history', ({ payload }) => {
+        if (!isMountedRef.current || !payload) return;
+        const { service, canGoBack, canGoForward } = payload;
+        if ((service !== 'x' && service !== 'instagram')
+          || typeof canGoBack !== 'boolean' || typeof canGoForward !== 'boolean') return;
+        setServiceHistory((current) => {
+          const previous = current[service];
+          if (previous?.canGoBack === canGoBack && previous.canGoForward === canGoForward) return current;
+          return { ...current, [service]: { canGoBack, canGoForward } };
+        });
+      });
+      if (!isMountedRef.current) releaseHistory();
+      else nativeStatusListenersRef.current.push(releaseHistory);
     }
 
     nativeStatusListenersReadyRef.current = registerStatusListeners().catch((err) => {
@@ -234,7 +340,7 @@ const App = ({
     if (!isMountedRef.current || requestId !== appSwitchRequestRef.current || desiredAppRef.current !== app) return;
     await prepareNativeStatusListeners();
     if (!isMountedRef.current || requestId !== appSwitchRequestRef.current || desiredAppRef.current !== app) return;
-    const bounds = await measureNativeBounds();
+    const bounds = app === 'telegram' ? undefined : await measureNativeBounds();
     const { invoke } = await import('@tauri-apps/api/core');
     if (!isMountedRef.current || requestId !== appSwitchRequestRef.current || desiredAppRef.current !== app) return;
     await invoke('multi_set_active_app', { app, bounds });
@@ -242,17 +348,58 @@ const App = ({
 
   const updateNativeBounds = useLastCallback(async () => {
     if (!IS_TAURI || desiredAppRef.current === 'telegram') return;
+    const app = desiredAppRef.current;
     const requestId = ++nativeBoundsRequestRef.current;
     try {
       const bounds = await measureNativeBounds();
       const { invoke } = await import('@tauri-apps/api/core');
       if (!isMountedRef.current || requestId !== nativeBoundsRequestRef.current) return;
-      await invoke('multi_update_x_bounds', { bounds });
+      const previous = lastNativeBoundsRef.current;
+      if (previous && bounds.x === previous.x && bounds.y === previous.y
+        && bounds.width === previous.width && bounds.height === previous.height) return;
+      await invoke('multi_update_x_bounds', { app, bounds });
+      if (requestId === nativeBoundsRequestRef.current) lastNativeBoundsRef.current = bounds;
     } catch (error) {
       handleError(new Error('Failed to update service viewport', { cause: error }));
     }
   });
   useResizeObserver(nativeViewportRef, updateNativeBounds, !IS_TAURI);
+
+  const applyWorkspaceVisibility = useLastCallback((covered: boolean) => {
+    if (!IS_TAURI) return Promise.resolve(true);
+    const locked = Boolean(getGlobal().passcode?.isScreenLocked);
+    const current = workspaceVisibilityRef.current;
+    if (current?.covered === covered && current.locked === locked
+      && current.notificationSettings === notificationSettings) return current.result;
+    const generation = ++workspaceGenerationRef.current;
+    if (covered || locked) publishWorkspaceCoverage(true);
+    async function synchronize() {
+      try {
+        const { invoke } = await import('@tauri-apps/api/core');
+        const bounds = !covered && !locked && desiredAppRef.current !== 'telegram'
+          ? await measureNativeBounds() : undefined;
+        if (!isMountedRef.current || generation !== workspaceGenerationRef.current) return false;
+        const applied = await invoke<boolean>('multi_set_content_visible', {
+          locked, generation, visible: !covered, bounds, notificationSettings,
+        });
+        if (!applied || !isMountedRef.current || generation !== workspaceGenerationRef.current) return false;
+        if (!covered && !locked) publishWorkspaceCoverage(false);
+        return true;
+      } catch (error) {
+        if (generation === workspaceGenerationRef.current) publishWorkspaceCoverage(true);
+        handleError(new Error('Failed to synchronize workspace visibility', { cause: error }));
+        return false;
+      }
+    }
+    const result = synchronize();
+    workspaceVisibilityRef.current = {
+      covered, locked, notificationSettings, result,
+    };
+    void result.then((success) => {
+      if (!success && workspaceVisibilityRef.current?.result === result) workspaceVisibilityRef.current = undefined;
+    });
+    return result;
+  });
 
   useLayoutEffect(() => {
     document.documentElement.dataset.relayActiveApp = activeApp;
@@ -475,6 +622,39 @@ const App = ({
     activeKey = AppScreens.main;
   }
 
+  const canOpenTelegram = activeKey === AppScreens.main && authState === 'authorizationStateReady' && !isScreenLocked;
+  const canOpenLibrary = IS_TAURI && canOpenTelegram;
+  const canOpenPalette = !isScreenLocked && (activeKey === AppScreens.main
+    || (IS_TAURI && activeKey === AppScreens.auth));
+
+  const handleFocusRegion = useLastCallback((event: KeyboardEvent) => {
+    if (event.key !== 'F6' || event.defaultPrevented || event.repeat || event.isComposing || event.altKey
+      || event.ctrlKey || event.metaKey || isScreenLocked
+      || document.body.classList.contains('has-open-dialog')) return;
+    const regions = [
+      { region: '[data-relay-sidebar]', target: 'button[aria-current="page"]' },
+      { region: '[data-relay-caption]', target: 'button' },
+      { region: `#relay-${activeApp}-pane:not([inert])` },
+      { region: '#relay-media-operations', target: 'button' },
+    ].flatMap(({ region, target }) => {
+      const element = document.querySelector<HTMLElement>(region);
+      const focus = target ? element?.querySelector<HTMLElement>(target) : element;
+      return element && focus ? [{ element, focus }] : [];
+    });
+    if (!regions.length) return;
+    const current = regions.findIndex(({ element }) => element.contains(document.activeElement));
+    const offset = event.shiftKey ? regions.length - 1 : 1;
+    const next = current < 0 ? (event.shiftKey ? regions.length - 1 : 0) : (current + offset) % regions.length;
+    event.preventDefault();
+    regions[next].focus.focus({ preventScroll: true });
+  });
+
+  useEffect(() => {
+    if (!IS_TAURI) return undefined;
+    document.addEventListener('keydown', handleFocusRegion);
+    return () => document.removeEventListener('keydown', handleFocusRegion);
+  }, [handleFocusRegion]);
+
   useEffect(() => {
     updateSizes();
   }, []);
@@ -524,14 +704,22 @@ const App = ({
       if (previousFocusRef.current?.isConnected) previousFocusRef.current.focus();
     });
   });
+  const handleOpenOperations = useLastCallback(async (section?: 'saved') => {
+    if (isScreenLocked || isOperationsOpen || socialShareRef.current || isCacheDialogVisible
+      || isNoticeHistoryVisible) return;
+    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+    if (isOperationsFull && !await applyWorkspaceVisibility(true)) return;
+    if (getGlobal().passcode?.isScreenLocked) return;
+    setOperationsInitialSection(section);
+    setIsOperationsOpen(true);
+  });
   const handleToggleOperations = useLastCallback(() => {
-    if (socialShareRef.current) return;
+    if (isScreenLocked || socialShareRef.current || document.body.classList.contains('has-open-dialog')) return;
     if (isOperationsOpen) {
       handleCloseOperations();
       return;
     }
-    previousFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
-    setIsOperationsOpen(true);
+    void handleOpenOperations();
   });
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -559,12 +747,75 @@ const App = ({
     };
   }, []);
   useLayoutEffect(() => {
-    if (!IS_TAURI) return;
-    void import('@tauri-apps/api/core').then(async ({ invoke }) => {
-      await invoke('multi_set_content_visible', { visible: !(isOperationsOpen && isOperationsFull) });
-      await updateNativeBounds();
-    }).catch(handleError);
-  }, [isOperationsOpen, isOperationsFull]);
+    const portals = document.getElementById('portals');
+    portals?.toggleAttribute('inert', Boolean(isScreenLocked));
+    if (isScreenLocked) {
+      portals?.querySelectorAll<HTMLDialogElement>('dialog[open]').forEach((dialog) => dialog.close());
+    }
+    return () => {
+      portals?.removeAttribute('inert');
+    };
+  }, [isScreenLocked]);
+
+  useLayoutEffect(() => {
+    void applyWorkspaceVisibility(Boolean(isScreenLocked) || (isOperationsOpen && isOperationsFull)
+      || isPaletteVisible || isCacheDialogVisible || isCacheDialogPreparing || areAppSettingsVisible
+      || isTitlebarMenuCovering || isNoticeHistoryVisible || Boolean(socialShare));
+  }, [
+    applyWorkspaceVisibility, isScreenLocked, isOperationsOpen, isOperationsFull, isPaletteVisible,
+    isCacheDialogVisible, isCacheDialogPreparing, areAppSettingsVisible, isTitlebarMenuCovering,
+    isNoticeHistoryVisible, socialShare, notificationSettings,
+  ]);
+
+  const handleOpenCacheDialog = useLastCallback(async (trigger: HTMLButtonElement) => {
+    if (isClearingCacheRef.current || isScreenLocked || socialShareRef.current
+      || !isAppSettingsOpen || isCacheDialogPreparing || isCacheDialogVisible) return;
+    const covered = applyWorkspaceVisibility(true);
+    setIsCacheDialogPreparing(true);
+    const applied = await covered;
+    setIsCacheDialogPreparing(false);
+    if (!applied || getGlobal().passcode?.isScreenLocked || !trigger.isConnected) return;
+    cacheDialogOriginRef.current = trigger;
+    setIsCacheDialogVisible(true);
+    setIsCacheDialogOpen(true);
+  });
+
+  const handleCloseCacheDialog = useLastCallback(() => setIsCacheDialogOpen(false));
+  const handleCacheDialogClosed = useLastCallback(() => setIsCacheDialogVisible(false));
+  useLayoutEffect(() => {
+    if (isCacheDialogVisible) return;
+    const trigger = cacheDialogOriginRef.current;
+    cacheDialogOriginRef.current = undefined;
+    if (!socialShareRef.current && !isScreenLocked && trigger?.isConnected) {
+      requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+    }
+  }, [isCacheDialogVisible, isScreenLocked]);
+
+  const handleClearCache = useLastCallback(async () => {
+    if (isClearingCacheRef.current || !isCacheDialogOpen || isScreenLocked) return;
+    isClearingCacheRef.current = true;
+    setIsClearingCache(true);
+    setIsCacheDialogOpen(false);
+    const results = await Promise.allSettled([
+      clearStoredMediaCache(),
+      import('@tauri-apps/api/core').then(({ invoke }) => invoke<WebviewCacheReport>('relay_clear_webview_cache')),
+    ]);
+    isClearingCacheRef.current = false;
+    if (!isMountedRef.current) return;
+    setIsClearingCache(false);
+    const [media, webviews] = results;
+    const states = webviews.status === 'fulfilled' && webviews.value
+      ? [webviews.value.telegram, webviews.value.x, webviews.value.instagram] : [];
+    const isWebviewIncomplete = states.length !== 3
+      || states.some((state) => state !== 'cleared' && state !== 'deferred');
+    if (media.status === 'rejected' && !states.some((state) => state === 'cleared' || state === 'deferred')) {
+      setNotice(lang('RelayCacheFailed'));
+    } else if (media.status === 'rejected' || isWebviewIncomplete) {
+      setNotice(lang('RelayCachePartial'));
+    } else {
+      setNotice(lang(states.includes('deferred') ? 'RelayCacheDeferred' : 'RelayCacheCleared'));
+    }
+  });
 
   const prevActiveKey = usePrevious(activeKey);
 
@@ -574,10 +825,10 @@ const App = ({
         return <Auth />;
       case AppScreens.main:
         return <Main isMobile={isMobile} />;
-      case AppScreens.lock:
-        return <LockScreen isLocked={isScreenLocked} />;
       case AppScreens.inactive:
         return <AppInactive inactiveReason={inactiveReason!} />;
+      case AppScreens.lock:
+        return undefined;
     }
   }
 
@@ -646,9 +897,20 @@ const App = ({
       if (!isMountedRef.current) return;
       stopSocialWarmupRef.current = startSocialWarmup({
         commands: PREWARM_COMMANDS,
-        isEnabled: () => selectSharedSettings(getGlobal()).shouldWarmupSocialViews !== false,
+        isEnabled: () => !getGlobal().passcode?.isScreenLocked
+          && selectSharedSettings(getGlobal()).shouldWarmupVisibleSocialViews === true,
+        isCommandEnabled: (command) => {
+          const { shouldHideX: isXHidden, shouldHideInstagram: isInstagramHidden } = selectSharedSettings(getGlobal());
+          return !buildHiddenApps(isXHidden, isInstagramHidden)
+            .includes(PREWARM_COMMAND_APPS[command as keyof typeof PREWARM_COMMAND_APPS]);
+        },
         isTelegramReady: () => getGlobal().connectionState === 'connectionStateReady' && Boolean(getGlobal().isSynced),
-        getLastInputAt: getLastUserInputAt,
+        subscribeState: (refresh) => {
+          addCallback(refresh);
+          return () => {
+            removeCallback(refresh);
+          };
+        },
         run: (command) => invoke(command),
         onError: (err) => handleError(new Error('Failed to prewarm a social view', { cause: err })),
       });
@@ -658,8 +920,36 @@ const App = ({
     });
   }, [isScreenLocked, inactiveReason]);
 
+  useEffect(() => {
+    if (!HAS_NOTICE_HISTORY || !hasWebNotifications || isScreenLocked || inactiveReason) return undefined;
+    const commands = PREWARM_COMMANDS.filter((command) => !hiddenApps.includes(PREWARM_COMMAND_APPS[command]));
+    if (!commands.length) return undefined;
+
+    let isCancelled = false;
+    async function prepareNotificationServices() {
+      const { invoke } = await import('@tauri-apps/api/core');
+      const synchronized = await workspaceVisibilityRef.current?.result;
+      if (!synchronized) return;
+      for (const command of commands) {
+        if (isCancelled || !isMountedRef.current || getGlobal().passcode?.isScreenLocked) return;
+        try {
+          await invoke(command, { forNotifications: true });
+        } catch (error) {
+          handleError(new Error('Failed to start service notifications', { cause: error }));
+        }
+      }
+    }
+    const timer = window.setTimeout(() => {
+      void prepareNotificationServices().catch(handleError);
+    }, WARMUP_READY_DELAY_MS);
+    return () => {
+      isCancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [hasWebNotifications, hiddenApps, inactiveReason, isScreenLocked]);
+
   const handleNavigation = useLastCallback(async (action: SocialNavigationAction | 'login') => {
-    if (!IS_TAURI || socialShareRef.current || activeApp === 'telegram'
+    if (!IS_TAURI || isScreenLocked || socialShareRef.current || activeApp === 'telegram'
       || desiredAppRef.current !== activeApp || isNavigatingRef.current) return;
 
     const app = activeApp;
@@ -668,12 +958,12 @@ const App = ({
     const shouldActivate = app === 'x' ? xAppState === 'error' : instagramAppState === 'error';
     isNavigatingRef.current = true;
     setIsNavigating(true);
-    if (app === 'x') setXFailureDetails(undefined);
+    if (app === 'x' && action !== 'browser-login') setXFailureDetails(undefined);
 
     appSwitchQueueRef.current = appSwitchQueueRef.current.then(async () => {
       try {
         if (!isMountedRef.current || requestId !== appSwitchRequestRef.current || desiredAppRef.current !== app) return;
-        if (shouldActivate) {
+        if (shouldActivate && action !== 'browser-login') {
           await activateNativeApp(app, requestId);
           if (action === 'reload') return;
         }
@@ -686,7 +976,8 @@ const App = ({
         await invoke(app === 'x' ? 'multi_x_navigate' : 'multi_instagram_navigate', { action });
       } catch (err) {
         if (isMountedRef.current && requestId === appSwitchRequestRef.current && desiredAppRef.current === app) {
-          if (app === 'x') setXAppState('error');
+          if (action === 'browser-login') setNotice(lang('RelayBrowserLoginFailed'));
+          else if (app === 'x') setXAppState('error');
           else setInstagramAppState('error');
         }
         handleError(new Error(`Failed to navigate ${app}`, { cause: err }));
@@ -733,16 +1024,82 @@ const App = ({
     void handleNavigation('reload');
   });
 
-  const handleLoginX = useLastCallback(() => {
+  const handleLogin = useLastCallback(() => {
     void handleNavigation('login');
+  });
+
+  const handleBrowserLogin = useLastCallback(() => {
+    void handleNavigation('browser-login');
   });
 
   const handleRetryInstagram = useLastCallback(() => {
     void handleNavigation('reload');
   });
 
+  const handleOpenSocialInBrowser = useLastCallback(async () => {
+    if (!IS_TAURI || isScreenLocked || activeApp === 'telegram') return;
+    try {
+      const { invoke } = await import('@tauri-apps/api/core');
+      if (getGlobal().passcode?.isScreenLocked) return;
+      await invoke('multi_open_external', { url: activeApp === 'x' ? 'https://x.com/' : 'https://www.instagram.com/' });
+    } catch (error) {
+      handleError(new Error('Failed to open the service in a browser', { cause: error }));
+    }
+  });
+  const openAppSettings = useLastCallback(async (trigger: Element | null | undefined) => {
+    if (socialShareRef.current || isScreenLocked) return;
+    if (!await applyWorkspaceVisibility(true) || getGlobal().passcode?.isScreenLocked) return;
+    settingsOriginRef.current = trigger instanceof HTMLElement ? trigger : undefined;
+    setAreAppSettingsVisible(true);
+    setIsAppSettingsOpen(true);
+  });
+  const handleOpenAppSettings = useLastCallback(() => openAppSettings(document.activeElement));
+
+  const handleCloseAppSettings = useLastCallback(() => {
+    setIsAppSettingsOpen(false);
+  });
+  const handleAppSettingsClosed = useLastCallback(() => {
+    setAreAppSettingsVisible(false);
+    const trigger = settingsOriginRef.current;
+    settingsOriginRef.current = undefined;
+    if (trigger?.isConnected && !getGlobal().passcode?.isScreenLocked) {
+      requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+    }
+  });
+
+  const handleMenuVisibilityChange = useLastCallback(async (isOpen: boolean) => {
+    if (isOpen && (!await applyWorkspaceVisibility(true) || getGlobal().passcode?.isScreenLocked)) return false;
+    setIsTitlebarMenuCovering(isOpen);
+    if (isOpen) return true;
+    if (getGlobal().passcode?.isScreenLocked || isPaletteVisible || isCacheDialogVisible
+      || isCacheDialogPreparing || areAppSettingsVisible || isNoticeHistoryVisible || socialShareRef.current
+      || (isOperationsOpen && isOperationsFull)) return false;
+    return applyWorkspaceVisibility(false);
+  });
+
+  useEffect(() => {
+    if (isScreenLocked || socialShare) setIsCacheDialogOpen(false);
+  }, [isScreenLocked, socialShare]);
+
+  useEffect(() => {
+    if (isScreenLocked) {
+      setIsAppSettingsOpen(false);
+      setAreAppSettingsVisible(false);
+      setIsTitlebarMenuCovering(false);
+      setIsCacheDialogPreparing(false);
+      setIsCacheDialogVisible(false);
+      setIsOperationsOpen(false);
+      setIsPaletteVisible(false);
+      setIsNoticeHistoryOpen(false);
+      setIsNoticeHistoryVisible(false);
+      settingsOriginRef.current = undefined;
+      paletteOriginRef.current = undefined;
+      noticeHistoryOriginRef.current = undefined;
+    }
+  }, [isScreenLocked]);
+
   const handleSelectApp = useLastCallback((app: AppId) => {
-    if (socialShareRef.current) return;
+    if (isScreenLocked || socialShareRef.current || hiddenApps.includes(app)) return;
     if (isOperationsFull && isOperationsOpen) handleCloseOperations();
 
     if (app === desiredAppRef.current) {
@@ -752,8 +1109,11 @@ const App = ({
     }
 
     desiredAppRef.current = app;
+    // Под нативным окном X или Instagram модалка не видна, но держала бы фокус и Esc
+    if (app !== 'telegram') setIsAppSettingsOpen(false);
     const requestId = ++appSwitchRequestRef.current;
     nativeBoundsRequestRef.current += 1;
+    lastNativeBoundsRef.current = undefined;
     navigationRequestRef.current += 1;
     isNavigatingRef.current = false;
     setIsNavigating(false);
@@ -772,7 +1132,9 @@ const App = ({
         setXFailureDetails(undefined);
         setXAppState((state) => (state === 'ready' || state === 'auth-required' ? state : 'loading'));
       }
-      if (app === 'instagram') setInstagramAppState((state) => (state === 'ready' ? state : 'loading'));
+      if (app === 'instagram') {
+        setInstagramAppState((state) => (state === 'ready' || state === 'auth-required' ? state : 'loading'));
+      }
 
       try {
         await activateNativeApp(app, requestId);
@@ -780,8 +1142,12 @@ const App = ({
         setActiveApp(app);
       } catch (err) {
         if (isMountedRef.current && requestId === appSwitchRequestRef.current && desiredAppRef.current === app) {
-          if (app !== 'telegram') setActiveApp(app);
-          else desiredAppRef.current = activeApp;
+          if (app !== 'telegram') {
+            setActiveApp(app);
+          } else {
+            desiredAppRef.current = activeApp;
+            setIsAppSettingsOpen(false);
+          }
           if (app === 'x') setXAppState('error');
           if (app === 'instagram') setInstagramAppState('error');
           setNotice(lang('RelayAppSwitchError'));
@@ -791,11 +1157,112 @@ const App = ({
     });
   });
 
+  const handleOpenLagomNotice = useLastCallback((payload: {
+    service: AppId;
+    target?: { chatId?: string; messageId?: number };
+  }) => {
+    if (isScreenLocked || hiddenApps.includes(payload.service)) return;
+    handleSelectApp(payload.service);
+    const { chatId, messageId } = payload.target || {};
+    if (payload.service === 'telegram' && chatId && messageId) {
+      getActions().focusMessage({ chatId, messageId, shouldReplaceHistory: true });
+    }
+  });
+
+  useEffect(() => {
+    if (!IS_TAURI) return undefined;
+
+    let isDisposed = false;
+    let unlisten: VoidFunction | undefined;
+    async function subscribeToLagomNotices() {
+      const { listen } = await import('@tauri-apps/api/event');
+      if (isDisposed) return;
+      const release = await listen<Parameters<typeof handleOpenLagomNotice>[0]>(
+        'relay-lagom-notice-opened',
+        ({ payload }) => handleOpenLagomNotice(payload),
+      );
+      if (isDisposed) release();
+      else unlisten = release;
+    }
+    void subscribeToLagomNotices().catch((err) => handleError(err));
+    return () => {
+      isDisposed = true;
+      unlisten?.();
+    };
+  }, [handleOpenLagomNotice]);
+
+  // Если активный сервис скрыли в настройках, возвращаемся в Telegram
+  useEffect(() => {
+    if (hiddenApps.includes(activeApp)) handleSelectApp('telegram');
+  }, [hiddenApps, activeApp]);
+
+  useEffect(() => {
+    if (!IS_TAURI) return undefined;
+
+    if (!('__TAURI_INTERNALS__' in window)) return undefined;
+
+    let isDisposed = false;
+    let unlisten: VoidFunction | undefined;
+    async function subscribeToTelegramLinks() {
+      const [{ invoke }, { getCurrentWebview }] = await Promise.all([
+        import('@tauri-apps/api/core'), import('@tauri-apps/api/webview'),
+      ]);
+      if (isDisposed) return;
+      const webview = getCurrentWebview();
+      if (webview.label !== 'main') return;
+
+      async function takeLinks() {
+        if (isDisposed) return;
+        const links = normalizeNativeDeepLinks(await invoke('relay_take_deep_links'));
+        if (!isDisposed && links.length) {
+          setPendingTelegramLinks((pending) => [...pending, ...links].slice(-MAX_NATIVE_LINKS));
+        }
+      }
+
+      const release = await webview.listen('relay-deep-links-pending', () => {
+        void takeLinks().catch(handleError);
+      });
+      if (isDisposed) {
+        release();
+        return;
+      }
+      unlisten = release;
+      await takeLinks();
+    }
+
+    void subscribeToTelegramLinks().catch(handleError);
+    return () => {
+      isDisposed = true;
+      unlisten?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingTelegramLinks.length || activeKey !== AppScreens.main || !isSynced
+      || socialShare || isPaletteVisible || isCacheDialogVisible || isNoticeHistoryVisible
+      || (isOperationsOpen && isOperationsFull)) return;
+
+    if (activeApp !== 'telegram' || desiredAppRef.current !== 'telegram') {
+      handleSelectApp('telegram');
+      return;
+    }
+
+    setIsAppSettingsOpen(false);
+    setPendingTelegramLinks((pending) => pending.slice(pendingTelegramLinks.length));
+    for (const url of pendingTelegramLinks) {
+      // Системная ссылка не имеет контекста сообщения или доверенной ссылки внутри Telegram
+      getActions().openTelegramLink({ url });
+    }
+  }, [
+    activeApp, activeKey, handleSelectApp, isOperationsFull, isOperationsOpen, isCacheDialogVisible,
+    isPaletteVisible, isNoticeHistoryVisible, isSynced, pendingTelegramLinks, socialShare,
+  ]);
+
   const handleOperationSource = useLastCallback(async (operation: MediaOperation) => {
-    if (!operation.sourceUrl) return;
+    if (!operation.sourceUrl || isScreenLocked) return;
     handleCloseOperations();
+    if (!await applyWorkspaceVisibility(false)) return;
     const { invoke } = await import('@tauri-apps/api/core');
-    await invoke('multi_set_content_visible', { visible: true });
     handleSelectApp(operation.service);
     await appSwitchQueueRef.current;
     if (operation.service === 'telegram') {
@@ -831,238 +1298,503 @@ const App = ({
     getActions().openChat({ id: operation.send.peerId });
   });
 
+  const handleClosePalette = useLastCallback(() => {
+    setIsPaletteOpen(false);
+  });
+
+  const handlePaletteClosed = useLastCallback(() => {
+    setIsPaletteVisible(false);
+    const trigger = paletteOriginRef.current;
+    paletteOriginRef.current = undefined;
+    if (trigger?.isConnected && !getGlobal().passcode?.isScreenLocked) {
+      requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+    }
+  });
+
+  const handleTogglePalette = useLastCallback(async () => {
+    if (isPaletteOpen) {
+      handleClosePalette();
+      return;
+    }
+    if (!canOpenPalette || isPaletteVisible || socialShareRef.current || isAppSettingsOpen
+      || document.body.classList.contains('has-open-dialog')) return;
+    if (isOperationsOpen) handleCloseOperations();
+    paletteOriginRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+    if (!await applyWorkspaceVisibility(true) || getGlobal().passcode?.isScreenLocked) return;
+    setIsPaletteVisible(true);
+    setIsPaletteOpen(true);
+  });
+
+  useEffect(() => {
+    if (!canOpenPalette) setIsPaletteOpen(false);
+  }, [canOpenPalette]);
+
+  // В основном окне Ctrl+K уступает выделению в поле ввода (там это ссылка); из X и Instagram
+  // сочетание приходит событием оболочки
+  const handlePaletteKeyboard = useLastCallback((event: KeyboardEvent) => {
+    const isModifier = IS_MAC_OS ? event.metaKey && !event.ctrlKey : event.ctrlKey && !event.metaKey;
+    if (!canOpenPalette || !isModifier || event.altKey || event.shiftKey || event.repeat || event.isComposing
+      || event.code !== 'KeyK' || isComposerHasSelection()) return;
+    if (!isPaletteOpen && document.body.classList.contains('has-open-dialog')) return;
+    event.preventDefault();
+    event.stopPropagation();
+    void handleTogglePalette();
+  });
+  useEffect(() => {
+    document.addEventListener('keydown', handlePaletteKeyboard, true);
+    let mounted = true;
+    let release: NoneToVoidFunction | undefined;
+    if (IS_TAURI) {
+      void import('@tauri-apps/api/event').then(({ listen }) => listen('relay-palette-toggle', () => {
+        if (mounted) void handleTogglePalette();
+      })).then((unlisten) => {
+        if (mounted) release = unlisten;
+        else unlisten();
+      }).catch(handleError);
+    }
+    return () => {
+      mounted = false;
+      release?.();
+      document.removeEventListener('keydown', handlePaletteKeyboard, true);
+    };
+  }, [handlePaletteKeyboard, handleTogglePalette]);
+
+  const handleCloseNoticeHistory = useLastCallback(() => setIsNoticeHistoryOpen(false));
+  const handleNoticeHistoryClosed = useLastCallback(() => {
+    setIsNoticeHistoryVisible(false);
+    const trigger = noticeHistoryOriginRef.current;
+    noticeHistoryOriginRef.current = undefined;
+    if (trigger?.isConnected && !getGlobal().passcode?.isScreenLocked) {
+      requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+    }
+  });
+  const handleSelectNoticeService = useLastCallback((service: AppId) => {
+    if (isScreenLocked || hiddenApps.includes(service)) return;
+    handleCloseNoticeHistory();
+    handleSelectApp(service);
+  });
+
+  const handlePaletteRun = useLastCallback(async (payload: PalettePayload, isSecondary: boolean) => {
+    if (!canOpenPalette || getGlobal().passcode?.isScreenLocked) return;
+    const origin = paletteOriginRef.current;
+    setIsPaletteOpen(false);
+    try {
+      switch (payload.type) {
+        case 'app':
+          handleSelectApp(payload.app);
+          break;
+        case 'operations':
+          if (payload.section === 'saved' && !canOpenLibrary) return;
+          paletteOriginRef.current = undefined;
+          await handleOpenOperations(payload.section);
+          if (origin?.isConnected) previousFocusRef.current = origin;
+          break;
+        case 'relaySettings':
+          paletteOriginRef.current = undefined;
+          await openAppSettings(origin);
+          break;
+        case 'noticeHistory':
+          if (!HAS_NOTICE_HISTORY || !await applyWorkspaceVisibility(true)
+            || getGlobal().passcode?.isScreenLocked) return;
+          paletteOriginRef.current = undefined;
+          noticeHistoryOriginRef.current = origin;
+          setIsNoticeHistoryVisible(true);
+          setIsNoticeHistoryOpen(true);
+          break;
+        case 'telegramSettings':
+          if (!canOpenTelegram) return;
+          paletteOriginRef.current = undefined;
+          handleSelectApp('telegram');
+          await appSwitchQueueRef.current;
+          if (payload.screen !== undefined) getActions().openSettingsScreen({ screen: payload.screen });
+          else getActions().openLeftColumnContent({ contentKey: LeftColumnContent.Settings });
+          break;
+        case 'chat':
+          if (!canOpenTelegram) return;
+          paletteOriginRef.current = undefined;
+          handleSelectApp('telegram');
+          await appSwitchQueueRef.current;
+          getActions().openChat({ id: payload.id });
+          break;
+        case 'telegramSearch':
+          if (!canOpenTelegram) return;
+          paletteOriginRef.current = undefined;
+          handleSelectApp('telegram');
+          await appSwitchQueueRef.current;
+          getActions().openLeftColumnContent({ contentKey: LeftColumnContent.GlobalSearch });
+          getActions().setGlobalSearchQuery({ query: payload.query });
+          break;
+        case 'libraryFile': {
+          if (!canOpenLibrary) return;
+          const { invoke } = await import('@tauri-apps/api/core');
+          await invoke('relay_library_action', { id: payload.id, action: isSecondary ? 'reveal' : 'open' });
+          break;
+        }
+        case 'libraryLink': {
+          if (!canOpenLibrary) return;
+          if (payload.service === 'telegram') {
+            handleSelectApp('telegram');
+            await appSwitchQueueRef.current;
+            getActions().openTelegramLink({ url: payload.url });
+          } else {
+            const { invoke } = await import('@tauri-apps/api/core');
+            await invoke('multi_open_external', { url: payload.url });
+          }
+          break;
+        }
+      }
+    } catch (error) {
+      setNotice(lang('RelayOperationUnavailable'));
+      handleError(new Error('Failed to run a palette action', { cause: error }));
+    }
+  });
+
+  // Оболочка усыпляет скрытые сервисы и будит при показе; rail показывает это меткой сна
+  useEffect(() => {
+    if (!IS_TAURI) return undefined;
+    let mounted = true;
+    let release: NoneToVoidFunction | undefined;
+    void import('@tauri-apps/api/event').then(({ listen }) => listen<{ service?: string; sleeping?: boolean }>(
+      'multi-service-sleep', ({ payload }) => {
+        const service = payload?.service;
+        if (!mounted || (service !== 'x' && service !== 'instagram' && service !== 'telegram')) return;
+        setSleepingApps((current) => {
+          const has = current.includes(service);
+          if (payload.sleeping) return has ? current : [...current, service];
+          return has ? current.filter((id) => id !== service) : current;
+        });
+      },
+    )).then((unlisten) => {
+      if (mounted) release = unlisten;
+      else unlisten();
+    }).catch(handleError);
+    return () => {
+      mounted = false;
+      release?.();
+    };
+  }, []);
+
   const isWorkspaceCovered = isOperationsOpen && isOperationsFull;
+  const activeHistory = activeApp === 'telegram' ? undefined : serviceHistory[activeApp];
+  const isSocialReady = activeApp === 'x' ? xAppState === 'ready' : instagramAppState === 'ready';
 
   return (
     <div className={styles.multiRoot}>
-      <AppSidebar
-        activeApp={activeApp}
-        xAppState={xAppState}
-        instagramAppState={instagramAppState}
-        onSelectApp={handleSelectApp}
-      />
-
-      <div
-        ref={workspaceRef}
-        className={buildClassName(styles.mainWorkspace,
-          isOperationsOpen && !isOperationsFull && styles.workspaceWithOperations,
-          isOperationsOpen && isOperationsFull && styles.workspaceFullOperations)}
-      >
-        <div
-          ref={nativeViewportRef}
-          className={buildClassName(styles.nativeViewport, IS_TAURI && !IS_MAC_OS && styles.withTitlebar)}
-          aria-hidden="true"
-        />
-        <Titlebar
+      <div className={styles.workspaceLayers} inert={Boolean(isScreenLocked)} aria-hidden={Boolean(isScreenLocked)}>
+        <AppSidebar
           activeApp={activeApp}
-          isXAuthRequired={xAppState === 'auth-required'}
-          canNavigate={activeApp === 'x' ? xAppState === 'ready' : instagramAppState === 'ready'}
-          isNavigating={isNavigating}
-          notice={notice}
-          isOperationsOpen={isOperationsOpen}
-          operationCount={operationsSnapshot.operations.filter(isMediaOperationActive).length}
-          onToggleOperations={handleToggleOperations}
-          onLoginX={handleLoginX}
-          onNavigate={handleNavigation}
+          xAppState={xAppState}
+          instagramAppState={instagramAppState}
+          sleepingApps={sleepingApps}
+          hiddenApps={hiddenApps}
+          onSelectApp={handleSelectApp}
+          onOpenSettings={isScreenLocked ? undefined : handleOpenAppSettings}
         />
 
         <div
-          id="relay-telegram-pane"
-          className={buildClassName(
-            styles.telegramPane,
-            IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
-            activeApp !== 'telegram' && styles.hidden,
-          )}
-          inert={activeApp !== 'telegram' || isWorkspaceCovered}
-          aria-hidden={activeApp !== 'telegram' || isWorkspaceCovered}
+          ref={workspaceRef}
+          className={buildClassName(styles.mainWorkspace,
+            isOperationsOpen && !isOperationsFull && styles.workspaceWithOperations,
+            isOperationsOpen && isOperationsFull && styles.workspaceFullOperations)}
         >
-          <UiLoader page={page} isMobile={isMobile}>
-            <Transition
-              name="fade"
-              activeKey={activeKey}
-              shouldCleanup
-              className={buildClassName(
-                'full-height',
-                (activeKey === AppScreens.auth || prevActiveKey === AppScreens.auth) && 'is-auth',
+          <div
+            ref={nativeViewportRef}
+            className={buildClassName(styles.nativeViewport, IS_TAURI && !IS_MAC_OS && styles.withTitlebar)}
+            aria-hidden="true"
+          />
+          <Titlebar
+            activeApp={activeApp}
+            canGoBack={isSocialReady && activeHistory?.canGoBack}
+            canGoForward={isSocialReady && activeHistory?.canGoForward}
+            isNavigating={isNavigating}
+            notice={notice}
+            isOperationsOpen={isOperationsOpen}
+            isPaletteOpen={isPaletteOpen}
+            operationCount={operationsSnapshot.operations.filter(isMediaOperationActive).length}
+            onToggleOperations={handleToggleOperations}
+            onTogglePalette={canOpenPalette ? handleTogglePalette : undefined}
+            onMenuVisibilityChange={handleMenuVisibilityChange}
+            isMenuAllowed={!isScreenLocked}
+            onNavigate={handleNavigation}
+          />
+
+          <div
+            id="relay-telegram-pane"
+            tabIndex={-1}
+            className={buildClassName(
+              styles.telegramPane,
+              IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
+              activeApp !== 'telegram' && styles.hidden,
+            )}
+            inert={activeApp !== 'telegram' || isWorkspaceCovered}
+            aria-hidden={activeApp !== 'telegram' || isWorkspaceCovered}
+          >
+            <UiLoader page={page} isMobile={isMobile}>
+              <Transition
+                name="fade"
+                activeKey={activeKey}
+                shouldCleanup
+                className={buildClassName(
+                  'full-height',
+                  (activeKey === AppScreens.auth || prevActiveKey === AppScreens.auth) && 'is-auth',
+                )}
+                renderCount={TRANSITION_RENDER_COUNT}
+              >
+                {renderContent}
+              </Transition>
+              {activeKey === AppScreens.auth && isTestServer && <div className="test-server-badge">Test server</div>}
+              <Notifications />
+            </UiLoader>
+          </div>
+
+          <div
+            id="relay-x-pane"
+            tabIndex={-1}
+            className={buildClassName(
+              styles.xPane,
+              IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
+              activeApp !== 'x' && styles.hidden,
+            )}
+            inert={activeApp !== 'x' || isWorkspaceCovered}
+            aria-hidden={activeApp !== 'x' || isWorkspaceCovered}
+            aria-busy={xAppState === 'loading'}
+          >
+            <div className={styles.xContentArea}>
+              {xAppState !== 'ready' && (
+                <SocialServiceStatus
+                  service="x"
+                  state={xAppState}
+                  failureDetails={xFailureDetails}
+                  isNavigating={isNavigating}
+                  onRetry={handleRetryX}
+                  onOpenBrowser={handleOpenSocialInBrowser}
+                  onLogin={handleLogin}
+                  onBrowserLogin={handleBrowserLogin}
+                />
               )}
-              renderCount={TRANSITION_RENDER_COUNT}
-            >
-              {renderContent}
-            </Transition>
-            {activeKey === AppScreens.auth && isTestServer && <div className="test-server-badge">Test server</div>}
-            <Notifications />
-          </UiLoader>
-        </div>
-
-        <div
-          id="relay-x-pane"
-          className={buildClassName(
-            styles.xPane,
-            IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
-            activeApp !== 'x' && styles.hidden,
-          )}
-          inert={activeApp !== 'x' || isWorkspaceCovered}
-          aria-hidden={activeApp !== 'x' || isWorkspaceCovered}
-          aria-busy={xAppState === 'loading'}
-        >
-          <div className={styles.xContentArea}>
-            {xAppState === 'auth-required' && (
-              <div className={styles.xStatus} role="status" aria-live="polite">
-                <h1 className={styles.xStatusTitle}>{lang('RelayXDirectLoginTitle')}</h1>
-                <p className={styles.xStatusText}>{lang('RelayXDirectLoginHelp')}</p>
-                <p className={styles.xStatusText}>{lang('RelayXPasswordHelp')}</p>
-                <button type="button" className={styles.xRetryButton} onClick={handleLoginX}>
-                  {lang('RelayXDirectLogin')}
-                </button>
-              </div>
-            )}
-            {(xAppState === 'idle' || xAppState === 'loading') && (
-              <div className={styles.xStatus} role="status" aria-live="polite">
-                <div className={styles.xStatusMark} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className={styles.xStatusIcon}
-                    fill="currentColor"
-                    focusable="false"
-                  >
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                  <span className={styles.xSpinner} />
-                </div>
-                <h1 className={styles.xStatusTitle}>{lang('RelayXLoadingTitle')}</h1>
-                <p className={styles.xStatusText}>{lang('RelayXLoadingText')}</p>
-              </div>
-            )}
-
-            {xAppState === 'error' && (
-              <div className={styles.xStatus} role="alert">
-                <div className={buildClassName(styles.xStatusMark, styles.xStatusMarkError)} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className={styles.xStatusIcon}
-                    fill="currentColor"
-                    focusable="false"
-                  >
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                </div>
-                <h1 className={styles.xStatusTitle}>{lang('RelayXErrorTitle')}</h1>
-                <p className={styles.xStatusText}>
-                  {!IS_TAURI ? lang('RelayXDesktopOnly')
-                    : xFailureDetails?.reason === 'timeout' ? lang('RelayXTimeoutErrorText')
-                      : xFailureDetails?.reason === 'browser' ? lang('RelayXBrowserErrorText')
-                        : xFailureDetails?.reason === 'navigation'
-                          ? lang('RelayXNavigationErrorText', { code: xFailureDetails.code })
-                          : lang('RelayXErrorText')}
-                </p>
-                {IS_TAURI && (
-                  <button type="button" className={styles.xRetryButton} onClick={handleRetryX}>
-                    {lang('RelayRetry')}
-                  </button>
-                )}
-              </div>
-            )}
+            </div>
           </div>
-        </div>
 
-        <div
-          id="relay-instagram-pane"
-          className={buildClassName(
-            styles.instagramPane,
-            IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
-            activeApp !== 'instagram' && styles.hidden,
-          )}
-          inert={activeApp !== 'instagram' || isWorkspaceCovered}
-          aria-hidden={activeApp !== 'instagram' || isWorkspaceCovered}
-          aria-busy={instagramAppState === 'loading'}
-        >
-          <div className={styles.xContentArea}>
-            {(instagramAppState === 'idle' || instagramAppState === 'loading') && (
-              <div className={styles.xStatus} role="status" aria-live="polite">
-                <div className={styles.xStatusMark} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className={styles.xStatusIcon}
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
-                  </svg>
-                  <span className={styles.xSpinner} />
-                </div>
-                <h1 className={styles.xStatusTitle}>{lang('RelayInstagramLoadingTitle')}</h1>
-                <p className={styles.xStatusText}>{lang('RelayInstagramLoadingText')}</p>
-              </div>
+          <div
+            id="relay-instagram-pane"
+            tabIndex={-1}
+            className={buildClassName(
+              styles.instagramPane,
+              IS_TAURI && !IS_MAC_OS && styles.withTitlebar,
+              activeApp !== 'instagram' && styles.hidden,
             )}
-
-            {instagramAppState === 'error' && (
-              <div className={styles.xStatus} role="alert">
-                <div className={buildClassName(styles.xStatusMark, styles.xStatusMarkError)} aria-hidden="true">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className={styles.xStatusIcon}
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
-                  </svg>
-                </div>
-                <h1 className={styles.xStatusTitle}>{lang('RelayInstagramErrorTitle')}</h1>
-                <p className={styles.xStatusText}>
-                  {lang(IS_TAURI ? 'RelayInstagramErrorText' : 'RelayInstagramDesktopOnly')}
-                </p>
-                {IS_TAURI && (
-                  <button type="button" className={styles.xRetryButton} onClick={handleRetryInstagram}>
-                    {lang('RelayRetry')}
-                  </button>
-                )}
-              </div>
-            )}
+            inert={activeApp !== 'instagram' || isWorkspaceCovered}
+            aria-hidden={activeApp !== 'instagram' || isWorkspaceCovered}
+            aria-busy={instagramAppState === 'loading'}
+          >
+            <div className={styles.xContentArea}>
+              {instagramAppState !== 'ready' && (
+                <SocialServiceStatus
+                  service="instagram"
+                  state={instagramAppState}
+                  isNavigating={isNavigating}
+                  onRetry={handleRetryInstagram}
+                  onOpenBrowser={handleOpenSocialInBrowser}
+                  onLogin={handleLogin}
+                  onBrowserLogin={handleBrowserLogin}
+                />
+              )}
+            </div>
           </div>
+          {isOperationsOpen && (
+            <MediaOperationsPanel
+              snapshot={operationsSnapshot}
+              initialSection={operationsInitialSection}
+              isFull={isOperationsFull}
+              onClose={handleCloseOperations}
+              onSource={handleOperationSource}
+              onChat={handleOperationChat}
+            />
+          )}
         </div>
-        {isOperationsOpen && (
-          <MediaOperationsPanel
-            snapshot={operationsSnapshot}
-            isFull={isOperationsFull}
-            onClose={handleCloseOperations}
-            onSource={handleOperationSource}
-            onChat={handleOperationChat}
+        {!isScreenLocked && socialShare && (
+          <SocialShareModal
+            key={socialShare.requestId}
+            request={socialShare}
+            recoverOperation={shareRecovery}
+            canSend={activeKey === AppScreens.main}
+            onClose={handleCloseSocialShare}
+          />
+        )}
+        <RelayAppSettingsModal
+          isOpen={isAppSettingsOpen && !isScreenLocked}
+          isClearingCache={isClearingCache}
+          onOpenCacheDialog={IS_TAURI ? handleOpenCacheDialog : undefined}
+          onClose={handleCloseAppSettings}
+          onCloseAnimationEnd={handleAppSettingsClosed}
+        />
+        {!isScreenLocked && isCacheDialogVisible && (
+          <ConfirmDialog
+            isOpen={isCacheDialogOpen}
+            className={styles.cacheConfirm}
+            title={lang('RelayCacheConfirm')}
+            confirmLabel={lang('RelayCacheClear')}
+            confirmIsDestructive
+            confirmHandler={handleClearCache}
+            onClose={handleCloseCacheDialog}
+            onCloseAnimationEnd={handleCacheDialogClosed}
+          >
+            <p className={styles.cacheDescription} dir="auto">{lang('RelayCacheDescription')}</p>
+          </ConfirmDialog>
+        )}
+        <CommandPalette
+          isOpen={isPaletteOpen && !isScreenLocked}
+          canOpenTelegram={canOpenTelegram}
+          canOpenNoticeHistory={HAS_NOTICE_HISTORY}
+          canOpenLibrary={canOpenLibrary}
+          hiddenApps={hiddenApps}
+          sleepingApps={sleepingApps}
+          onClose={handleClosePalette}
+          onCloseAnimationEnd={handlePaletteClosed}
+          onRun={handlePaletteRun}
+        />
+        {HAS_NOTICE_HISTORY && (
+          <NoticeHistoryModal
+            isOpen={isNoticeHistoryOpen && !isScreenLocked}
+            isLocked={Boolean(isScreenLocked)}
+            hiddenServices={hiddenApps}
+            onClose={handleCloseNoticeHistory}
+            onCloseAnimationEnd={handleNoticeHistoryClosed}
+            onSelectService={handleSelectNoticeService}
           />
         )}
       </div>
-      {socialShare && (
-        <SocialShareModal
-          key={socialShare.requestId}
-          request={socialShare}
-          recoverOperation={shareRecovery}
-          canSend={activeKey === AppScreens.main}
-          onClose={handleCloseSocialShare}
-        />
+      {isScreenLocked && (
+        <div className={styles.workspaceLock}>
+          <LockScreen isLocked />
+        </div>
       )}
     </div>
   );
 };
+
+function SocialServiceStatus({
+  service,
+  state,
+  failureDetails,
+  isNavigating,
+  onRetry,
+  onOpenBrowser,
+  onLogin,
+  onBrowserLogin,
+}: {
+  service: 'x' | 'instagram';
+  state: Exclude<XAppState, 'ready'>;
+  failureDetails?: XFailureDetails;
+  isNavigating: boolean;
+  onRetry: NoneToVoidFunction;
+  onOpenBrowser: NoneToVoidFunction;
+  onLogin: NoneToVoidFunction;
+  onBrowserLogin: NoneToVoidFunction;
+}) {
+  const lang = useLang();
+  const isX = service === 'x';
+  const isLoading = state === 'idle' || state === 'loading';
+  const isError = state === 'error';
+  const isSignIn = state === 'auth-required';
+  const titleId = 'relay-' + service + '-status-title';
+  const browserHelpId = 'relay-' + service + '-browser-sign-in-help';
+
+  let title;
+  let message;
+  if (isSignIn) {
+    title = lang(isX ? 'RelayXDirectLoginTitle' : 'RelayInstagramDirectLoginTitle');
+    message = lang(isX ? 'RelayXDirectLoginHelp' : 'RelayInstagramDirectLoginHelp');
+  } else if (isError) {
+    title = lang(isX ? 'RelayXErrorTitle' : 'RelayInstagramErrorTitle');
+    if (!IS_TAURI) {
+      message = lang(isX ? 'RelayXDesktopOnly' : 'RelayInstagramDesktopOnly');
+    } else if (failureDetails?.reason === 'timeout') {
+      message = lang('RelayXTimeoutErrorText');
+    } else if (failureDetails?.reason === 'browser') {
+      message = lang('RelayXBrowserErrorText');
+    } else if (failureDetails?.reason === 'navigation') {
+      message = lang('RelayXNavigationErrorText', { code: failureDetails.code });
+    } else {
+      message = lang(isX ? 'RelayXErrorText' : 'RelayInstagramErrorText');
+    }
+  } else {
+    title = lang(isX ? 'RelayXLoadingTitle' : 'RelayInstagramLoadingTitle');
+    message = lang(isX ? 'RelayXLoadingText' : 'RelayInstagramLoadingText');
+  }
+
+  return (
+    <section className={styles.xStatus} aria-labelledby={titleId} data-relay-service-status={state}>
+      <div className={styles.serviceIntro}>
+        <div className={styles.serviceMark} aria-hidden="true">
+          {isX ? (
+            <svg viewBox="0 0 24 24" className={styles.serviceIcon} fill="currentColor" focusable="false">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          ) : (
+            <svg
+              viewBox="0 0 24 24"
+              className={styles.serviceIcon}
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2.5" />
+            </svg>
+          )}
+        </div>
+        <div className={styles.serviceCopy} role={isError ? 'alert' : 'status'}>
+          <h1 id={titleId} className={styles.serviceTitle}>{title}</h1>
+          <p className={styles.serviceText}>{message}</p>
+          {isSignIn && isX && <p className={styles.serviceText}>{lang('RelayXPasswordHelp')}</p>}
+          {isLoading && <span className={styles.serviceProgress} aria-hidden="true" />}
+        </div>
+      </div>
+      {IS_TAURI && (isError || isSignIn) && (
+        <div className={styles.serviceActions}>
+          <button
+            type="button"
+            className={buildClassName(styles.serviceButton, styles.servicePrimary)}
+            onClick={isSignIn ? onLogin : onRetry}
+            disabled={isNavigating}
+          >
+            {isSignIn ? lang(isX ? 'RelayXDirectLogin' : 'RelayInstagramDirectLogin') : lang('RelayRetry')}
+          </button>
+          <button
+            type="button"
+            className={styles.serviceButton}
+            onClick={isSignIn ? onBrowserLogin : onOpenBrowser}
+            disabled={isNavigating}
+            aria-describedby={isSignIn ? browserHelpId : undefined}
+          >
+            {lang(isSignIn ? 'RelayBrowserLogin' : 'RelayOpenServiceInBrowser')}
+          </button>
+          {isSignIn && (
+            <p id={browserHelpId} className={buildClassName(styles.serviceText, styles.serviceActionHelp)}>
+              {lang('RelayBrowserLoginHelp')}
+            </p>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
 
 export default withGlobal(
   (global): Complete<StateProps> => {
     const { state: authState, hasWebAuthTokenFailed, hasWebAuthTokenPasswordRequired } = global.auth;
     const theme = selectTheme(global);
     const themeValues = selectThemeValues(global, theme);
+    const { hasWebNotifications, notificationSoundVolume } = selectSettingsKeys(global);
 
     return {
       authState,
+      isSynced: global.isSynced,
       isScreenLocked: global.passcode?.isScreenLocked,
       hasPasscode: global.passcode?.hasPasscode,
       inactiveReason: selectTabState(global).inactiveReason,
@@ -1071,6 +1803,10 @@ export default withGlobal(
       customBackgroundColor: getWallpaperBaseColor(theme, themeValues || {}),
       isTestServer: global.config?.isTestServer,
       actionMessageBg: selectActionMessageBg(global),
+      shouldHideX: selectSharedSettings(global).shouldHideX,
+      shouldHideInstagram: selectSharedSettings(global).shouldHideInstagram,
+      hasWebNotifications,
+      notificationSoundVolume,
     };
   },
 )(App);

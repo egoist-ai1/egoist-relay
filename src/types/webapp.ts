@@ -2,6 +2,7 @@ import type { ApiInputMessageReplyInfo } from '../api/types';
 
 export type WebApp = {
   url: string;
+  launchKey?: string;
   requestUrl?: string;
   botId: string;
   appName?: string;

@@ -28,16 +28,17 @@ const MP4_SIZES_TYPES = new Set(['u', 'v']);
 
 export default async function downloadMedia(
   {
-    url, mediaFormat, start, end, isHtmlAllowed,
+    url, mediaFormat, start, end, isHtmlAllowed, isPriority, resumeAccountId,
   }: {
-    url: string; mediaFormat: ApiMediaFormat; start?: number; end?: number; isHtmlAllowed?: boolean;
+    url: string; mediaFormat: ApiMediaFormat; start?: number; end?: number;
+    isHtmlAllowed?: boolean; isPriority?: boolean; resumeAccountId?: string;
   },
   client: TelegramClient,
   onProgress?: ApiOnProgress,
 ) {
   const {
     data, mimeType, fullSize,
-  } = await download(url, client, onProgress, start, end, isHtmlAllowed) || {};
+  } = await download(url, client, onProgress, start, end, isHtmlAllowed, isPriority, resumeAccountId) || {};
 
   if (!data) {
     return undefined;
@@ -48,7 +49,7 @@ export default async function downloadMedia(
     return undefined;
   }
 
-  const canCache = mediaFormat !== ApiMediaFormat.Progressive && (
+  const canCache = mediaFormat !== ApiMediaFormat.Progressive && !(resumeAccountId && parsed instanceof File) && (
     mediaFormat !== ApiMediaFormat.BlobUrl || (parsed as Blob).size <= MEDIA_CACHE_MAX_BYTES
   );
 
@@ -80,6 +81,8 @@ async function download(
   start?: number,
   end?: number,
   isHtmlAllowed?: boolean,
+  isPriority?: boolean,
+  resumeAccountId?: string,
 ) {
   const parsed = parseMediaUrl(url);
 
@@ -147,7 +150,7 @@ async function download(
       GramJs.Photo | GramJs.Document | GramJs.WebDocument
     );
     const data = await client.downloadMedia(entityWithType, {
-      sizeType, start, end, progressCallback: onProgress, workers: DOWNLOAD_WORKERS,
+      sizeType, start, end, progressCallback: onProgress, workers: DOWNLOAD_WORKERS, isPriority, resumeAccountId,
     });
     let mimeType;
     let fullSize;

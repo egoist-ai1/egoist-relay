@@ -7,11 +7,13 @@ import { pipeline } from 'node:stream/promises';
 import https from 'node:https';
 import http2 from 'node:http2';
 import { pathToFileURL } from 'node:url';
-import { connectMediaProxy, parseMediaProxy } from './media-proxy.mjs';
+import { connectMediaOrigin, connectMediaProxy, parseMediaProxy } from './media-proxy.mjs';
 
 const MAX_BYTES = 64 * 1024 * 1024;
+const MAX_FILE_BYTES = 4 * 1024 * 1024 * 1024;
 const TIMEOUT_MS = 60000;
-const FILE_TIMEOUT_MS = 900000;
+const FILE_TIMEOUT_MS = 90 * 60 * 1000;
+const STALL_TIMEOUT_MS = 30000;
 const DISK_RESERVE_BYTES = 64 * 1024 * 1024;
 const USER_AGENT = 'EgoistRelay';
 const HOSTS = { x: ['pbs.twimg.com', 'video.twimg.com'], instagram: ['cdninstagram.com', 'fbcdn.net'] };
@@ -42,33 +44,38 @@ export function identifyMedia(bytes, requestedType) {
 }
 
 export async function fetchMedia(input, overrides = {}) {
+  const isFileOutput = input?.outputMode === 'file';
+  const allowedMaximum = isFileOutput ? MAX_FILE_BYTES : MAX_BYTES;
   if (!input || (input.proxyPort !== undefined && (!Number.isInteger(input.proxyPort) || input.proxyPort < 1 || input.proxyPort > 65535))
-    || (input.maxBytes !== undefined && (!Number.isInteger(input.maxBytes) || input.maxBytes < 1 || input.maxBytes > MAX_BYTES))
+    || (input.maxBytes !== undefined && (!Number.isSafeInteger(input.maxBytes) || input.maxBytes < 1 || input.maxBytes > allowedMaximum))
     || (input.outputMode !== undefined && input.outputMode !== 'file')
     || !['photo', 'video'].includes(input.type) || !Number.isInteger(input.index) || input.index < 0 || input.index >= 10) throw new Error('MEDIA_INPUT_DENIED');
   let url = validateMediaUrl(input.url, input.service);
-  const proxy = parseMediaProxy(process.env.EGOIST_RELAY_MEDIA_PROXY);
-  const isFileOutput = input.outputMode === 'file';
-  let destination; let maximum = Math.min(MAX_BYTES, input.maxBytes || MAX_BYTES);
+  const proxy = process.env.EGOIST_RELAY_MEDIA_NETWORK === 'system'
+    ? undefined : parseMediaProxy(process.env.EGOIST_RELAY_MEDIA_PROXY);
+  const requestedMaximum = input.maxBytes || allowedMaximum;
+  let destination; let maximum = requestedMaximum;
   if (isFileOutput) {
     if (typeof input.tempDir !== 'string' || !path.isAbsolute(input.tempDir)) throw new Error('MEDIA_PATH_DENIED');
     const directory = await fs.realpath(input.tempDir);
     if (directory.replace(/^\\\\\?\\/, '').toLowerCase() !== path.resolve(input.tempDir).replace(/^\\\\\?\\/, '').toLowerCase()
       || (await fs.lstat(directory)).isSymbolicLink()) throw new Error('MEDIA_PATH_DENIED');
     const disk = await fs.statfs(directory);
-    maximum = Math.floor((Number(disk.bavail) * Number(disk.bsize) - DISK_RESERVE_BYTES) / 2);
+    maximum = Math.min(requestedMaximum, Math.floor((Number(disk.bavail) * Number(disk.bsize) - DISK_RESERVE_BYTES) / 2));
     if (!Number.isSafeInteger(maximum) || maximum <= 0) throw new Error('MEDIA_DISK_FULL');
     destination = path.join(directory, 'media.download');
   }
+  const limitError = maximum < requestedMaximum ? 'MEDIA_DISK_FULL' : 'MEDIA_TOO_LARGE';
   const controller = new globalThis.AbortController();
   const timer = setTimeout(() => controller.abort(), isFileOutput ? FILE_TIMEOUT_MS : TIMEOUT_MS);
-  const requestBody = overrides.requestBody || ((url_, proxy_, maximum_, signal_) => getBody(url_, proxy_, maximum_, signal_, overrides, destination));
+  const requestBody = overrides.requestBody || ((url_, proxy_, maximum_, signal_) => getBody(url_, proxy_, maximum_, signal_, overrides, destination, limitError));
   try {
     for (let redirects = 0; redirects <= 3; redirects += 1) {
       const result = await requestBody(url, proxy, maximum, controller.signal);
       if (result.redirect) { url = validateMediaUrl(new URL(result.redirect, url).href, input.service); continue; }
       if (isFileOutput) {
         if (result.filePath !== destination || !Number.isSafeInteger(result.size) || result.size <= 0) throw new Error('MEDIA_PARTIAL_BODY');
+        if (result.size > maximum) throw new Error(limitError);
         const format = identifyMedia(result.prefix, input.type);
         return { filePath: destination, metadata: { index: input.index, name: `relay-${input.service}-${input.index + 1}.${format.extension}`, mimeType: format.mimeType, size: result.size } };
       }
@@ -84,9 +91,14 @@ export async function fetchMedia(input, overrides = {}) {
   } finally { clearTimeout(timer); }
 }
 
-async function getBody(url, proxy, maximum, signal, overrides, destination) {
-  const tunnel = await connectMediaProxy(url.hostname, proxy, signal, overrides);
-  const secure = (overrides.connectTls || tls.connect)({ socket: tunnel, servername: url.hostname, ALPNProtocols: ['h2', 'http/1.1'], rejectUnauthorized: true });
+async function getBody(url, proxy, maximum, signal, overrides, destination, limitError) {
+  const socket = overrides.connectProxy || proxy
+    ? await (overrides.connectProxy || connectMediaProxy)(url.hostname, proxy, signal)
+    : await connectMediaOrigin(url.hostname, signal);
+  const secure = (overrides.connectTls || tls.connect)({ socket, servername: url.hostname, ALPNProtocols: ['h2', 'http/1.1'], rejectUnauthorized: true });
+  let hasStalled = false;
+  const onStall = () => { hasStalled = true; secure.destroy(new Error('MEDIA_TIMEOUT')); };
+  secure.setTimeout(STALL_TIMEOUT_MS, onStall);
   const abort = () => secure.destroy(new Error('MEDIA_TIMEOUT'));
   signal.addEventListener('abort', abort, { once: true });
   try {
@@ -98,7 +110,7 @@ async function getBody(url, proxy, maximum, signal, overrides, destination) {
           client.once('error', () => reject(new Error('MEDIA_CONNECTION_FAILED')));
           const stream = client.request({ ':method': 'GET', ':path': url.pathname + url.search, accept: 'image/*,video/*', 'accept-encoding': 'identity', 'user-agent': USER_AGENT });
           stream.once('error', () => reject(new Error('MEDIA_PARTIAL_BODY')));
-          stream.once('response', headers => collectBody(stream, Number(headers[':status']), headers, maximum, resolve, reject, () => stream.rstCode === 0, destination));
+          stream.once('response', headers => collectBody(stream, Number(headers[':status']), headers, maximum, resolve, reject, () => stream.rstCode === 0, destination, limitError));
           stream.end();
         });
       } finally { client.destroy(); }
@@ -108,10 +120,13 @@ async function getBody(url, proxy, maximum, signal, overrides, destination) {
     try { return await new Promise((resolve, reject) => {
       const request = https.request(url, { method: 'GET', agent, headers: { Accept: 'image/*,video/*', 'Accept-Encoding': 'identity', 'User-Agent': USER_AGENT } });
       request.once('error', () => reject(new Error('MEDIA_CONNECTION_FAILED')));
-      request.once('response', response => collectBody(response, response.statusCode, response.headers, maximum, resolve, reject, () => response.complete, destination));
+      request.once('response', response => collectBody(response, response.statusCode, response.headers, maximum, resolve, reject, () => response.complete, destination, limitError));
       request.end();
     }); } finally { agent.destroy(); }
-  } finally { signal.removeEventListener('abort', abort); secure.destroy(); }
+  } catch (error) {
+    if (hasStalled) throw new Error('MEDIA_TIMEOUT', { cause: error });
+    throw error;
+  } finally { signal.removeEventListener('abort', abort); secure.setTimeout(0); secure.removeListener('timeout', onStall); secure.destroy(); }
 }
 
 export function classifyMediaHttpError(status) {
@@ -123,15 +138,15 @@ export function classifyMediaHttpError(status) {
   return 'MEDIA_HTTP_FAILED';
 }
 
-function collectBody(stream, status, headers, maximum, resolve, reject, isComplete, destination) {
+function collectBody(stream, status, headers, maximum, resolve, reject, isComplete, destination, limitError) {
   if ([301, 302, 303, 307, 308].includes(status)) { const redirect = headers.location; if (!redirect) reject(new Error('MEDIA_REDIRECT_DENIED')); else resolve({ redirect }); stream.destroy(); return; }
   if (status !== 200) { reject(new Error(classifyMediaHttpError(status))); stream.destroy(); return; }
   if (headers['content-encoding'] && headers['content-encoding'] !== 'identity') { reject(new Error('MEDIA_FORMAT_UNSUPPORTED')); stream.destroy(); return; }
   const declared = headers['content-length'];
   if (declared !== undefined && !/^\d+$/.test(declared)) { reject(new Error('MEDIA_TOO_LARGE')); stream.destroy(); return; }
-  if (declared !== undefined && Number(declared) > maximum) { reject(new Error(destination ? 'MEDIA_DISK_FULL' : 'MEDIA_TOO_LARGE')); stream.destroy(); return; }
+  if (declared !== undefined && Number(declared) > maximum) { reject(new Error(limitError)); stream.destroy(); return; }
   if (destination) {
-    void collectFile(stream, destination, declared, maximum, isComplete).then(resolve, reject);
+    void collectFile(stream, destination, declared, maximum, isComplete, limitError).then(resolve, reject);
     return;
   }
   let size = 0; const chunks = [];
@@ -141,11 +156,11 @@ function collectBody(stream, status, headers, maximum, resolve, reject, isComple
   stream.once('end', () => { if (!isComplete() || !size || (declared !== undefined && size !== Number(declared))) reject(new Error('MEDIA_PARTIAL_BODY')); else resolve({ body: Buffer.concat(chunks, size) }); });
 }
 
-async function collectFile(stream, destination, declared, maximum, isComplete) {
+async function collectFile(stream, destination, declared, maximum, isComplete, limitError) {
   let size = 0; let prefix = Buffer.alloc(0);
   const counter = new Transform({ transform(chunk, encoding, callback) {
     size += chunk.length;
-    if (size > maximum) { callback(new Error('MEDIA_DISK_FULL')); return; }
+    if (size > maximum) { callback(new Error(limitError)); return; }
     if (prefix.length < 32) prefix = Buffer.concat([prefix, chunk.subarray(0, 32 - prefix.length)]);
     callback(undefined, chunk);
   } });

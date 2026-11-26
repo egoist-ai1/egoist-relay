@@ -1,4 +1,3 @@
-import type { Update } from '@tauri-apps/plugin-updater';
 import type { FC } from '../../../lib/teact/teact';
 import {
   memo, useEffect, useRef, useState,
@@ -6,6 +5,7 @@ import {
 import { getActions } from '../../../global';
 
 import type { FolderEditDispatch } from '../../../hooks/reducers/useFoldersReducer';
+import type { TauriUpdate, TauriUpdateProgress } from '../../../types/tauri';
 import { LeftColumnContent } from '../../../types';
 
 import { DEBUG } from '../../../config';
@@ -15,7 +15,6 @@ import { IS_TOUCH_ENV } from '../../../util/browser/windowEnvironment';
 import buildClassName from '../../../util/buildClassName';
 
 import useSelector from '../../../hooks/data/useSelector';
-import useInterval from '../../../hooks/schedulers/useInterval';
 import useForumPanelRender from '../../../hooks/useForumPanelRender';
 import useLastCallback from '../../../hooks/useLastCallback';
 import useOldLang from '../../../hooks/useOldLang';
@@ -52,7 +51,23 @@ type OwnProps = {
 
 const TRANSITION_RENDER_COUNT = Object.keys(LeftColumnContent).length / 2;
 const BUTTON_CLOSE_DELAY_MS = 250;
-const TAURI_CHECK_UPDATE_INTERVAL = 10 * 60 * 1000;
+const TAURI_UPDATE_NOTICE_DURATION_MS = 12000;
+
+function getUpdateErrorText(error: unknown) {
+  const text = error instanceof Error ? error.message : (typeof error === 'string' ? error : '');
+  return text.trim() || 'Неизвестная ошибка.';
+}
+
+function getUpdateButtonText(update: TauriUpdate, progress?: TauriUpdateProgress) {
+  if (progress?.phase === 'downloading') {
+    const percent = progress.total ? Math.min(100, Math.floor((progress.done / progress.total) * 100)) : 0;
+    return `Скачивание ${percent}%`;
+  }
+  if (progress?.phase === 'verifying') return 'Проверка обновления…';
+  if (progress?.phase === 'launching') return 'Запуск установщика…';
+  return `Обновить Бересту до ${update.version}${
+    update.size ? ` (${Math.round(update.size / (1024 * 1024))} МБ)` : ''}`;
+}
 
 let closeTimeout: number | undefined;
 
@@ -72,10 +87,11 @@ const LeftMain: FC<OwnProps> = ({
   isAccountFrozen,
   isFoldersSidebarShown,
 }) => {
-  const { openLeftColumnContent } = getActions();
+  const { openLeftColumnContent, showNotification } = getActions();
   const [isNewChatButtonShown, setIsNewChatButtonShown] = useState(IS_TOUCH_ENV);
-  const [tauriUpdate, setTauriUpdate] = useState<Update>();
+  const [tauriUpdate, setTauriUpdate] = useState<TauriUpdate>();
   const [isTauriUpdateDownloading, setIsTauriUpdateDownloading] = useState(false);
+  const [tauriUpdateProgress, setTauriUpdateProgress] = useState<TauriUpdateProgress>();
 
   const {
     shouldRenderForumPanel, handleForumPanelAnimationEnd,
@@ -132,15 +148,19 @@ const LeftMain: FC<OwnProps> = ({
     if (tauriUpdate) {
       try {
         setIsTauriUpdateDownloading(true);
-        await tauriUpdate.downloadAndInstall();
-        setIsTauriUpdateDownloading(false);
-
-        await window.tauri?.relaunch();
+        setTauriUpdateProgress(undefined);
+        // Установщик запускает новую версию сам, а приложение закрывается: relaunch старой не нужен
+        await tauriUpdate.downloadAndInstall(setTauriUpdateProgress);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error('Failed to download and install Tauri update', e);
+        showNotification({
+          message: `Не удалось обновить Бересту. ${getUpdateErrorText(e)}`,
+          duration: TAURI_UPDATE_NOTICE_DURATION_MS,
+        });
       } finally {
         setIsTauriUpdateDownloading(false);
+        setTauriUpdateProgress(undefined);
       }
     } else {
       window.location.reload();
@@ -182,14 +202,40 @@ const LeftMain: FC<OwnProps> = ({
       });
   });
 
+  // Периодическую проверку ведёт бэкенд (раз в 6 часов, событие `update-available`); здесь одна проверка при
+  // запуске, и она отвечает из кэша бэкенда. В режиме `off` автоматически ничего не проверяется.
   useEffect(() => {
-    checkTauriUpdate();
-  }, []);
+    if (!IS_TAURI || DEBUG || !window.tauri?.getUpdateMode) return undefined;
+    let isActive = true;
+    let release: (() => void) | undefined;
 
-  useInterval(
-    checkTauriUpdate,
-    (IS_TAURI && !DEBUG) ? TAURI_CHECK_UPDATE_INTERVAL : undefined,
-  );
+    const notify = (message: string) => showNotification({ message, duration: TAURI_UPDATE_NOTICE_DURATION_MS });
+
+    (async () => {
+      const mode = await window.tauri.getUpdateMode();
+      if (!isActive || mode === 'off') return;
+      const stopListening = await window.tauri.onUpdateEvents({
+        onAvailable: () => {
+          if (isActive) checkTauriUpdate();
+        },
+        onManual: ({ message }) => notify(
+          `${message} Обновите вручную: скачайте новый установщик Бересты.`,
+        ),
+        onFailed: ({ message }) => notify(message),
+      });
+      if (isActive) release = stopListening;
+      else stopListening();
+      checkTauriUpdate();
+    })().catch((e) => {
+      // eslint-disable-next-line no-console
+      console.error('Tauri update setup failed:', e);
+    });
+
+    return () => {
+      isActive = false;
+      release?.();
+    };
+  }, []);
 
   const lang = useOldLang();
 
@@ -250,9 +296,11 @@ const LeftMain: FC<OwnProps> = ({
           badge
           className={buildClassName('btn-update', updateButtonClassNames)}
           onClick={handleUpdateClick}
-          isLoading={isTauriUpdateDownloading}
+          disabled={isTauriUpdateDownloading}
         >
-          {lang('lng_update_telegram')}
+          {tauriUpdate
+            ? getUpdateButtonText(tauriUpdate, isTauriUpdateDownloading ? tauriUpdateProgress : undefined)
+            : lang('lng_update_telegram')}
         </Button>
       )}
       {shouldRenderCommunityPanel && (

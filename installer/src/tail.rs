@@ -105,7 +105,12 @@ pub fn encode(tail: &Tail) -> Vec<u8> {
         "payloadName": tail.meta.payload_name,
         "builtAt": tail.meta.built_at,
     });
-    let meta_bytes = serde_json::to_vec(&meta).unwrap();
+    encode_meta(tail, &meta)
+}
+
+#[cfg(test)]
+fn encode_meta(tail: &Tail, meta: &Value) -> Vec<u8> {
+    let meta_bytes = serde_json::to_vec(meta).unwrap();
     let mut t = vec![0u8; TRAILER_LEN];
     t[0..8].copy_from_slice(MAGIC);
     t[8..12].copy_from_slice(&FORMAT_VERSION.to_le_bytes());
@@ -235,7 +240,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 123_456_789,
             payload_sha256: sha,
-            meta: Meta { product: "Sennit".into(), version: "1.7.1".into(), payload_name: "Sennit-Payload-1.7.1.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
+            meta: Meta { product: "Береста".into(), version: "1.7.1".into(), payload_name: "Beresta-Payload-1.7.1.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
         };
         let mut file = vec![0x4du8; stub];
         file.extend_from_slice(payload);
@@ -276,7 +281,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 7,
             payload_sha256: sha,
-            meta: Meta { product: "Sennit".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "t".into() },
+            meta: Meta { product: "Береста".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "t".into() },
         };
         let body_len = stub_len + payload.len() + encode(&tail).len();
         let cert = vec![0xC5u8; 56];
@@ -360,6 +365,23 @@ mod tests {
         file.extend_from_slice(b"x");
         file.extend_from_slice(&encode(&t));
         assert_eq!(read(&mut Cursor::new(&file)), Err(TailError::BadMeta));
+    }
+
+    #[test]
+    fn legacy_network_metadata_is_ignored() {
+        let payload = b"0123456789";
+        let (_, tail) = sample(64, payload);
+        let meta = serde_json::json!({
+            "product": tail.meta.product,
+            "version": tail.meta.version,
+            "payloadName": tail.meta.payload_name,
+            "builtAt": tail.meta.built_at,
+            "provisioning": { "schema": 1, "vpn": "fixture://example.invalid", "doh": "https://example.invalid/dns" },
+        });
+        let mut file = vec![0x4du8; 64];
+        file.extend_from_slice(payload);
+        file.extend_from_slice(&encode_meta(&tail, &meta));
+        assert_eq!(read(&mut Cursor::new(&file)).unwrap(), tail);
     }
 
     #[test]

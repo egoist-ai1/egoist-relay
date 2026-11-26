@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-social-stage-file"
+description = "Enables the relay_social_stage_file command without any pre-configured scope."
+commands.allow = ["relay_social_stage_file"]
+
+[[permission]]
+identifier = "deny-relay-social-stage-file"
+description = "Denies the relay_social_stage_file command without any pre-configured scope."
+commands.deny = ["relay_social_stage_file"]

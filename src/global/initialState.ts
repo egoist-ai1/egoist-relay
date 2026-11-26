@@ -115,7 +115,7 @@ export const INITIAL_SHARED_STATE: SharedState = {
     canDisplayChatInTitle: true,
     shouldAllowHttpTransport: true,
     shouldWarnAboutFiles: true,
-    shouldWarmupSocialViews: true,
+    shouldWarmupVisibleSocialViews: false,
     shouldKeepDeletedMessages: true,
     deletedMessagesRetentionDays: DELETED_MESSAGES_RETENTION_DAYS_DEFAULT,
     deletedMessagesMaxMegabytes: DELETED_MESSAGES_MAX_MEGABYTES_DEFAULT,

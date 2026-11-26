@@ -1,0 +1,52 @@
+.mcpControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.25rem 1rem;
+}
+
+.copyConfig {
+  max-width: 100%;
+  height: auto;
+  min-height: 2.75rem;
+  padding-block: 0.5rem;
+
+  text-align: start;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.mcpConfig {
+  resize: vertical;
+
+  align-self: stretch;
+
+  min-width: 0;
+  margin-block-start: 0.5rem;
+  padding: 0.5rem;
+  border: 0.0625rem solid var(--color-borders);
+  border-radius: 0.5rem;
+
+  font-family: var(--font-family-monospace);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text);
+
+  background-color: var(--color-background);
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-focus);
+    outline-offset: 0.125rem;
+  }
+}
+
+.mcpStatus {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
+
+  &:not(:empty) {
+    margin-block-start: 0.5rem;
+  }
+}

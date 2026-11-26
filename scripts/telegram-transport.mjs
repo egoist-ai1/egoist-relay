@@ -1,24 +1,19 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes, timingSafeEqual } from 'node:crypto';
-import { constants as fsConstants } from 'node:fs';
-import { lstat, open, realpath } from 'node:fs/promises';
 import http from 'node:http';
 import net from 'node:net';
-import path from 'node:path';
 
 import { WebSocket, WebSocketServer } from 'ws';
 
 const STARTUP_TIMEOUT_MS = 5000;
-const CONNECT_TIMEOUT_MS = 1000;
-const CONNECT_RETRY_MS = 150;
-// Две быстрые попытки укладываются в клиентский дедлайн локального маршрута (2,5 с), дальше клиент идёт напрямую
-const MAX_CONNECT_ATTEMPTS = 2;
-const MAX_HANDOFF_BYTES = 4096;
+// TCP к MTProxy идёт через SOCKS туннеля (хэндшейк + дорога до сервера); одна попытка укладывается в клиентский дедлайн моста (5 с)
+const CONNECT_TIMEOUT_MS = 4000;
+const MAX_MTPROXY_LINK_LENGTH = 2048;
 const HANDSHAKE_TIMEOUT_MS = 8000;
 const FIRST_RESPONSE_TIMEOUT_MS = 12000;
+const LOCAL_FIRST_RESPONSE_TIMEOUT_MS = 45000;
 const HEARTBEAT_INTERVAL_MS = 20000;
 const BACKPRESSURE_TIMEOUT_MS = 20000;
-const MAX_CONFIG_BYTES = 65536;
-const MAX_SETTINGS_BYTES = 4096;
+const MAX_SETTINGS_BYTES = 8192;
 const MAX_CONNECTIONS = 128;
 const MAX_FRAME_BYTES = 4 * 1024 * 1024;
 const MAX_BUFFER_BYTES = 8 * 1024 * 1024;
@@ -26,27 +21,68 @@ const HIGH_WATER_BYTES = 1024 * 1024;
 const LOW_WATER_BYTES = 256 * 1024;
 const HEADER_BYTES = 64;
 const PROTO_TAG = 0xefefefef;
+// Публичные стартовые IPv4 Telegram Desktop. В SOCKS отправляется IP, поэтому DNS для DC не нужен.
+const TELEGRAM_DC_ADDRESSES = [
+  '149.154.175.50', '149.154.167.51', '149.154.175.100', '149.154.167.91', '149.154.171.5',
+];
 const ORIGINS = new Set([
   'http://tauri.localhost', 'https://tauri.localhost', 'tauri://localhost', 'http://localhost:1234',
 ]);
 const FORBIDDEN_PREFIXES = new Set(['48454144', '504f5354', '47455420', '4f505449', '16030102', 'dddddddd', 'eeeeeeee']);
 
-export async function createTelegramTransport({ token, origins, port = 0 }) {
+/** Ошибка с кодом: код уходит в stderr воркера и в журнал оболочки, секретов в нём нет. */
+function codedError(code) {
+  const error = new Error(code);
+  error.code = code;
+  return error;
+}
+
+export async function createTelegramTransport({
+  token, origins, port = 0, socksPort, mtproxy, localPort, localSecret, nativeSocksPort, standaloneSocksPort, standaloneMtproxy,
+}) {
   if (typeof token !== 'string' || !/^[a-f0-9]{64}$/i.test(token)
     || !Array.isArray(origins) || !origins.length || origins.some((origin) => !ORIGINS.has(origin))
     || !Number.isInteger(port) || port < 0 || port > 65535) {
-    throw new Error('INVALID_BOOTSTRAP');
+    throw codedError('INVALID_BOOTSTRAP');
+  }
+  const isLocal = localPort !== undefined || localSecret !== undefined;
+  const isNative = nativeSocksPort !== undefined;
+  if (standaloneMtproxy !== undefined && (!isNative || standaloneSocksPort !== undefined
+    || !isLocalProxyConfig(standaloneMtproxy))) throw codedError('INVALID_BOOTSTRAP');
+  if (standaloneSocksPort !== undefined && (!isNative || !Number.isInteger(standaloneSocksPort)
+    || standaloneSocksPort < 1024 || standaloneSocksPort > 65535 || standaloneSocksPort === nativeSocksPort)) {
+    throw codedError('INVALID_BOOTSTRAP');
+  }
+  if (isNative && (!Number.isInteger(nativeSocksPort) || nativeSocksPort < 1 || nativeSocksPort > 65535
+    || isLocal || socksPort !== undefined || mtproxy !== undefined)) throw codedError('INVALID_BOOTSTRAP');
+  if (isLocal && (!Number.isInteger(localPort) || localPort < 1024 || localPort > 65535
+    || typeof localSecret !== 'string' || !/^[a-f0-9]{32}$/i.test(localSecret)
+    || socksPort !== undefined || mtproxy !== undefined)) throw codedError('INVALID_BOOTSTRAP');
+  if (!isLocal && !isNative && (!Number.isInteger(socksPort) || socksPort < 1 || socksPort > 65535)) {
+    throw codedError('TUNNEL_SOCKS_MISSING');
+  }
+  if (!isLocal && !isNative && (typeof mtproxy !== 'string' || !mtproxy)) throw codedError('MTPROXY_NOT_CONFIGURED');
+  const upstream = isNative ? undefined
+    : isLocal ? { host: '127.0.0.1', port: localPort, secret: Buffer.from(localSecret, 'hex'), mode: 'plain' }
+    : parseMtproxyLink(mtproxy);
+  if (upstream?.mode === 'faketls') {
+    upstream.secret.fill(0);
+    throw codedError('MTPROXY_FAKETLS_UNSUPPORTED');
   }
   const allowedOrigins = new Set(origins);
   const tokenBytes = Buffer.from(token, 'ascii');
-  let reason;
-  try {
-    const initialConfig = await readLagomConfig();
-    initialConfig.secret.fill(0);
-    await checkListener(initialConfig);
-  } catch (error) {
-    reason = classifyLagomFailure(error);
-  }
+  const target = {
+    socksPort: nativeSocksPort ?? socksPort,
+    standaloneSocksPort,
+    standaloneMtproxy: standaloneMtproxy && {
+      port: standaloneMtproxy.port, secret: Buffer.from(standaloneMtproxy.secret, 'hex'),
+    },
+    host: upstream?.host,
+    port: upstream?.port,
+    secret: upstream?.secret,
+    firstResponseTimeoutMs: isLocal ? LOCAL_FIRST_RESPONSE_TIMEOUT_MS : FIRST_RESPONSE_TIMEOUT_MS,
+  };
+  const hasStandalone = standaloneSocksPort !== undefined || standaloneMtproxy !== undefined;
 
   const server = http.createServer((_request, response) => {
     response.writeHead(404, { Connection: 'close', 'Content-Length': '0' });
@@ -72,26 +108,33 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
   });
   let pendingUpgrades = 0;
   server.on('upgrade', (request, socket, head) => {
-    const route = parseRoute(request, tokenBytes, allowedOrigins);
+    // RST от клиента на сыром сокете не должен ронять процесс: до передачи в ws обработчика 'error' нет
+    const onRawError = () => socket.destroy();
+    socket.on('error', onRawError);
+    const route = parseRoute(request, tokenBytes, allowedOrigins, isNative, hasStandalone, standaloneMtproxy !== undefined);
     if (isClosing || !route || connections.size + pendingUpgrades >= MAX_CONNECTIONS) {
       socket.end('HTTP/1.1 403 Forbidden\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');
+      // слушатель живёт до закрытия: RST после end() тоже приходит как 'error'
+      socket.once('close', () => socket.removeListener('error', onRawError));
       return;
     }
-    // WebSocket открывается только после того, как достигнут Lagom: открытый сокет означает рабочий маршрут,
-    // а недоступный Lagom даёт мгновенный отказ, после которого клиент идёт прямым путём
     pendingUpgrades++;
-    openProxy().then((proxy) => {
+    openProxy(target, route).then((proxy) => {
       if (isClosing || socket.destroyed) {
         proxy.tcp.destroy();
-        proxy.secret.fill(0);
+        proxy.secret?.fill(0);
         return;
       }
       socket.setTimeout(0);
       webSockets.handleUpgrade(request, socket, head, (webSocket) => {
+        // дальше ошибки сокета обрабатывает ws
+        socket.removeListener('error', onRawError);
         const connection = createConnection(webSocket, route, proxy, () => connections.delete(connection));
         connections.add(connection);
       });
     }, () => {
+      if (socket.destroyed) return;
+      socket.once('close', () => socket.removeListener('error', onRawError));
       socket.end('HTTP/1.1 503 Service Unavailable\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');
     }).finally(() => { pendingUpgrades--; });
   });
@@ -107,7 +150,8 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
     for (const connection of connections) connection.ping();
   }, HEARTBEAT_INTERVAL_MS);
   const address = server.address();
-  return { url: `ws://127.0.0.1:${address.port}/apiws?token=${token}`, close, reason };
+  const standalone = hasStandalone ? '&standalone=1' : '';
+  return { url: `ws://127.0.0.1:${address.port}/apiws?token=${token}${standalone}`, close };
 
   function close() {
     if (isClosing) return;
@@ -118,10 +162,23 @@ export async function createTelegramTransport({ token, origins, port = 0 }) {
     webSockets.close();
     server.close();
     tokenBytes.fill(0);
+    target.secret?.fill(0);
+    target.standaloneMtproxy?.secret.fill(0);
   }
 }
 
-function parseRoute(request, tokenBytes, allowedOrigins) {
+function isPublicIpv4(host) {
+  if (net.isIP(host) !== 4) return false;
+  const [a, b, c] = host.split('.').map(Number);
+  return a > 0 && a < 224 && a !== 10 && a !== 127
+    && !(a === 100 && b >= 64 && b < 128)
+    && !(a === 169 && b === 254) && !(a === 172 && b >= 16 && b < 32)
+    && !(a === 192 && (b === 0 || b === 168 || (b === 88 && c === 99)))
+    && !(a === 198 && (b === 18 || b === 19 || (b === 51 && c === 100)))
+    && !(a === 203 && b === 0 && c === 113);
+}
+
+function parseRoute(request, tokenBytes, allowedOrigins, isNative, hasStandalone, standaloneIsMtproxy) {
   if (request.method !== 'GET' || !allowedOrigins.has(request.headers.origin)
     || request.headers['sec-websocket-protocol'] !== 'binary' || typeof request.url !== 'string'
     || request.url.length > MAX_SETTINGS_BYTES) return undefined;
@@ -132,7 +189,7 @@ function parseRoute(request, tokenBytes, allowedOrigins) {
     return undefined;
   }
   if (url.pathname !== '/apiws') return undefined;
-  const allowedKeys = new Set(['token', 'dc', 'media', 'premium', 'test']);
+  const allowedKeys = new Set(['token', 'dc', 'media', 'premium', 'test', 'cdn', 'standalone']);
   for (const key of url.searchParams.keys()) {
     if (!allowedKeys.has(key) || url.searchParams.getAll(key).length !== 1) return undefined;
   }
@@ -141,6 +198,15 @@ function parseRoute(request, tokenBytes, allowedOrigins) {
   const candidate = Buffer.from(candidateToken, 'ascii');
   if (candidate.length !== tokenBytes.length || !timingSafeEqual(candidate, tokenBytes)) return undefined;
   const dc = url.searchParams.get('dc');
+  const standalone = url.searchParams.has('standalone');
+  if (standalone && (!hasStandalone || url.searchParams.get('standalone') !== '1')) return undefined;
+  const cdn = url.searchParams.get('cdn');
+  if (cdn !== null) {
+    // CDN-адрес получен из help.getConfig в авторизованном клиенте. Разрешён только внешний IPv4 на 443.
+    if (!isNative || (standalone && standaloneIsMtproxy) || !/^[1-9][0-9]{0,2}$/.test(dc || '') || !isPublicIpv4(cdn)
+      || url.searchParams.size !== (standalone ? 4 : 3)) return undefined;
+    return { dc: Number(dc), cdn, standalone };
+  }
   if (!/^[1-5]$/.test(dc || '')) return undefined;
   for (const flag of ['media', 'premium', 'test']) {
     const value = url.searchParams.get(flag);
@@ -148,11 +214,11 @@ function parseRoute(request, tokenBytes, allowedOrigins) {
   }
   if (url.searchParams.get('test') === '1') return undefined;
   // MTProxy selects the base DC for premium traffic and the negative DC for media
-  return { dc: Number(dc) * (url.searchParams.get('media') === '1' ? -1 : 1) };
+  return { dc: Number(dc) * (url.searchParams.get('media') === '1' ? -1 : 1), standalone };
 }
 
 function createConnection(webSocket, route, proxy, onClosed) {
-  const { tcp, secret } = proxy;
+  const { tcp, secret, firstResponseTimeoutMs } = proxy;
   let browserDecrypt;
   let browserEncrypt;
   let proxyDecrypt;
@@ -202,15 +268,19 @@ function createConnection(webSocket, route, proxy, onClosed) {
   return { close, ping };
 
   function startProxy() {
-    const proxyHeader = createProxyHeader(route.dc, secret);
-    secret.fill(0);
-    proxyEncrypt = proxyHeader.encrypt;
-    proxyDecrypt = proxyHeader.decrypt;
+    let outgoingHeader = header;
+    if (secret) {
+      const proxyHeader = createProxyHeader(route.dc, secret);
+      secret.fill(0);
+      proxyEncrypt = proxyHeader.encrypt;
+      proxyDecrypt = proxyHeader.decrypt;
+      outgoingHeader = proxyHeader.bytes;
+    }
     attachProxySocket();
-    tcp.write(proxyHeader.bytes);
+    tcp.write(outgoingHeader);
     isConnected = true;
     clearTimeout(handshakeDeadline);
-    firstResponseDeadline = setTimeout(close, FIRST_RESPONSE_TIMEOUT_MS);
+    firstResponseDeadline = setTimeout(close, firstResponseTimeoutMs);
   }
 
   function attachProxySocket() {
@@ -222,7 +292,7 @@ function createConnection(webSocket, route, proxy, onClosed) {
     tcp.on('data', (chunk) => {
       if (isClosed || webSocket.readyState !== WebSocket.OPEN) return close();
       clearTimeout(firstResponseDeadline);
-      const encrypted = browserEncrypt.update(proxyDecrypt.update(chunk));
+      const encrypted = proxyDecrypt ? browserEncrypt.update(proxyDecrypt.update(chunk)) : chunk;
       webSocket.send(encrypted, { binary: true, compress: false }, (error) => {
         if (error) return close();
         if (!isClosed && webSocket.bufferedAmount < LOW_WATER_BYTES) {
@@ -237,11 +307,13 @@ function createConnection(webSocket, route, proxy, onClosed) {
         if (!browserPressureDeadline) browserPressureDeadline = setTimeout(close, BACKPRESSURE_TIMEOUT_MS);
       }
     });
+    // После SOCKS-хэндшейка сокет стоит на паузе (см. socksConnect): поток включаем, когда слушатель уже есть
+    tcp.resume();
   }
 
   function sendToProxy(chunk) {
     if (isClosed) return;
-    const encrypted = proxyEncrypt.update(browserDecrypt.update(chunk));
+    const encrypted = proxyEncrypt ? proxyEncrypt.update(browserDecrypt.update(chunk)) : chunk;
     if (!tcp.write(encrypted)) {
       webSocket.pause();
       if (!pressureDeadline) pressureDeadline = setTimeout(close, BACKPRESSURE_TIMEOUT_MS);
@@ -263,58 +335,202 @@ function createConnection(webSocket, route, proxy, onClosed) {
     clearTimeout(browserPressureDeadline);
     clearTimeout(firstResponseDeadline);
     header.fill(0);
-    secret.fill(0);
+    secret?.fill(0);
     tcp.destroy();
     webSocket.terminate();
     onClosed();
   }
 }
 
-/** Подключается к Lagom (конфиг читается заново, чтобы подхватить смену порта/secret) с короткими повторами. */
-async function openProxy() {
-  for (let attempt = 0; attempt < MAX_CONNECT_ATTEMPTS; attempt++) {
-    let config;
-    try {
-      config = await readLagomConfig();
-      const tcp = await connectProxySocket(config);
-      const secret = config.secret;
-      config = undefined;
-      return { tcp, secret };
-    } catch (error) {
-      if (!isRetryableLagomFailure(error) || attempt + 1 >= MAX_CONNECT_ATTEMPTS) throw error;
-      await new Promise((resolve) => setTimeout(resolve, CONNECT_RETRY_MS));
-    } finally {
-      config?.secret.fill(0);
-    }
+async function openProxy({
+  socksPort, standaloneSocksPort, standaloneMtproxy, host, port, secret, firstResponseTimeoutMs,
+}, { dc, cdn, standalone }) {
+  if (standalone && standaloneMtproxy) {
+    const tcp = await connectLocalProxy(standaloneMtproxy.port);
+    tcp.setNoDelay(true);
+    tcp.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
+    return { tcp, secret: Buffer.from(standaloneMtproxy.secret), firstResponseTimeoutMs };
   }
-  throw new Error('LAGOM_LISTENER_UNAVAILABLE');
+  const egressPort = standalone ? standaloneSocksPort : socksPort;
+  const tcp = egressPort ? await socksConnect({
+    socksPort: egressPort, host: host ?? cdn ?? TELEGRAM_DC_ADDRESSES[Math.abs(dc) - 1],
+    port: port ?? 443, timeoutMs: CONNECT_TIMEOUT_MS,
+  })
+    : await connectLocalProxy(port);
+  tcp.setNoDelay(true);
+  tcp.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
+  return { tcp, secret: secret && Buffer.from(secret), firstResponseTimeoutMs };
 }
 
-function connectProxySocket({ host, port }) {
+function connectLocalProxy(port) {
   return new Promise((resolve, reject) => {
-    const candidate = net.createConnection({ host, port });
-    candidate.setNoDelay(true);
-    candidate.setKeepAlive(true, HEARTBEAT_INTERVAL_MS);
-    const deadline = setTimeout(() => finish(false), CONNECT_TIMEOUT_MS);
-    candidate.once('connect', onConnected);
-    candidate.once('error', onFailed);
-    candidate.once('close', onFailed);
-    function onConnected() { finish(true); }
-    function onFailed() { finish(false); }
-    function finish(isAvailable) {
+    const socket = net.createConnection({ host: '127.0.0.1', port });
+    let hasSettled = false;
+    const deadline = setTimeout(() => finish(codedError('TELEGRAM_LOCAL_PROXY_TIMEOUT')), CONNECT_TIMEOUT_MS);
+    socket.once('connect', () => finish());
+    socket.once('error', () => finish(codedError('TELEGRAM_LOCAL_PROXY_UNAVAILABLE')));
+    socket.once('close', () => finish(codedError('TELEGRAM_LOCAL_PROXY_UNAVAILABLE')));
+    function finish(error) {
+      if (hasSettled) return;
+      hasSettled = true;
       clearTimeout(deadline);
-      candidate.removeListener('connect', onConnected);
-      candidate.removeListener('error', onFailed);
-      candidate.removeListener('close', onFailed);
-      if (isAvailable) {
-        candidate.on('error', () => {});
-        resolve(candidate);
+      socket.removeAllListeners('connect');
+      socket.removeAllListeners('close');
+      socket.removeAllListeners('error');
+      socket.on('error', () => {});
+      if (error) {
+        socket.destroy();
+        reject(error);
       } else {
-        candidate.destroy();
-        reject(new Error('LAGOM_LISTENER_UNAVAILABLE'));
+        socket.pause();
+        resolve(socket);
       }
     }
   });
+}
+
+/**
+ * SOCKS5 CONNECT без авторизации к 127.0.0.1:socksPort. Имя сервера уходит прокси строкой (socks5h): DNS-запрос
+ * делает туннель, а не система. После ответа сокет остаётся на паузе; вызывающий включает поток сам.
+ */
+function socksConnect({
+  socksPort, host, port, timeoutMs,
+}) {
+  return new Promise((resolve, reject) => {
+    const socket = net.createConnection({ host: '127.0.0.1', port: socksPort });
+    let buffered = Buffer.alloc(0);
+    let need = 0;
+    let onBytes;
+    let stage = 'connect';
+    let isDone = false;
+    const deadline = setTimeout(() => finish(codedError('MTPROXY_SOCKS_TIMEOUT')), timeoutMs);
+    socket.setNoDelay(true);
+    socket.once('connect', () => {
+      stage = 'greeting';
+      expectBytes(2, onGreeting);
+      socket.write(Buffer.from([5, 1, 0]));
+    });
+    socket.on('data', (chunk) => {
+      buffered = Buffer.concat([buffered, chunk]);
+      if (buffered.length > 512) finish(codedError('MTPROXY_SOCKS_FAILED'));
+      else check();
+    });
+    socket.on('error', () => finish(codedError(stage === 'connect' ? 'TUNNEL_SOCKS_UNAVAILABLE' : 'MTPROXY_SOCKS_FAILED')));
+    socket.on('close', () => finish(codedError('MTPROXY_SOCKS_FAILED')));
+
+    function expectBytes(count, handler) {
+      need = count;
+      onBytes = handler;
+      check();
+    }
+    function check() {
+      while (!isDone && onBytes && buffered.length >= need) {
+        const bytes = buffered.subarray(0, need);
+        buffered = buffered.subarray(need);
+        const handler = onBytes;
+        onBytes = undefined;
+        handler(bytes);
+      }
+    }
+    function onGreeting(bytes) {
+      if (bytes[0] !== 5 || bytes[1] !== 0) return finish(codedError('MTPROXY_SOCKS_FAILED'));
+      const kind = net.isIP(host);
+      const address = kind === 4 ? Buffer.from(host.split('.').map(Number))
+        : kind === 6 ? ipv6Bytes(host) : Buffer.from(host, 'ascii');
+      const head = kind === 4 ? [5, 1, 0, 1] : kind === 6 ? [5, 1, 0, 4] : [5, 1, 0, 3, address.length];
+      stage = 'reply';
+      expectBytes(4, onReplyHead);
+      socket.write(Buffer.concat([Buffer.from(head), address, Buffer.from([port >> 8, port & 255])]));
+      return undefined;
+    }
+    function onReplyHead(bytes) {
+      if (bytes[0] !== 5 || bytes[1] !== 0 || bytes[2] !== 0) return finish(codedError('MTPROXY_SOCKS_REFUSED'));
+      if (bytes[3] === 1) expectBytes(6, () => finish());
+      else if (bytes[3] === 4) expectBytes(18, () => finish());
+      else if (bytes[3] === 3) expectBytes(1, (length) => expectBytes(length[0] + 2, () => finish()));
+      else finish(codedError('MTPROXY_SOCKS_FAILED'));
+      return undefined;
+    }
+    function finish(error) {
+      if (isDone) return;
+      isDone = true;
+      clearTimeout(deadline);
+      socket.removeAllListeners('data');
+      socket.removeAllListeners('close');
+      socket.removeAllListeners('error');
+      if (error) {
+        socket.on('error', () => {});
+        socket.destroy();
+        reject(error);
+        return;
+      }
+      // Ошибки до подключения потока к WebSocket не должны ронять процесс
+      socket.on('error', () => {});
+      socket.pause();
+      if (buffered.length) socket.unshift(buffered);
+      resolve(socket);
+    }
+  });
+}
+
+/** 16 байт адреса IPv6 из текстовой формы (с `::`, без зоны и встроенного IPv4). */
+function ipv6Bytes(text) {
+  const [head, tail] = text.split('::');
+  const read = (part) => (part ? part.split(':') : []);
+  const first = read(head);
+  const last = tail === undefined ? [] : read(tail);
+  const groups = tail === undefined ? first
+    : [...first, ...Array(8 - first.length - last.length).fill('0'), ...last];
+  const bytes = Buffer.alloc(16);
+  groups.forEach((group, index) => bytes.writeUInt16BE(Number.parseInt(group || '0', 16), index * 2));
+  return bytes;
+}
+
+function isLoopbackHost(host) {
+  const lower = host.toLowerCase();
+  if (lower === 'localhost' || lower.endsWith('.localhost') || lower === '0.0.0.0' || lower === '::' || lower === '::1') {
+    return true;
+  }
+  return net.isIP(host) === 4 && host.split('.')[0] === '127';
+}
+
+/**
+ * Разбор ссылки MTProxy (`tg://proxy?...` или `https://t.me/proxy?...`): server, port, secret.
+ * Secret: 32 hex, `dd` + 32 hex, `ee` + 32 hex + домен (hex) либо те же байты в base64url.
+ * Возвращает ключ (16 байт), режим (`plain` | `dd` | `faketls`) и узел. Secret в тексты ошибок не попадает.
+ */
+export function parseMtproxyLink(value) {
+  if (typeof value !== 'string' || !value || value.length > MAX_MTPROXY_LINK_LENGTH || /[\s\p{Control}]/u.test(value)) {
+    throw codedError('MTPROXY_INVALID_LINK');
+  }
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw codedError('MTPROXY_INVALID_LINK');
+  }
+  const isTg = url.protocol === 'tg:' && url.hostname === 'proxy';
+  const isWeb = url.protocol === 'https:' && ['t.me', 'telegram.me'].includes(url.hostname) && url.pathname === '/proxy';
+  if (!isTg && !isWeb) throw codedError('MTPROXY_INVALID_LINK');
+  const host = (url.searchParams.get('server') || '').replace(/^\[|\]$/g, '');
+  const portText = url.searchParams.get('port') || '';
+  const secretText = url.searchParams.get('secret') || '';
+  if (!host || !(net.isIP(host) || /^[a-z0-9.-]{1,253}$/i.test(host)) || !/^\d{1,5}$/.test(portText)) {
+    throw codedError('MTPROXY_INVALID_LINK');
+  }
+  const port = Number(portText);
+  if (port < 1 || port > 65535) throw codedError('MTPROXY_INVALID_LINK');
+  if (isLoopbackHost(host)) throw codedError('MTPROXY_LOOPBACK_UNSUPPORTED');
+  let raw;
+  if (/^(?:[0-9a-f]{2})+$/i.test(secretText)) raw = Buffer.from(secretText, 'hex');
+  else if (/^[A-Za-z0-9_-]+={0,2}$/.test(secretText)) raw = Buffer.from(secretText, 'base64url');
+  if (!raw) throw codedError('MTPROXY_INVALID_SECRET');
+  if (raw.length === 16) return { host, port, secret: Buffer.from(raw), mode: 'plain' };
+  if (raw.length === 17 && raw[0] === 0xdd) return { host, port, secret: Buffer.from(raw.subarray(1)), mode: 'dd' };
+  if (raw.length > 17 && raw[0] === 0xee) {
+    return { host, port, secret: Buffer.from(raw.subarray(1, 17)), mode: 'faketls' };
+  }
+  throw codedError('MTPROXY_INVALID_SECRET');
 }
 
 function createProxyHeader(dc, secret) {
@@ -336,106 +552,92 @@ function createProxyHeader(dc, secret) {
   return { bytes, encrypt, decrypt };
 }
 
-async function readLagomConfig() {
-  const programData = process.env.ProgramData;
-  let primaryFailure;
-  if (programData && path.isAbsolute(programData)) {
-    const configPath = path.join(programData, 'EgoistShield', 'Runtime', 'TelegramProxy', 'config.json');
-    try {
-      return await readLagomFile(configPath, false);
-    } catch (error) {
-      if (!isUnreadableLagomFile(error)) throw new Error('LAGOM_INVALID_CONFIG', { cause: error });
-      primaryFailure = error;
-    }
-  }
-  const localData = process.env.LOCALAPPDATA;
-  if (!localData || !path.isAbsolute(localData)) throw new Error('LAGOM_CONFIG_UNAVAILABLE');
-  const handoffPath = path.join(localData, 'EgoistRelay', 'interop', 'lagom-telegram.json');
-  try {
-    return await readLagomFile(handoffPath, true);
-  } catch (error) {
-    if (!isUnreadableLagomFile(error)) throw new Error('LAGOM_INVALID_CONFIG', { cause: error });
-    const isDenied = [error?.code, primaryFailure?.code].some((code) => code === 'EACCES' || code === 'EPERM');
-    throw new Error(isDenied ? 'LAGOM_CONFIG_ACCESS_DENIED' : 'LAGOM_CONFIG_UNAVAILABLE', { cause: error });
-  }
+function isLocalProxyConfig(config) {
+  return config && Number.isInteger(config.port) && config.port >= 1024 && config.port <= 65535
+    && typeof config.secret === 'string' && /^[a-f0-9]{32}$/i.test(config.secret);
 }
 
-async function readLagomFile(configPath, isHandoff) {
-  let file;
-  let bytes;
+// Проверяем настоящий ответ Telegram, прежде чем сохранить локальный прокси.
+export async function probeLocalMtproxy(config, { timeoutMs = 4500, datacenters = [2, 4] } = {}) {
+  if (!isLocalProxyConfig(config)) return false;
+  const secret = Buffer.from(config.secret, 'hex');
+  const abort = new globalThis.AbortController();
   try {
-    const resolvedPath = await realpath(configPath);
-    if (resolvedPath.toLowerCase() !== path.resolve(configPath).toLowerCase()) throw new Error('INVALID_CONFIG_PATH');
-    for (let current = configPath; current;) {
-      if ((await lstat(current)).isSymbolicLink()) throw new Error('INVALID_CONFIG_PATH');
-      const parent = path.dirname(current);
-      if (parent === current) break;
-      current = parent;
-    }
-    file = await open(configPath, fsConstants.O_RDONLY);
-    const stat = await file.stat();
-    const maximum = isHandoff ? MAX_HANDOFF_BYTES : MAX_CONFIG_BYTES;
-    if (!stat.isFile() || stat.size > maximum || stat.nlink !== 1) throw new Error('INVALID_CONFIG_SIZE');
-    bytes = Buffer.alloc(maximum + 1);
-    let bytesRead = 0;
-    while (bytesRead < bytes.length) {
-      const result = await file.read(bytes, bytesRead, bytes.length - bytesRead, bytesRead);
-      if (!result.bytesRead) break;
-      bytesRead += result.bytesRead;
-    }
-    if (bytesRead > maximum) throw new Error('INVALID_CONFIG_SIZE');
-    const after = await file.stat();
-    if (after.size !== stat.size || after.mtimeMs !== stat.mtimeMs || after.nlink !== 1) throw new Error('INVALID_CONFIG_CHANGED');
-    const config = JSON.parse(bytes.toString('utf8', 0, bytesRead));
-    if (!config || Array.isArray(config) || typeof config !== 'object') throw new Error('INVALID_CONFIG');
-    if (isHandoff && (config.schemaVersion !== 1 || Object.keys(config).sort().join(',') !== 'host,port,schemaVersion,secret')) {
-      throw new Error('INVALID_CONFIG');
-    }
-    const hosts = isHandoff ? ['127.0.0.1'] : ['127.0.0.1', '::1', 'localhost'];
-    if (!hosts.includes(config.host) || !Number.isInteger(config.port)
-      || config.port < (isHandoff ? 1 : 1024) || config.port > 65535 || typeof config.secret !== 'string'
-      || !/^[a-f0-9]{32}$/i.test(config.secret)) throw new Error('INVALID_CONFIG');
-    const secret = Buffer.from(config.secret, 'hex');
-    config.secret = '';
-    return { host: config.host === 'localhost' ? '127.0.0.1' : config.host, port: config.port, secret };
+    await Promise.any(datacenters.map((dc) => probeMtproxyDc(config.port, secret, dc, timeoutMs, abort.signal)));
+    return true;
+  } catch {
+    return false;
   } finally {
-    bytes?.fill(0);
-    await file?.close();
+    abort.abort();
+    secret.fill(0);
   }
 }
 
-function isUnreadableLagomFile(error) {
-  return ['EACCES', 'EPERM', 'ENOENT', 'ENOTDIR'].includes(error?.code);
-}
-
-function classifyLagomFailure(error) {
-  return ['LAGOM_CONFIG_ACCESS_DENIED', 'LAGOM_CONFIG_UNAVAILABLE', 'LAGOM_LISTENER_UNAVAILABLE', 'LAGOM_INVALID_CONFIG']
-    .includes(error?.message) ? error.message : 'LAGOM_INVALID_CONFIG';
-}
-
-function isRetryableLagomFailure(error) {
-  return ['LAGOM_CONFIG_ACCESS_DENIED', 'LAGOM_CONFIG_UNAVAILABLE', 'LAGOM_LISTENER_UNAVAILABLE'].includes(error?.message);
-}
-
-async function checkListener({ host, port }) {
+function probeMtproxyDc(port, secret, dc, timeoutMs, signal) {
+  const nonce = randomBytes(16);
+  const request = Buffer.alloc(41);
+  request[0] = 10;
+  request.writeBigUInt64LE((BigInt(Date.now()) << 32n) / 1000n & ~3n, 9);
+  request.writeUInt32LE(20, 17);
+  request.writeUInt32LE(0xbe7e8ef1, 21);
+  nonce.copy(request, 25);
+  const { bytes, encrypt, decrypt } = createProxyHeader(dc, secret);
   return new Promise((resolve, reject) => {
-    const socket = net.createConnection({ host, port });
-    const deadline = setTimeout(() => finish(false), CONNECT_TIMEOUT_MS);
-    let hasFinished = false;
-    socket.once('connect', () => finish(true));
-    socket.once('error', () => finish(false));
-    function finish(isAvailable) {
-      if (hasFinished) return;
-      hasFinished = true;
-      clearTimeout(deadline);
+    const socket = net.createConnection({ host: '127.0.0.1', port }, () => {
+      socket.write(Buffer.concat([bytes, encrypt.update(request)]));
+    });
+    const timer = setTimeout(onFailure, timeoutMs);
+    let response = Buffer.alloc(0);
+    signal.addEventListener('abort', onFailure, { once: true });
+    socket.once('error', onFailure);
+    socket.once('close', onFailure);
+    socket.on('data', (chunk) => {
+      if (response.length + chunk.length > 2048) return onFailure();
+      response = Buffer.concat([response, decrypt.update(chunk)]);
+      const offset = response[0] === 0x7f ? 4 : 1;
+      if (response.length < offset) return;
+      const size = 4 * (offset === 1 ? response[0] : response.readUIntLE(1, 3));
+      if (size < 40 || size > 2044) return onFailure();
+      if (response.length < offset + size) return;
+      const envelope = response.subarray(offset, offset + size);
+      if (envelope.readBigUInt64LE(0) !== 0n || envelope.readUInt32LE(20) !== 0x05162463
+        || !envelope.subarray(24, 40).equals(nonce)) return onFailure();
+      finish();
+      resolve();
+    });
+    function finish() {
+      clearTimeout(timer);
+      signal.removeEventListener('abort', onFailure);
+      socket.removeAllListeners('close');
+      socket.removeAllListeners('data');
       socket.destroy();
-      if (isAvailable) resolve();
-      else reject(new Error('LAGOM_LISTENER_UNAVAILABLE'));
+    }
+    function onFailure() {
+      finish();
+      reject(codedError('TELEGRAM_LOCAL_PROXY_UNAVAILABLE'));
     }
   });
 }
 
+async function runLocalMtproxyProbe() {
+  try {
+    process.stdin.setEncoding('utf8');
+    let line = '';
+    for await (const chunk of process.stdin) {
+      line += chunk;
+      if (Buffer.byteLength(line) > 256) throw codedError('INVALID_BOOTSTRAP');
+    }
+    process.exitCode = await probeLocalMtproxy(JSON.parse(line)) ? 0 : 1;
+  } catch {
+    process.exitCode = 1;
+  }
+}
+
 export function runTelegramTransportChild() {
+  if (process.argv[2] === '--probe-local-mtproxy') {
+    void runLocalMtproxyProbe();
+    return;
+  }
   let input = '';
   let hasSettings = false;
   let isStopping = false;
@@ -460,7 +662,7 @@ export function runTelegramTransportChild() {
       transport = result;
       if (isStopping) return transport.close();
       clearTimeout(deadline);
-      process.stdout.write(`${JSON.stringify({ status: 'ready', url: transport.url, reason: transport.reason })}\n`);
+      process.stdout.write(`${JSON.stringify({ status: 'ready', url: transport.url })}\n`);
     }).catch(stop);
   });
   process.stdin.on('end', stop);
@@ -468,14 +670,38 @@ export function runTelegramTransportChild() {
   process.on('SIGTERM', stop);
   process.on('SIGINT', stop);
   process.stdout.on('error', stop);
+  // Причина падения пишется в stderr одной JSON-строкой без url, токена и заголовков
+  process.on('uncaughtException', (error) => fatal('uncaughtException', error));
+  process.on('unhandledRejection', (error) => fatal('unhandledRejection', error));
 
-  function stop() {
+  function fatal(kind, error) {
+    try {
+      process.stderr.write(`${JSON.stringify({
+        event: kind,
+        name: typeof error?.name === 'string' ? error.name : undefined,
+        code: typeof error?.code === 'string' ? error.code : undefined,
+        message: typeof error?.message === 'string' ? error.message.slice(0, 200) : undefined,
+      })}\n`);
+    } catch { /* stderr недоступен */ }
+    process.exit(1);
+  }
+
+  function stop(reason) {
     if (isStopping) return;
     isStopping = true;
+    try {
+      process.stderr.write(`${JSON.stringify({ event: 'exit', reason: describeStopReason(reason) })}\n`);
+    } catch { /* stderr недоступен */ }
     clearTimeout(deadline);
     transport?.close();
     if (!transport) process.stdout.write(`${JSON.stringify({ status: 'unavailable' })}\n`);
     process.stdin.destroy();
     process.exitCode = 0;
   }
+}
+
+function describeStopReason(reason) {
+  if (typeof reason === 'string') return reason;
+  if (reason instanceof Error) return typeof reason.code === 'string' ? reason.code : reason.name;
+  return 'stop';
 }

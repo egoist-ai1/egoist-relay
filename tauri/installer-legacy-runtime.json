@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Reviewed obsolete public runtime files from Relay 1.3.0; only unchanged exact bytes may be removed from the selected installation",
+  "scope": "Reviewed obsolete embedded tunnel and proxy files; only unchanged exact bytes may be removed from the selected installation",
   "files": [
     {
       "path": "runtime/ciadpi.exe",
@@ -21,6 +21,26 @@
       "path": "runtime/licenses/WS-LICENSE.txt",
       "bytes": 1183,
       "sha256": "2b29dcfe0d6471f7e8c92c5fb38c9f93edee10330937055440192f1832b1ecef"
+    },
+    {
+      "path": "runtime/telegram/tg-ws-proxy.exe",
+      "bytes": 13837403,
+      "sha256": "9d255211e315bfff8b6cf3283af1121668c3a9df9887f196d6b94bf81c79c7c8"
+    },
+    {
+      "path": "runtime/telegram/LICENSE.txt",
+      "bytes": 1065,
+      "sha256": "2a98256df06052c3b132cf522e356da90ade2f749b6f7435f7cdafd1d9123fa2"
+    },
+    {
+      "path": "runtime/telegram/provenance.json",
+      "bytes": 1432,
+      "sha256": "eef2c77772d7d6cf09e134e22f62e4f66b81135539aa80bab2e184d8bfafc867"
+    },
+    {
+      "path": "runtime/telegram/THIRD-PARTY-NOTICES.txt",
+      "bytes": 98548,
+      "sha256": "acc0751d5bbabc5af259739db72a20c0312ec8ed7969f84f0f8d5a171433ee0f"
     },
     {
       "path": "runtime/licenses/xray-dependencies/github.com/andybalholm/brotli@v1.0.6/LICENSE",

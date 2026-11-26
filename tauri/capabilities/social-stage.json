@@ -1,0 +1,11 @@
+{
+  "identifier": "relay-social-stage",
+  "description": "Chunked preparation of confirmed X media transfers from the bundled main view",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": [
+    "allow-relay-social-stage-file",
+    "allow-relay-social-read-staged-chunk",
+    "allow-relay-social-release-staged-file"
+  ]
+}

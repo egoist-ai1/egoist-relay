@@ -5,6 +5,7 @@ import type {
 } from '../../types';
 import type { GlobalState, SharedState } from '../types';
 
+import { IS_TAURI } from '../../util/browser/globalEnvironment';
 import { selectSharedSettings } from '../selectors/sharedState';
 import { updateSharedState } from './sharedState';
 import { updateUserBlockedState } from './users';
@@ -30,6 +31,7 @@ export function updateSharedSettings<T extends GlobalState>(
     settings: {
       ...settings,
       ...newSettings,
+      timeFormat: IS_TAURI ? '24h' : newSettings?.timeFormat ?? settings.timeFormat,
     },
   });
 }

@@ -1,5 +1,9 @@
 import { CONTENT_TYPES_WITH_PREVIEW } from '../config';
-import { pause } from './schedulers';
+
+const VIDEO_METADATA_TIMEOUT = 10_000;
+const VIDEO_POSTER_TIMEOUT = 2_000;
+const MAX_VIDEO_POSTER_SIZE = 320;
+const VIDEO_POSTER_QUALITY = 0.85;
 
 // Polyfill for Safari: `File` is not available in web worker
 if (typeof File === 'undefined') {
@@ -57,42 +61,96 @@ export function preloadImage(url: string): Promise<HTMLImageElement> {
 export function preloadVideo(url: string): Promise<HTMLVideoElement> {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video');
+    const timeout = setTimeout(() => handleError(new Error('VIDEO_METADATA_TIMEOUT')), VIDEO_METADATA_TIMEOUT);
+    function cleanup() {
+      clearTimeout(timeout);
+      video.removeEventListener('loadedmetadata', handleLoaded);
+      video.removeEventListener('error', handleError);
+    }
+    function handleLoaded() {
+      cleanup();
+      resolve(video);
+    }
+    function handleError(err: unknown) {
+      cleanup();
+      releaseVideo(video);
+      reject(err);
+    }
+    video.preload = 'metadata';
     video.volume = 0;
-    video.onloadedmetadata = () => resolve(video);
-    video.onerror = reject;
+    video.addEventListener('loadedmetadata', handleLoaded, { once: true });
+    video.addEventListener('error', handleError, { once: true });
     video.src = url;
   });
 }
 
-export async function createPosterForVideo(url: string): Promise<string | undefined> {
+export async function createPosterForVideo(source: string | HTMLVideoElement): Promise<string | undefined> {
+  let video: HTMLVideoElement | undefined;
   try {
-    const video = await preloadVideo(url);
-
-    return await Promise.race([
-      pause(2000) as Promise<undefined>,
-      new Promise<string | undefined>((resolve, reject) => {
-        video.onseeked = () => {
-          if (!video.videoWidth || !video.videoHeight) {
-            resolve(undefined);
+    video = typeof source === 'string' ? await preloadVideo(source) : source;
+    const loadedVideo = video;
+    return await new Promise<string | undefined>((resolve) => {
+      let isSettled = false;
+      let isCapturing = false;
+      const timeout = setTimeout(() => finish(), VIDEO_POSTER_TIMEOUT);
+      function finish(blob?: Blob) {
+        if (isSettled) return;
+        isSettled = true;
+        clearTimeout(timeout);
+        loadedVideo.removeEventListener('seeked', capture);
+        loadedVideo.removeEventListener('loadeddata', capture);
+        loadedVideo.removeEventListener('error', handleError);
+        resolve(blob ? URL.createObjectURL(blob) : undefined);
+      }
+      function handleError() {
+        finish();
+      }
+      function capture() {
+        if (isSettled || isCapturing) return;
+        isCapturing = true;
+        try {
+          const { videoWidth: width, videoHeight: height } = loadedVideo;
+          if (!width || !height) {
+            finish();
+            return;
           }
-
+          const scale = Math.min(1, MAX_VIDEO_POSTER_SIZE / Math.max(width, height));
           const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
+          canvas.width = Math.max(1, Math.round(width * scale));
+          canvas.height = Math.max(1, Math.round(height * scale));
           const ctx = canvas.getContext('2d')!;
-          ctx.drawImage(video, 0, 0);
-
-          canvas.toBlob((blob) => {
-            resolve(blob ? URL.createObjectURL(blob) : undefined);
-          });
-        };
-        video.onerror = reject;
-        video.currentTime = Math.min(video.duration, 1);
-      }),
-    ]);
+          ctx.drawImage(loadedVideo, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob((blob) => finish(blob || undefined), 'image/jpeg', VIDEO_POSTER_QUALITY);
+        } catch {
+          finish();
+        }
+      }
+      loadedVideo.addEventListener('error', handleError, { once: true });
+      const posterTime = Number.isFinite(loadedVideo.duration) ? Math.min(loadedVideo.duration / 2, 1) : 0;
+      if (posterTime > 0) {
+        loadedVideo.addEventListener('seeked', capture, { once: true });
+        try {
+          loadedVideo.currentTime = posterTime;
+        } catch {
+          finish();
+        }
+      } else if (loadedVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        capture();
+      } else {
+        loadedVideo.addEventListener('loadeddata', capture, { once: true });
+      }
+    });
   } catch (e) {
     return undefined;
+  } finally {
+    if (video) releaseVideo(video);
   }
+}
+
+function releaseVideo(video: HTMLVideoElement) {
+  video.pause();
+  video.removeAttribute('src');
+  video.load();
 }
 
 export async function fetchBlob(blobUrl: string) {

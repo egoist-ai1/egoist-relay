@@ -57,8 +57,9 @@ export function onRequestPassword(hint?: string, noReset?: boolean) {
     noReset,
   });
 
-  return new Promise<string>((resolve) => {
+  return new Promise<string>((resolve, reject) => {
     authController.resolve = resolve;
+    authController.reject = reject;
   });
 }
 
@@ -70,6 +71,14 @@ export function onRequestRegistration() {
   });
 }
 
+export function onWaitForQrCode() {
+  return new Promise<never>((_, reject) => {
+    authController.resolve = undefined;
+    authController.reject = reject;
+    sendApiUpdate(buildAuthStateUpdate('authorizationStateWaitQrCode'));
+  });
+}
+
 export function onRequestQrCode(qrCode: { token: Uint8Array; expires: number }) {
   sendApiUpdate({
     ...buildAuthStateUpdate('authorizationStateWaitQrCode'),
@@ -77,10 +86,6 @@ export function onRequestQrCode(qrCode: { token: Uint8Array; expires: number }) 
       token: btoa(String.fromCharCode(...qrCode.token)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
       expires: qrCode.expires,
     },
-  });
-
-  return new Promise<void>((resolve, reject) => {
-    authController.reject = reject;
   });
 }
 

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-library-list"
+description = "Enables the relay_library_list command without any pre-configured scope."
+commands.allow = ["relay_library_list"]
+
+[[permission]]
+identifier = "deny-relay-library-list"
+description = "Denies the relay_library_list command without any pre-configured scope."
+commands.deny = ["relay_library_list"]

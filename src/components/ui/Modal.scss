@@ -126,7 +126,7 @@
       }
 
       @media (max-width: 450px) {
-        &.browser-modal-dialog {
+        &.browser-modal-dialog:not(.browser-workspace-dialog) {
           width: 100vw !important;
           max-width: 100vw !important;
           margin: 0 !important;

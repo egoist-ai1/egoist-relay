@@ -205,6 +205,16 @@ export async function clearAccountScopes(cacheName: string) {
   return Promise.all(accountCacheNames.map(clearCache));
 }
 
+export async function clearStoredMediaCache() {
+  if (!cacheApi) return;
+
+  const names = await cacheApi.keys();
+  const mediaCaches = names.filter((name) => CLEARABLE_CACHE_NAMES.some((base) => (
+    name === base || (name.startsWith(`${base}_`) && /^\d+$/.test(name.slice(base.length + 1)))
+  )));
+  await Promise.all(mediaCaches.map((name) => cacheApi.delete(name)));
+}
+
 async function clearCache(resolvedCacheName: string) {
   try {
     if (!cacheApi) {

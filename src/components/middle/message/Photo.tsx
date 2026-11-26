@@ -253,6 +253,7 @@ const Photo = <T,>({
       id={id}
       ref={ref}
       className={componentClassName}
+      data-message-media-type="photo"
       style={style}
       onClick={isUploading ? undefined : handleClick}
     >

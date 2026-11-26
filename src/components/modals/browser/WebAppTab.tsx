@@ -5,12 +5,15 @@ import type { ApiAttachBot, ApiBotAppSettings, ApiUser } from '../../../api/type
 import type { TabState } from '../../../global/types';
 import type { BotAppPermissions, ThemeKey } from '../../../types';
 import type { BrowserModalStateType } from '../../../types/browser';
+import type { RegularLangKey } from '../../../types/language';
 import type {
   PopupOptions,
   WebApp,
   WebAppInboundEvent,
   WebAppOutboundEvent,
 } from '../../../types/webapp';
+import type { NativeWebAppLoadFailure } from '../../../util/tauri/botWebApps';
+import type { NativeLoadState } from './hooks/useWebAppFrame';
 
 import { TME_LINK_PREFIX, VERIFY_AGE_MIN_DEFAULT } from '../../../config';
 import { requestMeasure } from '../../../lib/fasterdom/fasterdom';
@@ -74,6 +77,9 @@ export type OwnProps = {
   isActive?: boolean;
   isTransforming?: boolean;
   isMultiTabSupported?: boolean;
+  isWorkspaceVisible: boolean;
+  hasExternalFullscreenControls: boolean;
+  shouldUseStableLayout: boolean;
   modalHeight: number;
   registerSendEventCallback: (callback: (event: WebAppOutboundEvent) => void) => void;
   registerReloadFrameCallback: (callback: (url: string) => void) => void;
@@ -105,6 +111,16 @@ const DEFAULT_BUTTON_TEXT: Record<string, string> = {
   cancel: 'Cancel',
   close: 'Close',
 };
+const NATIVE_LOAD_FAILURE_HINTS: Record<NativeWebAppLoadFailure, RegularLangKey> = {
+  access: 'RelayMiniAppAccessFailed',
+  certificate: 'RelayMiniAppCertificateFailed',
+  network: 'RelayMiniAppNetworkFailed',
+  process: 'RelayMiniAppProcessFailed',
+  redirect: 'RelayMiniAppRedirectFailed',
+  server: 'RelayMiniAppServerFailed',
+  timeout: 'RelayMiniAppLoadTimedOut',
+  unknown: 'RelayMiniAppLoadHint',
+};
 
 const NBSP = '\u00A0';
 
@@ -119,6 +135,9 @@ const WebAppTab = ({
   isTransforming,
   modalState,
   isMultiTabSupported,
+  isWorkspaceVisible,
+  hasExternalFullscreenControls,
+  shouldUseStableLayout,
   botAppPermissions,
   botAppSettings,
   modalHeight,
@@ -151,6 +170,7 @@ const WebAppTab = ({
   const [secondaryButton, setSecondaryButton] = useState<WebAppButton>();
 
   const [isLoaded, markLoaded, markUnloaded] = useFlag(false);
+  const [nativeLoadFailure, setNativeLoadFailure] = useState<NativeWebAppLoadFailure>();
 
   const [popupParameters, setPopupParameters] = useState<PopupOptions>();
 
@@ -257,11 +277,26 @@ const WebAppTab = ({
   const lang = useLang();
   const isOpen = modal?.isModalOpen || false;
   const isSimple = Boolean(buttonText);
+  const isNativeFrame = shouldUseNativeWebApp(url);
 
+  const handleFrameLoad = useLastCallback(() => {
+    setNativeLoadFailure(undefined);
+    markLoaded();
+  });
+  const handleNativeLoadStateChange = useLastCallback((state: NativeLoadState) => {
+    setNativeLoadFailure(state === 'loading' ? undefined : state);
+    markUnloaded();
+  });
   const {
     reloadFrame, sendEvent, sendFullScreenChanged, sendViewport, sendSafeArea, sendTheme,
-  } = useWebAppFrame(frameRef, isOpen, isFullscreen, isSimple, handleEvent, webApp, markLoaded,
-    isOpen && Boolean(isActive) && !isMinimizedState && !isTransforming);
+  } = useWebAppFrame(frameRef, isOpen, isFullscreen, isSimple, handleEvent, webApp, handleFrameLoad,
+    isOpen && Boolean(isActive) && !isMinimizedState && !isTransforming, handleNativeLoadStateChange);
+
+  const handleRetry = useLastCallback(() => {
+    if (!url) return;
+    containerRef.current?.focus({ preventScroll: true });
+    reloadFrame(url);
+  });
 
   useEffect(() => {
     if (isActive) registerSendEventCallback(sendEvent);
@@ -937,26 +972,37 @@ const WebAppTab = ({
   const secondaryButtonCurrentIsActive = useCurrentOrPrev(secondaryButton && Boolean(secondaryButton.isActive), true);
   const secondaryButtonCurrentText = useCurrentOrPrev(secondaryButton?.text, true);
 
-  const [shouldDecreaseWebFrameSize, setShouldDecreaseWebFrameSize] = useState(false);
-  const [shouldHideMainButton, setShouldHideMainButton] = useState(true);
-  const [shouldHideSecondaryButton, setShouldHideSecondaryButton] = useState(true);
-  const [shouldShowMainButton, setShouldShowMainButton] = useState(false);
-  const [shouldShowSecondaryButton, setShouldShowSecondaryButton] = useState(false);
+  const [isWebFrameAnimating, setIsWebFrameAnimating] = useState(false);
+  const [isMainButtonHidden, setIsMainButtonHidden] = useState(true);
+  const [isSecondaryButtonHidden, setIsSecondaryButtonHidden] = useState(true);
+  const [isMainButtonShown, setIsMainButtonShown] = useState(false);
+  const [isSecondaryButtonShown, setIsSecondaryButtonShown] = useState(false);
 
   const [shouldShowAppNameInFullscreen, setShouldShowAppNameInFullscreen] = useState(false);
-
   const [backButtonTextWidth, setBackButtonTextWidth] = useState(0);
 
-  // Notify view that height changed
-  useSyncEffect(() => {
-    setTimeout(() => {
+  const isVisible = isOpen && isActive && isWorkspaceVisible && !isMinimizedState;
+  const shouldAnimateButtons = isVisible && !shouldUseStableLayout;
+  const shouldShowMainButton = shouldAnimateButtons ? isMainButtonShown : Boolean(isMainButtonVisible);
+  const shouldShowSecondaryButton = shouldAnimateButtons ? isSecondaryButtonShown : Boolean(isSecondaryButtonVisible);
+  const shouldHideMainButton = shouldAnimateButtons ? isMainButtonHidden : !isMainButtonVisible;
+  const shouldHideSecondaryButton = shouldAnimateButtons ? isSecondaryButtonHidden : !isSecondaryButtonVisible;
+
+  useEffect(() => {
+    if (!isVisible) return undefined;
+    const updateViewport = () => {
       sendViewport();
       sendSafeArea();
-    }, isTransforming ? 0 : ANIMATION_WAIT);
-  }, [shouldShowSecondaryButton, shouldHideSecondaryButton,
-    shouldShowMainButton, shouldShowMainButton,
-    secondaryButton?.position, sendViewport, isTransforming, modalHeight,
-    sendSafeArea]);
+    };
+    if (shouldUseStableLayout) {
+      const frame = requestAnimationFrame(updateViewport);
+      return () => cancelAnimationFrame(frame);
+    }
+    const timeout = setTimeout(updateViewport, isTransforming ? 0 : ANIMATION_WAIT);
+    return () => clearTimeout(timeout);
+  }, [isVisible, shouldUseStableLayout, shouldShowSecondaryButton, shouldHideSecondaryButton,
+    shouldShowMainButton, shouldHideMainButton,
+    secondaryButton?.position, sendViewport, isTransforming, modalHeight, sendSafeArea]);
 
   const isVerticalLayout = secondaryButtonCurrentPosition === 'top' || secondaryButtonCurrentPosition === 'bottom';
   const isHorizontalLayout = !isVerticalLayout;
@@ -967,89 +1013,53 @@ const WebAppTab = ({
   const hideDirection = (isHorizontalLayout
     && (!shouldHideMainButton && !shouldHideSecondaryButton)) ? 'horizontal' : 'vertical';
 
-  const mainButtonChangeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-  const mainButtonFastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-  const secondaryButtonChangeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-  const secondaryButtonFastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-  const appNameDisplayTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  useEffect(() => {
+    const shouldShow = Boolean(isFullscreen && !hasExternalFullscreenControls && isVisible && appName);
+    setShouldShowAppNameInFullscreen(shouldShow);
+    if (!shouldShow) return undefined;
+    const timeout = setTimeout(() => setShouldShowAppNameInFullscreen(false), APP_NAME_DISPLAY_DURATION);
+    return () => clearTimeout(timeout);
+  }, [isFullscreen, hasExternalFullscreenControls, isVisible, appName]);
 
   useEffect(() => {
-    if (isFullscreen && isOpen && Boolean(appName)) {
-      setShouldShowAppNameInFullscreen(true);
-
-      if (appNameDisplayTimeoutRef.current) {
-        clearTimeout(appNameDisplayTimeoutRef.current);
-      }
-
-      appNameDisplayTimeoutRef.current = setTimeout(() => {
-        setShouldShowAppNameInFullscreen(false);
-        appNameDisplayTimeoutRef.current = undefined;
-      }, APP_NAME_DISPLAY_DURATION);
-    } else {
-      setShouldShowAppNameInFullscreen(false);
-
-      if (appNameDisplayTimeoutRef.current) {
-        clearTimeout(appNameDisplayTimeoutRef.current);
-        appNameDisplayTimeoutRef.current = undefined;
-      }
-    }
-
-    return () => {
-      if (appNameDisplayTimeoutRef.current) {
-        clearTimeout(appNameDisplayTimeoutRef.current);
-      }
-    };
-  }, [isFullscreen, isOpen, appName]);
-
-  useEffect(() => {
-    if (mainButtonChangeTimeoutRef.current) clearTimeout(mainButtonChangeTimeoutRef.current);
-    if (mainButtonFastTimeoutRef.current) clearTimeout(mainButtonFastTimeoutRef.current);
-
-    if (isMainButtonVisible) {
-      mainButtonFastTimeoutRef.current = setTimeout(() => {
-        setShouldShowMainButton(true);
-      }, 35);
-      setShouldHideMainButton(false);
-      mainButtonChangeTimeoutRef.current = setTimeout(() => {
-        setShouldDecreaseWebFrameSize(true);
-      }, MAIN_BUTTON_ANIMATION_TIME);
-    }
-
+    if (!shouldAnimateButtons) return undefined;
     if (!isMainButtonVisible) {
-      setShouldShowMainButton(false);
-      mainButtonChangeTimeoutRef.current = setTimeout(() => {
-        setShouldHideMainButton(true);
-      }, MAIN_BUTTON_ANIMATION_TIME);
+      setIsMainButtonShown(false);
+      const timeout = setTimeout(() => setIsMainButtonHidden(true), MAIN_BUTTON_ANIMATION_TIME);
+      return () => clearTimeout(timeout);
     }
-  }, [isMainButtonVisible]);
+
+    setIsMainButtonHidden(false);
+    const show = setTimeout(() => setIsMainButtonShown(true), 35);
+    const resize = setTimeout(() => setIsWebFrameAnimating(true), MAIN_BUTTON_ANIMATION_TIME);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(resize);
+    };
+  }, [shouldAnimateButtons, isMainButtonVisible]);
 
   useEffect(() => {
-    if (secondaryButtonChangeTimeoutRef.current) clearTimeout(secondaryButtonChangeTimeoutRef.current);
-    if (secondaryButtonFastTimeoutRef.current) clearTimeout(secondaryButtonFastTimeoutRef.current);
-
-    if (isSecondaryButtonVisible) {
-      secondaryButtonFastTimeoutRef.current = setTimeout(() => {
-        setShouldShowSecondaryButton(true);
-      }, 35);
-      setShouldHideSecondaryButton(false);
-      secondaryButtonChangeTimeoutRef.current = setTimeout(() => {
-        setShouldDecreaseWebFrameSize(true);
-      }, MAIN_BUTTON_ANIMATION_TIME);
-    }
-
+    if (!shouldAnimateButtons) return undefined;
     if (!isSecondaryButtonVisible) {
-      setShouldShowSecondaryButton(false);
-      secondaryButtonChangeTimeoutRef.current = setTimeout(() => {
-        setShouldHideSecondaryButton(true);
-      }, MAIN_BUTTON_ANIMATION_TIME);
+      setIsSecondaryButtonShown(false);
+      const timeout = setTimeout(() => setIsSecondaryButtonHidden(true), MAIN_BUTTON_ANIMATION_TIME);
+      return () => clearTimeout(timeout);
     }
-  }, [isSecondaryButtonVisible]);
+
+    setIsSecondaryButtonHidden(false);
+    const show = setTimeout(() => setIsSecondaryButtonShown(true), 35);
+    const resize = setTimeout(() => setIsWebFrameAnimating(true), MAIN_BUTTON_ANIMATION_TIME);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(resize);
+    };
+  }, [shouldAnimateButtons, isSecondaryButtonVisible]);
 
   useEffect(() => {
-    if (!shouldShowSecondaryButton && !shouldShowMainButton) {
-      setShouldDecreaseWebFrameSize(false);
+    if (!shouldAnimateButtons || (!shouldShowSecondaryButton && !shouldShowMainButton)) {
+      setIsWebFrameAnimating(false);
     }
-  }, [setShouldDecreaseWebFrameSize, shouldShowSecondaryButton, shouldShowMainButton]);
+  }, [shouldAnimateButtons, shouldShowSecondaryButton, shouldShowMainButton]);
 
   const frameStyle = buildStyle(
     `background-color: ${backgroundColor || 'var(--color-background)'}`,
@@ -1223,29 +1233,43 @@ const WebAppTab = ({
   return (
     <div
       ref={containerRef}
+      tabIndex={isNativeFrame ? -1 : undefined}
+      aria-busy={Boolean(isActive && !isLoaded && !nativeLoadFailure)}
       className={buildClassName(
         styles.root,
         !isActive && styles.hidden,
         isMultiTabSupported && styles.multiTab,
+        shouldUseStableLayout && styles.stableLayout,
       )}
     >
-      {isFullscreen && getIsWebAppsFullscreenSupported() && renderFullscreenHeaderPanel()}
-      {!isMinimizedState && renderPlaceholder()}
+      {isFullscreen && !hasExternalFullscreenControls
+        && getIsWebAppsFullscreenSupported() && renderFullscreenHeaderPanel()}
+      {!isMinimizedState && !nativeLoadFailure && renderPlaceholder()}
+      {!isMinimizedState && nativeLoadFailure && (
+        <div className={styles.loadError}>
+          <div className={styles.loadErrorCopy} role="alert">
+            <h2 className={styles.loadErrorTitle}>{lang('RelayMiniAppLoadFailed')}</h2>
+            <p className={styles.loadErrorMessage}>{lang(NATIVE_LOAD_FAILURE_HINTS[nativeLoadFailure])}</p>
+          </div>
+          <Button size="smaller" onClick={handleRetry}>{lang('RelayRetry')}</Button>
+        </div>
+      )}
       <iframe
         className={buildClassName(
           styles.frame,
-          shouldDecreaseWebFrameSize && styles.withButton,
+          isWebFrameAnimating && !shouldUseStableLayout && styles.withButton,
           !isLoaded && styles.hide,
         )}
         style={frameStyle}
-        src={shouldUseNativeWebApp(url) ? 'about:blank' : url}
+        src={isNativeFrame ? 'about:blank' : url}
+        tabIndex={isNativeFrame ? -1 : undefined}
         title={lang('AriaMiniApp', { bot: bot?.firstName })}
         sandbox={IFRAME_SANDBOX_ATTRIBUTES}
         allow={IFRAME_ALLOW_ATTRIBUTES}
         allowFullScreen
         ref={frameRef}
       />
-      {!isMinimizedState && (
+      {!isMinimizedState && !nativeLoadFailure && (
         <div
           style={`background-color: ${bottomBarColor};`}
           className={buildClassName(

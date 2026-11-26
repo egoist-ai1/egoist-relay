@@ -86,10 +86,19 @@ export default function useAttachmentModal({
     },
   );
 
-  const handleAppendFiles = useLastCallback(async (files: File[], isSpoiler?: boolean) => {
-    if (!canAttachFiles) {
-      return;
+  const checkCanImportFiles = useLastCallback((files: File[]) => {
+    if (!canAttachFiles || !files.length) {
+      return false;
     }
+    if ((editedMessage ? [files[0]] : files).some(({ size }) => size > fileSizeLimit)) {
+      openLimitReachedModal({ limit: 'uploadMaxFileparts' });
+      return false;
+    }
+    return true;
+  });
+
+  const handleAppendFiles = useLastCallback(async (files: File[], isSpoiler?: boolean) => {
+    if (!checkCanImportFiles(files)) return;
 
     if (editedMessage) {
       if (editedMessage.groupedId && files[0].type === GIF_MIME_TYPE) {
@@ -118,29 +127,24 @@ export default function useAttachmentModal({
     }
   });
 
-  const handleFileSelect = useLastCallback(async (files: File[]) => {
-    if (!canAttachFiles) {
-      return;
-    }
+  const handleFileSelect = useLastCallback(async (files: File[], shouldCheckReplace?: boolean) => {
+    if (!checkCanImportFiles(files)) return false;
 
     if (editedMessage) {
       if (editedMessage.groupedId && files[0].type === GIF_MIME_TYPE) {
         showNotification({ message: lang('MediaReplaceInvalidError', undefined, { pluralValue: 1 }) });
-        return;
+        return false;
       }
 
       const newAttachment = await buildAttachment(files[0].name, files[0]);
       const canReplace = editedMessage && canReplaceMessageMedia(editedMessage, newAttachment);
 
-      if (editedMessage?.groupedId) {
-        if (canReplace) {
-          handleSetAttachments([newAttachment]);
-        } else {
-          showNotification({ message: lang('MediaReplaceInvalidError', undefined, { pluralValue: files.length }) });
-        }
-      } else {
-        handleSetAttachments([newAttachment]);
+      if ((shouldCheckReplace || editedMessage.groupedId) && !canReplace) {
+        showNotification({ message: lang('MediaReplaceInvalidError', undefined, { pluralValue: files.length }) });
+        return false;
       }
+      handleSetAttachments([newAttachment]);
+      return true;
     } else {
       const results = await Promise.all(files.map(async (file) => {
         const objectUrls: string[] = [];
@@ -156,6 +160,7 @@ export default function useAttachmentModal({
         showNotification({ message: lang('ErrorUnexpected') });
       }
       if (newAttachments.length) handleSetAttachments(newAttachments);
+      return Boolean(newAttachments.length);
     }
   });
 
@@ -176,6 +181,7 @@ export default function useAttachmentModal({
     handleFileSelect,
     handleClearAttachments,
     handleSetAttachments,
+    checkCanImportFiles,
     shouldForceCompression,
     shouldForceAsFile,
   };

@@ -138,10 +138,12 @@ let inited = false;
 /* Getters */
 
 export function init() {
+  // sync() повторяется при обрывах: подписки регистрируем один раз, иначе они копятся
+  if (!inited) {
+    addCallback(updateFolderManagerThrottled);
+    addActionHandler('reset', reset);
+  }
   inited = true;
-
-  addCallback(updateFolderManagerThrottled);
-  addActionHandler('reset', reset);
 
   const global = getGlobal();
   if (!selectTabState(global).isMasterTab) {

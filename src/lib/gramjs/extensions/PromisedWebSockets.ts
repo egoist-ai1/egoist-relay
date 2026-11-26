@@ -1,35 +1,21 @@
-import type { RouteCandidate, RouteKind } from '../network/connectionPolicy';
+import type { RouteCandidate } from '../network/connectionPolicy';
 
 import { raceRoutes, routeHealth } from '../network/connectionPolicy';
+import { getMediaRoute, resetMediaRoutes } from '../network/telegramMediaRoute';
 
 const closeError = new Error('WebSocket was closed');
 const CONNECTION_TIMEOUT = 3000;
 const MAX_TIMEOUT = 30000;
 // Рост таймаута подключения ограничен: после сна или смены сети ждать 30 с одну попытку нельзя
 const MAX_CONNECT_TIMEOUT = 8000;
-// Локальный мост отвечает за миллисекунды; долгое ожидание означает, что Lagom недоступен
-const LAGOM_CONNECT_TIMEOUT = 2500;
-// Через сколько стартует второй маршрут, если первый ещё не открылся
-const ROUTE_RACE_STAGGER = 300;
-const LAGOM_PROBE_INTERVAL = 30000;
+const MEDIA_HOST = /^(zws[1-5])-1(\.web\.telegram\.org)$/i;
 const noop = () => undefined;
 const MAX_BUFFERED_BYTES = 8 * 1024 * 1024;
 const MAX_INCOMING_BYTES = 64 * 1024 * 1024;
 const WRITE_POLL_INTERVAL = 25;
-let desktopTransportUrl: string | undefined;
-
-export function setDesktopTelegramTransport(value?: string) {
-  desktopTransportUrl = undefined;
-  if (!value) return;
-  try {
-    const url = new URL(value);
-    if (url.protocol === 'ws:' && url.hostname === '127.0.0.1' && url.port
-      && url.pathname === '/apiws' && !url.username && !url.password && !url.hash
-      && /^[a-f0-9]{64}$/.test(url.searchParams.get('token') || '')
-      && [...url.searchParams].length === 1) {
-      desktopTransportUrl = value;
-    }
-  } catch (err) { /* Invalid native transport URLs use the official route */ }
+export function isDesktopTelegramOrigin() {
+  const { location } = globalThis;
+  return location?.protocol === 'tauri:' || location?.hostname === 'tauri.localhost';
 }
 
 export default class PromisedWebSockets {
@@ -60,6 +46,7 @@ export default class PromisedWebSockets {
   private hasReceived = false;
 
   private handleOffline = () => {
+    resetMediaRoutes();
     this.close();
   };
 
@@ -223,29 +210,27 @@ export default class PromisedWebSockets {
   }
 
   getWebSocketLink(ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number) {
-    return this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId)[0].url;
+    const candidate = this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId)[0];
+    if (!candidate) throw new Error('Telegram secure WebSocket endpoint is unavailable');
+    return candidate.url;
   }
 
-  /** Маршруты по приоритету: локальный мост Lagom, затем прямой wss (WebView2 сам применит системный прокси/PAC). */
   getRouteCandidates(
     ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number,
   ): RouteCandidate[] {
-    const direct = this.getDirectLink(ip, port, isTestServer, isPremium, dcId);
-    if (desktopTransportUrl && !isTestServer) {
-      const url = new URL(desktopTransportUrl);
-      const match = ip.match(/zws(\d+)(-1)?/i);
-      url.searchParams.set('dc', String(dcId || Number(match?.[1]) || 2));
-      if (match?.[2]) url.searchParams.set('media', '1');
-      if (isPremium) url.searchParams.set('premium', '1');
-      return [{ kind: 'lagom', url: url.toString() }, { kind: 'direct', url: direct }];
+    if (dcId && /^\d{1,3}(?:\.\d{1,3}){3}$/.test(ip) && isDesktopTelegramOrigin()) return [];
+    const candidates: RouteCandidate[] = [
+      { kind: 'wss', url: this.getWssLink(ip, port, isTestServer, isPremium, dcId) },
+    ];
+    if (!isTestServer && port === 443 && isDesktopTelegramOrigin() && MEDIA_HOST.test(ip)) {
+      const standardHost = ip.replace(MEDIA_HOST, '$1$2');
+      candidates.push({ kind: 'wss-standard', url: this.getWssLink(standardHost, port, false, isPremium, dcId) });
     }
-    return [{ kind: 'direct', url: direct }];
+    return candidates;
   }
 
-  private getDirectLink(ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number) {
-    const { location } = globalThis;
-    const isTauri = location.protocol === 'tauri:' || location.hostname === 'tauri.localhost';
-    const customProxy = isTauri ? undefined
+  private getWssLink(ip: string, port: number, isTestServer?: boolean, isPremium?: boolean, dcId?: number) {
+    const customProxy = isDesktopTelegramOrigin() ? undefined
       : (typeof window !== 'undefined' && window.localStorage?.getItem('egoist_relay_proxy'))
         || (typeof import.meta !== 'undefined' && (import.meta.env.VITE_PROXY_URL || import.meta.env.TG_PROXY_URL));
     if (customProxy) {
@@ -267,7 +252,6 @@ export default class PromisedWebSockets {
     return new Promise<WebSocket>((resolve, reject) => {
       const socket = new WebSocket(candidate.url, 'binary');
       socket.binaryType = 'arraybuffer';
-      const timeoutMs = candidate.kind === 'lagom' ? LAGOM_CONNECT_TIMEOUT : this.timeout;
       let hasSettled = false;
       const settle = (error?: Error) => {
         if (hasSettled) return;
@@ -285,7 +269,7 @@ export default class PromisedWebSockets {
         }
       };
       const onAbort = () => settle(new Error('WebSocket connection aborted'));
-      const timer = setTimeout(() => settle(new Error('WebSocket connection timeout')), timeoutMs);
+      const timer = setTimeout(() => settle(new Error('WebSocket connection timeout')), this.timeout);
       signal.addEventListener('abort', onAbort);
       socket.onopen = () => settle();
       socket.onerror = () => settle(new Error('WebSocket connection failed'));
@@ -303,8 +287,9 @@ export default class PromisedWebSockets {
       this.resolveRead = resolve;
     });
     this.closed = false;
-    const candidates = routeHealth.order(this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId));
-    this.website = candidates[0].url;
+    const available = this.getRouteCandidates(ip, port, isTestServer, isPremium, dcId);
+    const health = MEDIA_HOST.test(ip) && available[0] ? getMediaRoute(available[0].url).health : routeHealth;
+    this.website = available[0]?.url;
     const raceAbort = new AbortController();
     this.raceAbort = raceAbort;
 
@@ -319,15 +304,18 @@ export default class PromisedWebSockets {
         this.rejectConnect = undefined;
       };
 
-      raceRoutes(candidates, (candidate, signal) => this.openCandidate(candidate, signal), {
-        staggerMs: ROUTE_RACE_STAGGER,
+      const route = raceRoutes(health.order(available), (candidate, signal) => this.openCandidate(candidate, signal), {
+        staggerMs: this.timeout,
         dispose: (socket) => socket.close(),
-      }, raceAbort.signal).then(({ candidate, value: client, elapsedMs }) => {
+      }, raceAbort.signal);
+      route.then(({
+        candidate, value: client, elapsedMs, failures,
+      }) => {
         if (this.closed || hasResolved || raceAbort.signal.aborted) {
           client.close();
           return;
         }
-        this.attachClient(client, candidate.kind, ip);
+        this.attachClient(client, ip, () => health.recordFailure(candidate.kind));
         this.client = client;
         this.website = candidate.url;
         this.receive();
@@ -335,8 +323,9 @@ export default class PromisedWebSockets {
         this.rejectConnect = undefined;
         this.raceAbort = undefined;
         this.timeout = CONNECTION_TIMEOUT;
-        routeHealth.recordSuccess(candidate.kind);
-        if (candidate.kind === 'direct') scheduleLagomProbe();
+        // Реальный отказ проигравшего (не abort) нужен, чтобы сработали понижение на 60 с и фоновая проба
+        failures.forEach((failed) => health.recordFailure(failed.kind));
+        health.recordSuccess(candidate.kind);
         // eslint-disable-next-line no-console
         if (elapsedMs > 1500) console.warn(`Telegram route ${candidate.kind} opened in ${elapsedMs}ms`);
         resolve(this);
@@ -346,7 +335,7 @@ export default class PromisedWebSockets {
         this.rejectConnect = undefined;
         this.raceAbort = undefined;
         if (!this.closed) {
-          candidates.forEach(({ kind }) => routeHealth.recordFailure(kind));
+          available.forEach(({ kind }) => health.recordFailure(kind));
           this.timeout = Math.min(this.timeout * 2, MAX_CONNECT_TIMEOUT);
         }
         reject(error);
@@ -357,7 +346,7 @@ export default class PromisedWebSockets {
     });
   }
 
-  private attachClient(client: WebSocket, route: RouteKind, ip: string) {
+  private attachClient(client: WebSocket, ip: string, onNoResponse: () => void) {
     client.onerror = (error) => {
       if (this.client !== client) return;
       // eslint-disable-next-line no-console
@@ -373,7 +362,7 @@ export default class PromisedWebSockets {
         console.error(`Socket ${ip} closed. Code: ${code}, reason: ${reason}, was clean: ${wasClean}`);
       }
       // Закрытие до первого байта означает неработающий маршрут: следующая попытка пойдёт другим путём
-      if (!this.hasReceived) routeHealth.recordFailure(route);
+      if (!this.hasReceived) onNoResponse();
 
       this.close();
       if (this.disconnectedCallback) {
@@ -443,39 +432,4 @@ export default class PromisedWebSockets {
     }
     return this.canRead;
   }
-}
-
-let probeTimer: ReturnType<typeof setTimeout> | undefined;
-
-/**
- * Фоновая проверка локального моста после провала: UI не ждёт, успех возвращает Lagom приоритет
- * для следующих подключений. Установленные соединения не трогаются.
- */
-function scheduleLagomProbe() {
-  if (probeTimer || !desktopTransportUrl) return;
-  probeTimer = setTimeout(() => {
-    probeTimer = undefined;
-    if (!desktopTransportUrl || !routeHealth.probeDue('lagom', LAGOM_PROBE_INTERVAL)) return;
-    routeHealth.markProbe();
-    const url = new URL(desktopTransportUrl);
-    url.searchParams.set('dc', '2');
-    let socket: WebSocket;
-    try {
-      socket = new WebSocket(url.toString(), 'binary');
-    } catch (err) {
-      scheduleLagomProbe();
-      return;
-    }
-    const timer = setTimeout(() => socket.close(), LAGOM_CONNECT_TIMEOUT);
-    socket.onopen = () => {
-      clearTimeout(timer);
-      routeHealth.recordProbeSuccess('lagom');
-      socket.close();
-    };
-    socket.onclose = () => {
-      clearTimeout(timer);
-      if (routeHealth.probeDue('lagom', 0)) scheduleLagomProbe();
-    };
-    socket.onerror = () => undefined;
-  }, LAGOM_PROBE_INTERVAL);
 }

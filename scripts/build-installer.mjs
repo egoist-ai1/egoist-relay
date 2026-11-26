@@ -1,4 +1,4 @@
-// Сборка фирменного установщика: installer/target/release/Sennit-Setup.exe + NSIS-установщик Tauri (payload) + хвост.
+// Сборка фирменного установщика: installer/target/release/Beresta-Setup.exe + NSIS-установщик Tauri (payload) + хвост.
 // Формат хвоста описан в installer/src/tail.rs. Файлы пишутся потоково, 540 МБ в память не грузятся.
 //
 // Порядок для подписанного выпуска: собрать этим скриптом, затем подписать ГОТОВЫЙ файл (signtool).
@@ -10,6 +10,7 @@
 //   node scripts/build-installer.mjs
 // Явные пути (проверки, нестандартная сборка):
 //   node scripts/build-installer.mjs --stub <exe> --payload <nsis.exe> --out <dir> [--version 1.7.1] [--install-bytes N] [--no-verify]
+//   --final оставляет имя Beresta-Setup.exe при сохранении версии внутри пакета.
 // Пересчёт хэшей уже собранного (например, подписанного) файла:
 //   node scripts/build-installer.mjs --rehash [--out <dir>] [--version 1.7.1]
 import { spawnSync } from 'node:child_process';
@@ -34,9 +35,9 @@ export function validatePayloadName(name) {
   }
 }
 
-export function encodeTail({ payloadOffset, payloadLen, installBytes, payloadSha256, meta }) {
-  validatePayloadName(meta.payloadName);
-  const metaBytes = Buffer.from(JSON.stringify(meta), 'utf8');
+export function encodeTail({ payloadOffset, payloadLen, installBytes, payloadSha256, meta: { product, version, payloadName, builtAt } }) {
+  validatePayloadName(payloadName);
+  const metaBytes = Buffer.from(JSON.stringify({ product, version, payloadName, builtAt }), 'utf8');
   if (metaBytes.length > MAX_META_LEN) throw new Error('meta слишком большая');
   const t = Buffer.alloc(TRAILER_LEN);
   MAGIC.copy(t, 0);
@@ -90,12 +91,16 @@ export function verifyBuilt(file) {
   if (r.status !== 0) throw new Error(`Собранный файл не прошёл --verify (код ${r.status ?? r.signal})`);
 }
 
-export async function buildInstaller({ stub, payload, outDir, version, installBytes, verify = true }) {
+function installerFilename(version, final) {
+  return final ? 'Beresta-Setup.exe' : `Beresta-Setup-${version}.exe`;
+}
+
+export async function buildInstaller({ stub, payload, outDir, version, installBytes, verify = true, final = false }) {
   const stubStat = await stat(stub);
   const payloadStat = await stat(payload);
   if (!stubStat.size || !payloadStat.size) throw new Error('Пустой stub или payload');
   await mkdir(outDir, { recursive: true });
-  const outFile = path.join(outDir, `Sennit-Setup-${version}.exe`);
+  const outFile = path.join(outDir, installerFilename(version, final));
   const part = `${outFile}.part`;
   const payloadSha256 = await sha256File(payload);
   const tail = encodeTail({
@@ -103,7 +108,7 @@ export async function buildInstaller({ stub, payload, outDir, version, installBy
     payloadLen: payloadStat.size,
     installBytes,
     payloadSha256,
-    meta: { product: 'Sennit', version, payloadName: `Sennit-Payload-${version}.exe`, builtAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z') },
+    meta: { product: 'Береста', version, payloadName: `Beresta-Payload-${version}.exe`, builtAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z') },
   });
   try {
     const out = createWriteStream(part);
@@ -151,7 +156,8 @@ async function main() {
   const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   const version = arg('version') ?? pkg.version;
   const outDir = arg('out') ?? path.join(root, 'release', version);
-  const name = `Sennit-Setup-${version}.exe`;
+  const final = flag('final');
+  const name = installerFilename(version, final);
   if (flag('rehash')) {
     const file = path.join(outDir, name);
     const hex = (await sha256File(file)).toString('hex');
@@ -162,10 +168,10 @@ async function main() {
     process.stdout.write(`${name}: SHA-256 ${hex} (пересчитан)\n`);
     return;
   }
-  const stub = arg('stub') ?? path.join(root, 'installer/target/release/Sennit-Setup.exe');
+  const stub = arg('stub') ?? path.join(root, 'installer/target/release/Beresta-Setup.exe');
   const payload = arg('payload') ?? await findPayload(version);
   const installBytes = Number(arg('install-bytes') ?? await expectedInstallBytes());
-  const r = await buildInstaller({ stub, payload, outDir, version, installBytes, verify: !flag('no-verify') });
+  const r = await buildInstaller({ stub, payload, outDir, version, installBytes, verify: !flag('no-verify'), final });
   await mergeSums(path.join(outDir, 'SHA256SUMS.txt'), name, r.outSha256);
   await mergeManifest(path.join(outDir, 'manifest.json'), {
     fileName: name,
@@ -176,7 +182,7 @@ async function main() {
     authenticode: 'NotSigned',
     installed: false,
     stubBytes: r.stubBytes,
-    payload: { name: path.basename(payload), sha256: r.payloadSha256, bytes: r.payloadBytes, expectedInstallBytes: r.installBytes },
+    payload: { name: `Beresta-Payload-${version}.exe`, sha256: r.payloadSha256, bytes: r.payloadBytes, expectedInstallBytes: r.installBytes },
   });
   process.stdout.write(`${name}: ${r.size} bytes, SHA-256 ${r.outSha256}\npayload ${r.payloadBytes} bytes, SHA-256 ${r.payloadSha256}\n`);
 }

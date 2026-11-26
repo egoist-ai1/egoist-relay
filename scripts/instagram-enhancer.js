@@ -18,7 +18,16 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #8888; border-radius: 0.5rem; }
     ::-webkit-scrollbar-thumb:hover { background: #888c; }
+    [data-egoist-reel-scroller] { padding-top: 0 !important; }
+    [data-egoist-reel-item] { height: var(--egoist-reel-h) !important; align-items: center !important; box-sizing: border-box !important; }
+    [data-egoist-reel-unit] { transform: translateX(var(--egoist-reel-dx, 0px)) scale(var(--egoist-reel-scale, 1)); transform-origin: center center; flex: none; }
+    [data-egoist-reel-hide] { display: none !important; }
   `;
+  // Reels: каждая страница ленты занимает всю видимую область, ролик с кнопками центрируется и масштабируется
+  const REELS_MARGIN = 10;
+  const REELS_MAX_SCALE = 3;
+  const REELS_BOTTOM_BAR_MAX = 160;
+  const REELS_LIKE_LABEL = /^(отметки\s*["«“]?нравится["»”]?|likes?)$/i;
   const pausedVideos = new Set();
   const observedVideos = new WeakSet();
   const videoPreloads = new WeakMap();
@@ -104,6 +113,7 @@
   function setActive(active) {
     isAppActive = active;
     updateVisibility();
+    if (isActive) fitReels();
   }
 
   function updateVisibility() {
@@ -163,6 +173,157 @@
     });
   }
 
+  function isReelsRoute() {
+    const path = window.location.pathname;
+    return (path === '/reels' || path.startsWith('/reels/')) && !path.startsWith('/reels/audio/');
+  }
+
+  function clearReelsFit() {
+    document.querySelectorAll('[data-egoist-reel-scroller], [data-egoist-reel-item], [data-egoist-reel-unit], [data-egoist-reel-hide]')
+      .forEach((element) => {
+        ['scroller', 'item', 'unit', 'hide'].forEach((name) => element.removeAttribute('data-egoist-reel-' + name));
+        element.style.removeProperty('--egoist-reel-h');
+        element.style.removeProperty('--egoist-reel-scale');
+        element.style.removeProperty('--egoist-reel-dx');
+      });
+  }
+
+  // Нижняя панель Instagram (узкая раскладка) перекрывает ленту: её высоту вычитаем из страницы ролика
+  function getBottomBarHeight() {
+    let height = 0;
+    document.querySelectorAll('div, nav').forEach((element) => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.width < window.innerWidth * 0.8 || bounds.height < 30 || bounds.height > REELS_BOTTOM_BAR_MAX
+        || Math.abs(bounds.bottom - window.innerHeight) > 2) return;
+      if (getComputedStyle(element).position === 'fixed') height = Math.max(height, bounds.height);
+    });
+    return height;
+  }
+
+  function getActiveReelVideo() {
+    const visible = Array.from(document.querySelectorAll('video')).filter((video) => {
+      const bounds = video.getBoundingClientRect();
+      return bounds.width > 0 && bounds.bottom > 0 && bounds.top < window.innerHeight;
+    });
+    return visible.find((video) => !video.paused) || visible[0];
+  }
+
+  // Колонка навигации Instagram у левого края (десктопная раскладка): ролик не должен заходить под неё. В узкой раскладке её нет
+  function getSideGuard() {
+    let guard = 0;
+    document.querySelectorAll('div, nav').forEach((element) => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.left > 2 || bounds.top > 2 || bounds.width < 40 || bounds.width > 140
+        || bounds.height < window.innerHeight * 0.8) return;
+      const position = getComputedStyle(element).position;
+      if ((position === 'fixed' || position === 'absolute') && element.querySelectorAll('svg').length >= 4) {
+        guard = Math.max(guard, bounds.width);
+      }
+    });
+    return guard;
+  }
+
+  // Каждая страница ленты масштабируется по своему ролику: в одной ленте идут и портретные, и широкие ролики
+  function fitReelPage(page, scroller, layout) {
+    const unit = page.firstElementChild;
+    const video = unit && unit.querySelector('video');
+    if (!video || !unit.offsetWidth || !unit.offsetHeight) return;
+    const read = (name) => parseFloat(page.style.getPropertyValue(name)) || 0;
+    const currentScale = read('--egoist-reel-scale') || 1;
+    const currentShift = read('--egoist-reel-dx');
+    // Видимая ширина группы «ролик + кнопки» (от края ролика до правой иконки) в единицах раскладки
+    const getVisualEdges = () => {
+      let right = 0;
+      unit.querySelectorAll('svg, img').forEach((icon) => {
+        const bounds = icon.getBoundingClientRect();
+        if (bounds.width > 0 && bounds.height > 0) right = Math.max(right, bounds.right);
+      });
+      return { left: video.getBoundingClientRect().left, right };
+    };
+    const edges = getVisualEdges();
+    const groupWidth = edges.right > edges.left ? (edges.right - edges.left) / currentScale : unit.offsetWidth;
+    // Высота группы берётся и по самому видео: unit.offsetHeight у новой раскладки Instagram может быть меньше ролика
+    const groupHeight = Math.max(unit.offsetHeight, video.getBoundingClientRect().height / currentScale);
+    const availableWidth = scroller.clientWidth - 2 * (layout.guard + REELS_MARGIN);
+    let scale = Math.max(1, Math.min(REELS_MAX_SCALE, availableWidth / groupWidth, layout.pageHeight / groupHeight));
+    const setScale = (value) => {
+      const scaleValue = String(Math.floor(value * 100) / 100);
+      if (page.style.getPropertyValue('--egoist-reel-scale') !== scaleValue) page.style.setProperty('--egoist-reel-scale', scaleValue);
+    };
+    setScale(scale);
+    // Контроль по факту: ролик после масштаба должен помещаться в страницу, иначе соседние ролики налезают друг на друга
+    const fittedHeight = video.getBoundingClientRect().height;
+    const heightLimit = layout.pageHeight - 2 * REELS_MARGIN;
+    if (fittedHeight > heightLimit + 1) {
+      scale = Math.max(1, scale * heightLimit / fittedHeight);
+      setScale(scale);
+    }
+    // Равные поля слева и справа: после смены масштаба измеряем группу заново и сдвигаем
+    const fitted = getVisualEdges();
+    const shift = Math.round(currentShift + (scroller.clientWidth - fitted.right - fitted.left) / 2);
+    if (fitted.right > fitted.left && Math.abs(shift - currentShift) >= 1) {
+      page.style.setProperty('--egoist-reel-dx', shift + 'px');
+    }
+  }
+
+  function fitReelPages(scroller, layout, hideLabels) {
+    Array.from(scroller.children).forEach((page) => {
+      if (getComputedStyle(page).scrollSnapAlign === 'none') return;
+      page.setAttribute('data-egoist-reel-item', '');
+      const pageUnit = page.firstElementChild;
+      if (!pageUnit) return;
+      pageUnit.setAttribute('data-egoist-reel-unit', '');
+      if (Math.abs(page.getBoundingClientRect().top) > window.innerHeight * 2) return;
+      fitReelPage(page, scroller, layout);
+      if (!hideLabels) return;
+      // Подпись «Отметки "Нравится"» под сердечком шире колонки кнопок: убираем, оставляем сердечко
+      pageUnit.querySelectorAll('span, div').forEach((label) => {
+        if (label.childElementCount === 0 && REELS_LIKE_LABEL.test(label.textContent.trim())) {
+          label.setAttribute('data-egoist-reel-hide', '');
+        }
+      });
+    });
+  }
+
+  const reelScrollers = new WeakSet();
+  let reelsLayout;
+  let isReelScrollScheduled = false;
+
+  function fitReels() {
+    if (!isReelsRoute()) {
+      clearReelsFit();
+      return;
+    }
+    if (!isActive) return;
+    const video = getActiveReelVideo();
+    if (!video) return;
+    let item = video;
+    while (item && item !== document.body && getComputedStyle(item).scrollSnapAlign === 'none') item = item.parentElement;
+    const scroller = item && item.parentElement;
+    if (!scroller || item === document.body || !/y/.test(getComputedStyle(scroller).scrollSnapType)) return;
+    if (!item.firstElementChild || !item.firstElementChild.offsetWidth || !item.firstElementChild.offsetHeight) return;
+
+    // Страница не выше окна: если Instagram не ограничил высоту ленты, clientHeight может быть в разы больше экрана
+    const pageHeight = Math.max(200, Math.min(scroller.clientHeight, window.innerHeight) - getBottomBarHeight());
+    scroller.setAttribute('data-egoist-reel-scroller', '');
+    const heightValue = pageHeight + 'px';
+    if (scroller.style.getPropertyValue('--egoist-reel-h') !== heightValue) scroller.style.setProperty('--egoist-reel-h', heightValue);
+    reelsLayout = { pageHeight, guard: getSideGuard() };
+    fitReelPages(scroller, reelsLayout, true);
+    // Соседние ролики подгоняются и при прокрутке: мутации DOM на каждый свайп не гарантированы
+    if (!reelScrollers.has(scroller)) {
+      reelScrollers.add(scroller);
+      scroller.addEventListener('scroll', () => {
+        if (isReelScrollScheduled) return;
+        isReelScrollScheduled = true;
+        window.requestAnimationFrame(() => {
+          isReelScrollScheduled = false;
+          if (isActive && reelsLayout && isReelsRoute() && scroller.isConnected) fitReelPages(scroller, reelsLayout, false);
+        });
+      }, { passive: true });
+    }
+  }
+
   function initialize() {
     if (!document.getElementById(STYLE_ID)) {
       const style = document.createElement('style');
@@ -172,12 +333,28 @@
     }
     observeVideos(document);
     updatePresentationRoute();
-    const observer = new MutationObserver((records) => {
+    // Комментарии и лента добавляют сотни узлов подряд: видео ищем один раз за кадр, а не на каждый узел
+    const addedNodes = new Set();
+    const removedNodes = new Set();
+    let isFlushScheduled = false;
+    const flush = () => {
+      isFlushScheduled = false;
       updatePresentationRoute();
-      records.forEach(({ addedNodes, removedNodes }) => {
-        removedNodes.forEach((node) => { if (node instanceof Element) forgetVideos(node); });
-        addedNodes.forEach((node) => { if (node instanceof Element) observeVideos(node); });
+      fitReels();
+      removedNodes.forEach((node) => forgetVideos(node));
+      removedNodes.clear();
+      addedNodes.forEach((node) => { if (node.isConnected) observeVideos(node); });
+      addedNodes.clear();
+    };
+    const observer = new MutationObserver((records) => {
+      records.forEach((record) => {
+        record.removedNodes.forEach((node) => { if (node instanceof Element) removedNodes.add(node); });
+        record.addedNodes.forEach((node) => { if (node instanceof Element) addedNodes.add(node); });
       });
+      if (isFlushScheduled) return;
+      isFlushScheduled = true;
+      // В скрытом WebView кадры не рисуются, но preload у новых видео надо сбросить сразу
+      if (document.hidden) setTimeout(flush, 50); else window.requestAnimationFrame(flush);
     });
     observer.observe(document.body, { childList: true, subtree: true });
   }
@@ -190,6 +367,7 @@
   window.__egoistRelaySetActive = setActive;
   window.addEventListener('wheel', handleWheel, { passive: false });
   window.addEventListener('popstate', updatePresentationRoute);
+  window.addEventListener('resize', () => window.requestAnimationFrame(fitReels));
   document.addEventListener('visibilitychange', updateVisibility);
   document.addEventListener('play', (event) => {
     if (!isActive && event.target instanceof HTMLVideoElement) {

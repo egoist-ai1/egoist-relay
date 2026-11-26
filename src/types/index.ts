@@ -293,6 +293,7 @@ export enum SettingsScreens {
   DoNotTranslate,
   FoldersShare,
   Passkeys,
+  RelayApp,
 }
 
 export type StickerSetOrReactionsSetOrRecent = Pick<ApiStickerSet, (
@@ -607,6 +608,9 @@ export type ActiveDownloads = Record<string, {
   size: number;
   originChatId?: string;
   originMessageId?: number;
+  downloadRecoveryId?: string;
+  localUrl?: string;
+  copyToClipboard?: boolean;
 }>;
 
 export type IDimensions = {

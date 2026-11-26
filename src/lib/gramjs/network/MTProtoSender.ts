@@ -82,6 +82,7 @@ interface DefaultOptions {
   shouldAllowHttpTransport: boolean;
   connectTimeout: number;
   authKeyCallback: any;
+  authServerKeys?: ReadonlyMap<bigint, { n: bigint; e: number }>;
   updateCallback?: any;
   autoReconnectCallback?: any;
   isMainSender?: boolean;
@@ -151,6 +152,7 @@ export default class MTProtoSender {
   private _shouldUseFallbackOnReconnect: boolean;
 
   private readonly _authKeyCallback: any;
+  private readonly _authServerKeys?: ReadonlyMap<bigint, { n: bigint; e: number }>;
 
   public _updateCallback: (
     update: Update,
@@ -244,6 +246,7 @@ export default class MTProtoSender {
     this._delay = args.delay;
     this._retryMainConnectionDelay = args.retryMainConnectionDelay;
     this._authKeyCallback = args.authKeyCallback;
+    this._authServerKeys = args.authServerKeys;
     this._updateCallback = args.updateCallback;
     this._autoReconnectCallback = args.autoReconnectCallback;
     this._isMainSender = Boolean(args.isMainSender);
@@ -554,6 +557,8 @@ export default class MTProtoSender {
       void states[index].promise!.catch(() => undefined);
     }
     if (abortSignal && (request instanceof Api.upload.GetFile
+      || request instanceof Api.upload.GetCdnFile || request instanceof Api.upload.ReuploadCdnFile
+      || request instanceof Api.upload.GetCdnFileHashes || Boolean(this._authServerKeys)
       || request instanceof Api.upload.SaveFilePart || request instanceof Api.upload.SaveBigFilePart)) {
       const onAbort = () => {
         for (const state of states) {
@@ -647,9 +652,11 @@ export default class MTProtoSender {
     }
 
     if (!this.authKey.getKey()) {
+      this._authenticated = false;
       const plain = new MtProtoPlainSender(connection, this._log);
       this._log.debug('New auth_key attempt ...');
-      const res = await doAuthentication(plain, this._log, connection._dcId, connection._isTestServer);
+      const res = await doAuthentication(plain, this._log, connection._dcId, connection._isTestServer,
+        this._authServerKeys);
       this._log.debug('Generated new auth_key successfully');
       await this.authKey.setKey(res.authKey);
 
@@ -671,7 +678,7 @@ export default class MTProtoSender {
         await this._authKeyCallback(this.authKey, this._dcId);
       }
     } else {
-      this._authenticated = true;
+      if (!this._isExported) this._authenticated = true;
       this._log.debug('Already have an auth key ...');
     }
 

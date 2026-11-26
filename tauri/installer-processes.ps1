@@ -39,7 +39,7 @@ function Remove-ReviewedLegacyRuntime([string]$InstallationPath, [string]$Manife
     $preservedLongPaths = 0
     foreach ($entry in $manifest.files) {
         $relative = [string]$entry.path
-        $allowedFile = $relative -cmatch '^runtime/(?:xray(?:\.exe|-provenance\.json)|ciadpi\.exe|egoist-tg-proxy\.exe|licenses/(?:(?:XRAY(?:-GO)?|BYEDPI|WS)-LICENSE\.txt|xray-dependencies/.+))$'
+        $allowedFile = $relative -cmatch '^runtime/(?:ciadpi\.exe|egoist-tg-proxy\.exe|xray(?:\.exe|-provenance\.json)|telegram/[a-zA-Z0-9._-]+|licenses/(?:(?:BYEDPI|WS|XRAY|XRAY-GO)-LICENSE\.txt|xray-dependencies/[a-zA-Z0-9._@/-]+))$'
         if (-not $allowedFile -or $relative.Contains('\') -or $relative -match '(?:^|/)\.{1,2}(?:/|$)' -or
             $relative.Contains(':') -or $seenPaths.ContainsKey($relative) -or
             [string]$entry.sha256 -cnotmatch '^[a-f0-9]{64}$' -or [long]$entry.bytes -le 0) {

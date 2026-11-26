@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-media-library",
+  "description": "Saved media catalogue for the bundled main view",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["allow-relay-library-list", "allow-relay-library-action"]
+}

@@ -1973,6 +1973,8 @@ export interface ActionPayloads {
   downloadMedia: {
     media: DownloadableMedia;
     originMessage?: ApiMessage;
+    downloadRecoveryId?: string;
+    copyToClipboard?: boolean;
   } & WithTabId;
   cancelMediaDownload: {
     media: DownloadableMedia;

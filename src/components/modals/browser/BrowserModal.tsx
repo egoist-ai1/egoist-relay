@@ -24,6 +24,8 @@ import {
   selectCurrentChat, selectFullWebPage, selectTheme, selectUser,
 } from '../../../global/selectors';
 import { selectSharedSettings } from '../../../global/selectors/sharedState';
+import { IS_TAURI } from '../../../util/browser/globalEnvironment';
+import { IS_WINDOWS } from '../../../util/browser/windowEnvironment';
 import buildClassName from '../../../util/buildClassName';
 import buildStyle from '../../../util/buildStyle';
 import { copyTextToClipboard } from '../../../util/clipboard';
@@ -39,6 +41,7 @@ import useHorizontalScroll from '../../../hooks/useHorizontalScroll';
 import useLang from '../../../hooks/useLang';
 import useLastCallback from '../../../hooks/useLastCallback';
 import useOldLang from '../../../hooks/useOldLang';
+import useResizeObserver from '../../../hooks/useResizeObserver';
 
 import Avatar from '../../common/Avatar';
 import Icon from '../../common/icons/Icon';
@@ -89,6 +92,19 @@ const IV_FONT_SIZE_ADJUST_TO_PERCENTAGE = 100;
 const MINIMIZED_STATE_SIZE = { width: 300, height: 40 };
 const DEFAULT_MAXIMIZED_STATE_SIZE = { width: 780, height: 800 };
 const MAXIMIZED_STATE_MINIMUM_SIZE = { width: 300, height: 300 };
+const MIN_DOCK_WIDTH = 23; // rem
+const MAX_DOCK_WIDTH = 32;
+const MIN_CHAT_WIDTH = 27;
+const CHAT_LIST_WIDTH = 22;
+const PREFERRED_DOCK_SHARE = 0.34;
+const WORKSPACE_PROPERTIES = [
+  '--mini-app-dock-width', '--mini-app-inset-top', '--mini-app-inset-left', '--mini-app-inset-right',
+] as const;
+
+type WorkspaceMode = 'overlay' | 'focused' | 'wide';
+const IS_DESKTOP_WORKSPACE = IS_TAURI && IS_WINDOWS;
+const SERVICE_CHANGE_EVENT = 'egoist-relay-service-change';
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 const BrowserModal = ({
   modal,
@@ -165,13 +181,21 @@ const BrowserModal = ({
   const isMaximizedState = modal?.modalState === 'maximized';
   const isMinimizedState = modal?.modalState === 'minimized';
   const isFullScreen = modal?.modalState === 'fullScreen';
+  const isWorkspace = IS_DESKTOP_WORKSPACE && (isMaximizedState || isFullScreen)
+    && Boolean(activeWebApp || isMoreAppsTabActive);
+  const [workspaceMode, setWorkspaceMode] = useState<WorkspaceMode>('overlay');
+  const isDocked = isWorkspace && !isFullScreen && workspaceMode !== 'overlay';
+  const hasChat = Boolean(chat);
+  const workspacePaneRef = useRef<HTMLElement>();
+  const [isTelegramWorkspaceActive, setIsTelegramWorkspaceActive] = useState(getIsTelegramWorkspaceActive);
+  const [isReducedMotion, setIsReducedMotion] = useState(() => window.matchMedia(REDUCED_MOTION_QUERY).matches);
   const shouldSkipNextMaximizedSizeCacheRef = useRef(false);
 
   if (isFullScreen) {
     shouldSkipNextMaximizedSizeCacheRef.current = true;
   }
 
-  const supportMultiTabMode = !isMobile;
+  const supportMultiTabMode = IS_DESKTOP_WORKSPACE || !isMobile;
   const ref = useRef<HTMLDivElement>();
   const headerRef = useRef<HTMLDivElement>();
   const menuRef = useRef<HTMLDivElement>();
@@ -199,13 +223,82 @@ const BrowserModal = ({
   const headerElement = headerRef.current;
   const containerElement = ref.current;
 
-  useEffect(() => {
-    setIsDraggingEnabled(Boolean(supportMultiTabMode && headerElement && containerElement && !isFullScreen));
-  }, [supportMultiTabMode, headerElement, containerElement, isFullScreen]);
+  const measureWorkspace = useLastCallback(() => {
+    const pane = workspacePaneRef.current;
+    if (!pane || pane.getAttribute('aria-hidden') === 'true') return;
+
+    const bounds = pane.getBoundingClientRect();
+    if (!bounds.width) return;
+
+    const root = document.documentElement;
+    const rem = parseFloat(getComputedStyle(root).fontSize);
+    const width = bounds.width / rem;
+    const canFitChat = width >= MIN_DOCK_WIDTH + MIN_CHAT_WIDTH;
+    const canFitList = width >= MIN_DOCK_WIDTH + MIN_CHAT_WIDTH + CHAT_LIST_WIDTH;
+    const mode = canFitList ? 'wide' : canFitChat && hasChat ? 'focused' : 'overlay';
+    const reserved = mode === 'wide' ? MIN_CHAT_WIDTH + CHAT_LIST_WIDTH : MIN_CHAT_WIDTH;
+    const preferredDockWidth = Math.max(MIN_DOCK_WIDTH, width * PREFERRED_DOCK_SHARE);
+    const dockWidth = Math.min(MAX_DOCK_WIDTH, width - reserved, preferredDockWidth);
+
+    const geometry = [
+      `${dockWidth * rem}px`, `${bounds.top}px`, `${bounds.left}px`, `${window.innerWidth - bounds.right}px`,
+    ];
+    WORKSPACE_PROPERTIES.forEach((property, index) => {
+      const value = geometry[index];
+      if (root.style.getPropertyValue(property) !== value) root.style.setProperty(property, value);
+    });
+    setWorkspaceMode(mode);
+  });
 
   useEffect(() => {
-    changeBrowserModalState({ state: 'maximized' });
-  }, [supportMultiTabMode]);
+    if (!IS_DESKTOP_WORKSPACE || !isOpen) return undefined;
+    const pane = document.getElementById('relay-telegram-pane') || undefined;
+    workspacePaneRef.current = pane;
+    const handleVisibilityChange = () => {
+      const isActive = getIsTelegramWorkspaceActive() && pane?.getAttribute('aria-hidden') !== 'true';
+      setIsTelegramWorkspaceActive(isActive);
+      if (isActive && isWorkspace) measureWorkspace();
+    };
+    handleVisibilityChange();
+    const observer = new MutationObserver(handleVisibilityChange);
+    if (pane) observer.observe(pane, { attributeFilter: ['aria-hidden'] });
+    window.addEventListener(SERVICE_CHANGE_EVENT, handleVisibilityChange);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener(SERVICE_CHANGE_EVENT, handleVisibilityChange);
+    };
+  }, [isOpen, isWorkspace, measureWorkspace]);
+
+  useResizeObserver(workspacePaneRef, measureWorkspace, !isWorkspace || !isOpen);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const query = window.matchMedia(REDUCED_MOTION_QUERY);
+    const update = () => setIsReducedMotion(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isWorkspace && isOpen) measureWorkspace();
+  }, [isWorkspace, isOpen, hasChat, measureWorkspace]);
+
+  useEffect(() => () => {
+    if (!IS_DESKTOP_WORKSPACE) return;
+    const { style } = document.documentElement;
+    WORKSPACE_PROPERTIES.forEach((property) => style.removeProperty(property));
+  }, []);
+
+  useEffect(() => {
+    setIsDraggingEnabled(Boolean(
+      supportMultiTabMode && headerElement && containerElement && !isFullScreen && !isWorkspace,
+    ));
+  }, [supportMultiTabMode, headerElement, containerElement, isFullScreen, isWorkspace]);
+
+  useEffect(() => {
+    if (!IS_DESKTOP_WORKSPACE) changeBrowserModalState({ state: 'maximized' });
+  }, [isMobile]);
 
   const {
     isDragging,
@@ -226,13 +319,13 @@ const BrowserModal = ({
   const x = position?.x;
   const y = position?.y;
   useEffect(() => {
-    if (!isDragging && x !== undefined && y !== undefined) {
+    if (!isWorkspace && !isDragging && x !== undefined && y !== undefined) {
       updateBrowserCachedPosition({ position: { x, y } });
     }
-  }, [isDragging, x, y]);
+  }, [isWorkspace, isDragging, x, y]);
 
   useEffect(() => {
-    if (!isDragging && size && isMaximizedState) {
+    if (!isWorkspace && !isDragging && size && isMaximizedState) {
       if (shouldSkipNextMaximizedSizeCacheRef.current) {
         shouldSkipNextMaximizedSizeCacheRef.current = false;
         return;
@@ -240,7 +333,7 @@ const BrowserModal = ({
 
       updateBrowserCachedSize({ size });
     }
-  }, [isDragging, isMaximizedState, size]);
+  }, [isWorkspace, isDragging, isMaximizedState, size]);
 
   const currentSize = size || getSize();
 
@@ -371,6 +464,10 @@ const BrowserModal = ({
     changeBrowserModalState({ state: 'fullScreen' });
   });
 
+  const handleRestoreWorkspace = useLastCallback(() => {
+    changeBrowserModalState({ state: 'maximized' });
+  });
+
   const handleOpenMoreAppsTabClick = useLastCallback(() => {
     openMoreAppsTab();
   });
@@ -418,7 +515,7 @@ const BrowserModal = ({
       <Button
         className={
           buildClassName(
-            supportMultiTabMode ? styles.tabMoreButton : styles.moreButton,
+            getMoreMenuButtonClass(isWorkspace, supportMultiTabMode),
             isMenuOpen && 'active',
           )
         }
@@ -431,7 +528,7 @@ const BrowserModal = ({
         iconName="more"
       />
     );
-  }, [isMobile, lang, supportMultiTabMode]);
+  }, [isMobile, isWorkspace, lang, supportMultiTabMode]);
 
   function updateInstantViewFontSizeAdjust(delta: number) {
     if (activeBrowserTab?.type !== 'instantView') return;
@@ -540,13 +637,19 @@ const BrowserModal = ({
     return (
       <DropdownMenu
         className={buildClassName(
-          supportMultiTabMode ? styles.webAppTabMoreMenu : 'web-app-more-menu',
+          !isWorkspace && (supportMultiTabMode ? styles.webAppTabMoreMenu : 'web-app-more-menu'),
           'with-menu-transitions',
         )}
         trigger={MoreMenuButton}
-        positionX={supportMultiTabMode ? 'left' : 'right'}
+        positionX={isWorkspace || !supportMultiTabMode ? 'right' : 'left'}
       >
         {renderMenuItems()}
+        {isWorkspace && !isFullScreen && (
+          <>
+            <MenuItem icon="add" onClick={handleOpenMoreAppsTabClick}>{lang('OpenApp')}</MenuItem>
+            <MenuItem icon="expand-modal" onClick={handleFullscreenClick}>{lang('AccSwitchToFullscreen')}</MenuItem>
+          </>
+        )}
       </DropdownMenu>
     );
   }
@@ -674,6 +777,7 @@ const BrowserModal = ({
         round
         color="translucent"
         size="tiny"
+        ariaLabel={lang('OpenApp')}
         onClick={handleOpenMoreAppsTabClick}
         iconName="add"
         iconClassName={styles.icon}
@@ -722,9 +826,81 @@ const BrowserModal = ({
       <div
         ref={headerRef}
       >
-        {!supportMultiTabMode
-          ? renderSinglePageModeHeader()
-          : (isMaximizedState ? renderMultiTabHeader() : <MinimizedBrowserModal />)}
+        {renderHeaderContent()}
+      </div>
+    );
+  }
+
+  function renderHeaderContent() {
+    if (isWorkspace) return renderWorkspaceHeader();
+    if (!supportMultiTabMode) return renderSinglePageModeHeader();
+    return isMaximizedState ? renderMultiTabHeader() : <MinimizedBrowserModal />;
+  }
+
+  function renderWorkspaceHeader() {
+    const title = isMoreAppsTabActive ? lang('OpenApp') : getBrowserTabTitle(activeTab, attachBot) || lang('OpenApp');
+    return (
+      <div className={buildClassName('modal-header', styles.workspaceHeader)}>
+        {!isFullScreen && workspaceMode !== 'wide' && (
+          <Button
+            className={styles.workspaceBack}
+            color="translucent"
+            size="tiny"
+            iconName="arrow-left"
+            onClick={handleCollapseClick}
+          >
+            {lang('RelayMiniAppBackToChat')}
+          </Button>
+        )}
+        {isBackButtonVisible && !isMoreAppsTabActive && (
+          <Button
+            className={styles.workspaceAction}
+            color="translucent"
+            size="tiny"
+            ariaLabel={oldLang('Back')}
+            iconName="arrow-left"
+            onClick={handleBackClick}
+          />
+        )}
+        <div className={styles.workspaceTitle} title={title}>{title}</div>
+        {!isMoreAppsTabActive && renderDropdownMoreMenu()}
+        {(isFullScreen || workspaceMode === 'wide') && (
+          <Button
+            className={styles.workspaceAction}
+            color="translucent"
+            size="tiny"
+            ariaLabel={lang(isFullScreen ? 'RelayRestore' : 'RelayMinimize')}
+            onClick={isFullScreen ? handleRestoreWorkspace : handleCollapseClick}
+            iconName="collapse-modal"
+          />
+        )}
+        <Button
+          className={styles.workspaceAction}
+          color="translucent"
+          size="tiny"
+          ariaLabel={oldLang('Close')}
+          iconName="close"
+          onClick={isMoreAppsTabActive ? handleCloseMoreAppsTab : handleTabClose}
+        />
+        {!isFullScreen && Boolean(tabs?.length && (tabs.length > 1 || isMoreAppsTabActive)) && (
+          <div className={styles.workspaceTabs} ref={containerRef}>
+            {tabs?.map((tab) => {
+              const tabTitle = getBrowserTabTitle(tab) || lang('OpenApp');
+              return (
+                <button
+                  key={tab.key}
+                  className={styles.workspaceTab}
+                  type="button"
+                  aria-pressed={!isMoreAppsTabActive && tab.isOpen}
+                  title={tabTitle}
+                  onClick={() => handleTabClick(tab)}
+                >
+                  {tabTitle}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
@@ -756,7 +932,7 @@ const BrowserModal = ({
         <div className={styles.toolBar}>
           {!isMoreAppsTabActive && renderMoreAppsButton()}
 
-          {!isMoreAppsTabActive && activeWebApp && (
+          {!isMobile && !isMoreAppsTabActive && activeWebApp && (
             <Button
               className={buildClassName(
                 styles.windowStateButton,
@@ -766,6 +942,7 @@ const BrowserModal = ({
               round
               color="translucent"
               size="tiny"
+              ariaLabel={lang('AccSwitchToFullscreen')}
               onClick={handleFullscreenClick}
               iconName="expand-modal"
               iconClassName={styles.stateIcon}
@@ -780,6 +957,7 @@ const BrowserModal = ({
             round
             color="translucent"
             size="tiny"
+            ariaLabel={lang('RelayMinimize')}
             onClick={handleCollapseClick}
             iconClassName={styles.stateIcon}
             iconName="collapse-modal"
@@ -840,19 +1018,25 @@ const BrowserModal = ({
         supportMultiTabMode && styles.multiTab,
         isMinimizedState && styles.minimized,
         isFullScreen && styles.fullScreen,
+        isWorkspace && styles.workspace,
+        isDocked && styles.docked,
+        isDocked && workspaceMode === 'focused' && styles.focusedDock,
       )}
-      dialogClassName="browser-modal-dialog"
-      dialogStyle={supportMultiTabMode ? draggableStyle : undefined}
-      dialogContent={isDraggingEnabled && !isMinimizedState ? renderResizeHandles() : undefined}
+      ariaLabel={getBrowserTabTitle(activeTab, attachBot) || lang('OpenApp')}
+      dialogClassName={buildClassName('browser-modal-dialog', isWorkspace && 'browser-workspace-dialog')}
+      dialogStyle={supportMultiTabMode && !isWorkspace ? draggableStyle : undefined}
+      dialogContent={isDraggingEnabled && !isMinimizedState && !isWorkspace ? renderResizeHandles() : undefined}
       isOpen={isOpen}
+      isNonModal={isDocked || (IS_DESKTOP_WORKSPACE && isMinimizedState)}
+      isSuspended={!isTelegramWorkspaceActive}
       isLowStackPriority
-      onClose={handleModalClose}
+      onClose={isWorkspace && isFullScreen ? handleRestoreWorkspace : handleModalClose}
       header={renderHeader()}
       style={`background-color: ${backgroundColor || 'var(--color-background)'}`}
       noBackdrop
       noBackdropClose
     >
-      {isFullScreen && activeWebApp && renderMoreMenu()}
+      {isFullScreen && !isWorkspace && activeWebApp && renderMoreMenu()}
       {openedTabs && sessionKeys?.map((key) => {
         const browserTab = openedTabs[key];
         if (!browserTab) return undefined;
@@ -865,9 +1049,12 @@ const BrowserModal = ({
             registerSendEventCallback={registerSendEventCallback}
             registerReloadFrameCallback={registerReloadFrameCallback}
             webApp={browserTab.webApp}
-            isTransforming={isDragging || isResizing}
+            isTransforming={!isWorkspace && (isDragging || isResizing)}
             onContextMenuButtonClick={handleContextMenu}
             isMultiTabSupported={supportMultiTabMode}
+            isWorkspaceVisible={isTelegramWorkspaceActive}
+            hasExternalFullscreenControls={isWorkspace}
+            shouldUseStableLayout={IS_DESKTOP_WORKSPACE || isReducedMotion}
             modalHeight={currentHeight}
           />
         ) : (
@@ -908,11 +1095,21 @@ export default memo(withGlobal<OwnProps>(
   },
 )(BrowserModal));
 
+function getMoreMenuButtonClass(isWorkspace: boolean, supportMultiTabMode: boolean) {
+  if (isWorkspace) return styles.workspaceAction;
+  return supportMultiTabMode ? styles.tabMoreButton : styles.moreButton;
+}
+
+function getIsTelegramWorkspaceActive() {
+  const activeApp = document.documentElement.dataset.relayActiveApp;
+  return !IS_DESKTOP_WORKSPACE || !activeApp || activeApp === 'telegram';
+}
+
 function getBrowserTabTitle(tab?: BrowserModalTab, attachBot?: ApiAttachBot) {
   if (!tab) return undefined;
 
   if (tab.browserTab.type === 'webApp') {
-    return attachBot?.shortName ?? tab.bot?.firstName;
+    return tab.browserTab.webApp.appName || attachBot?.shortName || tab.bot?.firstName;
   }
 
   return tab.webPage?.title || tab.webPage?.siteName || tab.webPage?.displayUrl;

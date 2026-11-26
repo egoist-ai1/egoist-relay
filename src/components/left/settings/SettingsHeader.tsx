@@ -103,6 +103,8 @@ const SettingsHeader: FC<OwnProps> = ({
         return <h3>{oldLang('DoNotTranslate')}</h3>;
       case SettingsScreens.Stickers:
         return <h3>{oldLang('StickersName')}</h3>;
+      case SettingsScreens.RelayApp:
+        return <h3>{lang('RelayAppSettings')}</h3>;
       case SettingsScreens.Experimental:
         return <h3>{oldLang('lng_settings_experimental')}</h3>;
 

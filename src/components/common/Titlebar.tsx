@@ -1,55 +1,65 @@
-import { memo, useEffect, useState } from '../../lib/teact/teact';
+import {
+  memo, useEffect, useRef, useState,
+} from '../../lib/teact/teact';
 
 import type { AppId } from '../multi/AppSidebar';
 
 import { IS_TAURI } from '../../util/browser/globalEnvironment';
 import { IS_MAC_OS } from '../../util/browser/windowEnvironment';
 import buildClassName from '../../util/buildClassName';
+import captureEscKeyListener from '../../util/captureEscKeyListener';
 import { handleError } from '../../util/handleError';
 
 import useLang from '../../hooks/useLang';
 import useLastCallback from '../../hooks/useLastCallback';
 
+import BrandMark from './BrandMark';
 import Icon from './icons/Icon';
-import SennitMark from './SennitMark';
 
 import styles from './Titlebar.module.scss';
 
-// Порядок сервисов в rail: индекс разделов фирменной сетки (Egoist Grid) показывает реальное положение
-const SERVICE_ORDER: AppId[] = ['telegram', 'x', 'instagram'];
-
-export type SocialNavigationAction = 'back' | 'forward' | 'home' | 'reload';
+export type SocialNavigationAction = 'back' | 'forward' | 'home' | 'reload' | 'browser-login';
 type OwnProps = {
   activeApp: AppId;
-  isXAuthRequired?: boolean;
-  canNavigate?: boolean;
+  isMenuAllowed?: boolean;
+  canGoBack?: boolean;
+  canGoForward?: boolean;
   isNavigating?: boolean;
   notice?: string;
   isOperationsOpen?: boolean;
+  isPaletteOpen?: boolean;
   operationCount?: number;
   onToggleOperations?: NoneToVoidFunction;
-  onLoginX: NoneToVoidFunction;
+  onTogglePalette?: NoneToVoidFunction;
+  onMenuVisibilityChange?: (isOpen: boolean) => Promise<boolean>;
   onNavigate: (action: SocialNavigationAction) => void;
 };
 
 const Titlebar = ({
   activeApp,
-  isXAuthRequired,
-  canNavigate,
+  isMenuAllowed = true,
+  canGoBack,
+  canGoForward,
   isNavigating,
   notice,
   isOperationsOpen,
+  isPaletteOpen,
   operationCount,
   onToggleOperations,
-  onLoginX,
+  onTogglePalette,
+  onMenuVisibilityChange,
   onNavigate,
 }: OwnProps) => {
   const [isMaximized, setIsMaximized] = useState(false);
+  const refreshWindowStateRef = useRef<NoneToVoidFunction>();
   const lang = useLang();
-  const handleBack = useLastCallback(() => onNavigate('back'));
-  const handleForward = useLastCallback(() => onNavigate('forward'));
-  const handleHome = useLastCallback(() => onNavigate('home'));
-  const handleReload = useLastCallback(() => onNavigate('reload'));
+  const menuNavigation = isMenuAllowed && activeApp !== 'telegram' ? [
+    { action: 'back', label: lang('RelayNavBack'), icon: 'arrow-left', disabled: !canGoBack },
+    { action: 'forward', label: lang('RelayNavForward'), icon: 'arrow-right', disabled: !canGoForward },
+    { action: 'reload', label: lang('RelayNavReload'), icon: 'reload', disabled: false },
+    { action: 'home', label: lang('RelayNavHome'), icon: 'web', disabled: false },
+    { action: 'browser-login', label: lang('RelayBrowserLogin'), icon: 'link', disabled: false },
+  ] as const : [];
 
   useEffect(() => {
     if (IS_MAC_OS || !IS_TAURI) return undefined;
@@ -63,25 +73,42 @@ const Titlebar = ({
         const currentWindow = getCurrentWindow();
         if (!isMounted) return;
 
-        const initialMaximized = await currentWindow.isMaximized();
-        if (!isMounted) return;
-        setIsMaximized(initialMaximized);
-        const releaseResize = await currentWindow.onResized(async () => {
+        let isReading = false;
+        let needsRead = false;
+        async function readWindowState() {
           if (!isMounted) return;
-          try {
-            const maximized = await currentWindow.isMaximized();
-            if (isMounted) setIsMaximized(maximized);
-          } catch (err) {
-            if (isMounted) handleError(new Error('Failed to read resized window state', { cause: err }));
+          needsRead = true;
+          if (isReading) return;
+
+          isReading = true;
+          while (isMounted && needsRead) {
+            needsRead = false;
+            try {
+              const maximized = await currentWindow.isMaximized();
+              if (isMounted && !needsRead) setIsMaximized(maximized);
+            } catch (err) {
+              if (isMounted) handleError(new Error('Failed to read window state', { cause: err }));
+            }
           }
-        });
+          isReading = false;
+        }
+
+        const refresh = () => {
+          void readWindowState();
+        };
+        refreshWindowStateRef.current = refresh;
+        const releaseResize = await currentWindow.onResized(refresh);
         if (!isMounted) {
           releaseResize();
           return;
         }
         unlistenResize = releaseResize;
+        refresh();
       } catch (err) {
-        handleError(new Error('Failed to read window state', { cause: err }));
+        if (isMounted) {
+          handleError(new Error('Failed to watch window state', { cause: err }));
+          refreshWindowStateRef.current?.();
+        }
       }
     }
 
@@ -89,6 +116,7 @@ const Titlebar = ({
 
     return () => {
       isMounted = false;
+      refreshWindowStateRef.current = undefined;
       unlistenResize?.();
     };
   }, []);
@@ -107,7 +135,7 @@ const Titlebar = ({
       const { getCurrentWindow } = await import('@tauri-apps/api/window');
       const currentWindow = getCurrentWindow();
       await currentWindow.toggleMaximize();
-      setIsMaximized(await currentWindow.isMaximized());
+      refreshWindowStateRef.current?.();
     } catch (err) {
       handleError(new Error('Failed to toggle maximize', { cause: err }));
     }
@@ -124,17 +152,16 @@ const Titlebar = ({
 
   if (IS_MAC_OS || !IS_TAURI) return undefined;
 
-  const sectionIndex = `${String(SERVICE_ORDER.indexOf(activeApp) + 1).padStart(2, '0')}/0${SERVICE_ORDER.length}`;
-
   return (
     <div
       className={styles.titlebar}
       role="banner"
+      data-relay-caption
     >
       <div className={styles.dragRegion} data-tauri-drag-region>
         <span className={styles.brand} data-tauri-drag-region>
-          <SennitMark size={16} isInline />
-          {lang('RelayBrand')}
+          <BrandMark size={20} className={styles.brandMark} isCompact />
+          <span className={styles.brandName} data-tauri-drag-region>{lang('RelayBrand')}</span>
         </span>
         <span className={styles.appTitle} data-tauri-drag-region>
           {activeApp === 'x'
@@ -143,70 +170,22 @@ const Titlebar = ({
               ? lang('RelayInstagramTitle')
               : lang('RelayTelegramTitle')}
         </span>
-        <span className={styles.gridIndex} aria-hidden="true" data-tauri-drag-region>
-          {sectionIndex}
-        </span>
       </div>
 
       {notice && <span className={styles.notice} title={notice} role="status" aria-live="polite">{notice}</span>}
 
-      {activeApp !== 'telegram' && (
-        <div className={styles.navigation} role="group" aria-label={lang('RelayNavigation')}>
-          <button
-            type="button"
-            className={styles.navigationButton}
-            onClick={handleBack}
-            disabled={!canNavigate || isNavigating}
-            title={lang('RelayNavBack')}
-            aria-label={lang('RelayNavBack')}
-          >
-            <Icon name="arrow-left" className={styles.navigationIcon} />
-          </button>
-          <button
-            type="button"
-            className={styles.navigationButton}
-            onClick={handleForward}
-            disabled={!canNavigate || isNavigating}
-            title={lang('RelayNavForward')}
-            aria-label={lang('RelayNavForward')}
-          >
-            <Icon name="arrow-right" className={styles.navigationIcon} />
-          </button>
-          <button
-            type="button"
-            className={styles.navigationButton}
-            onClick={handleHome}
-            disabled={isNavigating}
-            title={lang('RelayNavHome')}
-            aria-label={lang('RelayNavHome')}
-          >
-            <svg viewBox="0 0 24 24" className={styles.homeIcon} aria-hidden="true" focusable="false">
-              <path d="M3 10.5 12 3l9 7.5M5 9v12h5v-7h4v7h5V9" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className={styles.navigationButton}
-            onClick={handleReload}
-            disabled={isNavigating}
-            title={lang('RelayNavReload')}
-            aria-label={lang('RelayNavReload')}
-          >
-            <Icon name="reload" className={styles.navigationIcon} />
-          </button>
-        </div>
-      )}
-
-      {activeApp === 'x' && isXAuthRequired && (
+      {onTogglePalette && (
         <button
           type="button"
-          className={styles.loginButton}
-          title={lang('RelayXDirectLogin')}
-          aria-label={lang('RelayXDirectLogin')}
-          onClick={onLoginX}
+          className={buildClassName(styles.operationsButton, isPaletteOpen && styles.operationsOpen)}
+          onClick={onTogglePalette}
+          aria-label={lang('RelayPaletteTitle')}
+          aria-haspopup="dialog"
+          aria-expanded={Boolean(isPaletteOpen)}
+          aria-keyshortcuts="Control+K"
+          title={`${lang('RelayPaletteTitle')} (Ctrl+K)`}
         >
-          <span className={styles.loginLabel} aria-hidden="true">{lang('RelayXDirectLogin')}</span>
-          <span className={styles.loginShortLabel} aria-hidden="true">{lang('RelayLoginShort')}</span>
+          <Icon name="search" className={styles.navigationIcon} />
         </button>
       )}
 
@@ -225,6 +204,26 @@ const Titlebar = ({
           <Icon name="download" className={styles.navigationIcon} />
           {Boolean(operationCount) && <span className={styles.operationCount}>{operationCount}</span>}
         </button>
+      )}
+      {menuNavigation.length > 0 && (
+        <TitlebarActions
+          key={activeApp}
+          label={lang('RelayServiceActions')}
+          onVisibilityChange={onMenuVisibilityChange}
+        >
+          {(close) => menuNavigation.map(({ action, label, icon, disabled }) => (
+            <button
+              key={action}
+              type="button"
+              className={styles.menuAction}
+              onClick={() => close(true, () => onNavigate(action))}
+              disabled={disabled || isNavigating}
+            >
+              <Icon name={icon} className={styles.navigationIcon} />
+              {label}
+            </button>
+          ))}
+        </TitlebarActions>
       )}
       <div className={styles.controls}>
         <button
@@ -277,8 +276,8 @@ const Titlebar = ({
           type="button"
           className={buildClassName(styles.button, styles.close)}
           onClick={handleClose}
-          title={lang('Close')}
-          aria-label={lang('Close')}
+          title={lang('RelayWindowHideToTray')}
+          aria-label={lang('RelayWindowHideToTray')}
         >
           <svg
             viewBox="0 0 12 12"
@@ -294,5 +293,111 @@ const Titlebar = ({
     </div>
   );
 };
+
+type ActionsProps = {
+  label: string;
+  onVisibilityChange?: (isOpen: boolean) => Promise<boolean>;
+  children: (close: CloseActions) => React.ReactNode;
+};
+
+type CloseActions = (shouldRestoreFocus?: boolean, onClosed?: NoneToVoidFunction) => void;
+const TITLEBAR_ACTIONS_ID = 'relay-titlebar-actions';
+
+function TitlebarActions({ label, onVisibilityChange, children }: ActionsProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>();
+  const triggerRef = useRef<HTMLButtonElement>();
+  const requestRef = useRef<symbol>();
+  const afterCloseRef = useRef<NoneToVoidFunction>();
+  const isMountedRef = useRef(true);
+
+  const releaseNativeSurface = useLastCallback(async () => {
+    if (!requestRef.current) return false;
+    requestRef.current = undefined;
+    try {
+      return (await onVisibilityChange?.(false)) !== false;
+    } catch (err) {
+      handleError(new Error('Failed to release titlebar actions', { cause: err }));
+      return false;
+    }
+  });
+
+  const close = useLastCallback<CloseActions>((shouldRestoreFocus, onClosed) => {
+    afterCloseRef.current = onClosed;
+    setIsOpen(false);
+    if (shouldRestoreFocus) triggerRef.current?.focus({ preventScroll: true });
+  });
+
+  const handleToggle = useLastCallback(async () => {
+    if (isOpen) {
+      close(true);
+      return;
+    }
+    if (requestRef.current) return;
+    const request = Symbol();
+    requestRef.current = request;
+    try {
+      const canOpen = await onVisibilityChange?.(true);
+      if (requestRef.current !== request) return;
+      if (canOpen === false) {
+        void releaseNativeSurface();
+        return;
+      }
+      setIsOpen(true);
+    } catch (err) {
+      if (requestRef.current === request) void releaseNativeSurface();
+      handleError(new Error('Failed to open titlebar actions', { cause: err }));
+    }
+  });
+
+  useEffect(() => () => {
+    isMountedRef.current = false;
+    afterCloseRef.current = undefined;
+    void releaseNativeSurface();
+  }, [releaseNativeSurface]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const releaseEscape = captureEscKeyListener(() => close(true));
+    const handleOutside = (event: Event) => {
+      if (event.target instanceof Node && !containerRef.current?.contains(event.target)) close();
+    };
+    document.addEventListener('pointerdown', handleOutside);
+    document.addEventListener('focusin', handleOutside);
+    return () => {
+      releaseEscape();
+      document.removeEventListener('pointerdown', handleOutside);
+      document.removeEventListener('focusin', handleOutside);
+      const onClosed = afterCloseRef.current;
+      afterCloseRef.current = undefined;
+      // Навигация доступна после снятия покрытия нативной вкладки
+      void releaseNativeSurface().then((didRelease) => {
+        if (didRelease && isMountedRef.current && !requestRef.current) onClosed?.();
+      });
+    };
+  }, [isOpen, close, releaseNativeSurface]);
+
+  return (
+    <div className={styles.moreActions} ref={containerRef}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={buildClassName(styles.operationsButton, isOpen && styles.operationsOpen)}
+        title={label}
+        aria-label={label}
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? TITLEBAR_ACTIONS_ID : undefined}
+        onClick={handleToggle}
+      >
+        <Icon name="more" className={styles.navigationIcon} />
+      </button>
+      {isOpen && (
+        <div id={TITLEBAR_ACTIONS_ID} className={styles.moreMenu} role="group" aria-label={label}>
+          {children(close)}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default memo(Titlebar);

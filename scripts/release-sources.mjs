@@ -24,7 +24,11 @@ try {
   const hook = await readFile(path.join(root, 'tauri/installer.nsh'), 'utf8');
   const packaging = await validateGenericPackaging(root, hook);
   const installerPath = validateInstallerPathBudget(runtimeManifest, hook);
-  const files = await selectSourceFiles(root); const entries = {}; const sourceManifest = [];
+  const runtimeSources = runtimeManifest.files.map(({ path: file }) => file)
+    .filter((file) => /^runtime\/(?:research-mcp|research|browser-extension)\//.test(file)
+      && /\.(?:mjs|js|json|md|ps1|txt)$/.test(file));
+  const files = [...new Set([...(await selectSourceFiles(root)), ...runtimeSources])].sort();
+  const entries = {}; const sourceManifest = [];
   const imports = await validateSourceImports(root, files);
   for (const relative of files) {
     const bytes = await readFile(path.join(root, relative));
@@ -71,10 +75,10 @@ try {
   entries['source-manifest.json'] = new TextEncoder().encode(`${JSON.stringify({ version: configuration.version, files: sourceManifest, imports,
     exclusions: 'Local environments, account/profile/enrollment stores, build/evidence output, and standalone test/fixture files' }, null, 2)}\n`);
   entries['dependency-sources.json'] = new TextEncoder().encode(`${JSON.stringify(availability, null, 2)}\n`);
-  entries['BUILDING.md'] = new TextEncoder().encode(`# Egoist Relay ${configuration.version} source preparation\n\n`
+  entries['BUILDING.md'] = new TextEncoder().encode(`# Береста — подготовка сборки из исходников\n\n`
     + 'Windows x64 10 version 1903 or newer; Node.js 24, npm 11; Rust 1.97 MSVC; Windows SDK and NSIS.\n\n'
     + `The installed application directory is limited to ${installerPath.maxInstallDirectoryChars} UTF-16 units by bundled notice paths and classic Win32 limits. The installer rejects longer paths before dependency/payload installation; it does not change the system long-path policy.\n\n`
-    + 'Run npm ci, provide your own TELEGRAM_API_ID and TELEGRAM_API_HASH in a local .env, and place the exact public runtime files described in scripts/release-runtime-manifest.json into runtime/. Run npm run release:preflight, npm run check, and npm run tauri:build. TEST_SESSION and personal profile files must never be included. This version builds one generic installer and inherits the host network configuration; it does not import network profiles or bundle proxy/VPN engines.\n\n'
+    + 'Run npm ci, provide your own TELEGRAM_API_ID and TELEGRAM_API_HASH in a local .env, and place the exact public runtime files described in scripts/release-runtime-manifest.json into runtime/. Run npm run release:preflight, npm run check, and npm run tauri:build. Build the branded stub from installer/ and run node scripts/build-installer.mjs --final to generate Beresta-Setup.exe. TEST_SESSION and personal profile files must never be included. The application uses Windows network configuration.\n\n'
     + 'Standalone unit tests and fixtures are excluded from this source preparation archive. The full test commands and CI require the original reviewed repository; npm test is not a verification gate for this partial archive. The archive extraction was typechecked with the existing locked dependencies, not independently rebuilt on a clean host.\n\n'
     + 'This archive prepares project source and notices. It does not claim complete corresponding source delivery for every bundled executable. See dependency-sources.json for blocking missing inputs. The original GPL license is in LICENSE. No user accounts, DNS/tunnel enrollment, private keys, build logs or installed profiles are included.\n');
   await mkdir(output, { recursive: true });

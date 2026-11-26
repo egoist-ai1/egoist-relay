@@ -5,6 +5,8 @@ import { getDcBandwidthManager } from '../../../util/dcBandwithManager';
 import waitForMediaTransfer from '../../../util/waitForMediaTransfer';
 import { FloodPremiumWaitError, FloodWaitError, RPCError } from '../errors';
 import Api from '../tl/api';
+import { downloadCdnRange } from './downloadCdnFile';
+import { openResumableDownload, writeAll } from './resumableDownload';
 
 import LocalUpdatePremiumFloodWait from '../../../api/gramjs/updates/UpdatePremiumFloodWait';
 import { sleep } from '../Helpers';
@@ -27,6 +29,7 @@ export interface DownloadFileParams {
   progressCallback?: OnProgress;
   isPriority?: boolean;
   isResearchRequest?: boolean;
+  resumeAccountId?: string;
 }
 
 export type DownloadFileWithDcParams = DownloadFileParams & { dcId: number };
@@ -42,10 +45,41 @@ const DEFAULT_CHUNK_SIZE = 1024; // KB
 const ONE_MB = 1024 * 1024;
 const DISCONNECT_SLEEP = 1000;
 
-// when the sender requests hangs for 60 second we will reimport
+// Ожидание подключения отправителя и таймаут крупной части: 60 с
 const SENDER_TIMEOUT = 60 * 1000;
+// Небольшие части (<= 128 КБ) обычно приходят за доли секунды, поэтому зависший запрос
+// детектируем быстрее: 15 с вместо 60 с
+const SMALL_PART_MAX_BYTES = 128 * 1024;
+const SMALL_PART_TIMEOUT = 15 * 1000;
+// Предохранитель пересоздания exported-отправителя: не более 2 раз на dcId за 30 с,
+// дальше повтор идёт на прежнем отправителе (чтобы не устроить шторм переподключений)
+const SENDER_RECREATE_MAX = 2;
+const SENDER_RECREATE_WINDOW = 30 * 1000;
 // Telegram may have server issues so we try several times
 const SENDER_RETRIES = 5;
+
+export function getPartTimeout(limit: number) {
+  return limit <= SMALL_PART_MAX_BYTES ? SMALL_PART_TIMEOUT : SENDER_TIMEOUT;
+}
+
+const recreateHistory = new WeakMap<object, Map<number, number[]>>();
+
+// Возвращает true и записывает попытку, если пересоздание отправителя dcId разрешено предохранителем
+export function tryAcquireSenderRecreate(owner: object, dcId: number, now = Date.now()) {
+  let byDc = recreateHistory.get(owner);
+  if (!byDc) {
+    byDc = new Map();
+    recreateHistory.set(owner, byDc);
+  }
+  const recent = (byDc.get(dcId) ?? []).filter((time) => now - time < SENDER_RECREATE_WINDOW);
+  if (recent.length >= SENDER_RECREATE_MAX) {
+    byDc.set(dcId, recent);
+    return false;
+  }
+  recent.push(now);
+  byDc.set(dcId, recent);
+  return true;
+}
 
 class FileView {
   private type: 'memory' | 'opfs';
@@ -87,15 +121,7 @@ class FileView {
 
   write(data: Uint8Array, offset: number) {
     if (this.type === 'opfs') {
-      let writtenTotal = 0;
-      while (writtenTotal < data.byteLength) {
-        const remaining = data.subarray(writtenTotal);
-        const writtenBytes = this.largeFileAccessHandle!.write(remaining, { at: offset + writtenTotal });
-        if (!Number.isSafeInteger(writtenBytes) || writtenBytes <= 0 || writtenBytes > remaining.byteLength) {
-          throw new Error('DOWNLOAD_INCOMPLETE_WRITE');
-        }
-        writtenTotal += writtenBytes;
-      }
+      writeAll(this.largeFileAccessHandle!, data, offset);
       return;
     }
 
@@ -176,7 +202,7 @@ async function downloadFile2(
 ) {
   let { partSizeKb, end } = fileParams;
   const {
-    fileSize, dcId, progressCallback, isPriority, isResearchRequest, start = 0,
+    fileSize, dcId, progressCallback, isPriority, isResearchRequest, resumeAccountId, start = 0,
   } = fileParams;
 
   const fileId = 'id' in inputLocation ? inputLocation.id : undefined;
@@ -214,14 +240,19 @@ async function downloadFile2(
 
   client._log.info(`Downloading file in chunks of ${partSize} bytes`);
 
-  const fileView = new FileView(rangeSize);
+  const resumable = resumeAccountId && !isResearchRequest && fileSize && start === 0 && rangeSize === fileSize
+    && inputLocation instanceof Api.InputDocumentFileLocation && !inputLocation.thumbSize
+    ? await openResumableDownload(fileSize, [
+      resumeAccountId, Boolean(client.session.isTestServer), dcId, String(inputLocation.id),
+      String(inputLocation.accessHash),
+    ]) : undefined;
+  const fileView = resumable || new FileView(rangeSize);
   const promises: Promise<void>[] = [];
-  let offset = start;
+  let offset = resumable?.resumeFrom ?? start;
   // Used for files with unknown size and for manual cancellations
   let hasEnded = false;
 
-  let downloadedSize = 0;
-  progressCallback?.(0);
+  let downloadedSize = resumable?.resumeFrom ?? 0;
 
   // Limit updates to one per file
   let isPremiumFloodWaitSent = false;
@@ -232,7 +263,8 @@ async function downloadFile2(
   const isCanceled = () => Boolean(progressCallback?.isCanceled) || downloadError !== undefined;
 
   try {
-    await fileView.init();
+    progressCallback?.(rangeSize ? downloadedSize / rangeSize : 0);
+    if (fileView instanceof FileView) await fileView.init();
     while (!hasEnded && (end === undefined || offset <= end)) {
       if (isCanceled()) throw downloadError ?? new Error('USER_CANCELED');
 
@@ -253,6 +285,8 @@ async function downloadFile2(
           while (true) {
             if (isCanceled()) throw new Error('USER_CANCELED');
             let sender;
+            const attemptStart = Date.now();
+            const partTimeout = getPartTimeout(limit);
             const abortController = new AbortController();
             try {
               sender = await waitForMediaTransfer(
@@ -266,25 +300,33 @@ async function downloadFile2(
                 limit,
                 precise: isPrecise || undefined,
               }), abortController.signal, false, isResearchRequest)!, isCanceled,
-              SENDER_TIMEOUT, () => abortController.abort());
+              partTimeout, () => abortController.abort());
+              logWithId(`GetFile dc=${dcId} sender=${senderIndex} limit=${limit} attempt=${retryCount + 1}`
+                + ` ms=${Date.now() - attemptStart} ok`);
 
               if (!result) throw new Error('DOWNLOAD_EMPTY_RESPONSE');
-              if (result instanceof Api.upload.FileCdnRedirect) throw new Error('CDN download not supported');
+              const partBytes = result instanceof Api.upload.FileCdnRedirect
+                ? await waitForMediaTransfer(downloadCdnRange(
+                  client, sender, result, requestOffset, limit, fileSize, abortController.signal, isResearchRequest,
+                ), isCanceled, partTimeout, () => abortController.abort())
+                : result.bytes;
               if (isCanceled()) throw new Error('USER_CANCELED');
 
-              const bytes = result.bytes.subarray(partStart - requestOffset, partEnd - requestOffset + 1);
+              const bytes = partBytes.subarray(partStart - requestOffset, partEnd - requestOffset + 1);
               if (rangeSize !== undefined && bytes.length !== partEnd - partStart + 1) {
                 throw new Error('DOWNLOAD_INCOMPLETE');
               }
               fileView.write(bytes, partStart - start);
               downloadedSize += bytes.length;
-              if (noParallel && result.bytes.length < limit) hasEnded = true;
+              if (noParallel && partBytes.length < limit) hasEnded = true;
               const progress = rangeSize !== undefined ? Math.min(downloadedSize / rangeSize, 1) : (hasEnded ? 1 : 0);
               progressCallback?.(progress);
               logWithId(`[${senderIndex}/${dcId}]`, `Downloaded ${downloadedSize} bytes`);
               return;
             } catch (err) {
               if (isCanceled() || (err instanceof Error && err.message === 'USER_CANCELED')) throw err;
+              logWithId(`GetFile dc=${dcId} sender=${senderIndex} limit=${limit} attempt=${retryCount + 1}`
+                + ` ms=${Date.now() - attemptStart} error=${err instanceof Error ? err.message : String(err)}`);
               if (isResearchRequest) throw err;
               if (err instanceof FloodWaitError) {
                 if (err instanceof FloodPremiumWaitError && !isPremiumFloodWaitSent) {
@@ -296,6 +338,11 @@ async function downloadFile2(
               }
               if ((sender && !sender.isConnected()) || (err instanceof Error && err.message === 'DOWNLOAD_TIMEOUT')) {
                 if (++retryCount < SENDER_RETRIES) {
+                  // Отправитель мог зависнуть: пересоздаём его перед повтором (с предохранителем)
+                  if (tryAcquireSenderRecreate(client, dcId)) {
+                    logWithId(`Recreating sender dc=${dcId} idx=${senderIndex}`);
+                    await client._cleanupExportedSender(dcId, senderIndex).catch(() => undefined);
+                  }
                   await waitForMediaTransfer(sleep(DISCONNECT_SLEEP), isCanceled);
                   continue;
                 }
@@ -327,6 +374,6 @@ async function downloadFile2(
   } finally {
     downloadError ??= new Error('USER_CANCELED');
     await Promise.all(promises);
-    await fileView.dispose(!isCompleted);
+    await fileView.dispose(resumable ? Boolean(progressCallback?.isCanceled) : !isCompleted);
   }
 }

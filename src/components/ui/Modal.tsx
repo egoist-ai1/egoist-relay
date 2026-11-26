@@ -49,11 +49,14 @@ export type OwnProps = {
   noBackdrop?: boolean;
   noBackdropClose?: boolean;
   isNativeDialog?: boolean;
+  isNonModal?: boolean;
+  isSuspended?: boolean;
   noTitleAutoFocus?: boolean;
   children: React.ReactNode;
   style?: string;
   dialogStyle?: string;
   dialogRef?: ElementRef<HTMLDivElement>;
+  portalContainerSelector?: string;
   isLowStackPriority?: boolean;
   dialogContent?: React.ReactNode;
   moreMenuItems?: TeactNode;
@@ -74,7 +77,9 @@ const Modal = (props: OwnProps) => {
     noBackdropClose,
     noFreezeOnClose,
     isNativeDialog,
+    isSuspended,
     noTitleAutoFocus,
+    portalContainerSelector,
     onClose,
     onCloseAnimationEnd,
     onEnter,
@@ -93,11 +98,13 @@ const Modal = (props: OwnProps) => {
     onCloseAnimationEnd,
   });
 
+  const isInteractive = isOpen && !isSuspended;
   const shouldFreeze = !noFreezeOnClose && !isOpen;
   const {
     title,
     ariaLabel,
     isLowStackPriority,
+    isNonModal,
     header,
     children,
     className,
@@ -161,18 +168,17 @@ const Modal = (props: OwnProps) => {
   const withCloseButton = hasCloseButton || hasAbsoluteCloseButton;
 
   useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
+    if (!isInteractive || isNonModal) return undefined;
 
     disableDirectTextInput();
 
     return enableDirectTextInput;
-  }, [isOpen]);
+  }, [isInteractive, isNonModal]);
 
   const handleEnter = useLastCallback((e: KeyboardEvent) => {
     const target = e.target instanceof Element ? e.target : undefined;
     if (!target || !modalRef.current?.contains(target)) {
+      if (isNonModal) return false;
       const owner = target?.closest('.Modal');
       if (owner && owner !== modalRef.current && owner.matches('.open, dialog[open]')
         && !owner.matches('.closing, .not-shown, .not-open')) return false;
@@ -201,6 +207,7 @@ const Modal = (props: OwnProps) => {
 
   const handleEscape = useLastCallback((e: KeyboardEvent) => {
     const owner = e.target instanceof Element ? e.target.closest('.Modal') : undefined;
+    if (isNonModal && owner !== modalRef.current) return false;
     if (owner && owner !== modalRef.current && owner.matches('.open, dialog[open]')
       && !owner.matches('.closing, .not-shown, .not-open')) return false;
     e.preventDefault();
@@ -209,25 +216,38 @@ const Modal = (props: OwnProps) => {
   });
 
   useEffect(() => (
-    isOpen ? captureKeyboardListeners({ onEsc: handleEscape, onEnter: handleEnter, onSpace: handleSpace }) : undefined
-  ), [isOpen, handleEscape, handleEnter, handleSpace]);
+    isInteractive ? captureKeyboardListeners({ onEsc: handleEscape, onEnter: handleEnter, onSpace: handleSpace })
+      : undefined
+  ), [isInteractive, handleEscape, handleEnter, handleSpace]);
   useSyncEffect(() => {
     previousFocusRef.current = isOpen && document.activeElement instanceof HTMLElement
       ? document.activeElement : undefined;
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (!isInteractive || !shouldRender) return undefined;
     let isCancelled = false;
     let releaseFocus: NoneToVoidFunction | undefined;
     requestMeasure(() => {
-      if (!isCancelled && modalRef.current) releaseFocus = trapFocus(modalRef.current, previousFocusRef.current);
+      const element = modalRef.current;
+      if (isCancelled || !element) return;
+      const previousFocus = previousFocusRef.current;
+      if (isNonModal) {
+        if (!element.contains(document.activeElement)) element.focus({ preventScroll: true });
+        releaseFocus = () => {
+          if (element.contains(document.activeElement) && previousFocus?.isConnected) {
+            previousFocus.focus({ preventScroll: true });
+          }
+        };
+      } else {
+        releaseFocus = trapFocus(element, previousFocus);
+      }
     });
     return () => {
       isCancelled = true;
       releaseFocus?.();
     };
-  }, [isOpen, modalRef, shouldRender]);
+  }, [isInteractive, isNonModal, modalRef, shouldRender]);
 
   useLayoutEffect(() => {
     if (!isNativeDialog || !shouldRender) {
@@ -235,7 +255,8 @@ const Modal = (props: OwnProps) => {
     }
 
     const dialog = nativeDialogRef.current;
-    if (!dialog) {
+    const portal = document.querySelector(portalContainerSelector || '#portals');
+    if (!dialog || portal?.hasAttribute('inert')) {
       return undefined;
     }
 
@@ -248,7 +269,7 @@ const Modal = (props: OwnProps) => {
         dialog.close();
       }
     };
-  }, [isNativeDialog, nativeDialogRef, shouldRender]);
+  }, [isNativeDialog, nativeDialogRef, portalContainerSelector, shouldRender]);
 
   useEffect(() => {
     if (!isNativeDialog || !shouldRender) {
@@ -276,11 +297,14 @@ const Modal = (props: OwnProps) => {
   }, [isNativeDialog, isOpen, nativeDialogRef, onClose, shouldRender]);
 
   useHistoryBack({
-    isActive: isOpen,
+    isActive: isInteractive,
     onBack: onClose,
   });
 
-  useLayoutEffect(() => (shouldRender ? acquireOpenModal() : undefined), [shouldRender]);
+  useLayoutEffect(
+    () => (shouldRender && !isNonModal && !isSuspended ? acquireOpenModal() : undefined),
+    [shouldRender, isNonModal, isSuspended],
+  );
 
   useLayoutEffectWithPrevDeps(([prevIsOpen]) => {
     if (!shouldDisableAnimation && (isOpen || (!isOpen && prevIsOpen !== undefined))) {
@@ -405,7 +429,7 @@ const Modal = (props: OwnProps) => {
   }
 
   return (
-    <Portal>
+    <Portal containerSelector={portalContainerSelector}>
       {isNativeDialog ? (
         <dialog
           ref={nativeDialogRef}
@@ -422,8 +446,10 @@ const Modal = (props: OwnProps) => {
           className={fullClassName}
           tabIndex={-1}
           role="dialog"
-          aria-modal="true"
+          aria-modal={!isNonModal}
           aria-label={ariaLabel}
+          hidden={isSuspended}
+          inert={isSuspended}
           aria-labelledby={title && !header ? titleId : undefined}
         >
           {renderContent()}

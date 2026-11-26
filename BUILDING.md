@@ -1,20 +1,11 @@
-# Сборка Egoist Relay 1.4.6
+# Береста — подготовка сборки из исходников
 
-Целевая платформа проверенного выпуска: Windows x64, Windows 10 1903 или новее. Инструменты: Node.js 24, npm 11, Rust 1.97 MSVC, Windows SDK, NSIS и WebView2. Lockfiles сохранены.
+Windows x64 10 version 1903 or newer; Node.js 24, npm 11; Rust 1.97 MSVC; Windows SDK and NSIS.
 
-1. Выполните npm ci в корне репозитория.
-2. Скопируйте .env.example в .env и задайте собственные TELEGRAM_API_ID и TELEGRAM_API_HASH. Получите их на https://my.telegram.org. Локальная .env исключена из Git. TEST_SESSION в production запрещён.
-3. Подготовьте точные публичные runtime файлы из scripts/release-runtime-manifest.json: Node, media tools, whisper.cpp DLL и модели. В ветке присутствуют JS/PowerShell research helper и notices; executables/models не публикуются в Git. Каждая зависимость проверяется по размеру и SHA256.
-4. Если имеется отдельно проверенный runtime archive, задайте RELAY_PUBLIC_RUNTIME_URL и RELAY_PUBLIC_RUNTIME_SHA256 и выполните node scripts/release-fetch-runtime.mjs. Репозиторий не содержит произвольной ссылки на непроверенный архив.
-5. Выполните npm run release:preflight, npm run release:test, npm test, npm run check и cargo test --locked --manifest-path tauri/Cargo.toml.
-6. Соберите npm run tauri:build -- --ci --no-sign -- --locked. Автоматическое обновление отключено до подписанного update channel.
+The installed application directory is limited to 196 UTF-16 units by bundled notice paths and classic Win32 limits. The installer rejects longer paths before dependency/payload installation; it does not change the system long-path policy.
 
-Чистая независимая сборка на новом устройстве этим source publication не заявляется: требуется exact runtime и собственные credentials. Последняя локальная сборка 1.4.6 была собрана и прошла изолированный smoke.
+Run npm ci, provide your own TELEGRAM_API_ID and TELEGRAM_API_HASH in a local .env, and place the exact public runtime files described in scripts/release-runtime-manifest.json into runtime/. Run npm run release:preflight, npm run check, and npm run tauri:build. Build the branded stub from installer/ and run node scripts/build-installer.mjs --final to generate Beresta-Setup.exe. TEST_SESSION and personal profile files must never be included. The application uses Windows network configuration.
 
-## Social MCP
+Standalone unit tests and fixtures are excluded from this source preparation archive. The full test commands and CI require the original reviewed repository; npm test is not a verification gate for this partial archive. The archive extraction was typechecked with the existing locked dependencies, not independently rebuilt on a clean host.
 
-Компонент scripts/integrations/egoist-social-mcp использует Node.js 24 и встроенные Node libraries. Запуск: node src/research/mcp.mjs в каталоге компонента. Проверьте README.md и BRIDGE-CONTRACT.md компонента. Подключение использует собственный установленный Relay и локальные приватные state directories; пользовательские сессии создаются пользователем на его устройстве.
-
-## Сторонние бинарные зависимости
-
-Existing release-source gate отмечает незавершённые corresponding source для exact FFmpeg build/dependencies и source archives сторонних npm/Cargo/standalone dependencies. Поэтому эта публикация распространяет проектные исходники и notices, а не устанавливаемый бинарный пакет. Пропускать этот gate при выпуске бинарников нельзя; точный статус дан в THIRD-PARTY.md.
+This archive prepares project source and notices. It does not claim complete corresponding source delivery for every bundled executable. See dependency-sources.json for blocking missing inputs. The original GPL license is in LICENSE. No user accounts, DNS/tunnel enrollment, private keys, build logs or installed profiles are included.

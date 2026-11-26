@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-social-read-staged-chunk"
+description = "Enables the relay_social_read_staged_chunk command without any pre-configured scope."
+commands.allow = ["relay_social_read_staged_chunk"]
+
+[[permission]]
+identifier = "deny-relay-social-read-staged-chunk"
+description = "Denies the relay_social_read_staged_chunk command without any pre-configured scope."
+commands.deny = ["relay_social_read_staged_chunk"]

@@ -156,9 +156,13 @@ export function initializeAuditBrowser() {
     },
   };
   const windowCallbacks = { resized: new Set(), moved: new Set() };
+  const library = {
+    entries: [], actions: [],
+    snapshot() { return clone({ isLocked: media.isLocked, entries: media.isLocked ? [] : library.entries }); },
+  };
   const native = window.__relayNativeMock = {
     calls, switches, external: [], failNext: undefined, delay: 15,
-    media, contentVisible: true, currentApp: 'telegram', windowCallbacks,
+    media, library, contentVisible: true, currentApp: 'telegram', windowCallbacks,
     listen(name, callback) { const set = listeners.get(name) || new Set(); set.add(callback); listeners.set(name, set);
       return () => set.delete(callback); },
     emit(name, payload) { for (const callback of listeners.get(name) || []) callback({ payload }); },
@@ -168,14 +172,28 @@ export function initializeAuditBrowser() {
       if (command === native.failNext) { native.failNext = undefined; throw new Error('Synthetic native operation failure'); }
       if (command === 'relay_media_operations_list') return media.snapshot();
       if (command === 'relay_media_operation_action') return media.action(args.action);
+      if (command === 'relay_library_list') return library.snapshot();
+      if (command === 'relay_library_action') {
+        if (media.isLocked) throw new Error('MEDIA_JOURNAL_LOCKED');
+        if (!library.entries.some(({ id }) => id === args.id)) throw new Error('LIBRARY_ENTRY_MISSING');
+        library.actions.push({ type: args.action, id: args.id });
+        return library.snapshot();
+      }
       if (command === 'relay_media_operation_revision') {
         const operation = media.get(args.id);
         return { attempt: operation.attempt, revision: operation.revision, stage: operation.stage };
       }
-      if (command === 'multi_set_content_visible') { native.contentVisible = args.visible; return undefined; }
+      if (command === 'multi_set_content_visible') {
+        if (args.generation && args.generation <= (native.workspaceGeneration || 0)) return false;
+        native.workspaceGeneration = args.generation;
+        native.workspaceLocked = Boolean(args.locked);
+        native.contentVisible = args.visible && !native.workspaceLocked;
+        return true;
+      }
       if (command === 'multi_set_active_app') {
-        if (!native.contentVisible) throw new Error('MEDIA_OPERATIONS_OPEN');
+        if (native.workspaceLocked) throw new Error('WORKSPACE_LOCKED');
         await new Promise((resolve) => setTimeout(resolve, native.delay));
+        if (native.workspaceLocked) throw new Error('WORKSPACE_LOCKED');
         switches.push(args.app); native.currentApp = args.app;
         if (args.app !== 'telegram') native.emit(args.app === 'x' ? 'multi-x-status' : 'multi-instagram-status', { state: 'ready' });
       }

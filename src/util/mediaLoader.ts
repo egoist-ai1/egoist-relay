@@ -16,7 +16,7 @@ import {
   IS_OPUS_SUPPORTED, IS_PROGRESSIVE_SUPPORTED,
 } from './browser/windowEnvironment';
 import * as cacheApi from './cacheApi';
-import { ACCOUNT_SLOT } from './multiaccount';
+import { ACCOUNT_SLOT, getAccountSlot } from './multiaccount';
 import { oggToWav } from './oggToWav';
 
 const asCacheApiType = {
@@ -29,6 +29,13 @@ const asCacheApiType = {
 const PROGRESSIVE_URL_PREFIX = './progressive/';
 const DOWNLOAD_URL_PREFIX = './download/';
 const MAX_MEDIA_RETRIES = 5;
+const ONLINE_RECOVERY_TIMEOUT = 30_000;
+const CANCELLATION_POLL_INTERVAL = 100;
+const RETRYABLE_MEDIA_ERROR = new RegExp('NETWORK|CONNECTION|TIMEOUT|TIMED OUT|FAILED TO FETCH|FETCH FAILED'
+  + '|SOCKET|TUNNEL|PROXY|RPC_CALL_FAIL|DOWNLOAD_(?:EMPTY_RESPONSE|INCOMPLETE)', 'i');
+const TERMINAL_MEDIA_ERROR = new RegExp('AUTH_KEY|SESSION_REVOKED|SESSION_EXPIRED|USER_CANCELED|MEDIA_CANCELED'
+  + '|FILE_REFERENCE|CDN_FILE_TAMPERED|ACCESS_DENIED|FILE_ID_INVALID'
+  + '|LOCATION_INVALID|OFFSET_INVALID|LIMIT_INVALID|DOWNLOAD_INCOMPLETE_WRITE', 'i');
 const MAX_MEMORY_ENTRIES = 512;
 const MAX_MEMORY_BYTES = 256 * 1024 * 1024;
 const MEMORY_GRACE_PERIOD = 5 * 60 * 1000;
@@ -59,12 +66,14 @@ export function fetch<T extends ApiMediaFormat>(
   isHtmlAllowed = false,
   onProgress?: ApiOnProgress,
   callbackUniqueId?: string,
+  isPriority?: boolean,
+  isResumable?: boolean,
 ): Promise<ApiPreparedMedia> {
   if (mediaFormat === ApiMediaFormat.Progressive) {
     return (
       IS_PROGRESSIVE_SUPPORTED
         ? Promise.resolve(getProgressiveUrl(url))
-        : fetch(url, ApiMediaFormat.BlobUrl, isHtmlAllowed, onProgress, callbackUniqueId)
+        : fetch(url, ApiMediaFormat.BlobUrl, isHtmlAllowed, onProgress, callbackUniqueId, isPriority)
     );
   }
 
@@ -72,7 +81,7 @@ export function fetch<T extends ApiMediaFormat>(
     return (
       IS_PROGRESSIVE_SUPPORTED
         ? Promise.resolve(getDownloadUrl(url))
-        : fetch(url, ApiMediaFormat.BlobUrl, isHtmlAllowed, onProgress, callbackUniqueId)
+        : fetch(url, ApiMediaFormat.BlobUrl, isHtmlAllowed, onProgress, callbackUniqueId, isPriority, isResumable)
     );
   }
 
@@ -84,10 +93,14 @@ export function fetch<T extends ApiMediaFormat>(
   }
   const previous = fetchPromises.get(cacheKey);
   if (previous && (cancellableCallbacks.get(cacheKey)?.isCanceled || invalidatedRequests.has(previous))) {
-    return previous.then(() => fetch(url, mediaFormat, isHtmlAllowed, onProgress, callbackUniqueId));
+    return previous.then(() => fetch(
+      url, mediaFormat, isHtmlAllowed, onProgress, callbackUniqueId, isPriority, isResumable,
+    ));
   }
   if (!fetchPromises.has(cacheKey)) {
-    const promise = fetchFromCacheOrRemote(url, mediaFormat, isHtmlAllowed, cacheKey)
+    const parentCallback = makeOnProgress(cacheKey);
+    cancellableCallbacks.set(cacheKey, parentCallback);
+    const promise = fetchFromCacheOrRemote(url, mediaFormat, isHtmlAllowed, parentCallback, isPriority, isResumable)
       .then((entry) => {
         if (invalidatedRequests.has(promise)) {
           releaseEntry(entry);
@@ -170,12 +183,7 @@ export function cancelProgress(progressCallback: ApiOnProgress) {
     map.forEach((callback, callbackId) => {
       if (callback === progressCallback) {
         map.delete(callbackId);
-        if (map.size || untrackedConsumers.has(cacheKey)) return;
-        const parentCallback = cancellableCallbacks.get(cacheKey);
-        if (!parentCallback) return;
-
-        cancelApiProgress(parentCallback);
-        progressCallbacks.delete(cacheKey);
+        cancelUnusedFetch(cacheKey);
         return;
       }
     });
@@ -185,9 +193,18 @@ export function cancelProgress(progressCallback: ApiOnProgress) {
 export function removeCallback(
   url: string, callbackUniqueId: string, mediaFormat = ApiMediaFormat.BlobUrl, isHtmlAllowed = false,
 ) {
-  const callbacks = progressCallbacks.get(buildCacheKey(url, mediaFormat, isHtmlAllowed));
+  const cacheKey = buildCacheKey(url, mediaFormat, isHtmlAllowed);
+  const callbacks = progressCallbacks.get(cacheKey);
   if (!callbacks) return;
   callbacks.delete(callbackUniqueId);
+  cancelUnusedFetch(cacheKey);
+}
+
+function cancelUnusedFetch(cacheKey: string) {
+  if (progressCallbacks.get(cacheKey)?.size || untrackedConsumers.has(cacheKey)) return;
+  const parentCallback = cancellableCallbacks.get(cacheKey);
+  if (parentCallback && !parentCallback.isCanceled) cancelApiProgress(parentCallback);
+  progressCallbacks.delete(cacheKey);
 }
 
 export function getProgressiveUrl(url: string) {
@@ -203,11 +220,13 @@ function getDownloadUrl(url: string) {
 }
 
 async function fetchFromCacheOrRemote(
-  url: string, mediaFormat: ApiMediaFormat, isHtmlAllowed: boolean, cacheKey: string, retryNumber = 0,
+  url: string, mediaFormat: ApiMediaFormat, isHtmlAllowed: boolean, onProgress: ApiOnProgress,
+  isPriority?: boolean, isResumable?: boolean,
 ): Promise<MediaCacheEntry> {
   if (!MEDIA_CACHE_DISABLED) {
     const cacheName = url.startsWith('avatar') ? MEDIA_CACHE_NAME_AVATARS : MEDIA_CACHE_NAME;
     const cached = await cacheApi.fetch(cacheName, url, asCacheApiType[mediaFormat]!, isHtmlAllowed);
+    if (onProgress.isCanceled) throw new Error('MEDIA_CANCELED');
 
     if (cached) {
       let media = cached;
@@ -220,23 +239,10 @@ async function fetchFromCacheOrRemote(
     }
   }
 
-  const onProgress = makeOnProgress(cacheKey);
-  cancellableCallbacks.set(cacheKey, onProgress);
-
-  const remote = await callApi('downloadMedia', { url, mediaFormat, isHtmlAllowed }, onProgress);
+  const remote = await downloadWithRetry({
+    url, mediaFormat, isHtmlAllowed, ...(isPriority && { isPriority }), ...(isResumable && { isResumable }),
+  }, onProgress);
   if (onProgress.isCanceled) throw new Error('MEDIA_CANCELED');
-  if (!remote) {
-    if (retryNumber >= MAX_MEDIA_RETRIES) {
-      throw new Error(`Failed to fetch media ${url}`);
-    }
-    await new Promise((resolve) => {
-      setTimeout(resolve, getRetryTimeout(retryNumber));
-    });
-    if (onProgress.isCanceled) throw new Error('MEDIA_CANCELED');
-    // eslint-disable-next-line no-console
-    if (DEBUG) console.debug(`Retrying to fetch media ${url}`);
-    return fetchFromCacheOrRemote(url, mediaFormat, isHtmlAllowed, cacheKey, retryNumber + 1);
-  }
 
   const { mimeType } = remote;
   let media = remote.dataBlob;
@@ -337,36 +343,28 @@ if (IS_PROGRESSIVE_SUPPORTED) {
       return;
     }
 
-    async function downloadWithRetry(retryNumber = 0) {
-      const result = await callApi('downloadMedia', { mediaFormat: ApiMediaFormat.Progressive, ...params });
-      if (!result) {
-        if (retryNumber >= MAX_MEDIA_RETRIES) {
-          if (DEBUG) {
-            // eslint-disable-next-line no-console
-            console.warn(`Failed to download media part after ${MAX_MEDIA_RETRIES} retries:`, params.url);
-          }
-          return undefined;
-        }
-        await new Promise((resolve) => {
-          setTimeout(resolve, getRetryTimeout(retryNumber));
-        });
-        if (DEBUG) {
-          // eslint-disable-next-line no-console
-          console.debug(`Retrying to download media part ${params.url}, attempt ${retryNumber + 1}`);
-        }
-        return downloadWithRetry(retryNumber + 1);
-      }
-      return result;
-    }
-
-    const result = await downloadWithRetry();
-    if (!result) {
+    const worker = e.source;
+    if (!(worker instanceof ServiceWorker)) return;
+    try {
+      if (getAccountSlot(params.url) !== (ACCOUNT_SLOT || undefined)) throw new Error('MEDIA_ACCOUNT_MISMATCH');
+    } catch {
+      worker.postMessage({ type: 'partResponse', messageId });
       return;
     }
+    const isPlaybackRange = new URL(params.url).pathname.includes('/progressive/');
+    const result = await downloadWithRetry({
+      mediaFormat: ApiMediaFormat.Progressive, ...params,
+      isPriority: isPlaybackRange || params.start === 0 || undefined,
+    })
+      .catch(() => undefined);
 
+    if (!result?.arrayBuffer) {
+      worker.postMessage({ type: 'partResponse', messageId });
+      return;
+    }
     const { arrayBuffer, mimeType, fullSize } = result;
 
-    navigator.serviceWorker.controller!.postMessage({
+    worker.postMessage({
       type: 'partResponse',
       messageId,
       result: {
@@ -374,7 +372,53 @@ if (IS_PROGRESSIVE_SUPPORTED) {
         mimeType,
         fullSize,
       },
-    }, [arrayBuffer!]);
+    }, [arrayBuffer]);
+  });
+}
+
+async function downloadWithRetry(
+  params: {
+    url: string; mediaFormat: ApiMediaFormat; isHtmlAllowed?: boolean;
+    start?: number; end?: number; isPriority?: boolean; isResumable?: boolean;
+  },
+  onProgress?: ApiOnProgress,
+) {
+  for (let retryNumber = 0; retryNumber <= MAX_MEDIA_RETRIES; retryNumber++) {
+    if (onProgress?.isCanceled) throw new Error('MEDIA_CANCELED');
+    try {
+      const result = await callApi('downloadMedia', params, onProgress);
+      if (onProgress?.isCanceled) throw new Error('MEDIA_CANCELED');
+      if (result) return result;
+      if (retryNumber === MAX_MEDIA_RETRIES) throw new Error('MEDIA_UNAVAILABLE');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (retryNumber === MAX_MEDIA_RETRIES || TERMINAL_MEDIA_ERROR.test(message)
+        || (navigator.onLine !== false && !RETRYABLE_MEDIA_ERROR.test(message))) throw err;
+    }
+    await waitForMediaRetry(retryNumber, onProgress);
+  }
+  throw new Error('MEDIA_UNAVAILABLE');
+}
+
+function waitForMediaRetry(retryNumber: number, onProgress?: ApiOnProgress) {
+  return new Promise<void>((resolve, reject) => {
+    const finish = () => {
+      clearTimeout(timeout);
+      if (cancelInterval) clearInterval(cancelInterval);
+      window.removeEventListener('online', handleOnline);
+      if (onProgress?.isCanceled) reject(new Error('MEDIA_CANCELED'));
+      else if (navigator.onLine === false) reject(new Error('MEDIA_OFFLINE'));
+      else resolve();
+    };
+    const handleOnline = () => {
+      if (navigator.onLine !== false) finish();
+    };
+    const timeout = setTimeout(finish,
+      navigator.onLine === false ? ONLINE_RECOVERY_TIMEOUT : getRetryTimeout(retryNumber));
+    const cancelInterval = onProgress ? setInterval(() => {
+      if (onProgress.isCanceled) finish();
+    }, CANCELLATION_POLL_INTERVAL) : undefined;
+    window.addEventListener('online', handleOnline);
   });
 }
 

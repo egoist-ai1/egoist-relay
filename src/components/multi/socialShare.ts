@@ -6,6 +6,7 @@ import type { ThreadId } from '../../types';
 import type { SavedMedia } from './mediaOperations.types';
 import { MAIN_THREAD_ID } from '../../api/types';
 
+import { MAX_UPLOAD_FILEPART_SIZE } from '../../config';
 import { getPeerStarsForMessage } from '../../global/actions/api/messages';
 import {
   getAllowedAttachmentOptions, getCanPostInChat, isDeletedUser, isSystemBot,
@@ -13,9 +14,11 @@ import {
 import {
   selectChat, selectChatFullInfo, selectIsChatRestricted, selectTopic, selectUser,
 } from '../../global/selectors';
+import { selectCurrentLimit } from '../../global/selectors/limits';
 import { parseInlineSocialMediaUrl } from '../../util/inlineSocialMedia';
-import { callApi } from '../../api/gramjs';
+import { callApi, cancelApiProgress } from '../../api/gramjs';
 import buildAttachment from '../middle/composer/helpers/buildAttachment';
+import { createStagedAttachment, getStagedFingerprint, releaseStagedFile } from './socialStagedFile';
 
 export type SocialShareRequest = {
   requestId: string;
@@ -79,7 +82,29 @@ export function parseSocialMediaPacket(packet: ArrayBuffer, expectedIndex: numbe
     || !MEDIA_MIME_TYPES.has(header.mimeType)) {
     throw new Error('SOCIAL_SHARE_INVALID_MEDIA');
   }
-  return new File([packet.slice(8 + headerSize)], header.name, { type: header.mimeType });
+  return new File([bytes.subarray(8 + headerSize)], header.name, { type: header.mimeType });
+}
+
+export async function resolveSocialShareFiles(
+  request: SocialShareRequest,
+  isCanceled: () => boolean,
+  onProgress: (index: number, loaded: number, total?: number) => void,
+): Promise<ApiAttachment[]> {
+  const mediaCount = getSocialShareMediaCount(request);
+  if (!mediaCount) throw new Error('SOCIAL_SHARE_INVALID_MEDIA');
+  const maximumBytes = selectCurrentLimit(getGlobal(), 'uploadMaxFileparts') * MAX_UPLOAD_FILEPART_SIZE;
+  const attachments: ApiAttachment[] = [];
+  try {
+    for (let index = 0; index < mediaCount; index++) {
+      onProgress(index, 0);
+      attachments.push(await createStagedAttachment(request.requestId, index, maximumBytes, isCanceled,
+        (loaded, total) => onProgress(index, loaded, total)));
+    }
+    return attachments;
+  } catch (error) {
+    releaseSocialShareMedia(attachments);
+    throw error;
+  }
 }
 
 export async function resolveSocialShareMedia(
@@ -142,6 +167,9 @@ export function releaseSocialShareMedia(attachments: ApiAttachment[]) {
   )));
   urls.forEach((url) => {
     if (url?.startsWith('blob:')) URL.revokeObjectURL(url);
+  });
+  attachments.forEach(({ blob }) => {
+    if (blob) void releaseStagedFile(blob);
   });
   attachments.length = 0;
 }
@@ -240,7 +268,8 @@ export function createSocialShareJob(
 export async function sendSocialShareJob(
   job: ShareSendJob, price: number, onProgress: (confirmed: number, progress?: number) => void,
   lifecycle: { isCanceled?: () => boolean; onBeforeSend?: () => Promise<void>;
-    onConfirmed?: (confirmed: number) => Promise<void>; onDispatch?: NoneToVoidFunction; } = {},
+    onConfirmed?: (confirmed: number) => Promise<void>; onDispatch?: NoneToVoidFunction;
+    onCancelUploadChange?: (cancel?: NoneToVoidFunction) => void; } = {},
 ): Promise<void> {
   if (job.busy) throw new Error('SOCIAL_SHARE_BUSY');
   job.busy = true;
@@ -267,9 +296,14 @@ export async function sendSocialShareJob(
       item.localMessage ||= await callApi('sendMessageLocal', params);
       if (!item.localMessage) throw new Error('SOCIAL_SHARE_UNCONFIRMED');
       if (lifecycle.isCanceled?.()) throw new Error('SOCIAL_SHARE_CANCELED');
-      const progress: ApiOnProgress = (value) => onProgress(job.confirmed, value);
+      const progress: ApiOnProgress = (value) => {
+        if (lifecycle.isCanceled?.()) cancelApiProgress(progress);
+        else onProgress(job.confirmed, value);
+      };
       lifecycle.onDispatch?.();
-      const confirmed = await callApi('sendMessage', { ...params, localMessage: item.localMessage }, progress);
+      const delivery = callApi('sendMessage', { ...params, localMessage: item.localMessage }, progress);
+      lifecycle.onCancelUploadChange?.(() => cancelApiProgress(progress));
+      const confirmed = await delivery.finally(() => lifecycle.onCancelUploadChange?.());
       if (confirmed !== true) throw new Error('SOCIAL_SHARE_UNCONFIRMED');
       job.confirmed++;
       await lifecycle.onConfirmed?.(job.confirmed);
@@ -284,6 +318,11 @@ export async function getSocialShareFingerprints(job: ShareSendJob): Promise<str
   const results: string[] = [];
   for (const item of job.items) {
     if (item.attachment && !item.attachment.blob) throw new Error('SOCIAL_SHARE_INVALID_MEDIA');
+    const stagedHash = item.attachment?.blob && getStagedFingerprint(item.attachment.blob);
+    if (stagedHash) {
+      results.push(stagedHash);
+      continue;
+    }
     const bytes = item.attachment ? await item.attachment.blob!.arrayBuffer()
       : new TextEncoder().encode(item.text || '').buffer;
     const hash = await crypto.subtle.digest('SHA-256', bytes);

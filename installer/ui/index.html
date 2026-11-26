@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Sennit Setup</title>
+<title>Установка Бересты</title>
 <style>
-/* Sennit Setup · Egoist DS, режим Lagom. Значения из Egoist Design System/tokens/tokens.json. */
+/* Установка Бересты · Egoist DS, режим Lagom. Значения из Egoist Design System/tokens/tokens.json. */
 @font-face{font-family:"Onest";font-weight:100 900;font-style:normal;font-display:block;src:url("fonts/onest-cyrillic-wght-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 @font-face{font-family:"Onest";font-weight:100 900;font-style:normal;font-display:block;src:url("fonts/onest-latin-wght-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:"Unbounded";font-weight:200 900;font-style:normal;font-display:block;src:url("fonts/unbounded-cyrillic.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
@@ -136,6 +136,7 @@ h1.sm{font-size:23px}
 /* прогресс */
 .ph{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
 .pct{font:300 64px/.9 var(--font-text);font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--text);display:flex;align-items:baseline}
+.pct[hidden]{display:none}
 .pct small{font-size:24px;margin-left:3px;color:var(--muted);font-weight:400;letter-spacing:0}
 .track{position:relative;height:6px;border-radius:3px;background:var(--s3);overflow:hidden;margin:22px 0 14px}
 .fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;background:var(--inv-bg);transition:width 180ms linear}
@@ -180,14 +181,13 @@ h1.sm{font-size:23px}
 
 /* статус-бар */
 .status{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px 0 44px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
-.status .meter{position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--inv-bg);transition:width 180ms linear}
 .st-l{display:flex;align-items:center;gap:10px;min-width:0}
+.st-l[hidden]{display:none}
 .st-l span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--faint);flex:none;transition:background var(--dur-base)}
 .dot.work{background:var(--text);animation:pulse 1.4s var(--ease-standard) infinite}
 .dot.ok{background:var(--success)}.dot.bad{background:var(--danger)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.st-r{font:500 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--grid-label);white-space:nowrap;font-variant-numeric:tabular-nums}
 .flash{color:var(--text)}
 
 @media (prefers-reduced-motion:reduce){
@@ -205,7 +205,7 @@ h1.sm{font-size:23px}
   <header class="bar" id="bar">
     <div class="bar-id">
       <img class="for-light" src="mark-light.svg" alt=""><img class="for-dark" src="mark.svg" alt="">
-      <span>Sennit Setup</span>
+      <span>Установка Бересты</span>
     </div>
     <div class="bar-btns">
       <button id="btn-min" type="button" aria-label="Свернуть" title="Свернуть"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
@@ -221,17 +221,14 @@ h1.sm{font-size:23px}
     <section class="screen on" id="s-welcome" aria-labelledby="w-title">
       <div class="lockup">
         <img class="mk for-light" src="mark-light.svg" alt=""><img class="mk for-dark" src="mark.svg" alt="">
-        <img class="wm for-light" src="wordmark-light.svg" alt="Sennit"><img class="wm for-dark" src="wordmark.svg" alt="Sennit">
-        <span class="by">by Egoist</span>
+        <img class="wm for-light" src="wordmark-light.svg" alt="Береста"><img class="wm for-dark" src="wordmark.svg" alt="Береста">
       </div>
       <div class="cols">
         <div>
-          <h1 id="w-title">Установка Sennit</h1>
+          <h1 id="w-title">Установка Бересты</h1>
           <p class="lead" id="w-lead">Локальный хаб ваших мессенджеров и соцсетей.</p>
         </div>
         <dl class="facts">
-          <div class="fact"><dt>Версия</dt><dd id="f-version">1.7.1</dd></div>
-          <div class="fact" id="f-existing-row" hidden><dt>Сейчас</dt><dd id="f-existing">—</dd></div>
           <div class="fact"><dt>Папка</dt><dd id="f-dir">—</dd></div>
           <div class="fact"><dt>Размер</dt><dd class="plain" id="f-size">—</dd></div>
         </dl>
@@ -251,11 +248,11 @@ h1.sm{font-size:23px}
     <!-- 02–03 процесс -->
     <section class="screen" id="s-progress" aria-labelledby="p-title">
       <div class="ph">
-        <h1 id="p-title">Установка Sennit</h1>
-        <div class="pct" aria-hidden="true"><span id="p-num">0</span><small>%</small></div>
+        <h1 id="p-title">Установка Бересты</h1>
+        <div class="pct" id="p-percent" aria-hidden="true" hidden><span id="p-num">0</span><small>%</small></div>
       </div>
-      <div class="track wait" id="p-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="p-title"><div class="fill" id="p-fill"></div></div>
-      <div class="now" aria-live="polite"><b id="p-label">Подготовка</b><span id="p-detail"></span></div>
+      <div class="track wait" id="p-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-labelledby="p-title"><div class="fill" id="p-fill"></div></div>
+      <div class="now"><b id="p-label" aria-live="polite">Подготовка</b><span id="p-detail"></span></div>
       <p class="desc" id="p-desc"></p>
       <div class="steps" id="p-steps">
         <div class="step" data-s="1"><i>01</i>Старт</div>
@@ -270,10 +267,10 @@ h1.sm{font-size:23px}
       </div>
     </section>
 
-    <!-- Sennit запущен -->
+    <!-- Береста запущена -->
     <section class="screen" id="s-prompt" aria-labelledby="q-title">
-      <h1 id="q-title">Закройте Sennit</h1>
-      <p class="lead" style="margin-top:12px;max-width:44ch">Sennit сейчас запущен. Закройте его через значок в трее: правая кнопка, «Выйти из Sennit». Установка продолжится сама.</p>
+      <h1 id="q-title">Закройте Бересту</h1>
+      <p class="lead" style="margin-top:12px;max-width:44ch">Береста сейчас запущена. Закройте её через значок в трее: правая кнопка, «Выйти из Бересты». Установка продолжится сама.</p>
       <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="note">Активные аккаунты не закрываются принудительно: так вы не потеряете несохранённое.</div>
       <div class="grow"></div>
@@ -300,17 +297,16 @@ h1.sm{font-size:23px}
     <section class="screen" id="s-done" aria-labelledby="d-title">
       <div class="okmark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
       <h1 id="d-title">Готово</h1>
-      <p class="lead" style="margin-top:12px;max-width:48ch" id="d-msg">Sennit установлен.</p>
+      <p class="lead" style="margin-top:12px;max-width:48ch" id="d-msg">Береста установлена.</p>
       <dl class="facts" style="margin-top:20px;max-width:440px">
-        <div class="fact"><dt>Версия</dt><dd id="d-version">—</dd></div>
         <div class="fact"><dt>Папка</dt><dd id="d-dir">—</dd></div>
       </dl>
       <div class="grow"></div>
       <div class="row-end">
-        <p class="hint" id="d-hint">Удалить Sennit можно в «Приложениях и возможностях».</p>
+        <p class="hint" id="d-hint">Удалить Бересту можно в «Приложениях и возможностях».</p>
         <div class="btns">
           <button class="btn" id="d-close" type="button">Закрыть</button>
-          <button class="btn primary" id="d-launch" type="button">Запустить Sennit</button>
+          <button class="btn primary" id="d-launch" type="button">Запустить Бересту</button>
         </div>
       </div>
     </section>
@@ -324,9 +320,7 @@ h1.sm{font-size:23px}
   </main>
 
   <footer class="status" id="status">
-    <div class="meter" id="meter"></div>
-    <div class="st-l"><i class="dot" id="st-dot"></i><span id="st-text" aria-live="polite">Готов к установке</span></div>
-    <div class="st-r" id="st-r">v1.7.1</div>
+    <div class="st-l" id="st-l"><i class="dot" id="st-dot"></i><span id="st-text" aria-live="polite">Готов к установке</span></div>
   </footer>
 </div>
 
@@ -346,7 +340,7 @@ h1.sm{font-size:23px}
     else if (window.console) console.log('[ipc]', msg);
   }
 
-  var S = { screen: 'welcome', step: 1, pct: 0, version: '', mode: 'install', locked: false, stalled: false, retry: true, launched: false, busy: false, flashTimer: 0, prev: 'welcome' };
+  var S = { screen: 'welcome', step: 1, pct: 0, mode: 'install', locked: false, stalled: false, retry: true, launched: false, busy: false, flashTimer: 0, prev: 'welcome' };
   var screens = ['welcome', 'progress', 'prompt', 'error', 'done', 'license'];
   var focusFor = { welcome: 'w-install', progress: 'p-cancel', prompt: 'q-cancel', error: 'e-retry', done: 'd-launch', license: 'l-back' };
 
@@ -359,31 +353,29 @@ h1.sm{font-size:23px}
     updateChrome();
   }
 
-  function setStatus(text, dotClass, pct) {
+  function setStatus(text, dotClass) {
+    $('st-l').hidden = !text;
     $('st-text').textContent = text;
     $('st-dot').className = 'dot' + (dotClass ? ' ' + dotClass : '');
-    $('meter').style.width = (pct == null ? 0 : pct) + '%';
-    $('st-r').textContent = (pct != null && S.screen === 'progress' ? Math.floor(pct) + '% · ' : '') + 'v' + (S.version || '1.7.1');
   }
 
   function updateChrome() {
     var idx = { welcome: 1, license: 1, progress: S.step, prompt: 2, error: Math.max(S.step, 2), done: 4 }[S.screen] || 1;
     $('index').textContent = '0' + idx + '/04';
-    var pct = S.pct * 100;
     if (S.flashTimer) return;
     switch (S.screen) {
-      case 'welcome': case 'license': setStatus(S.mode === 'newer' ? 'Установлена более новая версия' : 'Готов к установке', S.mode === 'newer' ? 'bad' : '', null); break;
-      case 'progress': setStatus($('p-label').textContent + ($('p-detail').textContent ? ' · ' + $('p-detail').textContent : ''), 'work', pct); break;
-      case 'prompt': setStatus('Ожидаем закрытия Sennit', 'work', null); break;
-      case 'error': setStatus($('e-title').textContent, 'bad', null); break;
-      case 'done': setStatus(S.launched ? 'Установка завершена, Sennit запущен' : 'Установка завершена', 'ok', null); break;
+      case 'welcome': case 'license': setStatus(S.mode === 'newer' ? 'Установлена более новая версия' : 'Готов к установке', S.mode === 'newer' ? 'bad' : ''); break;
+      case 'progress': setStatus('', ''); break;
+      case 'prompt': setStatus('Ожидаем закрытия Бересты', 'work'); break;
+      case 'error': setStatus($('e-title').textContent, 'bad'); break;
+      case 'done': setStatus(S.launched ? 'Установка завершена, Береста запущена' : 'Установка завершена', 'ok'); break;
     }
   }
 
   function flash(text) {
     clearTimeout(S.flashTimer);
     var dot = $('st-dot').className.replace('dot', '').trim();
-    setStatus(text, dot, S.screen === 'progress' ? S.pct * 100 : null);
+    setStatus(text, dot);
     $('st-text').classList.add('flash');
     S.flashTimer = setTimeout(function () { S.flashTimer = 0; $('st-text').classList.remove('flash'); updateChrome(); }, 3500);
   }
@@ -393,8 +385,11 @@ h1.sm{font-size:23px}
     var p = Math.floor(S.pct * 100);
     $('p-num').textContent = p;
     $('p-fill').style.width = (S.pct * 100) + '%';
-    $('p-track').classList.toggle('wait', S.pct <= 0.0005);
-    $('p-track').setAttribute('aria-valuenow', p);
+    var known = S.pct > 0.0005;
+    $('p-track').classList.toggle('wait', !known);
+    $('p-percent').hidden = !known;
+    if (known) $('p-track').setAttribute('aria-valuenow', p);
+    else $('p-track').removeAttribute('aria-valuenow');
   }
 
   function setSteps(step) {
@@ -406,25 +401,18 @@ h1.sm{font-size:23px}
   }
 
   function fillWelcome(e) {
-    S.version = e.version || S.version;
     S.mode = e.mode || 'install';
-    $('f-version').textContent = S.version;
     $('f-dir').textContent = e.installDir || '';
     $('f-size').textContent = (e.payload || '—') + ', на диске около ' + (e.install || '—');
-    var hasOld = !!e.existing;
-    $('f-existing-row').hidden = !hasOld;
-    if (hasOld) $('f-existing').textContent = e.existing;
-    var title = 'Установка Sennit', lead = 'Локальный хаб ваших мессенджеров и соцсетей.', btn = 'Установить';
-    if (S.mode === 'update') { title = 'Обновление Sennit'; lead = 'Профили, аккаунты и настройки сохранятся. Файлы приложения будут заменены.'; btn = 'Обновить'; }
-    else if (S.mode === 'reinstall') { title = 'Переустановка Sennit'; lead = 'Эта версия уже установлена. Файлы приложения будут записаны заново, данные сохранятся.'; btn = 'Переустановить'; }
-    else if (S.mode === 'newer') { title = 'Версия новее'; lead = 'Уже установлена более новая версия (' + e.existing + '). Установка старой поверх остановлена, чтобы не повредить данные.'; }
+    var title = 'Установка Бересты', lead = 'Локальный хаб ваших мессенджеров и соцсетей.', btn = 'Установить';
+    if (S.mode === 'update') { title = 'Обновление Бересты'; lead = 'Профили, аккаунты и настройки сохранятся. Файлы приложения будут заменены.'; btn = 'Обновить'; }
+    else if (S.mode === 'reinstall') { title = 'Переустановка Бересты'; lead = 'Эта версия уже установлена. Файлы приложения будут записаны заново, данные сохранятся.'; btn = 'Переустановить'; }
+    else if (S.mode === 'newer') { title = 'Версия новее'; lead = 'На компьютере уже установлена более новая Береста.'; }
     $('w-title').textContent = title;
     $('w-lead').textContent = lead;
     $('w-install').textContent = btn;
     $('w-install').disabled = S.mode === 'newer';
     $('opt-launch').checked = e.launch !== false;
-    $('d-version').textContent = S.version;
-    $('st-r').textContent = 'v' + S.version;
   }
 
   var handlers = {
@@ -464,9 +452,8 @@ h1.sm{font-size:23px}
     canceled: function () { S.busy = false; S.locked = false; setPct(0); S.step = 1; show('welcome'); },
     done: function (e) {
       S.busy = false; S.locked = false; S.step = 4; S.launched = !!e.launched; setPct(1);
-      $('d-title').textContent = e.launched ? 'Готово. Sennit запущен' : 'Готово';
-      $('d-msg').textContent = e.updated ? 'Sennit обновлён. Профили, аккаунты и настройки сохранены.' : 'Sennit установлен и готов к работе.';
-      $('d-version').textContent = e.version || S.version;
+      $('d-title').textContent = e.launched ? 'Готово. Береста запущена' : 'Готово';
+      $('d-msg').textContent = e.updated ? 'Береста обновлена. Профили, аккаунты и настройки сохранены.' : 'Береста установлена и готова к работе.';
       $('d-dir').textContent = e.dir || '';
       $('d-launch').hidden = !!e.launched;
       $('d-close').classList.toggle('primary', !!e.launched);
@@ -511,7 +498,7 @@ h1.sm{font-size:23px}
     show('license');
     if (!$('l-text').getAttribute('data-loaded')) {
       fetch('license.txt').then(function (r) { return r.text(); }).then(function (t) { $('l-text').textContent = t; $('l-text').setAttribute('data-loaded', '1'); })
-        .catch(function () { $('l-text').textContent = 'GNU General Public License, версия 3. Полный текст лежит в файле LICENSE в составе Sennit.'; });
+        .catch(function () { $('l-text').textContent = 'GNU General Public License, версия 3. Полный текст лежит в файле LICENSE в составе Бересты.'; });
     }
   }
   $('open-license').addEventListener('click', openLicense);
@@ -544,23 +531,24 @@ h1.sm{font-size:23px}
     for (k = 0; k <= 20; k++) (function (k) { at(1800 + k * 60, function () { onEvent({ t: 'progress', v: 0.08 + 0.17 * k / 20, detail: (27 * k) + ' МБ из 540 МБ' }); }); })(k);
     at(3100, function () { onEvent({ t: 'stage', i: 3, n: 4, label: 'Установка файлов', detail: 'Запись файлов, ярлыки, запись в «Приложения и возможности»' }); });
     for (k = 1; k <= 40; k++) (function (k) { at(3200 + k * 90, function () { onEvent({ t: 'progress', v: 0.25 + 0.75 * k / 40 * 0.99, detail: 'Записано ' + Math.round(540 * k / 40) + ' МБ из ~540 МБ' }); }); })(k);
-    at(7000, function () { onEvent({ t: 'stage', i: 4, n: 4, label: 'Готово', detail: '' }); onEvent({ t: 'done', dir: 'C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay', version: S.version, updated: false, launched: false }); });
+    at(7000, function () { onEvent({ t: 'stage', i: 4, n: 4, label: 'Готово', detail: '' }); onEvent({ t: 'done', dir: 'C:\\Apps\\Egoist Relay', updated: false, launched: false }); });
   }
 
   // ---- старт ----
   if (preview) {
     var existing = q.get('existing');
-    onEvent({ t: 'init', version: '1.7.1', installDir: 'C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay', existing: existing, payload: '540 МБ', install: '1,1 ГБ', mode: existing ? (q.get('mode') || 'update') : 'install', launch: true });
+    var demoVersion = q.get('version') || '';
+    onEvent({ t: 'init', version: demoVersion, installDir: 'C:\\Apps\\Egoist Relay', existing: existing, payload: '540 МБ', install: '1,1 ГБ', mode: existing ? (q.get('mode') || 'update') : 'install', launch: true });
     var state = q.get('state') || 'welcome';
     var pct = parseFloat(q.get('pct') || '62') / 100;
     if (state === 'verify') { onEvent({ t: 'stage', i: 1, n: 4, label: 'Проверка целостности', detail: 'Сверяем контрольную сумму встроенного пакета' }); onEvent({ t: 'progress', v: 0.04, detail: '230 МБ из 540 МБ' }); }
     if (state === 'prepare') { onEvent({ t: 'stage', i: 2, n: 4, label: 'Подготовка файлов', detail: 'Распаковка во временную папку' }); onEvent({ t: 'progress', v: 0.17, detail: '212 МБ из 540 МБ' }); }
     if (state === 'progress') { onEvent({ t: 'stage', i: 3, n: 4, label: 'Установка файлов', detail: 'Запись файлов, ярлыки, запись в «Приложения и возможности»' }); onEvent({ t: 'progress', v: 0.25 + 0.75 * pct, detail: 'Записано ' + Math.round(540 * pct) + ' МБ из ~540 МБ' }); }
     if (state === 'prompt') { onEvent({ t: 'stage', i: 1, n: 4, label: 'Проверка системы', detail: '' }); onEvent({ t: 'need_close', running: true }); }
-    if (state === 'error') onEvent({ t: 'error', code: 'SETUP-ACCESS', retry: true, title: 'Нет доступа к папке установки', message: 'Не удалось записать файлы в C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay (отказано в доступе).', hint: 'Закройте программы, которые используют файлы Sennit, и нажмите «Повторить».' });
-    if (state === 'done') onEvent({ t: 'done', dir: 'C:\\Users\\Egoist\\AppData\\Local\\Egoist Relay', version: '1.7.1', updated: existing != null, launched: q.get('launched') === '1' });
+    if (state === 'error') onEvent({ t: 'error', code: 'SETUP-ACCESS', retry: true, title: 'Нет доступа к папке установки', message: 'Не удалось записать файлы в C:\\Apps\\Egoist Relay (отказано в доступе).', hint: 'Закройте программы, которые используют файлы Бересты, и нажмите «Повторить».' });
+    if (state === 'done') onEvent({ t: 'done', dir: 'C:\\Apps\\Egoist Relay', version: demoVersion, updated: existing != null, launched: q.get('launched') === '1' });
     if (state === 'license') openLicense();
-    document.title = 'Sennit Setup (предпросмотр)';
+    document.title = 'Установка Бересты (предпросмотр)';
   } else {
     send('ready');
   }

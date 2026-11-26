@@ -1,3 +1,5 @@
+import type { TauriUpdateEventHandlers, TauriUpdateMode, TauriUpdateProgress } from '../../types/tauri';
+
 import { IS_MAC_OS } from '../browser/windowEnvironment';
 
 let syncWindow: import('@tauri-apps/api/window').Window | undefined;
@@ -40,8 +42,44 @@ export default function initTauriApi() {
 
   async function checkUpdate() {
     if (!window.tauri?.updaterEnabled) return undefined;
-    const { check } = await import('@tauri-apps/plugin-updater');
-    return (await check()) ?? undefined;
+    const core = await corePromise;
+    const result = await core.invoke<{
+      available: boolean; version?: string; notes?: string; size?: number;
+    }>('update_check');
+    if (!result?.available || !result.version) return undefined;
+    return {
+      version: result.version,
+      body: result.notes,
+      size: result.size,
+      downloadAndInstall: async (onProgress?: (progress: TauriUpdateProgress) => void) => {
+        const onEvent = new core.Channel<TauriUpdateProgress>();
+        if (onProgress) onEvent.onmessage = onProgress;
+        await core.invoke<void>('update_install', { onEvent });
+      },
+    };
+  }
+
+  async function getUpdateMode(): Promise<TauriUpdateMode> {
+    if (!window.tauri?.updaterEnabled) return 'off';
+    const core = await corePromise;
+    const mode = await core.invoke<TauriUpdateMode>('update_get_mode');
+    return mode === 'auto' || mode === 'off' ? mode : 'ask';
+  }
+
+  async function onUpdateEvents(handlers: TauriUpdateEventHandlers) {
+    const { listen } = await import('@tauri-apps/api/event');
+    const releases = await Promise.all([
+      listen<Parameters<NonNullable<TauriUpdateEventHandlers['onAvailable']>>[0]>(
+        'update-available', ({ payload }) => handlers.onAvailable?.(payload),
+      ),
+      listen<Parameters<NonNullable<TauriUpdateEventHandlers['onManual']>>[0]>(
+        'update-manual', ({ payload }) => handlers.onManual?.(payload),
+      ),
+      listen<Parameters<NonNullable<TauriUpdateEventHandlers['onFailed']>>[0]>(
+        'update-failed', ({ payload }) => handlers.onFailed?.(payload),
+      ),
+    ]);
+    return () => releases.forEach((release) => release());
   }
 
   // @ts-expect-error
@@ -52,6 +90,8 @@ export default function initTauriApi() {
     openNewWindow,
     relaunch: () => import('@tauri-apps/plugin-process').then(({ relaunch }) => relaunch()),
     checkUpdate,
+    getUpdateMode,
+    onUpdateEvents,
     getCurrentWindow: () => import('@tauri-apps/api/window').then(({ getCurrentWindow }) => getCurrentWindow()),
     getSyncWindow: getTauriWindowSync,
     setWindowTitle,

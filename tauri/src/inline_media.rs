@@ -13,9 +13,10 @@ use url::Url;
 
 const SCRIPT: &str = include_str!("../../scripts/inline-media-resolver.mjs");
 const MAX_BYTES: usize = 64 * 1024 * 1024;
+pub(crate) const MAX_SAVED_FILE_BYTES: usize = 4 * 1024 * 1024 * 1024;
 const MAX_MEDIA_DIMENSION: u32 = 1_000_000;
 const TIMEOUT: Duration = Duration::from_secs(125);
-const FILE_TIMEOUT: Duration = Duration::from_secs(900);
+pub(crate) const FILE_SAVE_TIMEOUT: Duration = Duration::from_secs(90 * 60);
 struct ActiveJob {
   request_id: String,
   cancel: Arc<AtomicBool>,
@@ -96,7 +97,7 @@ pub async fn relay_inline_save_media(
   canonicalize_media_url(&url)?;
   let cancel = Arc::new(AtomicBool::new(false));
   tauri::async_runtime::spawn_blocking(move || {
-    save_public_media(&app_handle, &request_id, &url, 0, MAX_BYTES, Instant::now() + FILE_TIMEOUT, cancel)
+    save_public_media(&app_handle, &request_id, &url, 0, MAX_SAVED_FILE_BYTES, Instant::now() + FILE_SAVE_TIMEOUT, cancel)
   })
   .await
   .map_err(|_| "MEDIA_FETCH_FAILED".to_string())?
@@ -133,20 +134,33 @@ pub(crate) fn save_public_media(
   result
 }
 
-#[derive(serde::Deserialize)]
-#[serde(rename_all = "camelCase", deny_unknown_fields)]
-struct FileResult {
-  file_path: PathBuf,
-  metadata: FileMetadata,
+pub(crate) fn stage_public_media(
+  app: &AppHandle,
+  request_id: &str,
+  value: &str,
+  index: usize,
+  maximum: usize,
+  deadline: Instant,
+  cancel: Arc<AtomicBool>,
+) -> Result<(OwnedDirectory, Vec<u8>), String> {
+  let (directory, output, _active) = resolve_media_operation(app, request_id, value, index, maximum, deadline, cancel, true)?;
+  Ok((directory, output))
 }
 
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
-struct FileMetadata {
-  index: usize,
-  name: String,
-  mime_type: String,
-  size: u64,
+pub(crate) struct FileResult {
+  pub(crate) file_path: PathBuf,
+  pub(crate) metadata: FileMetadata,
+}
+
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub(crate) struct FileMetadata {
+  pub(crate) index: usize,
+  pub(crate) name: String,
+  pub(crate) mime_type: String,
+  pub(crate) size: u64,
   #[serde(default)]
   width: Option<u32>,
   #[serde(default)]
@@ -192,33 +206,12 @@ fn publish_saved_media_in(
   deadline: Instant,
 ) -> Result<SavedMedia, String> {
   check_deadline(cancel, deadline)?;
-  let result: FileResult = serde_json::from_slice(packet).map_err(|_| "MEDIA_PARTIAL_BODY")?;
-  if result.metadata.index != expected_index || result.metadata.index >= 10 || result.metadata.size == 0
-    || result.metadata.name.len() > 96 || result.metadata.name.is_empty() || result.metadata.name.contains("..")
-    || !result.metadata.name.chars().all(|character| character.is_ascii_alphanumeric() || matches!(character, '-' | '.'))
-    || !matches!(result.metadata.mime_type.as_str(), "image/jpeg" | "image/png" | "image/gif" | "image/webp" | "video/mp4" | "video/webm")
-  {
-    return Err("MEDIA_FORMAT_UNSUPPORTED".into());
-  }
-  if !matches!((result.metadata.width, result.metadata.height), (None, None) | (Some(1..=MAX_MEDIA_DIMENSION), Some(1..=MAX_MEDIA_DIMENSION))) {
-    return Err("MEDIA_FORMAT_UNSUPPORTED".into());
-  }
-  if maximum == 0 || maximum > MAX_BYTES || result.metadata.size > maximum as u64 {
-    return Err("MEDIA_TOO_LARGE".into());
-  }
-  let canonical_source = fs::canonicalize(&result.file_path).map_err(|_| "MEDIA_PATH_DENIED")?;
-  if canonical_source.parent() != Some(directory.path.as_path()) {
-    return Err("MEDIA_PATH_DENIED".into());
-  }
-  let metadata = fs::symlink_metadata(&result.file_path).map_err(|_| "MEDIA_PARTIAL_BODY")?;
-  if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.len() != result.metadata.size {
-    return Err("MEDIA_PARTIAL_BODY".into());
-  }
+  let result = validate_file_result(directory, packet, expected_index, maximum)?;
   let name = format!("{}-{}", uuid::Uuid::new_v4(), result.metadata.name);
   let destination = downloads.join(&name);
   let staged = create_destination_staging(downloads)?;
   let partial = staged.path.join("media.part");
-  copy_and_publish(&canonical_source, &partial, &destination, result.metadata.size, cancel, deadline)?;
+  copy_and_publish(&result.file_path, &partial, &destination, result.metadata.size, cancel, deadline)?;
   if staged.cleanup().is_err() {
     log::warn!("[MediaStorage] Published file has an owned staging cleanup pending");
   }
@@ -231,6 +224,38 @@ fn publish_saved_media_in(
     height: result.metadata.height,
     journal_warning: None,
   })
+}
+
+pub(crate) fn validate_file_result(
+  directory: &OwnedDirectory,
+  packet: &[u8],
+  expected_index: usize,
+  maximum: usize,
+) -> Result<FileResult, String> {
+  let mut result: FileResult = serde_json::from_slice(packet).map_err(|_| "MEDIA_PARTIAL_BODY")?;
+  if result.metadata.index != expected_index || result.metadata.index >= 10 || result.metadata.size == 0
+    || result.metadata.name.len() > 96 || result.metadata.name.is_empty() || result.metadata.name.contains("..")
+    || !result.metadata.name.chars().all(|character| character.is_ascii_alphanumeric() || matches!(character, '-' | '.'))
+    || !matches!(result.metadata.mime_type.as_str(), "image/jpeg" | "image/png" | "image/gif" | "image/webp" | "video/mp4" | "video/webm")
+  {
+    return Err("MEDIA_FORMAT_UNSUPPORTED".into());
+  }
+  if !matches!((result.metadata.width, result.metadata.height), (None, None) | (Some(1..=MAX_MEDIA_DIMENSION), Some(1..=MAX_MEDIA_DIMENSION))) {
+    return Err("MEDIA_FORMAT_UNSUPPORTED".into());
+  }
+  if maximum == 0 || maximum > MAX_SAVED_FILE_BYTES || result.metadata.size > maximum as u64 {
+    return Err("MEDIA_TOO_LARGE".into());
+  }
+  let canonical_source = fs::canonicalize(&result.file_path).map_err(|_| "MEDIA_PATH_DENIED")?;
+  if canonical_source.parent() != Some(directory.path.as_path()) {
+    return Err("MEDIA_PATH_DENIED".into());
+  }
+  let metadata = fs::symlink_metadata(&result.file_path).map_err(|_| "MEDIA_PARTIAL_BODY")?;
+  if !metadata.is_file() || metadata.file_type().is_symlink() || metadata.len() != result.metadata.size {
+    return Err("MEDIA_PARTIAL_BODY".into());
+  }
+  result.file_path = canonical_source;
+  Ok(result)
 }
 
 pub(crate) fn create_destination_staging(downloads: &Path) -> Result<OwnedDirectory, String> {
@@ -334,7 +359,8 @@ fn resolve_media_operation(
 ) -> Result<(OwnedDirectory, Vec<u8>, ActiveGuard), String> {
   validate_request_id(request_id)?;
   let url = canonicalize_media_url(value)?;
-  if index >= 10 || maximum == 0 || maximum > MAX_BYTES || STOPPING.load(Ordering::Acquire) {
+  let allowed_maximum = if is_file_output { MAX_SAVED_FILE_BYTES } else { MAX_BYTES };
+  if index >= 10 || maximum == 0 || maximum > allowed_maximum || STOPPING.load(Ordering::Acquire) {
     return Err("MEDIA_INPUT_DENIED".into());
   }
   let active = acquire_job(request_id, cancel.clone())?;
@@ -494,8 +520,6 @@ fn run_media_worker(
   let engine = find_resource(app, "yt-dlp.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
   let ffmpeg = find_resource(app, "media/ffmpeg.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
   find_resource(app, "media/ffprobe.exe").ok_or("MEDIA_RUNTIME_UNAVAILABLE")?;
-  let proxy = crate::system_proxy::proxy_for_url_cancellable(url, cancel, deadline)
-    .map_err(|_| check_deadline(cancel, deadline).err().unwrap_or_else(|| "MEDIA_PROXY_FAILED".into()))?;
   if cancel.load(Ordering::Acquire) || STOPPING.load(Ordering::Acquire) {
     return Err("MEDIA_CANCELLED".into());
   }
@@ -511,7 +535,7 @@ fn run_media_worker(
     .current_dir(&directory.path)
     .env("TEMP", &directory.path)
     .env("TMP", &directory.path)
-    .env("EGOIST_RELAY_MEDIA_PROXY", proxy.as_ref().map_or("direct", Url::as_str));
+    .env("EGOIST_RELAY_MEDIA_NETWORK", "system");
   crate::runtime::hide_command_window(&mut command);
   let mut child = command.spawn().map_err(|_| "MEDIA_RUNTIME_UNAVAILABLE")?;
   let scoped = match WorkerJob::attach(&child) {
@@ -781,7 +805,7 @@ impl OwnedDirectory {
   pub(crate) fn create(app: &AppHandle) -> Result<Self, String> {
     Self::create_in(resolve_cache_root(app)?)
   }
-  fn create_in(root: PathBuf) -> Result<Self, String> {
+  pub(crate) fn create_in(root: PathBuf) -> Result<Self, String> {
     if root.exists() && root.is_symlink() {
       return Err("MEDIA_PATH_DENIED".into());
     }
@@ -1008,6 +1032,33 @@ mod tests {
     assert_eq!(fs::read(&first.path).unwrap(), bytes);
     assert_eq!(fs::read(&second.path).unwrap(), bytes);
     assert_eq!(fs::read_dir(downloads.join(".egoist-relay-media")).unwrap().count(), 0);
+    source.cleanup().unwrap();
+    fs::remove_dir_all(root).unwrap();
+  }
+
+  #[test]
+  fn file_publication_streams_above_ipc_limit_and_enforces_its_own_ceiling() {
+    let (source, downloads, root) = create_storage_fixture();
+    let file_path = source.path.join("source.jpg");
+    let mut file = OpenOptions::new().create_new(true).write(true).open(&file_path).unwrap();
+    let size = MAX_BYTES as u64 + 1;
+    file.set_len(size).unwrap();
+    file.write_all(&[0xff, 0xd8, 0xff]).unwrap();
+    drop(file);
+    let packet = serde_json::to_vec(&serde_json::json!({
+      "filePath": file_path,
+      "metadata": { "index": 0, "name": "relay-source-1.jpg", "mimeType": "image/jpeg", "size": size }
+    })).unwrap();
+    let cancel = AtomicBool::new(false);
+    let ceiling = 4 * 1024 * 1024 * 1024;
+    let deadline = Instant::now() + Duration::from_secs(10);
+    let saved = publish_saved_media_in(&source, &packet, 0, ceiling, &downloads, &cancel, deadline).unwrap();
+    assert_eq!(fs::metadata(&saved.path).unwrap().len(), size);
+    let mut prefix = [0; 3];
+    File::open(saved.path).unwrap().read_exact(&mut prefix).unwrap();
+    assert_eq!(prefix, [0xff, 0xd8, 0xff]);
+    assert!(matches!(publish_saved_media_in(&source, &packet, 0, MAX_BYTES, &downloads, &cancel, deadline), Err(error) if error == "MEDIA_TOO_LARGE"));
+    assert!(matches!(publish_saved_media_in(&source, &packet, 0, ceiling + 1, &downloads, &cancel, deadline), Err(error) if error == "MEDIA_TOO_LARGE"));
     source.cleanup().unwrap();
     fs::remove_dir_all(root).unwrap();
   }

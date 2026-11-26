@@ -14,15 +14,16 @@ import MediaOperationQueue from './mediaOperationQueue';
 import { isMediaOperationActive } from './mediaOperations.types';
 import {
   assertSocialShareTarget, createSocialShareJob, getSocialShareFingerprints, getSocialShareMediaCount,
-  getSocialSharePrice, getSocialShareTextParts, releaseSocialShareMedia, resolveSocialShareMedia,
-  saveSocialShareMedia, sendSocialShareJob,
+  getSocialSharePrice, getSocialShareTextParts, releaseSocialShareMedia, resolveSocialShareFiles,
+  resolveSocialShareMedia, saveSocialShareMedia, sendSocialShareJob,
 } from './socialShare';
 
 // Operation ownership lasts for the application lifetime, independently of dialogs or panels.
 const queue = new MediaOperationQueue();
 const subscribers = new Set<NoneToVoidFunction>();
 const captures = new Map<string, SocialShareRequest>();
-const tokens = new Map<string, { canceled: boolean }>();
+type OperationToken = { canceled: boolean; cancelUpload?: NoneToVoidFunction };
+const tokens = new Map<string, OperationToken>();
 const cancellationCleanup = new Map<string, Promise<void>>();
 const removedIds = new Set<string>();
 let snapshot: MediaOperationsSnapshot = { operations: [], isLocked: true };
@@ -112,8 +113,11 @@ export async function initializeMediaOperations(locked: boolean) {
 
 export async function setMediaOperationsLocked(locked: boolean) {
   isLocked = locked;
-  if (locked) queue.setLocked(true);
-  if (locked) publish({ operations: [], isLocked: true });
+  if (locked) {
+    queue.setLocked(true);
+    tokens.forEach(({ cancelUpload }) => cancelUpload?.());
+    publish({ operations: [], isLocked: true });
+  }
   await initializeMediaOperations(locked);
 }
 
@@ -196,7 +200,7 @@ async function execute(
   operation: NewMediaOperation | MediaOperation, attempt: number, request: SocialShareRequest, approvedPrice: number,
 ) {
   const { id } = operation;
-  const token = { canceled: false };
+  const token: OperationToken = { canceled: false };
   tokens.set(id, token);
   activeAttempts.set(id, attempt);
   let attachments: ApiAttachment[] = [];
@@ -222,8 +226,9 @@ async function execute(
     }
     if (operation.mode !== 'link') {
       await update(id, attempt, { stage: 'preparing' });
-      attachments = await resolveSocialShareMedia(request, canceled, (index) => {
-        scheduleProgress(id, { index, count: getSocialShareMediaCount(request), loaded: 0 });
+      const prepare = operation.mode === 'file' ? resolveSocialShareFiles : resolveSocialShareMedia;
+      attachments = await prepare(request, canceled, (index: number, loaded = 0, total?: number) => {
+        scheduleProgress(id, { index, count: getSocialShareMediaCount(request), loaded, total });
       });
     }
     const target = { peerId: send.peerId, threadId: send.threadId as ThreadId | undefined };
@@ -262,6 +267,7 @@ async function execute(
         await update(id, attempt, { stage: 'sending' });
       },
       onDispatch: () => { awaitingAcknowledgement = true; },
+      onCancelUploadChange: (cancel) => { token.cancelUpload = cancel; },
       onConfirmed: async (confirmed) => {
         awaitingAcknowledgement = false;
         try {
@@ -277,7 +283,8 @@ async function execute(
     await update(id, attempt, { stage: 'completed' });
   } catch (error) {
     const code = getMediaOperationErrorCode(error);
-    const unknown = awaitingAcknowledgement || failedToPersistConfirmation;
+    const knownUploadFailure = code === 'MEDIA_UPLOAD_PRE_SEND_FAILED' || code === 'MEDIA_UPLOAD_TOO_LARGE';
+    const unknown = (awaitingAcknowledgement && !knownUploadFailure) || failedToPersistConfirmation;
     const stage = unknown ? 'uncertain' : canceled() ? token.canceled ? 'cancelled' : 'interrupted' : 'failed';
     await update(id, attempt, { stage, error: unknown ? 'MEDIA_OUTCOME_UNCERTAIN' : code,
       confirmed: job?.confirmed }).catch(() => undefined);
@@ -297,7 +304,10 @@ export async function cancelMediaOperation(id: string) {
   const existing = cancellationCleanup.get(id);
   if (existing) return existing;
   const token = tokens.get(id);
-  if (token) token.canceled = true;
+  if (token) {
+    token.canceled = true;
+    token.cancelUpload?.();
+  }
   const wasWaiting = queue.cancel(id);
   const cleanup = (async () => {
     try {
@@ -369,7 +379,7 @@ export async function resumeMediaOperation(id: string, input: EnqueueMediaOperat
   return id;
 }
 
-export async function mediaOperationFileAction(id: string, type: 'open' | 'reveal', index = 0) {
+export async function mediaOperationFileAction(id: string, type: 'open' | 'reveal' | 'copyFile', index = 0) {
   await action({ type, id, index });
 }
 export async function clearMediaOperationHistory() {

@@ -1,7 +1,7 @@
 //! Ход установки: проверки, проверка целостности payload, распаковка, запуск NSIS `/S`, итог.
 //!
 //! Ничего не запускается, кроме извлечённого NSIS-установщика с проверенным SHA-256
-//! (и, по желанию пользователя, установленного Sennit). Сети нет.
+//! (и, по желанию пользователя, установленной Бересты). Сети нет.
 
 use std::fs::{File, OpenOptions};
 use std::io::{Read, Seek, SeekFrom, Write};
@@ -59,7 +59,7 @@ pub struct Shared {
     pub stalled: AtomicBool,
     /// Код выхода процесса по последнему исходу (0 успех, 1 отмена/не начинали, иначе код ошибки).
     pub last_exit: AtomicI32,
-    /// Каталог, куда установлен Sennit (после успеха; для кнопки «Запустить»).
+    /// Каталог, куда установлена Береста (после успеха; для кнопки «Запустить»).
     pub final_dir: std::sync::Mutex<Option<PathBuf>>,
 }
 
@@ -82,6 +82,22 @@ pub struct Options {
     pub launch_after: bool,
     /// Запасной режим без WebView2: штатный мастер NSIS вместо `/S`.
     pub nsis_gui: bool,
+    /// Только с `silent`: сколько секунд ждать закрытия работающей Бересты (`--wait-app=<сек>`); 0 — сразу код 12.
+    pub wait_app_secs: u64,
+}
+
+/// Опрашивает `running`, пока приложение живо, но не дольше `secs` секунд. true — приложение закрылось.
+pub fn wait_closed(secs: u64, step: Duration, mut running: impl FnMut() -> bool) -> bool {
+    let deadline = Instant::now() + Duration::from_secs(secs);
+    loop {
+        if !running() {
+            return true;
+        }
+        if Instant::now() >= deadline {
+            return false;
+        }
+        std::thread::sleep(step);
+    }
 }
 
 pub struct Context {
@@ -134,7 +150,7 @@ impl Failure {
                 EXIT_NSIS,
                 "Антивирус заблокировал файл",
                 format!("{what}: Windows сообщила о заражённом или удалённом файле (код {os})."),
-                "Добавьте установщик Sennit в исключения антивируса или временно отключите проверку, затем нажмите «Повторить».",
+                "Добавьте установщик Бересты в исключения антивируса или временно отключите проверку, затем нажмите «Повторить».",
             ),
             Cause::AccessDenied => Failure::new(
                 "SETUP-ACCESS",
@@ -168,6 +184,18 @@ pub fn existing_install() -> Existing {
         .map(PathBuf::from);
     let version = win::reg_read_string(win::Hive::CurrentUser, UNINSTALL_KEY, "DisplayVersion").filter(|v| !v.trim().is_empty());
     Existing { dir, version }
+}
+
+/// Аргументы NSIS. Тихое обновление идёт с `/UPDATE`, как у штатного обновлятора Tauri: без него шаблон
+/// Tauri вызывает старый деинсталлятор как полное удаление, тот открепляет приложение от панели задач и
+/// удаляет ярлыки; новые создаются заново, а закрепление на панели задач остаётся с пустым значком. Первую установку `/UPDATE` не получает:
+/// в этом режиме NSIS не создаёт ярлыки и не ставит WebView2.
+pub fn nsis_args(nsis_gui: bool, is_update: bool) -> Vec<&'static str> {
+    match (nsis_gui, is_update) {
+        (true, _) => vec![],
+        (false, true) => vec!["/S", "/UPDATE"],
+        (false, false) => vec!["/S"],
+    }
 }
 
 /// Куда NSIS будет ставить: прежняя папка либо `%LOCALAPPDATA%\Egoist Relay` (режим currentUser).
@@ -226,7 +254,7 @@ impl<'a> Runner<'a> {
     fn run_inner(&mut self) -> Result<Outcome, Failure> {
         let tail = &self.ctx.tail;
         let payload_len = tail.payload_len;
-        self.log(&format!("Sennit Setup {}: payload {} байт, ожидаемый размер установки {} байт", tail.meta.version, payload_len, tail.install_bytes));
+        self.log(&format!("Установка Бересты {}: payload {} байт, ожидаемый размер установки {} байт", tail.meta.version, payload_len, tail.install_bytes));
 
         // ---- Этап 1: система и целостность ----
         self.stage(1, "Проверка системы", "Windows, свободное место, запущенное приложение");
@@ -279,7 +307,7 @@ impl<'a> Runner<'a> {
         self.stage(2, "Подготовка файлов", "Распаковка во временную папку");
         let temp_root = std::env::temp_dir();
         let nanos = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_nanos()).unwrap_or(0);
-        let tmp_dir = temp_root.join(format!("Sennit-Setup-{}-{:x}", std::process::id(), nanos));
+        let tmp_dir = temp_root.join(format!("Beresta-Setup-{}-{:x}", std::process::id(), nanos));
         win::create_private_dir(&tmp_dir).map_err(|e| Failure::io("SETUP-TEMP", "Не удалось создать временную папку", &e))?;
         self.log(&format!("временная папка: {}", tmp_dir.display()));
         let mut guard = TempGuard { dir: tmp_dir.clone(), lock: None, child: None };
@@ -325,7 +353,7 @@ impl<'a> Runner<'a> {
         if self.canceled() {
             return Ok(Outcome::Canceled);
         }
-        // Последняя возможность закрыть Sennit до записи файлов.
+        // Последняя возможность закрыть Бересту до записи файлов.
         if !self.wait_app_closed(&app_exe)? {
             return Ok(Outcome::Canceled);
         }
@@ -334,13 +362,12 @@ impl<'a> Runner<'a> {
         self.ctx.shared.phase.store(PHASE_LOCKED, Ordering::SeqCst);
         self.stage(3, "Установка файлов", "Запись файлов, ярлыки, запись в «Приложения и возможности»");
         let mut cmd = Command::new(&payload_path);
-        if !self.opts.nsis_gui {
-            cmd.arg("/S");
-        }
+        let nsis_args = nsis_args(self.opts.nsis_gui, existing.version.is_some() && app_exe.is_file());
+        cmd.args(&nsis_args);
         cmd.current_dir(&tmp_dir).stdin(Stdio::null()).stdout(Stdio::null()).stderr(Stdio::null()).creation_flags(0);
         // Ребёнок живёт в TempGuard: при любом выходе (ошибка, паника) guard дождётся NSIS и только потом удалит папку.
         let spawned = cmd.spawn().map_err(|e| Failure::io("SETUP-SPAWN", "Не удалось запустить установщик NSIS", &e))?;
-        self.log(&format!("NSIS запущен (pid {}), аргументы: {}", spawned.id(), if self.opts.nsis_gui { "(штатный мастер)" } else { "/S" }));
+        self.log(&format!("NSIS запущен (pid {}), аргументы: {}", spawned.id(), if self.opts.nsis_gui { "(штатный мастер)".to_string() } else { nsis_args.join(" ") }));
         guard.child = Some(spawned);
         let mut tracker = InstallProgress::new(tail.install_bytes);
         let mut stall = StallDetector::new(STALL_SECS);
@@ -424,15 +451,15 @@ impl<'a> Runner<'a> {
         let updated = existing.version.is_some();
 
         // ---- Этап 4 ----
-        self.stage(4, "Готово", "Sennit установлен");
+        self.stage(4, "Готово", "Береста установлена");
         let mut launched = false;
         if self.opts.launch_after {
             match launch_app(&exe, &final_dir) {
                 Ok(()) => {
                     launched = true;
-                    self.log("Sennit запущен");
+                    self.log("Береста запущена");
                 }
-                Err(e) => self.log(&format!("не удалось запустить Sennit: {e}")),
+                Err(e) => self.log(&format!("не удалось запустить Бересту: {e}")),
             }
         }
         Ok(Outcome::Done { install_dir: final_dir, version: tail.meta.version.clone(), updated, launched })
@@ -446,7 +473,7 @@ impl<'a> Runner<'a> {
                     "SETUP-OS",
                     EXIT_PREFLIGHT,
                     "Windows слишком старая",
-                    format!("Sennit требует Windows 10 версии 1903 (сборка {}) или новее. У вас сборка {build}.", preflight::MIN_WINDOWS_BUILD),
+                    format!("Береста требует Windows 10 версии 1903 (сборка {}) или новее. У вас сборка {build}.", preflight::MIN_WINDOWS_BUILD),
                     "Обновите Windows и запустите установщик снова.",
                 )
                 .no_retry());
@@ -493,38 +520,44 @@ impl<'a> Runner<'a> {
         Ok(())
     }
 
-    /// Ждёт, пока не закроется Sennit из каталога установки. false — отмена.
+    /// Ждёт, пока не закроется Береста из каталога установки. false — отмена.
     /// Принудительно не завершаем: активные аккаунты, как и в логике NSIS (installer-processes.ps1).
     fn wait_app_closed(&self, app_exe: &Path) -> Result<bool, Failure> {
         if !win::is_exe_running(app_exe) {
             return Ok(true);
         }
         if self.opts.silent {
+            if self.opts.wait_app_secs > 0 {
+                self.log(&format!("Береста запущена: ждём закрытия до {} с", self.opts.wait_app_secs));
+                if wait_closed(self.opts.wait_app_secs, Duration::from_millis(250), || win::is_exe_running(app_exe)) {
+                    return Ok(true);
+                }
+            }
             return Err(Failure::new(
                 "SETUP-APP-RUNNING",
                 EXIT_APP_RUNNING,
-                "Sennit запущен",
+                "Береста запущена",
                 format!("Запущен {}.", app_exe.display()),
-                "Закройте Sennit через меню значка в трее и запустите установщик снова.",
+                "Закройте Бересту через меню значка в трее и запустите установщик снова.",
             ));
         }
         if self.opts.nsis_gui {
             // Запасной режим без окна: окно сообщения «Повторить / Отмена», без вечного ожидания.
             while win::is_exe_running(app_exe) {
-                self.log("Sennit запущен (запасной режим): спрашиваем пользователя");
-                if !win::retry_cancel_box("Sennit Setup", "Sennit запущен. Закройте его через меню значка в трее и нажмите «Повторить». Активные аккаунты не закрываются принудительно.") {
+                self.log("Береста запущена (запасной режим): спрашиваем пользователя");
+                if !win::retry_cancel_box("Установка Бересты", "Береста запущена. Закройте её через меню значка в трее и нажмите «Повторить». Активные аккаунты не закрываются принудительно.") {
                     return Err(Failure::new(
                         "SETUP-APP-RUNNING",
                         EXIT_APP_RUNNING,
-                        "Sennit запущен",
+                        "Береста запущена",
                         format!("Запущен {}.", app_exe.display()),
-                        "Закройте Sennit через меню значка в трее и запустите установщик снова.",
+                        "Закройте Бересту через меню значка в трее и запустите установщик снова.",
                     ));
                 }
             }
             return Ok(true);
         }
-        self.log("Sennit запущен: ждём закрытия");
+        self.log("Береста запущена: ждём закрытия");
         self.emit(json!({"t":"need_close","running":true}));
         while win::is_exe_running(app_exe) {
             if self.canceled() {
@@ -533,7 +566,7 @@ impl<'a> Runner<'a> {
             }
             std::thread::sleep(Duration::from_millis(500));
         }
-        self.log("Sennit закрыт, продолжаем");
+        self.log("Береста закрыта, продолжаем");
         self.emit(json!({"t":"need_close","running":false}));
         Ok(true)
     }
@@ -541,7 +574,7 @@ impl<'a> Runner<'a> {
     fn nsis_failure(&self, code: i32, cause: Cause, install_dir: &Path) -> Failure {
         let tail_hint = "Нажмите «Показать журнал», чтобы сохранить подробности.";
         match cause {
-            Cause::AppRunning => Failure::new("SETUP-APP-RUNNING", EXIT_APP_RUNNING, "Sennit запущен", "Установщик не смог заменить файлы работающего приложения.".into(), "Закройте Sennit через меню значка в трее и нажмите «Повторить»."),
+            Cause::AppRunning => Failure::new("SETUP-APP-RUNNING", EXIT_APP_RUNNING, "Береста запущена", "Установщик не смог заменить файлы работающего приложения.".into(), "Закройте Бересту через меню значка в трее и нажмите «Повторить»."),
             Cause::ScriptAbort => Failure::new(
                 "SETUP-NSIS-1",
                 EXIT_NSIS,
@@ -549,8 +582,8 @@ impl<'a> Runner<'a> {
                 "Установщик остановился на проверках: версия Windows, длина пути или более новая версия уже установлена.".into(),
                 tail_hint,
             ),
-            Cause::Antivirus => Failure::new("SETUP-ANTIVIRUS", EXIT_NSIS, "Антивирус заблокировал файл", format!("Установщик завершился с кодом {code}: Windows сообщила о заражённом или удалённом файле."), "Добавьте установщик Sennit в исключения антивируса и нажмите «Повторить»."),
-            Cause::AccessDenied => Failure::new("SETUP-ACCESS", EXIT_NSIS, "Нет доступа к папке установки", format!("Не удалось записать файлы в {} (отказано в доступе).", install_dir.display()), "Закройте программы, которые используют файлы Sennit, и нажмите «Повторить»."),
+            Cause::Antivirus => Failure::new("SETUP-ANTIVIRUS", EXIT_NSIS, "Антивирус заблокировал файл", format!("Установщик завершился с кодом {code}: Windows сообщила о заражённом или удалённом файле."), "Добавьте установщик Бересты в исключения антивируса и нажмите «Повторить»."),
+            Cause::AccessDenied => Failure::new("SETUP-ACCESS", EXIT_NSIS, "Нет доступа к папке установки", format!("Не удалось записать файлы в {} (отказано в доступе).", install_dir.display()), "Закройте программы, которые используют файлы Бересты, и нажмите «Повторить»."),
             Cause::DiskFull => Failure::new("SETUP-DISK", EXIT_SPACE, "Закончилось место на диске", format!("Установщик завершился с кодом {code}, на диске почти нет места."), "Освободите место и нажмите «Повторить»."),
             Cause::Other => Failure::new("SETUP-NSIS", EXIT_NSIS, "Установщик завершился с ошибкой", format!("Код возврата NSIS: {code}."), &format!("{tail_hint}{}", webview_note())),
         }
@@ -626,6 +659,28 @@ mod tests {
     use std::io::Cursor;
 
     #[test]
+    fn wait_closed_polls_until_closed_or_deadline() {
+        let step = Duration::from_millis(1);
+        // Закрылось на 4-м опросе.
+        let mut n = 0;
+        assert!(wait_closed(5, step, || { n += 1; n < 4 }));
+        assert_eq!(n, 4);
+        // Уже закрыто — один опрос, без ожидания.
+        let mut m = 0;
+        assert!(wait_closed(0, step, || { m += 1; false }));
+        assert_eq!(m, 1);
+        // Не закрывается: срок истёк, возвращается false.
+        assert!(!wait_closed(0, step, || true));
+    }
+
+    #[test]
+    fn silent_update_keeps_shortcuts_and_first_install_creates_them() {
+        assert_eq!(nsis_args(false, true), vec!["/S", "/UPDATE"]);
+        assert_eq!(nsis_args(false, false), vec!["/S"]);
+        assert!(nsis_args(true, true).is_empty());
+    }
+
+    #[test]
     fn hash_stream_matches_sha256_and_reports_progress() {
         let data: Vec<u8> = (0..(CHUNK * 2 + 123)).map(|i| (i % 251) as u8).collect();
         let mut ticks = Vec::new();
@@ -665,7 +720,7 @@ mod tests {
             payload_len: payload.len() as u64,
             install_bytes: 4242,
             payload_sha256: sha,
-            meta: Meta { product: "Sennit".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
+            meta: Meta { product: "Береста".into(), version: "1.7.1".into(), payload_name: "p.exe".into(), built_at: "2026-10-08T00:00:00Z".into() },
         };
         let mut body = payload.to_vec();
         if corrupt {
@@ -680,7 +735,7 @@ mod tests {
 
     #[test]
     fn verify_only_accepts_good_and_rejects_corrupt_payload() {
-        let dir = std::env::temp_dir().join(format!("sennit-test-verify-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("egoist-social-test-verify-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let payload: Vec<u8> = (0..100_000).map(|i| (i * 7 % 256) as u8).collect();
         write_sfx(&dir.join("good.exe"), &payload, false);
@@ -699,7 +754,7 @@ mod tests {
     /// но его нельзя подменить или удалить, пока замок у нас.
     #[test]
     fn locked_payload_runs_but_cannot_be_replaced() {
-        let dir = std::env::temp_dir().join(format!("sennit-test-lock-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("egoist-social-test-lock-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let system = std::env::var_os("SystemRoot").map(PathBuf::from).unwrap_or_else(|| PathBuf::from(r"C:\Windows"));
         let target = dir.join("who.exe");
@@ -715,7 +770,7 @@ mod tests {
 
     #[test]
     fn private_dir_is_created_once() {
-        let dir = std::env::temp_dir().join(format!("sennit-test-acl-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("egoist-social-test-acl-{}", std::process::id()));
         win::create_private_dir(&dir).unwrap();
         assert!(dir.is_dir());
         std::fs::write(dir.join("f"), b"x").unwrap();

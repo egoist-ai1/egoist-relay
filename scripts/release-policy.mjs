@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
 import { lstat, readdir, readFile } from 'node:fs/promises';
@@ -5,16 +6,18 @@ import path from 'node:path';
 
 export const PRODUCT = Object.freeze({ identifier: 'com.egoist.relay', name: 'Egoist Relay', minWebview: '143.0.0.0' });
 export const SOURCE_ROOTS = ['src', 'public', 'plugins', 'dev', 'deploy', '.github/workflows',
-  'tauri/src', 'tauri/vendor', 'tauri/icons', 'tauri/fonts', 'tauri/capabilities', 'tauri/permissions'];
+  'tauri/src', 'tauri/vendor', 'tauri/icons', 'tauri/fonts', 'tauri/capabilities', 'tauri/permissions',
+  'installer/src', 'installer/ui', 'installer/assets'];
 export const SOURCE_FILES = ['LICENSE', 'package.json', 'package-lock.json', 'vite.config.ts', 'vitest.config.ts',
   'postcss.config.ts', 'eslint.config.js', '.stylelintrc.json', '.editorconfig', 'index.html',
   'tsconfig.json', 'tsconfig.base.json', 'tsconfig.script.json', 'tsconfig.test.json',
   'tauri/Cargo.toml', 'tauri/Cargo.lock', 'tauri/tauri.conf.json', 'tauri/build.rs', 'tauri/installer.nsh',
-  'tauri/installer-processes.ps1', 'tauri/installer-legacy-runtime.json'];
-const REMOVED_NETWORK_FILE = /(?:^|\/)(?:xray(?:\.exe|-provenance\.json)|ciadpi\.exe|egoist-tg-proxy\.exe|(?:XRAY(?:-GO)?|BYEDPI|WS)-LICENSE\.txt)$/i;
-const REMOVED_NETWORK_SOURCE = /^(?:scripts\/(?:app-dns|app-proxy|proxy-bridge|lagom-tunnel)(?:\.|\/)|scripts\/(?:import-lagom|build-personal)|tauri\/(?:installer-(?:dns|tunnel)-profile\.ps1|src\/(?:network|dns_profile|tunnel)\.rs))/i;
+  'tauri/installer-processes.ps1', 'tauri/installer-legacy-runtime.json',
+  'installer/Cargo.toml', 'installer/Cargo.lock', 'installer/build.rs', 'installer/.cargo/config.toml'];
+const REMOVED_NETWORK_FILE = /^runtime\/(?:ciadpi\.exe$|egoist-tg-proxy\.exe$|xray(?:\.exe|-provenance\.json)$|telegram\/|licenses\/(?:(?:BYEDPI|WS|XRAY|XRAY-GO)-LICENSE\.txt$|xray-dependencies\/))/i;
+const REMOVED_NETWORK_SOURCE = /^(?:scripts\/(?:app-dns|app-proxy|proxy-bridge|lagom-tunnel)(?:\.|\/)|scripts\/(?:import-lagom|build-personal)|tauri\/(?:installer-(?:dns|tunnel)-profile\.ps1|src\/(?:dns_profile|tunnel)\.rs))/i;
 const BLOCKED_PARTS = /^(?:\.git|node_modules|target|dist|release|\.cache|__pycache__|__tests__|screenshots?)$/i;
-const BLOCKED_FILE = /(?:^\.env(?:\.|$)|\.p(?:fx|12|em)$|\.key$|\.dpapi$|\.(?:db|sqlite3?|cookies?)$|(?:^|[-_.])(?:private|enrollment|cookies?|sessions?|credentials)(?=[-_.]|$).*\.(?:json|txt|log)$)/i;
+const BLOCKED_FILE = /(?:^\.env(?:\.|$)|\.p(?:fx|12|em)$|\.key$|\.dpapi$|\.local\.json$|\.(?:db|sqlite3?|cookies?)$|(?:^|[-_.])(?:private|enrollment|cookies?|sessions?|credentials)(?=[-_.]|$).*\.(?:json|txt|log)$)/i;
 const SECRET_PATTERNS = [
   /-----BEGIN (?:[A-Z ]*PRIVATE KEY|OPENSSH PRIVATE KEY)-----/,
   /\b(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|AKIA[A-Z0-9]{16})\b/,
@@ -41,7 +44,7 @@ export function isSafeSourcePath(file) {
 }
 
 export function isRemovedNetworkRuntime(file) {
-  return REMOVED_NETWORK_FILE.test(file) || /^runtime\/licenses\/xray-dependencies\//i.test(file);
+  return REMOVED_NETWORK_FILE.test(file);
 }
 
 export function assertNoSecrets(file, content) {
@@ -53,6 +56,15 @@ export function assertNoSecrets(file, content) {
     const reservedFixture = /(?:^|\.)(?:example\.com|example\.org|example\.net|example|invalid|test)$/.test(host);
     requireCondition(reservedFixture, `Potential secret in source: ${file}`);
   }
+}
+
+/** Секреты сети (provisioning.local.json и любые *.local.json) не должны быть под контролем Git. Вне репозитория проверка пропускается. */
+export function assertProvisioningNotTracked(root, run = spawnSync) {
+  const result = run('git', ['-C', root, 'ls-files', '--', '*.local.json'], { encoding: 'utf8', windowsHide: true });
+  if (result.error || result.status !== 0) return { checked: false };
+  const tracked = String(result.stdout).split(String.fromCharCode(10)).map((line) => line.trim()).filter(Boolean);
+  requireCondition(tracked.length === 0, `Local provisioning file is tracked by Git: ${tracked.join(', ')}`);
+  return { checked: true };
 }
 
 export async function listFiles(directory, prefix = '') {
@@ -91,8 +103,9 @@ export function validateConfiguration({ pkg, packageLock, cargo, cargoLock, conf
   requireCondition(config.identifier === PRODUCT.identifier && config.productName === PRODUCT.name
     && config.mainBinaryName === PRODUCT.name, 'Release product identity mismatch');
   requireCondition(config.build?.frontendDist === '../dist', 'Release frontend must be embedded ../dist');
-  requireCondition(config.bundle?.createUpdaterArtifacts === false && !config.plugins?.updater,
-    'Updater must remain disabled until a signed update channel exists');
+  requireCondition(config.bundle?.createUpdaterArtifacts === false && !config.plugins?.updater
+    && !/^\s*tauri-plugin-updater\s*=/m.test(cargo),
+  'Tauri updater plugin must stay disabled: updates use the own signed Beresta channel');
   requireCondition(config.bundle?.windows?.allowDowngrades === false, 'Installer must reject downgrades');
   requireCondition(config.bundle?.windows?.minimumWebview2Version === PRODUCT.minWebview,
     `WebView2 minimum must be the reviewed baseline ${PRODUCT.minWebview}`);
@@ -123,6 +136,81 @@ export function validateConfiguration({ pkg, packageLock, cargo, cargoLock, conf
   'Generic release must not build or import internal network engines');
   return { version: pkg.version, tauriVersion, taoVersion, identifier: config.identifier, embeddedFrontend: true,
     updater: false, installerVariant: 'generic', networkEnginesBundled: false };
+}
+
+// ---- Канал обновлений Бересты (собственная подпись ed25519, не tauri-plugin-updater) ----
+
+/** Все массивы из ровно 32 числовых литералов (`[u8; 32]`) в тексте Rust, комментарии отброшены. */
+export function extractPubkeys(rustSource) {
+  const keys = [];
+  for (const match of stripRustComments(rustSource).matchAll(/\[\s*((?:(?:0x[0-9a-fA-F]{1,2}|\d{1,3})(?:_?u8)?\s*,?\s*){32})\]/g)) {
+    const bytes = [...match[1].matchAll(/0x[0-9a-fA-F]{1,2}|\d{1,3}/g)].map((item) => Number(item[0]));
+    if (bytes.length === 32 && bytes.every((byte) => byte >= 0 && byte <= 255)) keys.push(bytes);
+  }
+  return keys;
+}
+
+const TOKEN_PATTERN = /(?:github_pat_[A-Za-z0-9_]{50,}|ghp_[A-Za-z0-9]{36,})/;
+
+/** true, если в данных есть токен GitHub. Значение не возвращается и не попадает в ошибки. */
+export function containsGithubToken(data) {
+  const buffer = Buffer.isBuffer(data) ? data : Buffer.from(String(data));
+  if (!buffer.includes('github_pat_') && !buffer.includes('ghp_')) return false;
+  return TOKEN_PATTERN.test(buffer.toString('latin1'));
+}
+
+export function defaultTokenFile(env = {}) {
+  const base = env.LOCALAPPDATA || (env.USERPROFILE && path.join(env.USERPROFILE, 'AppData', 'Local')) || '';
+  return base ? path.join(base, 'Egoist', 'sign', 'beresta-update-token.txt') : '';
+}
+
+/**
+ * Требования production для канала обновлений. Чистая функция: данные собирает readUpdateChannel.
+ * files — [{ name, content }] отслеживаемых git файлов и ресурсов bundle (токена там быть не должно).
+ * Содержимое токена не читается: нужен только факт наличия файла (tokenFileExists).
+ */
+export function validateUpdateChannel({ pubkeysRs, env = {}, tokenFileExists, files = [] }) {
+  requireCondition(typeof pubkeysRs === 'string' && pubkeysRs.length > 0, 'tauri/src/update/pubkeys.rs не найден');
+  requireCondition(!/PLACEHOLDER/i.test(pubkeysRs), 'В pubkeys.rs остался маркер PLACEHOLDER: вставьте настоящий открытый ключ');
+  const keys = extractPubkeys(pubkeysRs);
+  requireCondition(keys.length > 0, 'В pubkeys.rs не найден открытый ключ [u8; 32]');
+  requireCondition(keys.every((key) => key.some((byte) => byte !== 0)), 'В pubkeys.rs нулевой ключ-заглушка');
+  requireCondition(env.BERESTA_RELEASE === '1', 'Production-выпуск требует BERESTA_RELEASE=1');
+  requireCondition(tokenFileExists === true, 'Файл токена обновлений не найден (путь в BERESTA_UPDATE_TOKEN_FILE)');
+  const leaked = files.filter((file) => containsGithubToken(file.content)).map((file) => file.name);
+  requireCondition(leaked.length === 0, `Токен GitHub найден в файлах репозитория или bundle: ${leaked.join(', ')}`);
+  return { keys: keys.length, tokenFile: 'present', tokenInTrackedFiles: false };
+}
+
+const SCAN_LIMIT_TRACKED = 2 * 1024 * 1024;
+const SCAN_LIMIT_RESOURCE = 64 * 1024 * 1024;
+
+/** Собирает входные данные для validateUpdateChannel. Токен читается только как факт существования файла. */
+export async function readUpdateChannel(root, env = process.env, run = spawnSync) {
+  const read = (file) => readFile(path.join(root, file), 'utf8');
+  let pubkeysRs = '';
+  try { pubkeysRs = await read('tauri/src/update/pubkeys.rs'); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  const tokenPath = env.BERESTA_UPDATE_TOKEN_FILE || defaultTokenFile(env);
+  let tokenFileExists = false;
+  if (tokenPath) { try { tokenFileExists = (await lstat(tokenPath)).isFile(); } catch { tokenFileExists = false; } }
+  const listed = run('git', ['-C', root, 'ls-files', '-z'], { encoding: 'utf8', windowsHide: true, maxBuffer: 256 * 1024 * 1024 });
+  requireCondition(!listed.error && listed.status === 0, 'git ls-files не выполнен: проверка токена в репозитории невозможна');
+  const names = String(listed.stdout).split('\0').filter(Boolean);
+  const targets = new Map(names.map((name) => [name, SCAN_LIMIT_TRACKED]));
+  const config = JSON.parse(await read('tauri/tauri.conf.json'));
+  targets.set('tauri/tauri.conf.json', SCAN_LIMIT_TRACKED);
+  for (const source of Object.keys(config.bundle?.resources || {})) {
+    const relative = path.posix.normalize(`tauri/${source.replaceAll('\\', '/')}`);
+    if (!relative.startsWith('..') && !targets.has(relative)) targets.set(relative, SCAN_LIMIT_RESOURCE);
+  }
+  const files = [];
+  for (const [name, limit] of targets) {
+    let info;
+    try { info = await lstat(path.join(root, name)); } catch { continue; }
+    if (!info.isFile() || info.size > limit) continue;
+    files.push({ name, content: await readFile(path.join(root, name)) });
+  }
+  return { pubkeysRs, env, tokenFileExists, files };
 }
 
 function compareVersions(left, right) {
@@ -222,6 +310,7 @@ export async function selectSourceFiles(root) {
     for (const relative of files) {
       if (!isSafeSourcePath(relative) || REMOVED_NETWORK_SOURCE.test(relative)) continue;
       if (directory === 'scripts' && (!/\.(?:mjs|js|ps1|py|json|tsx)$/.test(relative)
+        || relative.startsWith('scripts/qa-lagom/')
         || /(?:capture-screen|visual-audit|ui-regression|import-lagom|start-relay)/.test(relative))) continue;
       selected.push(relative);
     }

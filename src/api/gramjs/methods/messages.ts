@@ -55,8 +55,8 @@ import {
   SUPPORTED_PHOTO_CONTENT_TYPES,
   SUPPORTED_VIDEO_CONTENT_TYPES,
 } from '../../../config';
-import { fetchFile } from '../../../util/files';
-import { compact, split } from '../../../util/iteratees';
+import { blobToFile, fetchFile } from '../../../util/files';
+import { split } from '../../../util/iteratees';
 import { getMessageKey, getMtpEphemeralMessageId } from '../../../util/keys/messageKey';
 import { getServerTime } from '../../../util/serverTime';
 import { interpolateArray } from '../../../util/waveform';
@@ -235,7 +235,9 @@ export async function fetchMessages({
   };
 }
 
-export async function fetchMessage({ chat, messageId }: { chat: ApiChat; messageId: number }) {
+export async function fetchMessage({
+  chat, messageId, isSilent,
+}: { chat: ApiChat; messageId: number; isSilent?: boolean }) {
   const isChannel = getEntityTypeById(chat.id) === 'channel';
 
   let result;
@@ -259,7 +261,7 @@ export async function fetchMessage({ chat, messageId }: { chat: ApiChat; message
 
     // When fetching messages for the bot @replies, there may be situations when the user was banned
     // in the comment group or this group was deleted
-    if (message !== 'CHANNEL_PRIVATE') {
+    if (!isSilent && message !== 'CHANNEL_PRIVATE') {
       sendApiUpdate({
         '@type': 'error',
         error: {
@@ -521,7 +523,11 @@ export function sendApiMessage(
         }
 
         reportSendFailure(chat.id, localMessage, cancelSendingStatusTimeout, err);
-        if (params.shouldThrowOnSendError) throw err;
+        if (params.shouldThrowOnSendError) {
+          if (!params.socialShareRandomId) throw err;
+          throw new Error(err instanceof Error && err.message === 'UPLOAD_FILE_TOO_BIG'
+            ? 'MEDIA_UPLOAD_TOO_LARGE' : 'MEDIA_UPLOAD_PRE_SEND_FAILED', { cause: err });
+        }
 
         await mediaQueue;
         return;
@@ -1312,8 +1318,8 @@ export async function rescheduleMessage({
 
 async function uploadMedia(message: ApiMessage, attachment: ApiAttachment, onProgress: ApiOnProgress) {
   const {
-    filename, blobUrl, mimeType, quick, voice, audio, previewBlobUrl, shouldSendAsFile, shouldSendAsSpoiler, ttlSeconds,
-    isRoundVideo,
+    filename, blob, blobUrl, compressedBlobUrl, mimeType, quick, voice, audio, previewBlobUrl, shouldSendAsFile,
+    shouldSendAsSpoiler, ttlSeconds, isRoundVideo, uploadResumeKey,
   } = attachment;
 
   const patchedOnProgress: ApiOnProgress = (progress) => {
@@ -1324,19 +1330,23 @@ async function uploadMedia(message: ApiMessage, attachment: ApiAttachment, onPro
     }
   };
 
-  const fetchAndUpload = async (url: string, progressCallback?: (progress: number) => void) => {
-    const file = await fetchFile(url, filename);
+  const uploadOriginalOrCompressed = async () => {
+    const file = blob && blobUrl !== compressedBlobUrl
+      ? blobToFile(blob, filename)
+      : await fetchFile(blobUrl, filename);
     // blobUrl вложения стабилен между повторами отправки: продолжаем с уже загруженных частей
-    return uploadFile(file, progressCallback, progressCallback ? url : undefined);
+    return uploadFile(file, patchedOnProgress, uploadResumeKey ?? blobUrl);
   };
 
   const isVideo = SUPPORTED_VIDEO_CONTENT_TYPES.has(mimeType);
   const shouldUploadThumb = audio || isVideo || shouldSendAsFile;
 
-  const [inputFile, thumb] = await Promise.all(compact([
-    fetchAndUpload(blobUrl, patchedOnProgress),
-    shouldUploadThumb && previewBlobUrl && fetchAndUpload(previewBlobUrl),
-  ]));
+  const [inputFile, thumb] = await Promise.all([
+    uploadOriginalOrCompressed(),
+    shouldUploadThumb && previewBlobUrl
+      ? fetchFile(previewBlobUrl, filename).then((file) => uploadFile(file))
+      : undefined,
+  ]);
 
   const attributes: GramJs.TypeDocumentAttribute[] = [new GramJs.DocumentAttributeFilename({ fileName: filename })];
   if (!shouldSendAsFile) {

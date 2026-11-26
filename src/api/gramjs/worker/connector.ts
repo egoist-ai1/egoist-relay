@@ -15,7 +15,6 @@ import generateUniqueId from '../../../util/generateUniqueId';
 import { handleError } from '../../../util/handleError';
 import { ACCOUNT_SLOT, DATA_BROADCAST_CHANNEL_NAME } from '../../../util/multiaccount';
 import { pause, throttleWithTickEnd } from '../../../util/schedulers';
-import { getDesktopTelegramTransport } from '../../../util/tauri/telegramTransport';
 
 type RequestState = {
   messageId: string;
@@ -89,11 +88,6 @@ export async function initApi(onUpdate: OnApiUpdate, initialArgs: ApiInitialArgs
     initApiOnMasterTab(initialArgs);
     return Promise.resolve();
   }
-
-  initialArgs = {
-    ...initialArgs,
-    telegramTransportUrl: initialArgs.isTestServerRequested ? undefined : await getDesktopTelegramTransport(),
-  };
 
   if (!worker) {
     if (DEBUG) {

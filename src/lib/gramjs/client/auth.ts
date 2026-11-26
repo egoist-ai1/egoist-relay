@@ -3,6 +3,7 @@ import type TelegramClient from './TelegramClient';
 import type { Update } from './TelegramClient';
 
 import { DEBUG } from '../../../config';
+import Deferred from '../../../util/Deferred';
 import { base64UrlToString } from '../../../util/encoding/base64';
 import { tryParseBigInt } from '../../../util/numbers';
 import { getServerTime } from '../../../util/serverTime';
@@ -11,9 +12,9 @@ import { buildInputPasskeyCredential } from '../../../api/gramjs/gramjsBuilders/
 import {
   PasskeyCredentialNotFoundError, PasskeyLoginRequestedError, RPCError, UserAlreadyAuthorizedError,
 } from '../errors';
+import { WakeableTimer } from '../network/connectionPolicy';
 import Api from '../tl/api';
 
-import { sleep } from '../Helpers';
 import { computeCheck as computePasswordSrpCheck } from '../Password';
 import { getDisplayName } from '../Utils';
 
@@ -24,7 +25,8 @@ export interface UserAuthParams {
   phoneCode: (isCodeViaApp?: boolean) => Promise<string>;
   password: (hint?: string, noReset?: boolean) => Promise<string>;
   firstAndLastNames: () => Promise<[string, string?]>;
-  qrCode: (qrCode: { token: Uint8Array; expires: number }) => Promise<void>;
+  qrCode: (qrCode: { token: Uint8Array; expires: number }) => void;
+  waitForQrCode: () => Promise<never>;
   onError: (err: Error) => void;
   forceSMS?: boolean;
   initialMethod?: 'phoneNumber' | 'qrCode';
@@ -263,62 +265,59 @@ async function signInUser(
 async function signInUserWithQrCode(
   client: TelegramClient, apiCredentials: ApiCredentials, authParams: UserAuthParams,
 ): Promise<Api.TypeUser> {
-  let isScanningComplete = false;
-
   const { apiId, apiHash } = apiCredentials;
   const exceptIds = authParams.accountIds?.map((id) => tryParseBigInt(id)).filter(Boolean) || [];
 
   lastUsedMethod = 'qrCode';
 
-  const inputPromise = (async () => {
-    // eslint-disable-next-line no-constant-condition
-    while (1) {
-      if (isScanningComplete) {
-        break;
+  const refreshTimer = new WakeableTimer();
+  const stopRefreshing = new AbortController();
+  const { signal } = stopRefreshing;
+  const loginTokenAccepted = new Deferred();
+  const removeListener = client.addEventHandler((update: Api.TypeUpdate) => {
+    if (update instanceof Api.UpdateLoginToken) loginTokenAccepted.resolve();
+  }, { build: (update: Update) => update });
+
+  async function refreshQrCode() {
+    let hasRetried = false;
+    while (!signal.aborted) {
+      let result;
+      try {
+        result = await client.invoke(new Api.auth.ExportLoginToken({ apiId, apiHash, exceptIds }), undefined, signal);
+      } catch (err: unknown) {
+        if (signal.aborted) return;
+        if (hasRetried || !(err instanceof RPCError && err.errorMessage === 'AUTH_RESTART')) {
+          throw err;
+        }
+        hasRetried = true;
+        continue;
       }
 
-      const result = await client.invoke(new Api.auth.ExportLoginToken({
-        apiId,
-        apiHash,
-        exceptIds,
-      }));
-      if (!(result instanceof Api.auth.LoginToken)) {
-        throw new Error('Unexpected');
-      }
-
+      if (signal.aborted) return;
+      if (!(result instanceof Api.auth.LoginToken)) throw new Error('Unexpected login token');
       const { token, expires } = result;
-
-      await Promise.race([
-        authParams.qrCode({ token, expires }),
-        sleep((expires - getServerTime()) * 1000),
-      ]);
+      authParams.qrCode({ token, expires });
+      hasRetried = false;
+      await refreshTimer.sleep((expires - getServerTime()) * 1000);
     }
-  })();
-
-  const updatePromise = new Promise<void>((resolve) => {
-    client.addEventHandler((update: Api.TypeUpdate) => {
-      if (update instanceof Api.UpdateLoginToken) {
-        resolve();
-      }
-    }, { build: (update: Update) => update });
-  });
+  }
 
   try {
-    // Either we receive an update that QR is successfully scanned,
-    // or we receive a rejection caused by user going back to the regular auth form
-    await Promise.race([updatePromise, inputPromise]);
+    await Promise.race([authParams.waitForQrCode(), loginTokenAccepted.promise, refreshQrCode()]);
   } catch (err: unknown) {
     if (err instanceof Error && err.message === 'RESTART_AUTH') {
-      return await signInUser(client, apiCredentials, authParams);
+      return signInUser(client, apiCredentials, authParams);
     }
 
     if (err instanceof PasskeyLoginRequestedError) {
-      return await signInUserWithPasskey(client, apiCredentials, authParams, err.credentialJson);
+      return signInUserWithPasskey(client, apiCredentials, authParams, err.credentialJson);
     }
 
     throw err;
   } finally {
-    isScanningComplete = true;
+    stopRefreshing.abort();
+    refreshTimer.notify();
+    removeListener();
   }
 
   try {
@@ -518,6 +517,9 @@ async function signInWithPassword(
 
       return user;
     } catch (err: any) {
+      if (err instanceof Error && err.message === 'RESTART_AUTH') {
+        return signInUser(client, apiCredentials, authParams);
+      }
       authParams.onError(err);
     }
   }

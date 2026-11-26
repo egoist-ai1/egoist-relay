@@ -30,6 +30,7 @@ type UseMediaProps = {
   isAvatar?: boolean;
   origin?: MediaViewerOrigin;
   delay: number | false;
+  noLoadFull?: boolean;
 };
 
 export const useMediaProps = ({
@@ -37,6 +38,7 @@ export const useMediaProps = ({
   isAvatar,
   origin,
   delay,
+  noLoadFull,
 }: UseMediaProps) => {
   const isPhotoAvatar = isAvatar && media?.mediaType === 'photo' && !media.isVideo;
   const isVideoAvatar = isAvatar && media?.mediaType === 'photo' && media.isVideo;
@@ -63,33 +65,28 @@ export const useMediaProps = ({
     return getMediaHash(media, isFull ? 'full' : 'preview');
   }, [isVideoAvatar, isPhotoAvatar, media]);
 
-  const pictogramBlobUrl = useMedia(
-    media
-    // Only use pictogram if it's already loaded
-    && (isFromSharedMedia || isFromSearch || isDocument)
-    && getMediaHash(media, 'pictogram'),
-    undefined,
-    ApiMediaFormat.BlobUrl,
-    delay,
-  );
-  const previewMediaHash = getMediaOrAvatarHash();
-  const previewBlobUrl = useMedia(
-    previewMediaHash,
-    undefined,
-    ApiMediaFormat.BlobUrl,
-    delay,
-  );
+  const localBlobUrl = media && 'blobUrl' in media ? media.blobUrl : undefined;
   const {
     mediaData: fullMediaBlobUrl,
     loadProgress,
+    hasLoadError,
+    retryLoad,
   } = useMediaWithLoadProgress(
     getMediaOrAvatarHash(true),
-    undefined,
+    Boolean(noLoadFull || localBlobUrl),
     media && getMediaFormat(media, 'full'),
     delay,
+    false,
+    !noLoadFull,
   );
 
-  const localBlobUrl = media && 'blobUrl' in media ? media.blobUrl : undefined;
+  const hasPhoto = !isVideo && !isVideoAvatar && Boolean(localBlobUrl || fullMediaBlobUrl);
+  const previewBlobUrl = useMedia(getMediaOrAvatarHash(), hasPhoto, ApiMediaFormat.BlobUrl, delay);
+  // Миниатюру из сетки берём из кеша, чтобы она не конкурировала с открытым фото
+  const pictogramBlobUrl = useMedia(
+    media && (isFromSharedMedia || isFromSearch || isDocument) && getMediaHash(media, 'pictogram'),
+    true,
+  );
   let bestImageData = (!isVideo && (localBlobUrl || fullMediaBlobUrl)) || previewBlobUrl || pictogramBlobUrl;
   const thumbDataUri = useBlurSync(!bestImageData && media && getMediaThumbUri(media));
   if (!bestImageData && origin !== MediaViewerOrigin.SearchResult) {
@@ -137,6 +134,8 @@ export const useMediaProps = ({
     contentType,
     isVideoAvatar,
     loadProgress,
+    hasLoadError,
+    retryLoad,
     mediaSize,
   };
 };

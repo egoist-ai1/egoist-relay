@@ -47,6 +47,72 @@ try{
   assert.equal(state.playing.paused,false);assert.equal(state.paused.plays,0);
   await page.close();return {state,playback:'mocked property and play/pause callbacks; no real decoder/network'};
  });
+ await record('instagram-reels-fit',['scripts/instagram-enhancer.js'],async()=>{
+  const items=Array.from({length:3},(_,i)=>'<div class="item"><div class="unit"><div class="row"><div class="card"><video id="v'+i+'" style="width:100%;height:100%"></video></div><div class="actions"><svg width="24" height="24"><rect width="24" height="24"/></svg><span class="label">Отметки "Нравится"</span><svg width="24" height="24"><rect width="24" height="24"/></svg></div></div></div></div>').join('');
+  const page=await fixture('https://www.instagram.com/reels/AbCdE12345/','<html><body style="margin:0;background:#101012;color:white"><style>.scroll{height:100vh;width:100vw;overflow-y:auto;scroll-snap-type:y mandatory;padding-top:32px;box-sizing:border-box}.item{display:flex;justify-content:center;padding:0 32px;scroll-snap-align:start}.unit{padding:16px 0}.row{display:flex}.card{width:392px;height:697px;background:#335}.actions{width:60px;margin-left:12px;display:flex;flex-direction:column;align-items:center}.label{width:max-content}.bar{position:fixed;left:0;bottom:0;width:100%;height:50px;background:#000}</style><div class="scroll">'+items+'</div><div class="bar"></div></body></html>');
+  await page.setViewportSize({width:536,height:988});
+  await page.addScriptTag({content:await readFile(path.join(project,'scripts/instagram-enhancer.js'),'utf8')});
+  await page.evaluate(()=>window.__egoistRelaySetActive(true));await page.waitForTimeout(150);
+  const state=await page.evaluate(()=>{
+   const rect=(element)=>{const bounds=element.getBoundingClientRect();return {left:bounds.left,right:bounds.right,top:bounds.top,bottom:bounds.bottom};};
+   const items=[...document.querySelectorAll('.item')];
+   const label=document.querySelector('.label');
+   return {pageHeight:items[0].getBoundingClientRect().height,nextTop:items[1].getBoundingClientRect().top,card:rect(document.querySelector('.card')),icons:Math.max(...[...document.querySelectorAll('.actions svg')].map(icon=>icon.getBoundingClientRect().right)),labelDisplay:getComputedStyle(label).display,width:window.innerWidth};
+  });
+  assert.equal(state.labelDisplay,'none');
+  assert.equal(state.pageHeight,938);
+  assert.ok(state.nextTop>=938,'the next reel must stay under the bottom bar');
+  assert.ok(state.card.left>=0&&state.icons<=state.width,'the reel and its buttons fit the width');
+  assert.ok(state.card.right-state.card.left>392,'the reel is scaled up');
+  assert.ok(Math.abs(state.card.left-(state.width-state.icons))<=12,'left and right margins are balanced');
+  await page.evaluate(()=>{window.history.pushState({},'','/direct/inbox/');});await page.waitForTimeout(150);
+  await page.evaluate(()=>document.body.append(document.createElement('i')));await page.waitForTimeout(150);
+  assert.equal(await page.evaluate(()=>document.querySelectorAll('[data-egoist-reel-item]').length),0);
+  await page.close();return state;
+ });
+ // Широкое окно, лента выше экрана и unit ниже ролика (вёрстка, где unit.offsetHeight не равна высоте карточки): ролик не должен выходить за страницу
+ await record('instagram-reels-fit-landscape',['scripts/instagram-enhancer.js'],async()=>{
+  const items=Array.from({length:3},(_,i)=>'<div class="item"><div class="unit"><div class="row"><div class="card"><video id="v'+i+'" style="width:100%;height:100%"></video></div><div class="actions"><svg width="24" height="24"><rect width="24" height="24"/></svg><svg width="24" height="24"><rect width="24" height="24"/></svg></div></div></div></div>').join('');
+  const page=await fixture('https://www.instagram.com/reels/AbCdE12345/','<html><body style="margin:0;background:#101012;color:white"><style>.scroll{height:3600px;width:100vw;overflow-y:auto;scroll-snap-type:y mandatory}.item{display:flex;justify-content:center;scroll-snap-align:start}.unit{height:120px;overflow:visible}.row{display:flex}.card{width:392px;height:697px;background:#335}.actions{width:60px;margin-left:12px;display:flex;flex-direction:column;align-items:center}</style><div class="scroll">'+items+'</div></body></html>');
+  await page.setViewportSize({width:1650,height:1100});
+  await page.addScriptTag({content:await readFile(path.join(project,'scripts/instagram-enhancer.js'),'utf8')});
+  await page.evaluate(()=>window.__egoistRelaySetActive(true));await page.waitForTimeout(150);
+  const state=await page.evaluate(()=>{
+   const cards=[...document.querySelectorAll('.card')].map((card)=>{const bounds=card.getBoundingClientRect();return {top:bounds.top,bottom:bounds.bottom,left:bounds.left,right:bounds.right};});
+   return {cards,pageHeight:document.querySelector('.item').getBoundingClientRect().height,innerHeight:window.innerHeight,innerWidth:window.innerWidth};
+  });
+  assert.ok(state.pageHeight<=state.innerHeight,'one reel page is not taller than the window');
+  assert.ok(state.cards[0].bottom-state.cards[0].top<=state.innerHeight,'the reel is not taller than the window');
+  assert.ok(state.cards[0].bottom<=state.cards[1].top,'neighbouring reels do not overlap');
+  assert.ok(state.cards[0].left>=0&&state.cards[0].right<=state.innerWidth,'the reel fits the width');
+  await page.close();return state;
+ });
+ // Живая геометрия Instagram (25.10.2026): в одной ленте портретные (9:16) и широкие (4:3) ролики, слева колонка навигации 72 px.
+ // Масштаб считается по каждой странице отдельно, иначе портретные ролики, подогнанные по широкому, выходят за страницу и налезают друг на друга.
+ await record('instagram-reels-fit-mixed',['scripts/instagram-enhancer.js'],async()=>{
+  const sizes=[{w:610,h:1088},{w:951,h:536},{w:610,h:1088}];
+  const icons='<svg width="24" height="24"><rect width="24" height="24"/></svg><svg width="24" height="24"><rect width="24" height="24"/></svg>';
+  const items=sizes.map((size,i)=>'<div class="item"><div class="unit"><div class="row"><div class="card" style="width:'+size.w+'px;height:'+size.h+'px"><video id="v'+i+'" style="width:100%;height:100%"></video></div><div class="actions">'+icons+'</div></div></div></div>').join('');
+  const nav='<div class="nav">'+icons+icons+icons+icons+icons+'</div>';
+  const page=await fixture('https://www.instagram.com/reels/AbCdE12345/','<html><body style="margin:0;background:#101012;color:white"><style>.scroll{height:100vh;width:100vw;overflow-y:auto;scroll-snap-type:y mandatory}.item{display:flex;justify-content:center;align-items:center;height:100vh;scroll-snap-align:start}.unit{padding:0 0}.row{display:flex}.card{background:#335}.actions{width:60px;margin-left:12px;display:flex;flex-direction:column;align-items:center}.nav{position:absolute;left:0;top:0;width:72px;height:100vh;z-index:1}</style>'+nav+'<div class="scroll">'+items+'</div></body></html>');
+  await page.setViewportSize({width:1596,height:1120});
+  await page.addScriptTag({content:await readFile(path.join(project,'scripts/instagram-enhancer.js'),'utf8')});
+  await page.evaluate(()=>{document.querySelector('.scroll').scrollTop=window.innerHeight;});await page.waitForTimeout(100);
+  await page.evaluate(()=>window.__egoistRelaySetActive(true));await page.waitForTimeout(200);
+  const state=await page.evaluate(()=>{
+   const cards=[...document.querySelectorAll('.card')].map((card)=>{const bounds=card.getBoundingClientRect();return {top:Math.round(bounds.top),bottom:Math.round(bounds.bottom),left:Math.round(bounds.left),right:Math.round(bounds.right)};});
+   const items=[...document.querySelectorAll('.item')].map((item)=>{const bounds=item.getBoundingClientRect();return {top:Math.round(bounds.top),bottom:Math.round(bounds.bottom)};});
+   const icons=Math.max(...[...document.querySelectorAll('.actions svg')].map((icon)=>icon.getBoundingClientRect().right));
+   return {cards,items,icons,innerHeight:window.innerHeight,innerWidth:window.innerWidth};
+  });
+  state.cards.forEach((card,i)=>{
+   assert.ok(card.top>=state.items[i].top&&card.bottom<=state.items[i].bottom,'reel '+i+' stays inside its own page');
+   assert.ok(card.left>=72,'reel '+i+' does not go under the navigation column');
+  });
+  assert.ok(state.icons<=state.innerWidth,'the buttons fit the width');
+  assert.ok(state.cards[1].right-state.cards[1].left>951,'the wide reel is scaled up');
+  await page.close();return state;
+ });
  const photoCases=[
   {id:'x-photo-original',service:'x',current:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=small',srcset:'',expected:'https://pbs.twimg.com/media/FIXTURE?format=jpg&name=orig'},
  ];

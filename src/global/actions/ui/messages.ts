@@ -2,7 +2,7 @@ import type { ClipboardTextFormat, MessageCopyRequest } from '../../../types/mes
 import type {
   ActionReturnType,
 } from '../../types';
-import { MAIN_THREAD_ID } from '../../../api/types';
+import { ApiMediaFormat, MAIN_THREAD_ID } from '../../../api/types';
 import { type ActiveDownloads, FocusDirection } from '../../../types';
 
 import {
@@ -47,6 +47,7 @@ import {
   selectCurrentChat,
   selectCurrentMessageList,
   selectForwardedMessageIdsByGroupId,
+  selectIsMessageProtected,
   selectIsRightColumnShown,
   selectIsViewportNewest,
   selectMessageIdsByGroupId,
@@ -666,18 +667,33 @@ addActionHandler('cancelMediaHashDownloads', (global, actions, payload): ActionR
 });
 
 addActionHandler('downloadMedia', (global, actions, payload): ActionReturnType => {
-  const { media, originMessage, tabId = getCurrentTabId() } = payload;
+  const {
+    media, originMessage, downloadRecoveryId, copyToClipboard, tabId = getCurrentTabId(),
+  } = payload;
+  if (originMessage && (originMessage.isEphemeral || selectIsMessageProtected(global, originMessage))) return undefined;
 
   const hash = getMediaHash(media, 'download');
   if (!hash) return undefined;
 
+  const active = selectTabState(global, tabId).activeDownloads[hash];
+  if (active) {
+    if (copyToClipboard && !active.copyToClipboard) {
+      actions.showNotification({ message: { key: 'RelayDownloadStarted' }, tabId });
+    }
+    return undefined;
+  }
+
+  const localUrl = 'blobUrl' in media && media.blobUrl ? media.blobUrl : undefined;
   const size = 'size' in media ? media.size : 0;
   const metadata = {
     size,
-    format: getMediaFormat(media, 'download'),
+    format: localUrl ? ApiMediaFormat.BlobUrl : getMediaFormat(media, 'download'),
     filename: getMediaFilename(media),
     originChatId: originMessage?.chatId,
     originMessageId: originMessage?.id,
+    downloadRecoveryId,
+    localUrl,
+    copyToClipboard,
   } satisfies ActiveDownloads[string];
 
   return addActiveMediaDownload(global, hash, metadata, tabId);

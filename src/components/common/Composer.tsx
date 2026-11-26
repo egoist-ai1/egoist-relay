@@ -804,6 +804,7 @@ const Composer = ({
     handleFileSelect,
     handleClearAttachments,
     handleSetAttachments,
+    checkCanImportFiles,
   } = useAttachmentModal({
     attachments,
     setAttachments,
@@ -1280,6 +1281,7 @@ const Composer = ({
     handleSetAttachments,
     editingMessage,
     resolveFilePasteTarget,
+    checkCanImportFiles,
     !attachments.length,
     hasGifFromPicker,
   );
@@ -1473,15 +1475,14 @@ const Composer = ({
   });
 
   const handleDropFiles = useLastCallback(async (files: File[], isQuick?: boolean) => {
-    if (!files?.length) return;
+    if (!checkCanImportFiles(files)) return false;
 
     if (editingMessage) {
-      handleFileSelect(files);
-      return;
+      return handleFileSelect(files, true);
     }
 
     if (!currentMessageList && !storyId) {
-      return;
+      return undefined;
     }
 
     const shouldCompress = isQuick !== undefined ? isQuick : attachmentSettings.shouldCompress;
@@ -1500,6 +1501,7 @@ const Composer = ({
         sendGrouped: true,
       });
     }
+    return undefined;
   });
 
   const handleSendCore = useLastCallback(
@@ -2630,6 +2632,7 @@ const Composer = ({
           withQuick={dropAreaState === DropAreaState.QuickFile || prevDropAreaState === DropAreaState.QuickFile}
           onHide={onDropHide!}
           onFileSelect={handleDropFiles}
+          checkCanImportFiles={checkCanImportFiles}
           editingMessage={editingMessage}
         />
       )}

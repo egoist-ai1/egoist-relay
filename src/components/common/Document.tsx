@@ -13,6 +13,7 @@ import {
   getMediaTransferState,
   isDocumentVideo,
 } from '../../global/helpers';
+import { IS_TAURI } from '../../util/browser/globalEnvironment';
 import { isReadableDocument, openDocumentReader } from '../../util/documentReaderState';
 import { isIpRevealingMedia } from '../../util/media/ipRevealingMedia';
 import { getDocumentExtension, getDocumentHasPreview } from './helpers/documentInfo';
@@ -106,7 +107,8 @@ const Document = ({
 
   const documentHash = getDocumentMediaHash(document, 'download');
   const { loadProgress: downloadProgress, mediaData } = useMediaWithLoadProgress(
-    documentHash, !shouldDownload, getMediaFormat(document, 'download'), undefined, true,
+    documentHash, !shouldDownload, getMediaFormat(document, 'download'), undefined, true, undefined,
+    IS_TAURI && isDownloading,
   );
   const isLoaded = Boolean(mediaData);
 

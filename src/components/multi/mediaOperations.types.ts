@@ -63,7 +63,7 @@ export type MediaOperationAction =
   | { type: 'retry'; id: string; accountId?: string }
   | { type: 'clear' }
   | { type: 'lock'; isLocked: boolean }
-  | { type: 'open' | 'reveal'; id: string; index?: number };
+  | { type: 'open' | 'reveal' | 'copyFile'; id: string; index?: number };
 
 export function isMediaOperationActive(operation: MediaOperation): boolean {
   return ['queued', 'resolving', 'downloading', 'writing', 'preparing', 'sending',

@@ -1,0 +1,14 @@
+{
+  "identifier": "relay-update-main",
+  "description": "Own auto-update (check, install, mode) only for the bundled local main renderer; windows with foreign content get no access",
+  "local": true,
+  "webviews": [
+    "main"
+  ],
+  "permissions": [
+    "allow-update-check",
+    "allow-update-install",
+    "allow-update-get-mode",
+    "allow-update-set-mode"
+  ]
+}

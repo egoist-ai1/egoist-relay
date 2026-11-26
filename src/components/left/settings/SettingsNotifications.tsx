@@ -7,6 +7,7 @@ import {
   checkIfNotificationsSupported,
   checkIfOfflinePushFailed,
   playNotifySound,
+  shouldUseDesktopNotices,
 } from '../../../util/notifications';
 
 import useHistoryBack from '../../../hooks/useHistoryBack';
@@ -132,6 +133,10 @@ const SettingsNotifications = ({
     runDebounced(() => playNotifySound(undefined, volume));
   }, [runDebounced, updateWebNotificationSettings]);
 
+  const handleSystemSoundChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateWebNotificationSettings({ notificationSoundVolume: e.target.checked ? 5 : 0 });
+  }, [updateWebNotificationSettings]);
+
   const lang = useLang();
 
   useHistoryBack({
@@ -161,14 +166,23 @@ const SettingsNotifications = ({
           checked={hasPushNotifications}
           onChange={handlePushNotificationsChange}
         />
-        <RangeSlider
-          label={lang('NotificationsSound')}
-          min={0}
-          max={10}
-          disabled={!areNotificationsSupported}
-          value={notificationSoundVolume}
-          onChange={handleVolumeChange}
-        />
+        {shouldUseDesktopNotices() ? (
+          <Checkbox
+            label={lang('NotificationsSound')}
+            subLabel={lang('RelaySystemNotificationSoundHint')}
+            checked={notificationSoundVolume > 0}
+            onChange={handleSystemSoundChange}
+          />
+        ) : (
+          <RangeSlider
+            label={lang('NotificationsSound')}
+            min={0}
+            max={10}
+            disabled={!areNotificationsSupported}
+            value={notificationSoundVolume}
+            onChange={handleVolumeChange}
+          />
+        )}
       </Island>
 
       <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>

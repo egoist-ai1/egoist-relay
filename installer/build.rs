@@ -1,5 +1,15 @@
-// Ресурсы exe: иконка, версия, название «Sennit Setup», манифест (asInvoker, UTF-8).
+// Ресурсы exe: иконка, версия, название «Установка Бересты», манифест (asInvoker, UTF-8).
 fn main() {
+    #[cfg(windows)]
+    if std::env::var("PROFILE").as_deref() == Ok("release")
+        && std::env::var("CARGO_CFG_TARGET_ENV").as_deref() == Ok("msvc")
+    {
+        let features = std::env::var("CARGO_CFG_TARGET_FEATURE").unwrap_or_default();
+        assert!(
+            features.split(',').any(|feature| feature == "crt-static"),
+            "Соберите релиз установщика из папки installer, чтобы Cargo применил .cargo/config.toml со статической CRT."
+        );
+    }
     println!("cargo:rerun-if-changed=assets");
     println!("cargo:rerun-if-changed=build.rs");
     // Защита от подкладывания DLL рядом с exe: библиотеки вне KnownDLLs грузим отложенно, уже после
@@ -19,13 +29,13 @@ fn main() {
         let packed = (a << 48) | (b << 32) | (c << 16);
         let mut res = tauri_winres::WindowsResource::new();
         res.set_icon("assets/icon.ico");
-        res.set_manifest(include_str!("assets/sennit-setup.manifest"));
-        res.set("ProductName", "Sennit");
-        res.set("FileDescription", "Sennit Setup");
+        res.set_manifest(include_str!("assets/beresta-setup.manifest"));
+        res.set("ProductName", "Береста");
+        res.set("FileDescription", "Установка Бересты");
         res.set("CompanyName", "Egoist");
-        res.set("LegalCopyright", "Sennit by Egoist");
-        res.set("OriginalFilename", "Sennit-Setup.exe");
-        res.set("InternalName", "Sennit-Setup");
+        res.set("LegalCopyright", "Egoist");
+        res.set("OriginalFilename", "Beresta-Setup.exe");
+        res.set("InternalName", "Beresta-Setup");
         res.set("FileVersion", version);
         res.set("ProductVersion", version);
         res.set_version_info(tauri_winres::VersionInfo::FILEVERSION, packed);

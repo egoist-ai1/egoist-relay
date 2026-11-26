@@ -1,0 +1,573 @@
+//! Сон скрытых WebView2 (рекомендация Microsoft по производительности).
+//!
+//! X и Instagram, скрытые на 30 с (другой сервис, окно свёрнуто или в трее): MemoryUsageTargetLevel=LOW,
+//! через 90 с TrySuspend, если страница готова и нет звука, скачивания, входа или research-окна провайдера.
+//! Пропущенный Suspend повторяется каждые 5 мин (до часа). Прогретые при старте сервисы засыпают так же.
+//! Главное окно Telegram и социальные вкладки с уведомлениями: только LOW, без suspend.
+//! При показе: Resume (если был suspend) и NORMAL до show. Таймеры отменяются счётчиком поколения.
+//! Вся работа с COM идёт на главном потоке.
+
+use std::sync::atomic::{AtomicBool, AtomicU8, Ordering};
+use std::sync::Mutex;
+use std::time::Duration;
+
+use tauri::{AppHandle, Emitter, Manager};
+use tokio::sync::{Notify, oneshot};
+
+use super::{INSTAGRAM_APP, INSTAGRAM_WEBVIEW_LABEL, TELEGRAM_APP, X_APP, X_WEBVIEW_LABEL};
+
+pub(super) const LOW_DELAY: Duration = Duration::from_secs(30);
+pub(super) const SUSPEND_DELAY: Duration = Duration::from_secs(90);
+/// Если Suspend пропущен (идёт звук, загрузка, открыто research-окно), повтор через эту паузу
+pub(super) const SUSPEND_RETRY: Duration = Duration::from_secs(300);
+/// Сколько раз повторять пропущенный Suspend (1 час при паузе 5 мин)
+pub(super) const SUSPEND_RETRIES: u32 = 12;
+
+const LEVEL_NORMAL: u8 = 0;
+const LEVEL_LOW: u8 = 1;
+const LEVEL_SUSPENDED: u8 = 2;
+
+/// Событие для rail: сервис усыплён (`TrySuspend` принят) или проснулся
+pub(super) const SLEEP_EVENT: &str = "multi-service-sleep";
+
+fn emit_sleep(app: &AppHandle, service: &str, sleeping: bool) {
+  let _ = app.emit_to("main", SLEEP_EVENT, serde_json::json!({ "service": service, "sleeping": sleeping }));
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(super) enum Stage {
+  Low,
+  Suspend,
+}
+
+/// Расписание: пары (ожидание перед стадией, стадия). Задержки в `Stage::Suspend` отсчитываются
+/// от момента сна, поэтому вторая пауза равна разности.
+pub(super) fn plan(may_suspend: bool, low: Duration, suspend: Duration) -> Vec<(Duration, Stage)> {
+  let mut stages = vec![(low, Stage::Low)];
+  if may_suspend {
+    stages.push((suspend.saturating_sub(low), Stage::Suspend));
+  }
+  stages
+}
+
+/// Итог стадии сна: `Skipped` — условия не позволили, стадию стоит повторить позже.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(super) enum Outcome {
+  Done,
+  Skipped,
+}
+
+/// Повторять ли пропущенную стадию: только `Skipped` и не больше `SUSPEND_RETRIES` повторов.
+pub(super) fn should_retry(attempt: u32, outcome: Outcome) -> bool {
+  outcome == Outcome::Skipped && attempt < SUSPEND_RETRIES
+}
+
+/// Что нужно сделать при пробуждении из уровня `level`: (Resume, вернуть NORMAL).
+pub(super) fn wake_needs(level: u8) -> (bool, bool) {
+  (level == LEVEL_SUSPENDED, level != LEVEL_NORMAL)
+}
+
+pub(super) fn suspend_allowed(service_busy: bool, load_state: &str, playing_audio: Option<bool>) -> bool {
+  !service_busy && load_state == "ready" && playing_audio == Some(false)
+}
+
+fn research_label(service: &str) -> Option<&'static str> {
+  match service {
+    X_APP => Some("relay-research-x"),
+    INSTAGRAM_APP => Some("relay-research-instagram"),
+    _ => None,
+  }
+}
+
+struct SlotState {
+  epoch: u64,
+  armed: bool,
+}
+
+pub(super) struct Slot {
+  state: Mutex<SlotState>,
+  changed: Notify,
+  level: AtomicU8,
+  hidden_by_sleep: AtomicBool,
+}
+
+impl Slot {
+  pub(super) const fn new() -> Self {
+    Self {
+      state: Mutex::new(SlotState { epoch: 0, armed: false }),
+      changed: Notify::const_new(),
+      level: AtomicU8::new(LEVEL_NORMAL),
+      hidden_by_sleep: AtomicBool::new(false),
+    }
+  }
+
+  /// Ставит таймер. Если он уже стоит, возвращает None, чтобы повторное скрытие не сбрасывало отсчёт.
+  pub(super) fn arm(&self) -> Option<u64> {
+    let mut state = self.state.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+    if state.armed {
+      return None;
+    }
+    state.armed = true;
+    state.epoch = state.epoch.wrapping_add(1);
+    Some(state.epoch)
+  }
+
+  /// Снимает «таймер стоит» после завершения расписания, не меняя поколение: поздний колбэк
+  /// TrySuspend всё ещё считается актуальным, а следующее скрытие сможет поставить таймер заново.
+  /// Чужое поколение (таймер уже отменён или поставлен заново) не трогаем.
+  pub(super) fn release(&self, epoch: u64) -> bool {
+    let mut state = self.state.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+    if state.epoch != epoch || !state.armed {
+      return false;
+    }
+    state.armed = false;
+    true
+  }
+
+  /// Отменяет таймер и будит ожидающие потоки. Возвращает true, если таймер стоял.
+  pub(super) fn disarm(&self) -> bool {
+    let mut state = self.state.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+    let was_armed = state.armed;
+    state.armed = false;
+    state.epoch = state.epoch.wrapping_add(1);
+    drop(state);
+    self.changed.notify_waiters();
+    was_armed
+  }
+
+  pub(super) fn is_current(&self, epoch: u64) -> bool {
+    self.state.lock().unwrap_or_else(|poisoned| poisoned.into_inner()).epoch == epoch
+  }
+
+  /// Ждёт `duration`. Возвращает true, если за это время поколение не менялось.
+  pub(super) async fn wait_current(&self, epoch: u64, duration: Duration) -> bool {
+    let changed = self.changed.notified();
+    if !self.is_current(epoch) {
+      return false;
+    }
+    tokio::select! {
+      () = changed => false,
+      () = tokio::time::sleep(duration) => self.is_current(epoch),
+    }
+  }
+}
+
+static X_SLOT: Slot = Slot::new();
+static INSTAGRAM_SLOT: Slot = Slot::new();
+static MAIN_SLOT: Slot = Slot::new();
+static X_NOTIFICATIONS: AtomicBool = AtomicBool::new(false);
+static INSTAGRAM_NOTIFICATIONS: AtomicBool = AtomicBool::new(false);
+
+pub(super) fn keeps_notifications_active(service: &str) -> bool {
+  match service {
+    X_APP => X_NOTIFICATIONS.load(Ordering::Acquire),
+    INSTAGRAM_APP => INSTAGRAM_NOTIFICATIONS.load(Ordering::Acquire),
+    _ => false,
+  }
+}
+
+fn can_suspend(service: &str, keeps_notifications_active: bool) -> bool {
+  service != TELEGRAM_APP && !keeps_notifications_active
+}
+
+pub(super) fn set_notification_services(app: &AppHandle, x: bool, instagram: bool, lock_changed: bool) {
+  let x_changed = X_NOTIFICATIONS.swap(x, Ordering::AcqRel) != x;
+  let instagram_changed = INSTAGRAM_NOTIFICATIONS.swap(instagram, Ordering::AcqRel) != instagram;
+  if !x_changed && !instagram_changed && !lock_changed { return; }
+
+  let main_hidden = app.get_window("main").is_none_or(|window| {
+    window.is_minimized().unwrap_or(false) || !window.is_visible().unwrap_or(false)
+  });
+  let active = super::get_active_app();
+  for (service, changed) in [(X_APP, x_changed), (INSTAGRAM_APP, instagram_changed)] {
+    if !changed && !lock_changed { continue; }
+    wake(app, service);
+    if service != active || main_hidden || crate::workspace_privacy::is_locked() {
+      schedule(app, service);
+    }
+  }
+}
+
+fn slot_for(service: &str) -> Option<&'static Slot> {
+  match service {
+    X_APP => Some(&X_SLOT),
+    INSTAGRAM_APP => Some(&INSTAGRAM_SLOT),
+    TELEGRAM_APP => Some(&MAIN_SLOT),
+    _ => None,
+  }
+}
+
+fn label_for(service: &str) -> Option<&'static str> {
+  match service {
+    X_APP => Some(X_WEBVIEW_LABEL),
+    INSTAGRAM_APP => Some(INSTAGRAM_WEBVIEW_LABEL),
+    TELEGRAM_APP => Some("main"),
+    _ => None,
+  }
+}
+
+/// Запускает отсчёт сна для скрытого сервиса. Повторный вызов при уже идущем отсчёте ничего не делает.
+pub(super) fn schedule(app: &AppHandle, service: &'static str) {
+  let (Some(slot), Some(label)) = (slot_for(service), label_for(service)) else { return; };
+  if app.get_webview(label).is_none() {
+    return;
+  }
+  // Уже усыплённый сервис повторно не планируем: Low затёр бы уровень Suspended и Resume не выполнился
+  if slot.level.load(Ordering::Acquire) == LEVEL_SUSPENDED {
+    return;
+  }
+  let Some(epoch) = slot.arm() else { return; };
+  let app = app.clone();
+  let stages = plan(can_suspend(service, keeps_notifications_active(service)), LOW_DELAY, SUSPEND_DELAY);
+  tauri::async_runtime::spawn(async move {
+    for (delay, stage) in stages {
+      if !slot.wait_current(epoch, delay).await {
+        return;
+      }
+      let mut attempt = 0;
+      loop {
+        let outcome = apply_stage(&app, service, slot, epoch, stage).await;
+        if stage != Stage::Suspend || !should_retry(attempt, outcome) {
+          break;
+        }
+        attempt += 1;
+        if !slot.wait_current(epoch, SUSPEND_RETRY).await {
+          return;
+        }
+      }
+    }
+    // Расписание отработало: следующее скрытие должно уметь поставить таймер снова
+    slot.release(epoch);
+  });
+}
+
+/// Будит сервис: отменяет таймеры, при необходимости Resume и NORMAL. Вызывать до show.
+/// Безопасно вызывать с любого потока, в том числе с главного.
+pub(super) fn wake(app: &AppHandle, service: &'static str) {
+  let Some(slot) = slot_for(service) else { return; };
+  slot.disarm();
+  if slot.level.load(Ordering::Acquire) == LEVEL_NORMAL && !slot.hidden_by_sleep.load(Ordering::Acquire) {
+    return;
+  }
+  let app_for_main = app.clone();
+  if let Err(error) = super::run_on_main(app, move || wake_on_main(&app_for_main, service, slot)) {
+    log::warn!("[MultiApp] {service} could not wake: {error}");
+  }
+}
+
+async fn apply_stage(app: &AppHandle, service: &'static str, slot: &'static Slot, epoch: u64, stage: Stage) -> Outcome {
+  let app_for_main = app.clone();
+  let (sender, receiver) = oneshot::channel();
+  let result = app.run_on_main_thread(move || {
+    if sender.is_closed() {
+      return;
+    }
+    let outcome = if slot.is_current(epoch) {
+      stage_on_main(&app_for_main, service, slot, epoch, stage)
+    } else {
+      Outcome::Done
+    };
+    let _ = sender.send(outcome);
+  });
+  if let Err(error) = result {
+    log::warn!("[MultiApp] {service} sleep stage {stage:?} skipped: {error}");
+    return Outcome::Skipped;
+  }
+  match tokio::time::timeout(super::MAIN_THREAD_TIMEOUT, receiver).await {
+    Ok(Ok(outcome)) => outcome,
+    _ => {
+      log::warn!("[MultiApp] {service} sleep stage {stage:?} timed out");
+      Outcome::Skipped
+    }
+  }
+}
+
+fn stage_on_main(app: &AppHandle, service: &'static str, slot: &'static Slot, epoch: u64, stage: Stage) -> Outcome {
+  let Some(webview) = label_for(service).and_then(|label| app.get_webview(label)) else {
+    return Outcome::Done;
+  };
+  match stage {
+    Stage::Low => {
+      match platform::set_low(&webview, true) {
+        Ok(()) => {
+          // Не опускаем уровень, если сервис уже усыплён
+          let _ = slot.level.compare_exchange(LEVEL_NORMAL, LEVEL_LOW, Ordering::AcqRel, Ordering::Acquire);
+          log::info!("[MultiApp] {service} sleep level low");
+        }
+        Err(error) => log::warn!("[MultiApp] {service} could not lower memory level: {error}"),
+      }
+      Outcome::Done
+    }
+    Stage::Suspend => {
+      if !can_suspend(service, keeps_notifications_active(service)) {
+        return Outcome::Done;
+      }
+      let auth_window_prefix = format!("{service}-auth-");
+      let service_busy = research_label(service).is_some_and(|label| app.get_webview(label).is_some())
+        || app.webview_windows().keys().any(|label| label.starts_with(&auth_window_prefix))
+        || super::downloads::is_active_in(webview.label());
+      let load_state = super::get_service_load_state(service);
+      let playing_audio = platform::is_playing_audio(&webview);
+      if !suspend_allowed(service_busy, load_state, playing_audio) {
+        log::info!("[MultiApp] {service} suspend skipped (busy={service_busy}, state={load_state}, audio={playing_audio:?})");
+        return Outcome::Skipped;
+      }
+      let active = super::get_active_app() == service;
+      if active && app.get_window("main").is_some_and(|main| {
+        main.is_visible().unwrap_or(true) && !main.is_minimized().unwrap_or(false)
+      }) {
+        return Outcome::Done;
+      }
+      // Активный сервис при свёрнутом окне ещё "виден" контроллеру: без скрытия TrySuspend отказывает
+      if active {
+        if platform::hide_controller(&webview).is_err() {
+          return Outcome::Skipped;
+        }
+        slot.hidden_by_sleep.store(true, Ordering::Release);
+      }
+      let completion_app = app.clone();
+      let completion_view = webview.clone();
+      let result = platform::try_suspend(&webview, move |suspended| {
+        if !suspended {
+          log::info!("[MultiApp] {service} suspend was declined by WebView2");
+          return;
+        }
+        if slot.is_current(epoch) {
+          slot.level.store(LEVEL_SUSPENDED, Ordering::Release);
+          log::info!("[MultiApp] {service} sleep level suspended");
+          emit_sleep(&completion_app, service, true);
+        } else {
+          // Пользователь вернулся, пока TrySuspend выполнялся
+          let _ = platform::resume(&completion_view);
+        }
+      });
+      if let Err(error) = result {
+        log::warn!("[MultiApp] {service} could not suspend: {error}");
+        return Outcome::Skipped;
+      }
+      // Отказ WebView2 приходит в колбэке и не повторяется: он сам скажет, что страница не готова
+      Outcome::Done
+    }
+  }
+}
+
+fn wake_on_main(app: &AppHandle, service: &'static str, slot: &'static Slot) {
+  let level = slot.level.swap(LEVEL_NORMAL, Ordering::AcqRel);
+  let (needs_resume, needs_normal) = wake_needs(level);
+  if let Some(webview) = label_for(service).and_then(|label| app.get_webview(label)) {
+    if needs_resume {
+      match platform::resume(&webview) {
+        Ok(()) => log::info!("[MultiApp] {service} resumed"),
+        Err(error) => log::warn!("[MultiApp] {service} could not resume: {error}"),
+      }
+    }
+    if needs_normal {
+      if let Err(error) = platform::set_low(&webview, false) {
+        log::warn!("[MultiApp] {service} could not restore memory level: {error}");
+      } else if !needs_resume {
+        log::info!("[MultiApp] {service} sleep level normal");
+      }
+    }
+  }
+  if needs_resume {
+    emit_sleep(app, service, false);
+  }
+  if slot.hidden_by_sleep.swap(false, Ordering::AcqRel) {
+    let _ = super::restore_native_content(app);
+  }
+}
+
+#[cfg(windows)]
+mod platform {
+  use std::sync::mpsc;
+  use std::time::Duration;
+
+  use webview2_com::{
+    Microsoft::Web::WebView2::Win32::{
+      COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_LOW, COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_NORMAL,
+      ICoreWebView2_3, ICoreWebView2_8, ICoreWebView2_19,
+    },
+    TrySuspendCompletedHandler,
+  };
+  use windows_core::Interface;
+
+  const COM_TIMEOUT: Duration = Duration::from_secs(2);
+
+  /// Выполняет `f` внутри `with_webview`. Вызывать только с главного потока: там замыкание идёт сразу.
+  fn with_core<T: Send + 'static>(
+    webview: &tauri::Webview,
+    f: impl FnOnce(&webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2Controller, &webview2_com::Microsoft::Web::WebView2::Win32::ICoreWebView2) -> windows_core::Result<T> + Send + 'static,
+  ) -> Result<T, String> {
+    let (sender, receiver) = mpsc::channel();
+    webview
+      .with_webview(move |platform| {
+        let controller = platform.controller();
+        let result = unsafe { controller.CoreWebView2().and_then(|core| f(&controller, &core)) };
+        let _ = sender.send(result.map_err(|error| error.to_string()));
+      })
+      .map_err(|error| error.to_string())?;
+    receiver.recv_timeout(COM_TIMEOUT).map_err(|_| "WEBVIEW_COM_TIMEOUT".to_string())?
+  }
+
+  pub(super) fn set_low(webview: &tauri::Webview, low: bool) -> Result<(), String> {
+    with_core(webview, move |_, core| unsafe {
+      let level = if low { COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_LOW } else { COREWEBVIEW2_MEMORY_USAGE_TARGET_LEVEL_NORMAL };
+      core.cast::<ICoreWebView2_19>()?.SetMemoryUsageTargetLevel(level)
+    })
+  }
+
+  pub(super) fn is_playing_audio(webview: &tauri::Webview) -> Option<bool> {
+    with_core(webview, |_, core| unsafe {
+      let mut playing = false.into();
+      core.cast::<ICoreWebView2_8>()?.IsDocumentPlayingAudio(&mut playing)?;
+      Ok(playing.as_bool())
+    })
+    .ok()
+  }
+
+  pub(super) fn hide_controller(webview: &tauri::Webview) -> Result<(), String> {
+    with_core(webview, |controller, _| unsafe { controller.SetIsVisible(false) })
+  }
+
+  /// Запускает TrySuspend; `done(true)` вызывается на главном потоке, когда suspend состоялся.
+  pub(super) fn try_suspend(
+    webview: &tauri::Webview,
+    done: impl FnOnce(bool) + Send + 'static,
+  ) -> Result<(), String> {
+    with_core(webview, move |_, core| unsafe {
+      let core = core.cast::<ICoreWebView2_3>()?;
+      let handler = TrySuspendCompletedHandler::create(Box::new(move |result, suspended| {
+        done(result.is_ok() && suspended);
+        Ok(())
+      }));
+      core.TrySuspend(&handler)
+    })
+  }
+
+  pub(super) fn resume(webview: &tauri::Webview) -> Result<(), String> {
+    with_core(webview, |_, core| unsafe {
+      let core = core.cast::<ICoreWebView2_3>()?;
+      let mut suspended = false.into();
+      core.IsSuspended(&mut suspended)?;
+      if suspended.as_bool() { core.Resume() } else { Ok(()) }
+    })
+  }
+}
+
+#[cfg(not(windows))]
+mod platform {
+  pub(super) fn set_low(_: &tauri::Webview, _: bool) -> Result<(), String> { Ok(()) }
+  pub(super) fn is_playing_audio(_: &tauri::Webview) -> Option<bool> { Some(false) }
+  pub(super) fn hide_controller(_: &tauri::Webview) -> Result<(), String> { Ok(()) }
+  pub(super) fn try_suspend(_: &tauri::Webview, done: impl FnOnce(bool) + Send + 'static) -> Result<(), String> {
+    done(false);
+    Ok(())
+  }
+  pub(super) fn resume(_: &tauri::Webview) -> Result<(), String> { Ok(()) }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn plan_has_low_then_suspend_for_social_and_only_low_for_telegram() {
+    assert_eq!(
+      plan(true, LOW_DELAY, SUSPEND_DELAY),
+      vec![(Duration::from_secs(30), Stage::Low), (Duration::from_secs(60), Stage::Suspend)]
+    );
+    assert_eq!(plan(false, LOW_DELAY, SUSPEND_DELAY), vec![(Duration::from_secs(30), Stage::Low)]);
+  }
+
+  #[test]
+  fn receiving_notices_retains_hidden_webviews_at_low_memory_level() {
+    for service in [X_APP, INSTAGRAM_APP] {
+      assert_eq!(plan(can_suspend(service, true), LOW_DELAY, SUSPEND_DELAY), vec![(LOW_DELAY, Stage::Low)]);
+      assert!(can_suspend(service, false));
+    }
+    assert!(!can_suspend(TELEGRAM_APP, false));
+    assert!(!can_suspend(TELEGRAM_APP, true));
+  }
+
+  #[test]
+  fn wake_needs_resume_only_after_suspend() {
+    assert_eq!(wake_needs(LEVEL_NORMAL), (false, false));
+    assert_eq!(wake_needs(LEVEL_LOW), (false, true));
+    assert_eq!(wake_needs(LEVEL_SUSPENDED), (true, true));
+  }
+
+  #[test]
+  fn suspend_requires_no_research_window_ready_state_and_silence() {
+    assert!(suspend_allowed(false, "ready", Some(false)));
+    assert!(!suspend_allowed(true, "ready", Some(false)));
+    assert!(!suspend_allowed(false, "loading", Some(false)));
+    assert!(!suspend_allowed(false, "error", Some(false)));
+    assert!(!suspend_allowed(false, "ready", Some(true)));
+    assert!(!suspend_allowed(false, "ready", None));
+  }
+
+  #[test]
+  fn slot_arm_is_idempotent_until_disarmed() {
+    let slot = Slot::new();
+    let first = slot.arm().expect("first arm");
+    assert_eq!(slot.arm(), None);
+    assert!(slot.is_current(first));
+    assert!(slot.disarm());
+    assert!(!slot.is_current(first));
+    assert!(!slot.disarm());
+    assert!(slot.arm().is_some());
+  }
+
+  #[tokio::test]
+  async fn wait_current_survives_timeout_and_breaks_on_disarm() {
+    let slot = std::sync::Arc::new(Slot::new());
+    let epoch = slot.arm().unwrap();
+    assert!(slot.wait_current(epoch, Duration::from_millis(20)).await);
+    let waiter = {
+      let slot = slot.clone();
+      tokio::spawn(async move { slot.wait_current(epoch, Duration::from_secs(10)).await })
+    };
+    tokio::task::yield_now().await;
+    slot.disarm();
+    assert!(!waiter.await.unwrap());
+  }
+
+  #[test]
+  fn release_clears_only_the_current_armed_epoch() {
+    let slot = Slot::new();
+    let epoch = slot.arm().unwrap();
+    assert!(!slot.release(epoch.wrapping_add(1)), "чужое поколение не трогаем");
+    assert_eq!(slot.arm(), None, "таймер всё ещё стоит");
+    assert!(slot.release(epoch));
+    assert!(slot.is_current(epoch), "release не меняет поколение: поздний колбэк остаётся актуальным");
+    assert!(!slot.release(epoch), "повторный release ничего не делает");
+    let next = slot.arm().expect("после release таймер ставится заново");
+    assert_ne!(next, epoch);
+  }
+
+  #[test]
+  fn release_after_disarm_does_not_cancel_a_newer_timer() {
+    let slot = Slot::new();
+    let old = slot.arm().unwrap();
+    slot.disarm();
+    let newer = slot.arm().unwrap();
+    assert!(!slot.release(old));
+    assert!(slot.is_current(newer));
+    assert_eq!(slot.arm(), None);
+  }
+
+  #[test]
+  fn retry_only_skipped_suspend_and_not_forever() {
+    assert!(should_retry(0, Outcome::Skipped));
+    assert!(should_retry(SUSPEND_RETRIES - 1, Outcome::Skipped));
+    assert!(!should_retry(SUSPEND_RETRIES, Outcome::Skipped));
+    assert!(!should_retry(0, Outcome::Done));
+  }
+
+  #[test]
+  fn research_labels_cover_only_social_providers() {
+    assert_eq!(research_label(X_APP), Some("relay-research-x"));
+    assert_eq!(research_label(INSTAGRAM_APP), Some("relay-research-instagram"));
+    assert_eq!(research_label(TELEGRAM_APP), None);
+  }
+}

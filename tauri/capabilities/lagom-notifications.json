@@ -1,0 +1,7 @@
+{
+  "identifier": "lagom-notifications",
+  "description": "Desktop notifications from the bundled main Telegram view",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["allow-relay-lagom-telegram-notice"]
+}

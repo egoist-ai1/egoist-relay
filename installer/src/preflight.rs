@@ -5,7 +5,7 @@ use std::cmp::Ordering;
 /// Минимальная сборка Windows 10 1903 (как в tauri/installer.nsh, секция requirements).
 pub const MIN_WINDOWS_BUILD: u32 = 18362;
 /// Совпадает с RELAY_MAX_INSTALL_DIRECTORY_CHARS в tauri/installer.nsh (его сверяет release-preflight).
-pub const MAX_INSTALL_DIR_CHARS: usize = 208;
+pub const MAX_INSTALL_DIR_CHARS: usize = 196;
 /// Запас на временные файлы, WebView2 и журнал.
 pub const SPACE_MARGIN: u64 = 128 * 1024 * 1024;
 
@@ -67,7 +67,7 @@ pub fn space_needed(payload_len: u64, install_bytes: u64, same_volume: bool) -> 
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Cause {
-    /// Сам Sennit запущен (NSIS вернул 2).
+    /// Сама Береста запущена (NSIS вернул 2).
     AppRunning,
     /// Скрипт NSIS остановил установку проверками (1): старая Windows, путь, откат версии.
     ScriptAbort,
@@ -136,8 +136,8 @@ mod tests {
 
     #[test]
     fn path_budget() {
-        assert!(!install_dir_too_long(&"a".repeat(208)));
-        assert!(install_dir_too_long(&"a".repeat(209)));
+        assert!(!install_dir_too_long(&"a".repeat(MAX_INSTALL_DIR_CHARS)));
+        assert!(install_dir_too_long(&"a".repeat(MAX_INSTALL_DIR_CHARS + 1)));
         assert!(!install_dir_too_long("C:\\Users\\Егор\\AppData\\Local\\Egoist Relay"));
     }
 

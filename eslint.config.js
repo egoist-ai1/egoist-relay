@@ -35,7 +35,7 @@ export default defineConfig(
   {
     name: 'teact-config',
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
-    ignores: ['scripts/**', 'installer/**'],
+    ignores: ['scripts/**', 'installer/**', 'tauri/src/lagom_notification_surface.js'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
@@ -240,12 +240,15 @@ export default defineConfig(
   },
   {
     name: 'standalone-scripts',
-    files: ['scripts/**/*.{js,mjs,cjs}'],
+    files: ['scripts/**/*.{js,mjs,cjs}', 'tauri/src/lagom_notification_surface.js'],
     extends: [eslint.configs.recommended],
     languageOptions: {
       globals: {
+        AudioContext: 'readonly',
         Buffer: 'readonly',
         Element: 'readonly',
+        Event: 'readonly',
+        EventTarget: 'readonly',
         HTMLVideoElement: 'readonly',
         IntersectionObserver: 'readonly',
         MediaRecorder: 'readonly',
@@ -253,6 +256,7 @@ export default defineConfig(
         URL: 'readonly',
         clearInterval: 'readonly',
         clearTimeout: 'readonly',
+        cancelAnimationFrame: 'readonly',
         console: 'readonly',
         document: 'readonly',
         fetch: 'readonly',
@@ -260,6 +264,7 @@ export default defineConfig(
         navigator: 'readonly',
         performance: 'readonly',
         process: 'readonly',
+        requestAnimationFrame: 'readonly',
         setInterval: 'readonly',
         setTimeout: 'readonly',
         window: 'readonly',

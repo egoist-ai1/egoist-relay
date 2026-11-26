@@ -1,0 +1,6 @@
+{
+  "identifier": "relay-network",
+  "description": "Встроенные сетевые команды отключены",
+  "local": false,
+  "permissions": []
+}

@@ -171,7 +171,7 @@
     text-align: initial;
   }
 
-  &:not(:disabled):not([readonly]):hover {
+  &:not(:disabled):not([readonly]):not(:focus):not(.focus):hover {
     border-color: var(--color-primary);
 
     & + label {
@@ -181,12 +181,14 @@
 
   &:focus,
   &.focus {
-    border-color: var(--color-primary);
-    box-shadow: inset 0 0 0 1px var(--color-primary);
-    caret-color: var(--color-primary);
+    --border-width: 0.125rem;
+
+    border-color: var(--color-focus);
+    box-shadow: none;
+    caret-color: var(--color-focus);
 
     & + label {
-      color: var(--color-primary);
+      color: var(--color-focus);
     }
   }
 
@@ -196,20 +198,15 @@
     background-color: var(--color-background-secondary);
   }
 
-  &:focus-visible {
-    outline: 0.125rem solid var(--color-primary);
-    outline-offset: 0.125rem;
-  }
-
   .error & {
     border-color: var(--color-error);
-    box-shadow: inset 0 0 0 1px var(--color-error);
+    box-shadow: inset 0 0 0 calc(0.125rem - var(--border-width)) var(--color-error);
     caret-color: var(--color-error);
   }
 
   .success & {
     border-color: var(--color-text-green);
-    box-shadow: inset 0 0 0 1px var(--color-text-green);
+    box-shadow: inset 0 0 0 calc(0.125rem - var(--border-width)) var(--color-text-green);
     caret-color: var(--color-text-green);
   }
 
@@ -221,6 +218,13 @@
     box-shadow: inset 0 0 0 10rem var(--color-background);
 
     -webkit-text-fill-color: var(--color-text);
+  }
+}
+
+@media (forced-colors: active) {
+  .form-control:focus,
+  .form-control.focus {
+    border-color: Highlight;
   }
 }
 
@@ -275,7 +279,7 @@ textarea.form-control {
 
     &:focus-visible {
       border-radius: var(--border-radius-default);
-      outline: 0.125rem solid var(--color-primary);
+      outline: 0.125rem solid var(--color-focus);
       outline-offset: -0.125rem;
     }
   }

@@ -41,6 +41,8 @@ export default function useUnsupportedMedia(
 
     if (!target.videoHeight || !target.videoWidth) {
       handleUnsupported();
+    } else {
+      setIsUnsupported(false);
     }
   });
 

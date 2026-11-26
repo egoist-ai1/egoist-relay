@@ -1011,7 +1011,7 @@ async function fetchChannelMembership(job: Job, channel: GramJs.InputChannel) {
   }
 }
 function shouldReadJoinBack(error: unknown) {
-  return buildError(error).code === 'UNSUPPORTED' && getErrorMessage(error) !== 'UNSUPPORTED';
+  return buildError(error).code === 'PLATFORM_ERROR';
 }
 async function resolvePeer(value: string, job: Job): Promise<Peer> {
   checkJob(job);
@@ -1421,15 +1421,44 @@ function getErrorMessage(error: unknown) {
   }
   return error instanceof Error ? error.message : '';
 }
+const PERMANENT_MESSAGES = new Set(['UNSUPPORTED', 'RECORD_TOO_COMPLEX', 'RECORD_TOO_LARGE']);
+// Ответы Telegram о несуществующем или неверном адресе: повтор ничего не изменит, источник недоступен насовсем
+const PERMANENT_PLATFORM =
+  /^(USERNAME_NOT_OCCUPIED|USERNAME_INVALID|CHANNEL_INVALID|PEER_ID_INVALID|INVITE_HASH_\w+|MSG_ID_INVALID)$/;
+const MEDIA_RPC_ERRORS = new Set([
+  'CDN_FILE_TAMPERED', 'CONNECTION_NOT_INITED', 'DOWNLOAD_EMPTY_RESPONSE', 'DOWNLOAD_FAILED',
+  'DOWNLOAD_INCOMPLETE', 'DOWNLOAD_INCOMPLETE_WRITE', 'DOWNLOAD_TIMEOUT', 'FILE_ID_INVALID',
+  'FILE_TOKEN_INVALID', 'FILEREF_UPGRADE_NEEDED', 'LIMIT_INVALID', 'LOCATION_INVALID', 'OFFSET_INVALID',
+  'MEDIA_CDN_HASH_MISSING', 'MEDIA_CDN_INCOMPLETE', 'MEDIA_CDN_INVALID_HASH', 'MEDIA_CDN_INVALID_KEY',
+  'MEDIA_CDN_INVALID_REDIRECT', 'MEDIA_CDN_NO_ENDPOINT', 'MEDIA_CDN_NO_KEY',
+  'RPC_CALL_FAIL', 'TIMEOUT', 'USER_CANCELED', 'VOLUME_LOC_NOT_FOUND',
+]);
+
+function buildMediaErrorCode(error: unknown, message: string) {
+  if (MEDIA_RPC_ERRORS.has(message)) return message;
+  if (/^FILE_MIGRATE_\d+$/.test(message)) return 'FILE_MIGRATE';
+  if (message === 'Invalid download range') return 'INVALID_MEDIA_RANGE';
+  if (error instanceof TypeError) return 'MEDIA_CLIENT_TYPE_ERROR';
+  if (error instanceof RangeError) return 'MEDIA_CLIENT_RANGE_ERROR';
+  return 'PLATFORM_ERROR';
+}
+
 function buildError(error: unknown, job?: Job): RelayResearchEvent {
   const message = getErrorMessage(error);
   let code = ['CANCELLED', 'DEADLINE_EXCEEDED', 'STALE_ACCOUNT', 'AUTH_REQUIRED', 'INITIALIZING', 'BUSY', 'NOT_FOUND',
     'UNAVAILABLE',
     'INVALID_INPUT', 'INVALID_CURSOR', 'STALE_CURSOR', 'SOURCE_MISMATCH', 'CURSOR_STALLED',
     'JOIN_CONFIRMATION_REQUIRED', 'RESUME_MISMATCH', 'MEDIA_INCOMPLETE'].includes(message)
-    ? message : 'UNSUPPORTED';
+    ? message
+    // Наши собственные постоянные отказы остаются UNSUPPORTED; любая неопознанная ошибка платформы (сеть, TIMEOUT,
+    // RPC_CALL_FAIL) временная: демон повторит её с паузой, а не спишет источник как недоступный навсегда
+    : PERMANENT_MESSAGES.has(message) || PERMANENT_PLATFORM.test(message) ? 'UNSUPPORTED' : 'PLATFORM_ERROR';
   if (/FLOOD|RATE_LIMIT/.test(message)) {
     code = 'RATE_LIMITED';
+  }
+  // PEER_FLOOD и деактивация аккаунта — ограничение аккаунта, а не пауза: повторять нельзя, ждёт владельца
+  if (/^PEER_FLOOD$|^USER_DEACTIVATED/.test(message)) {
+    code = 'ACCOUNT_RESTRICTED';
   }
   if (/CHANNEL_PRIVATE|CHAT_ADMIN_REQUIRED|USER_BANNED|INACCESSIBLE/.test(message)) {
     code = 'ACCESS_DENIED';
@@ -1442,6 +1471,9 @@ function buildError(error: unknown, job?: Job): RelayResearchEvent {
   }
   if (/STARS|PAYMENT/.test(message)) {
     code = 'STARS_PAYMENT_UNSUPPORTED';
+  }
+  if (code === 'PLATFORM_ERROR' && job?.operation === 'download') {
+    code = buildMediaErrorCode(error, message);
   }
   const flood = code === 'RATE_LIMITED' ? describeFlood(error) : undefined;
   const retry = error && typeof error === 'object' && 'retryAfterMs' in error ? Number(error.retryAfterMs) : undefined;

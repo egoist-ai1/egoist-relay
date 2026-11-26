@@ -30,6 +30,7 @@ import {
   SAVED_FOLDER_ID,
   SHARED_STATE_CACHE_KEY,
 } from '../config';
+import { IS_TAURI } from '../util/browser/globalEnvironment';
 import { MAIN_IDB_STORE } from '../util/browser/idb';
 import { isUserId } from '../util/entities/ids';
 import { getOrderedIds } from '../util/folderManager';
@@ -269,6 +270,10 @@ async function readCache(initialState: GlobalState): Promise<GlobalState> {
       },
     },
   };
+
+  if (IS_TAURI) {
+    newState.sharedState.settings.timeFormat = '24h';
+  }
 
   if (cachedFromLocalStorage && cached) {
     try {

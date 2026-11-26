@@ -6,7 +6,7 @@ use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
 use std::process::{Child, ChildStdin, Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, LazyLock, Mutex};
+use std::sync::{Arc, Condvar, LazyLock, Mutex};
 use std::time::{Duration, Instant};
 use tauri::{Emitter, Manager};
 
@@ -19,6 +19,8 @@ const EMERGENCY_RUNS_PER_MINUTE: usize = 90;
 const EMERGENCY_WINDOW: Duration = Duration::from_secs(60);
 const MAX_FEATURES: usize = 16;
 const MAX_WAIT_SECONDS: u64 = 86400;
+const HELPER_STARTUP_TIMEOUT: Duration = Duration::from_secs(45);
+const HELPER_STABLE_PERIOD: Duration = Duration::from_secs(30);
 const SPOOL_TERMINAL_CODES: [&str; 7] = [
   "INVALID_MEDIA",
   "MEDIA_LIMIT",
@@ -30,6 +32,7 @@ const SPOOL_TERMINAL_CODES: [&str; 7] = [
 ];
 static RUN_STARTS: LazyLock<Mutex<VecDeque<Instant>>> = LazyLock::new(|| Mutex::new(VecDeque::new()));
 static ACTIVE: LazyLock<Mutex<Option<Bridge>>> = LazyLock::new(|| Mutex::new(None));
+static ACTIVE_CHANGED: Condvar = Condvar::new();
 static FRONTEND_REGISTERED: AtomicBool = AtomicBool::new(false);
 static STOPPING: AtomicBool = AtomicBool::new(false);
 static STARTUP: LazyLock<Mutex<StartupState>> =
@@ -82,6 +85,45 @@ struct Pending {
   total_bytes: u64,
   spool: Option<SpoolPlan>,
   spool_writer: Option<SharedSpool>,
+}
+
+impl Pending {
+  fn watchdog_deadline(&self) -> Option<Instant> {
+    // Отменённая задача остаётся занята до подтверждения завершения от владельца
+    (!self.cancelled || self.method != "run").then_some(self.deadline)
+  }
+}
+
+fn earliest_watchdog_deadline<'a>(
+  lifecycle_deadline: Option<Instant>,
+  pending: impl Iterator<Item = &'a Pending>,
+) -> Option<Instant> {
+  pending.filter_map(Pending::watchdog_deadline).chain(lifecycle_deadline).min()
+}
+
+#[cfg(windows)]
+fn wait_for_watchdog(runtime_id: &str) -> Option<std::sync::MutexGuard<'static, Option<Bridge>>> {
+  let mut active = ACTIVE.lock().ok()?;
+  loop {
+    let bridge = active.as_ref().filter(|bridge| bridge.runtime_id == runtime_id)?;
+    let lifecycle_deadline = if !bridge.helper_ready {
+      Some(bridge.started_at + HELPER_STARTUP_TIMEOUT)
+    } else if !bridge.budget_reset {
+      bridge.acknowledged_at.map(|at| at + HELPER_STABLE_PERIOD)
+    } else {
+      None
+    };
+    active = match earliest_watchdog_deadline(lifecycle_deadline, bridge.pending.values()) {
+      Some(deadline) => {
+        let timeout = deadline.saturating_duration_since(Instant::now());
+        if timeout.is_zero() {
+          return Some(active);
+        }
+        ACTIVE_CHANGED.wait_timeout(active, timeout).ok()?.0
+      }
+      None => ACTIVE_CHANGED.wait(active).ok()?,
+    };
+  }
 }
 
 type SharedSpool = Arc<Mutex<Option<SpoolWriter>>>;
@@ -410,6 +452,7 @@ fn cancel(expected_runtime: &str, request_id: &str, nonce: &str) {
       return;
     }
     pending.cancelled = true;
+    ACTIVE_CHANGED.notify_all();
     if !pending.dispatched {
       bridge.pending.remove(request_id);
       return;
@@ -524,6 +567,7 @@ fn dispatch(app: &tauri::AppHandle, expected_runtime: &str, request: Request) {
           spool_writer: None,
         },
       );
+      ACTIVE_CHANGED.notify_all();
       Ok(())
     }
   };
@@ -557,6 +601,7 @@ fn dispatch(app: &tauri::AppHandle, expected_runtime: &str, request: Request) {
     if pending.nonce != request.nonce || pending.cancelled || pending.deadline <= Instant::now() {
       if !pending.dispatched {
         bridge.pending.remove(&request.request_id);
+        ACTIVE_CHANGED.notify_all();
       }
       return;
     }
@@ -770,15 +815,15 @@ fn start_owned(
         _ => break,
       }
     }
+    log_helper_exit(&reader_runtime);
     shutdown_runtime(&reader_runtime);
     schedule_recovery(&reader_app);
   });
   let runtime_id = runtime_id.to_string();
   std::thread::spawn(move || {
     loop {
-      std::thread::sleep(Duration::from_millis(250));
       let expired = {
-        let Ok(mut active) = ACTIVE.lock() else {
+        let Some(mut active) = wait_for_watchdog(&runtime_id) else {
           return;
         };
         let Some(bridge) = active
@@ -787,7 +832,8 @@ fn start_owned(
         else {
           return;
         };
-        if !bridge.helper_ready && bridge.started_at.elapsed() >= Duration::from_secs(45) {
+        let now = Instant::now();
+        if !bridge.helper_ready && now >= bridge.started_at + HELPER_STARTUP_TIMEOUT {
           drop(active);
           startup_failed(&runtime_id, "BRIDGE_STARTUP_TIMEOUT");
           shutdown_runtime(&runtime_id);
@@ -797,23 +843,21 @@ fn start_owned(
           && !bridge.budget_reset
           && bridge
             .acknowledged_at
-            .is_some_and(|started| started.elapsed() >= Duration::from_secs(30))
+            .is_some_and(|started| now >= started + HELPER_STABLE_PERIOD)
         {
           if let Ok(mut startup) = STARTUP.lock() {
             if startup.starting.is_none() {
               startup.attempts = 0;
               startup.next_attempt = None;
               startup.last_error = None;
-              bridge.budget_reset = true;
             }
           }
+          bridge.budget_reset = true;
         }
         let ids = bridge
           .pending
           .iter()
-          .filter(|(_, item)| {
-            item.deadline <= Instant::now() && (!item.cancelled || item.method != "run")
-          })
+          .filter(|(_, item)| item.watchdog_deadline().is_some_and(|deadline| deadline <= now))
           .map(|(id, _)| id.clone())
           .collect::<Vec<_>>();
         let mut expired = Vec::new();
@@ -920,12 +964,24 @@ fn accept_startup(runtime_id: &str, message: StartupMessage) -> bool {
     else {
       return false;
     };
+    if !bridge.helper_ready && bridge.started_at.elapsed() >= HELPER_STARTUP_TIMEOUT {
+      drop(active);
+      startup_failed(runtime_id, "BRIDGE_STARTUP_TIMEOUT");
+      return false;
+    }
     if bridge.helper_pid != message.helper_pid || bridge.helper_ready {
       false
     } else if message.r#type == "startup_ready" && message.code.is_none() {
+      if let Ok(mut startup) = STARTUP.lock() {
+        if startup.starting.as_deref() == Some(runtime_id) {
+          startup.starting = None;
+          startup.last_error = None;
+        }
+      }
       bridge.helper_ready = true;
       bridge.acknowledged_at = Some(Instant::now());
       bridge.frontend_ready = FRONTEND_REGISTERED.load(Ordering::Acquire);
+      ACTIVE_CHANGED.notify_all();
       true
     } else if message.r#type == "startup_error" && message.code.is_some() {
       drop(active);
@@ -938,12 +994,6 @@ fn accept_startup(runtime_id: &str, message: StartupMessage) -> bool {
   if !accepted {
     startup_failed(runtime_id, "BRIDGE_STARTUP_PROTOCOL");
     return false;
-  }
-  if let Ok(mut startup) = STARTUP.lock() {
-    if startup.starting.as_deref() == Some(runtime_id) {
-      startup.starting = None;
-      startup.last_error = None;
-    }
   }
   log::info!("[EgoistRelay] Research helper ready");
   true
@@ -977,6 +1027,46 @@ fn schedule_recovery(app: &tauri::AppHandle) {
     });
 }
 
+/// Нештатный обрыв потока помощника пишем в журнал с кодом выхода: раньше он исчезал молча,
+/// и совпадение с падением моста Telegram (22.10 15:26 UTC) нельзя было ни доказать, ни отвергнуть.
+fn log_helper_exit(runtime_id: &str) {
+  if STOPPING.load(Ordering::Acquire) {
+    return;
+  }
+  let child = ACTIVE.lock().ok().and_then(|active| {
+    active
+      .as_ref()
+      .filter(|bridge| bridge.runtime_id == runtime_id)
+      .map(|bridge| bridge.child.clone())
+  });
+  let Some(child) = child else {
+    return;
+  };
+  // Поток закрывается чуть раньше, чем процесс получает код выхода
+  let mut status = None;
+  for _ in 0..10 {
+    if let Ok(mut child) = child.lock() {
+      status = child.try_wait().ok().flatten();
+    }
+    if status.is_some() {
+      break;
+    }
+    std::thread::sleep(Duration::from_millis(20));
+  }
+  // Выход приложения мог начаться, пока ждали код
+  if STOPPING.load(Ordering::Acquire) {
+    return;
+  }
+  match status {
+    Some(status) => log::warn!(
+      "[EgoistRelay] Research helper exited ({}); recovering",
+      crate::worker_job::exit_code_text(status.code())
+    ),
+    // Поток закрыт, а процесс жив: ошибка протокола (непарсящийся кадр), а не завершение извне
+    None => log::warn!("[EgoistRelay] Research helper stream closed while the process is still running; recovering"),
+  }
+}
+
 fn shutdown_runtime(runtime_id: &str) {
   let bridge = ACTIVE.lock().ok().and_then(|mut active| {
     if active
@@ -984,6 +1074,7 @@ fn shutdown_runtime(runtime_id: &str) {
       .is_some_and(|bridge| bridge.runtime_id == runtime_id)
     {
       let bridge = active.take()?;
+      ACTIVE_CHANGED.notify_all();
       if let Ok(mut draining) = DRAINING.lock() {
         for (id, pending) in &bridge.pending {
           if pending.method == "run" && pending.dispatched {
@@ -1627,6 +1718,7 @@ pub(crate) fn publish(request_id: &str, nonce: &str, mut event: Value) -> Result
     if pending.cancelled || (terminal && pending.deadline <= Instant::now()) {
       if terminal {
         bridge.pending.remove(request_id);
+        ACTIVE_CHANGED.notify_all();
         return Ok(());
       }
       return Err("CANCELLED".into());
@@ -1638,6 +1730,7 @@ pub(crate) fn publish(request_id: &str, nonce: &str, mut event: Value) -> Result
     let stdin = bridge.stdin.clone();
     if terminal {
       bridge.pending.remove(request_id);
+      ACTIVE_CHANGED.notify_all();
     }
     stdin
   };
@@ -1963,6 +2056,34 @@ mod tests {
       spool: None,
       spool_writer: None,
     }
+  }
+
+  #[test]
+  fn watchdog_waits_without_deadline_when_idle_or_only_cancelled_runs_remain() {
+    assert_eq!(earliest_watchdog_deadline(None, std::iter::empty()), None);
+    let mut cancelled = pending();
+    cancelled.cancelled = true;
+    cancelled.dispatched = true;
+    assert_eq!(earliest_watchdog_deadline(None, [&cancelled].into_iter()), None);
+  }
+
+  #[test]
+  fn watchdog_prefers_the_earliest_lifecycle_or_pending_deadline() {
+    let now = Instant::now();
+    let mut request = pending();
+    request.deadline = now + Duration::from_secs(5);
+    let mut cancelled = pending();
+    cancelled.deadline = now + Duration::from_secs(1);
+    cancelled.cancelled = true;
+    let requests = [&request, &cancelled];
+    let startup_deadline = now + Duration::from_secs(3);
+    assert_eq!(earliest_watchdog_deadline(Some(startup_deadline), requests.into_iter()), Some(startup_deadline));
+    assert_eq!(earliest_watchdog_deadline(None, requests.into_iter()), Some(request.deadline));
+    cancelled.method = "status".into();
+    assert_eq!(
+      earliest_watchdog_deadline(None, [&request, &cancelled].into_iter()),
+      Some(cancelled.deadline),
+    );
   }
   fn bound(kind: &str) -> Value {
     json!({"kind":kind,"accountRef":"account-ref","accountEpoch":"epoch-1"})

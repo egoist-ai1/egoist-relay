@@ -35,7 +35,7 @@ import {
 } from '../global/selectors';
 import { callApi } from '../api/gramjs';
 import { IS_TAURI } from './browser/globalEnvironment';
-import { IS_SERVICE_WORKER_SUPPORTED, IS_TOUCH_ENV } from './browser/windowEnvironment';
+import { IS_SERVICE_WORKER_SUPPORTED, IS_TOUCH_ENV, IS_WINDOWS } from './browser/windowEnvironment';
 import jsxToHtml from './element/jsxToHtml';
 import { buildCollectionByKey } from './iteratees';
 import { getTranslationFn } from './localization';
@@ -86,7 +86,13 @@ function checkIfPushSupported() {
   return true;
 }
 
+export function shouldUseDesktopNotices() {
+  return IS_TAURI && IS_WINDOWS;
+}
+
 export function checkIfNotificationsSupported() {
+  if (shouldUseDesktopNotices()) return true;
+
   // Let's check if the browser supports notifications
   if (!('Notification' in window)) {
     if (DEBUG) {
@@ -109,6 +115,8 @@ export function checkIfNotificationsSupported() {
 const expirationTime = 12 * 60 * 60 * 1000; // 12 hours
 // Notification id is removed from soundPlayed cache after 3 seconds
 const soundPlayedDelay = 3 * 1000;
+const MAX_TOAST_AVATAR_BYTES = 90 * 1024;
+const TOAST_AVATAR_WAIT_MS = 200;
 const soundPlayedIds = new Set<string>();
 const notificationSound = new Audio('./notification.mp3');
 notificationSound.setAttribute('mozaudiochannel', 'notification');
@@ -149,6 +157,8 @@ function checkIfShouldResubscribe(subscription: PushSubscription | null) {
 }
 
 export async function requestPermission() {
+  if (shouldUseDesktopNotices()) return true;
+
   if (IS_TAURI) {
     const tauriPlugin = await import('@tauri-apps/plugin-notification');
     const tauriPermissionGranted = await tauriPlugin.isPermissionGranted();
@@ -226,7 +236,7 @@ async function loadCustomEmoji(id: string) {
 
 let isSubscriptionFailed = false;
 export function checkIfOfflinePushFailed() {
-  return isSubscriptionFailed;
+  return shouldUseDesktopNotices() || isSubscriptionFailed;
 }
 
 export async function subscribe() {
@@ -310,6 +320,8 @@ function checkIfShouldNotify(chat: ApiChat, message: Partial<ApiMessage>) {
     || chat.isNotJoined || !chat.isListed || selectIsChatWithSelf(global, chat.id)) {
     return false;
   }
+  if (shouldUseDesktopNotices()) return true;
+
   // On touch devices show notifications when chat is not active
   if (IS_TOUCH_ENV) {
     const {
@@ -333,12 +345,13 @@ function getNotificationContent(chat: ApiChat, message: ApiMessage, reaction?: A
   const { isScreenLocked } = global.passcode;
   const isSelf = chat.id === global.currentUserId;
 
+  const lang = getTranslationFn();
+  const useDesktopNotices = shouldUseDesktopNotices();
+  const showPreview = !isScreenLocked
+    && getShouldShowMessagePreview(chat, selectNotifyDefaults(global), getChatNotifyException(global, chat));
+  const senderName = showPreview && sender ? getMessageSenderName(lang, chat.id, sender) : undefined;
   let body: string;
-  if (
-    !isScreenLocked
-    && getShouldShowMessagePreview(chat, selectNotifyDefaults(global), getChatNotifyException(global, chat))
-  ) {
-    const senderName = sender ? getMessageSenderName(getTranslationFn(), chat.id, sender) : undefined;
+  if (showPreview) {
     let summary = jsxToHtml(<span><MessageSummary message={message} /></span>)[0].textContent || '';
 
     if (hasReaction) {
@@ -346,18 +359,18 @@ function getNotificationContent(chat: ApiChat, message: ApiMessage, reaction?: A
       summary = oldTranslate('PushReactText', [emoji, summary]);
     }
 
-    body = senderName ? `${senderName}: ${summary}` : summary;
+    body = senderName && !useDesktopNotices ? `${senderName}: ${summary}` : summary;
   } else {
-    body = getTranslationFn()('NotificationMessageTextHidden');
+    body = lang('NotificationMessageTextHidden');
   }
 
-  let title = isScreenLocked ? APP_NAME : getChatTitle(oldTranslate, chat, isSelf);
+  let title = isScreenLocked ? APP_NAME : (useDesktopNotices && senderName) || getChatTitle(oldTranslate, chat, isSelf);
 
-  if (message.isSilent) {
+  if (message.isSilent && !useDesktopNotices) {
     title += ' 🔕';
   }
 
-  return { title, body };
+  return { title, body, avatarPeer: showPreview ? sender || chat : chat };
 }
 
 async function getAvatar(chat: ApiPeer) {
@@ -383,20 +396,106 @@ function getReactionEmoji(reaction: ApiPeerReaction) {
   return emoji || '❤️';
 }
 
+async function encodeDesktopNoticeAvatar(avatar?: string) {
+  if (!avatar?.startsWith(`blob:${window.location.origin}/`)) return undefined;
+
+  try {
+    const blob = await (await fetch(avatar)).blob();
+    if (blob.size > MAX_TOAST_AVATAR_BYTES || !/^image\/(?:png|jpeg|gif|webp)$/.test(blob.type)) return undefined;
+    return await new Promise<string | undefined>((resolve) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => resolve(reader.result as string), { once: true });
+      reader.addEventListener('error', () => resolve(undefined), { once: true });
+      reader.addEventListener('abort', () => resolve(undefined), { once: true });
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return undefined;
+  }
+}
+
+async function getDesktopNoticeAvatar(peer: ApiPeer) {
+  let timeout: number | undefined;
+  try {
+    return await Promise.race([
+      getAvatar(peer).then(encodeDesktopNoticeAvatar),
+      new Promise<undefined>((resolve) => {
+        timeout = window.setTimeout(resolve, TOAST_AVATAR_WAIT_MS);
+      }),
+    ]);
+  } catch {
+    return undefined;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+async function showDesktopNotice(
+  title: string,
+  body: string,
+  peer: ApiPeer,
+  isSilent: boolean,
+  target: { chatId?: string; messageId?: number },
+) {
+  const wasLocked = getGlobal().passcode.isScreenLocked;
+  try {
+    const [{ invoke }, icon] = await Promise.all([
+      import('@tauri-apps/api/core'),
+      wasLocked ? undefined : getDesktopNoticeAvatar(peer),
+    ]);
+    const global = getGlobal();
+    const isScreenLocked = wasLocked || global.passcode.isScreenLocked;
+    const { hasWebNotifications, notificationSoundVolume } = selectSettingsKeys(global);
+    if (!hasWebNotifications) return;
+
+    const delivered = await invoke<boolean>('relay_lagom_telegram_notice', {
+      notice: {
+        title: isScreenLocked ? 'Telegram' : title,
+        body: isScreenLocked ? getTranslationFn()('NotificationMessageTextHidden') : body,
+        icon: isScreenLocked ? undefined : icon,
+        volume: notificationSoundVolume,
+        isSilent,
+        target: isScreenLocked ? {} : target,
+      },
+    });
+    if (!delivered && DEBUG) {
+      // eslint-disable-next-line no-console
+      console.warn('[LagomAlerts] Desktop notice was not accepted');
+    }
+  } catch {
+    if (DEBUG) {
+      // eslint-disable-next-line no-console
+      console.warn('[LagomAlerts] Desktop notification unavailable');
+    }
+  }
+}
+
 export async function notifyAboutCall({
   call, user,
 }: {
   call: ApiPhoneCall; user: ApiUser;
 }) {
   const { hasWebNotifications } = selectSettingsKeys(getGlobal());
-  if (document.hasFocus() || !hasWebNotifications) return;
+  if (!hasWebNotifications) return;
+  const incomingCall = oldTranslate('VoipIncoming');
+  if (shouldUseDesktopNotices()) {
+    const name = getUserFullName(user);
+    await showDesktopNotice(name || incomingCall, name ? incomingCall : '', user, false, {});
+    return;
+  }
+
+  if (document.hasFocus()) return;
   const areNotificationsSupported = checkIfNotificationsSupported();
   if (!areNotificationsSupported) return;
 
-  const icon = await getAvatar(user);
+  const avatar = getGlobal().passcode.isScreenLocked ? undefined : await getAvatar(user);
+  const { isScreenLocked } = getGlobal().passcode;
+  const icon = isScreenLocked ? undefined : avatar;
+  const body = isScreenLocked ? getTranslationFn()('NotificationMessageTextHidden') : (getUserFullName(user) || '');
+  if (IS_TAURI && getGlobal().passcode.isScreenLocked) return;
 
   const options: NotificationOptions = {
-    body: getUserFullName(user),
+    body,
     icon,
     badge: icon,
     tag: `call_${call.id}`,
@@ -407,7 +506,7 @@ export async function notifyAboutCall({
     options.vibrate = [200, 100, 200];
   }
 
-  const notification = new Notification(oldTranslate('VoipIncoming'), options);
+  const notification = new Notification(incomingCall, options);
 
   notification.onclick = () => {
     notification.close();
@@ -430,6 +529,7 @@ export async function notifyAboutMessage({
   );
   const topic = selectTopicFromMessage(global, message as ApiMessage);
   const isSilent = topic?.notifySettings.hasSound === undefined ? isChatSilent : !topic.notifySettings.hasSound;
+  const useDesktopNotices = shouldUseDesktopNotices();
 
   const areNotificationsSupported = checkIfNotificationsSupported();
   if (!hasWebNotifications || !areNotificationsSupported) {
@@ -440,8 +540,6 @@ export async function notifyAboutMessage({
 
     return;
   }
-  if (!areNotificationsSupported) return;
-
   if (!message.id) return;
 
   const activeReaction = getMessageRecentReaction(message);
@@ -449,16 +547,28 @@ export async function notifyAboutMessage({
   if (isReaction && !activeReaction) return;
 
   // If this is a custom emoji reaction we need to make sure it is loaded
-  if (isReaction && activeReaction && activeReaction.reaction.type === 'custom') {
+  if (isReaction && activeReaction?.reaction.type === 'custom') {
     await loadCustomEmoji(activeReaction.reaction.documentId);
   }
 
-  const icon = await getAvatar(chat);
+  if (useDesktopNotices) {
+    const { title, body, avatarPeer } = getNotificationContent(chat, message as ApiMessage, activeReaction);
+    await showDesktopNotice(title, body, avatarPeer, Boolean(isSilent || isReaction || message.isSilent), {
+      chatId: chat.id,
+      messageId: message.id,
+    });
+    return;
+  }
+
+  const avatar = getGlobal().passcode.isScreenLocked ? undefined : await getAvatar(chat);
+  const icon = getGlobal().passcode.isScreenLocked ? undefined : avatar;
 
   const {
     title,
     body,
   } = getNotificationContent(chat, message as ApiMessage, activeReaction);
+
+  if (IS_TAURI && getGlobal().passcode.isScreenLocked) return;
 
   if (checkIfPushSupported()) {
     if (navigator.serviceWorker?.controller) {

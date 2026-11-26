@@ -39,6 +39,45 @@
   transition: opacity 0.25s ease-in-out;
 }
 
+.loadError {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: safe center;
+
+  padding: 1rem;
+
+  text-align: center;
+}
+
+.loadErrorCopy {
+  display: grid;
+  gap: 0.375rem;
+  max-width: 24rem;
+  line-height: 1.5;
+}
+
+.loadErrorTitle {
+  margin: 0;
+
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.loadErrorMessage {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
 @keyframes fadeOpacityBreath {
   0% {
     opacity: 0.4;
@@ -72,7 +111,7 @@
   aspect-ratio: 1;
   width: 100%;
   border-radius: 0.375rem;
-  background-color: black;
+  background-color: var(--color-text-secondary);
 }
 
 .hide {
@@ -414,4 +453,31 @@
 
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.stable-layout {
+  .frame {
+    flex: 1 1 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  .buttons-container {
+    flex: none;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loadingPlaceholder,
+  .frame,
+  .secondary-button,
+  .main-button {
+    transition: none;
+  }
+
+  .placeholderPath,
+  .placeholderSquare {
+    animation: none;
+  }
 }

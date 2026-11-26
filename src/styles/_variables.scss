@@ -67,6 +67,8 @@
   $color-message-story-mention-to: #74bcff;
 
   :root {
+    --color-focus: #006bc2;
+
     --color-background: #{$color-white};
     --color-background-compact-menu: rgba(22, 24, 29, 0.96);
     --color-background-compact-menu-reactions: rgba(22, 24, 29, 0.96);
@@ -371,6 +373,19 @@
       --middle-panel-inline-padding: 0.5rem;
       --symbol-menu-width: 100vw;
       --symbol-menu-height: 17.6875rem;
+    }
+  }
+
+  :root.theme-dark,
+  .component-theme-dark {
+    --color-focus: #339fff;
+  }
+
+  @media (forced-colors: active) {
+    :root,
+    :root.theme-dark,
+    .component-theme-dark {
+      --color-focus: Highlight;
     }
   }
 }

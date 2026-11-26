@@ -5,12 +5,12 @@
     "windows": [
       {
         "label": "main",
-        "title": "Sennit",
+        "title": "Береста",
         "visible": true,
         "width": 1652,
         "height": 1160,
-        "minWidth": 800,
-        "minHeight": 560,
+        "minWidth": 560,
+        "minHeight": 440,
         "maximized": false,
         "center": true,
         "resizable": true,
@@ -47,7 +47,8 @@
     "deep-link": {
       "desktop": {
         "schemes": [
-          "tg"
+          "tg",
+          "beresta"
         ]
       }
     }
@@ -56,7 +57,7 @@
     "active": true,
     "createUpdaterArtifacts": false,
     "category": "SocialNetworking",
-    "copyright": "Sennit by Egoist",
+    "copyright": "Egoist",
     "externalBin": [],
     "icon": [
       "icons/32x32.png",
@@ -65,7 +66,7 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "longDescription": "Sennit by Egoist: local-first desktop hub for messengers and social networks using the Windows network configuration",
+    "longDescription": "Береста: local-first desktop hub for messengers and social networks using the Windows network configuration",
     "macOS": {
       "entitlements": "entitlements.mac.plist",
       "exceptionDomain": "",
@@ -74,6 +75,13 @@
       "signingIdentity": null
     },
     "resources": {
+      "../runtime/browser-extension/content.js": "runtime/browser-extension/content.js",
+      "../runtime/browser-extension/icons/beresta-128.png": "runtime/browser-extension/icons/beresta-128.png",
+      "../runtime/browser-extension/icons/beresta-16.png": "runtime/browser-extension/icons/beresta-16.png",
+      "../runtime/browser-extension/icons/beresta-32.png": "runtime/browser-extension/icons/beresta-32.png",
+      "../runtime/browser-extension/icons/beresta-48.png": "runtime/browser-extension/icons/beresta-48.png",
+      "../runtime/browser-extension/manifest.json": "runtime/browser-extension/manifest.json",
+      "../runtime/browser-extension/README.md": "runtime/browser-extension/README.md",
       "../runtime/licenses/NODE-LICENSE.txt": "runtime/licenses/NODE-LICENSE.txt",
       "../runtime/licenses/RELAY-GPL-LICENSE.txt": "runtime/licenses/RELAY-GPL-LICENSE.txt",
       "../runtime/media/FFMPEG-BUILD-README.txt": "runtime/media/FFMPEG-BUILD-README.txt",
@@ -83,6 +91,45 @@
       "../runtime/NODE-LICENSE.txt": "runtime/NODE-LICENSE.txt",
       "../runtime/node.exe": "runtime/node.exe",
       "../runtime/README.md": "runtime/README.md",
+      "../runtime/research-mcp/BRIDGE-CONTRACT.md": "runtime/research-mcp/BRIDGE-CONTRACT.md",
+      "../runtime/research-mcp/README.md": "runtime/research-mcp/README.md",
+      "../runtime/research-mcp/scripts/ensure-private-research-state.ps1": "runtime/research-mcp/scripts/ensure-private-research-state.ps1",
+      "../runtime/research-mcp/scripts/probe-relay-owner.ps1": "runtime/research-mcp/scripts/probe-relay-owner.ps1",
+      "../runtime/research-mcp/scripts/research-service.mjs": "runtime/research-mcp/scripts/research-service.mjs",
+      "../runtime/research-mcp/scripts/verify-relay-bridge.ps1": "runtime/research-mcp/scripts/verify-relay-bridge.ps1",
+      "../runtime/research-mcp/SOURCE.md": "runtime/research-mcp/SOURCE.md",
+      "../runtime/research-mcp/src/research/audit.mjs": "runtime/research-mcp/src/research/audit.mjs",
+      "../runtime/research-mcp/src/research/bridge-client.mjs": "runtime/research-mcp/src/research/bridge-client.mjs",
+      "../runtime/research-mcp/src/research/bridge-features.mjs": "runtime/research-mcp/src/research/bridge-features.mjs",
+      "../runtime/research-mcp/src/research/bridge-provider.mjs": "runtime/research-mcp/src/research/bridge-provider.mjs",
+      "../runtime/research-mcp/src/research/bridge-start.mjs": "runtime/research-mcp/src/research/bridge-start.mjs",
+      "../runtime/research-mcp/src/research/broker.mjs": "runtime/research-mcp/src/research/broker.mjs",
+      "../runtime/research-mcp/src/research/client.mjs": "runtime/research-mcp/src/research/client.mjs",
+      "../runtime/research-mcp/src/research/clock.mjs": "runtime/research-mcp/src/research/clock.mjs",
+      "../runtime/research-mcp/src/research/config.mjs": "runtime/research-mcp/src/research/config.mjs",
+      "../runtime/research-mcp/src/research/daemon.mjs": "runtime/research-mcp/src/research/daemon.mjs",
+      "../runtime/research-mcp/src/research/export-format.mjs": "runtime/research-mcp/src/research/export-format.mjs",
+      "../runtime/research-mcp/src/research/governor.mjs": "runtime/research-mcp/src/research/governor.mjs",
+      "../runtime/research-mcp/src/research/ipc.mjs": "runtime/research-mcp/src/research/ipc.mjs",
+      "../runtime/research-mcp/src/research/job-store.mjs": "runtime/research-mcp/src/research/job-store.mjs",
+      "../runtime/research-mcp/src/research/local-index.mjs": "runtime/research-mcp/src/research/local-index.mjs",
+      "../runtime/research-mcp/src/research/lookup.mjs": "runtime/research-mcp/src/research/lookup.mjs",
+      "../runtime/research-mcp/src/research/mcp.mjs": "runtime/research-mcp/src/research/mcp.mjs",
+      "../runtime/research-mcp/src/research/media-resume.mjs": "runtime/research-mcp/src/research/media-resume.mjs",
+      "../runtime/research-mcp/src/research/normalize-item.mjs": "runtime/research-mcp/src/research/normalize-item.mjs",
+      "../runtime/research-mcp/src/research/orch-core.mjs": "runtime/research-mcp/src/research/orch-core.mjs",
+      "../runtime/research-mcp/src/research/orch-store.mjs": "runtime/research-mcp/src/research/orch-store.mjs",
+      "../runtime/research-mcp/src/research/orchestrator.mjs": "runtime/research-mcp/src/research/orchestrator.mjs",
+      "../runtime/research-mcp/src/research/policy.mjs": "runtime/research-mcp/src/research/policy.mjs",
+      "../runtime/research-mcp/src/research/private-peer.mjs": "runtime/research-mcp/src/research/private-peer.mjs",
+      "../runtime/research-mcp/src/research/raw-archive.mjs": "runtime/research-mcp/src/research/raw-archive.mjs",
+      "../runtime/research-mcp/src/research/records-query.mjs": "runtime/research-mcp/src/research/records-query.mjs",
+      "../runtime/research-mcp/src/research/scheduler.mjs": "runtime/research-mcp/src/research/scheduler.mjs",
+      "../runtime/research-mcp/src/research/schema.mjs": "runtime/research-mcp/src/research/schema.mjs",
+      "../runtime/research-mcp/src/research/source-input.mjs": "runtime/research-mcp/src/research/source-input.mjs",
+      "../runtime/research-mcp/src/research/step-provider.mjs": "runtime/research-mcp/src/research/step-provider.mjs",
+      "../runtime/research-mcp/src/research/tools.mjs": "runtime/research-mcp/src/research/tools.mjs",
+      "../runtime/research-mcp/src/research/transcribe-media.mjs": "runtime/research-mcp/src/research/transcribe-media.mjs",
       "../runtime/research/bridge-server.mjs": "runtime/research/bridge-server.mjs",
       "../runtime/research/ensure-private-state.ps1": "runtime/research/ensure-private-state.ps1",
       "../runtime/research/social-read.js": "runtime/research/social-read.js",
@@ -115,7 +162,7 @@
       "../runtime/YT-DLP-THIRD-PARTY-LICENSES.txt": "runtime/YT-DLP-THIRD-PARTY-LICENSES.txt",
       "../runtime/yt-dlp.exe": "runtime/yt-dlp.exe"
     },
-    "shortDescription": "Sennit by Egoist",
+    "shortDescription": "Береста",
     "targets": [
       "nsis"
     ],

@@ -126,6 +126,7 @@ const MinimizedBrowserModal = ({
         size="tiny"
         iconName="expand-modal"
         iconClassName={styles.stateIcon}
+        ariaLabel={lang('RelayMaximize')}
         onClick={handleExpandClick}
       />
     </div>

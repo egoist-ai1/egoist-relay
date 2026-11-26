@@ -2039,6 +2039,11 @@ const Message = ({
   const shouldShowMessageAvatar = !isChannelPost && (!isChannel || isChatWithUser);
   const shouldRenderIncomingAvatar = shouldShowMessageAvatar && !isOwn && !isInDocumentGroupNotLast;
   const shouldRenderOwnAvatar = shouldShowMessageAvatar && isOwn && !isInDocumentGroupNotLast;
+  const contextMedia = contextMenuTarget?.closest<HTMLElement>('[data-message-media-type]');
+  const contextMediaType = contextMedia?.dataset.messageMediaType;
+  const contextMediaMessage = contextMedia && (
+    album ? album.messages.find(({ id }) => contextMedia.id === `album-media-${getMessageHtmlId(id)}`) : message
+  );
 
   return (
     <div
@@ -2217,6 +2222,8 @@ const Message = ({
           isOpen={isContextMenuOpen}
           anchor={contextMenuAnchor}
           targetHref={contextMenuTarget?.matches('a[href]') ? (contextMenuTarget as HTMLAnchorElement).href : undefined}
+          targetMediaMessage={contextMediaMessage || undefined}
+          targetMediaType={contextMediaType === 'photo' || contextMediaType === 'video' ? contextMediaType : undefined}
           isAltKeyPressed={isContextMenuAltKeyPressed}
           message={message}
           album={album}

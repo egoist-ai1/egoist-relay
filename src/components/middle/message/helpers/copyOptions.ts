@@ -42,12 +42,13 @@ export function getMessageCopyOptions(
   onCopyLink?: () => void,
   onCopyMessages?: (request: MessageCopyRequest, textFormat?: ClipboardTextFormat) => void,
   onCopyNumber?: () => void,
+  photoMessage: ApiMessage | false = message,
 ): ICopyOptions {
   const { webPage } = statefulContent || {};
   const options: ICopyOptions = [];
   const text = getMessageText(message);
-  const photo = getMessagePhoto(message)
-    || (!getWebPageVideo(webPage) ? getWebPagePhoto(webPage) : undefined);
+  const photo = photoMessage && (getMessagePhoto(photoMessage)
+    || (photoMessage === message && !getWebPageVideo(webPage) ? getWebPagePhoto(webPage) : undefined));
   const contact = getMessageContact(message);
   const mediaHash = photo ? getPhotoMediaHash(photo, 'full') : undefined;
   const canImageBeCopied = canCopy && photo && (mediaHash || hasMediaLocalBlobUrl(photo))
@@ -60,7 +61,7 @@ export function getMessageCopyOptions(
       icon: 'copy-media',
       handler: () => {
         void copyImageToClipboard(
-          Promise.resolve(mediaHash ? mediaLoader.fetch(mediaHash, ApiMediaFormat.BlobUrl) : photo.blobUrl),
+          photo.blobUrl || (mediaHash ? mediaLoader.fetch(mediaHash, ApiMediaFormat.BlobUrl) : undefined),
         ).then((isCopied) => {
           if (isCopied) afterEffect?.('image');
           else getActions().showNotification({ message: { key: 'RelayCopyImageError' } });

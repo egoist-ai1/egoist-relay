@@ -1,11 +1,13 @@
 @use '../../../styles/mixins';
 
 .root {
+  --color-focus: var(--color-text);
   --color-transition: 0.25s ease-in-out;
   --more-button-opacity: 0;
   --modal-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
   --active-tab-background: var(--color-background);
   --state-transition: 0.25s cubic-bezier(0.29, 0.81, 0.27, 0.99);
+
   :global {
     .modal-header {
       padding: 0.5rem;
@@ -133,6 +135,10 @@
       }
     }
   }
+
+  @media (forced-colors: active) {
+    --color-focus: Highlight;
+  }
 }
 
 .multi-tab {
@@ -214,6 +220,162 @@
   }
 }
 
+:global(html[data-relay-active-app="telegram"]):has(.docked:global(:is(.open, .closing):not([hidden]))) :global(#Main) {
+  margin-inline-end: var(--mini-app-dock-width);
+}
+
+:global(html[data-relay-active-app="telegram"]):has(.focusedDock:global(:is(.open, .closing):not([hidden]))) {
+  :global {
+    #Main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: 100%;
+    }
+    #LeftColumn,
+    #FoldersSidebar {
+      display: none;
+    }
+    #Main #MiddleColumn {
+      position: relative;
+      inset: auto;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+.workspace {
+  :global {
+    .modal-container {
+      top: var(--mini-app-inset-top, 2.5rem);
+      right: var(--mini-app-inset-right, 0);
+      left: var(--mini-app-inset-left, 3.5rem);
+
+      align-items: stretch;
+      justify-content: flex-end;
+    }
+
+    .modal-dialog {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      max-height: 100%;
+      border: 0;
+      border-radius: 0;
+
+      background-color: var(--color-background-secondary);
+      backdrop-filter: none;
+      box-shadow: none;
+
+      transition: none;
+    }
+
+    .modal-header {
+      min-height: 2.75rem;
+      padding-inline: 0.25rem;
+      border-bottom: 0.0625rem solid var(--color-borders);
+    }
+
+    .modal-content {
+      flex: 1 1 auto;
+      min-height: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+.workspace.fullScreen :global(.modal-container) {
+  inset: 0;
+}
+
+.workspace .workspace-header {
+  flex-wrap: wrap;
+  gap: 0.25rem;
+
+  padding: 0.3125rem 0.5rem;
+
+  color: var(--color-text);
+
+  background-color: var(--color-background-secondary);
+}
+
+.workspace-title {
+  overflow: hidden;
+  flex: 1;
+
+  min-width: 0;
+
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-back,
+.workspace-action {
+  flex: none;
+  min-height: 2rem;
+  border-radius: 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.workspace-back {
+  padding-inline: 0.5rem;
+}
+
+.workspace-action {
+  width: 2rem !important;
+}
+
+.workspace-tabs {
+  scrollbar-width: thin;
+
+  overflow-x: auto;
+  display: flex;
+  flex: 0 0 100%;
+  gap: 0.25rem;
+}
+
+.workspace-tab {
+  cursor: pointer;
+
+  overflow: hidden;
+  flex: 0 0 auto;
+
+  max-width: 10rem;
+  padding: 0.25rem 0.5rem;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.375rem;
+
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  background: transparent;
+
+  &:hover,
+  &[aria-pressed="true"] {
+    border-color: var(--color-borders);
+    color: var(--color-text);
+  }
+}
+
+.workspace-back,
+.workspace-action,
+.workspace-tab {
+  &:focus-visible {
+    outline: 0.125rem solid var(--color-primary);
+    outline-offset: -0.125rem;
+  }
+}
+
+.docked :global(.modal-dialog) {
+  width: var(--mini-app-dock-width);
+  border-inline-start: 0.0625rem solid var(--color-borders);
+}
+
 .tabs {
   scrollbar-color: transparent;
   scrollbar-width: none;
@@ -276,7 +438,7 @@
   transition: var(--color-transition) background-color, var(--color-transition) color;
 
   &:hover,
-  &:focus {
+  &:focus-within {
     --more-button-opacity: 1;
 
     .tab-right-mask {

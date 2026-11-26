@@ -256,6 +256,7 @@ const MediaViewerSlides: FC<OwnProps> = ({
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLElement && e.target.closest('.MediaContextHost, .MediaContextTrigger')) return;
       const { scale } = transformRef.current;
       if (scale !== 1) return;
       switch (e.key) {

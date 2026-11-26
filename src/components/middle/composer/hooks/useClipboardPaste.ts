@@ -23,6 +23,7 @@ const useClipboardPaste = (
   setAttachments: (attachments: ApiAttachment[] | ((current: ApiAttachment[]) => ApiAttachment[])) => void,
   editedMessage: ApiMessage | undefined,
   resolveFilePasteTarget: () => ClipboardFilePasteTarget,
+  checkCanImportFiles: (files: File[]) => boolean,
   shouldUpdateAttachmentCompression?: boolean,
   shouldSkipFilePaste?: boolean,
 ) => {
@@ -76,6 +77,10 @@ const useClipboardPaste = (
       const pastedText = e.clipboardData.getData('text');
       const textToPaste: ApiFormattedText | undefined = pastedText ? { text: pastedText } : undefined;
       const hasText = textToPaste && textToPaste.text;
+      if (shouldSkipFilePaste || !checkCanImportFiles(files)) {
+        if (hasText) insertTextAndUpdateCursor(textToPaste);
+        return;
+      }
       let shouldSetAttachments = files?.length && !shouldSkipFilePaste;
 
       const newAttachments = files ? await Promise.all(files.map((file) => buildAttachment(file.name, file))) : [];
@@ -126,7 +131,7 @@ const useClipboardPaste = (
     };
   }, [
     insertTextAndUpdateCursor, editedMessage, setAttachments, isActive,
-    lang, resolveFilePasteTarget, shouldUpdateAttachmentCompression, shouldSkipFilePaste,
+    lang, resolveFilePasteTarget, checkCanImportFiles, shouldUpdateAttachmentCompression, shouldSkipFilePaste,
   ]);
 };
 

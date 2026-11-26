@@ -35,6 +35,7 @@ const YOUTUBE_ORIGIN = 'https://www.youtube-nocookie.com';
 const PROVIDER_NAMES = { youtube: 'YouTube', instagram: 'Instagram', x: 'X' };
 const MEDIA_ERROR_CODES = new Set([
   'MEDIA_AUTH_REQUIRED', 'MEDIA_SESSION_LIMIT', 'MEDIA_PROXY_FAILED', 'MEDIA_PROXY_DENIED', 'MEDIA_TLS_FAILED',
+  'MEDIA_TUNNEL_UNAVAILABLE',
   'MEDIA_FETCH_FAILED', 'MEDIA_TIMEOUT', 'MEDIA_FORMAT_UNAVAILABLE', 'MEDIA_DURATION_LIMIT', 'MEDIA_DURATION_UNKNOWN',
   'MEDIA_TOO_LARGE', 'MEDIA_PARTIAL_BODY', 'MEDIA_BUSY', 'MEDIA_RUNTIME_UNAVAILABLE', 'MEDIA_UNAVAILABLE',
   'MEDIA_CLEANUP_FAILED', 'MEDIA_CANCELLED', 'MEDIA_URL_DENIED', 'MEDIA_INPUT_DENIED', 'MEDIA_PATH_DENIED',
@@ -55,6 +56,7 @@ const YOUTUBE_ERROR_CODES: Record<number, string> = {
 const MEDIA_ERROR_LANG_KEYS: Record<string, RegularLangKey> = {
   MEDIA_PROXY_FAILED: 'RelayInlineMediaConnection',
   MEDIA_PROXY_DENIED: 'RelayInlineMediaConnection',
+  MEDIA_TUNNEL_UNAVAILABLE: 'RelayInlineMediaConnection',
   MEDIA_TLS_FAILED: 'RelayInlineMediaConnection',
   MEDIA_FETCH_FAILED: 'RelayInlineMediaConnection',
   MEDIA_TIMEOUT: 'RelayInlineMediaConnection',

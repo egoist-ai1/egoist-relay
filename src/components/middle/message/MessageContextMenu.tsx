@@ -103,6 +103,7 @@ type OwnProps = {
   isPrivate?: boolean;
   isCurrentUserPremium?: boolean;
   canDownload?: boolean;
+  targetImageMessage?: ApiMessage | false;
   canSaveGif?: boolean;
   canManageMusicInProfile?: boolean;
   isMusicProfileStatusLoaded?: boolean;
@@ -140,6 +141,7 @@ type OwnProps = {
   onCopyMessages?: (request: MessageCopyRequest, textFormat?: ClipboardTextFormat) => void;
   onCopyNumber?: NoneToVoidFunction;
   onDownload?: NoneToVoidFunction;
+  onCopyMediaFile?: NoneToVoidFunction;
   onSaveGif?: NoneToVoidFunction;
   onToggleMusicInProfile?: NoneToVoidFunction;
   onCancelVote?: NoneToVoidFunction;
@@ -204,6 +206,7 @@ const MessageContextMenu = ({
   canCopyLink,
   canSelect,
   canDownload,
+  targetImageMessage,
   canSaveGif,
   canManageMusicInProfile,
   isMusicProfileStatusLoaded,
@@ -246,6 +249,7 @@ const MessageContextMenu = ({
   onCopyLink,
   onCopyNumber,
   onDownload,
+  onCopyMediaFile,
   onSaveGif,
   onToggleMusicInProfile,
   onCancelVote,
@@ -365,6 +369,7 @@ const MessageContextMenu = ({
     canCopyLink ? onCopyLink : undefined,
     onCopyMessages,
     onCopyNumber,
+    targetImageMessage,
   );
 
   const getTriggerElement = useLastCallback(() => {
@@ -610,6 +615,9 @@ const MessageContextMenu = ({
           <MenuItem icon="download" onClick={onDownload}>
             {isDownloading ? oldLang('lng_context_cancel_download') : oldLang('lng_media_download')}
           </MenuItem>
+        )}
+        {onCopyMediaFile && (
+          <MenuItem icon="copy" onClick={onCopyMediaFile}>{lang('RelayMediaCopyFile')}</MenuItem>
         )}
         {canForward && <MenuItem icon="forward" onClick={onForward}>{oldLang('Forward')}</MenuItem>}
         {canSelect && <MenuItem icon="select" onClick={onSelect}>{oldLang('Common.Select')}</MenuItem>}

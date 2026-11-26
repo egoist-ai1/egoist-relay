@@ -16,6 +16,7 @@ import type {
   ApiTypeStory,
   ApiWebPage,
 } from '../../../api/types';
+import type { GlobalState } from '../../../global/types';
 import type {
   ActiveDownloads,
   IAlbum,
@@ -33,8 +34,13 @@ import {
   getCanPostInChat,
   getIsDownloading,
   getMessageAudio,
+  getMessageDocumentPhoto,
+  getMessageDocumentVideo,
+  getMessagePhoto,
   getMessageVideo,
   getUserFullName,
+  getWebPagePhoto,
+  getWebPageVideo,
   hasMessageTtl,
   isActionMessage,
   isChatAdmin,
@@ -77,6 +83,8 @@ import {
 } from '../../../global/selectors';
 import { selectMessageDownloadableMedia } from '../../../global/selectors/media';
 import { selectSavedDialogIdFromMessage, selectThreadInfo } from '../../../global/selectors/threads';
+import { IS_TAURI } from '../../../util/browser/globalEnvironment';
+import { IS_WINDOWS } from '../../../util/browser/windowEnvironment';
 import buildClassName from '../../../util/buildClassName';
 import { copyTextToClipboard } from '../../../util/clipboard';
 import { isUserId } from '../../../util/entities/ids';
@@ -101,6 +109,8 @@ export type OwnProps = {
   album?: IAlbum;
   anchor: IAnchorPosition;
   targetHref?: string;
+  targetMediaMessage?: ApiMessage;
+  targetMediaType?: 'photo' | 'video';
   isAltKeyPressed?: boolean;
   messageListType: MessageListType;
   threadId: ThreadId;
@@ -195,6 +205,8 @@ const ContextMenuContainer = ({
   story,
   anchor,
   targetHref,
+  targetMediaMessage,
+  targetMediaType,
   isAltKeyPressed,
   noOptions,
   canSendNow,
@@ -404,7 +416,7 @@ const ContextMenuContainer = ({
 
   const isDownloading = useMemo(() => {
     const global = getGlobal();
-    if (album) {
+    if (!targetMediaMessage && album) {
       return album.messages.some((msg) => {
         const downloadableMedia = selectMessageDownloadableMedia(global, msg);
         if (!downloadableMedia) return false;
@@ -412,10 +424,12 @@ const ContextMenuContainer = ({
       });
     }
 
-    const downloadableMedia = selectMessageDownloadableMedia(global, message);
+    const downloadableMedia = selectContextDownloadableMedia(
+      global, targetMediaMessage || message, targetMediaType,
+    );
     if (!downloadableMedia) return false;
     return getIsDownloading(activeDownloads, downloadableMedia);
-  }, [activeDownloads, album, message]);
+  }, [activeDownloads, album, message, targetMediaMessage, targetMediaType]);
 
   const selectionRange = canReply && selection?.rangeCount ? selection.getRangeAt(0) : undefined;
 
@@ -643,11 +657,12 @@ const ContextMenuContainer = ({
   });
 
   const handleCopyLink = useLastCallback(() => {
+    const linkMessage = targetMediaMessage || message;
     copyMessageLink({
-      chatId: message.chatId,
-      messageId: message.id,
+      chatId: linkMessage.chatId,
+      messageId: linkMessage.id,
       shouldIncludeThread: threadId !== MAIN_THREAD_ID,
-      shouldIncludeGrouped: true, // TODO: Provide correct value when ability to target specific message is added
+      shouldIncludeGrouped: !targetMediaMessage,
     });
     closeMenu();
   });
@@ -659,8 +674,9 @@ const ContextMenuContainer = ({
 
   const handleDownloadClick = useLastCallback(() => {
     const global = getGlobal();
-    (album?.messages || [message]).forEach((msg) => {
-      const downloadableMedia = selectMessageDownloadableMedia(global, msg);
+    const messages = targetMediaMessage ? [targetMediaMessage] : (album?.messages || [message]);
+    messages.forEach((msg) => {
+      const downloadableMedia = selectContextDownloadableMedia(global, msg, targetMediaType);
       if (!downloadableMedia) return;
 
       if (isDownloading) {
@@ -671,6 +687,17 @@ const ContextMenuContainer = ({
     });
     closeMenu();
   });
+
+  const handleCopyMediaFile = useLastCallback(() => {
+    if (!targetMediaMessage) return;
+    const media = selectContextDownloadableMedia(getGlobal(), targetMediaMessage, targetMediaType);
+    if (!media) return;
+    downloadMedia({ media, originMessage: targetMediaMessage, copyToClipboard: true });
+    closeMenu();
+  });
+
+  const canUseTargetMedia = targetMediaMessage && !targetMediaMessage.isEphemeral
+    && !selectIsMessageProtected(getGlobal(), targetMediaMessage);
 
   const handleSaveGif = useLastCallback(() => {
     const video = getMessageVideo(message);
@@ -821,7 +848,9 @@ const ContextMenuContainer = ({
         canCopy={canCopy}
         canCopyLink={canCopyLink}
         canSelect={canSelect}
-        canDownload={canDownload}
+        canDownload={canDownload && (!targetMediaMessage || canUseTargetMedia)}
+        targetImageMessage={targetMediaMessage && (canUseTargetMedia && targetMediaType === 'photo'
+          ? targetMediaMessage : false)}
         canSaveGif={canSaveGif}
         canManageMusicInProfile={canManageMusicInProfile}
         isMusicProfileStatusLoaded={isMusicProfileStatusLoaded}
@@ -865,6 +894,7 @@ const ContextMenuContainer = ({
         onCopyMessages={handleCopyMessages}
         onCopyNumber={handleCopyNumber}
         onDownload={handleDownloadClick}
+        onCopyMediaFile={canDownload && canUseTargetMedia && IS_TAURI && IS_WINDOWS ? handleCopyMediaFile : undefined}
         onSaveGif={handleSaveGif}
         onToggleMusicInProfile={handleToggleMusicInProfile}
         onCancelVote={handleCancelVote}
@@ -901,6 +931,15 @@ const ContextMenuContainer = ({
     </div>
   );
 };
+
+function selectContextDownloadableMedia(global: GlobalState, message: ApiMessage, type?: OwnProps['targetMediaType']) {
+  if (!type) return selectMessageDownloadableMedia(global, message);
+
+  const webPage = selectWebPageFromMessage(global, message);
+  return type === 'video'
+    ? getMessageVideo(message) || getMessageDocumentVideo(message) || getWebPageVideo(webPage)
+    : getMessagePhoto(message) || getMessageDocumentPhoto(message) || getWebPagePhoto(webPage);
+}
 
 export default memo(withGlobal<OwnProps>(
   (global, { message, messageListType, detectedLanguage, threadId }): Complete<StateProps> => {

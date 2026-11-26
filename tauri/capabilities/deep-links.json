@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-deep-links",
+  "description": "Read pending Telegram links in the bundled main window",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["allow-relay-take-deep-links"]
+}

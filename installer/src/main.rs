@@ -1,4 +1,4 @@
-//! Sennit Setup: фирменный установщик Sennit by Egoist.
+//! Установка Бересты: фирменный установщик Бересты.
 //!
 //! Self-extracting оболочка: exe + payload (готовый NSIS-установщик Tauri) + хвост (см. `tail.rs`).
 //! Окно — tao + wry (WebView2), без стандартных окон NSIS. Установку выполняет проверенный
@@ -37,9 +37,14 @@ struct Args {
     theme: Option<String>,
     exit_after: Option<u64>,
     launch: Option<bool>,
+    /// `--wait-app=<сек>`: в тихом режиме ждать закрытия работающей Бересты (0 — не ждать).
+    wait_app: u64,
     autostart: bool,
     unknown: Vec<String>,
 }
+
+/// Предел `--wait-app`: дольше ждать установщику незачем.
+const MAX_WAIT_APP_SECS: u64 = 600;
 
 fn parse_args<I: IntoIterator<Item = String>>(iter: I) -> Args {
     let mut a = Args::default();
@@ -57,6 +62,12 @@ fn parse_args<I: IntoIterator<Item = String>>(iter: I) -> Args {
                     a.demo = Some(v.to_string());
                 } else if let Some(v) = lower.strip_prefix("--theme=") {
                     a.theme = Some(v.to_string());
+                } else if let Some(v) = lower.strip_prefix("--wait-app=") {
+                    // Без числа ключ считается неизвестным, а не молча нулевым.
+                    match v.parse::<u64>() {
+                        Ok(n) => a.wait_app = n.min(MAX_WAIT_APP_SECS),
+                        Err(_) => a.unknown.push(raw),
+                    }
                 } else if let Some(v) = lower.strip_prefix("--exit-after=") {
                     a.exit_after = v.parse().ok();
                 } else {
@@ -95,7 +106,7 @@ impl Sink for ConsoleSink {
                     None
                 }
             }
-            "need_close" => Some("Закройте Sennit через значок в трее".to_string()),
+            "need_close" => Some("Закройте Бересту через значок в трее".to_string()),
             _ => None,
         };
         if let Some(l) = line {
@@ -128,7 +139,7 @@ fn real_main() -> i32 {
     if args.verify {
         return match engine::verify_only(&exe_path) {
             Ok((t, true)) => {
-                say(&format!("OK: Sennit {} payload {} байт, SHA-256 {}", t.meta.version, t.payload_len, tail::hex(&t.payload_sha256)));
+                say(&format!("OK: Береста {} payload {} байт, SHA-256 {}", t.meta.version, t.payload_len, tail::hex(&t.payload_sha256)));
                 0
             }
             Ok((_, false)) => {
@@ -144,7 +155,7 @@ fn real_main() -> i32 {
 
     if args.demo.is_none() && !win::acquire_single_instance("Local\\SennitSetup-2c9d6b1e-7f34-4d1a-9a52-1e0c1b7d51aa") {
         if !args.silent {
-            win::info_box("Sennit Setup", "Установщик Sennit уже запущен.");
+            win::info_box("Установка Бересты", "Установщик Бересты уже запущен.");
         }
         return 3;
     }
@@ -156,7 +167,7 @@ fn real_main() -> i32 {
         Err(_) => env!("CARGO_PKG_VERSION").to_string(),
     };
     let log = Arc::new(util::Log::create(&temp, &version));
-    log.line(&format!("запуск Sennit Setup {} ({}), аргументы: {:?}", env!("CARGO_PKG_VERSION"), exe_path.display(), std::env::args().skip(1).collect::<Vec<_>>()));
+    log.line(&format!("запуск установщика Бересты {} ({}), аргументы: {:?}", env!("CARGO_PKG_VERSION"), exe_path.display(), std::env::args().skip(1).collect::<Vec<_>>()));
     if !args.unknown.is_empty() {
         log.line(&format!("неизвестные аргументы проигнорированы: {:?}", args.unknown));
     }
@@ -194,7 +205,7 @@ fn real_main() -> i32 {
             match tail_result {
                 Ok(t) => run_fallback(exe_path, t, log),
                 Err(_) => {
-                    win::info_box("Sennit Setup", "Не удалось открыть окно установщика (WebView2). Установите Microsoft Edge WebView2 Runtime и запустите установщик снова.");
+                    win::info_box("Установка Бересты", "Не удалось открыть окно установщика (WebView2). Установите Microsoft Edge WebView2 Runtime и запустите установщик снова.");
                     engine::EXIT_INTERNAL
                 }
             }
@@ -213,22 +224,62 @@ fn run_silent(args: &Args, exe_path: PathBuf, tail_result: Result<tail::Tail, ta
     };
     let sink: Arc<dyn Sink> = Arc::new(ConsoleSink { out: std::sync::Mutex::new(console), log: Arc::clone(&log), last_pct: std::sync::atomic::AtomicI64::new(-100) });
     let ctx = Context { exe_path, tail, sink, log: Arc::clone(&log), shared: Shared::new() };
-    let opts = Options { silent: true, launch_after: args.launch.unwrap_or(false), nsis_gui: false };
+    let opts = Options { silent: true, launch_after: args.launch.unwrap_or(false), nsis_gui: false, wait_app_secs: args.wait_app };
     let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| engine::run(&ctx, &opts)));
     match result {
         Ok(Ok(Outcome::Done { install_dir, version, .. })) => {
-            say(&format!("Готово: Sennit {version} установлен в {}", install_dir.display()));
+            say(&format!("Готово: Береста {version} установлена в {}", install_dir.display()));
             0
         }
         Ok(Ok(Outcome::Canceled)) => 1,
         Ok(Err(f)) => {
             log.line(&format!("ОШИБКА {}: {} — {}", f.code, f.title, f.message));
             say(&format!("ОШИБКА {}: {}. {} {}", f.code, f.title, f.message, f.hint));
+            // Автообновление закрыло Бересту ради установки: при сбое поднимаем прежнюю, код ошибки сохраняем.
+            restore_old_app(opts.wait_app_secs, opts.launch_after, &engine::existing_install(), &win::is_exe_running, &engine::launch_app, &|m| log.line(m));
             f.exit
         }
         Err(_) => {
             log.line("ОШИБКА: внутренний сбой (panic)");
             engine::EXIT_INTERNAL
+        }
+    }
+}
+
+/// После неудачной тихой установки запускает уже установленную Бересту. Только если установщик ждал закрытия
+/// приложения (`wait_app_secs > 0`, то есть его запустило автообновление) и просили запуск (`launch_after`);
+/// уже работающую копию не дублирует. Возвращает, запускали ли.
+fn restore_old_app(
+    wait_app_secs: u64,
+    launch_after: bool,
+    existing: &engine::Existing,
+    running: &dyn Fn(&std::path::Path) -> bool,
+    launch: &dyn Fn(&std::path::Path, &std::path::Path) -> std::io::Result<()>,
+    log: &dyn Fn(&str),
+) -> bool {
+    if wait_app_secs == 0 || !launch_after {
+        return false;
+    }
+    let Some(dir) = &existing.dir else {
+        log("сбой установки: прежняя установка не найдена, запускать нечего");
+        return false;
+    };
+    let exe = dir.join(engine::MAIN_EXE);
+    if !exe.is_file() {
+        log("сбой установки: прежний exe Бересты не найден, запускать нечего");
+        return false;
+    }
+    if running(&exe) {
+        return false;
+    }
+    match launch(&exe, dir) {
+        Ok(()) => {
+            log("сбой установки: прежняя Береста запущена снова");
+            true
+        }
+        Err(e) => {
+            log(&format!("сбой установки: не удалось запустить прежнюю Бересту: {e}"));
+            false
         }
     }
 }
@@ -240,12 +291,12 @@ fn run_fallback(exe_path: PathBuf, t: tail::Tail, log: Arc<util::Log>) -> i32 {
         fn emit(&self, _e: Value) {}
     }
     let ctx = Context { exe_path, tail: t, sink: Arc::new(Quiet), log: Arc::clone(&log), shared: Shared::new() };
-    let opts = Options { silent: false, launch_after: false, nsis_gui: true };
+    let opts = Options { silent: false, launch_after: false, nsis_gui: true, wait_app_secs: 0 };
     match engine::run(&ctx, &opts) {
         Ok(_) => 0,
         Err(f) => {
             log.line(&format!("ОШИБКА {}: {} — {}", f.code, f.title, f.message));
-            win::info_box("Sennit Setup", &format!("{}\n\n{}\n\n{}", f.title, f.message, f.hint));
+            win::info_box("Установка Бересты", &format!("{}\n\n{}\n\n{}", f.title, f.message, f.hint));
             f.exit
         }
     }
@@ -265,6 +316,53 @@ mod tests {
             assert!(p(&[a]).silent, "{a}");
         }
         assert!(!p(&[]).silent);
+    }
+
+    #[test]
+    fn wait_app_parsing() {
+        assert_eq!(p(&[]).wait_app, 0);
+        assert_eq!(p(&["--silent", "--wait-app=120"]).wait_app, 120);
+        assert_eq!(p(&["--WAIT-APP=5"]).wait_app, 5);
+        assert_eq!(p(&["--wait-app=99999"]).wait_app, MAX_WAIT_APP_SECS);
+        for bad in ["--wait-app=", "--wait-app=abc", "--wait-app=-1"] {
+            let a = p(&[bad]);
+            assert_eq!(a.wait_app, 0, "{bad}");
+            assert_eq!(a.unknown, vec![bad.to_string()], "{bad}");
+        }
+        let a = p(&["--silent", "--launch", "--wait-app=120"]);
+        assert!(a.silent && a.launch == Some(true) && a.unknown.is_empty());
+    }
+
+    #[test]
+    fn failed_silent_install_relaunches_old_app() {
+        use std::cell::{Cell, RefCell};
+        let dir = std::env::temp_dir().join(format!("egoist-relay-restore-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join(engine::MAIN_EXE), b"x").unwrap();
+        let existing = engine::Existing { dir: Some(dir.clone()), version: Some("1.0.0".into()) };
+        let launched = RefCell::new(Vec::new());
+        let launch = |exe: &std::path::Path, d: &std::path::Path| {
+            launched.borrow_mut().push((exe.to_path_buf(), d.to_path_buf()));
+            Ok(())
+        };
+        let nolog = |_: &str| {};
+        // Автообновление (--wait-app=120 --launch): прежняя Береста запускается.
+        assert!(restore_old_app(120, true, &existing, &|_| false, &launch, &nolog));
+        assert_eq!(launched.borrow().len(), 1);
+        assert_eq!(launched.borrow()[0], (dir.join(engine::MAIN_EXE), dir.clone()));
+        // Ручной тихий запуск без ожидания или без --launch: ничего не запускаем.
+        assert!(!restore_old_app(0, true, &existing, &|_| false, &launch, &nolog));
+        assert!(!restore_old_app(120, false, &existing, &|_| false, &launch, &nolog));
+        // Береста уже работает: дубль не нужен.
+        assert!(!restore_old_app(120, true, &existing, &|_| true, &launch, &nolog));
+        // Нет прежней установки или exe.
+        assert!(!restore_old_app(120, true, &engine::Existing::default(), &|_| false, &launch, &nolog));
+        let gone = Cell::new(false);
+        std::fs::remove_file(dir.join(engine::MAIN_EXE)).unwrap();
+        gone.set(!restore_old_app(120, true, &existing, &|_| false, &launch, &nolog));
+        assert!(gone.get());
+        assert_eq!(launched.borrow().len(), 1);
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]

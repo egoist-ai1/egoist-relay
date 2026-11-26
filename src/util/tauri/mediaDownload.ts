@@ -37,10 +37,14 @@ export async function normalizeNativeDownloadFileName(fileName: string): Promise
   return invoke<string>('relay_media_download_file_name', { fileName });
 }
 
-export async function prepareNativeMediaDownload(url: string, fileName: string): Promise<NativeMediaDownload> {
+export async function prepareNativeMediaDownload(
+  url: string, fileName: string, sourceUrl?: string,
+): Promise<NativeMediaDownload> {
   await ensureListeners();
   const { invoke } = await import('@tauri-apps/api/core');
-  const id = await invoke<string>('relay_media_download_prepare', { url, fileName });
+  const id = await invoke<string>('relay_media_download_prepare', {
+    url, fileName, ...(sourceUrl ? { sourceUrl } : {}),
+  });
   const completed = new Promise<NativeMediaDownloadResult>((resolve) => {
     const startTimer = setTimeout(() => {
       void invoke('relay_media_operation_action', { action: { type: 'cancel', id } }).catch(() => undefined);

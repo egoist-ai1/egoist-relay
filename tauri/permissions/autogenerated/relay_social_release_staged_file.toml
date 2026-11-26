@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-social-release-staged-file"
+description = "Enables the relay_social_release_staged_file command without any pre-configured scope."
+commands.allow = ["relay_social_release_staged_file"]
+
+[[permission]]
+identifier = "deny-relay-social-release-staged-file"
+description = "Denies the relay_social_release_staged_file command without any pre-configured scope."
+commands.deny = ["relay_social_release_staged_file"]

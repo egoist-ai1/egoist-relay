@@ -24,6 +24,7 @@ type OwnProps = {
   isOnlyConfirm?: boolean;
   areButtonsInColumn?: boolean;
   className?: string;
+  portalContainerSelector?: string;
   children?: React.ReactNode;
   confirmHandler: NoneToVoidFunction;
   onClose: NoneToVoidFunction;
@@ -43,6 +44,7 @@ const ConfirmDialog: FC<OwnProps> = ({
   isOnlyConfirm,
   areButtonsInColumn,
   className,
+  portalContainerSelector,
   children,
   confirmHandler,
   onClose,
@@ -70,6 +72,7 @@ const ConfirmDialog: FC<OwnProps> = ({
       onClose={onClose}
       isNativeDialog
       onCloseAnimationEnd={onCloseAnimationEnd}
+      portalContainerSelector={portalContainerSelector}
       noTitleAutoFocus
     >
       {text && text.split('\\n').map((textPart) => (

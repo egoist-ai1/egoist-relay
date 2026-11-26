@@ -42,6 +42,7 @@ export async function doAuthentication(
   log: any,
   dcId: number,
   isTestServer?: boolean,
+  serverKeys: ReadonlyMap<bigint, { n: bigint; e: number }> = SERVER_KEYS,
 ) {
   // Step 1 sending: PQ Request, endianness doesn't matter since it's random
   let bytes = generateRandomBytes(16);
@@ -72,7 +73,7 @@ export async function doAuthentication(
   let targetFingerprint;
   let targetKey;
   for (const fingerprint of resPQ.serverPublicKeyFingerprints) {
-    targetKey = SERVER_KEYS.get(fingerprint);
+    targetKey = serverKeys.get(fingerprint);
     if (targetKey !== undefined) {
       targetFingerprint = fingerprint;
       break;

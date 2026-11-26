@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-telegram-download-queue",
+  "description": "Telegram download recovery for the bundled main view",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["allow-relay-telegram-download-queue"]
+}

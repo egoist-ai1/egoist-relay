@@ -32,7 +32,6 @@ export interface ApiInitialArgs {
   isTestServerRequested?: boolean;
   accountIds?: string[];
   hasPasskeySupport?: boolean;
-  telegramTransportUrl?: string;
 }
 
 export type ApiPasskeyOption = {
@@ -56,6 +55,7 @@ export interface ApiAttachment {
   blob?: Blob;
   blobUrl: string;
   compressedBlobUrl?: string;
+  uploadResumeKey?: string;
   filename: string;
   mimeType: string;
   size: number;

@@ -33,6 +33,8 @@ let browser;
 let page;
 const panel = () => page.locator('#relay-media-operations');
 const row = (id) => page.locator(`[data-operation-id="${id}"]`);
+const detailsToggle = (id) => row(id).locator('[data-operation-details-toggle]');
+const expandedToggle = (id) => row(id).locator('[data-operation-details-toggle][aria-expanded="true"]');
 const settle = async () => { await page.waitForTimeout(180); await page.evaluate(() => document.fonts.ready); };
 function operation(patch = {}) {
   const now = Date.now();
@@ -52,6 +54,10 @@ async function seed(operations, isLocked = false) {
 async function openPanel() {
   if (!await panel().count()) await page.keyboard.press('Control+j');
   await panel().waitFor({ state: 'visible' }); await settle();
+}
+async function expandDetails(id) {
+  await detailsToggle(id).click();
+  await expandedToggle(id).waitFor();
 }
 async function closePanel() {
   if (!await panel().count()) return;
@@ -94,6 +100,7 @@ async function metrics() {
     const rect = (element) => { const { x, y, width, height, right, bottom } = element.getBoundingClientRect();
       return { x, y, width, height, right, bottom }; };
     const content = scope.querySelector('#relay-operations-list');
+    const footer = scope.querySelector('footer');
     const controls = [...scope.querySelectorAll('button')].map((element) => {
       const box = rect(element); let clippedX = false;
       for (let parent = element.parentElement; parent; parent = parent.parentElement) {
@@ -110,7 +117,7 @@ async function metrics() {
       direction: getComputedStyle(scope).direction, animation: getComputedStyle(scope).animationName,
       horizontalOverflow: scope.scrollWidth > scope.clientWidth + 1, controls,
       content: { rect: rect(content), scrollHeight: content.scrollHeight, clientHeight: content.clientHeight },
-      header: rect(scope.querySelector('header')), footer: rect(scope.querySelector('footer')) };
+      header: rect(scope.querySelector('header')), footer: footer ? rect(footer) : undefined };
   });
 }
 function requireGeometry(geometry) {
@@ -118,7 +125,9 @@ function requireGeometry(geometry) {
   assert.deepEqual(geometry.controls.filter((control) => control.visible && control.clippedX).map((value) => value.name),
     [], 'Visible controls are clipped horizontally');
   assert(geometry.header.y >= 0 && geometry.header.bottom <= geometry.viewport.height + 1, 'Header outside viewport');
-  assert(geometry.footer.y >= 0 && geometry.footer.bottom <= geometry.viewport.height + 1, 'Footer outside viewport');
+  if (geometry.footer) {
+    assert(geometry.footer.y >= 0 && geometry.footer.bottom <= geometry.viewport.height + 1, 'Footer outside viewport');
+  }
   assert(geometry.content.clientHeight > 0, 'Content has no scrollable height');
 }
 async function caseRun(id, action) {
@@ -126,7 +135,10 @@ async function caseRun(id, action) {
   const errorsStart = report.errors.length;
   try {
     await reset();
+    const unhandledStart = await page.evaluate(() => window.__relayUnhandled.length);
     const detail = await action();
+    assert.deepEqual(await page.evaluate((from) => window.__relayUnhandled.slice(from), unhandledStart), [],
+      'The scenario must finish without unhandled rejections');
     report.cases.push({ id, status: 'pass', detail, screenshot: await capture(id),
       pageErrors: report.errors.slice(errorsStart) });
     console.log(`PASS ${id}`);
@@ -211,10 +223,68 @@ try {
     assert.match(await row(unknown.id).innerText(), /Определяем источник|Resolving/i);
     return { known: known.id, unknown: unknown.id, geometry: await metrics() };
   });
+  await caseRun('compact-operations-500-history-5-active', async () => {
+    const now = Date.now();
+    const mostRecent = operation({ stage: 'completed', service: 'x', updatedAt: now,
+      files: [savedFile({ fileName: 'Загруженное видео.mp4' })] });
+    const history = [mostRecent, ...Array.from({ length: 499 }, (_, index) => operation({
+      stage: 'completed', service: index % 2 ? 'instagram' : 'telegram', updatedAt: now - index - 1,
+      fileName: `История загрузок ${index}.mp4`,
+    }))];
+    const active = Array.from({ length: 5 }, (_, index) => operation({
+      service: index % 2 ? 'instagram' : 'telegram', fileName: `Активное видео ${index}.mp4`,
+      progress: { loaded: 15 + index, total: 100 },
+    }));
+    await seed([...history, ...active]);
+    await openPanel();
+    const currentRows = await panel().locator('[data-operation-id]').count();
+    assert.equal(currentRows, 5);
+    assert.equal(await panel().locator('footer').count(), 0);
+    const renderWindowMs = await page.evaluate(async () => {
+      const before = performance.now();
+      document.querySelector('#relay-operations-history').click();
+      const deadline = before + 2000;
+      while (document.querySelectorAll('[data-operation-id]').length !== 50 && performance.now() < deadline) {
+        await new Promise(requestAnimationFrame);
+      }
+      return Math.round((performance.now() - before) * 10) / 10;
+    });
+    const historyRows = await panel().locator('[data-operation-id]').count();
+    assert.equal(historyRows, 50, 'A large history mounts its first page only');
+    assert.equal(await row(mostRecent.id).locator('h3').innerText(), 'Загруженное видео.mp4');
+    assert.equal((await row(mostRecent.id).innerText()).match(/Загруженное видео\.mp4/g)?.length, 1);
+    assert.match(await row(mostRecent.id).innerText(), /X/);
+    assert.equal(await row(mostRecent.id).getByRole('button', { name: /Показать в папке|Show in folder/i }).count(), 0);
+    await detailsToggle(mostRecent.id).focus();
+    await page.keyboard.press('Enter');
+    await expandedToggle(mostRecent.id).waitFor();
+    assert.equal(await row(mostRecent.id).getByRole('button', { name: /Показать в папке|Show in folder/i }).count(), 1);
+    assert.equal(await detailsToggle(mostRecent.id).evaluate((element) => element === document.activeElement), true);
+    requireGeometry(await metrics());
+    await panel().getByRole('button', { name: /Показать ещё|Show more/i }).click();
+    await panel().locator('[data-operation-id]').nth(99).waitFor();
+    const moreHistoryRows = await panel().locator('[data-operation-id]').count();
+    assert.equal(moreHistoryRows, 100);
+    return { entries: history.length + active.length, currentRows, historyRows, moreHistoryRows, renderWindowMs };
+  });
+  await caseRun('transfer-rate-estimate-resets-on-retry', async () => {
+    const mebibyte = 1024 * 1024;
+    const current = operation({ progress: { loaded: mebibyte, total: 20 * mebibyte } });
+    await seed([current]); await openPanel();
+    assert.doesNotMatch(await row(current.id).innerText(), /Осталось|left/i);
+    for (const part of [2, 3]) {
+      await page.waitForTimeout(600);
+      await seed([{ ...current, revision: part, progress: { loaded: part * mebibyte, total: 20 * mebibyte } }]);
+    }
+    assert.match(await row(current.id).innerText(), /Осталось|left/i);
+    await seed([{ ...current, attempt: 2, progress: { loaded: 0, total: 20 * mebibyte } }]);
+    assert.doesNotMatch(await row(current.id).innerText(), /Осталось|left/i);
+  });
   await caseRun('saved-visible-format-size-dimensions', async () => {
     const completed = operation({ stage: 'completed', files: [savedFile({ fileName: 'Видео без расширения' })] });
-    await seed([completed]); await openPanel(); const text = await row(completed.id).innerText();
-    assert.match(text, /1\.5 MiB/); assert.match(text, /1280\s*×\s*720/);
+    await seed([completed]); await openPanel(); await expandDetails(completed.id);
+    const text = await row(completed.id).innerText();
+    assert.match(text, /1[.,]5\s+(?:MiB|МиБ|МБ)/); assert.match(text, /1280\s*×\s*720/);
     assert.match(text, /MP4|video\/mp4/i, 'Saved media format must be visible even for a file without an extension');
     return { operationId: completed.id, text, geometry: await metrics() };
   });
@@ -223,8 +293,9 @@ try {
       sourceUrl: 'https://www.instagram.com/p/RelayAudit/',
       send: { accountId: '1', peerId: '101', recipientName: 'Локальный тестовый чат', confirmed: 0, total: 2 },
       media: [{ fileName: 'Подготовленное видео', mimeType: 'video/mp4', size: 1572864, width: 1280, height: 720 }] });
-    await seed([prepared]); await openPanel(); const text = await row(prepared.id).innerText();
-    assert.match(text, /Готовим вложения|Preparing/i); assert.match(text, /1\.5 MiB/);
+    await seed([prepared]); await openPanel(); await expandDetails(prepared.id);
+    const text = await row(prepared.id).innerText();
+    assert.match(text, /Готовим вложения|Preparing/i); assert.match(text, /1[.,]5\s+(?:MiB|МиБ|МБ)/);
     assert.match(text, /video\/mp4/); assert.match(text, /1280\s*×\s*720/);
     assert.match(text, /Подтверждено\s*0\s*\/\s*2|Confirmed/i);
     assert.equal(await row(prepared.id).locator('progress').count(), 0);
@@ -236,6 +307,7 @@ try {
     const completed = operation({ stage: 'completed', files: [savedFile()] });
     await seed([completed]); await openPanel();
     await row(completed.id).getByRole('button', { name: /Открыть файл|Open file/i }).click(); await settle();
+    await expandDetails(completed.id);
     await row(completed.id).getByRole('button', { name: /Показать в папке|Show in folder/i }).click(); await settle();
     const actions = await page.evaluate(() => window.__relayNativeMock.media.fileActions.slice(-2));
     assert.deepEqual(actions.map(({ type, id, index }) => ({ type, id, index })),
@@ -287,6 +359,7 @@ try {
   await caseRun('history-clear-keeps-files-no-late-resurrection', async () => {
     const current = operation(); const previous = operation({ stage: 'completed', files: [savedFile()] });
     await seed([current, previous]); await openPanel(); await page.locator('#relay-operations-history').click();
+    await panel().locator('footer button[aria-controls="relay-operation-history-actions"]').click();
     await panel().getByRole('button', { name: /Очистить историю|Clear history/i }).click(); await settle();
     assert.equal(await row(previous.id).count(), 1); assert.match(await panel().innerText(), /файлы остаются|files remain/i);
     await panel().getByRole('button', { name: /Очистить записи|Clear records/i }).click(); await settle();
@@ -309,16 +382,16 @@ try {
     assert.equal(await row(current.id).locator('progress').getAttribute('value'), '70');
     return { operationId: current.id, nativeApp: await page.evaluate(() => window.__relayNativeMock.currentApp), geometry: await metrics() };
   });
-  await caseRun('full-panel-sidebar-switch-content-order', async () => {
+  await caseRun('full-panel-sidebar-switch-restores-workspace', async () => {
     const current = operation(); await page.setViewportSize({ width: 800, height: 560 }); await settle();
     await seed([current]); await openPanel();
     assert.equal(await page.evaluate(() => window.__relayNativeMock.contentVisible), false);
     const start = await page.evaluate(() => window.__relayNativeMock.calls.length);
     await selectApp('x'); assert.equal(await panel().count(), 0);
+    await page.waitForFunction(() => window.__relayNativeMock.currentApp === 'x' && window.__relayNativeMock.contentVisible);
     const calls = await page.evaluate((start) => window.__relayNativeMock.calls.slice(start), start);
-    assert.equal(await page.evaluate(() => window.__relayNativeMock.currentApp), 'x', 'Sidebar selection must activate native service');
-    assert.equal(calls.find((value) => value.command === 'multi_set_active_app')?.contentVisible, true,
-      'Content visibility must be restored before native activation');
+    assert.equal(calls.find((value) => value.command === 'multi_set_active_app')?.args.app, 'x');
+    assert(calls.some((value) => value.command === 'multi_set_content_visible' && value.args.visible));
     return { operationId: current.id, calls };
   });
   await caseRun('full-panel-check-chat-content-order', async () => {
@@ -328,6 +401,7 @@ try {
       send: { accountId: '1', peerId: '101', recipientName: 'Локальный тестовый чат', confirmed: 1, total: 2 } });
     await seed([uncertain]); await openPanel();
     assert.match(await row(uncertain.id).innerText(), /Исход неизвестен|unknown/i);
+    await expandDetails(uncertain.id);
     assert.match(await row(uncertain.id).innerText(), /Подтверждено\s*1\s*\/\s*2|Confirmed/i);
     assert.equal(await row(uncertain.id).getByRole('button', { name: /Повторить|Retry/i }).count(), 0);
     const start = await page.evaluate(() => window.__relayNativeMock.calls.length);
@@ -356,8 +430,8 @@ try {
     const current = operation({ fileName: 'اسم الملف ' + 'Очень_длинное_имя_'.repeat(20) });
     const previous = operation({ stage: 'completed' }); await seed([current, previous]); await openPanel();
     await page.locator('#relay-operations-current').focus(); await page.keyboard.press('End'); await settle();
-    assert.equal(await page.locator('#relay-operations-history').getAttribute('aria-selected'), 'true');
-    assert.equal(await page.evaluate(() => document.activeElement.id), 'relay-operations-history');
+    assert.equal(await page.locator('#relay-operations-saved').getAttribute('aria-selected'), 'true');
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'relay-operations-saved');
     await page.keyboard.press('Home'); await settle(); assert.equal(await page.locator('#relay-operations-current').getAttribute('aria-selected'), 'true');
     await page.evaluate(() => { document.documentElement.dir = 'rtl'; }); await settle();
     const geometry = await metrics(); requireGeometry(geometry); assert.equal(geometry.direction, 'rtl');
@@ -377,10 +451,11 @@ try {
     assert(Math.abs(geometry.surface.width - geometry.workspace.width) < 1.5);
     await page.waitForTimeout(600);
     const calls = await page.evaluate((start) => window.__relayNativeMock.calls.slice(start), start);
-    const bounds = calls.filter((value) => value.command === 'multi_update_x_bounds');
-    assert(bounds.length >= 1, 'Social WebView bounds callback is exercised');
-    assert(bounds.length <= 4, 'Native bounds must not update on every animation frame');
-    return { geometry, nativeBoundsCalls: bounds.length, calls };
+    const updates = calls.filter((value) => value.command === 'multi_set_content_visible');
+    assert.equal(updates.length, 1, 'Opening the full operations panel sends one native visibility update');
+    assert.equal(updates[0].args.visible, false, 'A full panel hides the social WebView');
+    assert.equal(await page.evaluate(() => window.__relayNativeMock.contentVisible), false);
+    return { geometry, nativeVisibilityUpdates: updates.length, calls };
   });
 
   await caseRun('full-panel-hidden-profile-keyboard-restoration', async () => {
@@ -446,5 +521,5 @@ try {
   await writeFile(path.join(evidenceOutput, `operations-ui-audit-${runId}.md`), markdown.join('\n'));
   console.log(JSON.stringify({ report: path.join(evidenceOutput, reportName), ...report.summary, fatal: report.fatal?.error,
     sourcesChangedDuringRun: report.sourcesChangedDuringRun }));
-  if (report.fatal || report.summary.failed) process.exitCode = 1;
+  if (report.fatal || report.summary.failed || report.unhandled?.length) process.exitCode = 1;
 }

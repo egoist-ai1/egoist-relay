@@ -1,0 +1,7 @@
+{
+  "identifier": "mcp-setup",
+  "description": "Read the bundled MCP launch paths from the local main window",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["allow-relay-mcp-launch-config"]
+}

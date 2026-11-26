@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-mcp-launch-config"
+description = "Enables the relay_mcp_launch_config command without any pre-configured scope."
+commands.allow = ["relay_mcp_launch_config"]
+
+[[permission]]
+identifier = "deny-relay-mcp-launch-config"
+description = "Denies the relay_mcp_launch_config command without any pre-configured scope."
+commands.deny = ["relay_mcp_launch_config"]

@@ -1,8 +1,8 @@
 [package]
-name = "sennit-setup"
-version = "1.7.1"
+name = "beresta-setup"
+version = "1.11.11"
 edition = "2021"
-description = "Sennit by Egoist: фирменный установщик (оболочка вокруг NSIS-установщика Tauri)"
+description = "Береста: фирменный установщик (оболочка вокруг NSIS-установщика Tauri)"
 license = "GPL-3.0-only"
 publish = false
 
@@ -10,7 +10,7 @@ publish = false
 [workspace]
 
 [[bin]]
-name = "Sennit-Setup"
+name = "Beresta-Setup"
 path = "src/main.rs"
 
 [dependencies]
@@ -24,6 +24,7 @@ windows-sys = { version = "0.61.2", features = [
   "Win32_Foundation",
   "Win32_Security",
   "Win32_Security_Authorization",
+  "Win32_Security_Cryptography",
   "Win32_Storage_FileSystem",
   "Win32_System_Console",
   "Win32_System_Diagnostics_ToolHelp",

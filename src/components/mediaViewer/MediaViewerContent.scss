@@ -26,13 +26,6 @@
     }
   }
 
-  > img {
-    max-width: 100vw;
-    max-height: calc(100vh - 8.25rem);
-    object-fit: contain;
-    transition: transform 0.2s;
-  }
-
   .spinner-wrapper {
     max-width: 100vw;
     margin: auto;
@@ -45,4 +38,48 @@
   img, video {
     dynamic-range-limit: no-limit;
   }
+}
+
+.MediaViewerPhoto {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  > .MediaViewerRetry {
+    position: absolute;
+    inset-block-end: 0.5rem;
+    inset-inline: 0.5rem;
+
+    width: fit-content;
+    margin-inline: auto;
+  }
+}
+
+.MediaViewerPhotoImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.MediaViewerRetry {
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+
+  max-width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+
+  text-align: center;
+
+  background: rgba(0, 0, 0, 0.8);
 }

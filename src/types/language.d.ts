@@ -2368,6 +2368,7 @@ export interface LangPair {
   'RelayTgConnecting': undefined;
   'RelayTgSlowConnection': undefined;
   'RelayRetry': undefined;
+  'RelayMediaLoadFailed': undefined;
   'RelayMinimize': undefined;
   'RelayMaximize': undefined;
   'RelayRestore': undefined;
@@ -2375,14 +2376,26 @@ export interface LangPair {
   'RelayLoginShort': undefined;
   'RelayEmptyChatTitle': undefined;
   'RelayEmptyChatNote': undefined;
+  'RelayEmptyChatHint': undefined;
   'RelayXDirectLoginTitle': undefined;
   'RelayXDirectLoginHelp': undefined;
+  'RelayBrowserLogin': undefined;
+  'RelayOpenServiceInBrowser': undefined;
+  'RelayBrowserLoginFailed': undefined;
+  'RelayBrowserLoginHelp': undefined;
+  'RelayInstagramDirectLogin': undefined;
+  'RelayInstagramDirectLoginTitle': undefined;
+  'RelayInstagramDirectLoginHelp': undefined;
   'RelayXPasswordHelp': undefined;
   'RelaySwitchInstagram': undefined;
   'RelayInstagramTitle': undefined;
   'RelayInstagramLoadingTitle': undefined;
   'RelayInstagramLoadingText': undefined;
   'RelayInstagramErrorTitle': undefined;
+  'RelayServiceSleeping': undefined;
+  'RelayServicesTitle': undefined;
+  'RelayShowX': undefined;
+  'RelayShowInstagram': undefined;
   'RelayInstagramErrorText': undefined;
   'RelayNavBack': undefined;
   'RelayNavForward': undefined;
@@ -2466,6 +2479,14 @@ export interface LangPair {
   'RelayShareMediaAuth': undefined;
   'RelayMediaDiskFull': undefined;
   'RelayOperationTitle': undefined;
+  'RelayCacheClear': undefined;
+  'RelayCacheClearing': undefined;
+  'RelayCacheConfirm': undefined;
+  'RelayCacheDescription': undefined;
+  'RelayCacheCleared': undefined;
+  'RelayCacheDeferred': undefined;
+  'RelayCachePartial': undefined;
+  'RelayCacheFailed': undefined;
   'RelayOperationCurrent': undefined;
   'RelayOperationHistory': undefined;
   'RelayOperationClose': undefined;
@@ -2475,6 +2496,29 @@ export interface LangPair {
   'RelayOperationLocked': undefined;
   'RelayOperationPrivacy': undefined;
   'RelayOperationClear': undefined;
+  'RelayLibraryTitle': undefined;
+  'RelayLibrarySearch': undefined;
+  'RelayLibraryService': undefined;
+  'RelayLibraryAllServices': undefined;
+  'RelayLibraryType': undefined;
+  'RelayLibraryAllTypes': undefined;
+  'RelayLibraryPhotos': undefined;
+  'RelayLibraryVideos': undefined;
+  'RelayLibraryAudio': undefined;
+  'RelayLibraryFiles': undefined;
+  'RelayLibraryLoading': undefined;
+  'RelayLibraryEmpty': undefined;
+  'RelayLibraryNoResults': undefined;
+  'RelayLibraryLocked': undefined;
+  'RelayLibraryError': undefined;
+  'RelayLibraryActionError': undefined;
+  'RelayLibraryRemove': undefined;
+  'RelayLibraryPrivacy': undefined;
+  'RelayLibraryRemoved': undefined;
+  'RelayLibraryLinks': undefined;
+  'RelayLibraryAddLink': undefined;
+  'RelayLibraryPostLink': undefined;
+  'RelayLibraryInvalidLink': undefined;
   'RelayOperationClearHelp': undefined;
   'RelayOperationClearConfirm': undefined;
   'RelayOperationQueued': undefined;
@@ -2539,6 +2583,16 @@ export interface LangPair {
   'RelayThemeDark': undefined;
   'RelayThemeLight': undefined;
   'RelayMiniAppLoadFailed': undefined;
+  'RelaySystemNotificationSoundHint': undefined;
+  'RelayMiniAppAccessFailed': undefined;
+  'RelayMiniAppCertificateFailed': undefined;
+  'RelayMiniAppNetworkFailed': undefined;
+  'RelayMiniAppProcessFailed': undefined;
+  'RelayMiniAppRedirectFailed': undefined;
+  'RelayMiniAppServerFailed': undefined;
+  'RelayMiniAppLoadTimedOut': undefined;
+  'RelayMiniAppLoadHint': undefined;
+  'RelayMiniAppPopupFailed': undefined;
   'RelaySessionLoggedIn': undefined;
   'RelaySessionLastActive': undefined;
   'RelaySessionLoginUnavailable': undefined;
@@ -2557,11 +2611,121 @@ export interface LangPair {
   'RelayClearDeletedMessagesText': undefined;
   'RelayClearDeletedMessagesConfirm': undefined;
   'RelayNetworkTitle': undefined;
-  'RelayRouteLagom': undefined;
-  'RelayRouteDirect': undefined;
-  'RelayRouteMs': undefined;
+  'RelayAppSettings': undefined;
+  'RelayAppSettingsDesc': undefined;
+  'RelayAppSettingsOpen': undefined;
+  'RelayNetStatus': undefined;
+  'RelayNetStateTunnel': undefined;
+  'RelayNetStateDnsOnly': undefined;
+  'RelayNetStateDown': undefined;
+  'RelayNetStateStarting': undefined;
+  'RelayNetStateRestart': undefined;
+  'RelayNetStateNotConfigured': undefined;
+  'RelayNetNode': undefined;
+  'RelayNetDns': undefined;
+  'RelayNetDnsFallback': undefined;
+  'RelayNetDnsDown': undefined;
+  'RelayNetDnsNone': undefined;
+  'RelayNetRouteTunnel': undefined;
+  'RelayNetRouteDirect': undefined;
+  'RelayNetRouteLocalProxy': undefined;
+  'RelayNetRouteUnavailable': undefined;
+  'RelayNetRouteDisabled': undefined;
+  'RelayNetRouteUnknown': undefined;
+  'RelayNetRailUnavailable': undefined;
+  'RelayNetRailDirect': undefined;
+  'RelayNetOpenSettings': undefined;
+  'RelayPlateNetTunnel': undefined;
+  'RelayPlateNetDnsOnly': undefined;
+  'RelayPlateNetDown': undefined;
+  'RelayPlateNetStarting': undefined;
+  'RelayPlateNetRestart': undefined;
+  'RelayPlateNetNone': undefined;
+  'RelayNetKey': undefined;
+  'RelayNetKeyEmbedded': undefined;
+  'RelayNetKeyOverride': undefined;
+  'RelayNetKeyNone': undefined;
+  'RelayNetResetEmbedded': undefined;
+  'RelayNetResetTitle': undefined;
+  'RelayNetResetText': undefined;
+  'RelayNetResetConfirm': undefined;
+  'RelayNetResetDone': undefined;
+  'RelayNetReplaceTitle': undefined;
+  'RelayNetVpnLabel': undefined;
+  'RelayNetVpnHint': undefined;
+  'RelayNetDohLabel': undefined;
+  'RelayNetMtproxyLabel': undefined;
+  'RelayNetApply': undefined;
+  'RelayNetApplying': undefined;
+  'RelayNetApplied': undefined;
+  'RelayNetRefreshSub': undefined;
+  'RelayNetRefreshing': undefined;
+  'RelayNetSubNever': undefined;
+  'RelayNetSubDone': undefined;
+  'RelayNetErrInvalidVpn': undefined;
+  'RelayNetErrInvalidDoh': undefined;
+  'RelayNetErrInvalidMtproxy': undefined;
+  'RelayNetErrProbeFailed': undefined;
+  'RelayNetErrApplyFailed': undefined;
+  'RelayNetErrSubscription': undefined;
+  'RelayNetErrRefreshBusy': undefined;
+  'RelayNetErrUnknown': undefined;
+  'RelayNetCopyDiagnostics': undefined;
+  'RelayNetDiagnosticsCopied': undefined;
+  'RelayNetDiagnosticsCopyFailed': undefined;
+  'RelayNetTelegramProxyTitle': undefined;
+  'RelayNetTelegramSocksPort': undefined;
+  'RelayNetTelegramSocksHint': undefined;
+  'RelayNetTelegramSocksInvalidPort': undefined;
+  'RelayNetTelegramSocksApplied': undefined;
+  'RelayNetTelegramSocksApply': undefined;
+  'RelayNetErrTelegramSocksUnavailable': undefined;
+  'RelayNetTelegramLocalProxyTitle': undefined;
+  'RelayNetTelegramLocalProxyHint': undefined;
+  'RelayNetTelegramLocalProxyRemove': undefined;
+  'RelayNetTelegramLocalProxyRemoved': undefined;
+  'RelayNetTelegramLocalProxyConfirmTitle': undefined;
+  'RelayNetTelegramLocalProxyConnect': undefined;
+  'RelayNetTelegramLocalProxyApplied': undefined;
+  'RelayNetErrTelegramLocalProxyUnavailable': undefined;
   'RelayWarmupSocial': undefined;
   'RelayWarmupSocialHint': undefined;
+  'RelayAppStartupTitle': undefined;
+  'RelayAppWarmupUnavailable': undefined;
+  'RelayMcpTitle': undefined;
+  'RelayMcpDescription': undefined;
+  'RelayMcpCopyConfig': undefined;
+  'RelayMcpConfigLabel': undefined;
+  'RelayMcpPreparing': undefined;
+  'RelayMcpCopied': undefined;
+  'RelayMcpCopyManual': undefined;
+  'RelayMcpUnavailable': undefined;
+  'RelayPaletteTitle': undefined;
+  'RelayPalettePlaceholder': undefined;
+  'RelayPaletteGroupActions': undefined;
+  'RelayPaletteGroupTelegram': undefined;
+  'RelayPaletteGroupSaved': undefined;
+  'RelayPaletteOpenOperations': undefined;
+  'RelayPaletteTelegramSettings': undefined;
+  'RelayPaletteAppearance': undefined;
+  'RelayPalettePerformance': undefined;
+  'RelayPaletteNoResults': undefined;
+  'RelayPaletteHint': undefined;
+  'RelayMediaActions': undefined;
+  'RelayMediaSave': undefined;
+  'RelayMediaCopyFile': undefined;
+  'RelayMediaFileCopied': undefined;
+  'RelayMediaCopyFileFailed': undefined;
+  'RelayWindowHideToTray': undefined;
+  'RelayServiceActions': undefined;
+  'RelayPrivacyDataSection': undefined;
+  'RelayPaletteCommandsPlaceholder': undefined;
+  'RelayPaletteNoCommands': undefined;
+  'RelayMiniAppBackToChat': undefined;
+  'RelayNoticeHistory': undefined;
+  'RelayNoticeHistoryEmpty': undefined;
+  'RelayOperationDetails': undefined;
+  'RelayOperationHideDetails': undefined;
 }
 
 export interface LangPairWithVariables<V = LangVariable> {
@@ -4336,6 +4500,12 @@ export interface LangPairWithVariables<V = LangVariable> {
   'RelayReaderSearchMatches': {
     'count': V;
   };
+  'RelayOperationSpeed': {
+    'speed': V;
+  };
+  'RelayOperationEta': {
+    'time': V;
+  };
   'RelaySessionCurrentLogin': {
     'time': V;
   };
@@ -4350,6 +4520,39 @@ export interface LangPairWithVariables<V = LangVariable> {
   };
   'RelayDeletedMessagesMegabytesOption': {
     'count': V;
+  };
+  'RelayNetNodeCount': {
+    'count': V;
+  };
+  'RelayNetDnsPrivate': {
+    'host': V;
+  };
+  'RelayNetServiceUnreachableText': {
+    'state': V;
+  };
+  'RelayPlateNetworkTitle': {
+    'state': V;
+  };
+  'RelayNetSubUpdated': {
+    'date': V;
+  };
+  'RelayNetTelegramLocalProxyEndpoint': {
+    'port': V;
+  };
+  'RelayNetTelegramLocalProxyConfirmText': {
+    'port': V;
+  };
+  'RelayPaletteSearchTelegram': {
+    'query': V;
+  };
+  'RelayPaletteResultsCount': {
+    'count': V;
+  };
+  'RelayNoticeHistoryCount': {
+    'count': V;
+  };
+  'RelayNoticeHistoryOpenService': {
+    'service': V;
   };
 }
 

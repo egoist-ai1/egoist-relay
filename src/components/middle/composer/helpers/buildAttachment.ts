@@ -70,20 +70,20 @@ export default async function buildAttachment(
     } else {
       previewBlobUrl = blobUrl;
     }
-  } else if (isRoundVideo) {
-    previewBlobUrl = await createPosterForVideo(blobUrl);
-  } else if (SUPPORTED_VIDEO_CONTENT_TYPES.has(mimeType)) {
+  } else if (isRoundVideo || SUPPORTED_VIDEO_CONTENT_TYPES.has(mimeType)) {
     try {
-      const { videoWidth: width, videoHeight: height, duration } = await preloadVideo(blobUrl);
-      shouldSendAsFile = !validateAspectRatio(width, height);
-      if (!shouldSendAsFile) {
-        quick = { width, height, duration };
+      const video = await preloadVideo(blobUrl);
+      const { videoWidth: width, videoHeight: height, duration } = video;
+      if (!isRoundVideo) {
+        shouldSendAsFile = !validateAspectRatio(width, height);
+        if (!shouldSendAsFile) {
+          quick = { width, height, duration };
+        }
       }
+      previewBlobUrl = await createPosterForVideo(video);
     } catch (err) {
       shouldSendAsFile = true;
     }
-
-    previewBlobUrl = await createPosterForVideo(blobUrl);
   } else if (SUPPORTED_AUDIO_CONTENT_TYPES.has(mimeType)) {
     const {
       duration, title, performer, coverUrl,

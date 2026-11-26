@@ -143,8 +143,10 @@ const LockScreen: FC<OwnProps & StateProps> = ({
         {renderLogoutPrompt()}
       </div>
 
+      <div id="relay-lock-portals" />
       <ConfirmDialog
         isOpen={isSignOutDialogOpen}
+        portalContainerSelector="#relay-lock-portals"
         onClose={closeSignOutConfirmation}
         text={lang('lng_sure_logout')}
         confirmLabel={lang('AccountSettings.Logout')}

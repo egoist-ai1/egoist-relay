@@ -8,16 +8,15 @@ import type { TwoFaParams } from '../../../lib/gramjs/client/2fa';
 import TelegramClient from '../../../lib/gramjs/client/TelegramClient';
 import { RPCError } from '../../../lib/gramjs/errors';
 import { Logger as GramJsLogger } from '../../../lib/gramjs/extensions/index';
-import { setDesktopTelegramTransport } from '../../../lib/gramjs/extensions/PromisedWebSockets';
 import { routeHealth } from '../../../lib/gramjs/network/connectionPolicy';
 
 import type { ThreadId } from '../../../types';
 import type {
   ApiInitialArgs,
-  ApiMediaFormat,
   ApiOnProgress,
   ApiSessionData,
 } from '../../types';
+import { ApiMediaFormat } from '../../types';
 
 import {
   APP_CODE_NAME,
@@ -59,6 +58,7 @@ import {
   requestChannelDifference as requestChannelDifferenceFromUpdates,
   reset as resetUpdatesManager,
   setOpenedChannelIds as setOpenedChannelIdsInUpdates,
+  stop as stopUpdatesManager,
   updateChannelState,
 } from '../updates/updateManager';
 import {
@@ -71,9 +71,11 @@ import {
   onRequestPhoneNumber,
   onRequestQrCode,
   onRequestRegistration,
+  onWaitForQrCode,
   onWebAuthTokenFailed,
 } from './auth';
 import downloadMediaWithClient, { parseMediaUrl } from './media';
+import { deriveResearchAccountRef } from './researchSupport';
 
 import { ChatAbortController } from '../ChatAbortController';
 
@@ -90,11 +92,14 @@ const RESEARCH_ABORT_CONTROLLERS = new Map<string, AbortController>();
 
 let client: TelegramClient;
 let currentUserId: string | undefined;
-let researchAccountRef = crypto.randomUUID();
+// accountRef устойчив для одного аккаунта (производный от userId, см. fetchCurrentUser), пока пользователь неизвестен — случайный
+// и в статусе «ready» не участвует. accountEpoch — сессия клиента: меняется при каждом подключении и не обнуляет регулятор демона.
+let researchAccountRef: string = crypto.randomUUID();
 let researchAccountEpoch = crypto.randomUUID();
 
 export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoidFunction) {
   invalidateResearchAccount();
+  researchAccountRef = crypto.randomUUID();
   currentUserId = undefined;
   if (DEBUG) {
     // eslint-disable-next-line no-console
@@ -110,7 +115,6 @@ export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoid
 
   const session = new sessions.CallbackSession(sessionData, onSessionUpdate);
 
-  setDesktopTelegramTransport(initialArgs.telegramTransportUrl);
   routeHealth.setListener((route) => {
     sendApiUpdate({ '@type': 'updateConnectionRoute', route });
   });
@@ -160,6 +164,7 @@ export async function init(initialArgs: ApiInitialArgs, onConnected?: NoneToVoid
         firstAndLastNames: onRequestRegistration,
         onPasskeyOption,
         qrCode: onRequestQrCode,
+        waitForQrCode: onWaitForQrCode,
         onError: onAuthError,
         initialMethod: platform === 'iOS' || platform === 'Android' ? 'phoneNumber' : 'qrCode',
         shouldThrowIfUnauthorized: Object.values(sessionData?.keys || {}).length > 0,
@@ -212,6 +217,7 @@ export function setIsPremium({ isPremium }: { isPremium: boolean }) {
 const LOG_OUT_TIMEOUT = 2500;
 export async function destroy(noLogOut = false, noClearLocalDb = false) {
   invalidateResearchAccount();
+  researchAccountRef = crypto.randomUUID();
   if (!noLogOut && client.isConnected()) {
     await Promise.race([
       invokeRequest(new GramJs.auth.LogOut()),
@@ -224,6 +230,7 @@ export async function destroy(noLogOut = false, noClearLocalDb = false) {
     resetUpdatesManager();
   }
 
+  stopUpdatesManager();
   client.destroy();
 }
 
@@ -235,7 +242,7 @@ export function disconnect() {
 function invalidateResearchAccount() {
   RESEARCH_ABORT_CONTROLLERS.forEach((controller) => controller.abort(new Error('STALE_ACCOUNT')));
   RESEARCH_ABORT_CONTROLLERS.clear();
-  researchAccountRef = crypto.randomUUID();
+  // accountRef здесь не трогаем: смена сессии клиента меняет только epoch
   researchAccountEpoch = crypto.randomUUID();
 }
 
@@ -403,12 +410,22 @@ export function invokeRequestBeacon<T extends GramJs.AnyRequest>(
 
 export async function downloadMedia(
   args: {
-    url: string; mediaFormat: ApiMediaFormat; start?: number; end?: number; isHtmlAllowed?: boolean;
+    url: string; mediaFormat: ApiMediaFormat; start?: number; end?: number;
+    isHtmlAllowed?: boolean; isPriority?: boolean; isResumable?: boolean;
   },
   onProgress?: ApiOnProgress,
 ) {
+  const downloadClient = client;
+  const resumeAccountId = args.isResumable && args.mediaFormat === ApiMediaFormat.BlobUrl ? currentUserId : undefined;
+  const options = { ...args, resumeAccountId };
+  const checkOwner = () => {
+    if (downloadClient !== client || (resumeAccountId && resumeAccountId !== currentUserId)) {
+      throw new Error('MEDIA_ACCOUNT_CHANGED');
+    }
+  };
   try {
-    const result = await downloadMediaWithClient(args, client, onProgress);
+    const result = await downloadMediaWithClient(options, downloadClient, onProgress);
+    if (resumeAccountId) checkOwner();
     return result;
   } catch (err: unknown) {
     if (err instanceof RPCError) {
@@ -419,7 +436,10 @@ export async function downloadMedia(
         }
         const isFileReferenceRepaired = await repairFileReference({ url: args.url });
         if (isFileReferenceRepaired) {
-          return downloadMediaWithClient(args, client, onProgress);
+          checkOwner();
+          const result = await downloadMediaWithClient(options, downloadClient, onProgress);
+          if (resumeAccountId) checkOwner();
+          return result;
         }
 
         if (DEBUG) {
@@ -498,11 +518,14 @@ export async function fetchCurrentUser() {
   addUserToLocalDb(user);
   const currentUserFullInfo = buildApiUserFullInfo(userFull);
   const currentUser = buildApiUser(user)!;
+  const accountRef = await deriveResearchAccountRef(currentUser.id);
+  if (client !== activeClient || researchAccountEpoch !== activeEpoch) return;
 
   setMessageBuilderCurrentUserId(currentUser.id);
   onCurrentUserUpdate(currentUser, currentUserFullInfo);
 
   if (currentUserId && currentUserId !== currentUser.id) invalidateResearchAccount();
+  researchAccountRef = accountRef;
   currentUserId = currentUser.id;
   setIsPremium({ isPremium: Boolean(currentUser.isPremium) });
 }

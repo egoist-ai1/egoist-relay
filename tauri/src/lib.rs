@@ -7,28 +7,50 @@ use url::Url;
 use uuid::Uuid;
 
 mod deeplink;
-use deeplink::Deeplink;
 
 mod tray;
 mod window;
+#[cfg(any(windows, test))]
+mod window_chrome;
 use crate::window::{WINDOW_STATES, WindowState};
 
 pub mod installer;
 pub mod multi_app;
+mod workspace_privacy;
+mod instagram_view;
 mod runtime;
-mod system_proxy;
+mod media_library;
 mod media_operations;
+#[cfg(windows)]
+mod windows_file_clipboard;
+mod media_store;
 mod social_share;
+mod social_stage;
 mod inline_media;
 mod youtube_player;
 mod bot_web_apps;
 mod native_theme;
+#[cfg(windows)]
+mod lagom_notifications;
+#[cfg(not(windows))]
+mod lagom_notifications {
+  #[tauri::command]
+  pub(crate) fn relay_lagom_telegram_notice(notice: serde_json::Value) -> bool {
+    let _ = notice;
+    false
+  }
+}
+mod relay_cache;
 mod transcription;
 mod worker_job;
-mod telegram_transport;
+mod dpapi;
+#[cfg(windows)]
+mod win_acl;
+mod telegram_download_queue;
 mod research_bridge;
 mod research_spool;
 mod research_social;
+pub mod update;
 
 static RESEARCH_HEADLESS: LazyLock<AtomicBool> = LazyLock::new(|| AtomicBool::new(
   std::env::args_os().any(|argument| argument == "--research-headless")
@@ -87,17 +109,12 @@ pub static LAST_URL: LazyLock<std::sync::Mutex<String>> =
 
 pub const DEFAULT_WINDOW_TITLE: &str = match std::option_env!("APP_TITLE") {
   Some(title) => title,
-  None => "Sennit",
+  None => "Береста",
 };
 
 pub const BASE_URL: &str = match std::option_env!("BASE_URL") {
   Some(url) => url,
   None => "http://localhost:1234",
-};
-
-pub const WITH_UPDATER: &str = match std::option_env!("WITH_UPDATER") {
-  Some(str) => str,
-  None => "false",
 };
 
 pub(crate) fn strip_hash_from_url(url: &str) -> String {
@@ -147,7 +164,7 @@ fn relay_control_status(app: tauri::AppHandle) -> serde_json::Value {
     "mainWindowPresent": windows.contains_key("main"),
     "primaryWindowCount": usize::from(windows.contains_key("main")),
     "legacyTelegramWindowCount": windows.keys().filter(|label| Uuid::parse_str(label).is_ok()).count(),
-    "updaterEnabled": WITH_UPDATER == "true",
+    "updaterEnabled": update::updater_enabled(),
     "networkMode": "system",
     "youtubeEmbedReferer": youtube_player::diagnostics()
   })
@@ -177,7 +194,12 @@ pub fn run() {
       window.data_directory = Some(profile.join("main"));
     }
   }
-  let mut log_builder = tauri_plugin_log::Builder::default();
+  // Info для всего, Debug для своего кода; 2 МБ на файл, три файла в истории
+  let mut log_builder = tauri_plugin_log::Builder::default()
+    .level(log::LevelFilter::Info)
+    .level_for("app_lib", log::LevelFilter::Debug)
+    .max_file_size(2 * 1024 * 1024)
+    .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(3));
   if is_smoke_test {
     let profile = std::path::PathBuf::from(std::env::var_os("EGOIST_RELAY_TEST_PROFILE").unwrap());
     log_builder = log_builder.clear_targets().target(tauri_plugin_log::Target::new(
@@ -200,11 +222,14 @@ pub fn run() {
         }
         return;
       }
+      deeplink::accept_web_argument(app, args.into_iter().skip(1));
       mark_user_opened_relay();
       if let Some(window) = app.get_window("main") {
         window.show().unwrap_or_default();
         window.unminimize().unwrap_or_default();
         window.set_focus().unwrap_or_default();
+        // Будит усыплённый сервис, не полагаясь на событие Focused
+        multi_app::refresh_main_window_visibility(app);
       } else if let Err(error) = create_main_window(app) {
         log::error!("Failed to restore the main Relay window: {error}");
       }
@@ -218,8 +243,11 @@ pub fn run() {
     .plugin(tauri_plugin_process::init());
 
   let app = app.on_window_event(|window, event| match event {
-    tauri::WindowEvent::Resized(_) => {
+    tauri::WindowEvent::Resized(_) if window.label() == "main" => {
       multi_app::on_main_window_resize(&window.app_handle());
+    }
+    tauri::WindowEvent::Focused(true) if window.label() == "main" => {
+      multi_app::refresh_main_window_visibility(window.app_handle());
     }
     tauri::WindowEvent::CloseRequested { api, .. } => {
       if window.label() == "main" {
@@ -231,6 +259,7 @@ pub fn run() {
         #[cfg(not(target_os = "macos"))]
         window.hide().unwrap_or_default();
         api.prevent_close();
+        multi_app::on_main_window_hidden(window.app_handle());
       }
     }
     tauri::WindowEvent::ThemeChanged(_) => {
@@ -266,12 +295,14 @@ pub fn run() {
   });
 
   let app = app.setup(|app| {
+    multi_app::note_main_thread();
     if std::env::args_os().any(|argument| argument == "--research-recover-existing") {
       // This transient controller must hand off to the existing owner or exit before account initialization.
       std::process::exit(0);
     }
     // Manage app state
     app.manage(AppState::new(AppStateStruct::default()));
+    // Туннель поднимается до окон: WebView получают порт SOCKS при создании; без туннеля прокси смотрит на закрытый порт
     if let Err(err) = inline_media::initialize(app.handle()) {
       log::warn!("[EgoistRelay] Cannot clean temporary media: {err}");
     }
@@ -280,16 +311,10 @@ pub fn run() {
     }
     transcription::initialize(app.handle());
 
-    let deeplink = Deeplink::init();
-    if let Err(err) = deeplink.setup(app.handle()) {
-      log::error!("Failed to setup deeplink: {:?}", err);
-    }
+    deeplink::setup(app.handle());
 
-    if WITH_UPDATER == "true" {
-      app
-        .handle()
-        .plugin(tauri_plugin_updater::Builder::new().build())?;
-    }
+    // Собственное автообновление (плагин tauri-plugin-updater не используется)
+    update::commands::start(app.handle());
 
     crate::tray::TrayManager::init(app.handle().clone())?;
     if let Err(error) = research_bridge::start(app.handle()) {
@@ -303,12 +328,14 @@ pub fn run() {
   let app = app.invoke_handler(tauri::generate_handler![
     mark_title_bar_overlay,
     set_notifications_count,
+    lagom_notifications::relay_lagom_telegram_notice,
     set_window_title,
     open_new_window_cmd,
     save_current_url,
     set_menu_translations,
     relay_control_status,
-    telegram_transport::relay_get_telegram_transport,
+    runtime::relay_mcp_launch_config,
+    deeplink::relay_take_deep_links,
     research_bridge::relay_research_ready,
     research_bridge::relay_research_reply,
     research_bridge::relay_research_media_chunk,
@@ -338,6 +365,9 @@ pub fn run() {
     media_operations::relay_media_operations_list,
     media_operations::relay_media_operation_action,
     media_operations::relay_media_operation_revision,
+    media_operations::relay_library_list,
+    media_operations::relay_library_action,
+    telegram_download_queue::relay_telegram_download_queue,
     social_share::multi_social_detach,
     social_share::multi_social_restore,
     social_share::multi_social_release,
@@ -346,12 +376,20 @@ pub fn run() {
     social_share::multi_social_cancel_media,
     social_share::multi_social_read_media,
     social_share::multi_social_save_media,
+    social_stage::relay_social_stage_file,
+    social_stage::relay_social_read_staged_chunk,
+    social_stage::relay_social_release_staged_file,
     inline_media::relay_inline_resolve_media,
     inline_media::relay_inline_save_media,
     inline_media::relay_inline_cancel_media,
     transcription::transcribe_voice,
     transcription::cancel_voice_transcription,
     native_theme::relay_set_theme,
+    relay_cache::relay_clear_webview_cache,
+    update::commands::update_check,
+    update::commands::update_install,
+    update::commands::update_get_mode,
+    update::commands::update_set_mode,
   ]);
 
   app
@@ -359,10 +397,14 @@ pub fn run() {
     .expect("error while building Egoist Relay")
     .run(|_app, event| match event {
       tauri::RunEvent::Exit => {
-        telegram_transport::shutdown();
+        // Отметка штатного выхода: сбои дочерних процессов без неё в журнале отличаются от закрытия
+        log::info!("[EgoistRelay] Exit requested");
+        media_operations::flush_journal();
         research_bridge::shutdown();
         inline_media::shutdown();
+        social_stage::shutdown();
         transcription::shutdown();
+        // Последним: Xray нужен мосту и медиа-воркерам до их остановки
       }
       _ => {}
     });
@@ -508,16 +550,21 @@ pub(crate) fn open_new_window(
 fn create_main_window(app: &tauri::AppHandle) -> Result<tauri::WebviewWindow, String> {
   let config = app.config().app.windows.iter().find(|window| window.label == "main")
     .ok_or("Main window configuration is missing")?;
-  let mut main_builder = tauri::WebviewWindowBuilder::from_config(app, config)
+  let show_on_launch = !should_avoid_foreground();
+  let main_builder = tauri::WebviewWindowBuilder::from_config(app, config)
     .map_err(|err| err.to_string())?
-  .visible(!should_avoid_foreground())
-  .focused(!should_avoid_foreground())
+  .visible(cfg!(not(windows)) && show_on_launch)
+  .focused(cfg!(not(windows)) && show_on_launch)
   .disable_drag_drop_handler()
   .initialization_script(&format!(
     "window.tauri = {{ version: '{}', updaterEnabled: {}, youtubePlayerSmoke: {} }};",
-    env!("CARGO_PKG_VERSION"), WITH_UPDATER == "true", youtube_player::smoke_fixture_enabled()
+    env!("CARGO_PKG_VERSION"), update::updater_enabled(), youtube_player::smoke_fixture_enabled()
   ))
   .on_download(|window, event| multi_app::handle_download(&window, "telegram", event));
+
+  // Главное окно (Telegram) тоже ходит в сеть только через туннель; окна с window_features наследуют окружение
+  #[cfg(windows)]
+  let mut main_builder = main_builder.additional_browser_args(&multi_app::service_browser_arguments("telegram"));
 
   if std::env::var("EGOIST_RELAY_SMOKE_TEST").as_deref() == Ok("1") {
     let profile = std::env::var_os("EGOIST_RELAY_TEST_PROFILE")
@@ -527,6 +574,10 @@ fn create_main_window(app: &tauri::AppHandle) -> Result<tauri::WebviewWindow, St
   }
 
   let window = main_builder.build().map_err(|err| err.to_string())?;
+  #[cfg(windows)]
+  if let Err(error) = window_chrome::fit_primary_window(&window) {
+    log::warn!("[EgoistRelay] Cannot fit the main window to its monitor: {error}");
+  }
   if let Err(error) = multi_app::install_main_native_hooks(&window) {
     log::warn!("[EgoistRelay] Native media shortcuts unavailable: {error}");
   }
@@ -559,6 +610,12 @@ fn create_main_window(app: &tauri::AppHandle) -> Result<tauri::WebviewWindow, St
         app_state.is_muted,
       );
     }
+  }
+
+  #[cfg(windows)]
+  if show_on_launch {
+    window.show().map_err(|err| err.to_string())?;
+    window.set_focus().unwrap_or_default();
   }
 
   Ok(window)

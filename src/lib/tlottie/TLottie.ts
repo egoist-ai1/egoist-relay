@@ -11,7 +11,7 @@ import cycleRestrict from '../../util/cycleRestrict';
 import Deferred from '../../util/Deferred';
 import generateUniqueId from '../../util/generateUniqueId';
 import { handleError } from '../../util/handleError';
-import launchMediaWorkers, { MAX_WORKERS } from '../../util/launchMediaWorkers';
+import { MAX_WORKERS, requestMediaWorker } from '../../util/launchMediaWorkers';
 import { requestMeasure, requestMutation } from '../fasterdom/fasterdom';
 
 interface Params {
@@ -38,7 +38,6 @@ const HIGH_PRIORITY_CACHE_MODULO = IS_SAFARI ? 2 : 4;
 const LOW_PRIORITY_CACHE_MODULO = 0;
 const CANVAS_CLASS = 'tlottie-canvas';
 
-const workers = launchMediaWorkers().map(({ connector }) => connector);
 const instancesByRenderId = new Map<string, TLottie>();
 
 const PENDING_CANVAS_RESIZES = new WeakMap<HTMLCanvasElement, Promise<void>>();
@@ -401,7 +400,7 @@ class TLottie {
     this.workerIndex = cycleRestrict(MAX_WORKERS, ++lastWorkerIndex);
     const { dataGeneration } = this;
 
-    void workers[this.workerIndex].request({
+    void requestMediaWorker({
       name: 'tlottie:init',
       args: [
         this.renderId,
@@ -412,7 +411,7 @@ class TLottie {
         this.params.fitzModifier,
         this.onRendererInit.bind(this, dataGeneration),
       ],
-    }).then((isSuccess) => {
+    }, this.workerIndex).then((isSuccess) => {
       if (!isSuccess) {
         this.onRendererUnavailable(dataGeneration);
       }
@@ -420,10 +419,10 @@ class TLottie {
   }
 
   private destroyRenderer() {
-    workers[this.workerIndex].request({
+    void requestMediaWorker({
       name: 'tlottie:destroy',
       args: [this.renderId],
-    });
+    }, this.workerIndex);
   }
 
   private onRendererInit(dataGeneration: number, reduceFactor: number, msPerFrame: number, framesCount: number) {
@@ -456,7 +455,7 @@ class TLottie {
     this.params.fitzModifier = fitzModifier;
     this.initConfig();
 
-    void workers[this.workerIndex].request({
+    void requestMediaWorker({
       name: 'tlottie:changeData',
       args: [
         this.renderId,
@@ -465,7 +464,7 @@ class TLottie {
         this.params.fitzModifier,
         this.onChangeData.bind(this, dataGeneration),
       ],
-    }).then((isSuccess) => {
+    }, this.workerIndex).then((isSuccess) => {
       if (!isSuccess) {
         this.onRendererUnavailable(dataGeneration);
       }
@@ -662,10 +661,10 @@ class TLottie {
     const { frameGeneration } = this;
     this.frames[frameIndex] = WAITING;
 
-    workers[this.workerIndex].request({
+    void requestMediaWorker({
       name: 'tlottie:renderFrames',
       args: [this.renderId, frameIndex, this.onFrameLoad.bind(this, frameGeneration)],
-    });
+    }, this.workerIndex);
   }
 
   private cleanupPrevFrame(frameIndex: number) {

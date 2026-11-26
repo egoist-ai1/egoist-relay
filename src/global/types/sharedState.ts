@@ -36,7 +36,10 @@ export interface SharedSettings {
   shouldDebugExportedSenders?: boolean;
   shouldWarnAboutFiles?: boolean;
   // Прогрев X и Instagram после готовности Telegram; по умолчанию включён
-  shouldWarmupSocialViews?: boolean;
+  shouldWarmupVisibleSocialViews?: boolean;
+  // Скрытые в rail сервисы не создаются и не прогреваются; по умолчанию показаны
+  shouldHideX?: boolean;
+  shouldHideInstagram?: boolean;
   shouldKeepDeletedMessages: boolean;
   deletedMessagesRetentionDays: number;
   deletedMessagesMaxMegabytes: number;

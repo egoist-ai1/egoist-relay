@@ -4,7 +4,7 @@
  * берутся из глобальных setTimeout/Date/Math.random, поэтому тесты идут на виртуальном времени.
  */
 
-export type RouteKind = 'lagom' | 'direct';
+export type RouteKind = 'wss' | 'mtproxy' | 'wss-standard' | 'standalone-socks';
 
 export interface RouteCandidate {
   kind: RouteKind;
@@ -62,6 +62,8 @@ export interface RaceResult<T> {
   value: T;
   /** Время от старта гонки до открытия победителя. */
   elapsedMs: number;
+  /** Кандидаты, которые реально отказали до победы другого (проигрыш по abort сюда не входит). */
+  failures: RouteCandidate[];
 }
 
 /**
@@ -82,6 +84,7 @@ export function raceRoutes<T>(
     const startedAt = Date.now();
     const controllers: AbortController[] = [];
     const errors: Error[] = [];
+    const failures: RouteCandidate[] = [];
     let started = 0;
     let failed = 0;
     let isSettled = false;
@@ -121,10 +124,13 @@ export function raceRoutes<T>(
         controllers.forEach((other, otherIndex) => {
           if (otherIndex !== index) other.abort();
         });
-        resolve({ candidate, value, elapsedMs: Date.now() - startedAt });
+        resolve({
+          candidate, value, elapsedMs: Date.now() - startedAt, failures,
+        });
       }, (error: unknown) => {
         if (isSettled) return;
         errors.push(error instanceof Error ? error : new Error(String(error)));
+        failures.push(candidate);
         failed++;
         if (failed >= candidates.length) {
           finish();
@@ -142,7 +148,7 @@ export function raceRoutes<T>(
 }
 
 export interface RouteStatus {
-  kind: RouteKind;
+  kind: 'wss' | 'mtproxy' | 'standalone-socks';
   /** Сглаженный RTT до Telegram, мс; undefined, пока не измерен. */
   rttMs?: number;
 }
@@ -153,11 +159,11 @@ const RTT_REPORT_MIN_DELTA = 0.2;
 const RTT_REPORT_MIN_INTERVAL_MS = 10000;
 
 /**
- * Память о рабочем маршруте. Маршрут Lagom приоритетный; после провала он понижается на
+ * Память о рабочем маршруте. Маршрут wss приоритетный; после провала он понижается на
  * `ROUTE_DEMOTE_MS`, а фоновая проверка (`probeDue`/`markProbe`) возвращает его, не блокируя подключение.
  */
 export class RouteHealth {
-  private lastWorking: RouteKind = 'lagom';
+  private lastWorking: RouteKind = 'wss';
 
   private failedAt: Partial<Record<RouteKind, number>> = {};
 
@@ -174,7 +180,7 @@ export class RouteHealth {
   constructor(private readonly now: () => number = Date.now) {}
 
   reset() {
-    this.lastWorking = 'lagom';
+    this.lastWorking = 'wss';
     this.failedAt = {};
     this.probedAt = 0;
     this.active = undefined;
@@ -191,7 +197,9 @@ export class RouteHealth {
   }
 
   getStatus(): RouteStatus | undefined {
-    return this.active ? { kind: this.active, rttMs: this.smoothedRtt && Math.round(this.smoothedRtt) } : undefined;
+    if (!this.active) return undefined;
+    const kind = this.active === 'wss-standard' ? 'wss' : this.active;
+    return { kind, rttMs: this.smoothedRtt && Math.round(this.smoothedRtt) };
   }
 
   order(candidates: RouteCandidate[]): RouteCandidate[] {
@@ -225,10 +233,10 @@ export class RouteHealth {
     }
   }
 
-  /** Осторожный возврат Lagom после удачной фоновой проверки. */
+  /** Осторожный возврат wss после удачной фоновой проверки. */
   recordProbeSuccess(kind: RouteKind) {
     delete this.failedAt[kind];
-    if (kind === 'lagom') this.lastWorking = 'lagom';
+    if (kind === 'wss') this.lastWorking = 'wss';
   }
 
   observeRtt(rttMs: number, shouldEmit = true) {

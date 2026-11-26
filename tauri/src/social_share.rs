@@ -18,7 +18,6 @@ const MAX_MEDIA: usize = 10;
 const SHARE_TTL: Duration = Duration::from_secs(600);
 const FILE_TIMEOUT: Duration = Duration::from_secs(64);
 const BATCH_TIMEOUT: Duration = Duration::from_secs(180);
-const SAVE_TIMEOUT: Duration = Duration::from_secs(900);
 const DETACHED_TTL: Duration = Duration::from_secs(4 * 60 * 60);
 const MAX_DETACHED: usize = 9;
 // Sharing to Telegram exists only for X; every other service is rejected.
@@ -51,12 +50,19 @@ struct PendingShare {
   created_at: Instant,
   batch_started: Option<Instant>,
   save_started: Option<Instant>,
-  sizes: [usize; MAX_MEDIA],
+  read_sizes: [usize; MAX_MEDIA],
   cancel: Arc<AtomicBool>,
   is_fetching: bool,
 }
 
 impl PendingShare {
+  fn file_save_deadline(&mut self) -> Result<Instant, String> {
+    let started = *self.save_started.get_or_insert_with(Instant::now);
+    let deadline = started + crate::inline_media::FILE_SAVE_TIMEOUT;
+    check_media_deadline(&self.cancel, deadline)?;
+    Ok(deadline)
+  }
+
   fn begin_media_batch(&mut self, index: usize) -> Result<(), String> {
     if self.cancel.load(Ordering::Acquire) {
       return Err("MEDIA_CANCELLED".into());
@@ -186,7 +192,7 @@ fn accept_share(
     created_at: Instant::now(),
     batch_started: None,
     save_started: None,
-    sizes: [0; MAX_MEDIA],
+    read_sizes: [0; MAX_MEDIA],
     cancel: Arc::new(AtomicBool::new(false)),
     is_fetching: false,
   });
@@ -331,6 +337,7 @@ pub fn multi_social_overlay(
   crate::multi_app::set_social_overlay(&app_handle, visible)?;
   if !visible {
     pending.cancel.store(true, Ordering::Release);
+    crate::social_stage::release_request(&request_id);
     *LAST_CLOSED.lock().map_err(|_| "SHARE_UNAVAILABLE")? = Some(request_id);
     *state = None;
   }
@@ -408,7 +415,7 @@ pub fn multi_social_restore(
     created_at: Instant::now(),
     batch_started: None,
     save_started: None,
-    sizes: [0; MAX_MEDIA],
+    read_sizes: [0; MAX_MEDIA],
     cancel: Arc::new(AtomicBool::new(false)),
     is_fetching: false,
   });
@@ -465,6 +472,8 @@ pub fn multi_social_release(webview: Webview, request_id: String) -> Result<(), 
     capture.cancel.store(true, Ordering::Release);
   }
   detached.remove(&request_id);
+  drop(detached);
+  crate::social_stage::release_request(&request_id);
   Ok(())
 }
 
@@ -474,7 +483,17 @@ pub fn multi_social_cancel_media(webview: Webview, request_id: String) -> Result
   with_share_mut(&request_id, false, |capture| {
     capture.cancel.store(true, Ordering::Release);
     Ok(())
-  })
+  })?;
+  crate::social_stage::release_request(&request_id);
+  Ok(())
+}
+
+pub(crate) fn cancel_detached_capture(request_id: &str) {
+  let _ = with_share_mut(request_id, false, |capture| {
+    capture.cancel.store(true, Ordering::Release);
+    Ok(())
+  });
+  crate::social_stage::release_request(request_id);
 }
 
 #[tauri::command]
@@ -519,7 +538,7 @@ pub async fn multi_social_read_media(
     let timeout =
       file_timeout.min(BATCH_TIMEOUT.saturating_sub(pending.batch_started.unwrap().elapsed()));
     let used: usize = pending
-      .sizes
+      .read_sizes
       .iter()
       .enumerate()
       .filter(|(item, _)| *item != index)
@@ -569,7 +588,7 @@ pub async fn multi_social_read_media(
   let _ = with_share_mut(&request_id, false, |pending| {
     pending.is_fetching = false;
     if let Ok(bytes) = &result {
-      pending.sizes[index] = bytes.len().saturating_sub(8 + u32::from_le_bytes(bytes[4..8].try_into().unwrap()) as usize);
+      pending.read_sizes[index] = bytes.len().saturating_sub(8 + u32::from_le_bytes(bytes[4..8].try_into().unwrap()) as usize);
     }
     Ok(())
   });
@@ -592,14 +611,9 @@ pub async fn multi_social_save_media(
       if index != 0 { return Err("MEDIA_INPUT_DENIED".into()); }
       None
     } else { Some(pending.request.media.get(index).ok_or("MEDIA_INPUT_DENIED")?.clone()) };
-    let started = *pending.save_started.get_or_insert_with(Instant::now);
-    let deadline = started + SAVE_TIMEOUT;
-    check_media_deadline(&pending.cancel, deadline)?;
-    let used: usize = pending.sizes.iter().enumerate().filter(|(item, _)| *item != index).map(|(_, size)| size).sum();
-    let maximum = MAX_FILE_BYTES.min(MAX_TOTAL_BYTES.saturating_sub(used));
-    if maximum == 0 { return Err("MEDIA_TOO_LARGE".into()); }
+    let deadline = pending.file_save_deadline()?;
     pending.is_fetching = true;
-    Ok((pending.request.clone(), media, pending.cancel.clone(), maximum, deadline))
+    Ok((pending.request.clone(), media, pending.cancel.clone(), crate::inline_media::MAX_SAVED_FILE_BYTES, deadline))
   })?;
   let fetching_app = app_handle.clone();
   let result = tauri::async_runtime::spawn_blocking(move || {
@@ -612,10 +626,49 @@ pub async fn multi_social_save_media(
   }).await.map_err(|_| "MEDIA_FETCH_FAILED".to_string()).and_then(|result| result);
   let _ = with_share_mut(&request_id, false, |pending| {
     pending.is_fetching = false;
-    if let Ok(saved) = &result { pending.sizes[index] = saved.size as usize; }
     Ok(())
   });
   let _ = app_handle.emit_to("main", "multi-social-media-progress", serde_json::json!({ "requestId": request_id, "index": index, "state": if result.is_ok() { "ready" } else { "error" }, "loaded": result.as_ref().map_or(0, |saved| saved.size) }));
+  result
+}
+
+pub(crate) fn stage_confirmed_media_file(
+  app: &AppHandle,
+  request_id: &str,
+  index: usize,
+  maximum: usize,
+) -> Result<crate::social_stage::StageSource, String> {
+  crate::media_operations::authorize_social_stage(app, request_id)?;
+  let (request, media, cancel, deadline) = {
+    let mut detached = DETACHED.lock().map_err(|_| "SHARE_UNAVAILABLE")?;
+    let capture = detached.get_mut(request_id).ok_or("SHARE_EXPIRED")?;
+    if capture.created_at.elapsed() >= DETACHED_TTL { return Err("SHARE_EXPIRED".into()); }
+    if capture.request.service != SHARE_SERVICE { return Err("SHARE_SOURCE_DENIED".into()); }
+    if capture.is_fetching { return Err("MEDIA_BUSY".into()); }
+    let media = if capture.request.unavailable_media {
+      if index != 0 { return Err("MEDIA_INPUT_DENIED".into()); }
+      None
+    } else {
+      Some(capture.request.media.get(index).ok_or("MEDIA_INPUT_DENIED")?.clone())
+    };
+    let deadline = capture.file_save_deadline()?;
+    capture.is_fetching = true;
+    (capture.request.clone(), media, capture.cancel.clone(), deadline)
+  };
+  let result = (|| {
+    let (directory, packet) = if let Some(media) = media {
+      read_media_worker(app, &request, &media, index, maximum, deadline, &cancel, true)?
+    } else {
+      crate::inline_media::stage_public_media(app, request_id, &request.url, index, maximum, deadline, cancel.clone())?
+    };
+    check_media_deadline(&cancel, deadline)?;
+    let file = crate::inline_media::validate_file_result(&directory, &packet, index, maximum)?;
+    Ok(crate::social_stage::StageSource { directory, file, cancel, deadline })
+  })();
+  let _ = with_share_mut(request_id, false, |capture| {
+    capture.is_fetching = false;
+    Ok(())
+  });
   result
 }
 
@@ -629,11 +682,28 @@ fn read_media(
   cancel: &AtomicBool,
   is_file_output: bool,
 ) -> Result<Vec<u8>, String> {
+  let (directory, output) = read_media_worker(app, request, media, index, maximum, deadline, cancel, is_file_output)?;
+  if is_file_output {
+    let saved = crate::inline_media::publish_saved_media(app, &request.request_id, &directory, &output, index, maximum, cancel, deadline)?;
+    if directory.cleanup().is_err() { log::warn!("[MediaStorage] Owned worker cleanup is incomplete"); }
+    return serde_json::to_vec(&saved).map_err(|_| "MEDIA_PARTIAL_BODY".into());
+  }
+  directory.cleanup()?;
+  Ok(output)
+}
+
+fn read_media_worker(
+  app: &AppHandle,
+  request: &ShareRequest,
+  media: &ShareMedia,
+  index: usize,
+  maximum: usize,
+  deadline: Instant,
+  cancel: &AtomicBool,
+  is_file_output: bool,
+) -> Result<(crate::inline_media::OwnedDirectory, Vec<u8>), String> {
   check_media_deadline(cancel, deadline)?;
   let node = crate::runtime::find_node_binary(app)?;
-  check_media_deadline(cancel, deadline)?;
-  let proxy = crate::system_proxy::proxy_for_url_cancellable(&media.url, cancel, deadline)
-    .map_err(|_| check_media_deadline(cancel, deadline).err().unwrap_or_else(|| "MEDIA_PROXY_FAILED".into()))?;
   check_media_deadline(cancel, deadline)?;
   let _ = app.emit_to("main", "multi-social-media-progress", serde_json::json!({ "requestId": request.request_id, "index": index, "state": "fetching", "loaded": 0 }));
   let mut command = Command::new(node);
@@ -645,7 +715,7 @@ fn read_media(
     .stdin(Stdio::piped())
     .stdout(Stdio::piped())
     .stderr(Stdio::piped())
-    .env("EGOIST_RELAY_MEDIA_PROXY", proxy.as_ref().map_or("direct", Url::as_str));
+    .env("EGOIST_RELAY_MEDIA_NETWORK", "system");
   crate::runtime::hide_command_window(&mut command);
   check_media_deadline(cancel, deadline)?;
   let mut child = command.spawn().map_err(|_| "MEDIA_RUNTIME_UNAVAILABLE")?;
@@ -726,14 +796,8 @@ fn read_media(
     }
     return Err("MEDIA_FETCH_FAILED".into());
   }
-  if is_file_output {
-    let saved = crate::inline_media::publish_saved_media(app, &request.request_id, &directory, &output, index, maximum, cancel, deadline)?;
-    if directory.cleanup().is_err() { log::warn!("[MediaStorage] Owned worker cleanup is incomplete"); }
-    return serde_json::to_vec(&saved).map_err(|_| "MEDIA_PARTIAL_BODY".into());
-  }
-  validate_media_packet(&output, index, maximum)?;
-  directory.cleanup()?;
-  Ok(output)
+  if !is_file_output { validate_media_packet(&output, index, maximum)?; }
+  Ok((directory, output))
 }
 
 fn check_media_deadline(cancel: &AtomicBool, deadline: Instant) -> Result<(), String> {
@@ -807,7 +871,7 @@ mod tests {
       created_at: Instant::now(),
       batch_started: None,
     save_started: None,
-      sizes: [0; MAX_MEDIA],
+      read_sizes: [0; MAX_MEDIA],
       cancel: Arc::new(AtomicBool::new(true)),
       is_fetching: false,
     };
@@ -837,7 +901,7 @@ mod tests {
       created_at: Instant::now(),
       batch_started: None,
       save_started: None,
-      sizes: [0; MAX_MEDIA],
+      read_sizes: [0; MAX_MEDIA],
       cancel: Arc::new(AtomicBool::new(false)),
       is_fetching: false,
     }
@@ -911,6 +975,22 @@ mod tests {
     capture.begin_media_batch(0).unwrap();
     assert_eq!(capture.batch_started, Some(started));
     assert_eq!(check_media_deadline(&capture.cancel, Instant::now() - Duration::from_millis(1)), Err("MEDIA_TIMEOUT".into()));
+  }
+
+  #[test]
+  fn long_disk_save_keeps_one_deadline_across_items_and_expires_after_ninety_minutes() {
+    let mut capture = create_capture();
+    let started = Instant::now() - Duration::from_secs(20 * 60);
+    capture.save_started = Some(started);
+    let deadline = capture.file_save_deadline().unwrap();
+    assert_eq!(deadline, started + Duration::from_secs(90 * 60));
+    assert_eq!(capture.file_save_deadline().unwrap(), deadline);
+    assert!(capture.batch_started.is_none());
+    capture.cancel.store(true, Ordering::Release);
+    assert_eq!(capture.file_save_deadline(), Err("MEDIA_CANCELLED".into()));
+    capture.cancel.store(false, Ordering::Release);
+    capture.save_started = Some(Instant::now() - Duration::from_secs(90 * 60 + 1));
+    assert_eq!(capture.file_save_deadline(), Err("MEDIA_TIMEOUT".into()));
   }
 
 

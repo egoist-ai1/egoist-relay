@@ -267,6 +267,7 @@ const Video = <T,>({
       ref={ref}
       id={id}
       className={componentClassName}
+      data-message-media-type="video"
       style={style}
       onClick={isUploading ? undefined : (e) => handleClick(e)}
     >

@@ -46,6 +46,7 @@ import {
 import { isLocalMessageId } from '../../../util/keys/messageKey';
 import * as langProvider from '../../../util/oldLangProvider';
 import { debounce, pause, throttle } from '../../../util/schedulers';
+import { isTelegramWebUrl, parseTelegramWebChat } from '../../../util/tauri/deepLinks';
 import { extractCurrentThemeParams } from '../../../util/themeStyle';
 import { callApi } from '../../../api/gramjs';
 import {
@@ -1738,6 +1739,15 @@ addActionHandler('openTelegramLink', async (global, actions, payload): Promise<v
   }
 
   const uri = new URL(url.toLowerCase().startsWith('http') ? url : `https://${url}`);
+  if (isTelegramWebUrl(uri)) {
+    const chat = parseTelegramWebChat(uri);
+    if (chat) {
+      actions.openPrivateChannel({ ...chat, tabId });
+    } else if (!uri.hash) {
+      actions.openChat({ id: undefined, tabId });
+    }
+    return;
+  }
   if (TME_WEB_DOMAINS.has(uri.hostname) && uri.pathname === '/') {
     window.open(uri.toString(), '_blank', 'noopener');
     return;
@@ -1828,9 +1838,7 @@ addActionHandler('openTelegramLink', async (global, actions, payload): Promise<v
   const messageId = part3 ? Number(part3) : undefined;
   const commentId = params.comment ? Number(params.comment) : undefined;
 
-  const isWebApp = await checkWebAppExists(global, part1, part2);
-
-  const shouldTryOpenChat = (part1 && !part2) || Number.isInteger(Number(part2)) || isWebApp;
+  const hasExplicitMiniApp = part1 && part2 && !part3 && Object.hasOwn(params, 'startapp');
 
   if (params.hasOwnProperty('voicechat') || params.hasOwnProperty('livestream')) {
     joinVoiceChatByLink({
@@ -1850,7 +1858,8 @@ addActionHandler('openTelegramLink', async (global, actions, payload): Promise<v
       slug: part2,
       tabId,
     });
-  } else if (shouldTryOpenChat) {
+  } else if ((part1 && !part2) || Number.isInteger(Number(part2)) || hasExplicitMiniApp
+    || await checkWebAppExists(global, part1, part2)) {
     openChatByUsernameAction({
       username: part1,
       messageId: messageId || Number(chatOrChannelPostId),
@@ -1945,6 +1954,7 @@ addActionHandler('openChatByUsername', async (global, actions, payload): Promise
   const chat = selectCurrentChat(global, tabId);
   const webAppName = originalParts?.[1];
   const isWebApp = webAppName && !Number(webAppName) && !originalParts?.[2];
+  const shouldOpenMainApp = (startApp !== undefined && !webAppName) || shouldStartMainApp;
 
   if (!commentId) {
     if (startGroup !== undefined) {
@@ -1975,23 +1985,23 @@ addActionHandler('openChatByUsername', async (global, actions, payload): Promise
       return;
     }
 
-    if ((startApp !== undefined && !webAppName) || shouldStartMainApp) {
-      const theme = extractCurrentThemeParams();
+    if (shouldOpenMainApp) {
       const chatByUsername = await fetchChatByUsername(global, username);
       global = getGlobal();
-      const user = chatByUsername && selectUser(global, chatByUsername.id);
-      if (!chatByUsername || !user?.hasMainMiniApp) return;
-      actions.requestMainWebView({
-        botId: chatByUsername.id,
-        peerId: chat?.id || chatByUsername.id,
-        theme,
-        startParam: startApp,
-        mode,
-        tabId,
-      });
-      return;
+      if (!chatByUsername) return;
+      if (selectUser(global, chatByUsername.id)?.hasMainMiniApp) {
+        actions.requestMainWebView({
+          botId: chatByUsername.id,
+          peerId: chat?.id || chatByUsername.id,
+          theme: extractCurrentThemeParams(),
+          startParam: startApp,
+          mode,
+          tabId,
+        });
+        return;
+      }
     }
-    if (!isWebApp) {
+    if (!isWebApp || shouldOpenMainApp) {
       await openChatByUsername(
         global, actions, {
           username,

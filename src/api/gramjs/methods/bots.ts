@@ -214,6 +214,7 @@ export async function requestMainWebView({
     peer: buildInputPeer(peer.id, peer.accessHash),
     bot: buildInputUser(bot.id, bot.accessHash),
     startParam,
+    compact: mode === 'compact' || undefined,
     fullscreen: mode === 'fullscreen' || undefined,
     themeParams: theme ? buildInputThemeParams(theme) : undefined,
     platform: WEB_APP_PLATFORM,
@@ -310,6 +311,7 @@ export async function requestAppWebView({
     themeParams: theme ? buildInputThemeParams(theme) : undefined,
     platform: WEB_APP_PLATFORM,
     writeAllowed: isWriteAllowed || undefined,
+    compact: mode === 'compact' || undefined,
     fullscreen: mode === 'fullscreen' || undefined,
   }));
 
@@ -319,6 +321,7 @@ export async function requestAppWebView({
 
   return {
     url: result.url,
+    queryId: result.queryId?.toString(),
     isFullscreen: Boolean(result.fullscreen),
     isSameOrigin: result.sameOrigin,
   };

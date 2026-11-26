@@ -5,7 +5,9 @@ import {
 import { getActions } from '../../global';
 
 import type { ApiDimensions, StoryboardInfo } from '../../api/types';
+import type { MediaContextAction } from './MediaContextMenu';
 
+import { IS_TAURI } from '../../util/browser/globalEnvironment';
 import { IS_IOS, IS_TOUCH_ENV, IS_YA_BROWSER } from '../../util/browser/windowEnvironment';
 import getPointerPosition from '../../util/events/getPointerPosition';
 import { clamp } from '../../util/math';
@@ -26,6 +28,8 @@ import useVideoWaitingSignal from './hooks/useVideoWaitingSignal';
 
 import Button from '../ui/Button';
 import ProgressSpinner from '../ui/ProgressSpinner';
+import MediaContextMenu from './MediaContextMenu';
+import MediaLoadError from './MediaLoadError';
 import VideoPlayerControls from './VideoPlayerControls';
 
 import './VideoPlayer.scss';
@@ -45,6 +49,7 @@ type OwnProps = {
   isHidden?: boolean;
   playbackRate: number;
   isProtected?: boolean;
+  contextActions?: MediaContextAction[];
   shouldCloseOnClick?: boolean;
   isForceMobileVersion?: boolean;
   isClickDisabled?: boolean;
@@ -57,6 +62,9 @@ type OwnProps = {
 const MAX_LOOP_DURATION = 30; // Seconds
 const MIN_READY_STATE = 4;
 const REWIND_STEP = 5; // Seconds
+const MEDIA_ERR_NETWORK = 2;
+const MEDIA_ERR_SRC_NOT_SUPPORTED = 4;
+const MAX_VIDEO_ONLINE_RECOVERIES = 2;
 
 const VideoPlayer: FC<OwnProps> = ({
   url,
@@ -74,6 +82,7 @@ const VideoPlayer: FC<OwnProps> = ({
   isForceMobileVersion,
   shouldCloseOnClick,
   isProtected,
+  contextActions,
   isClickDisabled,
   isSponsoredMessage,
   timestamp,
@@ -86,9 +95,17 @@ const VideoPlayer: FC<OwnProps> = ({
     setMediaViewerPlaybackRate,
     setMediaViewerHidden,
   } = getActions();
+  const playerRef = useRef<HTMLDivElement>();
   const videoRef = useRef<HTMLVideoElement>();
+  const resumeRef = useRef<{ url: string; position: number; shouldPlay: boolean }>();
+  const onlineRecoveryCountRef = useRef(0);
+  const [failedUrl, setFailedUrl] = useState<string>();
   const [isPlaying, setIsPlaying] = useState(!IS_TOUCH_ENV || !IS_IOS);
-  const [isFullscreen, setFullscreen, exitFullscreen] = useFullscreen(videoRef, setIsPlaying);
+  const isPlayerFullscreenTarget = !IS_IOS && !isProtected && !isSponsoredMessage;
+  const [isFullscreen, setFullscreen, exitFullscreen] = useFullscreen<HTMLElement>(
+    isPlayerFullscreenTarget ? playerRef : videoRef,
+    setIsPlaying,
+  );
   const { isMobile } = useAppLayout();
   const duration = videoRef.current?.duration || 0;
   const isLooped = isGif || duration <= MAX_LOOP_DURATION;
@@ -168,19 +185,70 @@ const VideoPlayer: FC<OwnProps> = ({
   const {
     isReady, isBuffered, bufferedRanges, bufferingHandlers, bufferedProgress,
   } = useBuffering();
-  const isUnsupported = useUnsupportedMedia(videoRef, undefined, !url);
+  const isRelayStreaming = Boolean(IS_TAURI && url?.includes('/progressive/'));
+  const isLoadFailed = Boolean(url && failedUrl === url);
+  const isUnsupported = useUnsupportedMedia(videoRef, isRelayStreaming, !url);
+
+  const handleMediaError = useLastCallback((e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    const code = video.error?.code;
+    if (url && (code === MEDIA_ERR_NETWORK || (isRelayStreaming && code === MEDIA_ERR_SRC_NOT_SUPPORTED))) {
+      if (resumeRef.current?.url !== url) {
+        resumeRef.current = { url, position: video.currentTime, shouldPlay: !video.paused || isPlaying };
+      }
+      setFailedUrl(url);
+    }
+  });
+
+  const handleRetry = useLastCallback(() => {
+    const video = videoRef.current;
+    if (!video || !url) return;
+    const shouldPlay = resumeRef.current?.url !== url || resumeRef.current.shouldPlay;
+    setFailedUrl(undefined);
+    video.load();
+    if (shouldPlay && !noPlay && isMediaViewerOpen) safePlay(video);
+  });
+
+  const handleReloadedMetadata = useLastCallback((e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const resume = resumeRef.current;
+    if (!resume || resume.url !== url) return;
+    resumeRef.current = undefined;
+    const reloadedDuration = e.currentTarget.duration;
+    if (resume.position > 0 && !Number.isNaN(reloadedDuration)) {
+      e.currentTarget.currentTime = Math.min(resume.position, reloadedDuration);
+    }
+  });
+
+  useEffect(() => {
+    if (resumeRef.current?.url !== url) resumeRef.current = undefined;
+    onlineRecoveryCountRef.current = 0;
+  }, [url]);
+
+  const handleOnline = useLastCallback(() => {
+    if (!isLoadFailed || navigator.onLine === false || onlineRecoveryCountRef.current >= MAX_VIDEO_ONLINE_RECOVERIES) {
+      return;
+    }
+    onlineRecoveryCountRef.current++;
+    handleRetry();
+  });
+
+  useEffect(() => {
+    if (!isRelayStreaming || !isMediaViewerOpen || noPlay) return undefined;
+    window.addEventListener('online', handleOnline);
+    return () => window.removeEventListener('online', handleOnline);
+  }, [handleOnline, isMediaViewerOpen, isRelayStreaming, noPlay]);
 
   const {
     shouldRender: shouldRenderSpinner,
     transitionClassNames: spinnerClassNames,
   } = useShowTransitionDeprecated(
-    !isBuffered && !isUnsupported, undefined, undefined, 'slow',
+    !isBuffered && !isUnsupported && !isLoadFailed, undefined, undefined, 'slow',
   );
   const {
     shouldRender: shouldRenderPlayButton,
     transitionClassNames: playButtonClassNames,
   } = useShowTransitionDeprecated(
-    IS_IOS && !isPlaying && !shouldRenderSpinner && !isUnsupported, undefined, undefined, 'slow',
+    IS_IOS && !isPlaying && !shouldRenderSpinner && !isUnsupported && !isLoadFailed, undefined, undefined, 'slow',
   );
 
   const [, setCurrentTime] = useCurrentTimeSignal();
@@ -299,7 +367,9 @@ const VideoPlayer: FC<OwnProps> = ({
       }
     };
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isInPictureInPicture) return;
+      if (isInPictureInPicture || isLoadFailed || e.defaultPrevented || (
+        e.target instanceof HTMLElement && e.target.closest('.MediaContextHost, .MediaContextTrigger')
+      )) return;
       switch (e.key) {
         case ' ':
         case 'Enter':
@@ -324,19 +394,23 @@ const VideoPlayer: FC<OwnProps> = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown, false);
     };
-  }, [togglePlayState, isMediaViewerOpen, isFullscreen, isInPictureInPicture]);
+  }, [togglePlayState, isMediaViewerOpen, isFullscreen, isInPictureInPicture, isLoadFailed]);
 
-  const wrapperStyle = posterSize && `width: ${posterSize.width}px; height: ${posterSize.height}px`;
+  const wrapperStyle = posterSize && !(isFullscreen && isPlayerFullscreenTarget)
+    ? `width: ${posterSize.width}px; height: ${posterSize.height}px` : undefined;
   const videoStyle = `background-image: url(${posterData})`;
   const shouldToggleControls = !IS_TOUCH_ENV && !isForceMobileVersion;
+  const hasContextMenu = Boolean(contextActions?.length && !isLoadFailed);
 
   return (
     <div
+      ref={playerRef}
       className="VideoPlayer"
       onMouseMove={shouldToggleControls ? handleVideoMove : undefined}
       onMouseLeave={shouldToggleControls ? handleVideoLeave : undefined}
     >
       <div
+        className="VideoPlayerFrame"
         style={wrapperStyle}
       >
         {isProtected && (
@@ -357,13 +431,16 @@ const VideoPlayer: FC<OwnProps> = ({
           muted={isGif || isMuted}
           id="media-viewer-video"
           style={videoStyle}
+          tabIndex={hasContextMenu ? 0 : undefined}
+          onError={handleMediaError}
           onWaiting={() => setIsVideoWaiting(true)}
           onPlay={() => setIsPlaying(true)}
           onEnded={handleEnded}
-          onClick={!isMobile && !isFullscreen ? handleClick : undefined}
+          onClick={!isMobile && (!isFullscreen || isPlayerFullscreenTarget) ? handleClick : undefined}
           onDoubleClick={!IS_TOUCH_ENV ? handleFullscreenChange : undefined}
 
           {...bufferingHandlers}
+          onLoadedMetadata={handleReloadedMetadata}
           onPause={(e) => {
             setIsPlaying(false);
             bufferingHandlers.onPause(e);
@@ -375,7 +452,12 @@ const VideoPlayer: FC<OwnProps> = ({
       {shouldRenderPlayButton && (
         <Button round className={`play-button ${playButtonClassNames}`} onClick={togglePlayState} iconName="play" />
       )}
-      {shouldRenderSpinner && (
+      {isLoadFailed && (
+        <div className="spinner-container">
+          <MediaLoadError onRetry={handleRetry} />
+        </div>
+      )}
+      {shouldRenderSpinner && !isLoadFailed && (
         <div className={['spinner-container', spinnerClassNames].join(' ')}>
           {!isBuffered && <div className="buffering">Buffering...</div>}
           <ProgressSpinner
@@ -385,7 +467,7 @@ const VideoPlayer: FC<OwnProps> = ({
           />
         </div>
       )}
-      {!isGif && !isSponsoredMessage && !isUnsupported && (
+      {!isGif && !isSponsoredMessage && !isUnsupported && !isLoadFailed && (
         <VideoPlayerControls
           storyboardInfo={storyboardInfo}
           isPlaying={isPlaying}
@@ -412,6 +494,7 @@ const VideoPlayer: FC<OwnProps> = ({
           onSeekingChange={handleSeekingChange}
         />
       )}
+      {hasContextMenu && <MediaContextMenu mediaRef={videoRef} actions={contextActions!} />}
     </div>
   );
 };

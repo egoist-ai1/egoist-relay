@@ -333,8 +333,9 @@ const SocialShareModal = ({
                       : error === 'mediaRateLimited' ? 'RelayInlineMediaRateLimited'
                         : error === 'mediaConnection' ? 'RelayInlineMediaConnection'
                           : error === 'mediaLimit' ? 'RelayInlineMediaLimit'
-                            : error === 'restricted' ? 'RelayShareRestricted'
-                              : error === 'close' ? 'RelayShareCloseError' : 'RelayShareError')}
+                            : error === 'mediaTimeout' ? 'RelayOperationTimeout'
+                              : error === 'restricted' ? 'RelayShareRestricted'
+                                : error === 'close' ? 'RelayShareCloseError' : 'RelayShareError')}
           </p>
         )}
       </div>

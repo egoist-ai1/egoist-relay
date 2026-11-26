@@ -47,6 +47,7 @@ import { downloadFile } from './downloadFile';
 import { uploadFile } from './uploadFile';
 
 import { HttpStreamError } from '../extensions/HttpStream';
+import { isDesktopTelegramOrigin } from '../extensions/PromisedWebSockets';
 import { generateRandomBigInt, sleep } from '../Helpers';
 import RequestState from '../network/RequestState';
 import Session from '../sessions/Abstract';
@@ -228,8 +229,8 @@ class TelegramClient {
     this.apiHash = apiHash;
     this.defaultDcId = args.dcId || DEFAULT_DC_ID;
     this._useIPV6 = args.useIPV6;
-    this._shouldForceHttpTransport = args.shouldForceHttpTransport;
-    this._shouldAllowHttpTransport = args.shouldAllowHttpTransport;
+    this._shouldForceHttpTransport = !isDesktopTelegramOrigin() && args.shouldForceHttpTransport;
+    this._shouldAllowHttpTransport = !isDesktopTelegramOrigin() && args.shouldAllowHttpTransport;
     this._shouldDebugExportedSenders = args.shouldDebugExportedSenders;
     // this._entityCache = new Set()
     if (typeof args.baseLogger === 'string') {
@@ -356,8 +357,9 @@ class TelegramClient {
     this._isSwitchingDc = false;
 
     // Prepare file connection on current DC to speed up initial media loading
-    const mediaSender = await this._borrowExportedSender(this.session.dcId, false, undefined, 0, this.isPremium);
-    if (mediaSender) this.releaseExportedSender(mediaSender);
+    void this.getSender(this.session.dcId, 0, this.isPremium)
+      .then((sender) => this.releaseExportedSender(sender))
+      .catch(() => this._log.debug('Media connection warmup failed'));
   }
 
   async _initSession() {
@@ -377,14 +379,14 @@ class TelegramClient {
   }
 
   async setForceHttpTransport(forceHttpTransport: boolean) {
-    this._shouldForceHttpTransport = forceHttpTransport;
+    this._shouldForceHttpTransport = !isDesktopTelegramOrigin() && forceHttpTransport;
     this.disconnect();
     this._sender = undefined;
     await this.connect();
   }
 
   async setAllowHttpTransport(allowHttpTransport: boolean) {
-    this._shouldAllowHttpTransport = allowHttpTransport;
+    this._shouldAllowHttpTransport = !isDesktopTelegramOrigin() && allowHttpTransport;
     this.disconnect();
     this._sender = undefined;
     await this.connect();
@@ -496,6 +498,16 @@ class TelegramClient {
     }
     self.removeEventListener('online', handleOnline);
     this.disconnect();
+  }
+
+  reconnectTransport() {
+    // The reconnect path retains queued requests, including the random IDs of pending sends.
+    this._sender?.reconnect();
+    for (const promises of Object.values(this._exportedSenderPromises)) {
+      for (const promise of Object.values(promises)) {
+        void promise?.then((sender) => sender?.reconnect()).catch(() => undefined);
+      }
+    }
   }
 
   /**
@@ -1029,6 +1041,7 @@ class TelegramClient {
         dcId: photo.dcId,
         fileSize,
         progressCallback: args.progressCallback,
+        isPriority: args.isPriority,
         start: args.isResearchRequest ? args.start : undefined,
         end: args.isResearchRequest ? args.end : undefined,
         partSizeKb: args.isResearchRequest ? args.partSizeKb : undefined,
@@ -1075,7 +1088,9 @@ class TelegramClient {
         end: args.end,
         dcId: doc.dcId,
         workers: args.workers,
+        isPriority: args.isPriority,
         isResearchRequest: args.isResearchRequest,
+        resumeAccountId: args.resumeAccountId,
       },
     );
   }
@@ -1419,7 +1434,12 @@ class TelegramClient {
 
   // event region
   addEventHandler(callback: CallableFunction, event: EventBuilder) {
-    this._eventBuilders.push([event, callback]);
+    const listener: [EventBuilder, CallableFunction] = [event, callback];
+    this._eventBuilders.push(listener);
+
+    return () => {
+      this._eventBuilders = this._eventBuilders.filter((existing) => existing !== listener);
+    };
   }
 
   _handleUpdate(update: Update) {

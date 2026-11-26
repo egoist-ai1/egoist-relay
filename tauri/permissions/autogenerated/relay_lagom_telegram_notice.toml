@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-relay-lagom-telegram-notice"
+description = "Enables the relay_lagom_telegram_notice command without any pre-configured scope."
+commands.allow = ["relay_lagom_telegram_notice"]
+
+[[permission]]
+identifier = "deny-relay-lagom-telegram-notice"
+description = "Denies the relay_lagom_telegram_notice command without any pre-configured scope."
+commands.deny = ["relay_lagom_telegram_notice"]

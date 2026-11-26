@@ -637,7 +637,10 @@ addActionHandler('requestSimpleWebView', async (global, actions, payload): Promi
     tabId = getCurrentTabId(),
   } = payload;
 
-  if (checkIfOpenOrActivate(global, botId, tabId, url)) return;
+  const launchKey = buildWebAppLaunchKey('simple', botId, [
+    url, startParam, isFromSideMenu, isFromSwitchWebView,
+  ]);
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
 
   const bot = selectUser(global, botId);
   if (!bot) return;
@@ -672,7 +675,9 @@ addActionHandler('requestSimpleWebView', async (global, actions, payload): Promi
   const { url: webViewUrl, isSameOrigin } = result;
 
   global = getGlobal();
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
   const newActiveApp: WebApp = {
+    launchKey,
     requestUrl: url,
     appName: bot.firstName,
     url: webViewUrl,
@@ -690,7 +695,10 @@ addActionHandler('requestWebView', async (global, actions, payload): Promise<voi
     tabId = getCurrentTabId(),
   } = payload;
 
-  if (checkIfOpenOrActivate(global, botId, tabId, url)) return;
+  const launchKey = buildWebAppLaunchKey('chat', botId, [
+    peerId, url, startParam, Boolean(isFromBotMenu), Boolean(isSilent), Boolean(isFullscreen),
+  ]);
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
 
   const bot = selectUser(global, botId);
   if (!bot) return;
@@ -742,7 +750,9 @@ addActionHandler('requestWebView', async (global, actions, payload): Promise<voi
   } = result;
 
   global = getGlobal();
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
   const newActiveApp: WebApp = {
+    launchKey,
     requestUrl: url,
     url: webViewUrl,
     appName: bot.firstName,
@@ -767,7 +777,8 @@ addActionHandler('openChatInviteWebView', (global, actions, payload): ActionRetu
     tabId = getCurrentTabId(),
   } = payload;
 
-  if (checkIfOpenOrActivate(global, botId, tabId, url)) return;
+  const key = getWebAppKey({ botId, requestUrl: url });
+  if (checkIfOpenOrActivate(global, tabId, key)) return;
 
   const bot = selectUser(global, botId);
   if (!bot) return;
@@ -854,7 +865,8 @@ addActionHandler('requestMainWebView', async (global, actions, payload): Promise
     return;
   }
 
-  if (checkIfOpenOrActivate(global, botId, tabId)) return;
+  const launchKey = buildWebAppLaunchKey('main', botId, [peerId, startParam, mode]);
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
 
   const bot = selectUser(global, botId);
   if (!bot) {
@@ -907,7 +919,9 @@ addActionHandler('requestMainWebView', async (global, actions, payload): Promise
   } = result;
 
   global = getGlobal();
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
   const newActiveApp: WebApp = {
+    launchKey,
     url: webViewUrl,
     appName: bot.firstName,
     botId,
@@ -981,10 +995,14 @@ addActionHandler('requestAppWebView', async (global, actions, payload): Promise<
     tabId = getCurrentTabId(),
   } = payload;
 
-  if (checkIfOpenOrActivate(global, botId, tabId, appName)) return;
-
   const bot = selectUser(global, botId);
   if (!bot) return;
+
+  const peer = selectCurrentChat(global, tabId) || bot;
+  const launchKey = buildWebAppLaunchKey('named', botId, [
+    peer.id, appName, startApp, mode, Boolean(isWriteAllowed),
+  ]);
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
 
   // Native clients require to install attach bots before using their named mini apps
   const isAttachBotInstalled = Boolean(global.attachMenu.bots[bot.id]);
@@ -1047,10 +1065,8 @@ addActionHandler('requestAppWebView', async (global, actions, payload): Promise<
     return;
   }
 
-  const peer = selectCurrentChat(global, tabId);
-
   const result = await callApi('requestAppWebView', {
-    peer: peer || bot,
+    peer,
     app: botApp,
     startParam: startApp,
     mode,
@@ -1060,17 +1076,20 @@ addActionHandler('requestAppWebView', async (global, actions, payload): Promise<
 
   if (!result) return;
 
-  const { url, isFullscreen, isSameOrigin } = result;
+  const {
+    url, isFullscreen, isSameOrigin, queryId,
+  } = result;
 
   global = getGlobal();
-
-  const peerId = (peer ? peer.id : bot.id);
+  if (checkIfOpenOrActivate(global, tabId, launchKey)) return;
 
   const newActiveApp: WebApp = {
+    launchKey,
     url,
-    appName: appName && bot.firstName,
-    peerId,
+    appName: botApp.title || bot.firstName,
+    peerId: peer.id,
     botId,
+    queryId,
     isSameOrigin,
     buttonText: '',
   };
@@ -1139,27 +1158,21 @@ addActionHandler('toggleAttachBot', async (global, actions, payload): Promise<vo
   await callApi('toggleAttachBot', { bot, isWriteAllowed, isEnabled });
 });
 
-export function isWepAppOpened<T extends GlobalState>(
-  global: T, webApp: Partial<WebApp>, tabId: number,
+function buildWebAppLaunchKey(
+  kind: 'simple' | 'chat' | 'main' | 'named',
+  botId: string,
+  parameters: (string | boolean | undefined)[],
 ) {
-  const key = getWebAppKey(webApp);
-  if (!key) return false;
-  return Boolean(selectWebApp(global, key, tabId));
+  return `webApp:${JSON.stringify([kind, botId, ...parameters])}`;
 }
 
-export function checkIfOpenOrActivate<T extends GlobalState>(
-  global: T, botId: string, tabId: number, requestUrl?: string, webAppName?: string,
+function checkIfOpenOrActivate<T extends GlobalState>(
+  global: T, tabId: number, key: string,
 ) {
-  const webAppForCheck = { botId, requestUrl, webAppName };
-  if (isWepAppOpened(global, webAppForCheck, tabId)) {
-    const key = getWebAppKey(webAppForCheck);
-    if (key) {
-      global = activateBrowserTabIfOpen(global, key, tabId);
-      setGlobal(global);
-    }
-    return true;
-  }
-  return false;
+  if (!selectWebApp(global, key, tabId)) return false;
+  global = activateBrowserTabIfOpen(global, key, tabId);
+  setGlobal(global);
+  return true;
 }
 
 async function loadAttachBots<T extends GlobalState>(global: T, hash?: string) {

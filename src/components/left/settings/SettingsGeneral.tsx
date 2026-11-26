@@ -3,7 +3,7 @@ import {
 } from '../../../lib/teact/teact';
 import { getActions, withGlobal } from '../../../global';
 
-import type { GlobalState, SharedSettings } from '../../../global/types';
+import type { SharedSettings } from '../../../global/types';
 import type { TimeFormat } from '../../../types';
 import type { IRadioOption } from '../../ui/RadioGroup';
 import { SettingsScreens } from '../../../types';
@@ -13,6 +13,7 @@ import {
   ANTIGRAVITY_THEMES, applyAntigravityTheme, getActiveThemeVariantId,
 } from '../../../util/antigravityThemes';
 import applyMessageTextSize from '../../../util/applyMessageTextSize';
+import { IS_TAURI } from '../../../util/browser/globalEnvironment';
 import {
   IS_ANDROID, IS_IOS, IS_MAC_OS,
 } from '../../../util/browser/windowEnvironment';
@@ -42,11 +43,8 @@ type StateProps =
     'shouldReplaceTextShortcuts' |
     'timeFormat' |
     'theme' |
-    'shouldUseSystemTheme' |
-    'shouldWarmupSocialViews'
-  )> & {
-    connectionRoute?: GlobalState['connectionRoute'];
-  };
+    'shouldUseSystemTheme'
+  )>;
 
 const SettingsGeneral = ({
   isActive,
@@ -56,8 +54,6 @@ const SettingsGeneral = ({
   timeFormat,
   theme,
   shouldUseSystemTheme,
-  shouldWarmupSocialViews,
-  connectionRoute,
   onReset,
 }: OwnProps & StateProps) => {
   const {
@@ -131,10 +127,6 @@ const SettingsGeneral = ({
     setSharedSettingOption({ shouldReplaceTextShortcuts: shouldReplace });
   });
 
-  const handleWarmupSocialChange = useLastCallback((shouldWarmup: boolean) => {
-    setSharedSettingOption({ shouldWarmupSocialViews: shouldWarmup });
-  });
-
   useHistoryBack({
     isActive,
     onBack: onReset,
@@ -182,15 +174,19 @@ const SettingsGeneral = ({
         />
       </Island>
 
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('SettingsTimeFormat')}</IslandTitle>
-      <Island>
-        <RadioGroup
-          name="timeformat"
-          options={timeFormatOptions}
-          selected={timeFormat}
-          onChange={handleTimeFormatChange}
-        />
-      </Island>
+      {!IS_TAURI && (
+        <>
+          <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('SettingsTimeFormat')}</IslandTitle>
+          <Island>
+            <RadioGroup
+              name="timeformat"
+              options={timeFormatOptions}
+              selected={timeFormat}
+              onChange={handleTimeFormatChange}
+            />
+          </Island>
+        </>
+      )}
 
       <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('SettingsKeyboard')}</IslandTitle>
       <Island>
@@ -209,24 +205,6 @@ const SettingsGeneral = ({
           onCheck={handleTextShortcutReplacementChange}
         />
       </Island>
-
-      <IslandTitle dir={lang.isRtl ? 'rtl' : undefined}>{lang('RelayNetworkTitle')}</IslandTitle>
-      <Island>
-        {connectionRoute && (
-          <ListItem inactive>
-            <span>
-              {lang(connectionRoute.kind === 'lagom' ? 'RelayRouteLagom' : 'RelayRouteDirect')}
-              {connectionRoute.rttMs !== undefined && ` · ${Math.round(connectionRoute.rttMs)} ${lang('RelayRouteMs')}`}
-            </span>
-          </ListItem>
-        )}
-        <Checkbox
-          label={lang('RelayWarmupSocial')}
-          subLabel={lang('RelayWarmupSocialHint')}
-          checked={shouldWarmupSocialViews !== false}
-          onCheck={handleWarmupSocialChange}
-        />
-      </Island>
     </div>
   );
 };
@@ -240,12 +218,9 @@ export default memo(withGlobal<OwnProps>(
       shouldReplaceTextShortcuts,
       messageTextSize,
       timeFormat,
-      shouldWarmupSocialViews,
     } = selectSharedSettings(global);
 
     return {
-      shouldWarmupSocialViews,
-      connectionRoute: global.connectionRoute,
       messageSendKeyCombo,
       shouldReplaceTextShortcuts,
       messageTextSize,

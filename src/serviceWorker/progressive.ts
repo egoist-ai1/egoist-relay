@@ -23,6 +23,7 @@ type RequestStates = {
 };
 
 const MB = 1024 * 1024;
+const FIRST_PART_SIZE = 128 * 1024;
 const DEFAULT_PART_SIZE = 0.5 * MB;
 const MAX_END_TO_CACHE = 16 * MB - 1; // Cache up to 16 MB of each progressive media stream
 const PART_TIMEOUT = 60000;
@@ -51,7 +52,8 @@ export async function respondForProgressive(e: FetchEvent) {
     return respondForInvalidRange(hasFileSize ? fileSize : undefined);
   }
 
-  let end = Math.min(originalEnd ?? Infinity, start + DEFAULT_PART_SIZE - 1);
+  const partLimit = start === 0 ? FIRST_PART_SIZE : DEFAULT_PART_SIZE;
+  let end = Math.min(originalEnd ?? Infinity, start + partLimit - 1);
   if (hasFileSize) end = Math.min(end, fileSize - 1);
 
   // Optimization for Safari
@@ -209,13 +211,14 @@ self.addEventListener('message', (e) => {
   const { type, messageId, result } = e.data as {
     type: string;
     messageId: string;
-    result: PartInfo;
+    result?: PartInfo;
   };
 
   if (type === 'partResponse') {
     const requestState = requestStates.get(messageId);
     if (requestState && e.source && 'id' in e.source && e.source.id === requestState.clientId) {
-      requestState.resolve(result);
+      if (result) requestState.resolve(result);
+      else requestState.reject(new Error('ERROR_PART_UNAVAILABLE'));
     }
   }
 });

@@ -209,14 +209,18 @@ interface FileSystemFileHandle extends FileSystemHandle {
   createSyncAccessHandle(): Promise<FileSystemSyncAccessHandle>;
 }
 
+interface FileSystemDirectoryHandle extends FileSystemHandle {
+  values(): AsyncIterableIterator<FileSystemHandle>;
+}
+
 interface FileSystemSyncAccessHandle {
   read: (buffer: BufferSource, options: FilesystemReadWriteOptions) => number;
   write: (buffer: BufferSource, options: FilesystemReadWriteOptions) => number;
 
-  truncate: (size: number) => Promise<undefined>;
-  getSize: () => Promise<number>;
-  flush: () => Promise<undefined>;
-  close: () => Promise<undefined>;
+  truncate: (size: number) => void;
+  getSize: () => number;
+  flush: () => void;
+  close: () => void;
 }
 
 type FilesystemReadWriteOptions = {

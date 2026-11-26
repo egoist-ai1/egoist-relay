@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from '../../../../lib/teact/teact';
 import { getActions, getGlobal } from '../../../../global';
 
 import type { WebApp, WebAppInboundEvent, WebAppOutboundEvent } from '../../../../types/webapp';
-import type { NativeWebAppFrame } from '../../../../util/tauri/botWebApps';
+import type { NativeWebAppFrame, NativeWebAppLoadFailure } from '../../../../util/tauri/botWebApps';
 
 import { getWebAppKey } from '../../../../global/helpers';
 import { isMessageFromIframe } from '../../../../util/browser/iframe';
@@ -39,6 +39,8 @@ const SCROLLBAR_STYLE = `* {
 const RELOAD_TIMEOUT = 500;
 const FULLSCREEN_BUTTONS_AREA_HEIGHT = 3.675 * REM;
 
+export type NativeLoadState = 'loading' | NativeWebAppLoadFailure;
+
 const useWebAppFrame = (
   ref: ElementRef<HTMLIFrameElement>,
   isOpen: boolean,
@@ -48,6 +50,7 @@ const useWebAppFrame = (
   webApp?: WebApp,
   onLoad?: () => void,
   isNativeVisible = isOpen,
+  onNativeLoadStateChange?: (state: NativeLoadState) => void,
 ) => {
   const {
     showNotification,
@@ -412,12 +415,17 @@ const useWebAppFrame = (
   const handleNativeData = useLastCallback(handleData);
   const handleNativeLoad = useLastCallback(() => onLoad?.());
   const getNativeVisible = useLastCallback(() => isNativeVisible);
-  const handleNativeError = useLastCallback(() => {
-    onLoad?.();
-    showNotification({ message: lang('RelayMiniAppLoadFailed') });
+  const handleNativeLoading = useLastCallback(() => onNativeLoadStateChange?.('loading'));
+  const handleNativeError = useLastCallback((failure: NativeWebAppLoadFailure) => onNativeLoadStateChange?.(failure));
+  const handleNativePopupError = useLastCallback(() => {
+    showNotification({ message: lang('RelayMiniAppPopupFailed') });
   });
   const handleNativeEscape = useLastCallback(() => {
-    closeBrowserModal();
+    if (isFullscreen) {
+      changeBrowserModalState({ state: 'maximized' });
+    } else {
+      closeBrowserModal();
+    }
   });
   const handleNativeDownloads = useLastCallback(() => changeBrowserModalState({ state: 'minimized' }));
 
@@ -425,6 +433,7 @@ const useWebAppFrame = (
     if (!isNative || !ref.current || !webApp?.url) return undefined;
     const native = createNativeWebAppFrame(ref.current, webApp.url, {
       isVisible: getNativeVisible, onMessage: handleNativeData, onLoad: handleNativeLoad,
+      onLoading: handleNativeLoading, onPopupError: handleNativePopupError,
       onError: handleNativeError, onEscape: handleNativeEscape, onDownloads: handleNativeDownloads,
     });
     nativeFrameRef.current = native;
@@ -437,19 +446,23 @@ const useWebAppFrame = (
       native.dispose();
     };
   }, [isNative, ref, webApp?.url, getNativeVisible, handleNativeData, handleNativeLoad,
-    handleNativeError, handleNativeEscape, handleNativeDownloads]);
+    handleNativeLoading, handleNativePopupError, handleNativeError, handleNativeEscape, handleNativeDownloads]);
 
   useEffect(() => {
     nativeFrameRef.current?.update();
   }, [isNativeVisible]);
 
   useEffect(() => {
+    if (isNative && !isNativeVisible) {
+      lastFrameSizeRef.current = undefined;
+      return;
+    }
     const { width, height, isResizing } = windowSize;
     if (lastFrameSizeRef.current && lastFrameSizeRef.current.width === width
       && lastFrameSizeRef.current.height === height && !lastFrameSizeRef.current.isResizing) return;
     lastFrameSizeRef.current = { width, height, isResizing };
     sendViewport(isResizing);
-  }, [sendViewport, sendSafeArea, windowSize]);
+  }, [sendViewport, sendSafeArea, windowSize, isNative, isNativeVisible]);
 
   useEffect(() => {
     if (!webApp?.plannedEvents?.length) return;

@@ -1,4 +1,4 @@
-import { memo } from '../../lib/teact/teact';
+import { memo, useRef } from '../../lib/teact/teact';
 import { getActions, withGlobal } from '../../global';
 
 import type {
@@ -6,15 +6,21 @@ import type {
 } from '../../api/types';
 import type { MediaViewerOrigin, ThreadId } from '../../types';
 import type { MediaViewerItem, ViewableMedia } from './helpers/getViewableMedia';
+import type { MediaContextAction } from './MediaContextMenu';
+import { ApiMediaFormat, MAIN_THREAD_ID } from '../../api/types';
 
 import { MEDIA_TIMESTAMP_SAVE_MINIMUM_DURATION } from '../../config';
+import { getMediaHash, isChatChannel, isChatSuperGroup, isMessageLocal } from '../../global/helpers';
 import { hasRichText } from '../../global/helpers/richMessage';
 import {
-  selectIsMessageProtected, selectTabState,
+  selectChat, selectIsMessageProtected, selectTabState,
 } from '../../global/selectors';
 import { selectMessageTimestampableDuration } from '../../global/selectors/media';
-import { IS_TOUCH_ENV } from '../../util/browser/windowEnvironment';
+import { IS_TAURI } from '../../util/browser/globalEnvironment';
+import { IS_TOUCH_ENV, IS_WINDOWS } from '../../util/browser/windowEnvironment';
 import buildClassName from '../../util/buildClassName';
+import { CLIPBOARD_ITEM_SUPPORTED, copyImageToClipboard, copyTextToClipboardFromPromise } from '../../util/clipboard';
+import * as mediaLoader from '../../util/mediaLoader';
 import stopEvent from '../../util/stopEvent';
 import { calculateMediaViewerDimensions } from '../common/helpers/mediaDimensions';
 import { renderMessageText } from '../common/helpers/renderMessageText';
@@ -32,6 +38,8 @@ import { useMediaProps } from './hooks/useMediaProps';
 
 import RichText from '../iv/RichText';
 import Spinner from '../ui/Spinner';
+import MediaContextMenu from './MediaContextMenu';
+import MediaLoadError from './MediaLoadError';
 import MediaViewerFooter from './MediaViewerFooter';
 import VideoPlayer from './VideoPlayer';
 
@@ -52,6 +60,7 @@ type StateProps = {
   textMessage?: ApiMessage | ApiSponsoredMessage;
   origin?: MediaViewerOrigin;
   isProtected?: boolean;
+  canCopyMessageLink?: boolean;
   volume: number;
   isMuted: boolean;
   isHidden?: boolean;
@@ -73,6 +82,7 @@ const MediaViewerContent = ({
   origin,
   withAnimation,
   isProtected,
+  canCopyMessageLink,
   volume,
   playbackRate,
   isMuted,
@@ -85,7 +95,9 @@ const MediaViewerContent = ({
   onFooterClick,
   handleSponsoredClick,
 }: OwnProps & StateProps) => {
-  const { updateLastPlaybackTimestamp } = getActions();
+  const {
+    updateLastPlaybackTimestamp, downloadMedia, copyMessageLink, showNotification,
+  } = getActions();
 
   const lang = useOldLang();
   const captionContainerId = useUniqueId();
@@ -104,8 +116,10 @@ const MediaViewerContent = ({
     isVideoAvatar,
     mediaSize,
     loadProgress,
+    hasLoadError,
+    retryLoad,
   } = useMediaProps({
-    media, isAvatar, origin, delay: withAnimation ? ANIMATION_DURATION : false,
+    media, isAvatar, origin, delay: withAnimation ? ANIMATION_DURATION : false, noLoadFull: !isActive,
   });
 
   const [, toggleControls] = useControlsSignal();
@@ -134,17 +148,83 @@ const MediaViewerContent = ({
   useSignalEffect(updatePlaybackTimestamp, [getCurrentTime]);
 
   if (!media) return undefined;
+  if (isActive && hasLoadError && !bestData) {
+    return (
+      <div className="MediaViewerContent">
+        <MediaLoadError onRetry={retryLoad} />
+      </div>
+    );
+  }
+  const retryPhotoLoad = isActive && hasLoadError ? retryLoad : undefined;
+  const contextActions: MediaContextAction[] = [];
+  const originMessage = item.type === 'message' ? item.message : undefined;
+  if (isActive && bestData && !isProtected && !isSponsoredMessage && !originMessage?.isEphemeral) {
+    const localUrl = 'blobUrl' in media ? media.blobUrl : undefined;
+    const downloadHash = getMediaHash(media, 'download');
+    const fullImageHash = isPhoto && !isVideoAvatar && getMediaHash(media, 'full');
+    if (localUrl || downloadHash) {
+      contextActions.push({
+        icon: 'download',
+        label: 'RelayMediaSave',
+        run: () => downloadMedia({ media, originMessage }),
+      });
+      if (IS_TAURI && IS_WINDOWS) {
+        contextActions.push({
+          icon: 'copy',
+          label: 'RelayMediaCopyFile',
+          run: () => downloadMedia({ media, originMessage, copyToClipboard: true }),
+        });
+      }
+    }
+    if (CLIPBOARD_ITEM_SUPPORTED && isPhoto && !isVideoAvatar && (localUrl || fullImageHash)) {
+      contextActions.push({
+        icon: 'photo',
+        label: 'ContextCopyImage',
+        run: async () => {
+          const source = localUrl || (fullImageHash
+            ? mediaLoader.fetch(fullImageHash, ApiMediaFormat.BlobUrl) : undefined);
+          const copied = await copyImageToClipboard(source);
+          showNotification({ message: { key: copied ? 'RelayImageCopied' : 'RelayCopyImageError' } });
+        },
+      });
+    }
+    const pageUrl = item.type === 'pageBlock' ? item.pageMedia.pageUrl : undefined;
+    if (originMessage && canCopyMessageLink) {
+      contextActions.push({
+        icon: 'link',
+        label: 'CopyLink',
+        run: () => copyMessageLink({
+          chatId: originMessage.chatId,
+          messageId: originMessage.id,
+          shouldIncludeThread: Boolean(threadId && threadId !== MAIN_THREAD_ID),
+          shouldIncludeGrouped: false,
+        }),
+      });
+    } else if (pageUrl) {
+      contextActions.push({
+        icon: 'link',
+        label: 'CopyLink',
+        run: () => void copyTextToClipboardFromPromise(
+          Promise.resolve(pageUrl),
+          () => showNotification({ message: { key: 'LinkCopied' } }),
+          () => showNotification({ message: lang('ErrorOccurred') }),
+        ),
+      });
+    }
+  }
 
   if (item.type === 'avatar') {
     if (!isVideoAvatar) {
       return (
         <div key={media.id} className="MediaViewerContent">
-          {renderPhoto(
-            bestData,
-            calculateMediaViewerDimensions(dimensions!, false),
-            !isMobile && !isProtected,
-            isProtected,
-          )}
+          <MediaViewerPhoto
+            blobUrl={bestData}
+            imageSize={calculateMediaViewerDimensions(dimensions!, false)}
+            canDrag={!isMobile && !isProtected}
+            isProtected={isProtected}
+            onRetry={retryPhotoLoad}
+            contextActions={contextActions}
+          />
         </div>
       );
     } else {
@@ -160,6 +240,7 @@ const MediaViewerContent = ({
             fileSize={mediaSize!}
             isMediaViewerOpen={isOpen && isActive}
             isProtected={isProtected}
+            contextActions={contextActions}
             noPlay={!isActive}
             onClose={onClose}
             isMuted
@@ -201,11 +282,16 @@ const MediaViewerContent = ({
       className={buildClassName('MediaViewerContent', hasFooter && 'has-footer')}
       onMouseMove={isForceMobileVersion && !IS_TOUCH_ENV ? toggleControlsOnMove : undefined}
     >
-      {isPhoto && renderPhoto(
-        bestData,
-        posterSize,
-        !isMobile && !isProtected,
-        isProtected,
+      {isPhoto && (
+        <MediaViewerPhoto
+          key={media.id}
+          blobUrl={bestData}
+          imageSize={posterSize}
+          canDrag={!isMobile && !isProtected}
+          isProtected={isProtected}
+          onRetry={retryPhotoLoad}
+          contextActions={contextActions}
+        />
       )}
       {isVideo && (!isActive ? renderVideoPreview(
         bestImageData,
@@ -229,6 +315,7 @@ const MediaViewerContent = ({
           isHidden={isHidden}
           isForceMobileVersion={isForceMobileVersion}
           isProtected={isProtected}
+          contextActions={contextActions}
           volume={volume}
           isClickDisabled={isMoving}
           playbackRate={playbackRate}
@@ -264,6 +351,7 @@ export default memo(withGlobal<OwnProps>(
       threadId,
     } = selectTabState(global).mediaViewer;
     const message = item.type === 'message' ? item.message : undefined;
+    const chat = message && selectChat(global, message.chatId);
     const sponsoredMessage = item.type === 'sponsoredMessage' ? item.message : undefined;
     const textMessage = message || sponsoredMessage;
     const pageMedia = item.type === 'pageBlock' ? item.pageMedia : undefined;
@@ -275,6 +363,8 @@ export default memo(withGlobal<OwnProps>(
       origin,
       textMessage,
       isProtected: pageMedia?.isProtected || (message && selectIsMessageProtected(global, message)),
+      canCopyMessageLink: message && chat && !isMessageLocal(message)
+        && !chat.isMonoforum && (isChatChannel(chat) || isChatSuperGroup(chat)),
       volume,
       isMuted,
       isHidden,
@@ -331,28 +421,42 @@ function renderPageCaption(
   );
 }
 
-function renderPhoto(blobUrl?: string, imageSize?: ApiDimensions, canDrag?: boolean, isProtected?: boolean) {
-  return blobUrl
-    ? (
-      <div style="position: relative;">
-        {isProtected && <div onContextMenu={stopEvent} className="protector" />}
-        <img
-          src={blobUrl}
-          alt=""
-          className={buildClassName(isProtected && 'is-protected')}
-          style={imageSize ? `width: ${imageSize.width}px` : ''}
-          draggable={Boolean(canDrag)}
-        />
-      </div>
-    )
-    : (
-      <div
-        className="spinner-wrapper"
-        style={imageSize ? `width: ${imageSize.width}px` : ''}
-      >
+function MediaViewerPhoto({
+  blobUrl, imageSize, canDrag, isProtected, onRetry, contextActions,
+}: {
+  blobUrl?: string;
+  imageSize: ApiDimensions;
+  canDrag?: boolean;
+  isProtected?: boolean;
+  onRetry?: NoneToVoidFunction;
+  contextActions: MediaContextAction[];
+}) {
+  const imageRef = useRef<HTMLImageElement>();
+  const hasContextMenu = Boolean(contextActions.length);
+  return (
+    <div
+      className="MediaViewerPhoto"
+      style={`width: ${imageSize.width}px; height: ${imageSize.height}px`}
+    >
+      {blobUrl ? (
+        <>
+          {isProtected && <div onContextMenu={stopEvent} className="protector" />}
+          <img
+            ref={imageRef}
+            src={blobUrl}
+            alt=""
+            className={buildClassName('MediaViewerPhotoImage', isProtected && 'is-protected')}
+            draggable={Boolean(canDrag)}
+            tabIndex={hasContextMenu ? 0 : undefined}
+          />
+          {hasContextMenu && <MediaContextMenu mediaRef={imageRef} actions={contextActions} />}
+        </>
+      ) : (
         <Spinner color="white" />
-      </div>
-    );
+      )}
+      {onRetry && <MediaLoadError onRetry={onRetry} />}
+    </div>
+  );
 }
 
 function renderVideoPreview(blobUrl?: string, imageSize?: ApiDimensions, canDrag?: boolean, isProtected?: boolean) {

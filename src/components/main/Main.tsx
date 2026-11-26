@@ -39,14 +39,12 @@ import { waitForTransitionEnd } from '../../util/cssAnimationEndListeners';
 import { processDeepLink } from '../../util/deeplink';
 import { Bundles, loadBundle } from '../../util/moduleLoader';
 import { parseInitialLocationHash, parseLocationHash } from '../../util/routing';
-import { normalizeNativeDeepLinks } from '../../util/tauri/deepLinks';
 import updateIcon from '../../util/updateIcon';
 import { REM } from '../common/helpers/mediaDimensions';
 import { updateTopReserveWithScrollCompensation } from '../middle/helpers/messageListReserves';
 
 import useInterval from '../../hooks/schedulers/useInterval';
 import useTimeout from '../../hooks/schedulers/useTimeout';
-import useTauriEvent from '../../hooks/tauri/useTauriEvent';
 import useAppLayout from '../../hooks/useAppLayout';
 import useForceUpdate from '../../hooks/useForceUpdate';
 import useLang from '../../hooks/useLang';
@@ -424,7 +422,7 @@ const Main = ({
 
   // Ensure time format
   useEffect(() => {
-    if (!wasTimeFormatSetManually) {
+    if (!IS_TAURI && !wasTimeFormatSetManually) {
       ensureTimeFormat();
     }
   }, [wasTimeFormatSetManually]);
@@ -439,19 +437,6 @@ const Main = ({
       processDeepLink(decodeURIComponent(parsedInitialLocationHash.tgaddr), { type: 'inner' });
     }
   }, [isSynced]);
-
-  useTauriEvent<unknown>('deeplink', (event) => {
-    for (const url of normalizeNativeDeepLinks(event.payload)) {
-      try {
-        processDeepLink(url, { type: 'inner' });
-      } catch (e) {
-        if (DEBUG) {
-          // eslint-disable-next-line no-console
-          console.error('Failed to process deep link', e);
-        }
-      }
-    }
-  });
 
   useEffect(() => {
     const parsedLocationHash = parseLocationHash(currentUserId);

@@ -21,7 +21,7 @@
   --relay-shell-text: var(--color-text);
   --relay-shell-muted: var(--color-text-secondary);
   --relay-shell-focus: var(--color-text);
-  --relay-shell-rail-width: 4.5rem;
+  --relay-shell-rail-width: 3.5rem;
   --relay-shell-caption-height: 2.5rem;
 
   position: relative;
@@ -49,6 +49,24 @@
   min-height: 0;
 
   background: var(--relay-shell-background);
+}
+
+.workspaceLayers {
+  display: contents;
+}
+
+.workspaceLock {
+  position: absolute;
+  z-index: 1000;
+  inset: 0;
+
+  overflow: auto;
+
+  background: var(--relay-shell-background);
+}
+
+:global(body):has(.workspaceLock) :global(#portals) {
+  display: none;
 }
 
 .nativeViewport,
@@ -88,6 +106,15 @@
   contain: layout;
 }
 
+.telegramPane,
+.xPane,
+.instagramPane {
+  &:focus-visible {
+    outline: 0.125rem solid var(--relay-shell-focus);
+    outline-offset: -0.125rem;
+  }
+}
+
 .xPane,
 .instagramPane {
   color: var(--relay-shell-text);
@@ -101,144 +128,264 @@
 
   width: 100%;
   min-height: 0;
-  padding: clamp(1.25rem, 4vw, 2.5rem);
-
-  background: var(--relay-shell-background);
+  padding: clamp(0.75rem, 4vw, 2.5rem);
 }
 
 .xStatus {
-  display: flex;
-  flex-direction: column;
+  --service-panel-padding: clamp(1rem, 4vw, 1.75rem);
+
   flex-shrink: 0;
-  align-items: center;
 
-  width: min(100%, 30rem);
+  width: min(100%, 34rem);
+  min-width: 0;
   margin: auto;
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border: 0.0625rem solid var(--relay-shell-border);
-  border-radius: 1.25rem;
+  border: 0.0625rem solid var(--relay-shell-border-strong);
+  border-radius: var(--radius-lg);
 
-  text-align: center;
+  text-align: start;
 
   background: var(--relay-shell-surface);
+
+  animation: serviceStatusEnter var(--dur-fast) var(--ease-standard) both;
 }
 
-.xStatusMark {
-  position: relative;
+.serviceIntro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-start;
 
+  padding: var(--service-panel-padding);
+}
+
+.serviceMark {
   display: grid;
+  flex: 0 0 auto;
   place-items: center;
 
-  width: 4.5rem;
-  height: 4.5rem;
-  margin-bottom: 1.25rem;
+  width: 3rem;
+  height: 3rem;
   border: 0.0625rem solid var(--relay-shell-border-strong);
-  border-radius: 1.25rem;
+  border-radius: var(--radius-md);
 
   color: var(--relay-shell-text);
 
   background: var(--relay-shell-background);
 }
 
-.xStatusIcon {
-  width: 2rem;
-  height: 2rem;
+.serviceIcon {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.xStatusMarkError {
-  border-color: var(--relay-shell-border-strong);
-  color: var(--relay-shell-muted);
+.serviceCopy {
+  flex: 1 1 12rem;
+  min-width: 0;
 }
 
-.xSpinner {
-  position: absolute;
-  inset: -0.375rem;
-
-  border: 0.125rem solid transparent;
-  border-top-color: var(--relay-shell-text);
-  border-radius: 50%;
-
-  animation: xSpinner 900ms linear infinite;
-}
-
-.xStatusTitle {
+.serviceTitle {
   margin: 0;
 
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
+  line-height: 1.25;
   color: var(--relay-shell-text);
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
 
-.xStatusText {
-  max-width: 24rem;
-  margin: 0.75rem 0 0;
+.serviceText {
+  max-width: 38ch;
+  margin: 0.5rem 0 0;
 
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.5;
   color: var(--relay-shell-muted);
   overflow-wrap: anywhere;
 }
 
-.xRetryButton {
-  cursor: pointer;
+.serviceProgress {
+  overflow: hidden;
+  display: block;
 
-  min-width: 8rem;
-  min-height: 2.75rem;
-  margin-top: 1.5rem;
-  padding: 0.625rem 1.25rem;
-  border: 0.0625rem solid var(--relay-shell-text);
-  border-radius: 0.75rem;
+  width: min(100%, 7rem);
+  height: 0.1875rem;
+  margin-top: var(--space-4);
+  border-radius: var(--radius-pill);
+
+  background: var(--relay-shell-border-strong);
+
+  &::after {
+    content: '';
+
+    display: block;
+
+    width: 38%;
+    height: 100%;
+    border-radius: inherit;
+
+    background: var(--relay-shell-text);
+
+    animation: serviceProgress 1.4s var(--ease-standard) infinite alternate;
+  }
+}
+
+.serviceActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: max(var(--space-2), 0.625rem);
+  align-items: center;
+
+  padding: var(--space-4) var(--service-panel-padding);
+  border-top: 0.0625rem solid var(--relay-shell-border-strong);
+}
+
+.serviceButton {
+  cursor: pointer;
+  user-select: none;
+
+  max-width: 100%;
+  min-height: max(2.25rem, 44px);
+  padding: 0.375rem 1rem;
+  border: 0.0625rem solid var(--relay-shell-border-strong);
+  border-radius: var(--radius-md);
 
   font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
-  line-height: 1.5;
-  color: var(--relay-shell-background);
+  line-height: 1.35;
+  color: var(--relay-shell-text);
+  overflow-wrap: anywhere;
 
-  background: var(--relay-shell-text);
+  background: var(--relay-shell-surface);
 
-  transition: color 140ms ease, background-color 140ms ease, opacity 140ms ease;
-
-  &:hover {
-    background: var(--color-primary-shade);
-  }
-
-  &:active {
-    opacity: 0.85;
-  }
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
 
   &:focus-visible {
     outline: 0.125rem solid var(--relay-shell-focus);
     outline-offset: 0.1875rem;
   }
-}
 
-@keyframes xSpinner {
-  to {
-    transform: rotate(360deg);
+  &:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--relay-shell-focus);
+    background: var(--relay-shell-hover);
+  }
+
+  &.servicePrimary {
+    border-color: var(--relay-shell-text);
+    color: var(--relay-shell-background);
+    background: var(--relay-shell-text);
+
+    &:hover:not(:disabled) {
+      color: var(--relay-shell-text);
+      background: var(--relay-shell-hover);
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0.0625rem);
   }
 }
 
-@media (max-width: 36rem) {
-  .xContentArea {
-    padding-right: 1.25rem;
-    padding-left: 1.25rem;
+.serviceActionHelp {
+  flex-basis: 100%;
+  max-width: 48ch;
+  margin-top: var(--space-1);
+}
+
+@keyframes serviceStatusEnter {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes serviceProgress {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(163%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .telegramPane,
-  .xPane,
-  .instagramPane,
-  .xRetryButton {
-    transition: none;
+  .xStatus,
+  .serviceProgress::after {
+    animation: none;
   }
 
-  .xSpinner {
-    border-color: var(--relay-shell-text);
-    animation: none;
+  .serviceButton {
+    transition: none;
+
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .serviceProgress {
+    forced-color-adjust: none;
+    background: ButtonBorder;
+
+    &::after {
+      background: Highlight;
+    }
+  }
+}
+
+.cacheConfirm {
+  :global(.modal-dialog) {
+    overflow: clip;
+    width: min(25rem, calc(100vw - 1.5rem));
+    max-height: calc(100dvh - var(--relay-shell-caption-height, 2.5rem) - 1rem);
+  }
+
+  :global(.modal-content) {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.dialog-buttons) {
+    flex-shrink: 0;
+    gap: 0.375rem;
+  }
+}
+
+.cacheDescription {
+  overflow-y: auto;
+
+  min-height: 0;
+  margin: 0;
+
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+
+@media (max-height: 36rem) {
+  .cacheConfirm {
+    :global(.modal-header) {
+      padding: 0.625rem 0.75rem 0;
+    }
+
+    :global(.modal-content) {
+      padding: 0.5rem 0.75rem;
+    }
+
+    :global(.confirm-dialog-button) {
+      min-height: 1.5rem;
+      padding: 0.25rem 0.625rem;
+    }
   }
 }
 

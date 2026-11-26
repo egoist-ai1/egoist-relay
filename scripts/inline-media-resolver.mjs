@@ -3,19 +3,20 @@ import { spawn } from 'node:child_process';
 import path from 'node:path';
 import net from 'node:net';
 import { pathToFileURL } from 'node:url';
-import { connectMediaProxy, createSocketReader, parseMediaProxy } from './media-proxy.mjs';
+import { connectMediaOrigin, connectMediaProxy, createSocketReader, parseMediaProxy } from './media-proxy.mjs';
 
 const MAX_BYTES = 64 * 1024 * 1024;
+const MAX_FILE_BYTES = 4 * 1024 * 1024 * 1024;
 const MAX_METADATA = 2 * 1024 * 1024;
 const MAX_MEDIA_DIMENSION = 1_000_000;
 const TIMEOUT_MS = 120000;
-const FILE_TIMEOUT_MS = 900000;
+const FILE_TIMEOUT_MS = 90 * 60 * 1000;
 const DISK_RESERVE_BYTES = 64 * 1024 * 1024;
 const EXPECTED_KEYS = new Set(['url', 'enginePath', 'nodePath', 'ffmpegPath', 'tempDir', 'proxyPort', 'index', 'maxBytes', 'cookies', 'outputMode']);
 const MEDIA_HOSTS = { youtube: ['youtube.com', 'youtubei.googleapis.com', 'googlevideo.com', 'ytimg.com'], instagram: ['instagram.com', 'cdninstagram.com', 'fbcdn.net'], x: ['x.com', 'twitter.com', 'twimg.com'] };
 
 export async function createSocksGate(proxy, provider, signal) {
-  if (!proxy) throw new Error('MEDIA_PROXY_DENIED');
+  if (!proxy && process.env.EGOIST_RELAY_MEDIA_NETWORK !== 'system') throw new Error('MEDIA_PROXY_DENIED');
   const sockets = new Set(); let connections = 0;
   const server = net.createServer(client => {
     if (sockets.size >= 64 || ++connections > 4096 || signal.aborted) { client.destroy(); return; }
@@ -36,7 +37,8 @@ export async function createSocksGate(proxy, provider, signal) {
       const hostname = (await incoming.read(length)).toString('utf8').toLowerCase();
       const port = (await incoming.read(2)).readUInt16BE();
       if (port !== 443 || !/^[a-z0-9.-]+$/.test(hostname) || net.isIP(hostname) || !MEDIA_HOSTS[provider]?.some(host => hostname === host || hostname.endsWith(`.${host}`))) throw new Error('MEDIA_PROXY_DENIED');
-      const upstream = await connectMediaProxy(hostname, proxy, connectionSignal);
+      const upstream = proxy ? await connectMediaProxy(hostname, proxy, connectionSignal)
+        : await connectMediaOrigin(hostname, connectionSignal);
       if (client.destroyed || connectionSignal.aborted) { upstream.destroy(); throw new Error('MEDIA_CANCELLED'); }
       sockets.add(upstream); upstream.once('close', () => sockets.delete(upstream)); upstream.on('error', () => {}); upstream.setTimeout(30000, () => upstream.destroy());
       client.once('close', () => upstream.destroy()); upstream.once('close', () => client.destroy());
@@ -81,10 +83,11 @@ export function canonicalizeMediaUrl(value) {
 }
 
 export function createEngineArgs(input, phase) {
-  const selected = input.proxy === '' ? 'direct' : input.proxy ?? process.env.EGOIST_RELAY_MEDIA_PROXY;
-  const configured = parseMediaProxy(selected);
-  const proxy = configured ? selected : '';
-  const common = ['--ignore-config', '--no-config-locations', '--no-plugin-dirs', '--no-cache-dir', '--no-update', '--no-playlist', '--playlist-items', '1', '--use-extractors', 'Youtube,Instagram,Twitter,end', '--no-remote-components', '--no-js-runtimes', '--js-runtimes', `node:${input.nodePath}`, '--proxy', proxy, '--socket-timeout', '15', '--retries', '1', '--fragment-retries', '1', '--concurrent-fragments', '4', '--extractor-retries', '1', '--no-warnings', '--no-progress', '--quiet', '--xff', 'never', '--no-check-formats', '--batch-file', '-'];
+  // Пустой, отсутствующий и `direct` маршрут — MEDIA_PROXY_DENIED: yt-dlp без `--proxy` пошёл бы напрямую
+  const selected = input.proxy ?? process.env.EGOIST_RELAY_MEDIA_PROXY;
+  parseMediaProxy(selected);
+  const proxy = selected;
+  const common = ['--ignore-config', '--no-config-locations', '--no-plugin-dirs', '--no-cache-dir', '--no-update', '--hls-prefer-native', '--no-playlist', '--playlist-items', '1', '--use-extractors', 'Youtube,Instagram,Twitter,end', '--no-remote-components', '--no-js-runtimes', '--js-runtimes', `node:${input.nodePath}`, '--proxy', proxy, '--socket-timeout', '15', '--retries', '1', '--fragment-retries', '1', '--concurrent-fragments', '4', '--extractor-retries', '1', '--no-warnings', '--no-progress', '--quiet', '--xff', 'never', '--no-check-formats', '--batch-file', '-'];
   if (input.cookies) common.push('--cookies', path.join(input.tempDir, 'session-cookies.txt'));
   const sourceMetadata = '%(.{extractor_key,duration,is_live,live_status})j';
   if (phase === 'metadata') return [...common, '--skip-download', '--print', sourceMetadata];
@@ -94,6 +97,7 @@ export function createEngineArgs(input, phase) {
 }
 
 export function classifyEngineError(stderr) {
+  if (/no space left on device|not enough (?:disk )?space|disk (?:is )?full|winerror 112/i.test(stderr)) return 'MEDIA_DISK_FULL';
   if (/confirm.{0,80}bot|captcha|unusual traffic/i.test(stderr)) return 'MEDIA_BOT_CHECK';
   if (/not available in your (?:country|region)|blocked in your (?:country|region)|geo.?restrict|not available from your location/i.test(stderr)) return 'MEDIA_GEO_BLOCKED';
   if (/HTTP(?:\s+Error)?[\s:]+429\b|too many requests|rate.?limit/i.test(stderr)) return 'MEDIA_RATE_LIMITED';
@@ -189,23 +193,26 @@ function createMediaMetadata(index, provider, format, size, dimensions) {
 }
 
 export async function resolveMedia(input, overrides = {}) {
+  const isFileOutput = input?.outputMode === 'file';
+  const allowedMaximum = isFileOutput ? MAX_FILE_BYTES : MAX_BYTES;
   if (!input || Object.keys(input).some(key => !EXPECTED_KEYS.has(key)) || (input.proxyPort !== undefined && (!Number.isInteger(input.proxyPort) || input.proxyPort < 1 || input.proxyPort > 65535))
     || (input.outputMode !== undefined && input.outputMode !== 'file')
     || !Number.isInteger(input.index) || input.index < 0 || input.index >= 10
-    || (input.maxBytes !== undefined && (!Number.isInteger(input.maxBytes) || input.maxBytes < 1 || input.maxBytes > MAX_BYTES))) throw new Error('MEDIA_INPUT_DENIED');
+    || (input.maxBytes !== undefined && (!Number.isSafeInteger(input.maxBytes) || input.maxBytes < 1 || input.maxBytes > allowedMaximum))) throw new Error('MEDIA_INPUT_DENIED');
   for (const key of ['enginePath', 'nodePath', 'tempDir']) if (typeof input[key] !== 'string' || !path.isAbsolute(input[key])) throw new Error('MEDIA_INPUT_DENIED');
   if (input.ffmpegPath !== undefined && (typeof input.ffmpegPath !== 'string' || !path.isAbsolute(input.ffmpegPath))) throw new Error('MEDIA_INPUT_DENIED');
   const canonical = canonicalizeMediaUrl(input.url);
-  const proxy = parseMediaProxy(process.env.EGOIST_RELAY_MEDIA_PROXY);
+  const proxy = process.env.EGOIST_RELAY_MEDIA_NETWORK === 'system'
+    ? undefined : parseMediaProxy(process.env.EGOIST_RELAY_MEDIA_PROXY);
   const cookieContent = input.cookies === undefined ? undefined : serializeCookies(input.cookies, canonical.provider);
   const realTemp = await fs.realpath(input.tempDir);
   const expectedTemp = path.resolve(input.tempDir).replace(/^\\\\\?\\/, '');
   if (realTemp.replace(/^\\\\\?\\/, '').toLowerCase() !== expectedTemp.toLowerCase() || (await fs.lstat(realTemp)).isSymbolicLink()) throw new Error('MEDIA_PATH_DENIED');
-  const isFileOutput = input.outputMode === 'file';
   const disk = isFileOutput ? await fs.statfs(realTemp) : undefined;
-  const requestedMaximum = input.maxBytes || MAX_BYTES;
+  const requestedMaximum = input.maxBytes || allowedMaximum;
   const maximum = isFileOutput ? Math.min(requestedMaximum, Math.floor((Number(disk.bavail) * Number(disk.bsize) - DISK_RESERVE_BYTES) / 2)) : requestedMaximum;
   if (!Number.isSafeInteger(maximum) || maximum <= 0) throw new Error('MEDIA_DISK_FULL');
+  const limitError = maximum < requestedMaximum ? 'MEDIA_DISK_FULL' : 'MEDIA_TOO_LARGE';
   const controller = new globalThis.AbortController();
   const timeout = setTimeout(() => controller.abort(), isFileOutput ? FILE_TIMEOUT_MS : TIMEOUT_MS);
   const execute = overrides.runEngine || runEngine;
@@ -229,8 +236,8 @@ export async function resolveMedia(input, overrides = {}) {
   }, 100);
   try {
     if (cookieContent !== undefined) await fs.writeFile(path.join(realTemp, 'session-cookies.txt'), cookieContent, { flag: 'wx', mode: 0o600 });
-    if (proxy) gate = await createSocksGate(proxy, canonical.provider, controller.signal);
-    const engineInput = { ...input, proxy: gate ? `socks5h://127.0.0.1:${gate.port}` : '' };
+    gate = await createSocksGate(proxy, canonical.provider, controller.signal);
+    const engineInput = { ...input, maxBytes: maximum, proxy: `socks5h://127.0.0.1:${gate.port}` };
     const sourceInfo = await execute(engineInput, 'download', canonical.url, controller.signal);
     if (!sourceInfo.toString('utf8').trim()) throw new Error('MEDIA_FORMAT_UNAVAILABLE');
     let metadata; try { metadata = JSON.parse(sourceInfo.toString('utf8')); } catch { throw new Error('MEDIA_FORMAT_UNAVAILABLE'); }
@@ -241,7 +248,7 @@ export async function resolveMedia(input, overrides = {}) {
     const stat = await fs.lstat(filename);
     if (!stat.isFile() || stat.isSymbolicLink()) throw new Error('MEDIA_PATH_DENIED');
     if (stat.size <= 12) throw new Error('MEDIA_TOO_LARGE');
-    if (stat.size > maximum) throw new Error(isFileOutput ? 'MEDIA_DISK_FULL' : 'MEDIA_TOO_LARGE');
+    if (stat.size > maximum) throw new Error(limitError);
     if (isFileOutput) {
       const file = await fs.open(filename, 'r');
       const prefix = Buffer.alloc(16);
@@ -257,7 +264,9 @@ export async function resolveMedia(input, overrides = {}) {
     const dimensions = await (overrides.inspectLocalVideo || inspectLocalVideo)(input, filename, controller.signal, source.duration);
     return { body, metadata: createMediaMetadata(input.index, canonical.provider, format, body.length, dimensions) };
   } catch (error) {
-    if (isSizeExceeded) throw new Error(isFileOutput ? 'MEDIA_DISK_FULL' : 'MEDIA_TOO_LARGE', { cause: error });
+    if (error.code === 'ENOSPC') throw new Error('MEDIA_DISK_FULL', { cause: error });
+    if (limitError === 'MEDIA_DISK_FULL' && error.message === 'MEDIA_TOO_LARGE') throw new Error(limitError, { cause: error });
+    if (isSizeExceeded) throw new Error(limitError, { cause: error });
     if (controller.signal.aborted) throw new Error('MEDIA_TIMEOUT', { cause: error });
     throw error;
   } finally {

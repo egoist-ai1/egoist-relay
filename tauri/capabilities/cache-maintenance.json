@@ -1,0 +1,7 @@
+{
+  "identifier": "relay-cache-maintenance",
+  "description": "Disk cache cleanup from the bundled main view",
+  "local": true,
+  "webviews": ["main"],
+  "permissions": ["allow-relay-clear-webview-cache"]
+}

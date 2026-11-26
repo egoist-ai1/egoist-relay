@@ -1,88 +1,112 @@
-/**
- * Ленивый прогрев окон X и Instagram. Раньше оба окна создавались на каждом старте и конкурировали с
- * Telegram за сеть и процессор. Теперь прогрев стартует, только когда Telegram готов, пользователь
- * бездействует, и выключается настройкой `shouldWarmupSocialViews`.
- */
-
 export const WARMUP_READY_DELAY_MS = 4000;
 export const WARMUP_IDLE_MS = 2500;
-export const WARMUP_POLL_MS = 1000;
 export const WARMUP_STEP_GAP_MS = 3000;
+
+const INPUT_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchstart'];
 
 export interface SocialWarmupOptions {
   /** Команды Tauri, которые создают окна; выполняются по очереди. */
   commands: readonly string[];
   isEnabled: () => boolean;
+  /** Отсекает команды скрытых сервисов; пропущенная команда выполнится, когда сервис снова покажут. */
+  isCommandEnabled?: (command: string) => boolean;
   isTelegramReady: () => boolean;
-  /** Время последнего ввода пользователя, мс эпохи. */
-  getLastInputAt: () => number;
+  subscribeState: (refresh: () => void) => () => void;
   run: (command: string) => Promise<unknown>;
   onError?: (error: unknown) => void;
 }
 
-/** Запускает отложенный прогрев и возвращает функцию отмены. */
+/** Прогревает окна только после готовности Telegram и паузы ввода в активном окне */
 export function startSocialWarmup(options: SocialWarmupOptions) {
-  const { commands, isEnabled, isTelegramReady, getLastInputAt, run, onError } = options;
+  const {
+    commands, isEnabled, isCommandEnabled, isTelegramReady, subscribeState, run, onError,
+  } = options;
+  const remainingCommands = new Set(commands);
   let isCancelled = false;
+  let isRunning = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
+  let scheduledAt: number | undefined;
   let readySince: number | undefined;
-  let index = 0;
+  let lastInputAt = Date.now();
+  let nextCommandAt = 0;
 
-  const schedule = (delay: number) => {
-    timer = setTimeout(tick, delay);
-  };
-
-  function tick() {
+  function clearTimer() {
+    clearTimeout(timer);
     timer = undefined;
-    if (isCancelled || index >= commands.length) return;
-    if (!isEnabled()) {
-      // Выключенная настройка не расходует ресурсы; включение подхватит следующий опрос
+    scheduledAt = undefined;
+  }
+
+  function refresh() {
+    if (isCancelled || !remainingCommands.size) return;
+    const command = isEnabled() && !document.hidden && document.hasFocus() && isTelegramReady()
+      ? commands.find((name) => remainingCommands.has(name) && (isCommandEnabled?.(name) ?? true))
+      : undefined;
+    if (!command) {
       readySince = undefined;
-      schedule(WARMUP_POLL_MS * 5);
+      clearTimer();
       return;
     }
+
     const now = Date.now();
-    if (!isTelegramReady()) {
-      readySince = undefined;
-      schedule(WARMUP_POLL_MS);
-      return;
-    }
     readySince ??= now;
-    const isSettled = now - readySince >= WARMUP_READY_DELAY_MS;
-    const isIdle = now - getLastInputAt() >= WARMUP_IDLE_MS;
-    if (!isSettled || !isIdle) {
-      schedule(WARMUP_POLL_MS);
+    if (isRunning) return;
+    const deadline = Math.max(readySince + WARMUP_READY_DELAY_MS, lastInputAt + WARMUP_IDLE_MS, nextCommandAt);
+    if (now >= deadline) {
+      clearTimer();
+      void warmup(command);
       return;
     }
+    if (deadline === scheduledAt) return;
 
-    const command = commands[index++];
-    run(command).catch((error) => onError?.(error)).finally(() => {
-      if (!isCancelled && index < commands.length) schedule(WARMUP_STEP_GAP_MS);
-    });
+    clearTimer();
+    scheduledAt = deadline;
+    timer = setTimeout(() => {
+      scheduledAt = undefined;
+      timer = undefined;
+      refresh();
+    }, deadline - now);
   }
 
-  schedule(WARMUP_POLL_MS);
+  async function warmup(command: string) {
+    remainingCommands.delete(command);
+    isRunning = true;
+    try {
+      await run(command);
+    } catch (error) {
+      if (!isCancelled) onError?.(error);
+    } finally {
+      isRunning = false;
+      if (remainingCommands.size) {
+        nextCommandAt = Date.now() + WARMUP_STEP_GAP_MS;
+        refresh();
+      } else {
+        cancel();
+      }
+    }
+  }
 
-  return () => {
+  function markInput() {
+    lastInputAt = Date.now();
+    refresh();
+  }
+
+  const unsubscribeState = subscribeState(refresh);
+  document.addEventListener('visibilitychange', refresh);
+  window.addEventListener('focus', refresh);
+  window.addEventListener('blur', refresh);
+  INPUT_EVENTS.forEach((name) => window.addEventListener(name, markInput, { passive: true, capture: true }));
+  refresh();
+
+  function cancel() {
+    if (isCancelled) return;
     isCancelled = true;
-    if (timer) clearTimeout(timer);
-    timer = undefined;
-  };
-}
-
-let lastInputAt = Date.now();
-let isTracking = false;
-
-/** Подписка на ввод пользователя (один раз); возвращает время последнего ввода. */
-export function getLastUserInputAt() {
-  if (!isTracking && typeof window !== 'undefined') {
-    isTracking = true;
-    const mark = () => {
-      lastInputAt = Date.now();
-    };
-    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((name) => {
-      window.addEventListener(name, mark, { passive: true, capture: true });
-    });
+    clearTimer();
+    unsubscribeState();
+    document.removeEventListener('visibilitychange', refresh);
+    window.removeEventListener('focus', refresh);
+    window.removeEventListener('blur', refresh);
+    INPUT_EVENTS.forEach((name) => window.removeEventListener(name, markInput, true));
   }
-  return lastInputAt;
+
+  return cancel;
 }

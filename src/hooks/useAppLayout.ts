@@ -6,7 +6,8 @@ import {
   MOBILE_SCREEN_LANDSCAPE_MAX_WIDTH,
   MOBILE_SCREEN_MAX_WIDTH,
 } from '../config';
-import { IS_IOS } from '../util/browser/windowEnvironment';
+import { IS_TAURI } from '../util/browser/globalEnvironment';
+import { IS_IOS, IS_WINDOWS } from '../util/browser/windowEnvironment';
 import { createCallbackManager } from '../util/callbacks';
 import { updateSizes } from '../util/windowSize';
 import useForceUpdate from './useForceUpdate';
@@ -30,7 +31,7 @@ export function getIsTablet() {
 }
 
 export function getIsWebAppsFullscreenSupported() {
-  return !getIsMobile();
+  return (IS_TAURI && IS_WINDOWS) || !getIsMobile();
 }
 
 function handleMediaQueryChange() {

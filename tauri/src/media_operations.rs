@@ -10,6 +10,8 @@ use std::{
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Emitter, Webview};
 
+use crate::media_library;
+
 const EVENT_NAME: &str = "relay-media-operation";
 const JOURNAL_NAME: &str = "journal-v1.dpapi";
 const QUARANTINE_INFIX: &str = ".corrupt-";
@@ -26,6 +28,7 @@ const MAX_MEDIA_ITEMS: usize = 10;
 const MAX_SEND_ITEMS: usize = 16;
 const MAX_SEND_FILE_BYTES: u64 = 64 * 1024 * 1024;
 const MAX_SEND_SET_BYTES: u64 = 128 * 1024 * 1024;
+const MAX_STAGED_SEND_FILE_BYTES: u64 = 4 * 1024 * 1024 * 1024;
 const MAX_FILE_BYTES: u64 = 1 << 50;
 const PROGRESS_INTERVAL: Duration = Duration::from_millis(100);
 
@@ -232,6 +235,10 @@ pub(crate) enum MediaOperationAction {
     id: String,
     index: Option<usize>,
   },
+  CopyFile {
+    id: String,
+    index: Option<usize>,
+  },
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -254,6 +261,7 @@ struct Journal {
 
 struct Registry {
   directory: PathBuf,
+  library: media_library::Library,
   operations: Vec<MediaOperation>,
   is_locked: bool,
   load_error: Option<String>,
@@ -262,6 +270,8 @@ struct Registry {
   cancel_requested: HashSet<String>,
   progress_emitted_at: HashMap<String, Instant>,
   epoch: u64,
+  /// Запись журнала уходит в фоновый поток с дебаунсом (включается в `initialize`).
+  deferred: bool,
 }
 
 impl Registry {
@@ -277,10 +287,13 @@ impl Registry {
       }
       Err(error) => (Vec::new(), Some(error), None),
     };
+    let mut library = media_library::Library::load(&directory);
+    library.archive(&operations);
     let recovered = recover_operations(&mut operations, now);
     let retained = prune_operations(&mut operations, now);
     let mut registry = Self {
       directory,
+      library,
       operations,
       is_locked: true,
       load_error,
@@ -289,6 +302,7 @@ impl Registry {
       cancel_requested: HashSet::new(),
       progress_emitted_at: HashMap::new(),
       epoch: 0,
+      deferred: false,
     };
     if registry.load_error.is_none() && (recovered || retained) {
       if let Err(error) = persist_journal(&registry.directory, &registry.operations) {
@@ -347,7 +361,15 @@ impl Registry {
       .epoch
       .checked_add(1)
       .ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
-    persist_journal(&self.directory, &operations)?;
+    if self.deferred && !persisted_state_changed(&self.operations, &operations) {
+      // Изменился только прогресс/служебные поля: дебаунс, потеря последней записи безвредна
+      queue_journal_write(&self.directory, &operations)?;
+    } else if self.deferred {
+      // Смена стадии, новая или удалённая операция: пишем сразу, чтобы краш не потерял состояние
+      persist_journal_through(&self.directory, &operations)?;
+    } else {
+      persist_journal(&self.directory, &operations)?;
+    }
     self.operations = operations;
     self.epoch = epoch;
     let retained: HashSet<_> = self
@@ -447,6 +469,9 @@ impl Registry {
   ) -> Result<(), String> {
     for operation in &operations {
       validate_operation(operation)?;
+    }
+    if let Some(operation) = operations.iter().find(|operation| operation.id == id && !operation.files.is_empty()) {
+      self.library.archive(std::slice::from_ref(operation));
     }
     let result = self.commit(operations.clone(), now);
     if let Err(error) = &result {
@@ -705,6 +730,7 @@ impl Registry {
         return Err("MEDIA_OPERATION_ACTIVE".into());
       }
     }
+    self.library.archive(&self.operations);
     let operations = self
       .operations
       .iter()
@@ -768,7 +794,9 @@ pub(crate) fn initialize(app: &AppHandle) -> Result<(), String> {
     .lock()
     .map_err(|_| "MEDIA_JOURNAL_BUSY")?;
   if registry.is_none() {
-    *registry = Some(Registry::load(directory, now_ms()));
+    let mut loaded = Registry::load(directory, now_ms());
+    loaded.deferred = true;
+    *registry = Some(loaded);
   }
   registry
     .as_ref()
@@ -776,7 +804,7 @@ pub(crate) fn initialize(app: &AppHandle) -> Result<(), String> {
     .ensure_available()
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_operations_list(
   webview: Webview,
   app: AppHandle,
@@ -797,6 +825,58 @@ pub(crate) fn relay_media_operations_list(
   registry.snapshot()
 }
 
+#[tauri::command(async)]
+pub(crate) fn relay_library_list(webview: Webview, app: AppHandle) -> Result<media_library::Snapshot, String> {
+  crate::social_share::require_main(&webview)?;
+  initialize(&app)?;
+  let mut guard = REGISTRY.get().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?.lock().map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+  let registry = guard.as_mut().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
+  if !registry.is_locked {
+    registry.library.archive(&registry.operations);
+  }
+  Ok(registry.library.snapshot(registry.is_locked))
+}
+
+#[tauri::command(async)]
+pub(crate) fn relay_library_action(
+  webview: Webview,
+  app: AppHandle,
+  id: Option<String>,
+  source_url: Option<String>,
+  action: media_library::Action,
+) -> Result<(), String> {
+  crate::social_share::require_main(&webview)?;
+  initialize(&app)?;
+  let mut guard = REGISTRY.get().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?.lock().map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+  let registry = guard.as_mut().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
+  registry.ensure_unlocked()?;
+  if matches!(action, media_library::Action::SaveLink) {
+    return registry.library.save_link(source_url.as_deref().ok_or("MEDIA_SOURCE_DENIED")?, now_ms());
+  }
+  let id = id.ok_or("MEDIA_INPUT_DENIED")?;
+  if matches!(action, media_library::Action::Remove) {
+    return registry.library.remove(&id);
+  }
+  let file = registry.library.file(&id)?;
+  let inspected = inspect_saved_file(&file.path, &file.file_name, &file.mime_type, file.size)?;
+  if inspected.path != file.path {
+    return Err("MEDIA_FILE_MISSING".into());
+  }
+  drop(guard);
+  open_registered_path(&inspected.path, matches!(action, media_library::Action::Reveal))
+}
+
+pub(crate) fn completed_downloads_for_recovery(app: &AppHandle) -> Result<HashSet<String>, String> {
+  initialize(app)?;
+  let guard = REGISTRY.get().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?.lock().map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+  let registry = guard.as_ref().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
+  registry.ensure_unlocked()?;
+  Ok(registry.operations.iter().filter(|entry| {
+    entry.kind == MediaOperationKind::Download && entry.service == MediaOperationService::Telegram
+      && entry.stage == MediaOperationStage::Completed && !entry.files.is_empty()
+  }).map(|entry| entry.id.clone()).collect())
+}
+
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct MediaOperationRevision {
@@ -805,7 +885,7 @@ pub(crate) struct MediaOperationRevision {
   stage: MediaOperationStage,
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_operation_revision(
   webview: Webview,
   app: AppHandle,
@@ -832,7 +912,7 @@ pub(crate) fn relay_media_operation_revision(
   })
 }
 
-#[tauri::command]
+#[tauri::command(async)]
 pub(crate) fn relay_media_operation_action(
   webview: Webview,
   app: AppHandle,
@@ -849,7 +929,9 @@ pub(crate) fn relay_media_operation_action(
   let now = now_ms();
   let mut should_emit = true;
   let mut open_path = None;
+  let mut copy_path = None;
   let mut cancel_id = None;
+  let mut cancel_social_id = None;
   let mut action_error = None;
   match action {
     MediaOperationAction::Register { operation } => registry.register(operation, now, false)?,
@@ -872,6 +954,8 @@ pub(crate) fn relay_media_operation_action(
       action_error = registry.cancel(&id, now).err();
       if registry.cancelled_downloads.contains(&id) {
         cancel_id = Some(id);
+      } else if registry.cancel_requested.contains(&id) {
+        cancel_social_id = Some(id);
       }
     }
     MediaOperationAction::Retry { id, account_id } => {
@@ -888,6 +972,11 @@ pub(crate) fn relay_media_operation_action(
       ));
       should_emit = false;
     }
+    MediaOperationAction::CopyFile { id, index } => {
+      registry.ensure_unlocked()?;
+      copy_path = Some(find_registered_path(registry, &id, index.unwrap_or(0))?);
+      should_emit = false;
+    }
     MediaOperationAction::Reveal { id, index } => {
       registry.ensure_unlocked()?;
       open_path = Some((
@@ -899,6 +988,12 @@ pub(crate) fn relay_media_operation_action(
   }
   let snapshot = registry.snapshot()?;
   drop(registry_guard);
+  if let Some(id) = cancel_social_id {
+    crate::social_share::cancel_detached_capture(&id);
+  }
+  if let Some(path) = copy_path {
+    copy_registered_path(&webview.window(), &path)?;
+  }
   if let Some((path, reveal)) = open_path {
     open_registered_path(&path, reveal)?;
   }
@@ -915,6 +1010,40 @@ pub(crate) fn relay_media_operation_action(
     return Err(error);
   }
   Ok(snapshot)
+}
+
+#[cfg(windows)]
+pub(crate) fn copy_registered_file(
+  app: &AppHandle,
+  window: &tauri::Window,
+  id: &str,
+  index: usize,
+) -> Result<(), String> {
+  initialize(app)?;
+  let guard = REGISTRY
+    .get()
+    .ok_or("MEDIA_JOURNAL_UNAVAILABLE")?
+    .lock()
+    .map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+  let registry = guard.as_ref().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
+  registry.ensure_unlocked()?;
+  let path = find_registered_path(registry, id, index)?;
+  drop(guard);
+  copy_registered_path(window, &path)
+}
+
+#[cfg(windows)]
+fn copy_registered_path(window: &tauri::Window, path: &Path) -> Result<(), String> {
+  if crate::workspace_privacy::is_locked() {
+    return Err("MEDIA_JOURNAL_LOCKED".into());
+  }
+  let hwnd = window.hwnd().map_err(|_| "MEDIA_CLIPBOARD_UNAVAILABLE")?;
+  crate::windows_file_clipboard::copy_file(hwnd.0, path).map_err(String::from)
+}
+
+#[cfg(not(windows))]
+fn copy_registered_path(_window: &tauri::Window, _path: &Path) -> Result<(), String> {
+  Err("MEDIA_JOURNAL_WINDOWS_REQUIRED".into())
 }
 
 pub(crate) fn record_saved_file(
@@ -1206,6 +1335,29 @@ pub(crate) fn restore_social_source(
   Ok((service.to_string(), source, operation.item_count))
 }
 
+pub(crate) fn authorize_social_stage(app: &AppHandle, operation_id: &str) -> Result<(), String> {
+  initialize(app)?;
+  let guard = REGISTRY
+    .get()
+    .ok_or("MEDIA_JOURNAL_UNAVAILABLE")?
+    .lock()
+    .map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+  let registry = guard.as_ref().ok_or("MEDIA_JOURNAL_UNAVAILABLE")?;
+  registry.ensure_unlocked()?;
+  let operation = registry.operations.iter().find(|operation| operation.id == operation_id)
+    .ok_or("MEDIA_OPERATION_NOT_FOUND")?;
+  if registry.cancel_requested.contains(operation_id) {
+    return Err("MEDIA_CANCELLED".into());
+  }
+  if operation.kind != MediaOperationKind::Send || operation.service != MediaOperationService::X
+    || operation.mode != Some(MediaOperationMode::File) || operation.stage != MediaOperationStage::Preparing
+    || operation.send.as_ref().is_none_or(|send| send.peer_id.is_empty())
+  {
+    return Err("MEDIA_STAGE_DENIED".into());
+  }
+  Ok(())
+}
+
 pub(crate) fn operation_source(
   app: &AppHandle,
   operation_id: &str,
@@ -1423,7 +1575,7 @@ fn validate_operation(operation: &MediaOperation) -> Result<(), String> {
   {
     return Err("MEDIA_INPUT_DENIED".into());
   }
-  validate_media_metadata(&operation.media)?;
+  validate_media_metadata(&operation.media, operation.mode == Some(MediaOperationMode::File))?;
   if let Some(progress) = &operation.progress {
     validate_progress(progress)?;
   }
@@ -1590,7 +1742,7 @@ fn validate_source_url(service: MediaOperationService, value: &str) -> Result<()
   Ok(())
 }
 
-fn canonicalize_source_url(service: MediaOperationService, value: &str) -> Result<String, String> {
+pub(crate) fn canonicalize_source_url(service: MediaOperationService, value: &str) -> Result<String, String> {
   validate_source_url(service, value)?;
   if service == MediaOperationService::Telegram {
     return Ok(value.to_string());
@@ -1619,16 +1771,17 @@ fn validate_file_name(value: &str) -> Result<(), String> {
   Ok(())
 }
 
-fn validate_media_metadata(media: &[MediaMetadata]) -> Result<(), String> {
+fn validate_media_metadata(media: &[MediaMetadata], is_file_mode: bool) -> Result<(), String> {
   if media.len() > MAX_MEDIA_ITEMS {
     return Err("MEDIA_INPUT_DENIED".into());
   }
   let mut total = 0_u64;
+  let maximum_file = if is_file_mode { MAX_STAGED_SEND_FILE_BYTES } else { MAX_SEND_FILE_BYTES };
   for item in media {
     validate_file_name(&item.file_name)?;
     let parts = item.mime_type.split('/').collect::<Vec<_>>();
     if item.size == 0
-      || item.size > MAX_SEND_FILE_BYTES
+      || item.size > maximum_file
       || item.mime_type.len() > 127
       || parts.len() != 2
       || parts.iter().any(|part| part.is_empty())
@@ -1646,7 +1799,7 @@ fn validate_media_metadata(media: &[MediaMetadata]) -> Result<(), String> {
       return Err("MEDIA_INPUT_DENIED".into());
     }
     total = total.checked_add(item.size).ok_or("MEDIA_INPUT_DENIED")?;
-    if total > MAX_SEND_SET_BYTES {
+    if !is_file_mode && total > MAX_SEND_SET_BYTES {
       return Err("MEDIA_INPUT_DENIED".into());
     }
   }
@@ -1854,6 +2007,121 @@ fn cleanup_journal_parts(directory: &Path) {
   }
 }
 
+/// Пауза перед записью журнала: серия коммитов сливается в одну запись.
+const JOURNAL_DEBOUNCE: Duration = Duration::from_millis(200);
+
+struct PendingJournal {
+  directory: PathBuf,
+  operations: Vec<MediaOperation>,
+}
+
+#[derive(Default)]
+struct JournalQueue {
+  pending: Option<PendingJournal>,
+  worker_running: bool,
+}
+
+static JOURNAL_QUEUE: Mutex<JournalQueue> = Mutex::new(JournalQueue {
+  pending: None,
+  worker_running: false,
+});
+/// Сериализует записи на диск: одновременно пишет либо фоновый поток, либо `flush_journal`.
+static JOURNAL_WRITE: Mutex<()> = Mutex::new(());
+
+/// Запоминает последний снимок журнала в памяти; на диск его пишет фоновый поток.
+fn queue_journal_write(directory: &Path, operations: &[MediaOperation]) -> Result<(), String> {
+  let start_worker = {
+    let mut queue = JOURNAL_QUEUE.lock().map_err(|_| "MEDIA_JOURNAL_BUSY")?;
+    queue.pending = Some(PendingJournal {
+      directory: directory.to_path_buf(),
+      operations: operations.to_vec(),
+    });
+    !std::mem::replace(&mut queue.worker_running, true)
+  };
+  if start_worker {
+    let spawned = std::thread::Builder::new()
+      .name("relay-media-journal".into())
+      .spawn(|| {
+        loop {
+          std::thread::sleep(JOURNAL_DEBOUNCE);
+          match write_pending_journal(true) {
+            Some(Err(error)) => report_journal_failure(&error),
+            Some(Ok(())) => {}
+            None => return,
+          }
+        }
+      });
+    if spawned.is_err() {
+      if let Ok(mut queue) = JOURNAL_QUEUE.lock() {
+        queue.worker_running = false;
+      }
+      // Фонового потока нет: пишем сразу, как раньше.
+      if let Some(result) = write_pending_journal(false) {
+        result?;
+      }
+    }
+  }
+  Ok(())
+}
+
+/// Меняется ли то, что журнал обязан пережить сбой: набор операций или их стадия/попытка.
+fn persisted_state_changed(old: &[MediaOperation], new: &[MediaOperation]) -> bool {
+  old.len() != new.len()
+    || new.iter().any(|operation| {
+      !old.iter().any(|previous| {
+        previous.id == operation.id
+          && previous.stage == operation.stage
+          && previous.attempt == operation.attempt
+      })
+    })
+}
+
+/// Запись без дебаунса: отменяет отложенный снимок (он старее) и пишет на диск синхронно.
+fn persist_journal_through(directory: &Path, operations: &[MediaOperation]) -> Result<(), String> {
+  let _write = JOURNAL_WRITE.lock().unwrap_or_else(|poison| poison.into_inner());
+  if let Ok(mut queue) = JOURNAL_QUEUE.lock() {
+    queue.pending = None;
+  }
+  persist_journal(directory, operations)
+}
+
+/// Берёт последний снимок и пишет его. `None` — писать нечего (для потока это выход).
+fn write_pending_journal(finish_worker: bool) -> Option<Result<(), String>> {
+  let _write = JOURNAL_WRITE.lock().unwrap_or_else(|poison| poison.into_inner());
+  let pending = {
+    let mut queue = JOURNAL_QUEUE.lock().unwrap_or_else(|poison| poison.into_inner());
+    let pending = queue.pending.take();
+    if pending.is_none() && finish_worker {
+      queue.worker_running = false;
+    }
+    pending
+  }?;
+  Some(persist_journal(&pending.directory, &pending.operations))
+}
+
+/// Сбой фоновой записи: предупреждение попадает в операции и виден во фронте.
+fn report_journal_failure(error: &str) {
+  let Some(lock) = REGISTRY.get() else {
+    return;
+  };
+  let Ok(mut guard) = lock.lock() else {
+    return;
+  };
+  if let Some(registry) = guard.as_mut() {
+    for operation in &mut registry.operations {
+      operation.journal_warning = Some(error.to_string());
+    }
+    registry.epoch = registry.epoch.saturating_add(1);
+  }
+}
+
+/// Дописывает журнал немедленно. Вызывать при завершении приложения.
+pub(crate) fn flush_journal() {
+  if let Some(Err(error)) = write_pending_journal(false) {
+    log::warn!("[EgoistRelay] Media journal final write failed: {error}");
+  }
+}
+
 fn persist_journal(directory: &Path, operations: &[MediaOperation]) -> Result<(), String> {
   ensure_private_directory(directory)?;
   let mut persisted = operations.to_vec();
@@ -1903,7 +2171,7 @@ fn persist_journal(directory: &Path, operations: &[MediaOperation]) -> Result<()
   result
 }
 
-fn now_ms() -> u64 {
+pub(crate) fn now_ms() -> u64 {
   SystemTime::now()
     .duration_since(UNIX_EPOCH)
     .map(|value| value.as_millis().min(u64::MAX as u128) as u64)
@@ -1911,7 +2179,7 @@ fn now_ms() -> u64 {
 }
 
 #[cfg(windows)]
-fn ensure_private_directory(directory: &Path) -> Result<(), String> {
+pub(crate) fn ensure_private_directory(directory: &Path) -> Result<(), String> {
   if !directory.is_absolute() {
     return Err("MEDIA_JOURNAL_UNAVAILABLE".into());
   }
@@ -1921,17 +2189,32 @@ fn ensure_private_directory(directory: &Path) -> Result<(), String> {
   windows_storage::secure_directory(directory)
 }
 #[cfg(not(windows))]
-fn ensure_private_directory(_directory: &Path) -> Result<(), String> {
+pub(crate) fn ensure_private_directory(_directory: &Path) -> Result<(), String> {
   Err("MEDIA_JOURNAL_WINDOWS_REQUIRED".into())
 }
 
+/// Размер данных журнала и коды ошибок остаются прежними; шифрование — общий `crate::dpapi` со своей entropy журнала.
 #[cfg(windows)]
 fn protect_data(plain: &[u8]) -> Result<Vec<u8>, String> {
-  windows_storage::protect(plain, false)
+  if plain.is_empty() || plain.len() > MAX_ENCRYPTED_BYTES {
+    return Err("MEDIA_JOURNAL_CORRUPT".into());
+  }
+  crate::dpapi::protect_with_entropy(plain, JOURNAL_ENTROPY).map_err(|code| journal_dpapi_error(&code, false))
 }
 #[cfg(windows)]
 fn unprotect_data(encrypted: &[u8]) -> Result<Vec<u8>, String> {
-  windows_storage::protect(encrypted, true)
+  if encrypted.is_empty() || encrypted.len() > MAX_ENCRYPTED_BYTES {
+    return Err("MEDIA_JOURNAL_CORRUPT".into());
+  }
+  crate::dpapi::unprotect_with_entropy(encrypted, JOURNAL_ENTROPY).map_err(|code| journal_dpapi_error(&code, true))
+}
+#[cfg(windows)]
+fn journal_dpapi_error(code: &str, decrypt: bool) -> String {
+  match code {
+    "DPAPI_DECRYPT_FAILED" if decrypt => "MEDIA_JOURNAL_DECRYPT_FAILED",
+    "DPAPI_PROTECT_FAILED" if !decrypt => "MEDIA_JOURNAL_PROTECT_FAILED",
+    _ => "MEDIA_JOURNAL_CORRUPT",
+  }.into()
 }
 #[cfg(not(windows))]
 fn protect_data(_plain: &[u8]) -> Result<Vec<u8>, String> {
@@ -1943,11 +2226,11 @@ fn unprotect_data(_encrypted: &[u8]) -> Result<Vec<u8>, String> {
 }
 
 #[cfg(windows)]
-fn replace_atomically(source: &Path, destination: &Path) -> Result<(), String> {
+pub(crate) fn replace_atomically(source: &Path, destination: &Path) -> Result<(), String> {
   windows_storage::replace(source, destination)
 }
 #[cfg(not(windows))]
-fn replace_atomically(source: &Path, destination: &Path) -> Result<(), String> {
+pub(crate) fn replace_atomically(source: &Path, destination: &Path) -> Result<(), String> {
   fs::rename(source, destination).map_err(|_| "MEDIA_JOURNAL_WRITE_FAILED".into())
 }
 
@@ -1965,93 +2248,13 @@ mod windows_storage {
   use super::*;
   use std::{
     ffi::c_void,
-    os::windows::{ffi::OsStrExt, fs::MetadataExt},
+    os::windows::ffi::OsStrExt,
     ptr,
   };
 
-  #[repr(C)]
-  struct DataBlob {
-    length: u32,
-    data: *mut u8,
-  }
-  #[repr(C)]
-  struct SecurityAttributes {
-    length: u32,
-    descriptor: *mut c_void,
-    inherit: i32,
-  }
-  #[repr(C)]
-  struct SidAndAttributes {
-    sid: *mut c_void,
-    attributes: u32,
-  }
-  #[repr(C)]
-  struct TokenUser {
-    user: SidAndAttributes,
-  }
-
-  #[link(name = "Crypt32")]
-  unsafe extern "system" {
-    fn CryptProtectData(
-      input: *const DataBlob,
-      description: *const u16,
-      entropy: *const DataBlob,
-      reserved: *const c_void,
-      prompt: *const c_void,
-      flags: u32,
-      output: *mut DataBlob,
-    ) -> i32;
-    fn CryptUnprotectData(
-      input: *const DataBlob,
-      description: *mut *mut u16,
-      entropy: *const DataBlob,
-      reserved: *const c_void,
-      prompt: *const c_void,
-      flags: u32,
-      output: *mut DataBlob,
-    ) -> i32;
-  }
-  #[link(name = "Advapi32")]
-  unsafe extern "system" {
-    fn OpenProcessToken(process: *mut c_void, access: u32, token: *mut *mut c_void) -> i32;
-    fn GetTokenInformation(
-      token: *mut c_void,
-      class: u32,
-      information: *mut c_void,
-      length: u32,
-      returned: *mut u32,
-    ) -> i32;
-    fn ConvertSidToStringSidW(sid: *const c_void, output: *mut *mut u16) -> i32;
-    fn ConvertStringSecurityDescriptorToSecurityDescriptorW(
-      value: *const u16,
-      revision: u32,
-      output: *mut *mut c_void,
-      length: *mut u32,
-    ) -> i32;
-    fn GetSecurityDescriptorDacl(
-      descriptor: *const c_void,
-      present: *mut i32,
-      dacl: *mut *mut c_void,
-      defaulted: *mut i32,
-    ) -> i32;
-    fn SetNamedSecurityInfoW(
-      name: *const u16,
-      object_type: u32,
-      information: u32,
-      owner: *const c_void,
-      group: *const c_void,
-      dacl: *const c_void,
-      sacl: *const c_void,
-    ) -> u32;
-  }
   #[link(name = "Kernel32")]
   unsafe extern "system" {
-    fn GetCurrentProcess() -> *mut c_void;
-    fn CloseHandle(handle: *mut c_void) -> i32;
-    fn LocalFree(value: *mut c_void) -> *mut c_void;
-    fn CreateDirectoryW(path: *const u16, security: *const SecurityAttributes) -> i32;
     fn MoveFileExW(source: *const u16, destination: *const u16, flags: u32) -> i32;
-    fn GetLastError() -> u32;
   }
   #[link(name = "Shell32")]
   unsafe extern "system" {
@@ -2082,194 +2285,16 @@ mod windows_storage {
     fn CoTaskMemFree(memory: *mut c_void);
   }
 
-  pub(super) fn protect(value: &[u8], decrypt: bool) -> Result<Vec<u8>, String> {
-    if value.is_empty() || value.len() > MAX_ENCRYPTED_BYTES || value.len() > u32::MAX as usize {
-      return Err("MEDIA_JOURNAL_CORRUPT".into());
-    }
-    let input = DataBlob {
-      length: value.len() as u32,
-      data: value.as_ptr().cast_mut(),
-    };
-    let entropy = DataBlob {
-      length: JOURNAL_ENTROPY.len() as u32,
-      data: JOURNAL_ENTROPY.as_ptr().cast_mut(),
-    };
-    let mut output = DataBlob {
-      length: 0,
-      data: ptr::null_mut(),
-    };
-    // CurrentUser scope and UI_FORBIDDEN bind the journal to this Windows user without prompts
-    let success = unsafe {
-      if decrypt {
-        CryptUnprotectData(
-          &input,
-          ptr::null_mut(),
-          &entropy,
-          ptr::null(),
-          ptr::null(),
-          1,
-          &mut output,
-        )
-      } else {
-        CryptProtectData(
-          &input,
-          ptr::null(),
-          &entropy,
-          ptr::null(),
-          ptr::null(),
-          1,
-          &mut output,
-        )
-      }
-    };
-    if success == 0 {
-      if !output.data.is_null() {
-        unsafe {
-          LocalFree(output.data.cast());
-        }
-      }
-      return Err(
-        if decrypt {
-          "MEDIA_JOURNAL_DECRYPT_FAILED"
-        } else {
-          "MEDIA_JOURNAL_PROTECT_FAILED"
-        }
-        .into(),
-      );
-    }
-    if output.data.is_null() || output.length as usize > MAX_ENCRYPTED_BYTES {
-      if !output.data.is_null() {
-        unsafe {
-          LocalFree(output.data.cast());
-        }
-      }
-      return Err("MEDIA_JOURNAL_CORRUPT".into());
-    }
-    let result =
-      unsafe { std::slice::from_raw_parts(output.data, output.length as usize) }.to_vec();
-    unsafe {
-      std::slice::from_raw_parts_mut(output.data, output.length as usize).fill(0);
-      LocalFree(output.data.cast());
-    }
-    Ok(result)
-  }
-
-  fn current_user_sid() -> Result<String, String> {
-    let mut token = ptr::null_mut();
-    if unsafe { OpenProcessToken(GetCurrentProcess(), 8, &mut token) } == 0 {
-      return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-    }
-    let result = (|| {
-      let mut length = 0;
-      unsafe {
-        GetTokenInformation(token, 1, ptr::null_mut(), 0, &mut length);
-      }
-      if length == 0 || length > 64 * 1024 {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      let mut information = vec![0usize; (length as usize).div_ceil(std::mem::size_of::<usize>())];
-      if unsafe {
-        GetTokenInformation(
-          token,
-          1,
-          information.as_mut_ptr().cast(),
-          length,
-          &mut length,
-        )
-      } == 0
-      {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      let user = unsafe { &*information.as_ptr().cast::<TokenUser>() };
-      let mut text = ptr::null_mut();
-      if unsafe { ConvertSidToStringSidW(user.user.sid, &mut text) } == 0 {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      let mut size = 0;
-      while size < 256 && unsafe { *text.add(size) } != 0 {
-        size += 1;
-      }
-      let result = if size < 256 {
-        String::from_utf16(unsafe { std::slice::from_raw_parts(text, size) })
-          .map_err(|_| "MEDIA_JOURNAL_ACL_FAILED".into())
-      } else {
-        Err("MEDIA_JOURNAL_ACL_FAILED".into())
-      };
-      unsafe {
-        LocalFree(text.cast());
-      }
-      result
-    })();
-    unsafe {
-      CloseHandle(token);
-    }
-    result
-  }
-
+  /// Защищённый каталог (DACL только у текущего пользователя и SYSTEM): общая реализация в `win_acl`.
   pub(super) fn secure_directory(path: &Path) -> Result<(), String> {
-    let name = wide(path)?;
-    let sid = current_user_sid()?;
-    let sddl: Vec<u16> = format!("O:{sid}D:P(A;OICI;FA;;;SY)(A;OICI;FA;;;{sid})")
-      .encode_utf16()
-      .chain(Some(0))
-      .collect();
-    let mut descriptor = ptr::null_mut();
-    if unsafe {
-      ConvertStringSecurityDescriptorToSecurityDescriptorW(
-        sddl.as_ptr(),
-        1,
-        &mut descriptor,
-        ptr::null_mut(),
-      )
-    } == 0
-    {
-      return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-    }
-    let result = (|| {
-      let security = SecurityAttributes {
-        length: std::mem::size_of::<SecurityAttributes>() as u32,
-        descriptor,
-        inherit: 0,
-      };
-      if unsafe { CreateDirectoryW(name.as_ptr(), &security) } == 0
-        && unsafe { GetLastError() } != 183
-      {
-        return Err("MEDIA_JOURNAL_UNAVAILABLE".into());
+    crate::win_acl::secure_directory(path).map_err(|error| {
+      match error {
+        crate::win_acl::AclError::InputDenied => "MEDIA_INPUT_DENIED",
+        crate::win_acl::AclError::Unavailable => "MEDIA_JOURNAL_UNAVAILABLE",
+        crate::win_acl::AclError::AclFailed => "MEDIA_JOURNAL_ACL_FAILED",
       }
-      let metadata = fs::symlink_metadata(path).map_err(|_| "MEDIA_JOURNAL_UNAVAILABLE")?;
-      if !metadata.is_dir() || metadata.file_attributes() & 0x400 != 0 {
-        return Err("MEDIA_JOURNAL_UNAVAILABLE".into());
-      }
-      let mut present = 0;
-      let mut defaulted = 0;
-      let mut dacl = ptr::null_mut();
-      if unsafe { GetSecurityDescriptorDacl(descriptor, &mut present, &mut dacl, &mut defaulted) }
-        == 0
-        || present == 0
-        || dacl.is_null()
-      {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      if unsafe {
-        SetNamedSecurityInfoW(
-          name.as_ptr(),
-          1,
-          0x80000004,
-          ptr::null(),
-          ptr::null(),
-          dacl,
-          ptr::null(),
-        )
-      } != 0
-      {
-        return Err("MEDIA_JOURNAL_ACL_FAILED".into());
-      }
-      Ok(())
-    })();
-    unsafe {
-      LocalFree(descriptor);
-    }
-    result
+      .into()
+    })
   }
 
   pub(super) fn replace(source: &Path, destination: &Path) -> Result<(), String> {
@@ -2408,6 +2433,36 @@ mod tests {
     registry.ensure_available().unwrap();
     registry.is_locked = false;
     registry
+  }
+
+  #[test]
+  #[cfg(windows)]
+  fn saved_file_catalog_survives_cleared_history() {
+    let mut registry = unlocked_registry();
+    let input = fixture_input(MediaOperationKind::Save);
+    let id = input.id.clone();
+    let path = registry.directory.join("fixture.mp4");
+    fs::write(&path, b"saved video").unwrap();
+    registry.register(input, NOW, false).unwrap();
+    registry.register_file(&id, inspect_saved_file(&path, "fixture.mp4", "video/mp4", 11).unwrap(), NOW + 1).unwrap();
+    let mut recovered = Registry::load(registry.directory.clone(), NOW + 2);
+    recovered.set_locked(false).unwrap();
+    recovered.remove(None, NOW + 3).unwrap();
+    assert!(recovered.operations.is_empty());
+    assert!(recovered.directory.join("library-v1.dpapi").is_file());
+    let reopened = Registry::load(recovered.directory.clone(), NOW + 4);
+    let entry_id = format!("{id}:0");
+    let entry = reopened.library.file(&entry_id).unwrap();
+    assert_eq!(entry.path, fs::canonicalize(&path).unwrap());
+    let locked = serde_json::to_value(reopened.library.snapshot(true)).unwrap();
+    assert_eq!(locked["entries"].as_array().unwrap().len(), 0);
+    let encrypted = fs::read(recovered.directory.join("library-v1.dpapi")).unwrap();
+    assert!(!encrypted.windows(b"fixture.mp4".len()).any(|part| part == b"fixture.mp4"));
+    let mut library = reopened.library;
+    library.remove(&entry_id).unwrap();
+    library.archive(&registry.operations);
+    assert!(library.file(&entry_id).is_err());
+    assert!(path.is_file());
   }
 
   #[test]
@@ -2552,15 +2607,19 @@ mod tests {
   #[test]
   fn send_metadata_obeys_file_set_and_dimension_limits() {
     let media = fixture_media();
-    validate_media_metadata(&[media.clone()]).unwrap();
-    validate_media_metadata(&vec![media.clone(); MAX_MEDIA_ITEMS]).unwrap();
-    assert!(validate_media_metadata(&vec![media.clone(); MAX_MEDIA_ITEMS + 1]).is_err());
+    validate_media_metadata(&[media.clone()], false).unwrap();
+    validate_media_metadata(&vec![media.clone(); MAX_MEDIA_ITEMS], false).unwrap();
+    assert!(validate_media_metadata(&vec![media.clone(); MAX_MEDIA_ITEMS + 1], false).is_err());
     let mut large = media.clone();
     large.size = MAX_SEND_FILE_BYTES;
-    validate_media_metadata(&[large.clone(), large.clone()]).unwrap();
-    assert!(validate_media_metadata(&[large.clone(), large.clone(), media.clone()]).is_err());
+    validate_media_metadata(&[large.clone(), large.clone()], false).unwrap();
+    assert!(validate_media_metadata(&[large.clone(), large.clone(), media.clone()], false).is_err());
     large.size += 1;
-    assert!(validate_media_metadata(&[large]).is_err());
+    assert!(validate_media_metadata(&[large.clone()], false).is_err());
+    large.size = MAX_STAGED_SEND_FILE_BYTES;
+    validate_media_metadata(&[large.clone(), large.clone()], true).unwrap();
+    large.size += 1;
+    assert!(validate_media_metadata(&[large], true).is_err());
     for (width, height) in [
       (Some(0), Some(1080)),
       (Some(1920), None),
@@ -2570,7 +2629,7 @@ mod tests {
       let mut invalid = media.clone();
       invalid.width = width;
       invalid.height = height;
-      assert!(validate_media_metadata(&[invalid]).is_err());
+      assert!(validate_media_metadata(&[invalid], false).is_err());
     }
     for value in [
       "",
@@ -2582,7 +2641,7 @@ mod tests {
     ] {
       let mut invalid = media.clone();
       invalid.mime_type = value.into();
-      assert!(validate_media_metadata(&[invalid]).is_err());
+      assert!(validate_media_metadata(&[invalid], false).is_err());
     }
     for value in [
       "https://cdn.invalid/secret.mp4",
@@ -2591,7 +2650,7 @@ mod tests {
     ] {
       let mut invalid = media.clone();
       invalid.file_name = value.into();
-      assert!(validate_media_metadata(&[invalid]).is_err());
+      assert!(validate_media_metadata(&[invalid], false).is_err());
     }
   }
 
@@ -2719,6 +2778,54 @@ mod tests {
     let last = encrypted.len() - 1;
     encrypted[last] ^= 0x20;
     assert!(unprotect_data(&encrypted).is_err());
+  }
+
+  #[test]
+  #[cfg(windows)]
+  fn deferred_journal_debounces_and_flushes_final_state() {
+    let directory = native_directory();
+    queue_journal_write(&directory, &[fixture_operation(MediaOperationStage::Queued)]).unwrap();
+    let last = fixture_operation(MediaOperationStage::Completed);
+    queue_journal_write(&directory, &[last.clone()]).unwrap();
+    // До дебаунса на диске ещё ничего нет.
+    assert!(!directory.join(JOURNAL_NAME).exists());
+    flush_journal();
+    let loaded = load_journal(&directory).unwrap();
+    assert_eq!(loaded.len(), 1);
+    assert_eq!(loaded[0].stage, MediaOperationStage::Completed);
+    // Фоновый поток после flush ничего не перезаписывает старым снимком.
+    std::thread::sleep(JOURNAL_DEBOUNCE * 3);
+    assert_eq!(
+      load_journal(&directory).unwrap()[0].stage,
+      MediaOperationStage::Completed
+    );
+  }
+
+  #[test]
+  #[cfg(windows)]
+  fn terminal_stage_is_written_through_without_flush() {
+    let mut registry = Registry::load(native_directory(), NOW);
+    registry.ensure_available().unwrap();
+    registry.deferred = true;
+    let directory = registry.directory.clone();
+    let completed = fixture_operation(MediaOperationStage::Completed);
+    registry.commit(vec![completed.clone()], NOW).unwrap();
+    // Файл уже содержит терминальное состояние, flush_journal не вызывался
+    let loaded = load_journal(&directory).unwrap();
+    assert_eq!(loaded.len(), 1);
+    assert_eq!(loaded[0].stage, MediaOperationStage::Completed);
+  }
+
+  #[test]
+  fn progress_only_change_is_not_a_persisted_state_change() {
+    let running = fixture_operation(MediaOperationStage::Downloading);
+    let mut progressed = running.clone();
+    progressed.updated_at += 1;
+    assert!(!persisted_state_changed(&[running.clone()], &[progressed]));
+    let mut finished = running.clone();
+    finished.stage = MediaOperationStage::Completed;
+    assert!(persisted_state_changed(&[running.clone()], &[finished]));
+    assert!(persisted_state_changed(&[running], &[]));
   }
 
   #[test]
